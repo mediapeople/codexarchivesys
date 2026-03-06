@@ -4,6 +4,55 @@ import ObjectCard from '../components/ObjectCard.astro';
 import { COLLECTIONS, getAllEntries, getTypeLabel } from '../lib/archive';
 
 const entries = await getAllEntries();
+const searchParams = Astro.url.searchParams;
+
+const typeParam = searchParams.get('type');
+const themeParam = searchParams.get('theme');
+const queryParam = (searchParams.get('q') || '').trim();
+const normalizedQuery = queryParam.toLowerCase();
+
+const selectedType = COLLECTIONS.includes(typeParam as (typeof COLLECTIONS)[number])
+  ? typeParam
+  : null;
+
+const themeMap = new Map<string, number>();
+for (const entry of entries) {
+  for (const theme of entry.data.themes) {
+    themeMap.set(theme, (themeMap.get(theme) || 0) + 1);
+  }
+}
+const sortedThemes = [...themeMap.entries()]
+  .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+
+const selectedTheme = themeParam && themeMap.has(themeParam) ? themeParam : null;
+
+function matchesQuery(entry: (typeof entries)[number]) {
+  if (!normalizedQuery) {
+    return true;
+  }
+  const haystack = [
+    entry.data.title,
+    entry.data.excerpt || '',
+    ...entry.data.themes,
+    ...entry.data.constellations,
+  ]
+    .join(' ')
+    .toLowerCase();
+  return haystack.includes(normalizedQuery);
+}
+
+const filteredEntries = entries.filter((entry) => {
+  if (selectedType && entry.collection !== selectedType) {
+    return false;
+  }
+  if (selectedTheme && !entry.data.themes.includes(selectedTheme)) {
+    return false;
+  }
+  if (!matchesQuery(entry)) {
+    return false;
+  }
+  return true;
+});
 
 const typeCounts = COLLECTIONS
   .map((type) => ({
@@ -15,6 +64,21 @@ const typeCounts = COLLECTIONS
 const constellationSet = new Set(
   entries.flatMap((entry) => entry.data.constellations)
 );
+
+function buildHref(nextType: string | null, nextTheme: string | null, nextQuery: string) {
+  const params = new URLSearchParams();
+  if (nextType) {
+    params.set('type', nextType);
+  }
+  if (nextTheme) {
+    params.set('theme', nextTheme);
+  }
+  if (nextQuery) {
+    params.set('q', nextQuery);
+  }
+  const qs = params.toString();
+  return qs ? `/?${qs}` : '/';
+}
 ---
 
 <BaseLayout title="Codex Archive">
@@ -52,10 +116,66 @@ const constellationSet = new Set(
     ))}
   </section>
 
+  <section class="controls">
+    <form action="/" method="GET" class="search">
+      {selectedType && <input type="hidden" name="type" value={selectedType} />}
+      {selectedTheme && <input type="hidden" name="theme" value={selectedTheme} />}
+      <input
+        type="search"
+        name="q"
+        value={queryParam}
+        placeholder="Search title, excerpt, themes..."
+      />
+      <button type="submit">Search</button>
+      {(selectedType || selectedTheme || queryParam) && (
+        <a href="/">Clear</a>
+      )}
+    </form>
+
+    <div class="chip-row">
+      <a class={selectedType ? 'chip' : 'chip on'} href={buildHref(null, selectedTheme, queryParam)}>
+        All Types
+      </a>
+      {typeCounts.map((item) => (
+        <a
+          class={selectedType === item.type ? 'chip on' : 'chip'}
+          href={buildHref(item.type, selectedTheme, queryParam)}
+        >
+          {getTypeLabel(item.type)} ({item.count})
+        </a>
+      ))}
+    </div>
+
+    <div class="chip-row themes">
+      <a class={selectedTheme ? 'chip' : 'chip on'} href={buildHref(selectedType, null, queryParam)}>
+        All Themes
+      </a>
+      {sortedThemes.slice(0, 16).map(([theme, count]) => (
+        <a
+          class={selectedTheme === theme ? 'chip on' : 'chip'}
+          href={buildHref(selectedType, theme, queryParam)}
+        >
+          {theme} ({count})
+        </a>
+      ))}
+    </div>
+
+    <p class="result-count">
+      Showing {filteredEntries.length} of {entries.length} objects
+    </p>
+  </section>
+
   <section class="feed">
-    {entries.map((entry) => (
-      <ObjectCard entry={entry} />
-    ))}
+    {filteredEntries.length === 0 ? (
+      <article class="empty-state">
+        <h2>No matches</h2>
+        <p>Try clearing one filter or using a broader search term.</p>
+      </article>
+    ) : (
+      filteredEntries.map((entry) => (
+        <ObjectCard entry={entry} />
+      ))
+    )}
   </section>
 </BaseLayout>
 
@@ -153,6 +273,104 @@ const constellationSet = new Set(
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 0.8rem;
+  }
+
+  .controls {
+    margin: 0 0 1rem;
+    border: 1px solid rgba(177, 166, 132, 0.24);
+    border-radius: 14px;
+    padding: 0.75rem;
+    background: rgba(16, 19, 28, 0.62);
+  }
+
+  .search {
+    display: flex;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.7rem;
+  }
+
+  .search input {
+    flex: 1 1 260px;
+    min-width: 0;
+    border: 1px solid rgba(177, 166, 132, 0.35);
+    border-radius: 10px;
+    padding: 0.5rem 0.65rem;
+    background: rgba(13, 16, 23, 0.72);
+    color: var(--text-strong);
+  }
+
+  .search button,
+  .search a {
+    border: 1px solid rgba(177, 166, 132, 0.45);
+    border-radius: 10px;
+    padding: 0.46rem 0.72rem;
+    background: rgba(31, 36, 49, 0.8);
+    color: var(--text-body);
+    text-decoration: none;
+    font-size: 0.86rem;
+  }
+
+  .search button:hover,
+  .search a:hover {
+    border-color: rgba(236, 205, 119, 0.8);
+    color: var(--text-strong);
+  }
+
+  .chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.45rem;
+  }
+
+  .chip {
+    border: 1px solid rgba(143, 153, 176, 0.42);
+    border-radius: 999px;
+    padding: 0.2rem 0.6rem;
+    color: #b7c0d7;
+    text-decoration: none;
+    font-size: 0.75rem;
+  }
+
+  .chip.on {
+    border-color: rgba(236, 205, 119, 0.85);
+    color: #f1d798;
+    background: rgba(60, 49, 18, 0.45);
+  }
+
+  .themes .chip {
+    border-color: rgba(112, 210, 167, 0.45);
+    color: #9ad8be;
+  }
+
+  .themes .chip.on {
+    border-color: rgba(112, 210, 167, 0.95);
+    background: rgba(27, 58, 49, 0.45);
+  }
+
+  .result-count {
+    margin: 0.45rem 0 0;
+    color: var(--text-dim);
+    font-size: 0.82rem;
+  }
+
+  .empty-state {
+    border: 1px dashed rgba(179, 169, 137, 0.38);
+    border-radius: 14px;
+    padding: 1rem;
+    background: rgba(19, 23, 32, 0.72);
+  }
+
+  .empty-state h2 {
+    margin: 0 0 0.3rem;
+    color: var(--text-strong);
+    font-size: 1.08rem;
+  }
+
+  .empty-state p {
+    margin: 0;
+    color: var(--text-body);
   }
 
   @media (max-width: 700px) {

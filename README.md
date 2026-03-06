@@ -31,6 +31,8 @@ Generate relationship graph JSON:
 node scripts/generate-graph-json.mjs objects astro/public/graph.json
 ```
 
+Note: `astro` now runs this automatically before every `npm run build`.
+
 ## Push This Repo To Remote
 
 From repository root:
