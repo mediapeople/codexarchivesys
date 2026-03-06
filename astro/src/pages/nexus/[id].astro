@@ -1,0 +1,226 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TypeBadge from '../../components/TypeBadge.astro';
+import { getAllEntries } from '../../lib/archive';
+
+export async function getStaticPaths() {
+  const nexusEntries = await getCollection('nexus');
+  return nexusEntries.map((entry) => ({
+    params: { id: entry.data.id },
+  }));
+}
+
+const nexusEntries = (await getCollection('nexus')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const issue = nexusEntries.find((entry) => entry.data.id === Astro.params.id);
+if (!issue) {
+  throw new Error(`Missing nexus issue for id: ${Astro.params.id}`);
+}
+
+const { Content } = await issue.render();
+
+const allEntries = await getAllEntries();
+const byId = new Map(allEntries.map((entry) => [entry.data.id, entry]));
+const sequence = issue.data.includedObjects
+  .map((item, index) => ({
+    index: index + 1,
+    role: item.role,
+    entry: byId.get(item.ref) || null,
+    ref: item.ref,
+  }))
+  .filter((item) => Boolean(item.entry));
+
+const issueIndex = nexusEntries.findIndex((entry) => entry.data.id === issue.data.id);
+const newerIssue = issueIndex > 0 ? nexusEntries[issueIndex - 1] : null;
+const olderIssue = issueIndex < nexusEntries.length - 1 ? nexusEntries[issueIndex + 1] : null;
+---
+
+<BaseLayout title={`${issue.data.title} | Nexus`}>
+  <article class="issue-shell">
+    <a class="back" href="/nexus">← Back to nexus</a>
+    <header class="head">
+      <TypeBadge type="nexus" />
+      <h1>{issue.data.title}</h1>
+      {issue.data.excerpt && <p class="excerpt">{issue.data.excerpt}</p>}
+      {issue.data.themeStatement && <p class="statement">{issue.data.themeStatement}</p>}
+      <div class="meta">
+        <span>{issue.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+        {issue.data.releaseType && <span>{issue.data.releaseType}</span>}
+        <span>{issue.data.includedObjects.length} items</span>
+      </div>
+    </header>
+
+    <section class="sequence">
+      <h2>Reading Sequence</h2>
+      <ol>
+        {sequence.map((item) => (
+          <li>
+            <div class="seq-num">{String(item.index).padStart(2, '0')}</div>
+            <div class="seq-main">
+              <p class="role">{item.role}</p>
+              <a href={`/objects/${item.ref}`}>{item.entry?.data.title || item.ref}</a>
+              {item.entry?.data.excerpt && <p class="preview">{item.entry.data.excerpt}</p>}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="body">
+      <Content />
+    </section>
+  </article>
+
+  <nav class="pager">
+    {newerIssue ? <a href={`/nexus/${newerIssue.data.id}`}>← Newer: {newerIssue.data.title}</a> : <span></span>}
+    {olderIssue ? <a href={`/nexus/${olderIssue.data.id}`}>Older: {olderIssue.data.title} →</a> : <span></span>}
+  </nav>
+</BaseLayout>
+
+<style>
+  .issue-shell {
+    border: 1px solid rgba(177, 166, 132, 0.28);
+    border-radius: 18px;
+    padding: 1rem;
+    background: rgba(17, 20, 29, 0.74);
+  }
+
+  .back {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.86rem;
+  }
+
+  .back:hover {
+    color: var(--text-strong);
+  }
+
+  .head h1 {
+    margin: 0.5rem 0 0.45rem;
+    color: var(--text-strong);
+    font-size: clamp(1.6rem, 4vw, 2.3rem);
+  }
+
+  .excerpt,
+  .statement {
+    margin: 0;
+    color: var(--text-body);
+    line-height: 1.5;
+  }
+
+  .statement {
+    margin-top: 0.5rem;
+    color: #cec5a9;
+    font-size: 0.95rem;
+  }
+
+  .meta {
+    margin-top: 0.65rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .meta span {
+    border: 1px solid rgba(177, 166, 132, 0.34);
+    border-radius: 999px;
+    padding: 0.2rem 0.6rem;
+    color: var(--text-dim);
+    font-size: 0.73rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .sequence {
+    margin-top: 1rem;
+  }
+
+  .sequence h2 {
+    margin: 0 0 0.55rem;
+    color: var(--text-strong);
+    font-size: 1.08rem;
+  }
+
+  .sequence ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .sequence li {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 0.65rem;
+    display: grid;
+    grid-template-columns: 2.2rem 1fr;
+    gap: 0.55rem;
+    background: rgba(20, 23, 33, 0.7);
+  }
+
+  .seq-num {
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding-top: 0.1rem;
+  }
+
+  .role {
+    margin: 0;
+    color: var(--text-dim);
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .seq-main a {
+    color: #f2d995;
+    text-decoration: none;
+    font-size: 1rem;
+  }
+
+  .seq-main a:hover {
+    text-decoration: underline;
+  }
+
+  .preview {
+    margin: 0.35rem 0 0;
+    color: var(--text-body);
+    font-size: 0.9rem;
+    line-height: 1.42;
+  }
+
+  .body {
+    margin-top: 1rem;
+    line-height: 1.62;
+  }
+
+  .body :global(p) {
+    margin: 0 0 0.85rem;
+    color: var(--text-body);
+  }
+
+  .pager {
+    margin-top: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .pager a {
+    color: #e7cf90;
+    text-decoration: none;
+    font-size: 0.86rem;
+  }
+
+  .pager a:hover {
+    text-decoration: underline;
+  }
+</style>
+
