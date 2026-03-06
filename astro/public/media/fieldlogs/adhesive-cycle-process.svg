@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Adhesive Cycle Process Chart</title>
+  <desc id="desc">Studio process board showing sample performance across a humidity and heat cycle.</desc>
+  <rect width="1200" height="800" fill="#141a24"/>
+  <rect x="90" y="120" width="1020" height="560" rx="14" fill="#1f2635" stroke="#3e4a62"/>
+  <g fill="#d8c79e" font-family="Avenir Next, Helvetica, sans-serif" font-size="28" letter-spacing="2">
+    <text x="130" y="180">STUDIO CYCLE  ADHESIVE TEST</text>
+  </g>
+  <g stroke="#465879" stroke-width="2">
+    <line x1="170" y1="240" x2="170" y2="620"/>
+    <line x1="330" y1="240" x2="330" y2="620"/>
+    <line x1="490" y1="240" x2="490" y2="620"/>
+    <line x1="650" y1="240" x2="650" y2="620"/>
+    <line x1="810" y1="240" x2="810" y2="620"/>
+    <line x1="970" y1="240" x2="970" y2="620"/>
+  </g>
+  <g fill="#9db3da" font-family="Avenir Next, Helvetica, sans-serif" font-size="22">
+    <text x="130" y="655">08:55</text>
+    <text x="290" y="655">09:20</text>
+    <text x="450" y="655">09:44</text>
+    <text x="610" y="655">10:02</text>
+    <text x="770" y="655">10:27</text>
+    <text x="930" y="655">22:15</text>
+  </g>
+  <polyline points="170,420 330,500 490,350 650,540 810,330 970,360" fill="none" stroke="#f1c56b" stroke-width="8" stroke-linecap="round"/>
+  <g fill="#f1c56b">
+    <circle cx="170" cy="420" r="11"/>
+    <circle cx="330" cy="500" r="11"/>
+    <circle cx="490" cy="350" r="11"/>
+    <circle cx="650" cy="540" r="11"/>
+    <circle cx="810" cy="330" r="11"/>
+    <circle cx="970" cy="360" r="11"/>
+  </g>
+</svg>

@@ -42,3 +42,40 @@ Scope: first 6 prioritized draft objects from the work order.
 - `nothing-missing-only-unindexed`
 - `codex-archive-system-v2-4-notes`
 
+## Slice 2 Decisions (Executed)
+
+- `ridge-line-lessons` — `keep`
+  - Strong place-observation signal and clear relation to fieldlog context.
+  - Compact verse format aligns with current scroll cadence.
+
+- `transmission-note-to-future-me` — `keep`
+  - Clear archival directive voice and strong nexus/codex link compatibility.
+  - Excerpt and body are aligned without redundancy risk.
+
+- `archive-box-stamped-fragments` — `keep`
+  - Artifact metadata is complete and materially specific.
+  - Cross-links connect process (`studio-log`) and principle (`fragment`) correctly.
+
+- `studio-log-adhesive-test-run` — `keep`
+  - High-utility process evidence object with concrete timestamps and outcomes.
+  - Supports system hardening narrative in codex notes.
+
+- `nothing-missing-only-unindexed` — `keep`
+  - Compact aphoristic fragment with strong system-memory fit.
+  - Relation placement supports both nexus and artifact threads.
+
+- `codex-archive-system-v2-4-notes` — `keep`
+  - Good MVP operations framing and bounded change scope.
+  - Dependencies and related fields are coherent with active object graph.
+
+## Slice 2 Result
+
+- Keep: 6
+- Edit: 0
+- Drop: 0
+
+## P0 Aggregate (Slices 1 + 2)
+
+- Keep: 10
+- Edit: 2 (completed)
+- Drop: 0

@@ -33,6 +33,13 @@ node scripts/generate-graph-json.mjs objects astro/public/graph.json
 
 Note: `astro` now runs this automatically before every `npm run build`.
 
+Generate codex log + design evolution ingest report:
+
+```bash
+node scripts/generate-codex-log.mjs objects 2026-03-06
+node scripts/ingest-design-evolution.mjs objects 2026-03-06
+```
+
 ## Push This Repo To Remote
 
 From repository root:

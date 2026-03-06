@@ -18,7 +18,15 @@ constellations:
 
 related: []
 
-media: []
+media:
+  - kind: image
+    src: /media/artifacts/under-load-hero.svg
+    role: hero
+    alt: "Deck collage plate with compression arcs and panel blocks."
+  - kind: image
+    src: /media/artifacts/deck-under-load-ii-detail.svg
+    role: detail
+    alt: "Close detail crop of sealed collage edge texture."
 
 artifactType: deck-collage
 materials: "Comic panels, archival adhesive, polyurethane, skateboard deck"

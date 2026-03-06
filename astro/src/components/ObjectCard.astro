@@ -1,6 +1,7 @@
 ---
 import TypeBadge from './TypeBadge.astro';
 import type { ArchiveEntry } from '../lib/archive';
+import { formatMediaLabel, getMediaItems, pickPrimaryMedia } from '../lib/media';
 
 interface Props {
   entry: ArchiveEntry;
@@ -9,6 +10,8 @@ interface Props {
 }
 
 const { entry, href = `/objects/${entry.data.id}`, relationScore } = Astro.props;
+const mediaItems = getMediaItems(entry);
+const primaryMedia = pickPrimaryMedia(mediaItems);
 
 const readableDate = entry.data.date.toLocaleDateString('en-US', {
   year: 'numeric',
@@ -19,10 +22,31 @@ const readableDate = entry.data.date.toLocaleDateString('en-US', {
 
 <article class="card">
   <a class="hitbox" href={href} aria-label={`Open ${entry.data.title}`}></a>
+  <div class="preview-wrap">
+    {primaryMedia?.kind === 'image' ? (
+      <img
+        class="preview-image"
+        src={primaryMedia.src}
+        alt={primaryMedia.alt || `${entry.data.title} media preview`}
+        loading="lazy"
+        decoding="async"
+      />
+    ) : primaryMedia ? (
+      <div class="preview-fallback">
+        <span>{primaryMedia.kind.toUpperCase()}</span>
+        <small>{formatMediaLabel(primaryMedia)}</small>
+      </div>
+    ) : (
+      <div class={`preview-empty ${entry.collection}`}>
+        <span>{entry.collection.toUpperCase()}</span>
+      </div>
+    )}
+  </div>
   <header class="meta">
     <TypeBadge type={entry.collection} />
     <span class="date">{readableDate}</span>
-    {relationScore && <span class="score">{relationScore} signals</span>}
+    {relationScore !== undefined && <span class="score">{relationScore} signals</span>}
+    {mediaItems.length > 0 && <span class="media-count">{mediaItems.length} media</span>}
   </header>
   <h3 class="title">{entry.data.title}</h3>
   {entry.data.excerpt && <p class="excerpt">{entry.data.excerpt}</p>}
@@ -40,7 +64,7 @@ const readableDate = entry.data.date.toLocaleDateString('en-US', {
     position: relative;
     border: 1px solid rgba(177, 166, 132, 0.24);
     border-radius: 16px;
-    padding: 1rem 1rem 0.95rem;
+    padding: 0.75rem 0.75rem 0.9rem;
     background:
       radial-gradient(circle at top right, rgba(96, 174, 151, 0.08), transparent 58%),
       linear-gradient(145deg, rgba(25, 27, 35, 0.94), rgba(18, 20, 27, 0.94));
@@ -60,6 +84,70 @@ const readableDate = entry.data.date.toLocaleDateString('en-US', {
     z-index: 2;
   }
 
+  .preview-wrap {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(176, 165, 133, 0.32);
+    margin-bottom: 0.65rem;
+    aspect-ratio: 16 / 9;
+    background: rgba(17, 21, 30, 0.8);
+  }
+
+  .preview-image {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  .preview-fallback,
+  .preview-empty {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    gap: 0.25rem;
+    color: var(--text-dim);
+  }
+
+  .preview-fallback span,
+  .preview-empty span {
+    font-size: 0.82rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .preview-fallback small {
+    font-size: 0.73rem;
+    letter-spacing: 0.04em;
+  }
+
+  .preview-empty.artifact {
+    background: linear-gradient(150deg, rgba(233, 131, 103, 0.3), rgba(214, 177, 98, 0.12));
+  }
+
+  .preview-empty.scroll {
+    background: linear-gradient(150deg, rgba(104, 188, 151, 0.28), rgba(42, 72, 82, 0.12));
+  }
+
+  .preview-empty.fieldlog {
+    background: linear-gradient(150deg, rgba(191, 175, 130, 0.25), rgba(50, 57, 69, 0.2));
+  }
+
+  .preview-empty.codex {
+    background: linear-gradient(150deg, rgba(235, 199, 110, 0.22), rgba(57, 58, 74, 0.18));
+  }
+
+  .preview-empty.fragment {
+    background: linear-gradient(150deg, rgba(138, 147, 171, 0.22), rgba(53, 63, 80, 0.16));
+  }
+
+  .preview-empty.nexus {
+    background: linear-gradient(150deg, rgba(91, 172, 146, 0.24), rgba(77, 106, 134, 0.2));
+  }
+
   .meta {
     display: flex;
     flex-wrap: wrap;
@@ -69,7 +157,8 @@ const readableDate = entry.data.date.toLocaleDateString('en-US', {
   }
 
   .date,
-  .score {
+  .score,
+  .media-count {
     font-size: 0.72rem;
     color: var(--text-dim);
     letter-spacing: 0.04em;
@@ -77,6 +166,10 @@ const readableDate = entry.data.date.toLocaleDateString('en-US', {
 
   .score {
     color: #edc76f;
+  }
+
+  .media-count {
+    color: #78cdb2;
   }
 
   .title {
@@ -113,4 +206,3 @@ const readableDate = entry.data.date.toLocaleDateString('en-US', {
     background: rgba(28, 32, 44, 0.75);
   }
 </style>
-
