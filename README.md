@@ -25,6 +25,12 @@ cd astro
 npm run build
 ```
 
+Generate relationship graph JSON:
+
+```bash
+node scripts/generate-graph-json.mjs objects astro/public/graph.json
+```
+
 ## Push This Repo To Remote
 
 From repository root:
@@ -54,4 +60,3 @@ This repo includes `vercel.json` with monorepo-aware commands.
 
 GitHub Actions workflow is included at `.github/workflows/astro-build.yml`.
 It runs `npm ci` and `npm run build` inside `astro/` on pushes and PRs.
-

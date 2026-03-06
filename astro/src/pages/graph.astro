@@ -1,0 +1,212 @@
+---
+import fs from 'node:fs';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+type GraphNode = {
+  id: string;
+  title: string;
+  type: string;
+};
+
+type GraphEdge = {
+  source: string;
+  target: string;
+  weight: number;
+  reasons: string[];
+};
+
+type GraphPayload = {
+  generatedAt: string;
+  nodeCount: number;
+  edgeCount: number;
+  nodes: GraphNode[];
+  edges: GraphEdge[];
+};
+
+const defaultGraph: GraphPayload = {
+  generatedAt: '',
+  nodeCount: 0,
+  edgeCount: 0,
+  nodes: [],
+  edges: [],
+};
+
+const graphPath = new URL('../../public/graph.json', import.meta.url);
+
+let graph = defaultGraph;
+let loadError = '';
+
+try {
+  graph = JSON.parse(fs.readFileSync(graphPath, 'utf8')) as GraphPayload;
+} catch (error) {
+  loadError = error instanceof Error ? error.message : 'Unable to load graph.json';
+}
+
+const topEdges = [...graph.edges].sort((a, b) => b.weight - a.weight).slice(0, 12);
+
+const topNodes = [...graph.nodes]
+  .map((node) => {
+    const totalWeight = graph.edges
+      .filter((edge) => edge.source === node.id || edge.target === node.id)
+      .reduce((sum, edge) => sum + edge.weight, 0);
+    return { ...node, totalWeight };
+  })
+  .sort((a, b) => b.totalWeight - a.totalWeight)
+  .slice(0, 12);
+---
+
+<BaseLayout title="Codex Graph">
+  <section class="hero">
+    <p class="eyebrow">Graph Export</p>
+    <h1>Archive Relationship Graph</h1>
+    <p>
+      Source file: <code>/astro/public/graph.json</code>
+      {graph.generatedAt && <> · Generated {new Date(graph.generatedAt).toLocaleString('en-US')}</>}
+    </p>
+  </section>
+
+  {loadError ? (
+    <section class="error">
+      <h2>Graph Not Loaded</h2>
+      <p>{loadError}</p>
+      <p>Run <code>node scripts/generate-graph-json.mjs objects astro/public/graph.json</code>.</p>
+    </section>
+  ) : (
+    <>
+      <section class="stats">
+        <article><strong>{graph.nodeCount}</strong><span>Nodes</span></article>
+        <article><strong>{graph.edgeCount}</strong><span>Edges</span></article>
+        <article><strong>{topEdges[0]?.weight ?? 0}</strong><span>Strongest Link</span></article>
+      </section>
+
+      <section class="grid">
+        <article>
+          <h2>Top Connected Objects</h2>
+          <ul>
+            {topNodes.map((node) => (
+              <li>
+                <a href={`/objects/${node.id}`}>{node.title}</a>
+                <span>{node.type} · {node.totalWeight}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+
+        <article>
+          <h2>Top Edges</h2>
+          <ul>
+            {topEdges.map((edge) => (
+              <li>
+                <a href={`/objects/${edge.source}`}>{edge.source}</a>
+                <span>↔</span>
+                <a href={`/objects/${edge.target}`}>{edge.target}</a>
+                <code>{edge.weight}</code>
+              </li>
+            ))}
+          </ul>
+        </article>
+      </section>
+    </>
+  )}
+</BaseLayout>
+
+<style>
+  .hero {
+    border: 1px solid rgba(175, 163, 121, 0.28);
+    border-radius: 18px;
+    padding: 1rem;
+    background: rgba(16, 20, 29, 0.75);
+    margin-bottom: 0.9rem;
+  }
+  .eyebrow {
+    margin: 0;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.72rem;
+    font-weight: 600;
+  }
+  h1 {
+    margin: 0.35rem 0;
+    color: var(--text-strong);
+  }
+  .hero p {
+    margin: 0;
+    color: var(--text-dim);
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.7rem;
+    margin-bottom: 0.9rem;
+  }
+  .stats article {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 0.7rem;
+    background: rgba(18, 22, 31, 0.65);
+  }
+  .stats strong {
+    display: block;
+    font-size: 1.4rem;
+    color: var(--text-strong);
+  }
+  .stats span {
+    color: var(--text-dim);
+    font-size: 0.82rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0.8rem;
+  }
+  .grid article {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 0.8rem;
+    background: rgba(16, 20, 29, 0.7);
+  }
+  h2 {
+    margin: 0 0 0.6rem;
+    color: var(--text-strong);
+    font-size: 1rem;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.55rem;
+  }
+  li {
+    display: flex;
+    gap: 0.4rem;
+    align-items: baseline;
+    flex-wrap: wrap;
+    font-size: 0.86rem;
+  }
+  a {
+    color: #f3d894;
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  span {
+    color: var(--text-dim);
+  }
+  code {
+    border: 1px solid rgba(179, 169, 137, 0.35);
+    border-radius: 999px;
+    padding: 0.1rem 0.45rem;
+    color: var(--text-body);
+    font-size: 0.74rem;
+  }
+  .error {
+    border: 1px solid rgba(224, 127, 103, 0.5);
+    border-radius: 12px;
+    padding: 0.9rem;
+    background: rgba(58, 22, 22, 0.5);
+  }
+</style>
+

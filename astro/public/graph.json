@@ -1,0 +1,199 @@
+{
+  "generatedAt": "2026-03-06T19:55:36.886Z",
+  "sourceDir": "objects",
+  "nodeCount": 7,
+  "edgeCount": 10,
+  "nodes": [
+    {
+      "id": "under-load",
+      "type": "artifact",
+      "title": "UNDER LOAD",
+      "date": "2026-02-24",
+      "themes": [
+        "pressure",
+        "collage",
+        "comics"
+      ],
+      "constellations": [
+        "Archaeological Objects"
+      ]
+    },
+    {
+      "id": "codex-archive-system-v2-2",
+      "type": "codex",
+      "title": "CODEX ARCHIVE SYSTEM v2.2",
+      "date": "2026-03-04",
+      "themes": [
+        "systems",
+        "architecture",
+        "methodology"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "north-georgia-march-2026",
+      "type": "fieldlog",
+      "title": "FIELD LOG: NORTH GEORGIA",
+      "date": "2026-03-03",
+      "themes": [
+        "place",
+        "maintenance",
+        "morning",
+        "observation"
+      ],
+      "constellations": [
+        "Maintenance Psalms"
+      ]
+    },
+    {
+      "id": "on-object-oriented-archives",
+      "type": "fragment",
+      "title": "On Object-Oriented Archives",
+      "date": "2026-02-20",
+      "themes": [
+        "systems",
+        "architecture",
+        "signal"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "signal-descent-001",
+      "type": "nexus",
+      "title": "SIGNAL DESCENT",
+      "date": "2026-03-04",
+      "themes": [
+        "signal",
+        "memory",
+        "pressure",
+        "transmission"
+      ],
+      "constellations": [
+        "Cascade Psalms"
+      ]
+    },
+    {
+      "id": "signal-harvest",
+      "type": "scroll",
+      "title": "SIGNAL HARVEST",
+      "date": "2026-03-01",
+      "themes": [
+        "signal",
+        "memory",
+        "crystallization"
+      ],
+      "constellations": [
+        "Cascade Psalms"
+      ]
+    },
+    {
+      "id": "the-bones-hold",
+      "type": "scroll",
+      "title": "THE BONES HOLD",
+      "date": "2026-02-28",
+      "themes": [
+        "maintenance",
+        "survival",
+        "structure",
+        "pressure"
+      ],
+      "constellations": [
+        "Maintenance Psalms",
+        "Cascade Psalms"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "signal-descent-001",
+      "target": "signal-harvest",
+      "weight": 11,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related",
+        "nexus-inclusion"
+      ]
+    },
+    {
+      "source": "signal-descent-001",
+      "target": "the-bones-hold",
+      "weight": 10,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related",
+        "nexus-inclusion"
+      ]
+    },
+    {
+      "source": "signal-descent-001",
+      "target": "under-load",
+      "weight": 8,
+      "reasons": [
+        "shared-theme",
+        "explicit-related",
+        "nexus-inclusion"
+      ]
+    },
+    {
+      "source": "north-georgia-march-2026",
+      "target": "signal-descent-001",
+      "weight": 7,
+      "reasons": [
+        "explicit-related",
+        "nexus-inclusion"
+      ]
+    },
+    {
+      "source": "signal-harvest",
+      "target": "the-bones-hold",
+      "weight": 5,
+      "reasons": [
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "north-georgia-march-2026",
+      "target": "the-bones-hold",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
+      "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-object-oriented-archives",
+      "target": "signal-descent-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-object-oriented-archives",
+      "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "the-bones-hold",
+      "target": "under-load",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    }
+  ]
+}
