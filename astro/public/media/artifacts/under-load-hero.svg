@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Under Load Hero Plate</title>
+  <desc id="desc">Layered deck collage plate with compression arcs and panel blocks.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#121722"/>
+      <stop offset="100%" stop-color="#243148"/>
+    </linearGradient>
+    <linearGradient id="deck" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#d96a4a"/>
+      <stop offset="100%" stop-color="#f0c46b"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <g opacity="0.3" stroke="#f7e2ad" stroke-width="4" fill="none">
+    <path d="M70 690 C200 590 340 570 490 650"/>
+    <path d="M260 710 C420 560 620 530 860 640"/>
+    <path d="M540 690 C700 570 920 560 1110 670"/>
+  </g>
+  <rect x="110" y="165" width="980" height="470" rx="215" fill="url(#deck)"/>
+  <g fill="#111827" opacity="0.32">
+    <rect x="220" y="240" width="120" height="160" rx="8"/>
+    <rect x="360" y="280" width="160" height="110" rx="8"/>
+    <rect x="550" y="230" width="150" height="170" rx="8"/>
+    <rect x="740" y="300" width="220" height="125" rx="8"/>
+    <rect x="290" y="430" width="180" height="135" rx="8"/>
+    <rect x="505" y="450" width="155" height="115" rx="8"/>
+    <rect x="695" y="455" width="150" height="105" rx="8"/>
+  </g>
+  <text x="120" y="90" fill="#f8ecd2" font-size="42" font-family="Avenir Next, Helvetica, sans-serif" letter-spacing="6">UNDER LOAD</text>
+</svg>

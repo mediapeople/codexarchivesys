@@ -21,7 +21,15 @@ related:
   - pressure-psalm-v
   - studio-log-adhesive-test-run
 
-media: []
+media:
+  - kind: image
+    src: /media/artifacts/deck-under-load-ii-detail.svg
+    role: hero
+    alt: "Deck Under Load II detail showing sealed panel field."
+  - kind: image
+    src: /media/fieldlogs/adhesive-cycle-process.svg
+    role: process
+    alt: "Process board from adhesive cycle used in deck revision."
 
 artifactType: deck-collage
 materials: "Comic fragments, archival adhesive, polyurethane, maple deck"

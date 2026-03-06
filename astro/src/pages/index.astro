@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ObjectCard from '../components/ObjectCard.astro';
 import { COLLECTIONS, getAllEntries, getTypeLabel } from '../lib/archive';
+import { getMediaItems, pickPrimaryMedia } from '../lib/media';
 
 const entries = await getAllEntries();
 
@@ -15,6 +16,18 @@ const typeCounts = COLLECTIONS
 const constellationSet = new Set(
   entries.flatMap((entry) => entry.data.constellations)
 );
+
+const entriesWithMedia = entries
+  .map((entry) => {
+    const media = getMediaItems(entry);
+    return {
+      entry,
+      mediaCount: media.length,
+      primaryMedia: pickPrimaryMedia(media),
+    };
+  })
+  .filter((item) => item.mediaCount > 0)
+  .slice(0, 4);
 ---
 
 <BaseLayout title="Codex Archive">
@@ -51,6 +64,37 @@ const constellationSet = new Set(
       </article>
     ))}
   </section>
+
+  {entriesWithMedia.length > 0 && (
+    <section class="media-strip">
+      <header>
+        <p>Visual Ledger</p>
+        <span>{entriesWithMedia.length} objects currently carrying media evidence</span>
+      </header>
+      <div class="media-grid">
+        {entriesWithMedia.map((item) => (
+          <a href={`/objects/${item.entry.data.id}`} class="media-tile">
+            {item.primaryMedia?.kind === 'image' ? (
+              <img
+                src={item.primaryMedia.src}
+                alt={item.primaryMedia.alt || `${item.entry.data.title} media`}
+                loading="lazy"
+                decoding="async"
+              />
+            ) : (
+              <div class="media-fallback">
+                {item.primaryMedia ? item.primaryMedia.kind.toUpperCase() : 'MEDIA'}
+              </div>
+            )}
+            <div class="tile-meta">
+              <strong>{item.entry.data.title}</strong>
+              <span>{item.mediaCount} media items</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
 
   <section class="feed">
     {entries.map((entry) => (
@@ -153,6 +197,86 @@ const constellationSet = new Set(
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 0.8rem;
+  }
+
+  .media-strip {
+    margin: 0 0 1rem;
+    border: 1px solid rgba(167, 156, 125, 0.34);
+    border-radius: 16px;
+    background: rgba(17, 21, 30, 0.74);
+    padding: 0.75rem;
+  }
+
+  .media-strip header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.4rem;
+    margin-bottom: 0.55rem;
+  }
+
+  .media-strip p {
+    margin: 0;
+    color: #7ecfb6;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+
+  .media-strip span {
+    color: var(--text-dim);
+    font-size: 0.78rem;
+  }
+
+  .media-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.5rem;
+  }
+
+  .media-tile {
+    text-decoration: none;
+    border: 1px solid rgba(161, 151, 125, 0.32);
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(11, 15, 24, 0.74);
+  }
+
+  .media-tile img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .media-fallback {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    display: grid;
+    place-items: center;
+    color: var(--text-dim);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    background: linear-gradient(160deg, rgba(85, 146, 126, 0.28), rgba(56, 83, 107, 0.2));
+  }
+
+  .tile-meta {
+    padding: 0.45rem 0.5rem 0.52rem;
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .tile-meta strong {
+    color: var(--text-strong);
+    font-size: 0.83rem;
+    line-height: 1.25;
+    font-weight: 600;
+  }
+
+  .tile-meta span {
+    color: var(--text-dim);
+    font-size: 0.73rem;
   }
 
   @media (max-width: 700px) {

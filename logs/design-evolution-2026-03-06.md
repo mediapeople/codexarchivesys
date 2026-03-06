@@ -20,8 +20,8 @@ Objects evaluated: 19
   - highest explicit relation degree (non-nexus): codex-archive-system-v2-4-notes (8)
   - threshold: isolated >= 40% when object count >= 10 OR non-nexus max degree >= 8
 - `media_mix_register`: monitor
-  - objects with media: 0
-  - media kinds observed: none
+  - objects with media: 4
+  - media kinds observed: image (7)
   - unknown media kinds: none
   - threshold: >= 3 objects with multi-kind media OR any unknown media kind
 - `field_override_register`: monitor

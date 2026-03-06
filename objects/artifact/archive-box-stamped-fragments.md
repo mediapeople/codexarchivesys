@@ -21,7 +21,15 @@ related:
   - nothing-missing-only-unindexed
   - studio-log-adhesive-test-run
 
-media: []
+media:
+  - kind: image
+    src: /media/artifacts/archive-box-scan.svg
+    role: scan
+    alt: "Top scan view of an archive box with stamped fragments."
+  - kind: image
+    src: /media/artifacts/archive-box-scan.svg
+    role: hero
+    alt: "Archive box transformed into a stamped fragment index."
 
 artifactType: archive-box
 materials: "Cardboard archive box, stamp ink, tape, recovered paper"

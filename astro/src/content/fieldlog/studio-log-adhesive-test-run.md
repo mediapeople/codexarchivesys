@@ -21,7 +21,11 @@ related:
   - archive-box-stamped-fragments
   - codex-archive-system-v2-4-notes
 
-media: []
+media:
+  - kind: image
+    src: /media/fieldlogs/adhesive-cycle-process.svg
+    role: process
+    alt: "Adhesive performance timeline across humidity and heat checks."
 
 project: "Adhesive Durability Trials"
 phase: "material test"

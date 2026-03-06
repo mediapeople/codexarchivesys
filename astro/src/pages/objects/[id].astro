@@ -4,6 +4,7 @@ import TypeBadge from '../../components/TypeBadge.astro';
 import ObjectCard from '../../components/ObjectCard.astro';
 import { getAllEntries, getTypeLabel } from '../../lib/archive';
 import { computeRelatedEntries } from '../../lib/relations';
+import { formatMediaLabel, getMediaItems, pickPrimaryMedia } from '../../lib/media';
 
 export async function getStaticPaths() {
   const entries = await getAllEntries();
@@ -22,6 +23,11 @@ if (!entry) {
 const { Content } = await entry.render();
 const related = computeRelatedEntries(entry, allEntries, 3);
 const byId = new Map(allEntries.map((item) => [item.data.id, item]));
+const mediaItems = getMediaItems(entry);
+const primaryMedia = pickPrimaryMedia(mediaItems);
+const secondaryMedia = primaryMedia
+  ? mediaItems.filter((item) => item.src !== primaryMedia.src || item.role !== primaryMedia.role)
+  : mediaItems;
 
 const includedObjectsRaw = (entry.data as Record<string, unknown>).includedObjects;
 const includedObjects = Array.isArray(includedObjectsRaw)
@@ -149,6 +155,66 @@ const readableDate = entry.data.date.toLocaleDateString('en-US', {
             <strong>{row.value}</strong>
           </article>
         ))}
+      </section>
+    )}
+
+    {primaryMedia && (
+      <section class="media-stage">
+        <article class="media-primary">
+          {primaryMedia.kind === 'image' && (
+            <img
+              src={primaryMedia.src}
+              alt={primaryMedia.alt || `${entry.data.title} primary media`}
+              loading="eager"
+              decoding="async"
+            />
+          )}
+          {primaryMedia.kind === 'video' && (
+            <video controls preload="metadata" src={primaryMedia.src}>
+              Your browser does not support the video element.
+            </video>
+          )}
+          {primaryMedia.kind === 'audio' && (
+            <div class="audio-shell">
+              <audio controls preload="metadata" src={primaryMedia.src}>
+                Your browser does not support the audio element.
+              </audio>
+            </div>
+          )}
+          <p class="media-meta">{formatMediaLabel(primaryMedia)}</p>
+          {primaryMedia.caption && <p class="media-caption">{primaryMedia.caption}</p>}
+        </article>
+
+        {secondaryMedia.length > 0 && (
+          <div class="media-rail">
+            {secondaryMedia.map((item) => (
+              <article class="media-item">
+                {item.kind === 'image' && (
+                  <img
+                    src={item.src}
+                    alt={item.alt || `${entry.data.title} media`}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
+                {item.kind === 'video' && (
+                  <video controls preload="metadata" src={item.src}>
+                    Your browser does not support the video element.
+                  </video>
+                )}
+                {item.kind === 'audio' && (
+                  <div class="audio-shell">
+                    <audio controls preload="metadata" src={item.src}>
+                      Your browser does not support the audio element.
+                    </audio>
+                  </div>
+                )}
+                <p>{formatMediaLabel(item)}</p>
+                {item.caption && <span>{item.caption}</span>}
+              </article>
+            ))}
+          </div>
+        )}
       </section>
     )}
 
@@ -299,6 +365,92 @@ const readableDate = entry.data.date.toLocaleDateString('en-US', {
     line-height: 1.35;
   }
 
+  .media-stage {
+    margin-top: 0.95rem;
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .media-primary {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 0.55rem;
+    background: rgba(20, 24, 34, 0.75);
+  }
+
+  .media-primary img,
+  .media-primary video {
+    width: 100%;
+    border-radius: 10px;
+    display: block;
+    border: 1px solid rgba(173, 162, 128, 0.4);
+    background: rgba(8, 11, 18, 0.75);
+  }
+
+  .media-meta {
+    margin: 0.48rem 0 0;
+    color: #7ecfb6;
+    font-size: 0.76rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  .media-caption {
+    margin: 0.26rem 0 0;
+    color: var(--text-dim);
+    font-size: 0.84rem;
+    line-height: 1.3;
+  }
+
+  .media-rail {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.55rem;
+  }
+
+  .media-item {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 0.4rem;
+    background: rgba(20, 24, 34, 0.7);
+  }
+
+  .media-item img,
+  .media-item video {
+    width: 100%;
+    border-radius: 8px;
+    display: block;
+    background: rgba(10, 14, 22, 0.75);
+    border: 1px solid rgba(164, 154, 125, 0.35);
+  }
+
+  .audio-shell {
+    border: 1px solid rgba(157, 149, 124, 0.38);
+    border-radius: 10px;
+    background: rgba(12, 16, 24, 0.8);
+    padding: 0.5rem;
+  }
+
+  .audio-shell audio {
+    width: 100%;
+  }
+
+  .media-item p {
+    margin: 0.34rem 0 0;
+    color: #7ecfb6;
+    font-size: 0.73rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .media-item span {
+    display: block;
+    margin-top: 0.18rem;
+    color: var(--text-dim);
+    font-size: 0.79rem;
+    line-height: 1.25;
+  }
+
   .inclusion {
     margin: 1rem 0 0.3rem;
     border-top: 1px dashed rgba(182, 171, 141, 0.32);
@@ -366,4 +518,3 @@ const readableDate = entry.data.date.toLocaleDateString('en-US', {
     gap: 0.7rem;
   }
 </style>
-
