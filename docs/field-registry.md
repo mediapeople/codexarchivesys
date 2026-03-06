@@ -1075,6 +1075,43 @@ A field does not exist until it exists here.
 
 ---
 
+## APPENDIX F: SPINE CHANGE PROTOCOL (DESIGN EVOLUTION)
+
+Structure changes must be deliberate and evidence-backed.
+
+Use this protocol to ingest design-evolution signals before proposing any schema or lattice change.
+
+1. Run the daily ingest reports:
+   - `node scripts/generate-codex-log.mjs objects YYYY-MM-DD`
+   - `node scripts/ingest-design-evolution.mjs objects YYYY-MM-DD`
+2. Review the five standing registers:
+   - `theme_register`
+   - `constellation_register`
+   - `media_mix_register`
+   - `relation_density_register`
+   - `field_override_register`
+3. Treat these thresholds as structural pressure:
+   - dominant theme appears in `>= 45%` of objects, or any theme appears outside the active theme registry
+   - objects without constellations are `>= 60%` once object count is at least `10`
+  - isolated objects are `>= 40%` once object count is at least `10`, or any non-`nexus` object reaches relation degree `>= 8`
+   - unregistered frontmatter keys are present in any object
+   - at least `3` objects carry multi-kind media sets, or unknown media kinds appear
+4. If any threshold is crossed, open a dated review note:
+   - `docs/spine-change-review-YYYY-MM-DD.md`
+   - include register evidence, affected objects, and one explicit structural question
+5. Apply change control in strict order:
+   - update `docs/field-registry.md` first
+   - update schema and validators (`astro/src/content/config.ts`, `scripts/object-utils.mjs`)
+   - re-run validation/build checks
+   - record decision in the next codex log
+6. Constraints:
+   - no automatic structure changes
+   - no publication-state escalation by automation
+   - no id rewrites to satisfy layout or naming preference
+   - if no threshold is crossed, result is explicit: `no spine change`
+
+---
+
 *Field Registry — Codex Archive System v2.2*  
-*Last updated: 2026-03-05*  
+*Last updated: 2026-03-06*  
 *Next review: when object count exceeds 50 or a new type is proposed*
