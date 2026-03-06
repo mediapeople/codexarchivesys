@@ -21,6 +21,7 @@ related:
   - pressure-psalm-v
   - deck-under-load-ii
   - north-georgia-week-2
+  - nothing-missing-only-unindexed
   - maintenance-without-cure
   - codex-archive-system-v2-4-notes
 

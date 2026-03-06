@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-06T20:43:21.020Z",
+  "generatedAt": "2026-03-06T20:50:07.876Z",
   "sourceDir": "../objects",
   "nodeCount": 19,
   "edgeCount": 90,
@@ -289,6 +289,16 @@
       ]
     },
     {
+      "source": "nothing-missing-only-unindexed",
+      "target": "signal-descent-002",
+      "weight": 11,
+      "reasons": [
+        "shared-theme",
+        "explicit-related",
+        "nexus-inclusion"
+      ]
+    },
+    {
       "source": "pressure-psalm-v",
       "target": "signal-descent-002",
       "weight": 11,
@@ -392,16 +402,6 @@
     },
     {
       "source": "north-georgia-week-2",
-      "target": "signal-descent-002",
-      "weight": 8,
-      "reasons": [
-        "shared-theme",
-        "explicit-related",
-        "nexus-inclusion"
-      ]
-    },
-    {
-      "source": "nothing-missing-only-unindexed",
       "target": "signal-descent-002",
       "weight": 8,
       "reasons": [

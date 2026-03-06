@@ -6,7 +6,7 @@ date: 2026-03-06
 status: draft
 visibility: public
 
-excerpt: "Fog returned; the route shortened; maintenance still happened."
+excerpt: "The route got shorter. The practice stayed intact."
 
 themes:
   - place
