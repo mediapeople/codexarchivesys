@@ -1,0 +1,42 @@
+<svg viewBox="0 0 900 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Archive stamp">
+  <defs>
+    <style>
+      .s{stroke:#8a8480;stroke-width:2;fill:none}
+      .f{stroke:#2a2620;stroke-width:2;fill:none;opacity:.8}
+      .sd{stroke:#5c5450;stroke-width:2;fill:none;opacity:.85}
+      .g{stroke:#c9963a;stroke-width:2;fill:none}
+      .gf{fill:#c9963a}
+      .r{stroke:#c4623a;stroke-width:2;fill:none}
+      .lbl{font-family:Space Mono,monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;fill:#8a8480}
+      .lbls{fill:#f4f0e8}
+    </style>
+  </defs>
+  <rect x="80" y="40" width="740" height="140" rx="10" class="s"/>
+  <rect x="96" y="56" width="708" height="108" rx="8" class="f"/>
+  <g transform="translate(170,110)">
+    <circle cx="0" cy="0" r="34" class="s"/>
+    <circle cx="0" cy="0" r="10" class="gf"/>
+    <circle cx="0" cy="-34" r="5" class="r"/>
+    <circle cx="34" cy="0" r="5" class="r"/>
+    <circle cx="0" cy="34" r="5" class="r"/>
+    <circle cx="-34" cy="0" r="5" class="r"/>
+    <line x1="0" y1="0" x2="0" y2="-24" class="g"/>
+    <line x1="0" y1="0" x2="24" y2="0" class="g"/>
+    <line x1="0" y1="0" x2="0" y2="24" class="g"/>
+    <line x1="0" y1="0" x2="-24" y2="0" class="g"/>
+  </g>
+  <g>
+    <text x="260" y="86" class="lbl">SEAL</text>
+    <text x="340" y="86" class="lbl lbls">NODE</text>
+    <text x="260" y="118" class="lbl">CLAIM</text>
+    <text x="340" y="118" class="lbl lbls">THE VESSEL SERVES THE CARGO</text>
+    <text x="260" y="150" class="lbl">REFRAIN</text>
+    <text x="340" y="150" class="lbl lbls">CHAOS DESTROYS · REBELLION REMEMBERS</text>
+  </g>
+  <g opacity=".85">
+    <path d="M96,56 h18" class="sd"/><path d="M96,56 v18" class="sd"/>
+    <path d="M804,56 h-18" class="sd"/><path d="M804,56 v18" class="sd"/>
+    <path d="M96,164 h18" class="sd"/><path d="M96,164 v-18" class="sd"/>
+    <path d="M804,164 h-18" class="sd"/><path d="M804,164 v-18" class="sd"/>
+  </g>
+</svg>

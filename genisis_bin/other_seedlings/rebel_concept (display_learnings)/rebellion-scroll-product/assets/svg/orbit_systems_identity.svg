@@ -1,0 +1,43 @@
+<svg viewBox="0 0 980 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Systems orbit identity (human node)">
+  <defs>
+    <radialGradient id="halo" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#c4623a" stop-opacity=".16"/>
+      <stop offset="35%" stop-color="#c4623a" stop-opacity=".06"/>
+      <stop offset="70%" stop-color="#c4623a" stop-opacity="0"/>
+    </radialGradient>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#5c5450" opacity=".9"/>
+    </marker>
+    <style>
+      .grid{stroke:#2a2620;stroke-width:1;opacity:.35}
+      .o{stroke:#2a2620;stroke-width:2;fill:none}
+      .t{font-family:Space Mono,monospace;letter-spacing:.22em;text-transform:uppercase}
+    </style>
+  </defs>
+  <g>
+    <line x1="80" y1="110" x2="900" y2="110" class="grid"/>
+    <line x1="80" y1="260" x2="900" y2="260" class="grid"/>
+    <line x1="80" y1="410" x2="900" y2="410" class="grid"/>
+  </g>
+  <text x="490" y="70" text-anchor="middle" class="t" font-size="14" fill="#8a8480">SYSTEMS ORBIT IDENTITY</text>
+  <text x="490" y="92" text-anchor="middle" class="t" font-size="10" letter-spacing=".28em" fill="#5c5450">THE VESSEL SERVES THE CARGO · THE HUMAN IS THE NODE</text>
+  <circle cx="490" cy="285" r="160" fill="url(#halo)"/>
+  <ellipse cx="490" cy="285" rx="310" ry="130" class="o" opacity=".9"/>
+  <ellipse cx="490" cy="285" rx="240" ry="100" class="o" opacity=".8"/>
+  <ellipse cx="490" cy="285" rx="175" ry="72" class="o" opacity=".7"/>
+  <path d="M735,250 C700,180 610,150 520,165" fill="none" stroke="#5c5450" stroke-width="2" opacity=".75" marker-end="url(#arrow)"/>
+  <path d="M680,330 C640,385 560,405 500,395" fill="none" stroke="#5c5450" stroke-width="2" opacity=".65" marker-end="url(#arrow)"/>
+  <circle cx="490" cy="285" r="18" fill="#c9963a"/>
+  <circle cx="490" cy="285" r="44" fill="none" stroke="#c9963a" stroke-width="2" opacity=".55"/>
+  <circle cx="490" cy="285" r="78" fill="none" stroke="#5c5450" stroke-width="2" opacity=".35"/>
+  <text x="490" y="235" text-anchor="middle" class="t" font-size="10" fill="#5c5450">IDENTITY</text>
+  <text x="490" y="258" text-anchor="middle" class="t" font-size="12" letter-spacing=".18em" fill="#f4f0e8">HUMAN NODE</text>
+  <text x="490" y="330" text-anchor="middle" class="t" font-size="10" fill="#8a8480">CONSENT: REVOCABLE</text>
+  <circle cx="490" cy="285" r="118" fill="none" stroke="#8b3a1e" stroke-width="2" opacity=".35" stroke-dasharray="3 10"/>
+  <g class="t" font-size="10" letter-spacing=".18em" fill="#5c5450">
+    <text x="110" y="470">RULE:</text>
+    <text x="175" y="470" fill="#f4f0e8">SYSTEMS ORBIT — THEY DO NOT POSSESS</text>
+    <text x="110" y="492">METHOD:</text>
+    <text x="205" y="492" fill="#f4f0e8">CONSENT · TRANSPARENCY · REVOCABILITY · ACCOUNTABILITY</text>
+  </g>
+</svg>

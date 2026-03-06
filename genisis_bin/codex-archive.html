@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✦ CODEX ARCHIVE</title>
+<style>
+:root {
+  --void: #0c0c0a;
+  --deep: #141410;
+  --surface: #1c1c16;
+  --border: #2a2a1a;
+  --dim: #4a4a30;
+  --mid: #7a7a52;
+  --pale: #b8b890;
+  --star: #e4ddb0;
+  --gold: #c8a84b;
+  --goldd: #6a5420;
+  --green: #5adf8a;
+  --ember: #e06030;
+  --ink: #ccc8a0;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--void);
+  color: var(--ink);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  line-height: 1.7;
+}
+button { font-family: inherit; cursor: pointer; }
+
+.shell { max-width: 1200px; margin: 0 auto; }
+
+header {
+  border-bottom: 1px solid var(--border);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--void);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.wordmark { font-size: 18px; letter-spacing: .15em; color: var(--gold); font-weight: bold; }
+.wordmark span { color: var(--dim); font-size: 11px; font-weight: normal; }
+
+nav { display: flex; gap: 4px; }
+.tab {
+  font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--mid); background: none; border: 1px solid transparent; padding: 5px 14px; transition: .15s;
+}
+.tab:hover { color: var(--star); border-color: var(--dim); }
+.tab.on { color: var(--gold); border-color: var(--goldd); background: rgba(200,168,75,.07); }
+
+.live { display: flex; align-items: center; gap: 6px; font-size: 10px; color: var(--dim); letter-spacing: .1em; }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2.5s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+.grid { display: grid; grid-template-columns: 200px 1fr 220px; min-height: calc(100vh - 53px); }
+
+aside {
+  border-right: 1px solid var(--border);
+  padding: 20px 16px;
+  position: sticky; top: 53px;
+  height: calc(100vh - 53px); overflow-y: auto;
+}
+aside::-webkit-scrollbar { width: 2px; }
+aside::-webkit-scrollbar-thumb { background: var(--dim); }
+
+.s-label { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--dim); margin-bottom: 8px; padding-bottom: 5px; border-bottom: 1px solid var(--border); }
+.s-section { margin-bottom: 24px; }
+.s-item {
+  display: flex; align-items: center; gap: 7px; padding: 4px 7px;
+  color: var(--pale); font-size: 12px; border: 1px solid transparent; border-radius: 2px;
+  cursor: pointer; transition: .12s; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.s-item:hover { background: var(--surface); border-color: var(--border); color: var(--star); }
+.s-item.on { background: rgba(200,168,75,.07); border-color: var(--goldd); color: var(--gold); }
+
+.badge { font-size: 9px; font-weight: bold; letter-spacing: .05em; padding: 1px 4px; border-radius: 2px; flex-shrink: 0; }
+.b-sc { background: rgba(90,223,138,.12); color: var(--green); }
+.b-ar { background: rgba(224,96,48,.12); color: var(--ember); }
+.b-fl { background: rgba(122,122,82,.15); color: var(--mid); }
+.b-cd { background: rgba(200,168,75,.12); color: var(--gold); }
+.b-fr { background: rgba(74,74,48,.3); color: var(--dim); }
+.b-nx { background: rgba(200,168,75,.18); color: var(--gold); border: 1px solid var(--goldd); }
+
+main { overflow-y: auto; }
+.panel { display: none; }
+.panel.on { display: block; }
+
+.feed-head { padding: 28px 28px 16px; border-bottom: 1px solid var(--border); }
+.feed-title { font-size: 40px; letter-spacing: .1em; color: var(--star); font-weight: bold; line-height: 1; margin-bottom: 4px; }
+.feed-sub { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
+.feed-body { padding: 14px 28px 48px; }
+
+.card {
+  border: 1px solid var(--border); padding: 16px 20px; margin-bottom: 10px;
+  background: var(--deep); cursor: pointer; transition: .15s;
+  border-left: 3px solid var(--dim);
+}
+.card:hover { background: var(--surface); border-color: var(--mid); }
+.card.sc { border-left-color: rgba(90,223,138,.5); }
+.card.ar { border-left-color: rgba(224,96,48,.5); }
+.card.nx { border-left-color: var(--goldd); }
+.card.cd { border-left-color: rgba(200,168,75,.4); }
+.card-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.card-date, .card-id { font-size: 10px; color: var(--dim); }
+.card-title { font-size: 17px; color: var(--star); margin-bottom: 5px; font-style: italic; }
+.card-excerpt { font-size: 12px; color: var(--mid); }
+.card-themes { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 5px; }
+.tag { font-size: 10px; color: var(--dim); border: 1px solid var(--border); padding: 1px 7px; border-radius: 2px; cursor: pointer; transition: .12s; }
+.tag:hover { border-color: var(--goldd); color: var(--gold); }
+
+.detail { display: none; }
+.detail.on { display: block; }
+.detail-nav { padding: 12px 28px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+.back { font-size: 11px; letter-spacing: .08em; color: var(--mid); background: none; border: 1px solid var(--border); padding: 4px 12px; transition: .12s; }
+.back:hover { color: var(--star); border-color: var(--mid); }
+.bc { font-size: 11px; color: var(--dim); }
+.detail-body { padding: 36px 44px; max-width: 680px; }
+.d-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.d-id, .d-date { font-size: 10px; color: var(--dim); }
+.d-title { font-size: 32px; color: var(--star); margin-bottom: 12px; font-style: italic; line-height: 1.2; }
+.d-cx { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+.d-rule { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+.d-text { font-size: 15px; line-height: 2; color: var(--ink); font-style: italic; }
+.d-text p { margin-bottom: 1.2em; }
+
+.related { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+.r-label { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--dim); margin-bottom: 12px; }
+.r-item { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: .12s; }
+.r-item:hover .r-title { color: var(--gold); }
+.r-title { color: var(--pale); font-style: italic; font-size: 14px; transition: .12s; }
+.r-score { margin-left: auto; font-size: 10px; color: var(--dim); }
+
+.nx-intro { font-size: 15px; color: var(--ink); font-style: italic; line-height: 1.9; padding: 20px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-bottom: 28px; }
+.nx-item { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: .12s; }
+.nx-item:hover .nx-title { color: var(--gold); }
+.nx-num { font-size: 36px; color: var(--border); line-height: 1; min-width: 36px; font-weight: bold; transition: .12s; }
+.nx-item:hover .nx-num { color: var(--goldd); }
+.nx-role { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); margin-bottom: 4px; }
+.nx-title { font-size: 18px; color: var(--star); font-style: italic; margin-bottom: 4px; transition: .12s; }
+.nx-excerpt { font-size: 12px; color: var(--mid); }
+
+.graph-wrap { position: relative; height: calc(100vh - 53px); background: var(--void); }
+canvas { display: block; width: 100%; height: 100%; }
+.g-legend { position: absolute; bottom: 20px; left: 20px; background: rgba(12,12,10,.92); border: 1px solid var(--border); padding: 12px 16px; font-size: 11px; }
+.l-item { display: flex; align-items: center; gap: 8px; color: var(--pale); margin-bottom: 5px; }
+.l-item:last-child { margin-bottom: 0; }
+.l-dot, .l-sq { flex-shrink: 0; }
+.g-tip { position: absolute; background: var(--surface); border: 1px solid var(--goldd); padding: 8px 12px; font-size: 11px; pointer-events: none; display: none; }
+.g-tip.on { display: block; }
+.g-tip-title { color: var(--star); font-style: italic; margin-bottom: 2px; font-size: 13px; }
+.g-tip-meta { color: var(--dim); }
+
+.compose-wrap { padding: 28px; }
+.c-title { font-size: 32px; letter-spacing: .1em; color: var(--star); font-weight: bold; margin-bottom: 4px; }
+.c-sub { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); margin-bottom: 28px; }
+.c-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.c-col-label { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); margin-bottom: 6px; }
+textarea { background: var(--surface); border: 1px solid var(--border); color: var(--ink); font-family: 'Courier New', Courier, monospace; font-size: 12px; padding: 10px; line-height: 1.7; resize: none; height: 260px; width: 100%; outline: none; transition: border-color .15s; }
+textarea:focus { border-color: var(--goldd); }
+.c-preview { background: var(--deep); border: 1px solid var(--border); padding: 14px; height: 260px; overflow-y: auto; font-size: 12px; }
+.c-preview::-webkit-scrollbar { width: 2px; }
+.c-preview::-webkit-scrollbar-thumb { background: var(--dim); }
+.p-field { display: flex; gap: 8px; margin-bottom: 5px; }
+.p-key { color: var(--dim); min-width: 80px; }
+.p-val { color: var(--star); }
+.p-rule { border: none; border-top: 1px solid var(--border); margin: 8px 0; }
+.p-body { color: var(--ink); font-style: italic; font-size: 13px; line-height: 1.8; white-space: pre-wrap; }
+.p-hint { color: var(--dim); font-style: italic; }
+.c-actions { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.c-btn { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; padding: 8px 20px; border: 1px solid; background: none; transition: .15s; }
+.c-btn.primary { color: var(--gold); border-color: var(--goldd); }
+.c-btn.primary:hover { background: rgba(200,168,75,.1); }
+.c-btn.sec { color: var(--mid); border-color: var(--border); }
+.c-btn.sec:hover { color: var(--star); border-color: var(--mid); }
+.c-toast { display: none; align-items: center; gap: 6px; font-size: 11px; color: var(--green); letter-spacing: .08em; }
+.c-toast.on { display: flex; }
+.ref-box { border: 1px solid var(--border); padding: 14px 16px; background: var(--deep); }
+.ref-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px 20px; margin-top: 8px; }
+.ref-row { display: flex; gap: 8px; font-size: 11px; }
+.ref-cmd { color: var(--gold); min-width: 55px; }
+.ref-desc { color: var(--mid); }
+
+.rail { border-left: 1px solid var(--border); padding: 20px 16px; position: sticky; top: 53px; height: calc(100vh - 53px); overflow-y: auto; }
+.rail::-webkit-scrollbar { width: 2px; }
+.rail::-webkit-scrollbar-thumb { background: var(--dim); }
+.rail-section { margin-bottom: 26px; }
+.nx-alert { background: rgba(200,168,75,.06); border: 1px solid var(--goldd); padding: 10px 12px; margin-bottom: 10px; }
+.nx-alert-label { font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); margin-bottom: 5px; }
+.nx-alert-title { font-size: 13px; color: var(--star); cursor: pointer; font-style: italic; }
+.nx-alert-title:hover { color: var(--gold); }
+.cx-item { padding: 7px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
+.cx-item:hover .cx-name { color: var(--gold); }
+.cx-name { font-size: 13px; color: var(--pale); font-style: italic; transition: .12s; }
+.cx-count { font-size: 10px; color: var(--dim); margin-top: 1px; }
+.theme-cloud { display: flex; flex-wrap: wrap; gap: 5px; }
+.t-tag { font-size: 10px; padding: 2px 7px; border: 1px solid var(--border); color: var(--dim); cursor: pointer; transition: .12s; }
+.t-tag:hover { border-color: var(--goldd); color: var(--gold); }
+.stats { font-size: 11px; color: var(--dim); line-height: 2.1; }
+.stats span { color: var(--pale); }
+</style>
+</head>
+<body>
+<div class="shell">
+
+<header>
+  <div class="wordmark">✦ CODEX ARCHIVE <span>v1.1</span></div>
+  <nav>
+    <button class="tab on" id="t-feed" onclick="show('feed')">Archive</button>
+    <button class="tab" id="t-nexus" onclick="show('nexus')">Nexus</button>
+    <button class="tab" id="t-graph" onclick="show('graph')">Graph</button>
+    <button class="tab" id="t-compose" onclick="show('compose')">Compose</button>
+  </nav>
+  <div class="live"><span class="dot"></span> LIVE</div>
+</header>
+
+<div class="grid">
+
+<aside>
+  <div class="s-section">
+    <div class="s-label">Object Types</div>
+    <div class="s-item on" onclick="filter('all',this)">All Objects</div>
+    <div class="s-item" onclick="filter('scroll',this)"><span class="badge b-sc">SC</span> Scrolls</div>
+    <div class="s-item" onclick="filter('artifact',this)"><span class="badge b-ar">AR</span> Artifacts</div>
+    <div class="s-item" onclick="filter('field-log',this)"><span class="badge b-fl">FL</span> Field Logs</div>
+    <div class="s-item" onclick="filter('codex',this)"><span class="badge b-cd">CD</span> Codex</div>
+    <div class="s-item" onclick="filter('fragment',this)"><span class="badge b-fr">FR</span> Fragments</div>
+    <div class="s-item" onclick="filter('nexus',this)"><span class="badge b-nx">NX</span> Nexus</div>
+  </div>
+  <div class="s-section">
+    <div class="s-label">Object Index</div>
+    <div id="idx"></div>
+  </div>
+</aside>
+
+<main>
+  <div class="panel on" id="p-feed">
+    <div id="feed-list">
+      <div class="feed-head">
+        <div class="feed-title">ARCHIVE</div>
+        <div class="feed-sub" id="feed-sub">All objects · Chronological</div>
+      </div>
+      <div class="feed-body" id="cards"></div>
+    </div>
+    <div class="detail" id="detail">
+      <div class="detail-nav">
+        <button class="back" onclick="closeDetail()">← Archive</button>
+        <span class="bc" id="bc"></span>
+      </div>
+      <div id="detail-mount"></div>
+    </div>
+  </div>
+
+  <div class="panel" id="p-nexus">
+    <div id="nx-list">
+      <div class="feed-head">
+        <div class="feed-title">NEXUS</div>
+        <div class="feed-sub">Curated transmissions</div>
+      </div>
+      <div class="feed-body" id="nx-cards"></div>
+    </div>
+    <div class="detail" id="nx-detail">
+      <div class="detail-nav">
+        <button class="back" onclick="closeNx()">← Nexus</button>
+      </div>
+      <div id="nx-mount"></div>
+    </div>
+  </div>
+
+  <div class="panel" id="p-graph">
+    <div class="graph-wrap">
+      <canvas id="gc"></canvas>
+      <div class="g-legend">
+        <div class="s-label">Node Types</div>
+        <div class="l-item"><svg width="10" height="10" class="l-dot"><circle cx="5" cy="5" r="4" fill="rgba(90,223,138,.5)" stroke="#5adf8a" stroke-width="1"/></svg> Scroll</div>
+        <div class="l-item"><svg width="10" height="10" class="l-sq"><rect x="1" y="1" width="8" height="8" fill="rgba(224,96,48,.5)" stroke="#e06030" stroke-width="1"/></svg> Artifact</div>
+        <div class="l-item"><svg width="8" height="8" class="l-dot"><circle cx="4" cy="4" r="3" fill="rgba(122,122,82,.5)" stroke="#7a7a52" stroke-width="1"/></svg> Field Log</div>
+        <div class="l-item"><svg width="12" height="12" class="l-dot"><circle cx="6" cy="6" r="5" fill="rgba(200,168,75,.5)" stroke="#c8a84b" stroke-width="1.5"/></svg> Nexus</div>
+        <div class="l-item"><svg width="8" height="8" class="l-dot"><circle cx="4" cy="4" r="3" fill="rgba(74,74,48,.7)" stroke="#4a4a30" stroke-width="1"/></svg> Fragment</div>
+      </div>
+      <div class="g-tip" id="tip">
+        <div class="g-tip-title" id="tip-title"></div>
+        <div class="g-tip-meta" id="tip-meta"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="p-compose">
+    <div class="compose-wrap">
+      <div class="c-title">COMPOSE</div>
+      <div class="c-sub">Shorthand Authoring</div>
+      <div class="c-cols">
+        <div>
+          <div class="c-col-label">Shorthand Input</div>
+          <textarea id="raw" placeholder="::scroll&#10;# YOUR TITLE&#10;@d 2026-03-04&#10;@th theme-one, theme-two&#10;@cx Constellation Name&#10;@x Your excerpt line.&#10;&#10;Body text begins here.&#10;::" oninput="parse()"></textarea>
+        </div>
+        <div>
+          <div class="c-col-label">Structured Preview</div>
+          <div class="c-preview" id="preview"><span class="p-hint">Begin typing shorthand…</span></div>
+        </div>
+      </div>
+      <div class="c-actions">
+        <button class="c-btn primary" onclick="addObj()">✦ Add to Archive</button>
+        <button class="c-btn sec" onclick="clearC()">Clear</button>
+        <div class="c-toast" id="toast"><span class="dot"></span> Object added</div>
+      </div>
+      <div class="ref-box">
+        <div class="s-label">Shorthand Reference</div>
+        <div class="ref-grid">
+          <div class="ref-row"><span class="ref-cmd">::scroll</span><span class="ref-desc">Open scroll</span></div>
+          <div class="ref-row"><span class="ref-cmd">@d</span><span class="ref-desc">Date YYYY-MM-DD</span></div>
+          <div class="ref-row"><span class="ref-cmd">::artifact</span><span class="ref-desc">Open artifact</span></div>
+          <div class="ref-row"><span class="ref-cmd">@th</span><span class="ref-desc">Themes, comma-sep</span></div>
+          <div class="ref-row"><span class="ref-cmd">::field-log</span><span class="ref-desc">Open field log</span></div>
+          <div class="ref-row"><span class="ref-cmd">@cx</span><span class="ref-desc">Constellation</span></div>
+          <div class="ref-row"><span class="ref-cmd">::fragment</span><span class="ref-desc">Open fragment</span></div>
+          <div class="ref-row"><span class="ref-cmd">@x</span><span class="ref-desc">Excerpt line</span></div>
+          <div class="ref-row"><span class="ref-cmd">::</span><span class="ref-desc">Close object</span></div>
+          <div class="ref-row"><span class="ref-cmd">@st</span><span class="ref-desc">Status</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<aside class="rail">
+  <div class="rail-section">
+    <div class="s-label">Latest Nexus</div>
+    <div class="nx-alert">
+      <div class="nx-alert-label">✦ Nexus Issue #001</div>
+      <div class="nx-alert-title" onclick="openObj('nx-signal-descent')">Signal Descent: A Guided Reading</div>
+    </div>
+  </div>
+  <div class="rail-section">
+    <div class="s-label">Constellations</div>
+    <div id="cxlist"></div>
+  </div>
+  <div class="rail-section">
+    <div class="s-label">Theme Cloud</div>
+    <div class="theme-cloud" id="tcloud"></div>
+  </div>
+  <div class="rail-section">
+    <div class="s-label">Archive Stats</div>
+    <div class="stats" id="stats"></div>
+  </div>
+</aside>
+
+</div>
+</div>
+
+<script>
+const A = [
+  { id:'nx-signal-descent', type:'nexus', title:'SIGNAL DESCENT', subtitle:'Nexus Issue #001', date:'2026-03-04',
+    themes:['signal','memory','pressure','transmission'], constellations:['Cascade Psalms'],
+    excerpt:'The archive occasionally speaks. This is one of those moments.',
+    intro:'This issue assembles four objects around a single question: what survives compression? Not transcendence. Not relief. The thing that holds its shape when the weight is applied.',
+    seq:[{ref:'sc-signal-harvest',role:'Opening Transmission'},{ref:'ar-under-load',role:'Visual Document'},{ref:'fl-morning-walk',role:'Field Evidence'},{ref:'sc-bones-hold',role:'Closing Affirmation'}] },
+  { id:'sc-signal-harvest', type:'scroll', title:'SIGNAL HARVEST', date:'2026-03-01',
+    themes:['signal','memory','crystallization'], constellations:['Cascade Psalms'],
+    excerpt:'Crystal does not rush.',
+    body:`Crystal does not rush.\n\nIt forms in the dark, under conditions the eye cannot follow.\n\nPressure is not the enemy of the soft thing.\nPressure is how the soft thing learns what it is.\n\nWe have been collecting signals for years.\nNot because we knew what to do with them.\nBecause they were there and we could not look away.\n\nThe harvest is not a moment.\nThe harvest is the ongoing act of noticing.\n\nThe archive is the barn.\nWhat we call memory is the field.` },
+  { id:'sc-bones-hold', type:'scroll', title:'THE BONES HOLD', date:'2026-02-28',
+    themes:['maintenance','survival','structure','pressure'], constellations:['Maintenance Psalms','Cascade Psalms'],
+    excerpt:'A website is not a page. A body is not a feeling.', related:['sc-signal-harvest'],
+    body:`A website is not a page.\nA body is not a feeling.\nA system is not any single Tuesday.\n\nThe bones hold.\nNot because they are extraordinary.\nBecause they were built for holding.\n\nWe are not trying to transcend the weight.\nWe are trying to remain accurate under it.\n\nThere is no cure.\nThere is maintenance.\nThere is the practice of continuing.\n\nThe archive records the practice.\nNot the peak moments. Not the revelations.\nThe Tuesdays.\n\nEspecially the Tuesdays.` },
+  { id:'ar-under-load', type:'artifact', title:'UNDER LOAD', date:'2026-02-24',
+    themes:['pressure','collage','comics'], constellations:['Archaeological Objects'],
+    excerpt:'Skateboard deck. Comic panel collage. 8.25 x 32.',
+    materials:'Comic panels, archival adhesive, polyurethane, skateboard deck', dimensions:'8.25" x 32"',
+    body:`The deck is the field.\n\nPanels extracted from various sources, 1987-2004.\nAction sequences. Compression moments. Bodies mid-impact.\n\nThe assembly process took eleven sessions across three weeks.\n\nThe polyurethane makes it permanent. This was deliberate.\n\nA skateboard is already a pressure instrument.\nAdd language about withstanding.\nThe object becomes a document.` },
+  { id:'fl-morning-walk', type:'field-log', title:'FIELD LOG: NORTH GEORGIA', date:'2026-03-03',
+    themes:['place','maintenance','morning','observation'], constellations:['Maintenance Psalms'],
+    excerpt:'Fog at 6:40am. The ridge line was not visible. The ridge line was still there.',
+    body:`06:40 - Fog. Ridge not visible.\n06:52 - Dog stops at the culvert. Listens.\n07:04 - First light through the longleaf.\n07:11 - Crow.\n07:18 - Hip at 5/10. Acceptable for walking.\n07:24 - Turned back at the oak with the lightning scar.\n07:31 - Home. Coffee. Begin.\n\nThe ridge line was not visible this morning.\nThe ridge line was still there.\n\nThe difference between these two statements\ncontains everything I am trying to say about maintenance.` },
+  { id:'fr-architecture-note', type:'fragment', title:'On Object-Oriented Archives', date:'2026-02-20',
+    themes:['systems','architecture','signal'], constellations:[],
+    excerpt:'Pages are not the fundamental unit. Objects are.',
+    body:`Pages are not the fundamental unit.\n\nObjects are.\n\nAn object contains type, identity, fields, and relationships.\n\nA page is merely one rendering of an object.\n\nThe archive that organizes by page will collapse.\nThe archive that organizes by object will survive.` },
+  { id:'cd-codex-system', type:'codex', title:'CODEX ARCHIVE SYSTEM v1.1', date:'2026-03-04',
+    themes:['systems','architecture','methodology'], constellations:[],
+    excerpt:'Object-Oriented Constellation Architecture. The system survives Tuesdays.',
+    body:`Version 1.1 - Object-Oriented Constellation Architecture.\n\nTHE SPINE consists of three elements:\nContent Types, Navigation, Field Contracts.\n\nTHE TEN SACRED FIELDS:\nid, type, title, date, themes, constellations,\nexcerpt, images, related, status.\n\nTHE OBJECT TYPES:\nScroll, Artifact, Field Log, Codex, Fragment, Nexus Issue.\n\nThe archive grows continuously.\n\nThe system survives Tuesdays.` },
+];
+
+const BADGE = { scroll:'<span class="badge b-sc">SC</span>', artifact:'<span class="badge b-ar">AR</span>', 'field-log':'<span class="badge b-fl">FL</span>', codex:'<span class="badge b-cd">CD</span>', fragment:'<span class="badge b-fr">FR</span>', nexus:'<span class="badge b-nx">NX</span>' };
+const CLS = { scroll:'sc', artifact:'ar', nexus:'nx', codex:'cd' };
+
+function get(id) { return A.find(o=>o.id===id); }
+
+function related(obj) {
+  const s={};
+  A.forEach(o=>{
+    if(o.id===obj.id) return;
+    let sc=0;
+    sc+=(obj.themes||[]).filter(t=>(o.themes||[]).includes(t)).length*2;
+    sc+=(obj.constellations||[]).filter(c=>(o.constellations||[]).includes(c)).length*3;
+    if((obj.related||[]).includes(o.id)) sc+=5;
+    if(sc>0) s[o.id]=sc;
+  });
+  return Object.entries(s).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([id,sc])=>({o:get(id),sc}));
+}
+
+function show(name) {
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('p-'+name).classList.add('on');
+  document.getElementById('t-'+name).classList.add('on');
+  if(name==='graph') drawGraph();
+}
+
+let cur='all';
+function filter(type, el) {
+  cur=type;
+  document.querySelectorAll('aside .s-item').forEach(i=>i.classList.remove('on'));
+  el.classList.add('on');
+  show('feed'); closeDetail(); renderFeed();
+}
+
+function card(obj) {
+  const themes=(obj.themes||[]).map(t=>`<span class="tag" onclick="event.stopPropagation();byTheme('${t}')">${t}</span>`).join('');
+  return `<div class="card ${CLS[obj.type]||''}" onclick="openObj('${obj.id}')">
+    <div class="card-meta">${BADGE[obj.type]||''}<span class="card-date">${obj.date}</span><span class="card-id">${obj.id}</span></div>
+    <div class="card-title">${obj.title}</div>
+    <div class="card-excerpt">${obj.excerpt}</div>
+    ${themes?`<div class="card-themes">${themes}</div>`:''}
+  </div>`;
+}
+
+function renderFeed(list,sub) {
+  let items=list||A.slice().sort((a,b)=>b.date.localeCompare(a.date));
+  if(!list&&cur!=='all') items=items.filter(o=>o.type===cur);
+  document.getElementById('cards').innerHTML=items.map(card).join('');
+  document.getElementById('feed-sub').textContent=sub||(cur==='all'?'All objects - Chronological':'Type: '+cur);
+}
+
+function byTheme(t) { show('feed');closeDetail();renderFeed(A.filter(o=>(o.themes||[]).includes(t)),'Theme: '+t); }
+function byCx(cx)   { show('feed');closeDetail();renderFeed(A.filter(o=>(o.constellations||[]).includes(cx)),'Constellation: '+cx); }
+
+function openObj(id) {
+  const obj=get(id);
+  if(!obj) return;
+  if(obj.type==='nexus'){openNx(id);return;}
+  show('feed');
+  document.getElementById('feed-list').style.display='none';
+  document.getElementById('detail').classList.add('on');
+  document.getElementById('bc').textContent=obj.title;
+  const cx=(obj.constellations||[]).map(c=>`<span style="cursor:pointer" onclick="byCx('${c}')">${c}</span>`).join(' - ');
+  const rel=related(obj);
+  const relH=rel.length?`<div class="related"><div class="r-label">Related Works</div>${rel.map(r=>`<div class="r-item" onclick="openObj('${r.o.id}')">${BADGE[r.o.type]||''}<span class="r-title">${r.o.title}</span><span class="r-score">${r.sc} signals</span></div>`).join('')}</div>`:'';
+  const extra=obj.materials?`<div style="font-size:11px;color:var(--dim);margin-bottom:4px"><span style="color:var(--mid)">Materials:</span> ${obj.materials}</div><div style="font-size:11px;color:var(--dim);margin-bottom:16px"><span style="color:var(--mid)">Dimensions:</span> ${obj.dimensions}</div>`:'';
+  const bodyH=(obj.body||'').split('\n').map(l=>l.trim()?`<p>${l}</p>`:'<p>&nbsp;</p>').join('');
+  document.getElementById('detail-mount').innerHTML=`<div class="detail-body">
+    <div class="d-meta">${BADGE[obj.type]||''}<span class="d-id">${obj.id}</span><span class="d-date">${obj.date}</span></div>
+    <div class="d-title">${obj.title}</div>
+    ${cx?`<div class="d-cx">✦ ${cx}</div>`:''}${extra}
+    <hr class="d-rule"><div class="d-text">${bodyH}</div>${relH}
+  </div>`;
+}
+
+function closeDetail() {
+  document.getElementById('feed-list').style.display='';
+  document.getElementById('detail').classList.remove('on');
+}
+
+function openNx(id) {
+  const nx=get(id); show('nexus');
+  document.getElementById('nx-list').style.display='none';
+  document.getElementById('nx-detail').classList.add('on');
+  const items=(nx.seq||[]).map((s,i)=>{const obj=get(s.ref);if(!obj)return'';return`<div class="nx-item" onclick="openObj('${obj.id}')"><div class="nx-num">0${i+1}</div><div><div class="nx-role">${BADGE[obj.type]||''} ${s.role.toUpperCase()}</div><div class="nx-title">${obj.title}</div><div class="nx-excerpt">${obj.excerpt}</div></div></div>`;}).join('');
+  document.getElementById('nx-mount').innerHTML=`<div class="detail-body"><div class="d-meta">${BADGE['nexus']}<span class="d-id">${nx.id}</span><span class="d-date">${nx.date}</span></div><div class="d-title">${nx.title}</div><div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:20px">${nx.subtitle||''}</div><div class="nx-intro">${nx.intro||''}</div>${items}</div>`;
+}
+
+function closeNx() {
+  document.getElementById('nx-list').style.display='';
+  document.getElementById('nx-detail').classList.remove('on');
+}
+
+function renderIndex() {
+  document.getElementById('idx').innerHTML=A.map(o=>`<div class="s-item" onclick="openObj('${o.id}')">${BADGE[o.type]||''}<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px">${o.title}</span></div>`).join('');
+}
+function renderNxCards() { document.getElementById('nx-cards').innerHTML=A.filter(o=>o.type==='nexus').map(card).join(''); }
+function renderCx() {
+  const m={};A.forEach(o=>(o.constellations||[]).forEach(c=>{m[c]=(m[c]||0)+1;}));
+  document.getElementById('cxlist').innerHTML=Object.entries(m).map(([n,c])=>`<div class="cx-item" onclick="byCx('${n}')"><div class="cx-name">${n}</div><div class="cx-count">${c} object${c===1?'':'s'}</div></div>`).join('');
+}
+function renderCloud() {
+  const f={};A.forEach(o=>(o.themes||[]).forEach(t=>{f[t]=(f[t]||0)+1;}));
+  const mx=Math.max(...Object.values(f));
+  document.getElementById('tcloud').innerHTML=Object.entries(f).sort((a,b)=>b[1]-a[1]).map(([t,n])=>`<span class="t-tag" style="${n>=mx*.7?'color:var(--pale)':''}" onclick="byTheme('${t}')">${t}</span>`).join('');
+}
+function renderStats() {
+  const cnt=type=>A.filter(o=>o.type===type).length;
+  document.getElementById('stats').innerHTML=`<div><span>${A.length}</span> total objects</div><div><span>${cnt('scroll')}</span> scrolls</div><div><span>${cnt('artifact')}</span> artifacts</div><div><span>${cnt('field-log')}</span> field logs</div><div><span>${cnt('nexus')}</span> nexus issues</div>`;
+}
+
+let raf, gnodes=[], gedges=[];
+function buildGraph() {
+  gnodes=A.map(o=>({id:o.id,type:o.type,label:o.title,x:0,y:0,vx:0,vy:0}));
+  gedges=[];
+  A.forEach((a,i)=>A.forEach((b,j)=>{
+    if(j<=i) return;
+    let s=(a.themes||[]).filter(t=>(b.themes||[]).includes(t)).length;
+    s+=(a.constellations||[]).filter(c=>(b.constellations||[]).includes(c)).length*2;
+    s+=(a.related||[]).includes(b.id)?3:0;
+    if(s>0) gedges.push({a:a.id,b:b.id,s});
+  }));
+  A.filter(o=>o.type==='nexus').forEach(nx=>{(nx.seq||[]).forEach(s=>{if(get(s.ref)) gedges.push({a:nx.id,b:s.ref,s:4});});});
+}
+
+function drawGraph() {
+  const cv=document.getElementById('gc'),wrap=cv.parentElement;
+  cv.width=wrap.clientWidth; cv.height=wrap.clientHeight;
+  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
+  buildGraph();
+  gnodes.forEach((n,i)=>{const a=(i/gnodes.length)*Math.PI*2,r=Math.min(W,H)*.28;n.x=W/2+Math.cos(a)*r;n.y=H/2+Math.sin(a)*r;});
+  const TC={scroll:'#5adf8a',artifact:'#e06030','field-log':'#7a7a52',codex:'#c8a84b',fragment:'#4a4a30',nexus:'#c8a84b'};
+  const TS={scroll:8,artifact:7,'field-log':5,codex:9,fragment:4,nexus:12};
+  const tip=document.getElementById('tip'),tT=document.getElementById('tip-title'),tM=document.getElementById('tip-meta');
+  cv.onmousemove=e=>{
+    const r=cv.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;
+    let hit=null;
+    gnodes.forEach(n=>{const rs=TS[n.type]||7,dx=n.x-mx,dy=n.y-my;if(dx*dx+dy*dy<(rs+4)*(rs+4))hit=n;});
+    if(hit){tip.classList.add('on');tip.style.left=(mx+12)+'px';tip.style.top=(my-10)+'px';tT.textContent=hit.label;tM.textContent=hit.type+' - '+(get(hit.id)?.date||'');cv.style.cursor='pointer';}
+    else{tip.classList.remove('on');cv.style.cursor='default';}
+  };
+  cv.onclick=e=>{const r=cv.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;gnodes.forEach(n=>{const rs=TS[n.type]||7,dx=n.x-mx,dy=n.y-my;if(dx*dx+dy*dy<(rs+4)*(rs+4))openObj(n.id);});};
+  if(raf) cancelAnimationFrame(raf);
+  function tick() {
+    gnodes.forEach(n=>{n.vx=0;n.vy=0;});
+    for(let i=0;i<gnodes.length;i++) for(let j=i+1;j<gnodes.length;j++){const a=gnodes[i],b=gnodes[j],dx=a.x-b.x,dy=a.y-b.y,d=Math.max(Math.sqrt(dx*dx+dy*dy),1),f=1600/(d*d);a.vx+=(dx/d)*f;a.vy+=(dy/d)*f;b.vx-=(dx/d)*f;b.vy-=(dy/d)*f;}
+    gedges.forEach(e=>{const a=gnodes.find(n=>n.id===e.a),b=gnodes.find(n=>n.id===e.b);if(!a||!b)return;const dx=b.x-a.x,dy=b.y-a.y,d=Math.sqrt(dx*dx+dy*dy),ideal=160-e.s*12,f=(d-ideal)*.018;a.vx+=(dx/d)*f;a.vy+=(dy/d)*f;b.vx-=(dx/d)*f;b.vy-=(dy/d)*f;});
+    gnodes.forEach(n=>{n.vx+=(W/2-n.x)*.002;n.vy+=(H/2-n.y)*.002;n.x=Math.max(40,Math.min(W-40,n.x+n.vx*.86));n.y=Math.max(40,Math.min(H-40,n.y+n.vy*.86));});
+  }
+  function draw() {
+    tick();ctx.clearRect(0,0,W,H);
+    gedges.forEach(e=>{const a=gnodes.find(n=>n.id===e.a),b=gnodes.find(n=>n.id===e.b);if(!a||!b)return;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle=`rgba(42,42,26,${.25+e.s*.06})`;ctx.lineWidth=Math.min(e.s*.4,1.5);ctx.stroke();});
+    gnodes.forEach(n=>{const rs=TS[n.type]||7,col=TC[n.type]||'#7a7a52';ctx.beginPath();if(n.type==='artifact')ctx.rect(n.x-rs,n.y-rs,rs*2,rs*2);else ctx.arc(n.x,n.y,rs,0,Math.PI*2);ctx.fillStyle=col+'28';ctx.fill();ctx.strokeStyle=col;ctx.lineWidth=n.type==='nexus'?1.5:1;ctx.stroke();if(n.type==='nexus'){ctx.beginPath();ctx.arc(n.x,n.y,rs+5,0,Math.PI*2);ctx.strokeStyle=col+'28';ctx.lineWidth=1;ctx.stroke();}ctx.fillStyle='#b8b890';ctx.font='10px "Courier New",monospace';ctx.textAlign='center';ctx.fillText(n.label.length>20?n.label.slice(0,19)+'...':n.label,n.x,n.y+rs+13);});
+    raf=requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+let parsed=null;
+function parse() {
+  const raw=document.getElementById('raw').value,prev=document.getElementById('preview');
+  const tm=raw.match(/^::([\w-]+)/m);
+  if(!tm){prev.innerHTML='<span class="p-hint">Begin with ::type...</span>';return;}
+  const type=tm[1],titleM=raw.match(/^#+\s*(.+)$/m),title=titleM?titleM[1].trim():'(untitled)';
+  const id=type.slice(0,2)+'-'+title.replace(/[^a-z0-9]+/gi,'-').toLowerCase().slice(0,20);
+  const dateM=raw.match(/@d\s+(\S+)/),thM=raw.match(/@th\s+(.+)/),cxM=raw.match(/@cx\s+(.+)/),xM=raw.match(/@x\s+(.+)/),stM=raw.match(/@st\s+(\S+)/);
+  const body=raw.split('\n').filter(l=>!l.startsWith(':')&&!l.startsWith('#')&&!l.startsWith('@')&&l.trim()).join('\n');
+  prev.innerHTML=`<div class="p-field"><span class="p-key">type:</span><span class="p-val">${type}</span></div><div class="p-field"><span class="p-key">id:</span><span class="p-val">${id}</span></div><div class="p-field"><span class="p-key">title:</span><span class="p-val">${title}</span></div>${dateM?`<div class="p-field"><span class="p-key">date:</span><span class="p-val">${dateM[1]}</span></div>`:''} ${thM?`<div class="p-field"><span class="p-key">themes:</span><span class="p-val">[${thM[1]}]</span></div>`:''} ${cxM?`<div class="p-field"><span class="p-key">constellation:</span><span class="p-val">${cxM[1]}</span></div>`:''} ${xM?`<div class="p-field"><span class="p-key">excerpt:</span><span class="p-val">${xM[1]}</span></div>`:''} ${stM?`<div class="p-field"><span class="p-key">status:</span><span class="p-val">${stM[1]}</span></div>`:''}<hr class="p-rule"><div class="p-body">${body}</div>`;
+  parsed={id,type,title,date:dateM?dateM[1]:new Date().toISOString().slice(0,10),themes:thM?thM[1].split(',').map(t=>t.trim()):[],constellations:cxM?[cxM[1].trim()]:[],excerpt:xM?xM[1].trim():body.split('\n')[0]||'',status:stM?stM[1]:'draft',body};
+}
+
+function addObj() {
+  if(!parsed) return;
+  if(!A.find(o=>o.id===parsed.id)){A.unshift(parsed);renderFeed();renderIndex();renderCx();renderCloud();renderStats();renderNxCards();}
+  const t=document.getElementById('toast');t.classList.add('on');setTimeout(()=>t.classList.remove('on'),3000);
+}
+function clearC() { document.getElementById('raw').value='';document.getElementById('preview').innerHTML='<span class="p-hint">Begin typing shorthand...</span>';parsed=null; }
+
+renderFeed(); renderIndex(); renderCx(); renderCloud(); renderStats(); renderNxCards();
+</script>
+</body>
+</html>

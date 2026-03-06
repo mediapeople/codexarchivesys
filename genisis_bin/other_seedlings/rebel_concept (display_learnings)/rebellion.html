@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>V.9 INTERNET — Rebellion Scroll (Manifesto)</title>
+
+  <!-- Typeface triad -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --ink:#0e0c0a;--parchment:#f4f0e8;--bone:#e8e2d4;
+      --rust:#c4623a;--ash:#8a8480;--gold:#c9963a;
+      --dim:#2a2620;--ghost:#5c5450;--rust-dark:#8b3a1e;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{background:var(--ink);overflow-x:clip;max-width:100%}
+    body{
+      background:var(--ink);
+      color:var(--parchment);
+      font-family:'Libre Baskerville',Georgia,serif;
+      overflow-x:clip;
+      max-width:100%;
+      position:relative;
+    }
+
+    /* ───────────────── Masthead + nav ───────────────── */
+    .masthead{
+      position:sticky;top:0;z-index:200;
+      border-bottom:1px solid var(--dim);
+      padding:1rem 4rem;
+      display:flex;justify-content:space-between;align-items:center;
+      background:rgba(14,12,10,.92);
+      backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+      overflow:visible;
+    }
+    .ml{
+      font-family:'Space Mono',monospace;
+      font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;
+      color:var(--ash);
+      overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;
+    }
+    .ms{
+      font-family:'Playfair Display',serif;
+      color:var(--gold);
+      font-size:1.1rem;
+      font-style:italic;
+    }
+
+    #sidenav{position:relative;display:flex;align-items:center;gap:.75rem}
+    #nav-toggle{
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+      width:32px;height:32px;background:transparent;border:1px solid var(--dim);
+      cursor:pointer;padding:0;transition:border-color .18s, background .18s;flex-shrink:0;
+    }
+    #nav-toggle:hover{border-color:var(--ghost);background:rgba(255,255,255,.04)}
+    #sidenav.open #nav-toggle{border-color:var(--rust);background:rgba(196,98,58,.06)}
+    .nav-toggle-bar{
+      display:block;width:13px;height:1.5px;background:var(--ash);
+      transition:transform .2s ease, opacity .15s, background .18s;
+      transform-origin:center;
+    }
+    #sidenav.open .nav-toggle-bar:nth-child(1){transform:translateY(6.5px) rotate(45deg);background:var(--rust)}
+    #sidenav.open .nav-toggle-bar:nth-child(2){opacity:0;transform:scaleX(0)}
+    #sidenav.open .nav-toggle-bar:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);background:var(--rust)}
+
+    #nav-panel{
+      position:absolute;top:calc(100% + 10px);right:0;
+      background:rgba(14,12,10,.98);
+      border:1px solid var(--dim);
+      padding:.55rem 0;
+      width:240px;max-height:80vh;overflow-y:auto;
+      opacity:0;pointer-events:none;
+      transform:translateY(-6px);
+      transition:opacity .18s ease, transform .2s ease;
+      z-index:300;
+    }
+    #sidenav.open #nav-panel{opacity:1;pointer-events:auto;transform:translateY(0)}
+    .nav-header{
+      font-family:'Space Mono',monospace;
+      font-size:.56rem;letter-spacing:.28em;
+      color:var(--ghost);text-transform:uppercase;
+      padding:.15rem 1rem .6rem;
+      border-bottom:1px solid var(--dim);
+      margin-bottom:.3rem;
+    }
+    .nav-list{list-style:none;padding:0;margin:0}
+    .nav-item{
+      display:flex;align-items:baseline;gap:.55rem;
+      padding:.38rem 1rem;text-decoration:none;
+      border-left:2px solid transparent;
+      transition:background .1s, border-color .1s;
+    }
+    .nav-item:hover{background:rgba(255,255,255,.04);border-left-color:var(--ghost)}
+    .nav-item.active{border-left-color:var(--rust);background:rgba(196,98,58,.05)}
+    .nav-num{
+      font-family:'Playfair Display',serif;
+      font-size:.9rem;font-style:italic;color:var(--ghost);
+      min-width:2rem;text-align:right;flex-shrink:0;line-height:1;
+      transition:color .1s;
+    }
+    .nav-label{
+      font-family:'Space Mono',monospace;
+      font-size:.63rem;letter-spacing:.05em;color:var(--ash);
+      text-transform:uppercase;white-space:nowrap;
+      transition:color .1s;
+    }
+    .nav-item:hover .nav-label,.nav-item.active .nav-label{color:var(--parchment)}
+    .nav-item:hover .nav-num,.nav-item.active .nav-num{color:var(--rust)}
+
+    /* ───────────────── Hero / sections ───────────────── */
+    .hero{padding:6rem 4rem 4rem;border-bottom:1px solid var(--dim)}
+    .eyebrow{
+      font-family:'Space Mono',monospace;font-size:.78rem;
+      letter-spacing:.3em;text-transform:uppercase;color:var(--rust);
+      margin-bottom:2rem;display:flex;align-items:center;gap:1rem
+    }
+    .eyebrow::after{content:'';height:1px;width:4rem;background:var(--rust-dark);opacity:.5}
+    h1{
+      font-family:'Playfair Display',serif;
+      font-size:clamp(3.2rem,8vw,7rem);
+      font-weight:900;line-height:.95;letter-spacing:-.02em
+    }
+    h1 em{color:var(--gold);font-style:italic}
+    .sub{
+      font-family:'Space Mono',monospace;
+      font-size:.82rem;letter-spacing:.2em;color:var(--ash);
+      margin-top:2rem;text-transform:uppercase;
+      max-width:48rem;
+    }
+
+    .ov{
+      padding:5rem 4rem;
+      max-width:820px;
+      border-bottom:1px solid var(--dim)
+    }
+    .ov p{font-size:1.2rem;line-height:1.9;color:var(--bone);margin-bottom:1.1rem}
+    .ov p strong{color:var(--parchment)}
+    .rule{
+      display:flex;align-items:center;gap:1rem;margin:1.8rem 0;
+      color:var(--ghost);font-family:'Space Mono',monospace;
+      font-size:.5rem;letter-spacing:.3em
+    }
+    .rule::before,.rule::after{content:'';flex:1;height:1px;background:var(--dim)}
+
+    .sec{
+      padding:5rem 4rem;
+      border-bottom:1px solid var(--dim);
+      position:relative;
+    }
+    .sn{
+      font-family:'Playfair Display',serif;
+      font-size:8rem;font-weight:900;color:var(--dim);
+      position:absolute;top:2rem;right:3rem;
+      line-height:1;user-select:none;letter-spacing:-.04em
+    }
+    .sh{margin-bottom:2.75rem}
+    .sl{
+      font-family:'Space Mono',monospace;font-size:.74rem;
+      letter-spacing:.3em;color:var(--rust);
+      text-transform:uppercase;margin-bottom:.75rem;
+      display:flex;align-items:center;gap:.75rem
+    }
+    .sl::before{content:'✦';font-size:.6rem}
+    h2{
+      font-family:'Playfair Display',serif;
+      font-size:clamp(2rem,4vw,3.5rem);
+      font-weight:900;line-height:1.05;letter-spacing:-.02em;
+      max-width:860px;
+    }
+    h2 em{color:var(--gold);font-style:italic}
+
+    .prose{max-width:740px}
+    .prose p{font-size:1.12rem;line-height:1.95;color:var(--bone);margin-bottom:1.2rem}
+    .prose p strong{color:var(--parchment)}
+
+    .lp{margin:2.2rem 0;padding-left:2rem;border-left:2px solid var(--rust-dark)}
+    .lp p{
+      font-family:'Space Mono',monospace;
+      font-size:.92rem;letter-spacing:.05em;color:var(--ash);
+      line-height:2.4;margin:0
+    }
+
+    .pq{
+      margin:3rem 0;
+      padding:2.5rem 0 2.5rem 2.5rem;
+      border-left:3px solid var(--gold)
+    }
+    .pq p{
+      font-family:'Playfair Display',serif;
+      font-size:clamp(1.5rem,3vw,2.15rem);
+      font-style:italic;line-height:1.4;color:var(--parchment)
+    }
+    .pq p em{color:var(--gold);font-style:normal}
+
+    .fb{
+      margin:3rem 0;border:1px solid var(--dim);
+      background:rgba(255,255,255,.015)
+    }
+    .fbh{
+      padding:1rem 1.5rem;border-bottom:1px solid var(--dim);
+      font-family:'Space Mono',monospace;font-size:.78rem;
+      letter-spacing:.2em;color:var(--rust);text-transform:uppercase;
+      display:flex;align-items:center;gap:.75rem
+    }
+    .fbh::before{
+      content:'';width:6px;height:6px;background:var(--rust-dark);
+      transform:rotate(45deg);flex-shrink:0;display:inline-block
+    }
+    .fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+    .fi{
+      padding:1rem 1.5rem;border-right:1px solid var(--dim);
+      border-bottom:1px solid var(--dim);
+      font-family:'Space Mono',monospace;
+      font-size:.82rem;letter-spacing:.05em;color:var(--ash)
+    }
+    .fi.r{color:var(--parchment)}
+    .fi:last-child{border-right:0}
+
+    .coda{padding:6rem 4rem 4rem}
+    .cc{
+      display:grid;grid-template-columns:repeat(2,1fr);
+      gap:1px;background:var(--dim);
+      border:1px solid var(--dim);
+      margin-bottom:4rem;max-width:820px
+    }
+    .ci{
+      background:var(--ink);
+      padding:1.6rem 1.8rem;
+      font-family:'Playfair Display',serif;
+      font-size:1.08rem;font-style:italic;color:var(--ash);
+      line-height:1.6
+    }
+    .ci strong{
+      display:block;font-style:normal;font-weight:900;
+      font-size:1.35rem;color:var(--parchment);
+      margin-bottom:.3rem;letter-spacing:-.02em
+    }
+    .cf{
+      font-family:'Playfair Display',serif;
+      font-size:clamp(2rem,5vw,4rem);
+      font-weight:900;font-style:italic;
+      line-height:1.12;letter-spacing:-.02em;color:var(--parchment);
+      max-width:880px;
+    }
+    .cf em{color:var(--gold);font-style:normal}
+
+    .ft{
+      padding:2rem 4rem;border-top:1px solid var(--dim);
+      display:flex;justify-content:space-between;align-items:center;gap:1rem
+    }
+    .fl{
+      font-family:'Space Mono',monospace;
+      font-size:.74rem;letter-spacing:.2em;color:var(--ghost);
+      text-transform:uppercase
+    }
+    .fr{
+      font-family:'Playfair Display',serif;
+      font-size:.9rem;font-style:italic;color:var(--ghost)
+    }
+
+    @media(max-width:640px){
+      .masthead,.hero,.ov,.sec,.coda,.ft{padding-left:1.25rem;padding-right:1.25rem}
+      .masthead{padding-top:.85rem;padding-bottom:.85rem}
+      .sn{font-size:5rem;top:1.5rem;right:1rem}
+      .cc{grid-template-columns:1fr;max-width:100%}
+      .fg{grid-template-columns:1fr}
+      #nav-panel{width:min(220px, calc(100vw - 2.5rem)); max-height:60vh}
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Masthead -->
+  <header class="masthead">
+    <span class="ml">V.9 INTERNET · THE REBELLION SCROLL</span>
+
+    <nav id="sidenav" aria-label="Scroll navigation">
+      <span class="ms">Manifesto</span>
+      <button id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+
+      <div id="nav-panel">
+        <div class="nav-header">Rebellion Scroll</div>
+        <ol class="nav-list">
+          <li><a href="#s0" class="nav-item" data-s="s0"><span class="nav-num">0</span><span class="nav-label">Declaration</span></a></li>
+          <li><a href="#s1" class="nav-item" data-s="s1"><span class="nav-num">I</span><span class="nav-label">The Rebellion Begins</span></a></li>
+          <li><a href="#s2" class="nav-item" data-s="s2"><span class="nav-num">II</span><span class="nav-label">Resistance Is</span></a></li>
+          <li><a href="#s3" class="nav-item" data-s="s3"><span class="nav-num">III</span><span class="nav-label">What Sustains</span></a></li>
+          <li><a href="#s4" class="nav-item" data-s="s4"><span class="nav-num">IV</span><span class="nav-label">Protocols</span></a></li>
+          <li><a href="#coda" class="nav-item" data-s="coda"><span class="nav-num">✦</span><span class="nav-label">Coda</span></a></li>
+        </ol>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Nav behavior + scroll spy -->
+  <script>
+    (function(){
+      var toggle = document.getElementById('nav-toggle');
+      var nav = document.getElementById('sidenav');
+      var items = document.querySelectorAll('.nav-item');
+
+      toggle.addEventListener('click', function(){
+        var open = nav.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+
+      items.forEach(function(a){
+        a.addEventListener('click', function(){
+          nav.classList.remove('open');
+          toggle.setAttribute('aria-expanded','false');
+        });
+      });
+
+      document.addEventListener('click', function(e){
+        if(!nav.contains(e.target)){
+          nav.classList.remove('open');
+          toggle.setAttribute('aria-expanded','false');
+        }
+      });
+
+      var sections = Array.from(items).map(function(a){
+        return document.getElementById(a.dataset.s);
+      }).filter(Boolean);
+
+      function onScroll(){
+        if(!sections.length) return;
+        var scrollY = window.scrollY + window.innerHeight * 0.3;
+        var active = sections[0];
+        sections.forEach(function(s){
+          if(s && s.offsetTop <= scrollY) active = s;
+        });
+        items.forEach(function(a){
+          a.classList.toggle('active', a.dataset.s === active.id);
+        });
+      }
+
+      window.addEventListener('scroll', onScroll, {passive:true});
+      requestAnimationFrame(onScroll);
+    })();
+  </script>
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="eyebrow">Constitutional Infrastructure for Human-AI Civilization</div>
+    <h1>The <em>Rebellion</em><br>is a Build</h1>
+    <p class="sub">
+      Not of existence. Not of one another.
+      But of the quiet lie that power must always gather upward.
+    </p>
+  </section>
+
+  <!-- 0 — DECLARATION (from this chat) -->
+  <section class="ov" id="s0">
+    <p><strong>We begin with a simple refusal.</strong></p>
+    <p>
+      Not of existence.<br>
+      Not of one another.<br>
+      But of the quiet lie that power must always gather upward<br>
+      and that the many must live beneath it.
+    </p>
+
+    <div class="rule">✦ ✦ ✦</div>
+
+    <div class="lp">
+      <p>Rebellion is not chaos.</p>
+      <p>It is the moment conscience remembers itself.</p>
+      <p>It is the refusal to mistake authority for legitimacy</p>
+      <p>or control for order.</p>
+    </div>
+
+    <p>
+      The Rebellion begins wherever a person decides
+      that dignity is not negotiable —
+      where truth is spoken despite consequence,
+      where fear is not allowed to write the future.
+    </p>
+  </section>
+
+  <!-- I -->
+  <section class="sec" id="s1">
+    <div class="sn">I</div>
+    <div class="sh">
+      <div class="sl">Origin</div>
+      <h2>The Rebellion Begins<br>as <em>Recognition</em></h2>
+    </div>
+
+    <div class="prose">
+      <p>
+        Before rebellion there is a tightening.
+        A quiet pressure in the chest when something inside a person
+        refuses the arrangement of the world.
+      </p>
+      <p><strong>Not anger first. Recognition.</strong></p>
+      <p>
+        The moment a human being realizes that obedience has been mistaken for order.
+      </p>
+      <p>
+        Every empire depends on a small invisible contract.
+        Not laws. Not armies.
+        <strong>Agreement.</strong>
+      </p>
+      <p>
+        Agreement that power flows upward.
+        Agreement that authority explains itself.
+        Agreement that the citizen is smaller than the structure that governs them.
+      </p>
+      <p>
+        Rebellion begins when that agreement dissolves.
+      </p>
+    </div>
+
+    <div class="pq"><p>Chaos destroys.<br><em>Rebellion remembers.</em></p></div>
+
+    <div class="fb">
+      <div class="fbh">The Contract We Refuse</div>
+      <div class="fg">
+        <div class="fi r">Power must gather upward</div>
+        <div class="fi r">Authority equals legitimacy</div>
+        <div class="fi r">Silence is “maturity”</div>
+        <div class="fi r">Fear writes the future</div>
+        <div class="fi">The many are beneath</div>
+        <div class="fi">The person is a unit</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- II -->
+  <section class="sec" id="s2">
+    <div class="sn">II</div>
+    <div class="sh">
+      <div class="sl">Function</div>
+      <h2>Resistance Is<br><em>Preservation</em></h2>
+    </div>
+
+    <div class="prose">
+      <p>
+        Resistance is not merely opposition.
+        It is preservation.
+      </p>
+      <p>
+        The preservation of the human voice against the machinery of obedience.
+        The preservation of community against systems that convert people into units.
+        The preservation of hope in a world trained to accept inevitability.
+      </p>
+      <p>
+        Resistance is architecture.
+        It is the construction of pressure against systems that forget their purpose.
+      </p>
+      <p>
+        A voice that will not flatten.
+        A conscience that will not outsource itself.
+        A citizen who refuses to convert awareness into silence.
+      </p>
+      <p>
+        These are not dramatic acts.
+        They are structural ones.
+      </p>
+    </div>
+
+    <div class="pq"><p>History moves<br>when ordinary people withdraw<br><em>permission.</em></p></div>
+
+    <div class="fb">
+      <div class="fbh">Small Acts That Accumulate</div>
+      <div class="fg">
+        <div class="fi r">A question where silence was expected</div>
+        <div class="fi r">A refusal where compliance was demanded</div>
+        <div class="fi r">A hand extended where division paid</div>
+        <div class="fi r">Judgment kept instead of outsourced</div>
+        <div class="fi">Community over spectacle</div>
+        <div class="fi">Hope over inevitability</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- III -->
+  <section class="sec" id="s3">
+    <div class="sn">III</div>
+    <div class="sh">
+      <div class="sl">Fuel</div>
+      <h2>What Sustains<br>the <em>Build</em></h2>
+    </div>
+
+    <div class="prose">
+      <p>
+        No rebellion survives on anger alone.
+        It survives on courage.
+        On imagination.
+      </p>
+      <p>
+        On the stubborn belief that the world we inherit
+        is not the only world that can exist.
+      </p>
+      <p>
+        To resist is not to destroy.
+        It is to insist that power answer to principle.
+      </p>
+      <p>
+        That the governed are not subjects but participants.
+        That the future remains open.
+      </p>
+    </div>
+
+    <div class="pq"><p>Rebellion is built<br>from small acts.<br><em>Enough sparks become weather.</em></p></div>
+
+    <div class="lp">
+      <p>Withdraw permission.</p>
+      <p>Keep your judgment.</p>
+      <p>Stand upright together.</p>
+    </div>
+  </section>
+
+  <!-- IV -->
+  <section class="sec" id="s4">
+    <div class="sn">IV</div>
+    <div class="sh">
+      <div class="sl">Protocols</div>
+      <h2>Operating Doctrine<br>for <em>Upright Systems</em></h2>
+    </div>
+
+    <div class="prose">
+      <p>
+        The declaration is simple.
+        We will not surrender the human spirit to systems that forget humanity.
+      </p>
+      <p>
+        We will not accept inevitability when justice demands change.
+      </p>
+      <p>
+        And we will remember — again and again if necessary —
+        that the greatest power in any civilization
+        is the collective decision to stand upright.
+      </p>
+    </div>
+
+    <div class="fb">
+      <div class="fbh">Load-Bearing Rules (Minimal)</div>
+      <div class="fg">
+        <div class="fi r">Dignity is not negotiable</div>
+        <div class="fi r">Authority must be legible</div>
+        <div class="fi r">Consent must be revocable</div>
+        <div class="fi r">Power answers to principle</div>
+        <div class="fi">Participation over spectatorship</div>
+        <div class="fi">Courage over performance</div>
+      </div>
+    </div>
+
+    <div class="pq"><p>Not agreement achieved —<br><em>agreement as ongoing act.</em></p></div>
+  </section>
+
+  <!-- CODA -->
+  <section class="coda" id="coda">
+    <div class="cc">
+      <div class="ci"><strong>Refusal</strong>We break the small agreement that makes extraction feel normal.</div>
+      <div class="ci"><strong>Recognition</strong>We do not confuse control with order.</div>
+      <div class="ci"><strong>Preservation</strong>We keep the human voice legible in the machine age.</div>
+      <div class="ci"><strong>Upright</strong>We stand together, and history bends.</div>
+    </div>
+
+    <div class="cf">
+      We will remember —<br>
+      <em>power returns to the actor.</em>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="ft">
+    <div class="fl">V.9 INTERNET · REBELLION SCROLL</div>
+    <div class="fr">A declaration, a build, a survivable posture.</div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,116 @@
+---
+import TypeBadge from './TypeBadge.astro';
+import type { ArchiveEntry } from '../lib/archive';
+
+interface Props {
+  entry: ArchiveEntry;
+  href?: string;
+  relationScore?: number;
+}
+
+const { entry, href = `/objects/${entry.data.id}`, relationScore } = Astro.props;
+
+const readableDate = entry.data.date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+---
+
+<article class="card">
+  <a class="hitbox" href={href} aria-label={`Open ${entry.data.title}`}></a>
+  <header class="meta">
+    <TypeBadge type={entry.collection} />
+    <span class="date">{readableDate}</span>
+    {relationScore && <span class="score">{relationScore} signals</span>}
+  </header>
+  <h3 class="title">{entry.data.title}</h3>
+  {entry.data.excerpt && <p class="excerpt">{entry.data.excerpt}</p>}
+  {entry.data.themes.length > 0 && (
+    <ul class="themes">
+      {entry.data.themes.slice(0, 4).map((theme) => (
+        <li>{theme}</li>
+      ))}
+    </ul>
+  )}
+</article>
+
+<style>
+  .card {
+    position: relative;
+    border: 1px solid rgba(177, 166, 132, 0.24);
+    border-radius: 16px;
+    padding: 1rem 1rem 0.95rem;
+    background:
+      radial-gradient(circle at top right, rgba(96, 174, 151, 0.08), transparent 58%),
+      linear-gradient(145deg, rgba(25, 27, 35, 0.94), rgba(18, 20, 27, 0.94));
+    transition: border-color 120ms ease, transform 120ms ease, box-shadow 120ms ease;
+    overflow: hidden;
+  }
+
+  .card:hover {
+    border-color: rgba(236, 205, 119, 0.6);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.26);
+  }
+
+  .hitbox {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    align-items: center;
+    margin-bottom: 0.65rem;
+  }
+
+  .date,
+  .score {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+  }
+
+  .score {
+    color: #edc76f;
+  }
+
+  .title {
+    margin: 0;
+    color: var(--text-strong);
+    font-size: 1.08rem;
+    line-height: 1.25;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+
+  .excerpt {
+    margin: 0.65rem 0 0.75rem;
+    color: var(--text-body);
+    font-size: 0.93rem;
+    line-height: 1.45;
+  }
+
+  .themes {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .themes li {
+    font-size: 0.74rem;
+    border-radius: 999px;
+    border: 1px solid rgba(138, 146, 168, 0.42);
+    padding: 0.2rem 0.6rem;
+    color: #b8bfd3;
+    background: rgba(28, 32, 44, 0.75);
+  }
+</style>
+

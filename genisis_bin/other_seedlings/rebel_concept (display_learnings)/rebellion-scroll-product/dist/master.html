@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>V.9 INTERNET — Rebellion Manifesto Scroll</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#0e0c0a;
+  --parchment:#f4f0e8;
+  --bone:#e8e2d4;
+  --rust:#c4623a;
+  --rust-dark:#8b3a1e;
+  --gold:#c9963a;
+  --ash:#8a8480;
+  --ghost:#5c5450;
+  --dim:#2a2620;
+
+  --masthead-h: 72px;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--ink);overflow-x:clip;max-width:100%}
+body{
+  background:var(--ink);
+  color:var(--parchment);
+  font-family:'Libre Baskerville',Georgia,serif;
+  overflow-x:clip;
+  max-width:100%;
+  position:relative;
+}
+:target{scroll-margin-top: calc(var(--masthead-h) + 18px)}
+.axis{
+  position:fixed; inset:0 auto 0 50%;
+  width:1px; background:var(--dim); opacity:.25;
+  transform:translateX(-.5px);
+  pointer-events:none; z-index:0;
+}
+.masthead{
+  position:sticky; top:0; z-index:200;
+  height:var(--masthead-h);
+  border-bottom:1px solid var(--dim);
+  padding:1rem 4rem;
+  display:flex; justify-content:space-between; align-items:center;
+  background:rgba(14,12,10,.92);
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+}
+.ml{
+  font-family:'Space Mono',monospace;
+  font-size:.78rem; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--ash);
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0;
+}
+.ms{
+  font-family:'Playfair Display',serif;
+  color:var(--gold);
+  font-size:1.1rem;
+  font-style:italic;
+}
+.nav{position:relative; display:flex; align-items:center; gap:.75rem}
+.menu{position:relative}
+.menu > summary{
+  list-style:none;
+  display:flex; align-items:center; justify-content:center;
+  width:36px; height:36px;
+  border:1px solid var(--dim);
+  cursor:pointer; user-select:none;
+}
+.menu > summary::-webkit-details-marker{display:none}
+.menu > summary:hover{border-color:var(--ghost); background:rgba(255,255,255,.04)}
+.menu[open] > summary{border-color:var(--rust); background:rgba(196,98,58,.06)}
+.bars{display:grid; gap:5px}
+.bar{
+  width:13px; height:1.5px; background:var(--ash);
+  transition:transform .2s ease, opacity .15s, background .18s;
+  transform-origin:center
+}
+.menu[open] .bar:nth-child(1){transform:translateY(6.5px) rotate(45deg); background:var(--rust)}
+.menu[open] .bar:nth-child(2){opacity:0; transform:scaleX(0)}
+.menu[open] .bar:nth-child(3){transform:translateY(-6.5px) rotate(-45deg); background:var(--rust)}
+.panel{
+  position:absolute; right:0; top:calc(100% + 10px);
+  width:280px; max-height:70vh; overflow:auto;
+  border:1px solid var(--dim);
+  background:rgba(14,12,10,.98);
+  padding:.55rem 0;
+  box-shadow:0 10px 30px rgba(0,0,0,.35);
+}
+.nav-header{
+  font-family:'Space Mono',monospace;
+  font-size:.56rem; letter-spacing:.28em;
+  color:var(--ghost); text-transform:uppercase;
+  padding:.15rem 1rem .6rem;
+  border-bottom:1px solid var(--dim);
+  margin-bottom:.3rem;
+}
+.nav-list{list-style:none; margin:0; padding:0}
+.nav-item{
+  display:flex; align-items:baseline; gap:.55rem;
+  padding:.38rem 1rem;
+  text-decoration:none;
+  border-left:2px solid transparent;
+  transition:background .1s, border-color .1s;
+}
+.nav-item:hover{background:rgba(255,255,255,.04); border-left-color:var(--ghost)}
+.nav-item.active{border-left-color:var(--rust); background:rgba(196,98,58,.05)}
+.nav-num{
+  font-family:'Playfair Display',serif;
+  font-size:.9rem; font-style:italic; color:var(--ghost);
+  min-width:2.3rem; text-align:right; flex-shrink:0; line-height:1;
+}
+.nav-label{
+  font-family:'Space Mono',monospace;
+  font-size:.63rem; letter-spacing:.05em; color:var(--ash);
+  text-transform:uppercase; white-space:nowrap;
+}
+.nav-item:hover .nav-label,.nav-item.active .nav-label{color:var(--parchment)}
+.nav-item:hover .nav-num,.nav-item.active .nav-num{color:var(--rust)}
+.hero{padding:6rem 4rem 4rem; border-bottom:1px solid var(--dim); position:relative; z-index:1}
+.eyebrow{
+  font-family:'Space Mono',monospace; font-size:.78rem;
+  letter-spacing:.3em; text-transform:uppercase; color:var(--rust);
+  margin-bottom:2rem; display:flex; align-items:center; gap:1rem
+}
+.eyebrow::after{content:'';height:1px;width:4rem;background:var(--rust-dark);opacity:.5}
+h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(3.5rem,8vw,7rem);
+  font-weight:900; line-height:.95; letter-spacing:-.02em;
+}
+h1 em{color:var(--gold); font-style:italic}
+.sub{
+  font-family:'Space Mono',monospace;
+  font-size:.82rem; letter-spacing:.2em; color:var(--ash);
+  margin-top:1.25rem; text-transform:uppercase; max-width:60rem;
+}
+.seal-wrap{margin-top:2.25rem; display:flex; align-items:center; gap:1.25rem; flex-wrap:wrap}
+.seal{
+  width:92px;height:92px;display:grid;place-items:center;
+  border:1px solid var(--dim);
+  background:rgba(255,255,255,.015);
+  position:relative;
+}
+.seal::before{
+  content:'';
+  position:absolute; inset:-10px;
+  border-radius:999px;
+  background:radial-gradient(circle, rgba(196,98,58,.18) 0%, rgba(196,98,58,.06) 38%, rgba(196,98,58,0) 70%);
+}
+.seal svg{position:relative; z-index:1}
+.seal-meta{
+  font-family:'Space Mono',monospace;
+  font-size:.72rem; letter-spacing:.18em;
+  color:var(--ghost);
+  text-transform:uppercase;
+  line-height:1.8;
+}
+.seal-meta strong{color:var(--parchment); font-weight:700}
+.coords{
+  margin-top:2.25rem;
+  border:1px solid var(--dim);
+  background:rgba(255,255,255,.012);
+  max-width:560px;
+}
+.coords .h{
+  padding:.9rem 1.2rem;
+  border-bottom:1px solid var(--dim);
+  font-family:'Space Mono',monospace;
+  font-size:.7rem; letter-spacing:.22em;
+  color:var(--rust); text-transform:uppercase;
+}
+.coords .b{
+  padding:1rem 1.2rem;
+  display:grid; gap:.45rem;
+  font-family:'Space Mono',monospace;
+  font-size:.82rem; letter-spacing:.06em;
+  color:var(--ash);
+  line-height:1.6;
+}
+.coords .b strong{color:var(--parchment)}
+.coords .tag{
+  display:inline-block;
+  border:1px solid var(--dim);
+  padding:.35rem .55rem;
+  color:var(--ghost);
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  font-size:.62rem;
+}
+.ov{padding:5rem 4rem; max-width:860px; border-bottom:1px solid var(--dim); position:relative; z-index:1}
+.ov p{font-size:1.22rem; line-height:1.9; color:var(--bone); margin-bottom:1.1rem}
+.ov p strong{color:var(--parchment)}
+.rule{display:flex; align-items:center; gap:1rem; margin:1.7rem 0; color:var(--ghost); font-family:'Space Mono',monospace; font-size:.5rem; letter-spacing:.3em}
+.rule::before,.rule::after{content:''; flex:1; height:1px; background:var(--dim)}
+.lp{margin:2.2rem 0; padding-left:2rem; border-left:2px solid var(--rust-dark)}
+.lp p{font-family:'Space Mono',monospace; font-size:.92rem; letter-spacing:.05em; color:var(--ash); line-height:2.4; margin:0}
+.sec{padding:5rem 4rem; border-bottom:1px solid var(--dim); position:relative; z-index:1}
+.sn{
+  font-family:'Playfair Display',serif;
+  font-size:8rem; font-weight:900; color:var(--dim);
+  position:absolute; top:2rem; right:3rem;
+  line-height:1; user-select:none; letter-spacing:-.04em
+}
+.sh{margin-bottom:3rem}
+.sl{
+  font-family:'Space Mono',monospace; font-size:.74rem;
+  letter-spacing:.3em; color:var(--rust);
+  text-transform:uppercase; margin-bottom:.75rem;
+  display:flex; align-items:center; gap:.75rem
+}
+.sl::before{content:'✦'; font-size:.6rem}
+h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,4vw,3.6rem);
+  font-weight:900; line-height:1.05; letter-spacing:-.02em;
+  max-width:860px;
+}
+h2 em{color:var(--gold); font-style:italic}
+.prose{max-width:780px}
+.prose p{font-size:1.12rem; line-height:1.95; color:var(--bone); margin-bottom:1.2rem}
+.prose p strong{color:var(--parchment)}
+.pq{margin:3rem 0; padding:2.5rem 0 2.5rem 2.5rem; border-left:3px solid var(--gold)}
+.pq p{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.5rem,3vw,2.15rem);
+  font-style:italic; line-height:1.4; color:var(--parchment)
+}
+.pq p em{color:var(--gold); font-style:normal}
+.fb{margin:3rem 0; border:1px solid var(--dim); background:rgba(255,255,255,.015)}
+.fbh{
+  padding:1rem 1.5rem; border-bottom:1px solid var(--dim);
+  font-family:'Space Mono',monospace; font-size:.78rem;
+  letter-spacing:.2em; color:var(--rust); text-transform:uppercase;
+  display:flex; align-items:center; gap:.75rem
+}
+.fbh::before{content:''; width:6px; height:6px; background:var(--rust-dark); transform:rotate(45deg); flex-shrink:0}
+.fg{display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.fi{padding:1rem 1.5rem; border-right:1px solid var(--dim); border-bottom:1px solid var(--dim); font-family:'Space Mono',monospace; font-size:.82rem; letter-spacing:.05em; color:var(--ash)}
+.fi.r{color:var(--parchment)}
+.fi:last-child{border-right:0}
+.illus{max-width:860px;margin:3rem 0;border:1px solid var(--dim);background:rgba(255,255,255,.012)}
+.illus.pad{padding:1.25rem 1.35rem}
+.illus-head{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:.9rem 1.2rem;border-bottom:1px solid var(--dim)}
+.illus-k{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.22em;color:var(--rust);text-transform:uppercase}
+.illus-note{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.18em;color:var(--ghost);text-transform:uppercase}
+.illus-body{padding:1.1rem 1.2rem}
+.illus-svg{width:100%;height:auto;display:block}
+.illus-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;fill:var(--ash)}
+.illus-label-strong{fill:var(--parchment)}
+.illus-stroke{stroke:var(--ash);stroke-width:2;fill:none}
+.illus-stroke-dim{stroke:var(--ghost);stroke-width:2;fill:none;opacity:.85}
+.illus-stroke-faint{stroke:var(--dim);stroke-width:2;fill:none;opacity:.8}
+.illus-accent{stroke:var(--rust);stroke-width:2;fill:none}
+.illus-gold{stroke:var(--gold);stroke-width:2;fill:none}
+.illus-gold-fill{fill:var(--gold)}
+.illus-node-fill{fill:var(--gold)}
+.illus-grid{stroke:var(--dim);stroke-width:1;opacity:.45}
+.coda{padding:6rem 4rem 4rem; position:relative; z-index:1}
+.cc{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--dim); border:1px solid var(--dim); margin-bottom:4rem; max-width:820px}
+.ci{background:var(--ink); padding:1.6rem 1.85rem; font-family:'Playfair Display',serif; font-size:1.08rem; font-style:italic; color:var(--ash); line-height:1.6}
+.ci strong{display:block; font-style:normal; font-weight:900; font-size:1.35rem; color:var(--parchment); margin-bottom:.3rem; letter-spacing:-.02em}
+.cf{font-family:'Playfair Display',serif; font-size:clamp(2rem,5vw,4rem); font-weight:900; font-style:italic; line-height:1.12; letter-spacing:-.02em; color:var(--parchment); max-width:900px}
+.cf em{color:var(--gold); font-style:normal}
+.ft{
+  padding:2rem 4rem; border-top:1px solid var(--dim);
+  display:flex; justify-content:space-between; align-items:center; gap:1rem;
+  position:relative; z-index:1;
+}
+.fl{font-family:'Space Mono',monospace; font-size:.74rem; letter-spacing:.2em; color:var(--ghost); text-transform:uppercase}
+.fr{font-family:'Playfair Display',serif; font-size:.9rem; font-style:italic; color:var(--ghost)}
+@media(max-width:640px){
+  .masthead,.hero,.ov,.sec,.coda,.ft{padding-left:1.25rem;padding-right:1.25rem}
+  .masthead{padding-top:.85rem;padding-bottom:.85rem}
+  .sn{font-size:5rem;top:1.5rem;right:1rem}
+  .cc{grid-template-columns:1fr;max-width:100%}
+  .fg{grid-template-columns:1fr}
+  .seal-wrap{gap:.9rem}
+  .panel{width:min(260px, calc(100vw - 2.5rem)); max-height:60vh}
+}
+</style>
+</head>
+
+<body>
+<div class="axis" aria-hidden="true"></div>
+
+<header class="masthead">
+  <span class="ml" id="sysLabel">V.9 INTERNET · THE POD · THE ARMOR · THE SACRED CARGO</span>
+
+  <div class="nav" aria-label="Scroll navigation">
+    <span class="ms" id="docTitle">Manifesto</span>
+
+    <details class="menu" id="menu">
+      <summary aria-label="Open navigation">
+        <span class="bars" aria-hidden="true"><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+      </summary>
+
+      <div class="panel" role="dialog" aria-label="Navigation menu">
+        <div class="nav-header" id="navHeader">Rebellion Scroll</div>
+        <ol class="nav-list" id="navList"></ol>
+      </div>
+    </details>
+  </div>
+</header>
+
+<main id="scroll"
+  data-system="V.9 INTERNET · THE POD · THE ARMOR · THE SACRED CARGO"
+  data-title="Manifesto"
+  data-index-label="Rebellion Scroll"
+  data-origin-node="HUMAN"
+  data-revision="01"
+  data-status="DECLARED"
+  data-tagline="A declaration, a doctrine, a survivable posture."
+>
+
+  <section class="hero" id="top" data-nav="Top" data-num="✦">
+    <div class="eyebrow">A constitutional scroll for survivable systems</div>
+    <h1>The <em>Rebellion</em><br>is a Suit, a Pod, an Ark</h1>
+    <p class="sub">A document of posture. A design of protection. A reminder that the vessel is not sacred—only what it carries.</p>
+
+    <div class="seal-wrap">
+      <div class="seal" aria-label="The Node Seal">
+        <svg width="70" height="70" viewBox="0 0 100 100" role="img" aria-label="Human as the node">
+          <line x1="50" y1="50" x2="50" y2="12" stroke="var(--gold)" stroke-width="2"/>
+          <line x1="50" y1="50" x2="88" y2="50" stroke="var(--gold)" stroke-width="2"/>
+          <line x1="50" y1="50" x2="50" y2="88" stroke="var(--gold)" stroke-width="2"/>
+          <line x1="50" y1="50" x2="12" y2="50" stroke="var(--gold)" stroke-width="2"/>
+          <circle cx="50" cy="12" r="6" fill="none" stroke="var(--rust)" stroke-width="2"/>
+          <circle cx="88" cy="50" r="6" fill="none" stroke="var(--rust)" stroke-width="2"/>
+          <circle cx="50" cy="88" r="6" fill="none" stroke="var(--rust)" stroke-width="2"/>
+          <circle cx="12" cy="50" r="6" fill="none" stroke="var(--rust)" stroke-width="2"/>
+          <circle cx="50" cy="50" r="9" fill="var(--gold)"/>
+        </svg>
+      </div>
+
+      <div class="seal-meta">
+        <div><strong>NODE SEAL</strong></div>
+        <div>Authority: <span style="color:var(--parchment)">Declared</span></div>
+        <div>Center: <span style="color:var(--parchment)">Human</span></div>
+        <div>Connections: <span style="color:var(--parchment)">Voluntary</span></div>
+      </div>
+    </div>
+
+    <div class="coords" aria-label="Document coordinates">
+      <div class="h">Document Coordinates</div>
+      <div class="b" id="coordsBody"></div>
+    </div>
+  </section>
+
+  <section class="ov" id="s0" data-nav="Declaration" data-num="0">
+    <p><strong>We begin with a simple refusal.</strong></p>
+    <p>
+      Not of existence.<br>
+      Not of one another.<br>
+      But of the quiet lie that power must always gather upward<br>
+      and that the many must live beneath it.
+    </p>
+
+    <div class="rule">✦ ✦ ✦</div>
+
+    <div class="lp">
+      <p>Rebellion is not chaos.</p>
+      <p>It is the moment conscience remembers itself.</p>
+      <p>It is the refusal to mistake authority for legitimacy</p>
+      <p>or control for order.</p>
+    </div>
+
+    <p>
+      The Rebellion begins wherever a person decides that dignity is not negotiable —
+      where truth is spoken despite consequence,
+      where fear is not allowed to write the future.
+    </p>
+
+    <div class="pq"><p>Chaos destroys.<br><em>Rebellion remembers.</em></p></div>
+  </section>
+
+  <section class="sec" id="s1" data-nav="Recognition" data-num="I">
+    <div class="sn" aria-hidden="true">I</div>
+    <div class="sh">
+      <div class="sl">Origin</div>
+      <h2>The Rebellion Begins<br>as <em>Recognition</em></h2>
+    </div>
+
+    <div class="prose">
+      <p>Before rebellion there is a tightening. A quiet pressure in the chest when something inside a person refuses the arrangement of the world.</p>
+      <p><strong>Not anger first. Recognition.</strong></p>
+      <p>The moment a human being realizes that obedience has been mistaken for order.</p>
+      <p>Every empire depends on a small invisible contract. Not laws. Not armies. <strong>Agreement.</strong></p>
+      <p>Rebellion begins when that agreement dissolves.</p>
+    </div>
+
+    <div class="fb">
+      <div class="fbh">The Contract We Refuse</div>
+      <div class="fg">
+        <div class="fi r">Power must gather upward</div>
+        <div class="fi r">Authority equals legitimacy</div>
+        <div class="fi r">Silence is “maturity”</div>
+        <div class="fi r">Fear writes the future</div>
+        <div class="fi">The many are beneath</div>
+        <div class="fi">The person is a unit</div>
+      </div>
+    </div>
+
+    <div class="pq"><p>Withdraw permission.<br><em>Build the alternative.</em></p></div>
+  </section>
+
+  <section class="sec" id="s2" data-nav="Preservation" data-num="II">
+    <div class="sn" aria-hidden="true">II</div>
+    <div class="sh">
+      <div class="sl">Function</div>
+      <h2>Resistance Is<br><em>Preservation</em></h2>
+    </div>
+
+    <div class="prose">
+      <p>Resistance is not merely opposition. It is preservation.</p>
+      <p>The preservation of the human voice against the machinery of obedience. The preservation of community against systems that convert people into units. The preservation of hope in a world trained to accept inevitability.</p>
+      <p>Resistance is architecture. It is the construction of pressure against systems that forget their purpose.</p>
+    </div>
+
+    <div class="pq"><p>History moves<br>when ordinary people withdraw<br><em>permission.</em></p></div>
+  </section>
+
+  <section class="sec" id="s3" data-nav="Pod & Cargo" data-num="III">
+    <div class="sn" aria-hidden="true">III</div>
+    <div class="sh">
+      <div class="sl">Metaphor</div>
+      <h2>The Pod and<br>the <em>Sacred Cargo</em></h2>
+    </div>
+
+    <div class="prose">
+      <p>The rebellion begins when the crew forgets the cargo — when the ship declares itself the reason for the voyage.</p>
+      <p><strong>The human is the cargo.</strong> The system is the pod.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="s4" data-nav="Ark / Node" data-num="IV">
+    <div class="sn" aria-hidden="true">IV</div>
+    <div class="sh">
+      <div class="sl">Continuity</div>
+      <h2>The Ark, the Capsule,<br>the <em>Network</em></h2>
+    </div>
+    <div class="prose">
+      <p>Different vessels. Same cargo.</p>
+      <p>The modern inversion is simple: <strong>The human becomes the node.</strong></p>
+    </div>
+  </section>
+
+  <section class="sec" id="s5" data-nav="Suit of Armor" data-num="V">
+    <div class="sn" aria-hidden="true">V</div>
+    <div class="sh">
+      <div class="sl">Protection</div>
+      <h2>A Suit of<br><em>Protective Armor</em></h2>
+    </div>
+    <div class="prose">
+      <p>The suit protects the human. The pod carries the cargo. The system serves the person.</p>
+      <p>Consent stays revocable. Systems remain removable.</p>
+    </div>
+    <div class="pq"><p>Chaos destroys.<br><em>Rebellion remembers.</em></p></div>
+  </section>
+
+  <section class="coda" id="coda" data-nav="Coda" data-num="✦">
+    <div class="sh">
+      <div class="sl">Coda</div>
+      <h2>Final Compression<br><em>Bell Line</em></h2>
+    </div>
+    <div class="cf">
+      Civilization is a suit.<br>
+      Civilization is a pod.<br>
+      Civilization is an ark.<br>
+      <em>Human dignity is the sacred cargo.</em>
+    </div>
+  </section>
+
+</main>
+
+<footer class="ft">
+  <div class="fl" id="footLeft">V.9 INTERNET · REBELLION MANIFESTO SCROLL</div>
+  <div class="fr" id="footRight">A declaration, a doctrine, a survivable posture.</div>
+</footer>
+
+<script>
+(function(){
+  const main = document.getElementById('scroll');
+  const menu = document.getElementById('menu');
+  const navList = document.getElementById('navList');
+
+  const sys = main?.dataset?.system || 'SCROLL';
+  const title = main?.dataset?.title || 'Manifesto';
+  const indexLabel = main?.dataset?.indexLabel || 'Scroll Index';
+  const origin = main?.dataset?.originNode || 'HUMAN';
+  const rev = main?.dataset?.revision || '01';
+  const status = main?.dataset?.status || 'DECLARED';
+  const tagline = main?.dataset?.tagline || 'A declaration, a doctrine, a survivable posture.';
+
+  document.getElementById('sysLabel').textContent = sys;
+  document.getElementById('docTitle').textContent = title;
+  document.getElementById('navHeader').textContent = indexLabel;
+  document.getElementById('footLeft').textContent = sys;
+  document.getElementById('footRight').textContent = tagline;
+
+  const coords = document.getElementById('coordsBody');
+  if(coords){
+    coords.innerHTML = `
+      <div><strong>${title}</strong> · ${sys}</div>
+      <div><span class="tag">ORIGIN NODE</span> <strong>${origin}</strong></div>
+      <div><span class="tag">REVISION</span> <strong>${rev}</strong></div>
+      <div><span class="tag">STATUS</span> <strong>${status}</strong></div>
+    `;
+  }
+
+  const sections = Array.from(document.querySelectorAll('main [id][data-nav]'))
+    .filter(el => el.id && el.dataset.nav);
+
+  navList.innerHTML = '';
+  sections.forEach(el => {
+    const num = el.dataset.num || '';
+    const label = el.dataset.nav || el.id;
+    const li = document.createElement('li');
+    li.innerHTML = `
+      <a class="nav-item" href="#${el.id}" data-target="${el.id}">
+        <span class="nav-num">${num}</span>
+        <span class="nav-label">${label}</span>
+      </a>
+    `;
+    navList.appendChild(li);
+  });
+
+  navList.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click', ()=> menu && menu.removeAttribute('open'));
+  });
+
+  document.addEventListener('click', (e)=>{
+    if(!menu) return;
+    if(menu.hasAttribute('open') && !menu.contains(e.target)) menu.removeAttribute('open');
+  });
+
+  const navItems = Array.from(navList.querySelectorAll('.nav-item'));
+  const byId = new Map(navItems.map(a => [a.dataset.target, a]));
+  const setActive = (id) => navItems.forEach(a => a.classList.toggle('active', a.dataset.target === id));
+
+  const mastH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--masthead-h')) || 72;
+
+  const observer = new IntersectionObserver((entries)=>{
+    const visible = entries.filter(e => e.isIntersecting).sort((a,b)=> b.intersectionRatio - a.intersectionRatio)[0];
+    if(visible && visible.target && byId.has(visible.target.id)) setActive(visible.target.id);
+  }, { root:null, rootMargin:`-${mastH}px 0px -55% 0px`, threshold:[0.15,0.25,0.35,0.5] });
+
+  sections.forEach(s => observer.observe(s));
+  if(location.hash){
+    const id = location.hash.slice(1);
+    if(byId.has(id)) setActive(id);
+  } else if(sections[0]) setActive(sections[0].id);
+})();
+</script>
+
+</body>
+</html>

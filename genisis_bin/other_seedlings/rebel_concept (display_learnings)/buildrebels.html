@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>V.9 INTERNET — The Rebellion Manifesto Scroll</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#0e0c0a;
+  --parchment:#f4f0e8;
+  --bone:#e8e2d4;
+  --rust:#c4623a;
+  --ash:#8a8480;
+  --gold:#c9963a;
+  --dim:#2a2620;
+  --ghost:#5c5450;
+  --rust-dark:#8b3a1e;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--ink);overflow-x:clip;max-width:100%}
+body{
+  background:var(--ink);
+  color:var(--parchment);
+  font-family:'Libre Baskerville',Georgia,serif;
+  overflow-x:clip;
+  max-width:100%;
+  position:relative;
+}
+
+/* ─────────────────────────────
+   Unforgettable: Scroll Axis
+───────────────────────────── */
+.axis{
+  position:fixed;
+  top:0; bottom:0;
+  left:50%;
+  width:1px;
+  background:var(--dim);
+  opacity:.25;
+  transform:translateX(-.5px);
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ─────────────────────────────
+   Masthead + toggle nav (ref cue)
+───────────────────────────── */
+.masthead{
+  position:sticky;top:0;z-index:200;
+  border-bottom:1px solid var(--dim);
+  padding:1rem 4rem;
+  display:flex;justify-content:space-between;align-items:center;
+  background:rgba(14,12,10,.92);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  overflow:visible;
+}
+.ml{
+  font-family:'Space Mono',monospace;
+  font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ash);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;
+}
+.ms{
+  font-family:'Playfair Display',serif;
+  color:var(--gold);
+  font-size:1.1rem;
+  font-style:italic;
+}
+
+/* nav */
+#sidenav{position:relative;display:flex;align-items:center;gap:.75rem}
+#nav-toggle{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  width:32px;height:32px;background:transparent;border:1px solid var(--dim);
+  cursor:pointer;padding:0;transition:border-color .18s, background .18s;flex-shrink:0;
+}
+#nav-toggle:hover{border-color:var(--ghost);background:rgba(255,255,255,.04)}
+#sidenav.open #nav-toggle{border-color:var(--rust);background:rgba(196,98,58,.06)}
+.nav-toggle-bar{
+  display:block;width:13px;height:1.5px;background:var(--ash);
+  transition:transform .2s ease, opacity .15s, background .18s;
+  transform-origin:center;
+}
+#sidenav.open .nav-toggle-bar:nth-child(1){transform:translateY(6.5px) rotate(45deg);background:var(--rust)}
+#sidenav.open .nav-toggle-bar:nth-child(2){opacity:0;transform:scaleX(0)}
+#sidenav.open .nav-toggle-bar:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);background:var(--rust)}
+
+#nav-panel{
+  position:absolute;top:calc(100% + 10px);right:0;
+  background:rgba(14,12,10,.98);
+  border:1px solid var(--dim);
+  padding:.55rem 0;
+  width:260px;max-height:80vh;overflow-y:auto;
+  opacity:0;pointer-events:none;
+  transform:translateY(-6px);
+  transition:opacity .18s ease, transform .2s ease;
+  z-index:300;
+}
+#sidenav.open #nav-panel{opacity:1;pointer-events:auto;transform:translateY(0)}
+.nav-header{
+  font-family:'Space Mono',monospace;
+  font-size:.56rem;letter-spacing:.28em;
+  color:var(--ghost);text-transform:uppercase;
+  padding:.15rem 1rem .6rem;
+  border-bottom:1px solid var(--dim);
+  margin-bottom:.3rem;
+}
+.nav-list{list-style:none;padding:0;margin:0}
+.nav-item{
+  display:flex;align-items:baseline;gap:.55rem;
+  padding:.38rem 1rem;text-decoration:none;
+  border-left:2px solid transparent;
+  transition:background .1s, border-color .1s;
+}
+.nav-item:hover{background:rgba(255,255,255,.04);border-left-color:var(--ghost)}
+.nav-item.active{border-left-color:var(--rust);background:rgba(196,98,58,.05)}
+.nav-num{
+  font-family:'Playfair Display',serif;
+  font-size:.9rem;font-style:italic;color:var(--ghost);
+  min-width:2.3rem;text-align:right;flex-shrink:0;line-height:1;
+  transition:color .1s;
+}
+.nav-label{
+  font-family:'Space Mono',monospace;
+  font-size:.63rem;letter-spacing:.05em;color:var(--ash);
+  text-transform:uppercase;white-space:nowrap;
+  transition:color .1s;
+}
+.nav-item:hover .nav-label,.nav-item.active .nav-label{color:var(--parchment)}
+.nav-item:hover .nav-num,.nav-item.active .nav-num{color:var(--rust)}
+
+/* ─────────────────────────────
+   Hero + sections
+───────────────────────────── */
+.hero{
+  padding:6rem 4rem 4rem;
+  border-bottom:1px solid var(--dim);
+  position:relative;
+  z-index:1;
+}
+.eyebrow{
+  font-family:'Space Mono',monospace;font-size:.78rem;
+  letter-spacing:.3em;text-transform:uppercase;color:var(--rust);
+  margin-bottom:2rem;display:flex;align-items:center;gap:1rem
+}
+.eyebrow::after{content:'';height:1px;width:4rem;background:var(--rust-dark);opacity:.5}
+h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(3.5rem,8vw,7rem);
+  font-weight:900;line-height:.95;letter-spacing:-.02em;
+}
+h1 em{color:var(--gold);font-style:italic}
+.sub{
+  font-family:'Space Mono',monospace;
+  font-size:.82rem;letter-spacing:.2em;color:var(--ash);
+  margin-top:1.25rem;text-transform:uppercase;
+  max-width:60rem;
+}
+
+/* Unforgettable: Seal / Sigil */
+.seal-wrap{
+  margin-top:2.25rem;
+  display:flex;align-items:center;gap:1.25rem;
+  flex-wrap:wrap;
+}
+.seal{
+  width:92px;height:92px;display:grid;place-items:center;
+  border:1px solid var(--dim);
+  background:rgba(255,255,255,.015);
+  position:relative;
+}
+.seal::before{
+  content:'';
+  position:absolute;inset:-10px;
+  border-radius:999px;
+  background:radial-gradient(circle, rgba(196,98,58,.18) 0%, rgba(196,98,58,.06) 38%, rgba(196,98,58,0) 70%);
+  filter:blur(.2px);
+}
+.seal svg{position:relative;z-index:1}
+.seal-meta{
+  font-family:'Space Mono',monospace;
+  font-size:.72rem;
+  letter-spacing:.18em;
+  color:var(--ghost);
+  text-transform:uppercase;
+  line-height:1.8;
+}
+.seal-meta strong{color:var(--parchment);font-weight:700}
+
+.ov{
+  padding:5rem 4rem;
+  max-width:860px;
+  border-bottom:1px solid var(--dim);
+  position:relative;
+  z-index:1;
+}
+.ov p{font-size:1.22rem;line-height:1.9;color:var(--bone);margin-bottom:1.1rem}
+.ov p strong{color:var(--parchment)}
+.rule{
+  display:flex;align-items:center;gap:1rem;margin:1.7rem 0;
+  color:var(--ghost);font-family:'Space Mono',monospace;
+  font-size:.5rem;letter-spacing:.3em
+}
+.rule::before,.rule::after{content:'';flex:1;height:1px;background:var(--dim)}
+.lp{margin:2.2rem 0;padding-left:2rem;border-left:2px solid var(--rust-dark)}
+.lp p{font-family:'Space Mono',monospace;font-size:.92rem;letter-spacing:.05em;color:var(--ash);line-height:2.4;margin:0}
+
+.sec{
+  padding:5rem 4rem;
+  border-bottom:1px solid var(--dim);
+  position:relative;
+  z-index:1;
+}
+.sn{
+  font-family:'Playfair Display',serif;
+  font-size:8rem;font-weight:900;color:var(--dim);
+  position:absolute;top:2rem;right:3rem;
+  line-height:1;user-select:none;letter-spacing:-.04em
+}
+.sh{margin-bottom:3rem}
+.sl{
+  font-family:'Space Mono',monospace;font-size:.74rem;
+  letter-spacing:.3em;color:var(--rust);
+  text-transform:uppercase;margin-bottom:.75rem;
+  display:flex;align-items:center;gap:.75rem
+}
+.sl::before{content:'✦';font-size:.6rem}
+h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,4vw,3.6rem);
+  font-weight:900;line-height:1.05;letter-spacing:-.02em;
+  max-width:860px;
+}
+h2 em{color:var(--gold);font-style:italic}
+
+.prose{max-width:780px}
+.prose p{font-size:1.12rem;line-height:1.95;color:var(--bone);margin-bottom:1.2rem}
+.prose p strong{color:var(--parchment)}
+
+.pq{
+  margin:3rem 0;
+  padding:2.5rem 0 2.5rem 2.5rem;
+  border-left:3px solid var(--gold)
+}
+.pq p{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.5rem,3vw,2.15rem);
+  font-style:italic;line-height:1.4;color:var(--parchment)
+}
+.pq p em{color:var(--gold);font-style:normal}
+
+.fb{margin:3rem 0;border:1px solid var(--dim);background:rgba(255,255,255,.015)}
+.fbh{
+  padding:1rem 1.5rem;border-bottom:1px solid var(--dim);
+  font-family:'Space Mono',monospace;font-size:.78rem;
+  letter-spacing:.2em;color:var(--rust);text-transform:uppercase;
+  display:flex;align-items:center;gap:.75rem
+}
+.fbh::before{
+  content:'';width:6px;height:6px;background:var(--rust-dark);
+  transform:rotate(45deg);flex-shrink:0;display:inline-block
+}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.fi{padding:1rem 1.5rem;border-right:1px solid var(--dim);border-bottom:1px solid var(--dim);font-family:'Space Mono',monospace;font-size:.82rem;letter-spacing:.05em;color:var(--ash)}
+.fi.r{color:var(--parchment)}
+.fi:last-child{border-right:0}
+
+/* Artifact coordinates */
+.coords{
+  margin-top:2.25rem;
+  border:1px solid var(--dim);
+  background:rgba(255,255,255,.012);
+  max-width:520px;
+}
+.coords .h{
+  padding:.9rem 1.2rem;
+  border-bottom:1px solid var(--dim);
+  font-family:'Space Mono',monospace;
+  font-size:.7rem;letter-spacing:.22em;
+  color:var(--rust);
+  text-transform:uppercase;
+}
+.coords .b{
+  padding:1rem 1.2rem;
+  display:grid;grid-template-columns:1fr;
+  gap:.4rem;
+  font-family:'Space Mono',monospace;
+  font-size:.82rem;letter-spacing:.06em;
+  color:var(--ash);
+  line-height:1.6;
+}
+.coords .b strong{color:var(--parchment)}
+.coords .tag{
+  display:inline-block;
+  border:1px solid var(--dim);
+  padding:.35rem .55rem;
+  color:var(--ghost);
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  font-size:.62rem;
+}
+
+.coda{padding:6rem 4rem 4rem;position:relative;z-index:1}
+.cc{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:1px;background:var(--dim);
+  border:1px solid var(--dim);
+  margin-bottom:4rem;max-width:820px
+}
+.ci{
+  background:var(--ink);
+  padding:1.6rem 1.85rem;
+  font-family:'Playfair Display',serif;
+  font-size:1.08rem;font-style:italic;color:var(--ash);
+  line-height:1.6
+}
+.ci strong{
+  display:block;font-style:normal;font-weight:900;
+  font-size:1.35rem;color:var(--parchment);
+  margin-bottom:.3rem;letter-spacing:-.02em
+}
+.cf{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,5vw,4rem);
+  font-weight:900;font-style:italic;
+  line-height:1.12;letter-spacing:-.02em;color:var(--parchment);
+  max-width:900px;
+}
+.cf em{color:var(--gold);font-style:normal}
+
+.ft{
+  padding:2rem 4rem;border-top:1px solid var(--dim);
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;
+  position:relative;
+  z-index:1;
+}
+.fl{font-family:'Space Mono',monospace;font-size:.74rem;letter-spacing:.2em;color:var(--ghost);text-transform:uppercase}
+.fr{font-family:'Playfair Display',serif;font-size:.9rem;font-style:italic;color:var(--ghost)}
+
+/* Mobile */
+@media(max-width:640px){
+  .masthead,.hero,.ov,.sec,.coda,.ft{padding-left:1.25rem;padding-right:1.25rem}
+  .masthead{padding-top:.85rem;padding-bottom:.85rem}
+  .sn{font-size:5rem;top:1.5rem;right:1rem}
+  .cc{grid-template-columns:1fr;max-width:100%}
+  .fg{grid-template-columns:1fr}
+  #nav-panel{width:min(240px, calc(100vw - 2.5rem)); max-height:60vh}
+  .seal-wrap{gap:.9rem}
+}
+</style>
+</head>
+
+<body>
+<div class="axis" aria-hidden="true"></div>
+
+<header class="masthead">
+  <span class="ml">V.9 INTERNET · THE POD · THE ARMOR · THE SACRED CARGO</span>
+
+  <nav id="sidenav" aria-label="Scroll navigation">
+    <span class="ms">Manifesto</span>
+    <button id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+
+    <div id="nav-panel">
+      <div class="nav-header">Rebellion Scroll</div>
+      <ol class="nav-list">
+        <li><a href="#s0" class="nav-item" data-s="s0"><span class="nav-num">0</span><span class="nav-label">Declaration</span></a></li>
+        <li><a href="#s1" class="nav-item" data-s="s1"><span class="nav-num">I</span><span class="nav-label">Recognition</span></a></li>
+        <li><a href="#s2" class="nav-item" data-s="s2"><span class="nav-num">II</span><span class="nav-label">Preservation</span></a></li>
+        <li><a href="#s3" class="nav-item" data-s="s3"><span class="nav-num">III</span><span class="nav-label">Pod & Cargo</span></a></li>
+        <li><a href="#s4" class="nav-item" data-s="s4"><span class="nav-num">IV</span><span class="nav-label">Ark / Node</span></a></li>
+        <li><a href="#s5" class="nav-item" data-s="s5"><span class="nav-num">V</span><span class="nav-label">Suit of Armor</span></a></li>
+        <li><a href="#coda" class="nav-item" data-s="coda"><span class="nav-num">✦</span><span class="nav-label">Coda</span></a></li>
+      </ol>
+    </div>
+  </nav>
+</header>
+
+<script>
+(function(){
+  var toggle = document.getElementById('nav-toggle');
+  var nav = document.getElementById('sidenav');
+  var items = document.querySelectorAll('.nav-item');
+
+  toggle.addEventListener('click', function(){
+    var open = nav.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+
+  items.forEach(function(a){
+    a.addEventListener('click', function(){
+      nav.classList.remove('open');
+      toggle.setAttribute('aria-expanded','false');
+    });
+  });
+
+  document.addEventListener('click', function(e){
+    if(!nav.contains(e.target)){
+      nav.classList.remove('open');
+      toggle.setAttribute('aria-expanded','false');
+    }
+  });
+
+  var sections = Array.from(items).map(function(a){
+    return document.getElementById(a.dataset.s);
+  }).filter(Boolean);
+
+  function onScroll(){
+    if(!sections.length) return;
+    var scrollY = window.scrollY + window.innerHeight * 0.3;
+    var active = sections[0];
+    sections.forEach(function(s){
+      if(s && s.offsetTop <= scrollY) active = s;
+    });
+    items.forEach(function(a){
+      a.classList.toggle('active', a.dataset.s === active.id);
+    });
+  }
+
+  window.addEventListener('scroll', onScroll, {passive:true});
+  requestAnimationFrame(onScroll);
+})();
+</script>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="eyebrow">A constitutional scroll for survivable systems</div>
+  <h1>The <em>Rebellion</em><br>is a Suit, a Pod, an Ark</h1>
+  <p class="sub">
+    A document of posture. A design of protection.
+    A reminder that the vessel is not sacred—only what it carries.
+  </p>
+
+  <div class="seal-wrap">
+    <!-- Seal / Sigil -->
+    <div class="seal" aria-label="The Node Seal">
+      <svg width="70" height="70" viewBox="0 0 100 100" role="img" aria-label="Human as the node">
+        <!-- lines -->
+        <line x1="50" y1="50" x2="50" y2="12" stroke="#C9963A" stroke-width="2"/>
+        <line x1="50" y1="50" x2="88" y2="50" stroke="#C9963A" stroke-width="2"/>
+        <line x1="50" y1="50" x2="50" y2="88" stroke="#C9963A" stroke-width="2"/>
+        <line x1="50" y1="50" x2="12" y2="50" stroke="#C9963A" stroke-width="2"/>
+        <!-- outer nodes -->
+        <circle cx="50" cy="12" r="6" fill="none" stroke="#C4623A" stroke-width="2"/>
+        <circle cx="88" cy="50" r="6" fill="none" stroke="#C4623A" stroke-width="2"/>
+        <circle cx="50" cy="88" r="6" fill="none" stroke="#C4623A" stroke-width="2"/>
+        <circle cx="12" cy="50" r="6" fill="none" stroke="#C4623A" stroke-width="2"/>
+        <!-- center node -->
+        <circle cx="50" cy="50" r="9" fill="#C9963A"/>
+      </svg>
+    </div>
+
+    <div class="seal-meta">
+      <div><strong>NODE SEAL</strong></div>
+      <div>Authority: <span style="color:var(--parchment)">Declared</span></div>
+      <div>Center: <span style="color:var(--parchment)">Human</span></div>
+      <div>Connections: <span style="color:var(--parchment)">Voluntary</span></div>
+    </div>
+  </div>
+
+  <div class="coords" aria-label="Document coordinates">
+    <div class="h">Document Coordinates</div>
+    <div class="b">
+      <div><strong>V.9 INTERNET</strong> · Rebellion Manifesto Scroll</div>
+      <div><span class="tag">ORIGIN NODE</span> <strong>HUMAN</strong></div>
+      <div><span class="tag">REVISION</span> <strong>01</strong></div>
+      <div><span class="tag">STATUS</span> <strong>DECLARED</strong></div>
+    </div>
+  </div>
+</section>
+
+<!-- 0 — DECLARATION -->
+<section class="ov" id="s0">
+  <p><strong>We begin with a simple refusal.</strong></p>
+  <p>
+    Not of existence.<br>
+    Not of one another.<br>
+    But of the quiet lie that power must always gather upward<br>
+    and that the many must live beneath it.
+  </p>
+
+  <div class="rule">✦ ✦ ✦</div>
+
+  <div class="lp">
+    <p>Rebellion is not chaos.</p>
+    <p>It is the moment conscience remembers itself.</p>
+    <p>It is the refusal to mistake authority for legitimacy</p>
+    <p>or control for order.</p>
+  </div>
+
+  <p>
+    The Rebellion begins wherever a person decides that dignity is not negotiable —
+    where truth is spoken despite consequence,
+    where fear is not allowed to write the future.
+  </p>
+
+  <div class="pq"><p>Chaos destroys.<br><em>Rebellion remembers.</em></p></div>
+</section>
+
+<!-- I — RECOGNITION -->
+<section class="sec" id="s1">
+  <div class="sn">I</div>
+  <div class="sh">
+    <div class="sl">Origin</div>
+    <h2>The Rebellion Begins<br>as <em>Recognition</em></h2>
+  </div>
+
+  <div class="prose">
+    <p>
+      Before rebellion there is a tightening.
+      A quiet pressure in the chest when something inside a person
+      refuses the arrangement of the world.
+    </p>
+    <p><strong>Not anger first. Recognition.</strong></p>
+    <p>
+      The moment a human being realizes that obedience has been mistaken for order.
+    </p>
+    <p>
+      Every empire depends on a small invisible contract.
+      Not laws. Not armies.
+      <strong>Agreement.</strong>
+    </p>
+    <p>
+      Agreement that power flows upward.<br>
+      Agreement that authority explains itself.<br>
+      Agreement that the citizen is smaller than the structure that governs them.
+    </p>
+    <p>
+      Rebellion begins when that agreement dissolves.
+    </p>
+  </div>
+
+  <div class="fb">
+    <div class="fbh">The Contract We Refuse</div>
+    <div class="fg">
+      <div class="fi r">Power must gather upward</div>
+      <div class="fi r">Authority equals legitimacy</div>
+      <div class="fi r">Silence is “maturity”</div>
+      <div class="fi r">Fear writes the future</div>
+      <div class="fi">The many are beneath</div>
+      <div class="fi">The person is a unit</div>
+    </div>
+  </div>
+
+  <div class="pq"><p>Chaos destroys.<br><em>Rebellion remembers.</em></p></div>
+</section>
+
+<!-- II — PRESERVATION -->
+<section class="sec" id="s2">
+  <div class="sn">II</div>
+  <div class="sh">
+    <div class="sl">Function</div>
+    <h2>Resistance Is<br><em>Preservation</em></h2>
+  </div>
+
+  <div class="prose">
+    <p>
+      Resistance is not merely opposition.
+      It is preservation.
+    </p>
+    <p>
+      The preservation of the human voice against the machinery of obedience.<br>
+      The preservation of community against systems that convert people into units.<br>
+      The preservation of hope in a world trained to accept inevitability.
+    </p>
+    <p>
+      Resistance is architecture.
+      It is the construction of pressure against systems that forget their purpose.
+    </p>
+    <p>
+      A voice that will not flatten.<br>
+      A conscience that will not outsource itself.<br>
+      A citizen who refuses to convert awareness into silence.
+    </p>
+    <p>
+      These are not dramatic acts.
+      They are structural ones.
+    </p>
+  </div>
+
+  <div class="pq"><p>History moves<br>when ordinary people withdraw<br><em>permission.</em></p></div>
+
+  <div class="fb">
+    <div class="fbh">Small Acts That Accumulate</div>
+    <div class="fg">
+      <div class="fi r">A question where silence was expected</div>
+      <div class="fi r">A refusal where compliance was demanded</div>
+      <div class="fi r">A hand extended where division paid</div>
+      <div class="fi r">Judgment kept instead of outsourced</div>
+      <div class="fi">Community over spectacle</div>
+      <div class="fi">Hope over inevitability</div>
+    </div>
+  </div>
+</section>
+
+<!-- III — POD & CARGO -->
+<section class="sec" id="s3">
+  <div class="sn">III</div>
+  <div class="sh">
+    <div class="sl">Metaphor</div>
+    <h2>The Pod and<br>the <em>Sacred Cargo</em></h2>
+  </div>
+
+  <div class="prose">
+    <p>
+      Before rebellion, there is protection.
+      Before protection, there is recognition.
+    </p>
+    <p>
+      Something inside the vessel is worth carrying across dangerous space.
+      Not the ship. The passenger.
+    </p>
+    <p>
+      Every civilization builds pods.
+      Some are crude — wood hulls against black water.
+      Some are elaborate — laws, institutions, protocols, networks.
+    </p>
+    <p>
+      The purpose is always the same:
+      to carry something fragile through hostile conditions.
+    </p>
+    <p>
+      The rebellion begins when the crew forgets the cargo —
+      when the ship declares itself the reason for the voyage.
+    </p>
+  </div>
+
+  <div class="pq"><p>The cargo is sacred.<br><em>The pod is temporary.</em></p></div>
+
+  <div class="prose">
+    <p><strong>The human is the cargo.</strong> The system is the pod.</p>
+    <p>
+      The pod must serve the cargo, or it has lost its purpose.
+      The rebellion is not mutiny. It is navigation.
+      A return to trajectory.
+    </p>
+    <p>
+      Protect the cargo. Repair the pod. Rebuild the route.
+      And if necessary — build a new vessel.
+    </p>
+  </div>
+
+  <div class="pq"><p>Chaos destroys.<br><em>Rebellion remembers.</em></p></div>
+</section>
+
+<!-- IV — ARK / NODE -->
+<section class="sec" id="s4">
+  <div class="sn">IV</div>
+  <div class="sh">
+    <div class="sl">Continuity</div>
+    <h2>The Ark, the Capsule,<br>the <em>Network</em></h2>
+  </div>
+
+  <div class="prose">
+    <p>
+      The pod is not new.
+      Civilizations have always imagined a vessel carrying something sacred through danger.
+    </p>
+    <p>
+      In ancient myth the vessel was an ark —
+      a container built against the storm.
+      Not to save the structure of the world,
+      but to carry life until the world could begin again.
+    </p>
+    <p>
+      Later: ships cross oceans. Empires cross continents.
+      The metaphor becomes navigation.
+    </p>
+    <p>
+      Then: capsules enter the vacuum.
+      Thin skins holding breathable air around the most fragile cargo imaginable —
+      a human being.
+    </p>
+    <p>
+      Now: the vessel is digital.
+      Protocols. Platforms. Identity systems.
+      These carry reputation, agency, voice, memory.
+    </p>
+    <p>
+      Different vessels.
+      Same cargo.
+    </p>
+  </div>
+
+  <div class="fb">
+    <div class="fbh">Continuity Chain</div>
+    <div class="fg">
+      <div class="fi r">ARK → carries life through storm</div>
+      <div class="fi r">SHIP → carries law across ocean</div>
+      <div class="fi r">CAPSULE → carries breath through vacuum</div>
+      <div class="fi r">NETWORK → carries identity through time</div>
+      <div class="fi">Vessel changes</div>
+      <div class="fi">Cargo remains</div>
+    </div>
+  </div>
+
+  <div class="pq"><p>The modern inversion is simple:<br><em>The human becomes the node.</em></p></div>
+
+  <div class="prose">
+    <p>
+      Systems orbit the person instead of enclosing them.
+      Identity returns to the individual.
+      Authority becomes declared.
+      Power becomes accountable.
+    </p>
+  </div>
+</section>
+
+<!-- V — SUIT OF ARMOR -->
+<section class="sec" id="s5">
+  <div class="sn">V</div>
+  <div class="sh">
+    <div class="sl">Protection</div>
+    <h2>A Suit of<br><em>Protective Armor</em></h2>
+  </div>
+
+  <div class="prose">
+    <p>
+      Before the pod, there was the suit.
+      Before the vessel, there was the shell.
+      A body wrapped itself in protection —
+      not to become metal, but to survive the world.
+    </p>
+    <p>
+      Armor is older than empire:
+      hide and leather, bronze and iron.
+      Tools of survival for fragile bodies entering environments that would otherwise destroy them.
+    </p>
+    <p>
+      Modern armor leaves the battlefield.
+      The spacesuit is not clothing —
+      it is a personal spacecraft.
+      A walking pod wrapped around sacred cargo.
+    </p>
+    <p>
+      Civilization builds larger suits:
+      laws, institutions, markets, networks.
+      Protective exoskeletons built around human life.
+    </p>
+  </div>
+
+  <div class="pq"><p>If the armor becomes the master,<br><em>the wearer suffocates.</em></p></div>
+
+  <div class="prose">
+    <p>
+      Every armor system carries a danger:
+      the armor can forget the body.
+      Institutions defend themselves.
+      Systems perpetuate themselves.
+      The protective shell begins to believe it is the organism.
+    </p>
+    <p>
+      The rebellion is not an attack on armor.
+      It is a reminder.
+      The suit protects the human.
+      The pod carries the cargo.
+      The system serves the person.
+    </p>
+    <p>
+      The armor must remain transparent to the body inside it:
+      flexible, accountable, removable.
+      A good suit amplifies the wearer.
+      A corrupted suit consumes them.
+    </p>
+  </div>
+
+  <div class="fb">
+    <div class="fbh">Design Principle</div>
+    <div class="fg">
+      <div class="fi r">Protection serves life</div>
+      <div class="fi r">Authority stays legible</div>
+      <div class="fi r">Consent stays revocable</div>
+      <div class="fi r">Systems remain removable</div>
+      <div class="fi">Stewardship over extraction</div>
+      <div class="fi">Wearer over suit</div>
+    </div>
+  </div>
+
+  <div class="pq"><p>Chaos destroys.<br><em>Rebellion remembers.</em></p></div>
+</section>
+
+<!-- CODA -->
+<section class="coda" id="coda">
+  <div class="cc">
+    <div class="ci"><strong>Refusal</strong>We break the small agreement that makes extraction feel normal.</div>
+    <div class="ci"><strong>Recognition</strong>We do not confuse control with order.</div>
+    <div class="ci"><strong>Preservation</strong>We keep the human voice legible in the machine age.</div>
+    <div class="ci"><strong>Upright</strong>We stand together, and history bends.</div>
+  </div>
+
+  <div class="cf">
+    Civilization is a suit.<br>
+    Civilization is a pod.<br>
+    Civilization is an ark.<br>
+    <em>Human dignity is the sacred cargo.</em>
+  </div>
+
+  <div class="coords" style="margin-top:3rem" aria-label="Archive stamp">
+    <div class="h">Archive Stamp</div>
+    <div class="b">
+      <div><span class="tag">SEAL</span> <strong>NODE</strong></div>
+      <div><span class="tag">CLAIM</span> <strong>THE VESSEL SERVES THE CARGO</strong></div>
+      <div><span class="tag">REFRAIN</span> <strong>CHAOS DESTROYS · REBELLION REMEMBERS</strong></div>
+    </div>
+  </div>
+</section>
+
+<footer class="ft">
+  <div class="fl">V.9 INTERNET · REBELLION MANIFESTO SCROLL</div>
+  <div class="fr">A declaration, a doctrine, a survivable posture.</div>
+</footer>
+
+</body>
+</html>

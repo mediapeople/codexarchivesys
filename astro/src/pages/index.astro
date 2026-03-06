@@ -1,0 +1,163 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ObjectCard from '../components/ObjectCard.astro';
+import { COLLECTIONS, getAllEntries, getTypeLabel } from '../lib/archive';
+
+const entries = await getAllEntries();
+
+const typeCounts = COLLECTIONS
+  .map((type) => ({
+    type,
+    count: entries.filter((entry) => entry.collection === type).length,
+  }))
+  .filter((item) => item.count > 0);
+
+const constellationSet = new Set(
+  entries.flatMap((entry) => entry.data.constellations)
+);
+---
+
+<BaseLayout title="Codex Archive">
+  <section class="hero">
+    <p class="eyebrow">Codex Archive System</p>
+    <h1>Object-first archive feed</h1>
+    <p class="intro">
+      Scrolls, artifacts, field logs, codex documents, fragments, and nexus issues
+      live as independent objects. Discovery emerges from shared themes,
+      constellations, and explicit relations.
+    </p>
+  </section>
+
+  <section class="stats">
+    <article>
+      <strong>{entries.length}</strong>
+      <span>Objects</span>
+    </article>
+    <article>
+      <strong>{typeCounts.length}</strong>
+      <span>Types in use</span>
+    </article>
+    <article>
+      <strong>{constellationSet.size}</strong>
+      <span>Constellations</span>
+    </article>
+  </section>
+
+  <section class="type-grid">
+    {typeCounts.map((item) => (
+      <article class="type-box">
+        <p>{getTypeLabel(item.type)}</p>
+        <strong>{item.count}</strong>
+      </article>
+    ))}
+  </section>
+
+  <section class="feed">
+    {entries.map((entry) => (
+      <ObjectCard entry={entry} />
+    ))}
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    margin-bottom: 1.1rem;
+    padding: 1.2rem 1.1rem;
+    border: 1px solid rgba(175, 163, 121, 0.28);
+    border-radius: 18px;
+    background:
+      radial-gradient(circle at 85% 22%, rgba(237, 199, 111, 0.16), transparent 40%),
+      linear-gradient(160deg, rgba(19, 21, 30, 0.86), rgba(17, 20, 27, 0.86));
+  }
+
+  .eyebrow {
+    margin: 0;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.72rem;
+    font-weight: 600;
+  }
+
+  h1 {
+    margin: 0.35rem 0 0.45rem;
+    color: var(--text-strong);
+    font-size: clamp(1.7rem, 4vw, 2.5rem);
+    line-height: 1.08;
+  }
+
+  .intro {
+    margin: 0;
+    max-width: 72ch;
+    color: var(--text-body);
+    line-height: 1.45;
+  }
+
+  .stats {
+    margin: 0 0 0.9rem;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.7rem;
+  }
+
+  .stats article {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 0.75rem;
+    background: rgba(15, 18, 26, 0.48);
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .stats strong {
+    color: var(--text-strong);
+    font-size: 1.35rem;
+    line-height: 1;
+  }
+
+  .stats span {
+    color: var(--text-dim);
+    font-size: 0.82rem;
+    letter-spacing: 0.03em;
+  }
+
+  .type-grid {
+    margin: 0 0 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.55rem;
+  }
+
+  .type-box {
+    border: 1px dashed rgba(194, 184, 151, 0.3);
+    border-radius: 12px;
+    padding: 0.65rem 0.75rem;
+    background: rgba(21, 24, 33, 0.44);
+  }
+
+  .type-box p {
+    margin: 0;
+    font-size: 0.76rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .type-box strong {
+    color: var(--text-strong);
+    font-size: 1.2rem;
+  }
+
+  .feed {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 0.8rem;
+  }
+
+  @media (max-width: 700px) {
+    .stats {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

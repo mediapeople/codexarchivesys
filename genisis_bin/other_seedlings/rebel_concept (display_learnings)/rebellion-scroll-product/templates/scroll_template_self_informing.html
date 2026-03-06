@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>Scroll Template — Self-Informing Manifesto</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* Template: the layout and navigation inform themselves via data-* attributes and [data-nav] sections.
+   Replace content; keep the mechanics. */
+:root{--ink:#0e0c0a;--parchment:#f4f0e8;--bone:#e8e2d4;--rust:#c4623a;--rust-dark:#8b3a1e;--gold:#c9963a;--ash:#8a8480;--ghost:#5c5450;--dim:#2a2620;--masthead-h:72px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--ink);overflow-x:clip;max-width:100%}
+body{background:var(--ink);color:var(--parchment);font-family:'Libre Baskerville',Georgia,serif;overflow-x:clip;max-width:100%;position:relative}
+:target{scroll-margin-top: calc(var(--masthead-h) + 18px)}
+.axis{position:fixed; inset:0 auto 0 50%; width:1px; background:var(--dim); opacity:.25; transform:translateX(-.5px); pointer-events:none; z-index:0}
+.masthead{position:sticky; top:0; z-index:200; height:var(--masthead-h); border-bottom:1px solid var(--dim); padding:1rem 4rem; display:flex; justify-content:space-between; align-items:center; background:rgba(14,12,10,.92); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px)}
+.ml{font-family:'Space Mono',monospace;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ash);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.ms{font-family:'Playfair Display',serif;color:var(--gold);font-size:1.1rem;font-style:italic}
+.nav{position:relative; display:flex; align-items:center; gap:.75rem}
+.menu{position:relative}
+.menu>summary{list-style:none;display:flex;align-items:center;justify-content:center;width:36px;height:36px;border:1px solid var(--dim);cursor:pointer;user-select:none}
+.menu>summary::-webkit-details-marker{display:none}
+.menu>summary:hover{border-color:var(--ghost);background:rgba(255,255,255,.04)}
+.menu[open]>summary{border-color:var(--rust);background:rgba(196,98,58,.06)}
+.bars{display:grid;gap:5px}
+.bar{width:13px;height:1.5px;background:var(--ash);transition:transform .2s ease, opacity .15s, background .18s;transform-origin:center}
+.menu[open] .bar:nth-child(1){transform:translateY(6.5px) rotate(45deg);background:var(--rust)}
+.menu[open] .bar:nth-child(2){opacity:0;transform:scaleX(0)}
+.menu[open] .bar:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);background:var(--rust)}
+.panel{position:absolute;right:0;top:calc(100% + 10px);width:280px;max-height:70vh;overflow:auto;border:1px solid var(--dim);background:rgba(14,12,10,.98);padding:.55rem 0;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.nav-header{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.28em;color:var(--ghost);text-transform:uppercase;padding:.15rem 1rem .6rem;border-bottom:1px solid var(--dim);margin-bottom:.3rem}
+.nav-list{list-style:none;margin:0;padding:0}
+.nav-item{display:flex;align-items:baseline;gap:.55rem;padding:.38rem 1rem;text-decoration:none;border-left:2px solid transparent;transition:background .1s, border-color .1s}
+.nav-item:hover{background:rgba(255,255,255,.04);border-left-color:var(--ghost)}
+.nav-item.active{border-left-color:var(--rust);background:rgba(196,98,58,.05)}
+.nav-num{font-family:'Playfair Display',serif;font-size:.9rem;font-style:italic;color:var(--ghost);min-width:2.3rem;text-align:right;flex-shrink:0;line-height:1}
+.nav-label{font-family:'Space Mono',monospace;font-size:.63rem;letter-spacing:.05em;color:var(--ash);text-transform:uppercase;white-space:nowrap}
+.nav-item:hover .nav-label,.nav-item.active .nav-label{color:var(--parchment)}
+.nav-item:hover .nav-num,.nav-item.active .nav-num{color:var(--rust)}
+.hero{padding:6rem 4rem 4rem;border-bottom:1px solid var(--dim);position:relative;z-index:1}
+.eyebrow{font-family:'Space Mono',monospace;font-size:.78rem;letter-spacing:.3em;text-transform:uppercase;color:var(--rust);margin-bottom:2rem;display:flex;align-items:center;gap:1rem}
+.eyebrow::after{content:'';height:1px;width:4rem;background:var(--rust-dark);opacity:.5}
+h1{font-family:'Playfair Display',serif;font-size:clamp(3.5rem,8vw,7rem);font-weight:900;line-height:.95;letter-spacing:-.02em}
+h1 em{color:var(--gold);font-style:italic}
+.sub{font-family:'Space Mono',monospace;font-size:.82rem;letter-spacing:.2em;color:var(--ash);margin-top:1.25rem;text-transform:uppercase;max-width:60rem}
+.coords{margin-top:2.25rem;border:1px solid var(--dim);background:rgba(255,255,255,.012);max-width:560px}
+.coords .h{padding:.9rem 1.2rem;border-bottom:1px solid var(--dim);font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.22em;color:var(--rust);text-transform:uppercase}
+.coords .b{padding:1rem 1.2rem;display:grid;gap:.45rem;font-family:'Space Mono',monospace;font-size:.82rem;letter-spacing:.06em;color:var(--ash);line-height:1.6}
+.coords .b strong{color:var(--parchment)}
+.coords .tag{display:inline-block;border:1px solid var(--dim);padding:.35rem .55rem;color:var(--ghost);letter-spacing:.18em;text-transform:uppercase;font-size:.62rem}
+.sec{padding:5rem 4rem;border-bottom:1px solid var(--dim);position:relative;z-index:1}
+.ft{padding:2rem 4rem;border-top:1px solid var(--dim);display:flex;justify-content:space-between;align-items:center;gap:1rem;position:relative;z-index:1}
+.fl{font-family:'Space Mono',monospace;font-size:.74rem;letter-spacing:.2em;color:var(--ghost);text-transform:uppercase}
+.fr{font-family:'Playfair Display',serif;font-size:.9rem;font-style:italic;color:var(--ghost)}
+@media(max-width:640px){
+  .masthead,.hero,.sec,.ft{padding-left:1.25rem;padding-right:1.25rem}
+  .masthead{padding-top:.85rem;padding-bottom:.85rem}
+  .panel{width:min(260px, calc(100vw - 2.5rem)); max-height:60vh}
+}
+</style>
+</head>
+<body>
+<div class="axis" aria-hidden="true"></div>
+
+<header class="masthead">
+  <span class="ml" id="sysLabel">SCROLL SYSTEM</span>
+  <div class="nav" aria-label="Scroll navigation">
+    <span class="ms" id="docTitle">Title</span>
+    <details class="menu" id="menu">
+      <summary aria-label="Open navigation">
+        <span class="bars" aria-hidden="true"><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>
+      </summary>
+      <div class="panel" role="dialog" aria-label="Navigation menu">
+        <div class="nav-header" id="navHeader">Index</div>
+        <ol class="nav-list" id="navList"></ol>
+      </div>
+    </details>
+  </div>
+</header>
+
+<main id="scroll"
+  data-system="V.9 INTERNET · THE POD · THE ARMOR · THE SACRED CARGO"
+  data-title="Manifesto"
+  data-index-label="Rebellion Scroll"
+  data-origin-node="HUMAN"
+  data-revision="01"
+  data-status="DECLARED"
+  data-tagline="A declaration, a doctrine, a survivable posture."
+>
+  <section class="hero" id="top" data-nav="Top" data-num="✦">
+    <div class="eyebrow">A constitutional scroll for survivable systems</div>
+    <h1>The <em>Rebellion</em><br>is a Suit, a Pod, an Ark</h1>
+    <p class="sub">Replace this line with your own secondary statement.</p>
+
+    <div class="coords" aria-label="Document coordinates">
+      <div class="h">Document Coordinates</div>
+      <div class="b" id="coordsBody"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="s1" data-nav="Section One" data-num="I">
+    <div style="max-width:820px">
+      <p style="color:var(--bone);font-size:1.1rem;line-height:1.9">Write here. Add more sections with <code>data-nav</code> and the menu will generate itself.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="ft">
+  <div class="fl" id="footLeft">SCROLL SYSTEM</div>
+  <div class="fr" id="footRight">Tagline</div>
+</footer>
+
+<script>
+(function(){
+  const main = document.getElementById('scroll');
+  const menu = document.getElementById('menu');
+  const navList = document.getElementById('navList');
+
+  const sys = main?.dataset?.system || 'SCROLL';
+  const title = main?.dataset?.title || 'Manifesto';
+  const indexLabel = main?.dataset?.indexLabel || 'Scroll Index';
+  const origin = main?.dataset?.originNode || 'HUMAN';
+  const rev = main?.dataset?.revision || '01';
+  const status = main?.dataset?.status || 'DECLARED';
+  const tagline = main?.dataset?.tagline || 'A declaration, a doctrine, a survivable posture.';
+
+  document.getElementById('sysLabel').textContent = sys;
+  document.getElementById('docTitle').textContent = title;
+  document.getElementById('navHeader').textContent = indexLabel;
+  document.getElementById('footLeft').textContent = sys;
+  document.getElementById('footRight').textContent = tagline;
+
+  const coords = document.getElementById('coordsBody');
+  if(coords){
+    coords.innerHTML = `
+      <div><strong>${title}</strong> · ${sys}</div>
+      <div><span class="tag">ORIGIN NODE</span> <strong>${origin}</strong></div>
+      <div><span class="tag">REVISION</span> <strong>${rev}</strong></div>
+      <div><span class="tag">STATUS</span> <strong>${status}</strong></div>
+    `;
+  }
+
+  const sections = Array.from(document.querySelectorAll('main [id][data-nav]'))
+    .filter(el => el.id && el.dataset.nav);
+
+  navList.innerHTML = '';
+  sections.forEach(el => {
+    const num = el.dataset.num || '';
+    const label = el.dataset.nav || el.id;
+    const li = document.createElement('li');
+    li.innerHTML = `<a class="nav-item" href="#${el.id}" data-target="${el.id}">
+      <span class="nav-num">${num}</span><span class="nav-label">${label}</span></a>`;
+    navList.appendChild(li);
+  });
+
+  navList.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click', ()=> menu && menu.removeAttribute('open'));
+  });
+  document.addEventListener('click', (e)=>{
+    if(!menu) return;
+    if(menu.hasAttribute('open') && !menu.contains(e.target)) menu.removeAttribute('open');
+  });
+})();
+</script>
+</body>
+</html>

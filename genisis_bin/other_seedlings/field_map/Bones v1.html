@@ -1,0 +1,2535 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Bones Hold</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0e0c0a;--parchment:#f4f0e8;--bone:#e8e2d4;--rust:#c4623a;--ash:#8a8480;--gold:#c9963a;--dim:#2a2620;--ghost:#5c5450;--rust-dark:#8b3a1e}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--ink);overflow-x:clip;max-width:100%}
+body{background:var(--ink);color:var(--parchment);font-family:'Libre Baskerville',Georgia,serif;overflow-x:clip;max-width:100%;position:relative}
+.masthead{position:sticky;top:0;z-index:200;border-bottom:1px solid var(--dim);padding:1rem 4rem;display:flex;justify-content:space-between;align-items:center;background:rgba(14,12,10,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);overflow:visible}
+.ml{font-family:'Space Mono',monospace;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ash);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.ms{font-family:'Playfair Display',serif;color:var(--gold);font-size:1.1rem}
+.hero{padding:6rem 4rem 4rem;border-bottom:1px solid var(--dim)}
+.eyebrow{font-family:'Space Mono',monospace;font-size:.78rem;letter-spacing:.3em;text-transform:uppercase;color:var(--rust);margin-bottom:2rem;display:flex;align-items:center;gap:1rem}
+.eyebrow::after{content:'';height:1px;width:4rem;background:var(--rust-dark);opacity:.5}
+h1{font-family:'Playfair Display',serif;font-size:clamp(3.5rem,8vw,7rem);font-weight:900;line-height:.95;letter-spacing:-.02em}
+h1 em{color:var(--gold);font-style:italic}
+.sub{font-family:'Space Mono',monospace;font-size:.82rem;letter-spacing:.2em;color:var(--ash);margin-top:2rem;text-transform:uppercase}
+.ov{padding:5rem 4rem;max-width:680px;border-bottom:1px solid var(--dim)}
+.ov p{font-size:1.25rem;line-height:1.8;color:var(--bone);margin-bottom:1rem}
+.ov p strong{color:var(--parchment)}
+.lp{margin:2rem 0;padding-left:2rem;border-left:2px solid var(--rust-dark)}
+.lp p{font-family:'Space Mono',monospace;font-size:.9rem;letter-spacing:.05em;color:var(--ash);line-height:2.4;margin:0}
+.sec{padding:5rem 4rem;border-bottom:1px solid var(--dim);position:relative}
+.sn{font-family:'Playfair Display',serif;font-size:8rem;font-weight:900;color:var(--dim);position:absolute;top:2rem;right:3rem;line-height:1;user-select:none;letter-spacing:-.04em}
+.sh{margin-bottom:3rem}
+.sl{font-family:'Space Mono',monospace;font-size:.74rem;letter-spacing:.3em;color:var(--rust);text-transform:uppercase;margin-bottom:.75rem;display:flex;align-items:center;gap:.75rem}
+.sl::before{content:'✦';font-size:.6rem}
+h2{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3.5rem);font-weight:900;line-height:1.05;letter-spacing:-.02em;max-width:600px}
+h2 em{color:var(--gold);font-style:italic}
+.prose{max-width:580px}
+.prose p{font-size:1.15rem;line-height:1.85;color:var(--bone);margin-bottom:1.25rem}
+.prose p strong{color:var(--parchment)}
+.prose p.sm{font-size:1rem;color:var(--ash)}
+.wn{font-family:'Playfair Display',serif;font-size:1.6rem;font-style:italic;color:var(--rust);margin-top:1.5rem;letter-spacing:-.01em}
+.wn em{color:var(--gold);font-style:normal}
+.fb{margin:3rem 0;border:1px solid var(--dim);background:rgba(255,255,255,.015)}
+.fbh{padding:1rem 1.5rem;border-bottom:1px solid var(--dim);font-family:'Space Mono',monospace;font-size:.78rem;letter-spacing:.2em;color:var(--rust);text-transform:uppercase;display:flex;align-items:center;gap:.75rem}
+.fbh::before{content:'';width:6px;height:6px;background:var(--rust-dark);transform:rotate(45deg);flex-shrink:0;display:inline-block}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+.fi{padding:.9rem 1.5rem;border-right:1px solid var(--dim);border-bottom:1px solid var(--dim);font-family:'Space Mono',monospace;font-size:.82rem;letter-spacing:.05em;color:var(--ash)}
+.fi.r{color:var(--parchment)}
+.pq{margin:3rem 0;padding:2.5rem 0 2.5rem 2.5rem;border-left:3px solid var(--gold)}
+.pq p{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,3vw,2.1rem);font-style:italic;line-height:1.4;color:var(--parchment)}
+.pq p em{color:var(--gold);font-style:normal}
+.nd{margin:3rem 0}
+.nl{display:flex;align-items:stretch;border:1px solid var(--dim);margin-bottom:-1px}
+.nll{padding:1rem 1.25rem;font-family:'Space Mono',monospace;font-size:.74rem;letter-spacing:.15em;color:var(--rust);text-transform:uppercase;writing-mode:vertical-lr;border-right:1px solid var(--dim);background:rgba(139,58,30,.05);white-space:nowrap;min-width:3rem;display:flex;align-items:center;justify-content:center}
+.nlc{padding:1rem 1.5rem;font-family:'Space Mono',monospace;font-size:.85rem;color:var(--ash);letter-spacing:.04em;line-height:1.9;flex:1}
+.nlc strong{color:var(--parchment)}
+.hf{margin:3rem 0;display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--dim);border:1px solid var(--dim)}
+.hfi{background:var(--ink);padding:1.1rem 1.5rem}
+.fb .hfi{border:none}
+.hfn{font-family:'Space Mono',monospace;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:.3rem}
+.hfd{font-size:.92rem;color:var(--ash);font-style:italic;line-height:1.5}
+.tq{margin:3rem 0}
+.qr{display:grid;grid-template-columns:3rem 1fr;align-items:center;border:1px solid var(--dim);margin-bottom:-1px;padding:1.25rem 1.5rem 1.25rem 0}
+.qn{font-family:'Playfair Display',serif;font-size:2rem;font-style:italic;color:var(--ghost);text-align:center;padding:0 1rem;font-weight:900;line-height:1}
+.qt{font-family:'Playfair Display',serif;font-size:1.2rem;font-style:italic;color:var(--ash)}
+.coda{padding:6rem 4rem 4rem}
+.cc{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--dim);border:1px solid var(--dim);margin-bottom:4rem;max-width:560px}
+.ci{background:var(--ink);padding:1.5rem 1.75rem;font-family:'Playfair Display',serif;font-size:1.1rem;font-style:italic;color:var(--ash);line-height:1.5}
+.ci strong{display:block;font-style:normal;font-weight:900;font-size:1.3rem;color:var(--parchment);margin-bottom:.25rem;letter-spacing:-.02em}
+.cf{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,4rem);font-weight:900;font-style:italic;line-height:1.1;letter-spacing:-.02em;color:var(--parchment)}
+.cf em{color:var(--gold);font-style:normal}
+.ft{padding:2rem 4rem;border-top:1px solid var(--dim);display:flex;justify-content:space-between;align-items:center}
+.fl{font-family:'Space Mono',monospace;font-size:.74rem;letter-spacing:.2em;color:var(--ghost);text-transform:uppercase}
+.fr{font-family:'Playfair Display',serif;font-size:.9rem;font-style:italic;color:var(--ghost)}
+.rule{display:flex;align-items:center;gap:1rem;margin:1.5rem 0;color:var(--ghost);font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.3em}
+.rule::before,.rule::after{content:'';flex:1;height:1px;background:var(--dim)}
+.il{margin:2.5rem 0;overflow-x:auto;max-width:100%}
+.il svg{max-width:100%;height:auto}
+@media(max-width:640px){
+  /* Global containment */
+  .masthead,.hero,.ov,.sec,.coda,.ft,
+  .doc-sec,.nd,.nl,.fb,.fg,.hfi,.cc,.ci,
+  table,.field-card,.prompt-block{
+    max-width:100%;
+  }
+
+/* Section padding */
+.masthead,.hero,.ov,.sec,.coda,.ft{padding-left:1.25rem;padding-right:1.25rem}
+.masthead{padding-top:.85rem;padding-bottom:.85rem}
+.sn{font-size:5rem;top:1.5rem;right:1rem}
+
+/* Grid collapses */
+.hf{grid-template-columns:1fr}
+.cc{grid-template-columns:1fr;max-width:100%}
+.fg{grid-template-columns:1fr}
+
+/* Vertical label rows → horizontal */
+.nl{flex-direction:column}
+.nll{
+writing-mode:horizontal-tb !important;
+border-right:none !important;
+border-bottom:1px solid var(–dim);
+padding:.45rem 1rem;
+justify-content:flex-start;
+min-width:0 !important;
+width:100%;
+white-space:normal;
+font-size:.58rem;
+}
+
+/* All inline multi-column grids */
+[style*=“grid-template-columns:1fr 1fr”],
+[style*=“grid-template-columns:1fr auto 1fr auto 1fr”],
+[style*=“grid-template-columns:repeat(2,1fr)”],
+[style*=“grid-template-columns:auto 1fr”],
+[style*=“grid-template-columns:repeat(3,1fr)”]{
+grid-template-columns:1fr !important;
+}
+
+/* Sim */
+.sim-map-row{grid-template-columns:1fr 1fr !important}
+.sim-btn{white-space:normal;text-align:left}
+
+/* Split grids */
+.split-grid{grid-template-columns:1fr !important}
+.split-grid > *{border-right:none !important;border-bottom:1px solid var(–dim)}
+.split-grid > *:last-child{border-bottom:none}
+
+/* Handoff flow */
+.handoff-flow{grid-template-columns:1fr !important}
+.handoff-arrow{display:none !important}
+
+/* Tables */
+table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+/* Text overflow prevention */
+.prompt-text{
+white-space:pre-wrap;
+word-break:break-word;
+overflow-wrap:anywhere;
+font-size:.72rem;
+}
+.doc-note,.field-card-item-text,.doc-prose{
+overflow-wrap:break-word;
+word-break:break-word;
+}
+.ci{word-break:break-word;overflow-wrap:break-word}
+
+/* Expansion docs */
+#doc-writing{padding:2.5rem 1.25rem 0 !important}
+.doc-sec{padding:3rem 1.25rem 2.5rem;max-width:100%}
+.doc-h1{font-size:1.65rem}
+.prompt-examples{grid-template-columns:1fr !important}
+.exp-divider{padding:2rem 1.25rem 0}
+}
+</style>
+
+</head>
+<body>
+
+<!-- SIDE NAV -->
+
+<header class="masthead">
+  <span class="ml">The Bones Hold &nbsp;·&nbsp; A Content Architecture Scroll</span>
+  <nav id="sidenav" aria-label="Scroll navigation">
+    <button id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+    <div id="nav-panel">
+      <div class="nav-header">The Bones Hold</div>
+      <ol class="nav-list">
+        <li><a href="#s1" class="nav-item" data-s="s1"><span class="nav-num">I</span><span class="nav-label">Content Types</span></a></li>
+        <li><a href="#s2" class="nav-item" data-s="s2"><span class="nav-num">II</span><span class="nav-label">Navigation</span></a></li>
+        <li><a href="#s3" class="nav-item" data-s="s3"><span class="nav-num">III</span><span class="nav-label">Hero Module</span></a></li>
+        <li><a href="#s4" class="nav-item" data-s="s4"><span class="nav-num">IV</span><span class="nav-label">Design Handoff</span></a></li>
+        <li><a href="#s5" class="nav-item" data-s="s5"><span class="nav-num">V</span><span class="nav-label">Design Philosophy</span></a></li>
+        <li><a href="#s6" class="nav-item" data-s="s6"><span class="nav-num">VI</span><span class="nav-label">Field Mapping</span></a></li>
+        <li><a href="#sim-section" class="nav-item" data-s="sim-section"><span class="nav-num">∞</span><span class="nav-label">Simulation</span></a></li>
+        <li><a href="#s7" class="nav-item" data-s="s7"><span class="nav-num">VII</span><span class="nav-label">Messaging</span></a></li>
+        <li><a href="#s8" class="nav-item" data-s="s8"><span class="nav-num">VIII</span><span class="nav-label">Style</span></a></li>
+        <li><a href="#s9" class="nav-item" data-s="s9"><span class="nav-num">IX</span><span class="nav-label">Node Design</span></a></li>
+        <li><a href="#s10" class="nav-item" data-s="s10"><span class="nav-num">X</span><span class="nav-label">Photography</span></a></li>
+        <li><a href="#s11" class="nav-item" data-s="s11"><span class="nav-num">XI</span><span class="nav-label">The Editor</span></a></li>
+        <li><a href="#doc-writing" class="nav-item" data-s="doc-writing"><span class="nav-num">↓</span><span class="nav-label">Writing Guide</span></a></li>
+        <li><a href="#doc-cowriting" class="nav-item" data-s="doc-cowriting"><span class="nav-num">↓</span><span class="nav-label">Co-Writing</span></a></li>
+        <li><a href="#doc-prompts" class="nav-item" data-s="doc-prompts"><span class="nav-num">↓</span><span class="nav-label">Prompts</span></a></li>
+      </ol>
+    </div>
+  </nav>
+</header>
+<style>
+/* ── Nav in masthead ── */
+#sidenav{
+  position:relative;
+  display:flex;
+  align-items:center;
+}
+#nav-toggle{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  width:32px;
+  height:32px;
+  background:transparent;
+  border:1px solid var(--dim);
+  cursor:pointer;
+  padding:0;
+  transition:border-color .18s, background .18s;
+  flex-shrink:0;
+}
+#nav-toggle:hover{
+  border-color:var(--ghost);
+  background:rgba(255,255,255,.04);
+}
+#sidenav.open #nav-toggle{
+  border-color:var(--rust);
+  background:rgba(196,98,58,.06);
+}
+.nav-toggle-bar{
+  display:block;
+  width:13px;
+  height:1.5px;
+  background:var(--ash);
+  transition:transform .2s ease, opacity .15s, background .18s;
+  transform-origin:center;
+}
+#sidenav.open .nav-toggle-bar:nth-child(1){
+  transform:translateY(6.5px) rotate(45deg);
+  background:var(--rust);
+}
+#sidenav.open .nav-toggle-bar:nth-child(2){
+  opacity:0;
+  transform:scaleX(0);
+}
+#sidenav.open .nav-toggle-bar:nth-child(3){
+  transform:translateY(-6.5px) rotate(-45deg);
+  background:var(--rust);
+}
+
+/* Panel drops down from toggle */
+#nav-panel{
+position:absolute;
+top:calc(100% + 10px);
+right:0;
+background:var(–ink);
+border:1px solid var(–dim);
+padding:.55rem 0;
+width:210px;
+max-height:80vh;
+overflow-y:auto;
+opacity:0;
+pointer-events:none;
+transform:translateY(-6px);
+transition:opacity .18s ease, transform .2s ease;
+z-index:300;
+}
+#sidenav.open #nav-panel{
+opacity:1;
+pointer-events:auto;
+transform:translateY(0);
+}
+
+.nav-header{
+font-family:‘Space Mono’,monospace;
+font-size:.56rem;
+letter-spacing:.28em;
+color:var(–ghost);
+text-transform:uppercase;
+padding:.15rem 1rem .6rem;
+border-bottom:1px solid var(–dim);
+margin-bottom:.3rem;
+}
+.nav-list{
+list-style:none;
+padding:0;
+margin:0;
+}
+.nav-item{
+display:flex;
+align-items:baseline;
+gap:.55rem;
+padding:.38rem 1rem;
+text-decoration:none;
+border-left:2px solid transparent;
+transition:background .1s, border-color .1s;
+}
+.nav-item:hover{
+background:rgba(255,255,255,.04);
+border-left-color:var(–ghost);
+}
+.nav-item.active{
+border-left-color:var(–rust);
+background:rgba(196,98,58,.05);
+}
+.nav-num{
+font-family:‘Playfair Display’,serif;
+font-size:.8rem;
+font-style:italic;
+color:var(–ghost);
+min-width:1.6rem;
+text-align:right;
+flex-shrink:0;
+line-height:1;
+transition:color .1s;
+}
+.nav-label{
+font-family:‘Space Mono’,monospace;
+font-size:.63rem;
+letter-spacing:.05em;
+color:var(–ash);
+text-transform:uppercase;
+white-space:nowrap;
+transition:color .1s;
+}
+.nav-item:hover .nav-label,
+.nav-item.active .nav-label{ color:var(–parchment); }
+.nav-item:hover .nav-num,
+.nav-item.active .nav-num{ color:var(–rust); }
+
+@media(max-width:720px){
+#nav-panel{ width:min(200px, calc(100vw - 2.5rem)); max-height:60vh; }
+}
+</style>
+
+<script>
+(function(){
+  var toggle = document.getElementById('nav-toggle');
+  var nav = document.getElementById('sidenav');
+  var items = document.querySelectorAll('.nav-item');
+
+  toggle.addEventListener('click', function(){
+    var open = nav.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+
+  // Close on link click
+  items.forEach(function(a){
+    a.addEventListener('click', function(){
+      nav.classList.remove('open');
+      toggle.setAttribute('aria-expanded','false');
+    });
+  });
+
+  // Close on outside click
+  document.addEventListener('click', function(e){
+    if(!nav.contains(e.target)){
+      nav.classList.remove('open');
+      toggle.setAttribute('aria-expanded','false');
+    }
+  });
+
+  // Scroll spy
+  var sections = Array.from(items).map(function(a){
+    return document.getElementById(a.dataset.s);
+  }).filter(Boolean);
+
+  function onScroll(){
+    if(!sections.length) return;
+    var scrollY = window.scrollY + window.innerHeight * 0.3;
+    var active = sections[0];
+    sections.forEach(function(s){
+      if(s && s.offsetTop <= scrollY) active = s;
+    });
+    if(!active) return;
+    items.forEach(function(a){
+      a.classList.toggle('active', a.dataset.s === active.id);
+    });
+  }
+
+  window.addEventListener('scroll', onScroll, {passive:true});
+  requestAnimationFrame(onScroll);
+})();
+</script>
+
+<section class="hero">
+  <div class="eyebrow">Systems Architecture &amp; Content Design</div>
+  <h1>A Website<br>is Not a<br><em>Page.</em></h1>
+  <p class="sub">It is a system that survives Tuesdays.</p>
+  <div class="il">
+    <svg width="100%" height="140" viewBox="0 0 800 100" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+      <line x1="0" y1="50" x2="800" y2="50" stroke="#4a4540" stroke-width="1"/>
+      <rect x="55" y="34" width="32" height="32" stroke="#5c5650" stroke-width="1.5" fill="none"/>
+      <rect x="175" y="34" width="32" height="32" stroke="#5c5650" stroke-width="1.5" fill="none"/>
+      <rect x="295" y="34" width="32" height="32" stroke="#c9963a" stroke-width="1.5" fill="rgba(201,150,58,0.06)"/>
+      <rect x="415" y="34" width="32" height="32" stroke="#5c5650" stroke-width="1.5" fill="none"/>
+      <rect x="535" y="34" width="32" height="32" stroke="#5c5650" stroke-width="1.5" fill="none"/>
+      <rect x="655" y="34" width="32" height="32" stroke="#5c5650" stroke-width="1.5" fill="none"/>
+      <line x1="71" y1="66" x2="71" y2="90" stroke="#4a4540" stroke-width="1"/>
+      <line x1="191" y1="66" x2="191" y2="90" stroke="#4a4540" stroke-width="1"/>
+      <line x1="311" y1="66" x2="311" y2="90" stroke="#c9963a" stroke-width="1" opacity=".6"/>
+      <line x1="431" y1="66" x2="431" y2="90" stroke="#4a4540" stroke-width="1"/>
+      <line x1="551" y1="66" x2="551" y2="90" stroke="#4a4540" stroke-width="1"/>
+      <line x1="671" y1="66" x2="671" y2="90" stroke="#4a4540" stroke-width="1"/>
+      <line x1="71" y1="34" x2="71" y2="10" stroke="#4a4540" stroke-width="1"/>
+      <line x1="191" y1="34" x2="191" y2="10" stroke="#4a4540" stroke-width="1"/>
+      <line x1="311" y1="34" x2="311" y2="10" stroke="#c9963a" stroke-width="1" opacity=".6"/>
+      <line x1="431" y1="34" x2="431" y2="10" stroke="#4a4540" stroke-width="1"/>
+      <line x1="551" y1="34" x2="551" y2="10" stroke="#4a4540" stroke-width="1"/>
+      <line x1="671" y1="34" x2="671" y2="10" stroke="#4a4540" stroke-width="1"/>
+    </svg>
+  </div>
+</section>
+
+<section class="ov">
+  <p>It is a <strong>system</strong><br>
+  that survives Tuesdays,<br>
+  staff turnover,<br>
+  the intern with admin access,<br>
+  the campaign that never died,<br>
+  and the six-word instruction<br>
+  that broke everything:<br>
+  <em style="color:var(--gold)">"just do it this once."</em></p>
+  <p>Scale doesn't ask for permission.<br>So I start where it starts:</p>
+  <div class="rule">✦ ✦ ✦</div>
+</section>
+
+<!-- I -->
+
+<section class="sec" id="s1">
+  <div class="sn">I</div>
+  <div class="sh">
+    <div class="sl">Content Architecture</div>
+    <h2>Content Types<br>Are the <em>Bones</em></h2>
+  </div>
+  <div class="prose">
+    <p>Not <em style="color:var(--gold)">"make me a page."</em></p>
+    <p><strong>Name the creature.</strong></p>
+  </div>
+  <div class="lp">
+    <p>Article.</p>
+    <p>Event.</p>
+    <p>Product.</p>
+    <p>Location.</p>
+    <p>Campaign.</p>
+  </div>
+  <div class="prose">
+    <p>Each one: a repeatable object with rules.<br>Not a vibe. Not a layout. <strong>A contract.</strong></p>
+    <p class="wn">Design pages, build snowflakes.<br>Design content types, build <em>weather.</em></p>
+  </div>
+  <div class="il">
+    <svg width="100%" height="180" viewBox="0 0 700 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Snowflake — scaled up, centered in left third -->
+      <line x1="90" y1="20" x2="90" y2="120" stroke="#5c5650" stroke-width="2"/>
+      <line x1="40" y1="70" x2="140" y2="70" stroke="#5c5650" stroke-width="2"/>
+      <line x1="51" y1="31" x2="129" y2="109" stroke="#5c5650" stroke-width="2"/>
+      <line x1="51" y1="109" x2="129" y2="31" stroke="#5c5650" stroke-width="2"/>
+      <circle cx="90" cy="20" r="4" fill="#5c5650"/>
+      <circle cx="90" cy="120" r="4" fill="#5c5650"/>
+      <circle cx="40" cy="70" r="4" fill="#5c5650"/>
+      <circle cx="140" cy="70" r="4" fill="#5c5650"/>
+      <text x="28" y="155" font-family="Space Mono" font-size="13" fill="#8a8680" letter-spacing="2">SNOWFLAKE</text>
+
+```
+  <!-- Arrow -->
+  <line x1="175" y1="70" x2="250" y2="70" stroke="#5c5650" stroke-width="2"/>
+  <polygon points="246,63 258,70 246,77" fill="#5c5650"/>
+  <text x="183" y="57" font-family="Space Mono" font-size="12" fill="#8a8680">vs</text>
+
+  <!-- Weather grid — 4×3, each cell 40×36 -->
+  <rect x="278" y="14" width="40" height="36" stroke="#c9963a" stroke-width="1.5" fill="rgba(201,150,58,0.06)"/>
+  <rect x="324" y="14" width="40" height="36" stroke="#c9963a" stroke-width="1.5" fill="rgba(201,150,58,0.06)"/>
+  <rect x="370" y="14" width="40" height="36" stroke="#c9963a" stroke-width="1.5" fill="rgba(201,150,58,0.06)"/>
+  <rect x="416" y="14" width="40" height="36" stroke="#c9963a" stroke-width="1.5" fill="rgba(201,150,58,0.06)"/>
+  <rect x="278" y="56" width="40" height="36" stroke="#c9963a" stroke-width="1.5" fill="rgba(201,150,58,0.06)"/>
+  <rect x="324" y="56" width="40" height="36" stroke="#c9963a" stroke-width="1.5" fill="rgba(201,150,58,0.06)"/>
+  <rect x="370" y="56" width="40" height="36" stroke="#c9963a" stroke-width="1.5" fill="rgba(201,150,58,0.06)"/>
+  <rect x="416" y="56" width="40" height="36" stroke="#c9963a" stroke-width="1.5" fill="rgba(201,150,58,0.06)"/>
+  <rect x="278" y="98" width="40" height="36" stroke="#c9963a" stroke-width="1" fill="rgba(201,150,58,0.03)" opacity=".7"/>
+  <rect x="324" y="98" width="40" height="36" stroke="#c9963a" stroke-width="1" fill="rgba(201,150,58,0.03)" opacity=".7"/>
+  <rect x="370" y="98" width="40" height="36" stroke="#c9963a" stroke-width="1" fill="rgba(201,150,58,0.03)" opacity=".7"/>
+  <rect x="416" y="98" width="40" height="36" stroke="#c9963a" stroke-width="1" fill="rgba(201,150,58,0.03)" opacity=".7"/>
+  <text x="278" y="155" font-family="Space Mono" font-size="13" fill="#c9963a" letter-spacing="2">WEATHER</text>
+</svg>
+```
+
+  </div>
+  <div class="fb">
+    <div class="fbh">Article — Content Type Fields</div>
+    <div class="fg">
+      <div class="fi r">Title</div>
+      <div class="fi r">Date</div>
+      <div class="fi r">Author</div>
+      <div class="fi r">Category</div>
+      <div class="fi r">Tags</div>
+      <div class="fi r">Summary</div>
+      <div class="fi">Hero Image</div>
+      <div class="fi">Video</div>
+      <div class="fi">Related Items</div>
+      <div class="fi">CTA</div>
+      <div class="fi">Status</div>
+      <div class="fi" style="color:var(--ghost);font-style:italic;font-size:.62rem">+N fields</div>
+    </div>
+  </div>
+  <div class="prose"><p class="sm">A thousand entries later, the structure still holds.</p></div>
+</section>
+
+<!-- II -->
+
+<section class="sec" id="s2">
+  <div class="sn">II</div>
+  <div class="sh">
+    <div class="sl">Information Architecture</div>
+    <h2>Navigation<br>Is the <em>Spine</em></h2>
+  </div>
+  <div class="prose">
+    <p>Bold can't save a lost person.</p>
+    <p><strong>Orientation is mercy.</strong><br>And mercy, at scale, requires architecture.</p>
+  </div>
+  <div class="nd">
+    <div class="nl">
+      <div class="nll">Global</div>
+      <div class="nlc"><strong>A steady compass.</strong> Persistent. Unchanging. Anchored at every scroll position.</div>
+    </div>
+    <div class="nl">
+      <div class="nll">Section</div>
+      <div class="nlc"><strong>A clear horizon.</strong> Context that orients the local experience within the whole.</div>
+    </div>
+    <div class="nl">
+      <div class="nll">Subnav</div>
+      <div class="nlc"><strong>Templated, disciplined.</strong> Not improvised per section — governed by content type.</div>
+    </div>
+    <div class="nl">
+      <div class="nll">Breadcrumb</div>
+      <div class="nlc"><strong>The trail back to meaning.</strong> You don't build a mega footprint without paths that forgive confusion.</div>
+    </div>
+  </div>
+  <div class="tq">
+    <div class="qr"><div class="qn">1</div><div class="qt">"Where am I?"</div></div>
+    <div class="qr"><div class="qn">2</div><div class="qt">"How did I get here?"</div></div>
+    <div class="qr"><div class="qn">3</div><div class="qt">"How do I get back?"</div></div>
+  </div>
+  <div class="prose" style="margin-top:2.5rem">
+    <p>No one should wonder.</p>
+    <p><strong>Clarity is elegance in motion.</strong></p>
+  </div>
+</section>
+
+<!-- III -->
+
+<section class="sec" id="s3">
+  <div class="sn">III</div>
+  <div class="sh">
+    <div class="sl">Hero Module</div>
+    <h2>The Hero Is a<br><em>Route,</em> Not a Poster</h2>
+  </div>
+  <div class="prose"><p>Dynamic does not mean chaotic.</p></div>
+  <div class="pq"><p>Dynamic means: <em>design powered by fields.</em></p></div>
+  <div class="hf">
+    <div class="hfi"><div class="hfn">Eyebrow</div><div class="hfd">Context label. Sets register before the title lands.</div></div>
+    <div class="hfi"><div class="hfn">Hero Title</div><div class="hfd">The primary statement. Must survive reality to deserve its size.</div></div>
+    <div class="hfi"><div class="hfn">Subtitle</div><div class="hfd">Optional. Expands. Never required to make sense alone.</div></div>
+    <div class="hfi"><div class="hfn">Primary CTA</div><div class="hfd">Label + URL. One committed direction.</div></div>
+    <div class="hfi"><div class="hfn">Secondary CTA</div><div class="hfd">Label + URL. Alternate path. Never competing.</div></div>
+    <div class="hfi"><div class="hfn">Background</div><div class="hfd">Image or video. Atmosphere, not decoration.</div></div>
+    <div class="hfi"><div class="hfn">Variant Toggle</div><div class="hfd">Light / Dark / Campaign. Controlled flex.</div></div>
+    <div class="hfi" style="background:rgba(201,150,58,.02)">
+      <div class="hfn" style="color:var(--ghost)">Not Custom</div>
+      <div class="hfd" style="color:var(--ghost)">Not redesigned by whoever has access this week.</div>
+    </div>
+  </div>
+  <div class="prose"><p class="sm">Because real content always arrives imperfect. And bold typography must survive reality to deserve its size.</p></div>
+</section>
+
+<!-- IV -->
+
+<section class="sec" id="s4">
+  <div class="sn">IV</div>
+  <div class="sh">
+    <div class="sl">Design Handoff</div>
+    <h2>The Designer<br>Must Know<br><em>the Fields</em></h2>
+  </div>
+  <div class="prose">
+    <p>If the designer cannot see the content model,<br>they design <em style="color:var(--gold)">illusions.</em></p>
+    <p>They place text that isn't there.<br>They invent labels the system can't feed.<br>They build a perfect screenshot.<br><strong>It collapses on launch day.</strong></p>
+    <p>So we hand them the map — before the first frame.</p>
+  </div>
+  <div class="il" style="margin:3rem 0">
+    <div class="handoff-flow" style="display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:0;border:1px solid var(--dim)">
+      <!-- Content Type box -->
+      <div style="padding:1.5rem;border-right:1px solid var(--dim)">
+        <div style="font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.15em;color:#8a8680;text-transform:uppercase;margin-bottom:.75rem;padding-bottom:.6rem;border-bottom:1px solid var(--dim)">Content Type</div>
+        <div style="font-family:'Space Mono',monospace;font-size:.8rem;color:#5c5650;line-height:2">title: required<br>image: optional<br>date: required</div>
+      </div>
+      <!-- Arrow 1 -->
+      <div style="padding:.5rem 1rem;display:flex;flex-direction:column;align-items:center;gap:.35rem;border-right:1px solid var(--dim)">
+        <div style="font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.12em;color:var(--rust);text-transform:uppercase">Handoff</div>
+        <div style="color:var(--rust);font-size:1.1rem">→</div>
+      </div>
+      <!-- Designer box -->
+      <div style="padding:1.5rem;border-right:1px solid var(--dim);background:rgba(201,150,58,.02)">
+        <div style="font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.15em;color:var(--gold);text-transform:uppercase;margin-bottom:.75rem;padding-bottom:.6rem;border-bottom:1px solid rgba(201,150,58,.2)">Designer</div>
+        <div style="font-family:'Space Mono',monospace;font-size:.8rem;color:#a89070;line-height:2">knows what drives<br>what can filter<br>what must exist</div>
+      </div>
+      <!-- Arrow 2 -->
+      <div style="padding:.5rem 1rem;display:flex;flex-direction:column;align-items:center;gap:.35rem;border-right:1px solid var(--dim)">
+        <div style="font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.12em;color:var(--ash);text-transform:uppercase">Result</div>
+        <div style="color:var(--ash);font-size:1.1rem">→</div>
+      </div>
+      <!-- Result box -->
+      <div style="padding:1.5rem">
+        <div style="font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.15em;color:#8a8680;text-transform:uppercase;margin-bottom:.75rem;padding-bottom:.6rem;border-bottom:1px solid var(--dim)">Output</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-style:italic;color:var(--gold);line-height:1.5">Repeatable engine.</div>
+        <div style="font-family:'Playfair Display',serif;font-size:.95rem;font-style:italic;color:var(--ash);margin-top:.35rem">Not a one-time miracle.</div>
+      </div>
+    </div>
+  </div>
+  <div class="pq"><p>Design becomes a <em>repeatable engine,</em> not a one-time miracle.</p></div>
+</section>
+
+<!-- V -->
+
+<section class="sec" id="s5">
+  <div class="sn">V</div>
+  <div class="sh">
+    <div class="sl">Design Philosophy</div>
+    <h2>This Is How<br><em>"Bang"</em> Scales</h2>
+  </div>
+  <div class="prose">
+    <p>Not louder. Not trendier. Not frantic.</p>
+    <p><strong>Bang as resonance:</strong></p>
+  </div>
+  <div class="il">
+    <svg width="100%" height="220" viewBox="0 0 700 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 0 100 Q 70 28 140 100 Q 210 172 280 100 Q 350 28 420 100 Q 490 172 560 100 Q 630 28 700 100" stroke="#c9963a" stroke-width="2.5" fill="none" opacity=".75"/>
+      <path d="M 0 100 Q 70 62 140 100 Q 210 138 280 100 Q 350 62 420 100 Q 490 138 560 100 Q 630 62 700 100" stroke="#c9963a" stroke-width="1.25" fill="none" opacity=".38"/>
+      <path d="M 0 100 Q 70 84 140 100 Q 210 116 280 100 Q 350 84 420 100 Q 490 116 560 100 Q 630 84 700 100" stroke="#c9963a" stroke-width=".6" fill="none" opacity=".16"/>
+      <line x1="0" y1="100" x2="700" y2="100" stroke="#4a4540" stroke-width=".75"/>
+      <circle cx="140" cy="100" r="5" fill="#c9963a" opacity=".8"/>
+      <circle cx="280" cy="100" r="5" fill="#c9963a" opacity=".8"/>
+      <circle cx="420" cy="100" r="5" fill="#c9963a" opacity=".8"/>
+      <circle cx="560" cy="100" r="5" fill="#c9963a" opacity=".8"/>
+      <line x1="140" y1="100" x2="140" y2="158" stroke="#c9963a" stroke-width="1" opacity=".3"/>
+      <line x1="280" y1="100" x2="280" y2="158" stroke="#c9963a" stroke-width="1" opacity=".3"/>
+      <line x1="420" y1="100" x2="420" y2="158" stroke="#c9963a" stroke-width="1" opacity=".3"/>
+      <line x1="560" y1="100" x2="560" y2="158" stroke="#c9963a" stroke-width="1" opacity=".3"/>
+      <text x="82" y="182" font-family="Space Mono" font-size="13" fill="#8a8680" letter-spacing="1">HIERARCHY</text>
+      <text x="210" y="182" font-family="Space Mono" font-size="13" fill="#8a8680" letter-spacing="1">WHITESPACE</text>
+      <text x="368" y="182" font-family="Space Mono" font-size="13" fill="#8a8680" letter-spacing="1">RHYTHM</text>
+      <text x="494" y="182" font-family="Space Mono" font-size="13" fill="#8a8680" letter-spacing="1">EXPRESSION</text>
+    </svg>
+  </div>
+  <div class="fb">
+    <div class="fbh">The Five Properties of Resonant Design</div>
+    <div class="fg" style="grid-template-columns:1fr 1fr">
+      <div class="fi r" style="font-size:.82rem;padding:1.25rem 1.5rem">Strong hierarchy</div>
+      <div class="fi r" style="font-size:.82rem;padding:1.25rem 1.5rem">Confident whitespace</div>
+      <div class="fi r" style="font-size:.82rem;padding:1.25rem 1.5rem">Elegant rhythm</div>
+      <div class="fi r" style="font-size:.82rem;padding:1.25rem 1.5rem">Bold moments, governed</div>
+      <div class="fi" style="grid-column:span 2;font-size:.9rem;padding:1.25rem 1.5rem;color:var(--gold);font-style:italic;font-family:'Libre Baskerville',serif">Expression with return-to-core.</div>
+    </div>
+  </div>
+  <div class="prose">
+    <p>A locked spine with controlled flex.</p>
+    <p>So the organization stays unified — and the surface still breathes.</p>
+  </div>
+</section>
+
+<!-- VI -->
+
+<section class="sec" id="s6">
+  <div class="sn">VI</div>
+  <div class="sh">
+    <div class="sl">Field Mapping</div>
+    <h2>The Map Is<br>Not the <em>Territory—</em><br>It's the Contract</h2>
+  </div>
+  <div class="prose">
+    <p>A field map is not a wireframe.<br>Not a sitemap.<br>Not a spreadsheet someone made once and abandoned.</p>
+    <p>A field map is a <strong>living contract</strong> between content, design, and system.<br>All three sign it. All three are bound by it.</p>
+    <p>For every content type, it answers four questions<br>that no one wants to answer until it's too late:</p>
+  </div>
+
+  <div class="nd" style="margin-top:2rem">
+    <div class="nl">
+      <div class="nll">What</div>
+      <div class="nlc"><strong>What fields exist.</strong> Named precisely. Not "image" — "Hero Image, 16:9, required." Not "text" — "Summary, 160 chars max, used in cards and meta."</div>
+    </div>
+    <div class="nl">
+      <div class="nll">Where</div>
+      <div class="nlc"><strong>Where each field renders.</strong> The hero. The card. The search result. The social share. One field, many surfaces — mapped explicitly.</div>
+    </div>
+    <div class="nl">
+      <div class="nll">Who</div>
+      <div class="nlc"><strong>Who populates it.</strong> Editor. Author. System. API. If no one owns it, it will be empty. Empty fields break designs.<br><br><em style="color:var(--ghost)">The editor who owns a field is not filling in a form — they are making the last messaging decision before the page goes live. The field map tells them what the field is for. Without that, they guess. They describe when they should claim. They defer when they should commit.</em></div>
+    </div>
+    <div class="nl">
+      <div class="nll">When</div>
+      <div class="nlc"><strong>When it is required.</strong> Required at publish. Optional. Conditional on another field. The rules, documented before launch — not discovered after.</div>
+    </div>
+  </div>
+
+  <div class="prose" style="margin-top:2.5rem">
+    <p>The map does not constrain the design.<br>It <em style="color:var(--gold)">grounds</em> it.</p>
+    <p>Design without a field map is theater.<br>Beautiful. Fragile. Gone by Tuesday.</p>
+  </div>
+
+  <div class="il" style="margin:3rem 0;overflow-x:auto">
+    <table style="width:100%;border-collapse:collapse;font-family:'Space Mono',monospace;font-size:.8rem">
+      <thead>
+        <tr>
+          <th style="padding:.75rem 1rem;text-align:left;font-size:.68rem;letter-spacing:.15em;color:var(--rust);font-weight:400;text-transform:uppercase;border:1px solid var(--dim);background:rgba(201,150,58,.05)">Field</th>
+          <th style="padding:.75rem 1rem;text-align:left;font-size:.68rem;letter-spacing:.15em;color:var(--rust);font-weight:400;text-transform:uppercase;border:1px solid var(--dim);background:rgba(201,150,58,.05)">Renders Where</th>
+          <th style="padding:.75rem 1rem;text-align:left;font-size:.68rem;letter-spacing:.15em;color:var(--rust);font-weight:400;text-transform:uppercase;border:1px solid var(--dim);background:rgba(201,150,58,.05)">Owner</th>
+          <th style="padding:.75rem 1rem;text-align:left;font-size:.68rem;letter-spacing:.15em;color:var(--rust);font-weight:400;text-transform:uppercase;border:1px solid var(--dim);background:rgba(201,150,58,.05)">Required</th>
+          <th style="padding:.75rem 1rem;text-align:left;font-size:.68rem;letter-spacing:.15em;color:var(--rust);font-weight:400;text-transform:uppercase;border:1px solid var(--dim);background:rgba(201,150,58,.05)">Max</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:.75rem 1rem;border:1px solid var(--dim);color:var(--parchment)">Title</td>
+          <td style="padding:.75rem 1rem;border:1px solid var(--dim);color:var(--ash)">Hero, Card, Meta</td>
+          <td style="padding:.75rem 1rem;border:1px solid var(--dim);color:var(--ash)">Editor</td>
+          <td style="padding:.75rem 1rem;border:1px solid var(--dim);color:var(--parchment)">Yes</td>
+          <td style="padding:.75rem 1rem;border:1px solid var(--dim);color:var(--ash)">80 chars</td>
+        </tr>
+        <tr style="background:rgba(255,255,255,.015)">
+          <td style="padding:.75rem 1rem;border:1px solid var(--dim);color:var(--parchment)">Summary</td>
+          <td style="padding:.75rem 1rem;border:1px solid var(--dim);color:var(--ash)">Card, Search, OG</td>
+          <td style="padding:.75rem 1rem;border:1px solid var(--dim);color:var(--ash)">Editor</td>
+          <td style="padding:.75rem 1rem;border:1px solid var(--dim);color:var(--parchment)">Yes</td>
+          <td style="padding:.75rem 1rem;border:1px solid var(--dim);color:var(--ash)">160 chars</td>
+        </tr>
+        <tr>
+          <td style="padding:.75rem 1rem;border:1px solid var(--dim);color:var(--parchment)">Hero Image</td>
+          <td style="padding:.75rem 1rem;border:1px solid var(--dim);color:var(--ash)">Hero, Social Share</td>
+          <td style="padding:.75rem 1rem;border:1px solid var(--dim);color:var(--ash)">Editor</td>
+          <td style="padding:.75rem 1rem;border:1px solid var(--dim);color:var(--ghost)">Optional</td>
+          <td style="padding:.75rem 1rem;border:1px solid var(--dim);color:var(--ash)">16:9 ratio</td>
+        </tr>
+        <tr style="background:rgba(255,255,255,.015)">
+          <td style="padding:.75rem 1rem;border:1px solid var(--dim);color:var(--parchment)">Author</td>
+          <td style="padding:.75rem 1rem;border:1px solid var(--dim);color:var(--ash)">Card, Detail, Meta</td>
+          <td style="padding:.75rem 1rem;border:1px solid var(--dim);color:var(--ash)">System / Author</td>
+          <td style="padding:.75rem 1rem;border:1px solid var(--dim);color:var(--parchment)">Yes</td>
+          <td style="padding:.75rem 1rem;border:1px solid var(--dim);color:var(--ash)">—</td>
+        </tr>
+        <tr>
+          <td colspan="5" style="padding:.6rem 1rem;border:1px solid var(--dim);color:var(--ghost);font-style:italic;font-size:.75rem">+ more rows — one per field in the content type</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pq"><p>Every field without an owner<br>is a hole waiting to <em>swallow a deadline.</em></p></div>
+</section>
+
+<!-- SIMULATION -->
+
+<section class="sec" id="sim-section">
+  <div class="sn" style="opacity:.4">∞</div>
+  <div class="sh">
+    <div class="sl">Live Simulation</div>
+    <h2>Build a Field Map.<br><em>Now.</em></h2>
+  </div>
+  <div class="prose">
+    <p>Don't read about it.<br><strong>Do it.</strong></p>
+    <p>Name a content type. Define its fields. Watch the contract form.</p>
+  </div>
+
+  <div id="sim" style="margin-top:3rem">
+
+```
+<!-- Step 0: Choose content type -->
+<div id="sim-step-0" class="sim-step">
+  <div class="sim-label">What content type are you mapping?</div>
+  <div class="sim-presets">
+    <button class="sim-preset" onclick="simSetType('Article')">Article</button>
+    <button class="sim-preset" onclick="simSetType('Event')">Event</button>
+    <button class="sim-preset" onclick="simSetType('Product')">Product</button>
+    <button class="sim-preset" onclick="simSetType('Team Member')">Team Member</button>
+    <button class="sim-preset" onclick="simSetType('Location')">Location</button>
+  </div>
+  <div class="sim-or">— or type your own —</div>
+  <div class="sim-input-row">
+    <input class="sim-input" id="sim-type-input" type="text" placeholder="e.g. Case Study, Job Posting, Recipe…" maxlength="40">
+    <button class="sim-btn" onclick="simConfirmType()">Define it →</button>
+  </div>
+</div>
+
+<!-- Step 1: Add fields -->
+<div id="sim-step-1" class="sim-step" style="display:none">
+  <div class="sim-type-badge" id="sim-type-badge"></div>
+  <div class="sim-label">Name a field. What does this content type need?</div>
+  <div class="sim-sublabel">Think in nouns: Title, Date, Author, Hero Image, Summary, CTA…</div>
+  <div class="sim-input-row">
+    <input class="sim-input" id="sim-field-name" type="text" placeholder="Field name…" maxlength="40" onkeydown="if(event.key==='Enter')simNextField()">
+    <button class="sim-btn" onclick="simNextField()">Next →</button>
+  </div>
+  <div class="sim-progress" id="sim-progress"></div>
+</div>
+
+<!-- Step 2: Where does it render? -->
+<div id="sim-step-2" class="sim-step" style="display:none">
+  <div class="sim-type-badge" id="sim-type-badge-2"></div>
+  <div class="sim-current-field" id="sim-current-field-where"></div>
+  <div class="sim-label">Where does this field appear?</div>
+  <div class="sim-sublabel">Select all that apply.</div>
+  <div class="sim-checkboxes" id="sim-where-checks">
+    <label class="sim-check"><input type="checkbox" value="Hero"> Hero</label>
+    <label class="sim-check"><input type="checkbox" value="Card"> Card</label>
+    <label class="sim-check"><input type="checkbox" value="Search Result"> Search Result</label>
+    <label class="sim-check"><input type="checkbox" value="Social Share"> Social Share</label>
+    <label class="sim-check"><input type="checkbox" value="Detail Page"> Detail Page</label>
+    <label class="sim-check"><input type="checkbox" value="Navigation"> Navigation</label>
+    <label class="sim-check"><input type="checkbox" value="Email"> Email</label>
+    <label class="sim-check"><input type="checkbox" value="API / Feed"> API / Feed</label>
+  </div>
+  <button class="sim-btn" style="margin-top:1.5rem" onclick="simNextWhere()">Next →</button>
+</div>
+
+<!-- Step 3: Who owns it? -->
+<div id="sim-step-3" class="sim-step" style="display:none">
+  <div class="sim-current-field" id="sim-current-field-who"></div>
+  <div class="sim-label">Who populates this field?</div>
+  <div class="sim-choices" id="sim-who-choices">
+    <button class="sim-choice" onclick="simSetWho('Editor')">Editor</button>
+    <button class="sim-choice" onclick="simSetWho('Author')">Author</button>
+    <button class="sim-choice" onclick="simSetWho('System / Auto')">System / Auto</button>
+    <button class="sim-choice" onclick="simSetWho('API / Import')">API / Import</button>
+    <button class="sim-choice" onclick="simSetWho('Developer')">Developer</button>
+  </div>
+</div>
+
+<!-- Step 4: Required? -->
+<div id="sim-step-4" class="sim-step" style="display:none">
+  <div class="sim-current-field" id="sim-current-field-req"></div>
+  <div class="sim-label">Is this field required to publish?</div>
+  <div class="sim-choices">
+    <button class="sim-choice" onclick="simSetRequired('Required')">Required</button>
+    <button class="sim-choice" onclick="simSetRequired('Optional')">Optional</button>
+    <button class="sim-choice" onclick="simSetRequired('Conditional')">Conditional</button>
+  </div>
+</div>
+
+<!-- Live map output -->
+<div id="sim-map" style="display:none; margin-top:3rem">
+  <div class="fbh" style="margin-bottom:0" id="sim-map-header"></div>
+  <div id="sim-map-table"></div>
+  <div class="sim-add-row" id="sim-add-row">
+    <button class="sim-btn-ghost" onclick="simAddField()">+ Add another field</button>
+    <button class="sim-btn-ghost" onclick="simFinish()" id="sim-finish-btn" style="display:none">✦ Finish the map</button>
+  </div>
+</div>
+
+<!-- Final state -->
+<div id="sim-final" style="display:none; margin-top:3rem">
+  <div class="pq" style="margin-top:0"><p id="sim-final-message"></p></div>
+  <button class="sim-btn-ghost" onclick="simReset()" style="margin-top:1.5rem">→ Map another content type</button>
+</div>
+```
+
+  </div>
+</section>
+
+<style>
+.sim-step{margin-bottom:1rem}
+.sim-label{font-family:'Playfair Display',serif;font-size:1.4rem;font-style:italic;color:var(--parchment);margin-bottom:.75rem;line-height:1.3}
+.sim-sublabel{font-family:'Space Mono',monospace;font-size:.74rem;letter-spacing:.08em;color:var(--ash);margin-bottom:1.5rem}
+.sim-presets{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:1.25rem}
+.sim-preset{font-family:'Space Mono',monospace;font-size:.78rem;letter-spacing:.1em;padding:.6rem 1.1rem;border:1px solid var(--dim);background:none;color:var(--ash);cursor:pointer;text-transform:uppercase;transition:border-color .15s,color .15s}
+.sim-preset:hover{border-color:var(--gold);color:var(--gold)}
+.sim-or{font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.2em;color:var(--ghost);text-transform:uppercase;margin:.75rem 0}
+.sim-input-row{display:flex;gap:.75rem;align-items:center;flex-wrap:wrap}
+.sim-input{font-family:'Space Mono',monospace;font-size:.88rem;background:none;border:none;border-bottom:1px solid var(--dim);color:var(--parchment);padding:.6rem 0;flex:1;min-width:200px;outline:none;transition:border-color .15s}
+.sim-input:focus{border-color:var(--gold)}
+.sim-input::placeholder{color:var(--ghost)}
+.sim-btn{font-family:'Space Mono',monospace;font-size:.74rem;letter-spacing:.1em;padding:.65rem 1.25rem;border:1px solid var(--rust);background:none;color:var(--rust);cursor:pointer;text-transform:uppercase;white-space:nowrap;transition:background .15s,color .15s}
+.sim-btn:hover{background:var(--rust);color:var(--parchment)}
+.sim-btn-ghost{font-family:'Space Mono',monospace;font-size:.74rem;letter-spacing:.1em;padding:.65rem 1.25rem;border:1px solid var(--dim);background:none;color:var(--ash);cursor:pointer;text-transform:uppercase;transition:border-color .15s,color .15s}
+.sim-btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.sim-type-badge{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:1.25rem;display:flex;align-items:center;gap:.5rem}
+.sim-type-badge::before{content:'✦';font-size:.55rem}
+.sim-current-field{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--parchment);margin-bottom:1rem;padding-bottom:.75rem;border-bottom:1px solid var(--dim)}
+.sim-checkboxes{display:flex;flex-wrap:wrap;gap:.5rem .75rem}
+.sim-check{font-family:'Space Mono',monospace;font-size:.78rem;letter-spacing:.06em;color:var(--ash);cursor:pointer;display:flex;align-items:center;gap:.4rem;padding:.45rem .85rem;border:1px solid var(--dim);transition:border-color .12s,color .12s}
+.sim-check:has(input:checked){border-color:var(--gold);color:var(--gold)}
+.sim-check input{accent-color:var(--gold);cursor:pointer}
+.sim-choices{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.5rem}
+.sim-choice{font-family:'Space Mono',monospace;font-size:.78rem;letter-spacing:.08em;padding:.65rem 1.25rem;border:1px solid var(--dim);background:none;color:var(--ash);cursor:pointer;text-transform:uppercase;transition:border-color .12s,color .12s,background .12s}
+.sim-choice:hover{border-color:var(--parchment);color:var(--parchment)}
+.sim-map-row{display:grid;grid-template-columns:1.5fr 2fr 1fr .8fr;border-bottom:1px solid var(--dim);font-family:'Space Mono',monospace;font-size:.75rem}
+.sim-map-row.header{background:rgba(255,255,255,.02);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--rust)}
+.sim-map-cell{padding:.75rem 1rem;border-right:1px solid var(--dim);color:var(--ash)}
+.sim-map-cell.name{color:var(--parchment)}
+.sim-map-cell.req-yes{color:var(--gold)}
+.sim-map-cell.req-cond{color:var(--rust)}
+.sim-add-row{padding:1rem 1.5rem;border:1px solid var(--dim);border-top:none;display:flex;gap:1rem;background:rgba(0,0,0,.2)}
+.sim-progress{font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.1em;color:var(--ghost);margin-top:1rem}
+@media(max-width:600px){.sim-map-row{grid-template-columns:1fr 1fr}}
+</style>
+
+<script>
+(function(){
+  var state = {
+    type:'',
+    fields:[],
+    current:{ name:'', where:[], who:'', required:'' },
+    step:0
+  };
+
+  window.simSetType = function(t){
+    document.getElementById('sim-type-input').value = t;
+    simConfirmType();
+  };
+
+  window.simConfirmType = function(){
+    var v = document.getElementById('sim-type-input').value.trim();
+    if(!v) return;
+    state.type = v;
+    state.fields = [];
+    document.getElementById('sim-step-0').style.display='none';
+    document.getElementById('sim-step-1').style.display='block';
+    document.getElementById('sim-type-badge').textContent = v;
+    document.getElementById('sim-type-badge-2').textContent = v;
+    document.getElementById('sim-field-name').value='';
+    document.getElementById('sim-field-name').focus();
+    updateProgress();
+  };
+
+  window.simNextField = function(){
+    var v = document.getElementById('sim-field-name').value.trim();
+    if(!v) return;
+    state.current = { name:v, where:[], who:'', required:'' };
+    document.getElementById('sim-step-1').style.display='none';
+    document.getElementById('sim-step-2').style.display='block';
+    document.getElementById('sim-current-field-where').textContent = v;
+    // uncheck all
+    document.querySelectorAll('#sim-where-checks input').forEach(function(i){ i.checked=false; });
+  };
+
+  window.simNextWhere = function(){
+    var checked = Array.from(document.querySelectorAll('#sim-where-checks input:checked')).map(function(i){ return i.value; });
+    if(!checked.length) checked = ['Detail Page'];
+    state.current.where = checked;
+    document.getElementById('sim-step-2').style.display='none';
+    document.getElementById('sim-step-3').style.display='block';
+    document.getElementById('sim-current-field-who').textContent = state.current.name;
+  };
+
+  window.simSetWho = function(w){
+    state.current.who = w;
+    document.getElementById('sim-step-3').style.display='none';
+    document.getElementById('sim-step-4').style.display='block';
+    document.getElementById('sim-current-field-req').textContent = state.current.name;
+  };
+
+  window.simSetRequired = function(r){
+    state.current.required = r;
+    state.fields.push(Object.assign({},state.current));
+    document.getElementById('sim-step-4').style.display='none';
+    renderMap();
+    document.getElementById('sim-map').style.display='block';
+    document.getElementById('sim-add-row').style.display='flex';
+    if(state.fields.length >= 2){
+      document.getElementById('sim-finish-btn').style.display='inline-block';
+    }
+  };
+
+  window.simAddField = function(){
+    document.getElementById('sim-step-1').style.display='block';
+    document.getElementById('sim-field-name').value='';
+    document.getElementById('sim-field-name').focus();
+    updateProgress();
+  };
+
+  window.simFinish = function(){
+    document.getElementById('sim-add-row').style.display='none';
+    document.getElementById('sim-step-1').style.display='none';
+    var n = state.fields.length;
+    var req = state.fields.filter(function(f){ return f.required==='Required'; }).length;
+    var msg = state.type + ' — ' + n + ' field' + (n!==1?'s':'') + ' mapped. ' + req + ' required. ' +
+      'This is the contract.<br><em>Now hand it to the designer.</em>';
+    document.getElementById('sim-final-message').innerHTML = msg;
+    document.getElementById('sim-final').style.display='block';
+  };
+
+  window.simReset = function(){
+    state = { type:'', fields:[], current:{ name:'', where:[], who:'', required:'' }, step:0 };
+    document.getElementById('sim-step-0').style.display='block';
+    document.getElementById('sim-step-1').style.display='none';
+    document.getElementById('sim-step-2').style.display='none';
+    document.getElementById('sim-step-3').style.display='none';
+    document.getElementById('sim-step-4').style.display='none';
+    document.getElementById('sim-map').style.display='none';
+    document.getElementById('sim-final').style.display='none';
+    document.getElementById('sim-type-input').value='';
+    document.getElementById('sim-finish-btn').style.display='none';
+    renderMap();
+  };
+
+  function renderMap(){
+    var header = state.type ? (state.type.toUpperCase() + ' — FIELD MAP') : '';
+    document.getElementById('sim-map-header').textContent = header;
+    var tbl = document.getElementById('sim-map-table');
+    if(!state.fields.length){ tbl.innerHTML=''; return; }
+    var html = '<div class="sim-map-row header">'
+      + '<div class="sim-map-cell">Field</div>'
+      + '<div class="sim-map-cell">Renders Where</div>'
+      + '<div class="sim-map-cell">Owner</div>'
+      + '<div class="sim-map-cell">Required</div>'
+      + '</div>';
+    state.fields.forEach(function(f){
+      var rc = f.required==='Required' ? 'req-yes' : (f.required==='Conditional' ? 'req-cond' : '');
+      html += '<div class="sim-map-row">'
+        + '<div class="sim-map-cell name">' + esc(f.name) + '</div>'
+        + '<div class="sim-map-cell">' + esc(f.where.join(', ')) + '</div>'
+        + '<div class="sim-map-cell">' + esc(f.who) + '</div>'
+        + '<div class="sim-map-cell ' + rc + '">' + esc(f.required) + '</div>'
+        + '</div>';
+    });
+    tbl.innerHTML = html;
+  }
+
+  function updateProgress(){
+    var el = document.getElementById('sim-progress');
+    if(el) el.textContent = state.fields.length > 0 ? state.fields.length + ' field' + (state.fields.length!==1?'s':'') + ' mapped so far' : '';
+  }
+
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+})();
+</script>
+
+<!-- VII -->
+
+<section class="sec" id="s7">
+  <div class="sn">VII</div>
+  <div class="sh">
+    <div class="sl">Messaging Architecture</div>
+    <h2>The Frame Decides<br>How You <em>Argue.</em></h2>
+  </div>
+
+  <div class="prose">
+    <p>A messaging frame is not a list of things to say.</p>
+    <p>It is a decision about <strong>how the organization makes its case</strong> — what kind of appeal it leads with, how that appeal sequences across a page, and which fields carry the argumentative weight.</p>
+    <p>Get this wrong and the fields are filled correctly but the page argues nothing.<br>It informs. It describes. It does not <em style="color:var(--gold)">persuade.</em></p>
+    <p>The frame is not a document for strategists. It is a decision that lives in the CMS — in every headline an editor writes, every summary they draft, every CTA label they choose. If the editor doesn't know the frame, they will invent one on deadline. Usually the wrong one.</p>
+  </div>
+
+  <!-- Appeal modes -->
+
+  <div class="fb" style="margin-top:3rem">
+    <div class="fbh">Modes of Appeal — Choose One to Lead</div>
+    <div class="fg" style="grid-template-columns:1fr 1fr">
+      <div class="hfi">
+        <div class="hfn">Authority</div>
+        <div class="hfd">We have standing. Credentials, tenure, track record. The org leads with who it is before what it offers. Headlines name the institution. Proof lives in numbers and names.</div>
+      </div>
+      <div class="hfi">
+        <div class="hfn">Transformation</div>
+        <div class="hfd">We change people. Before and after. The visitor is the protagonist. Headlines name their future state, not the org's capabilities. CTAs are thresholds, not buttons.</div>
+      </div>
+      <div class="hfi">
+        <div class="hfn">Belonging</div>
+        <div class="hfd">You are not alone here. Community, tribe, shared identity. Headlines use "we" and "you" together. The org is the context, not the subject.</div>
+      </div>
+      <div class="hfi">
+        <div class="hfn">Urgency</div>
+        <div class="hfd">The cost of waiting is real. Time-bound, stakes-forward. Headlines carry consequence. The frame governs pacing — short sentences, immediate CTAs, no soft landings.</div>
+      </div>
+      <div class="hfi">
+        <div class="hfn">Evidence</div>
+        <div class="hfd">The data speaks. Rational, comparative, proof-heavy. Headlines make claims the body substantiates. Fields for statistics, citations, and case studies become load-bearing.</div>
+      </div>
+      <div class="hfi" style="background:rgba(201,150,58,.02)">
+        <div class="hfn" style="color:var(--ash)">Mixed Modes</div>
+        <div class="hfd" style="color:var(--ghost)">Most orgs blend. The frame names which mode leads and which supports — so writers know the hierarchy and don't cancel each other out.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- The headline/title distinction -->
+
+  <div class="prose" style="margin-top:3.5rem">
+    <p>Here is where abstract becomes <strong>operational.</strong></p>
+    <p>On every page, two fields compete for the same real estate — and most teams treat them as the same thing:</p>
+  </div>
+
+  <div class="nd" style="margin-top:2rem">
+    <div class="nl">
+      <div class="nll" style="min-width:5rem;font-size:.68rem">Page Title</div>
+      <div class="nlc">
+        <strong>Wayfinding. Not argument.</strong><br>
+        "About Us." "Services." "Case Studies." Small. Contextual. It tells the visitor where they are within the system. It is a label — precise, neutral, navigational. It answers: <em>where am I?</em>
+      </div>
+    </div>
+    <div class="nl">
+      <div class="nll" style="min-width:5rem;font-size:.68rem">Headline</div>
+      <div class="nlc">
+        <strong>The claim. The argument. The opening move.</strong><br>
+        "We've helped 400 teams stop guessing and start shipping." Large. Rhetorical. It opens the case the page is making. Governed by the appeal mode. It answers: <em>why does this matter to me?</em>
+      </div>
+    </div>
+  </div>
+
+  <div class="prose" style="margin-top:2.5rem">
+    <p>These are <strong>two different fields</strong> with two different owners, two different character limits, and two completely different jobs.</p>
+    <p>When they are treated as one field — when the page title <em>is</em> the headline, or the headline tries to do the wayfinding — the page fails at both.</p>
+    <p>The nav says: "Services."<br>The headline should not also say: "Services."<br>The headline should say what services <em>do</em> to someone — in the appeal mode the org has chosen.</p>
+  </div>
+
+  <div class="pq"><p>The page title orients.<br>The headline <em>argues.</em><br>Never assign both jobs to one field.</p></div>
+
+  <!-- Argument sequence -->
+
+  <div class="prose" style="margin-top:3rem">
+    <p>And the headline is only the opening move.<br>A messaging frame also governs how the argument <strong>sequences down the page.</strong></p>
+  </div>
+
+  <div class="nd" style="margin-top:1.5rem">
+    <div class="nl">
+      <div class="nll" style="font-size:.62rem">Claim</div>
+      <div class="nlc"><strong>The headline field.</strong> Opens the argument. States the position. Governed by appeal mode. Large type earns its size by carrying real rhetorical weight — not a description of what the org does.</div>
+    </div>
+    <div class="nl">
+      <div class="nll" style="font-size:.62rem">Stakes</div>
+      <div class="nlc"><strong>The subtitle or intro field.</strong> Why this claim matters now. What changes if the visitor acts — or doesn't. One or two sentences. Never a paragraph. Never a list of features.</div>
+    </div>
+    <div class="nl">
+      <div class="nll" style="font-size:.62rem">Proof</div>
+      <div class="nlc"><strong>The body, stats, testimonial, or case fields.</strong> Evidence that the claim is true. The proof field type depends on the appeal mode: authority uses credentials, transformation uses stories, evidence uses data.</div>
+    </div>
+    <div class="nl">
+      <div class="nll" style="font-size:.62rem">Resolution</div>
+      <div class="nlc"><strong>The CTA field.</strong> Not a button label — a next step that completes the argument. "Start your audit." "See the results." "Join 4,000 others." The CTA inherits the tone of the appeal mode above it.</div>
+    </div>
+  </div>
+
+  <!-- Fields amplify the frame -->
+
+  <div class="prose" style="margin-top:3.5rem">
+    <p>This is how fields and design <strong>amplify</strong> the messaging frame rather than merely accommodate it.</p>
+    <p>When the appeal mode is named, the designer knows:<br>
+    which field carries the most visual weight,<br>
+    what size hierarchy serves the argument,<br>
+    where proof needs to be surfaced and where it can recede.</p>
+    <p>Typography is not decoration when it serves a hierarchy of claims.<br>Whitespace is not aesthetic when it controls the pacing of an argument.<br><strong>Design becomes rhetoric.</strong></p>
+  </div>
+
+  <!-- Field-to-frame table -->
+
+  <div class="fb" style="margin-top:3rem">
+    <div class="fbh">Fields Mapped to Rhetorical Function</div>
+    <div style="overflow-x:auto">
+      <div class="sim-map-row header" style="grid-template-columns:1.4fr 1fr 1fr 1.6fr">
+        <div class="sim-map-cell">Field</div>
+        <div class="sim-map-cell">Rhetorical Role</div>
+        <div class="sim-map-cell">Appeal Mode</div>
+        <div class="sim-map-cell">Design Amplification</div>
+      </div>
+      <div class="sim-map-row" style="grid-template-columns:1.4fr 1fr 1fr 1.6fr">
+        <div class="sim-map-cell name">Page Title</div>
+        <div class="sim-map-cell">Wayfinding</div>
+        <div class="sim-map-cell" style="color:var(--ghost)">None</div>
+        <div class="sim-map-cell">Small, muted, consistent. Never competes with the headline.</div>
+      </div>
+      <div class="sim-map-row" style="grid-template-columns:1.4fr 1fr 1fr 1.6fr">
+        <div class="sim-map-cell name">Headline</div>
+        <div class="sim-map-cell">Primary Claim</div>
+        <div class="sim-map-cell" style="color:var(--gold)">Leads the mode</div>
+        <div class="sim-map-cell">Largest type on page. Weight, size, and placement signal it as the argument's opening move.</div>
+      </div>
+      <div class="sim-map-row" style="grid-template-columns:1.4fr 1fr 1fr 1.6fr">
+        <div class="sim-map-cell name">Subtitle / Intro</div>
+        <div class="sim-map-cell">Stakes</div>
+        <div class="sim-map-cell">Amplifies mode</div>
+        <div class="sim-map-cell">Secondary scale. Enough contrast from headline to signal a gear shift — claim to consequence.</div>
+      </div>
+      <div class="sim-map-row" style="grid-template-columns:1.4fr 1fr 1fr 1.6fr">
+        <div class="sim-map-cell name">Stat / Credential</div>
+        <div class="sim-map-cell">Proof</div>
+        <div class="sim-map-cell">Authority / Evidence</div>
+        <div class="sim-map-cell">Visual weight matches rhetorical weight. A number that proves the claim should be impossible to miss.</div>
+      </div>
+      <div class="sim-map-row" style="grid-template-columns:1.4fr 1fr 1fr 1.6fr">
+        <div class="sim-map-cell name">Testimonial / Story</div>
+        <div class="sim-map-cell">Proof</div>
+        <div class="sim-map-cell">Transformation / Belonging</div>
+        <div class="sim-map-cell">Human name and face visible. The story renders the claim in a life — design makes the human legible, not decorative.</div>
+      </div>
+      <div class="sim-map-row" style="grid-template-columns:1.4fr 1fr 1fr 1.6fr">
+        <div class="sim-map-cell name">CTA Label</div>
+        <div class="sim-map-cell">Resolution</div>
+        <div class="sim-map-cell">Inherits mode</div>
+        <div class="sim-map-cell">Not "Learn More." The label completes the argument: it names what the visitor gets, becomes, or joins.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="prose" style="margin-top:3rem">
+    <p>The field map and the messaging frame are <strong>a pair.</strong><br>You don't get to choose one.</p>
+    <p>A system without a frame publishes noise at scale.<br>A frame without a system stays a document in a folder<br>that someone reads once and slowly forgets.</p>
+    <p>But a frame that names its appeal mode —<br>and a field map that assigns each field a rhetorical role —<br>gives the designer something rare:</p>
+    <p><strong>Instructions that produce meaning, not just layout.</strong></p>
+  </div>
+
+  <div class="pq"><p>Fields without a frame are <em>empty vessels.</em><br>Frames without fields are <em>beautiful fog.</em><br>Together: an argument the system can repeat at scale.</p></div>
+</section>
+
+<!-- VIII -->
+
+<section class="sec" id="s8">
+  <div class="sn">VIII</div>
+  <div class="sh">
+    <div class="sl">Communication Style</div>
+    <h2>How You Say It<br>Is Part of<br><em>What You Say.</em></h2>
+  </div>
+
+  <div class="prose">
+    <p>The appeal mode tells you what kind of argument to make.<br>The communication style tells you <strong>what register to make it in.</strong></p>
+    <p>These are different decisions. An org can make an authority argument in plain language or in dense professional prose. It can make a transformation argument with short punchy sentences or with long narrative arcs. The argument and the style are independent axes — and both need to be named before a word enters a field.</p>
+    <p>Most orgs never name either one.<br>So writers guess. And every writer guesses differently.<br>And the site sounds like five people who've never met.</p>
+  </div>
+
+  <!-- The two axes -->
+
+  <div class="fb" style="margin-top:3rem">
+    <div class="fbh">The Style Axes — Name Where You Sit</div>
+    <div class="fg" style="grid-template-columns:1fr 1fr">
+
+```
+  <div class="hfi">
+    <div class="hfn">Density</div>
+    <div class="hfd">
+      How much meaning per sentence.<br><br>
+      <strong style="color:var(--parchment)">Compressed:</strong> short sentences, strong verbs, no throat-clearing. Every word earns its place or gets cut.<br><br>
+      <strong style="color:var(--parchment)">Expansive:</strong> longer constructions, subordinate clauses, room for nuance. The writing earns its length by actually saying more — not by repeating itself at greater word count.
+    </div>
+  </div>
+
+  <div class="hfi">
+    <div class="hfn">Register</div>
+    <div class="hfd">
+      The social distance between writer and reader.<br><br>
+      <strong style="color:var(--parchment)">Formal:</strong> institutional, precise, authority-signaling. Third person, passive voice permissible, terminology used correctly and without apology.<br><br>
+      <strong style="color:var(--parchment)">Conversational:</strong> direct address, contractions, the occasional incomplete sentence. Sounds like a person. Does not sound like a press release.
+    </div>
+  </div>
+
+  <div class="hfi">
+    <div class="hfn">Vocabulary</div>
+    <div class="hfd">
+      The size and specificity of the word pool.<br><br>
+      <strong style="color:var(--parchment)">Technical / specialist:</strong> domain language used precisely. Assumes the reader belongs to the field. Signals competence to insiders, excludes outsiders — intentionally or not.<br><br>
+      <strong style="color:var(--parchment)">Plain / accessible:</strong> common words, no jargon, no acronyms without definitions. Reaches more people. Risks sounding unsophisticated to specialists if not handled with craft.
+    </div>
+  </div>
+
+  <div class="hfi">
+    <div class="hfn">Cadence</div>
+    <div class="hfd">
+      The rhythm of the writing at sentence and paragraph scale.<br><br>
+      <strong style="color:var(--parchment)">Driving:</strong> short paragraphs, varied sentence length, momentum built by motion. The reader is moved forward.<br><br>
+      <strong style="color:var(--parchment)">Deliberate:</strong> longer paragraphs, consistent pace, the writing invites the reader to slow down and stay. Suits complex topics that need sustained attention.
+    </div>
+  </div>
+
+</div>
+```
+
+  </div>
+
+  <!-- When to switch -->
+
+  <div class="prose" style="margin-top:3.5rem">
+    <p>Most orgs don't have one style.<br>They have a <strong>primary style and a set of context-triggered shifts.</strong></p>
+    <p>The frame names the primary. The node specifies the shift.<br>And the shift is not arbitrary — it follows the audience and the journey position.</p>
+  </div>
+
+  <div class="nd" style="margin-top:2rem">
+    <div class="nl">
+      <div class="nll" style="font-size:.62rem;min-width:5.5rem">Homepage</div>
+      <div class="nlc">
+        <strong>Compressed + Conversational.</strong> The widest audience, the shortest attention. No jargon. No long sentences. Every word is fighting for the next click. This is not where you show range — it is where you show clarity.
+      </div>
+    </div>
+    <div class="nl">
+      <div class="nll" style="font-size:.62rem;min-width:5.5rem">Campaign</div>
+      <div class="nlc">
+        <strong>Compressed + Driving.</strong> Urgency requires momentum. Short sentences. Active voice. The CTA is not a button — it is the resolution of a rhythm the writing has been building toward.
+      </div>
+    </div>
+    <div class="nl">
+      <div class="nll" style="font-size:.62rem;min-width:5.5rem">Long-form / Article</div>
+      <div class="nlc">
+        <strong>Expansive + Deliberate.</strong> The reader has opted in. They want depth. This is where the org earns credibility — not by claiming authority, but by demonstrating it through the quality of thinking on the page.
+      </div>
+    </div>
+    <div class="nl">
+      <div class="nll" style="font-size:.62rem;min-width:5.5rem">Technical / Docs</div>
+      <div class="nlc">
+        <strong>Formal + Technical.</strong> Precision over warmth. The reader needs to do something correctly — not feel something. Every ambiguity is a support ticket. Plain structure, specialist vocabulary, zero ornament.
+      </div>
+    </div>
+    <div class="nl">
+      <div class="nll" style="font-size:.62rem;min-width:5.5rem">Onboarding</div>
+      <div class="nlc">
+        <strong>Conversational + Plain.</strong> The reader is new, possibly anxious, almost certainly uncertain. Meet them in plain language. Use "you." Acknowledge the difficulty. Make the next step feel small.
+      </div>
+    </div>
+    <div class="nl">
+      <div class="nll" style="font-size:.62rem;min-width:5.5rem">Legal / Policy</div>
+      <div class="nlc">
+        <strong>Formal + Precise.</strong> This is the one context where the formal register is not a choice — it is a constraint. But "legal register" is not a license for incomprehensibility. Plain words inside a formal structure are still possible. Aim for them.
+      </div>
+    </div>
+  </div>
+
+  <!-- How style maps to fields -->
+
+  <div class="prose" style="margin-top:3.5rem">
+    <p>Style decisions are not just for copywriters.<br>They are <strong>field-level specifications.</strong></p>
+    <p>If the headline field is governed by compressed + conversational, the character limit is tight and the validator rejects passive constructions. If the article body is expansive + deliberate, the minimum word count reflects that — and the editor interface gives the writer room to breathe.</p>
+    <p>The style frame tells the field what it is allowed to be.</p>
+  </div>
+
+  <!-- Style frame table -->
+
+  <div class="fb" style="margin-top:3rem">
+    <div class="fbh">Style Mapped to Fields</div>
+    <div style="overflow-x:auto">
+      <div class="sim-map-row header" style="grid-template-columns:1.2fr .8fr .8fr 1.6fr">
+        <div class="sim-map-cell">Field</div>
+        <div class="sim-map-cell">Density</div>
+        <div class="sim-map-cell">Register</div>
+        <div class="sim-map-cell">Implication for the writer</div>
+      </div>
+      <div class="sim-map-row" style="grid-template-columns:1.2fr .8fr .8fr 1.6fr">
+        <div class="sim-map-cell name">Headline</div>
+        <div class="sim-map-cell">Compressed</div>
+        <div class="sim-map-cell">Conversational</div>
+        <div class="sim-map-cell">Active verb. Present tense preferred. No subordinate clauses. Reads in under 3 seconds.</div>
+      </div>
+      <div class="sim-map-row" style="grid-template-columns:1.2fr .8fr .8fr 1.6fr">
+        <div class="sim-map-cell name">Subtitle / Stakes</div>
+        <div class="sim-map-cell">Compressed</div>
+        <div class="sim-map-cell">Conversational</div>
+        <div class="sim-map-cell">One sentence that names the consequence. Not a feature list. Not a restatement of the headline.</div>
+      </div>
+      <div class="sim-map-row" style="grid-template-columns:1.2fr .8fr .8fr 1.6fr">
+        <div class="sim-map-cell name">Article Body</div>
+        <div class="sim-map-cell">Expansive</div>
+        <div class="sim-map-cell">Context-dependent</div>
+        <div class="sim-map-cell">Room for argument development. Paragraphs earn their length. No padding, but no artificial brevity either.</div>
+      </div>
+      <div class="sim-map-row" style="grid-template-columns:1.2fr .8fr .8fr 1.6fr">
+        <div class="sim-map-cell name">Card Summary</div>
+        <div class="sim-map-cell">Compressed</div>
+        <div class="sim-map-cell">Plain</div>
+        <div class="sim-map-cell">160 chars. One idea. No jargon. The reader decides in 4 words whether to click — write for those 4 words.</div>
+      </div>
+      <div class="sim-map-row" style="grid-template-columns:1.2fr .8fr .8fr 1.6fr">
+        <div class="sim-map-cell name">CTA Label</div>
+        <div class="sim-map-cell">Compressed</div>
+        <div class="sim-map-cell">Direct</div>
+        <div class="sim-map-cell">Verb + object. "Download the guide." "Start your trial." "See the results." Not "Learn More." Never "Click Here."</div>
+      </div>
+      <div class="sim-map-row" style="grid-template-columns:1.2fr .8fr .8fr 1.6fr">
+        <div class="sim-map-cell name">Error / System Message</div>
+        <div class="sim-map-cell">Plain</div>
+        <div class="sim-map-cell">Human</div>
+        <div class="sim-map-cell">The most overlooked field in every system. Error messages are a relationship moment. Write them like a person who is sorry, not a machine reporting a state.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="prose" style="margin-top:3rem">
+    <p>One more thing — and it is the thing most style guides skip:</p>
+    <p><strong>Know when long is right.</strong></p>
+    <p>The bias toward compression is strong right now. Short everything. Scannable. No walls of text. And for most surfaces, on most journeys, for most audiences — that bias is correct.</p>
+    <p>But there are moments when the right style is unhurried and long. A founder's letter. A case study that earns its proof. A product page for something expensive and complex where the reader needs to be convinced, not just converted. An article that makes an original argument.</p>
+    <p>The org that only writes short content has trained its audience to never slow down. That is a strategic loss — because depth, when it is genuine, is one of the rarest things on the web. It builds trust at a level that compression never reaches.</p>
+    <p><strong>Know your primary style. Name your shifts. Govern both by field.</strong></p>
+  </div>
+
+  <!-- Content type constrains the style range -->
+
+  <div class="prose" style="margin-top:3.5rem">
+    <p>Here is the constraint that makes this concrete:</p>
+    <p><strong>The content type sets the available style range.</strong><br>
+    The topic and audience move you within it.<br>
+    You do not get to ignore the range.</p>
+    <p>A teaching node and an event node are not just different in content — they operate under entirely different reader contracts, argument structures, and copy chunk sizes. Treating them the same way, stylistically, is a structural error. It isn't a preference.</p>
+  </div>
+
+  <!-- Side-by-side Teaching vs Event -->
+
+  <div style="margin:3rem 0;display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--dim);border:1px solid var(--dim)">
+
+```
+<!-- Teaching node header -->
+<div style="background:var(--ink);padding:1rem 1.5rem;border-bottom:1px solid var(--dim)">
+  <div class="sl" style="margin-bottom:.4rem">Teaching Node</div>
+  <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--parchment)">The reader came to <em>learn.</em></div>
+</div>
+<!-- Event node header -->
+<div style="background:var(--ink);padding:1rem 1.5rem;border-bottom:1px solid var(--dim)">
+  <div class="sl" style="margin-bottom:.4rem">Event Node</div>
+  <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--parchment)">The reader came to <em>decide.</em></div>
+</div>
+
+<!-- Reader contract -->
+<div style="background:var(--ink);padding:1.1rem 1.5rem;border-bottom:1px solid var(--dim)">
+  <div class="hfn">Reader Contract</div>
+  <div class="hfd">I will follow you through complexity. I am investing attention in exchange for genuine understanding. If you thin the content to spare me effort, you break the contract.</div>
+</div>
+<div style="background:var(--ink);padding:1.1rem 1.5rem;border-bottom:1px solid var(--dim)">
+  <div class="hfn">Reader Contract</div>
+  <div class="hfd">Give me what I need to commit or pass. Date, location, cost, what happens there, who it's for. I do not want a story — I want a decision surface. Every extra word is friction.</div>
+</div>
+
+<!-- Argument structure -->
+<div style="background:var(--ink);padding:1.1rem 1.5rem;border-bottom:1px solid var(--dim)">
+  <div class="hfn">Argument Structure</div>
+  <div class="hfd">Concept → Context → Mechanism → Application → What's next. Each step earns the next. You cannot skip from concept to application without the reader losing the thread.</div>
+</div>
+<div style="background:var(--ink);padding:1.1rem 1.5rem;border-bottom:1px solid var(--dim)">
+  <div class="hfn">Argument Structure</div>
+  <div class="hfd">What it is → Why it matters to you → When and where → What you do next. Flat, not nested. The argument resolves in one pass — no scaffolding, no sequence dependency.</div>
+</div>
+
+<!-- Copy chunk size -->
+<div style="background:var(--ink);padding:1.1rem 1.5rem;border-bottom:1px solid var(--dim)">
+  <div class="hfn">Copy Chunk Size</div>
+  <div class="hfd">Paragraphs of 3–6 sentences. Each one builds on the last. The chunk size matches the cognitive step — one idea fully developed before the next begins. Scanning is a failure mode here.</div>
+</div>
+<div style="background:var(--ink);padding:1.1rem 1.5rem;border-bottom:1px solid var(--dim)">
+  <div class="hfn">Copy Chunk Size</div>
+  <div class="hfd">1–2 sentences per field. Details in structured data: date, time, location, cost as discrete fields, not prose. The body copy — if it exists at all — is 2–3 sentences of orientation, not explanation.</div>
+</div>
+
+<!-- Vocabulary -->
+<div style="background:var(--ink);padding:1.1rem 1.5rem;border-bottom:1px solid var(--dim)">
+  <div class="hfn">Vocabulary</div>
+  <div class="hfd">Domain-specific where precision is required. Plain where it isn't. Terminology is introduced and defined — not assumed, not avoided. The teaching node respects the reader's intelligence and their starting point.</div>
+</div>
+<div style="background:var(--ink);padding:1.1rem 1.5rem;border-bottom:1px solid var(--dim)">
+  <div class="hfn">Vocabulary</div>
+  <div class="hfd">Plain. Inclusive. No insider language that excludes someone deciding whether to attend for the first time. If there is a domain term in the event name, explain it in the subtitle — once, briefly.</div>
+</div>
+
+<!-- Cadence -->
+<div style="background:var(--ink);padding:1.1rem 1.5rem;border-bottom:1px solid var(--dim)">
+  <div class="hfn">Cadence</div>
+  <div class="hfd">Deliberate. The reader is supposed to slow down. Varied sentence length — long constructions for complex ideas, short ones for emphasis. Rhythm carries argument.</div>
+</div>
+<div style="background:var(--ink);padding:1.1rem 1.5rem;border-bottom:1px solid var(--dim)">
+  <div class="hfn">Cadence</div>
+  <div class="hfd">Driving toward the CTA. Short sentences. Active verbs. The page doesn't meander — it closes. By the time the reader reaches the register button, the decision should already feel made.</div>
+</div>
+
+<!-- Topic modifies range -->
+<div style="background:rgba(255,255,255,.01);padding:1.1rem 1.5rem;border-bottom:1px solid var(--dim)">
+  <div class="hfn" style="color:var(--gold)">Topic Modifies the Range</div>
+  <div class="hfd" style="color:var(--ash)">A teaching node on beginner concepts compresses and plainifies — shorter chunks, simpler vocabulary, more analogies. A teaching node on advanced technique expands — denser chunks, specialist vocabulary, less scaffolding. The content type sets the range. The topic moves within it.</div>
+</div>
+<div style="background:rgba(255,255,255,.01);padding:1.1rem 1.5rem;border-bottom:1px solid var(--dim)">
+  <div class="hfn" style="color:var(--gold)">Topic Modifies the Range</div>
+  <div class="hfd" style="color:var(--ash)">A free community event compresses further — remove even the orientation copy, lead with logistics. A high-stakes professional conference expands — the what-you'll-gain copy earns its length because the commitment being asked is larger.</div>
+</div>
+
+<!-- The field consequence -->
+<div style="background:var(--ink);padding:1.1rem 1.5rem;grid-column:span 2">
+  <div class="hfn" style="color:var(--rust)">The Field Consequence</div>
+  <div class="hfd" style="color:var(--bone);font-style:normal;font-size:.95rem;line-height:1.7">
+    Teaching nodes need a <strong style="color:var(--parchment)">Body field</strong> with a high character ceiling and a rich text editor. Event nodes need that field to be short — or replaced entirely by discrete structured fields (Date, Time, Location, Cost, Capacity) that render as data, not prose. Giving an event node a rich text body field is an invitation to fill it with things that don't belong there. Giving a teaching node a 300-character body limit is an instruction to fail.
+  </div>
+</div>
+```
+
+  </div>
+
+  <!-- Array consideration -->
+
+  <div class="prose" style="margin-top:2rem">
+    <p>And when content type meets <strong>array</strong> — a listing of many nodes of the same type — the style constraints tighten further.</p>
+    <p>In an array of teaching nodes, a card summary must compress the chunk without breaking the conceptual thread. The reader is scanning to decide which one to enter. The summary is not a teaser — it is a <em style="color:var(--gold)">compressed contract:</em> here is what you will understand when you finish this.</p>
+    <p>In an array of event nodes, the card is almost entirely structured data. Date. Time. Location. One line of orienting copy at most. The reader is comparing — cost, timing, proximity. The card does not argue. It <em style="color:var(--gold)">presents.</em></p>
+    <p>The communication style of the array card is therefore a derivative of the content type — set in the field map, not left to whoever is writing the summary that week.</p>
+  </div>
+
+  <div class="pq"><p>Consistency of style<br>is not sameness of voice.<br>It is knowing <em>which voice belongs</em><br>to which content type —<br>and governing it at the field level.</p></div>
+</section>
+
+<!-- IX -->
+
+<section class="sec" id="s9">
+  <div class="sn">IX</div>
+  <div class="sh">
+    <div class="sl">Node Design</div>
+    <h2>Every Page Is a<br><em>Node.</em><br>Nodes Know Things.</h2>
+  </div>
+
+  <div class="prose">
+    <p>A page is not a document.<br>It is a <strong>node in a system</strong> — and a node that doesn't know its own context is a node that can't do its job.</p>
+    <p>Context-aware node design means the page knows:</p>
+  </div>
+
+  <div class="nd" style="margin-top:2rem">
+    <div class="nl">
+      <div class="nll" style="font-size:.62rem">What</div>
+      <div class="nlc"><strong>Its content type.</strong> The node knows it is an Article, not a Product. Its template, its fields, its argument structure — all derived from the type. Not guessed. Not improvised.</div>
+    </div>
+    <div class="nl">
+      <div class="nll" style="font-size:.62rem">Who</div>
+      <div class="nlc"><strong>Its audience.</strong> Who is most likely arriving here, from where, with what intent. The messaging frame has named the segments. The node surfaces the right claim for the right person — not a generic claim for everyone.</div>
+    </div>
+    <div class="nl">
+      <div class="nll" style="font-size:.62rem">Where</div>
+      <div class="nlc"><strong>Its position in the journey.</strong> Is this an entry point — cold traffic, first contact? A mid-funnel consideration page? A conversion node? Each position implies a different argument, a different CTA, a different tone register.</div>
+    </div>
+    <div class="nl">
+      <div class="nll" style="font-size:.62rem">Why</div>
+      <div class="nlc"><strong>Its rhetorical mission.</strong> The appeal mode in play. What the node is trying to accomplish for the argument — claim, proof, resolution, or handoff to the next node in the sequence.</div>
+    </div>
+  </div>
+
+  <div class="prose" style="margin-top:3rem">
+    <p>When a node knows all four,<br>it can <strong>assemble itself with intention.</strong></p>
+    <p>The headline field doesn't just display text.<br>It surfaces the right claim for the audience at this position in the journey.<br>The CTA doesn't just link somewhere.<br>It routes to the next node that continues the argument.</p>
+  </div>
+
+  <div class="pq"><p>A node that doesn't know its context<br>is a page that makes the visitor<br><em>do the work of orientation.</em></p></div>
+
+  <!-- The node anatomy diagram -->
+
+  <div class="prose" style="margin-top:3.5rem">
+    <p>Every context-aware node has the same anatomy — seven layers, each one informed by the ones above it:</p>
+  </div>
+
+  <!-- Node anatomy — visual -->
+
+  <div id="node-diagram" style="margin:3rem 0;position:relative">
+    <svg width="100%" height="820" viewBox="0 0 680 820" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block">
+
+```
+  <!-- Vertical spine -->
+  <line x1="90" y1="20" x2="90" y2="790" stroke="#4a4540" stroke-width="1.5"/>
+
+  <!-- Layer 1: Content Type -->
+  <circle cx="90" cy="70" r="12" fill="#0e0c0a" stroke="#c4623a" stroke-width="2"/>
+  <circle cx="90" cy="70" r="5" fill="#c4623a"/>
+  <text x="118" y="63" font-family="Space Mono" font-size="13" fill="#c4623a" letter-spacing="1.5">CONTENT TYPE</text>
+  <text x="118" y="84" font-family="Libre Baskerville" font-size="14" fill="#8a8480" font-style="italic">What kind of node is this?</text>
+  <line x1="118" y1="94" x2="650" y2="94" stroke="#4a4540" stroke-width=".75" stroke-dasharray="4,6"/>
+
+  <!-- Layer 2: Audience -->
+  <circle cx="90" cy="170" r="12" fill="#0e0c0a" stroke="#c4623a" stroke-width="2"/>
+  <circle cx="90" cy="170" r="5" fill="#c4623a"/>
+  <text x="118" y="163" font-family="Space Mono" font-size="13" fill="#c4623a" letter-spacing="1.5">AUDIENCE SEGMENT</text>
+  <text x="118" y="184" font-family="Libre Baskerville" font-size="14" fill="#8a8480" font-style="italic">Who is most likely arriving here?</text>
+  <line x1="118" y1="194" x2="650" y2="194" stroke="#4a4540" stroke-width=".75" stroke-dasharray="4,6"/>
+
+  <!-- Layer 3: Journey position -->
+  <circle cx="90" cy="270" r="12" fill="#0e0c0a" stroke="#c4623a" stroke-width="2"/>
+  <circle cx="90" cy="270" r="5" fill="#c4623a"/>
+  <text x="118" y="263" font-family="Space Mono" font-size="13" fill="#c4623a" letter-spacing="1.5">JOURNEY POSITION</text>
+  <text x="118" y="284" font-family="Libre Baskerville" font-size="14" fill="#8a8480" font-style="italic">Entry / Consideration / Conversion / Handoff</text>
+  <line x1="118" y1="294" x2="650" y2="294" stroke="#4a4540" stroke-width=".75" stroke-dasharray="4,6"/>
+
+  <!-- Layer 4: Appeal Mode -->
+  <circle cx="90" cy="370" r="12" fill="#0e0c0a" stroke="#c9963a" stroke-width="2"/>
+  <circle cx="90" cy="370" r="5" fill="#c9963a"/>
+  <text x="118" y="363" font-family="Space Mono" font-size="13" fill="#c9963a" letter-spacing="1.5">APPEAL MODE</text>
+  <text x="118" y="384" font-family="Libre Baskerville" font-size="14" fill="#8a8480" font-style="italic">Authority / Transformation / Belonging / Urgency / Evidence</text>
+  <line x1="118" y1="394" x2="650" y2="394" stroke="#4a4540" stroke-width=".75" stroke-dasharray="4,6"/>
+
+  <!-- Layer 5: Argument sequence -->
+  <circle cx="90" cy="470" r="12" fill="#0e0c0a" stroke="#c9963a" stroke-width="2"/>
+  <circle cx="90" cy="470" r="5" fill="#c9963a"/>
+  <text x="118" y="463" font-family="Space Mono" font-size="13" fill="#c9963a" letter-spacing="1.5">ARGUMENT SEQUENCE</text>
+  <text x="118" y="484" font-family="Libre Baskerville" font-size="14" fill="#8a8480" font-style="italic">Claim → Stakes → Proof → Resolution</text>
+  <line x1="118" y1="494" x2="650" y2="494" stroke="#4a4540" stroke-width=".75" stroke-dasharray="4,6"/>
+
+  <!-- Layer 6: Field values -->
+  <circle cx="90" cy="570" r="12" fill="#0e0c0a" stroke="#f4f0e8" stroke-width="1.5"/>
+  <circle cx="90" cy="570" r="5" fill="#f4f0e8"/>
+  <text x="118" y="563" font-family="Space Mono" font-size="13" fill="#f4f0e8" letter-spacing="1.5">FIELD VALUES</text>
+  <text x="118" y="584" font-family="Libre Baskerville" font-size="14" fill="#8a8480" font-style="italic">Actual content — entered by the right person, required or not</text>
+  <line x1="118" y1="594" x2="650" y2="594" stroke="#4a4540" stroke-width=".75" stroke-dasharray="4,6"/>
+
+  <!-- Layer 7: Design output -->
+  <circle cx="90" cy="680" r="14" fill="#c9963a" stroke="#c9963a" stroke-width="2"/>
+  <circle cx="90" cy="680" r="6" fill="#0e0c0a"/>
+  <text x="118" y="673" font-family="Space Mono" font-size="13" fill="#c9963a" letter-spacing="1.5">DESIGN OUTPUT</text>
+  <text x="118" y="694" font-family="Libre Baskerville" font-size="14" fill="#c9963a" font-style="italic">Typography, hierarchy, whitespace — amplifying the argument above it</text>
+
+  <!-- Bracket: FRAME governs layers 1–5 -->
+  <line x1="58" y1="70"  x2="46" y2="70"  stroke="#c4623a" stroke-width="1.25" opacity=".6"/>
+  <line x1="46" y1="70"  x2="46" y2="470" stroke="#c4623a" stroke-width="1.25" opacity=".6"/>
+  <line x1="46" y1="470" x2="58" y2="470" stroke="#c4623a" stroke-width="1.25" opacity=".6"/>
+  <text x="8" y="280" font-family="Space Mono" font-size="11" fill="#c4623a" opacity=".8" writing-mode="vertical-rl" transform="rotate(180,22,270)" letter-spacing="3">FRAME</text>
+
+  <!-- Bracket: MAP governs layers 6–7 -->
+  <line x1="58" y1="570" x2="40" y2="570" stroke="#8a8480" stroke-width="1.25" opacity=".6"/>
+  <line x1="40" y1="570" x2="40" y2="680" stroke="#8a8480" stroke-width="1.25" opacity=".6"/>
+  <line x1="40" y1="680" x2="58" y2="680" stroke="#8a8480" stroke-width="1.25" opacity=".6"/>
+  <text x="8" y="645" font-family="Space Mono" font-size="11" fill="#8a8480" opacity=".8" writing-mode="vertical-rl" transform="rotate(180,16,635)" letter-spacing="3">MAP</text>
+</svg>
+```
+
+  </div>
+
+  <!-- Context-aware = the frame meets the field -->
+
+  <div class="prose">
+    <p>"Context-aware" means layers 1–5 are <strong>known before a single field is filled.</strong></p>
+    <p>The content type defines available fields.<br>The audience and journey position select which claim to lead with.<br>The appeal mode governs tone and proof type.<br>The argument sequence orders the fields on the page.</p>
+    <p>Only then does the editor open the CMS.<br>Only then does the designer open the file.</p>
+    <p>Context-unaware design is the default.<br>Someone opens a template, fills in the fields, chooses a layout that looks good, and publishes.<br>The node goes live with no knowledge of its own position, audience, or argument.</p>
+    <p>It is a page that <strong>cannot advocate for itself</strong> — because no one told it what it was trying to do.</p>
+  </div>
+
+  <!-- The routing consequence -->
+
+  <div class="fb" style="margin-top:3rem">
+    <div class="fbh">What Context Changes — Same Content Type, Different Node</div>
+    <div style="overflow-x:auto">
+      <div class="sim-map-row header" style="grid-template-columns:1fr 1fr 1fr">
+        <div class="sim-map-cell">Context</div>
+        <div class="sim-map-cell">Headline field renders as</div>
+        <div class="sim-map-cell">CTA field resolves to</div>
+      </div>
+      <div class="sim-map-row" style="grid-template-columns:1fr 1fr 1fr">
+        <div class="sim-map-cell name">Entry node<br><span style="color:var(--ash);font-size:.72rem;font-style:italic">cold audience, awareness</span></div>
+        <div class="sim-map-cell" style="color:var(--bone)">A claim that names their problem before it names your solution</div>
+        <div class="sim-map-cell" style="color:var(--bone)">"See how it works" — low commitment, high curiosity</div>
+      </div>
+      <div class="sim-map-row" style="grid-template-columns:1fr 1fr 1fr">
+        <div class="sim-map-cell name">Consideration node<br><span style="color:var(--ash);font-size:.72rem;font-style:italic">warm audience, evaluating</span></div>
+        <div class="sim-map-cell" style="color:var(--bone)">A claim that distinguishes — why this, not the others</div>
+        <div class="sim-map-cell" style="color:var(--bone)">"Compare options" or "Talk to someone" — signals you respect the decision</div>
+      </div>
+      <div class="sim-map-row" style="grid-template-columns:1fr 1fr 1fr">
+        <div class="sim-map-cell name">Conversion node<br><span style="color:var(--ash);font-size:.72rem;font-style:italic">hot audience, deciding</span></div>
+        <div class="sim-map-cell" style="color:var(--bone)">A claim that removes the last hesitation — cost, risk, or effort</div>
+        <div class="sim-map-cell" style="color:var(--gold)">"Start now" — direct, time-aware, consequence-named</div>
+      </div>
+      <div class="sim-map-row" style="grid-template-columns:1fr 1fr 1fr">
+        <div class="sim-map-cell name">Handoff node<br><span style="color:var(--ash);font-size:.72rem;font-style:italic">existing user, deepening</span></div>
+        <div class="sim-map-cell" style="color:var(--bone)">A claim that expands the relationship — what's possible now that they're inside</div>
+        <div class="sim-map-cell" style="color:var(--bone)">"Explore what's next" — forward motion, not re-acquisition</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="prose" style="margin-top:3rem">
+    <p>Same content type.<br>Same template.<br>Same fields.</p>
+    <p><strong>Completely different nodes.</strong></p>
+    <p>The fields don't change — the context does.<br>And the context, if it's been named, tells the editor exactly what to write and the designer exactly what to amplify.</p>
+    <p>This is why the scroll began with content types as bones<br>and ends with nodes as the living thing those bones become.</p>
+    <p>Structure. Navigation. Hero. Fields. Map. Frame. <strong>Node.</strong></p>
+    <p>Seven layers. One argument.<br>Repeatable at scale.</p>
+  </div>
+
+  <div class="pq"><p>The system doesn't sing<br>because it is large.<br>It sings because every node<br>knows <em>exactly what it is for.</em></p></div>
+</section>
+
+<!-- X -->
+
+<section class="sec" id="s10">
+  <div class="sn">X</div>
+  <div class="sh">
+    <div class="sl">Photography</div>
+    <h2>The Photo Is<br>Not Decoration.<br>It Is <em>Evidence.</em></h2>
+  </div>
+
+  <div class="prose">
+    <p>Every photograph on a page is making a claim.<br>
+    It is saying: <em style="color:var(--gold)">this is real. These are real people. This actually happens here.</em></p>
+    <p>When the photograph is wrong — stock, generic, mismatched to the service — the claim collapses. The visitor doesn't think "bad photo." They think, without articulating it: <strong>I don't trust this.</strong></p>
+    <p>Photography is not a design element to be sourced after the layout is built. It is a content field with a rhetorical role — and for people-oriented services, it is often the most persuasive field on the page.</p>
+  </div>
+
+  <div class="pq" style="margin-top:2.5rem"><p>Stock photography is the visual equivalent<br>of a testimonial you wrote yourself.<br><em>Everyone can tell.</em></p></div>
+
+  <!-- Photography types -->
+
+  <div class="fb" style="margin-top:3.5rem">
+    <div class="fbh">Photography Types — Know Which One Leads</div>
+    <div class="fg" style="grid-template-columns:1fr 1fr">
+
+```
+  <div class="hfi">
+    <div class="hfn">People</div>
+    <div class="hfd">
+      The human face is the primary proof element for any service built on relationship, transformation, or belonging. Staff, clients (with consent), community members in context — not posed, not stock, not from a shoot where everyone is suspiciously photogenic and happy in a conference room.<br><br>
+      <strong style="color:var(--parchment)">People photography leads when:</strong> the org delivers care, coaching, education, community, counseling, healthcare, or any service where the visitor needs to believe a real person will be there.
+    </div>
+  </div>
+
+  <div class="hfi">
+    <div class="hfn">Place</div>
+    <div class="hfd">
+      Facility, environment, neighborhood, campus. Answers: <em>where does this happen?</em> Critical for services where physical presence matters — clinics, studios, event venues, retail, schools, coworking spaces.<br><br>
+      <strong style="color:var(--parchment)">Place photography leads when:</strong> the space itself is a signal of quality, accessibility, or belonging. If the visitor would tour the space before committing, show them the space first.
+    </div>
+  </div>
+
+  <div class="hfi">
+    <div class="hfn">Action</div>
+    <div class="hfd">
+      The work in motion. People doing the thing, not posing about having done it. A trainer mid-demonstration. A surgeon in consultation (with consent). A teacher at the board. Action photography shows competence without stating it.<br><br>
+      <strong style="color:var(--parchment)">Action photography leads when:</strong> the visitor's hesitation is about capability — can you actually do this? Show them.
+    </div>
+  </div>
+
+  <div class="hfi">
+    <div class="hfn">Concept / Abstract</div>
+    <div class="hfd">
+      Symbolic, textural, atmospheric. Has its place as background, section dividers, or emphasis. But it carries no proof value. It cannot tell the visitor that real people do real work here.<br><br>
+      <strong style="color:var(--parchment)">Concept photography supports when:</strong> the tone or aesthetic needs grounding and no appropriate people/place/action image exists. It should never lead for people-oriented services.
+    </div>
+  </div>
+
+</div>
+```
+
+  </div>
+
+  <!-- The people-forward principle -->
+
+  <div class="prose" style="margin-top:3.5rem">
+    <p>For people-oriented services, there is a hierarchy.<br>
+    It is not a preference. It is a persuasion architecture:</p>
+  </div>
+
+  <div class="nd" style="margin-top:1.5rem">
+    <div class="nl">
+      <div class="nll" style="font-size:.58rem;min-width:4.5rem">Primary</div>
+      <div class="nlc">
+        <strong>Real people, real context, identifiable.</strong> A named staff member in their actual workspace. A real client in the environment where the service happened — with their permission, with their name. The face that will greet them. The hand that will guide them. This is the photograph the hero field was built for.
+      </div>
+    </div>
+    <div class="nl">
+      <div class="nll" style="font-size:.58rem;min-width:4.5rem">Secondary</div>
+      <div class="nlc">
+        <strong>Real place, real activity.</strong> The space where the work happens. The tools, the room, the environment — photographed honestly, not staged for aspirational effect. Secondary because environment supports people, not the other way around.
+      </div>
+    </div>
+    <div class="nl">
+      <div class="nll" style="font-size:.58rem;min-width:4.5rem">Tertiary</div>
+      <div class="nlc">
+        <strong>Abstract / atmospheric, used sparingly.</strong> Acceptable as a placeholder until real photography exists. Acceptable as a textural element behind text. Never acceptable as the primary human proof on a page asking someone to trust you with their health, finances, family, or livelihood.
+      </div>
+    </div>
+    <div class="nl">
+      <div class="nll" style="font-size:.58rem;min-width:4.5rem;color:var(--rust-dark)">Avoid</div>
+      <div class="nlc" style="color:var(--ash)">
+        <strong style="color:var(--parchment)">Generic stock photography of humans.</strong> The staged diverse team in matching smart-casual. The woman laughing alone at a salad. The two businesspeople shaking hands with impossible whiteness of teeth. The visitor has seen all of them on seventeen other sites. They register as absence of real people — which is worse than no photo at all.
+      </div>
+    </div>
+  </div>
+
+  <!-- Photography as a field decision -->
+
+  <div class="prose" style="margin-top:3.5rem">
+    <p>Photography is a <strong>field decision</strong> before it is a design decision.</p>
+    <p>The content model names the photography fields. The field map specifies what each one requires. And those specifications are the brief — handed to the photographer before the shoot, not after the layout is designed.</p>
+    <p>A photographer briefed from a field map knows:</p>
+  </div>
+
+  <div style="margin:2rem 0;border:1px solid var(--dim)">
+    <div style="padding:.75rem 1.5rem;border-bottom:1px solid var(--dim);font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.2em;color:var(--rust);text-transform:uppercase;display:flex;align-items:center;gap:.75rem">
+      <span style="width:6px;height:6px;background:var(--rust-dark);transform:rotate(45deg);display:inline-block;flex-shrink:0"></span>
+      Photography Brief — From the Field Map
+    </div>
+    <div class="split-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:0">
+      <div style="padding:1.25rem 1.5rem;border-right:1px solid var(--dim);border-bottom:1px solid var(--dim)">
+        <div style="font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;margin-bottom:.5rem">Hero Image field</div>
+        <div style="font-family:'Space Mono',monospace;font-size:.82rem;color:var(--ash);line-height:1.8">16:9 · Renders on hero, social share, card<br>Subject: primary staff member or client<br>Context: in-service environment<br>Avoid: posed, studio, neutral background</div>
+      </div>
+      <div style="padding:1.25rem 1.5rem;border-bottom:1px solid var(--dim)">
+        <div style="font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;margin-bottom:.5rem">Staff Profile field</div>
+        <div style="font-family:'Space Mono',monospace;font-size:.82rem;color:var(--ash);line-height:1.8">1:1 square · Renders on team page, bio card<br>Subject: individual, identifiable, named<br>Context: workspace or neutral-warm<br>Avoid: formal headshot affect, stock lighting</div>
+      </div>
+      <div style="padding:1.25rem 1.5rem;border-right:1px solid var(--dim)">
+        <div style="font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;margin-bottom:.5rem">Service / Action field</div>
+        <div style="font-family:'Space Mono',monospace;font-size:.82rem;color:var(--ash);line-height:1.8">3:2 landscape · Renders on service page hero<br>Subject: work in progress, real interaction<br>Context: actual service environment<br>Avoid: staged demonstrations, props</div>
+      </div>
+      <div style="padding:1.25rem 1.5rem">
+        <div style="font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;margin-bottom:.5rem">Place / Facility field</div>
+        <div style="font-family:'Space Mono',monospace;font-size:.82rem;color:var(--ash);line-height:1.8">16:9 · Renders on location, about pages<br>Subject: space in active or natural state<br>Context: honest — not deep-cleaned theater<br>Avoid: empty rooms, aspirational staging</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Handling missing photos -->
+
+  <div class="prose" style="margin-top:3rem">
+    <p>One more thing the field map must answer:<br>
+    <strong>What renders when the photo doesn't exist?</strong></p>
+    <p>Every photo field needs a fallback state specified before launch. Not "we'll figure it out." A named decision: a defined color field, a type-only treatment, a brand mark, a placeholder that acknowledges the absence rather than pretending it isn't there.</p>
+    <p>An empty photo field that renders as a broken image is not a design failure.<br>It is a field map failure — the decision wasn't made upstream.</p>
+    <p>For people-oriented services, the missing staff photo is particularly damaging. The card that should carry a face carries a void. The visitor reads: <em style="color:var(--ash)">this person is not real enough to have a photograph.</em> Or worse: <em style="color:var(--ash)">this org doesn't care enough to have taken one.</em></p>
+  </div>
+
+  <!-- Consent and dignity -->
+
+  <div class="prose" style="margin-top:2.5rem">
+    <p>Finally: the photograph of a real person is a relationship, not a resource.</p>
+    <p><strong>Consent must be documented.</strong> Not implied, not assumed because someone smiled at the camera. A signed release that specifies which fields the image populates, on which platforms, for how long.</p>
+    <p>For services working with vulnerable populations — youth, patients, people in crisis or recovery — this governance is not a legal formality. It is how the org demonstrates that it treats people the same way it says it does.</p>
+    <p>The photograph is the argument.<br>Handle it accordingly.</p>
+  </div>
+
+  <div class="pq"><p>Brief the photographer from the field map.<br>Specify the fallback before launch.<br>Get the consent before the shoot.<br><em>Then the photo earns its field.</em></p></div>
+</section>
+
+<!-- XI -->
+
+<section class="sec" id="s11">
+  <div class="sn">XI</div>
+  <div class="sh">
+    <div class="sl">The Editor's Surface</div>
+    <h2>You Are Not<br>Filling In a Form.<br>You Are <em>Making the Argument.</em></h2>
+  </div>
+
+  <div class="prose">
+    <p>The architect built the bones. The designer built the layout. The photographer shot the evidence. The strategist named the frame.</p>
+    <p>Then the CMS opens — and all of it waits on you.</p>
+    <p>The field is blank. The cursor is blinking. You have a deadline and eleven other items in the queue.</p>
+    <p>This is the moment the whole system was built for.<br>And almost no one has told you what it actually is.</p>
+  </div>
+
+  <div class="pq" style="margin-top:2.5rem"><p>The words you type in that field<br>are the product.<br>Not the layout around them.<br><em>The words.</em></p></div>
+
+  <div class="prose" style="margin-top:3rem">
+    <p>The CMS form is not an administrative interface.<br>It is a <strong>design surface</strong> — the one you control entirely.</p>
+    <p>The designer controls what the headline looks like.<br>You control what it <em style="color:var(--gold)">says.</em><br>That is the more consequential decision.</p>
+    <p>Every field you fill is landing somewhere on a real page, in front of a real person who is deciding something. What you write governs what they think, feel, and do next. The layout amplifies it. The layout cannot save it.</p>
+  </div>
+
+  <!-- The three decisions -->
+
+  <div class="fb" style="margin-top:3.5rem">
+    <div class="fbh">Three Decisions Every Editor Makes — Usually Without Knowing It</div>
+    <div class="fg" style="grid-template-columns:1fr">
+
+```
+  <div class="hfi">
+    <div class="hfn">1. Description or Claim</div>
+    <div class="hfd">
+      <em style="color:var(--ash)">"Annual Community Health Fair"</em> describes. It names the thing.<br>
+      <em style="color:var(--gold)">"Free Health Screenings — One Day, No Appointment"</em> claims. It makes a case for why someone should come.<br><br>
+      Both are true. Only one persuades. The headline field is a claim field — not a label field. Every time you write a description where a claim belongs, you are leaving the page's argument unfinished.
+    </div>
+  </div>
+
+  <div class="hfi">
+    <div class="hfn">2. The Organization or the Visitor</div>
+    <div class="hfd">
+      <em style="color:var(--ash)">"We offer comprehensive support services for individuals and families."</em> — subject: us.<br>
+      <em style="color:var(--gold)">"If you're not sure where to start, start here."</em> — subject: you.<br><br>
+      The visitor is not reading to learn about the organization. They are reading to find out if the organization is relevant to them. Make them the subject. Your appeal mode tells you which "you" to address — someone seeking transformation reads differently than someone seeking belonging. The field is where that decision lives.
+    </div>
+  </div>
+
+  <div class="hfi">
+    <div class="hfn">3. The Summary Is a Promise</div>
+    <div class="hfd">
+      The summary field renders on the card, in search results, in the social share. It is often the only text a visitor reads before deciding whether to click. It is not a shortened version of the page. It is a <strong>standalone promise</strong>: what will I get if I go here?<br><br>
+      A summary that says <em style="color:var(--ash)">"Learn more about our services and how we can help your family."</em> promises nothing. A summary that says <em style="color:var(--gold)">"Same-week appointments. Sliding scale fees. No referral needed."</em> answers the three questions the visitor was already asking.
+    </div>
+  </div>
+
+</div>
+```
+
+  </div>
+
+  <!-- Field-by-field guide -->
+
+  <div class="prose" style="margin-top:3.5rem">
+    <p>Every content type has a field whose job is to make the claim, a field whose job is to keep the promise, and a field whose job is to name the next step. They are almost never labeled that way in the CMS.</p>
+    <p>Here is what the labels actually mean:</p>
+  </div>
+
+  <div style="margin:2rem 0;border:1px solid var(--dim)">
+    <div style="padding:.75rem 1.5rem;border-bottom:1px solid var(--dim);font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.2em;color:var(--rust);text-transform:uppercase">
+      What the Field Is Actually For
+    </div>
+    <div class="nd" style="margin:0">
+      <div class="nl" style="border-bottom:1px solid var(--dim)">
+        <div class="nll" style="font-size:.6rem;min-width:5.5rem;color:var(--gold)">Title / Headline</div>
+        <div class="nlc"><strong style="color:var(--parchment)">The claim.</strong> One sentence. Makes the argument. Governs by appeal mode — if your frame is Transformation, name the visitor's future state. If it's Authority, name the proof. If it's Belonging, use "we." Write the claim first, then check if it fits the character limit. Never work backward from the limit.</div>
+      </div>
+      <div class="nl" style="border-bottom:1px solid var(--dim);background:rgba(255,255,255,.01)">
+        <div class="nll" style="font-size:.6rem;min-width:5.5rem;color:var(--gold)">Summary / Excerpt</div>
+        <div class="nlc"><strong style="color:var(--parchment)">The promise.</strong> Renders before the visitor commits to the page. Must stand alone. Must answer: what will I find here, and why does that matter to me now? Write it last — after you know what the page actually delivers — but treat it as the most load-bearing text you write.</div>
+      </div>
+      <div class="nl" style="border-bottom:1px solid var(--dim)">
+        <div class="nll" style="font-size:.6rem;min-width:5.5rem;color:var(--gold)">Body / Content</div>
+        <div class="nlc"><strong style="color:var(--parchment)">The proof.</strong> Delivers what the headline claimed. Argument sequence: lead with the stakes, then the mechanism, then the evidence, then the resolution. The reader arrived because of the headline's promise — the body's job is to honor it. One idea per paragraph. No burying the lead.</div>
+      </div>
+      <div class="nl" style="border-bottom:1px solid var(--dim);background:rgba(255,255,255,.01)">
+        <div class="nll" style="font-size:.6rem;min-width:5.5rem;color:var(--gold)">CTA Label</div>
+        <div class="nlc"><strong style="color:var(--parchment)">The next step — named precisely.</strong> Not "Learn More." Not "Click Here." The CTA label is the last word in the argument. It names what happens when they go. <em>"Book a free call." "See available dates." "Get the guide."</em> The visitor should be able to read only the CTA label and know exactly what they're committing to.</div>
+      </div>
+      <div class="nl">
+        <div class="nll" style="font-size:.6rem;min-width:5.5rem;color:var(--gold)">Meta / SEO Fields</div>
+        <div class="nlc"><strong style="color:var(--parchment)">The off-page argument.</strong> Search results, link previews, browser tabs. Different audience context — lower trust, higher competition. The meta title is a headline for someone who hasn't chosen you yet. Treat it like one.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Tuesday principle -->
+
+  <div class="prose" style="margin-top:3.5rem">
+    <p>The system survives Tuesdays because of what you do on Tuesdays.</p>
+    <p>Not the architecture. Not the design system. Not the photography brief or the messaging frame or the field map — those are infrastructure. Infrastructure enables. It does not execute.</p>
+    <p>You execute. You are the last decision-maker between the system and the visitor. Every page that persuades, every service that gets chosen, every person who shows up because a summary promised something true — that started with an editor, a blank field, and the knowledge that it mattered.</p>
+    <p><strong>The bones hold because you fill them correctly.</strong></p>
+  </div>
+
+  <!-- AI ASSIST SPEC -->
+
+  <div style="margin:3.5rem 0;border:1px solid var(--dim)">
+    <div style="padding:.85rem 1.5rem;border-bottom:1px solid var(--dim);display:flex;align-items:baseline;gap:1rem">
+      <div style="font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.2em;color:var(--rust);text-transform:uppercase">Field Writing Assistant</div>
+      <div style="font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.1em;color:var(--ghost);text-transform:uppercase">Solution Spec</div>
+    </div>
+    <div class="split-grid" style="padding:1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:1px solid var(--dim)">
+      <div style="padding-right:1.5rem;border-right:1px solid var(--dim)">
+        <div style="font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.15em;color:var(--gold);text-transform:uppercase;margin-bottom:.75rem">What It Is</div>
+        <div style="font-family:'Space Mono',monospace;font-size:.8rem;color:var(--ash);line-height:1.8">An AI assistant scoped to the org's messaging frame. Lives where the editor works — CMS sidebar, browser extension, or standalone tab. Not embedded in the scroll. Opened when the CMS is open.</div>
+      </div>
+      <div style="padding-left:1.5rem">
+        <div style="font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.15em;color:var(--gold);text-transform:uppercase;margin-bottom:.75rem">What It Knows</div>
+        <div style="font-family:'Space Mono',monospace;font-size:.8rem;color:var(--ash);line-height:1.8">The org's appeal mode. The field map. The communication style register. The difference between a claim and a description. The character constraints per field. The fallback rules.</div>
+      </div>
+    </div>
+    <div style="padding:1.5rem;border-bottom:1px solid var(--dim)">
+      <div style="font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.15em;color:var(--gold);text-transform:uppercase;margin-bottom:.75rem">What the Editor Asks It</div>
+      <div class="prompt-examples" style="display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem">
+        <div style="font-family:'Space Mono',monospace;font-size:.75rem;color:var(--ash);padding:.6rem .85rem;border:1px solid var(--dim);line-height:1.6"><em style="color:var(--ghost)">"Write a headline for this service page — Transformation frame, 80 chars."</em></div>
+        <div style="font-family:'Space Mono',monospace;font-size:.75rem;color:var(--ash);padding:.6rem .85rem;border:1px solid var(--dim);line-height:1.6"><em style="color:var(--ghost)">"Is this summary a promise or a description? Fix it."</em></div>
+        <div style="font-family:'Space Mono',monospace;font-size:.75rem;color:var(--ash);padding:.6rem .85rem;border:1px solid var(--dim);line-height:1.6"><em style="color:var(--ghost)">"Give me three CTA options for a Belonging frame. No 'Learn More.'"</em></div>
+      </div>
+    </div>
+    <div style="padding:1.25rem 1.5rem;display:flex;align-items:baseline;gap:.75rem;flex-wrap:wrap">
+      <div style="font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.15em;color:var(--ghost);text-transform:uppercase">Build path:</div>
+      <div style="font-family:'Space Mono',monospace;font-size:.75rem;color:var(--ash)">System prompt built from this scroll's frame definitions + org voice guidelines + field map constraints. Claude API. Deployed as CMS sidebar widget or browser extension. One URL. Always within reach.</div>
+    </div>
+  </div>
+
+<p>The layout amplifies what you write.<br>It cannot save what you don't.<br><em>The field is the message.</em></p></div>
+</section>
+
+<section class="coda">
+  <div class="sl" style="margin-bottom:3rem">Coda</div>
+  <div class="cc" style="max-width:100%;grid-template-columns:repeat(3,1fr)">
+    <div class="ci"><strong>Build the bones.</strong> Content types are infrastructure. Treat them that way.</div>
+    <div class="ci"><strong>Protect the spine.</strong> Navigation is mercy. It is not negotiable.</div>
+    <div class="ci"><strong>Route the hero.</strong> Fields drive display. Design governs — it does not improvise.</div>
+    <div class="ci"><strong>Expose the fields.</strong> The designer who can't see the model builds illusions that collapse at launch.</div>
+    <div class="ci"><strong>Map the fields.</strong> What exists. Where it renders. Who owns it. Before launch — not in the post-mortem.</div>
+    <div class="ci"><strong>Frame the message.</strong> Name the appeal mode. Sequence the argument. Assign each field a rhetorical role.</div>
+    <div class="ci"><strong>Set the style.</strong> Name your primary register. Name the shifts. Govern both by field.</div>
+    <div class="ci"><strong>Design the node.</strong> Every page knows what it is, who it's for, where they are in the journey, and what it's trying to accomplish.</div>
+    <div class="ci"><strong>Brief the photograph.</strong> Real people. Real context. Consent documented. Fallback specified.</div>
+    <div class="ci"><strong>Fill the field.</strong> You are not completing a form. You are making the argument. The headline is the claim. The summary is the promise. The CTA is the next step. Write accordingly.</div>
+    <div class="ci" style="background:rgba(201,150,58,.03);border-color:transparent;grid-column:span 3"><strong style="color:var(--gold)">Then let it sing.</strong><span style="color:var(--ash)"> Architecture and design and frame and photograph and editor — one system. Every field earned. Every surface trusted. Alive on Tuesdays.</span></div>
+  </div>
+  <div class="rule">✦</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ -->
+
+<!-- EXPANSION DOCUMENTS                                 -->
+
+<!-- ═══════════════════════════════════════════════════ -->
+
+<style>
+.exp-divider{
+  border:none;
+  border-top:1px solid var(--dim);
+  margin:0;
+  padding:3rem 4rem 0;
+  display:flex;
+  align-items:center;
+  gap:1.5rem;
+}
+.exp-divider-label{
+  font-family:'Space Mono',monospace;
+  font-size:.58rem;
+  letter-spacing:.3em;
+  color:var(--ghost);
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.exp-divider-line{
+  flex:1;
+  height:1px;
+  background:var(--dim);
+}
+.doc-sec{
+  padding:5rem 4rem 4rem;
+  border-bottom:1px solid var(--dim);
+  max-width:900px;
+}
+.doc-hn{
+  font-family:'Space Mono',monospace;
+  font-size:.62rem;
+  letter-spacing:.25em;
+  color:var(--rust);
+  text-transform:uppercase;
+  margin-bottom:1rem;
+}
+.doc-h1{
+  font-family:'Playfair Display',serif;
+  font-size:2.4rem;
+  line-height:1.15;
+  color:var(--parchment);
+  margin-bottom:1rem;
+  font-weight:400;
+}
+.doc-h1 em{color:var(--gold);font-style:italic}
+.doc-sub{
+  font-family:'Libre Baskerville',serif;
+  font-size:1rem;
+  color:var(--ash);
+  font-style:italic;
+  line-height:1.7;
+  max-width:560px;
+  margin-bottom:3rem;
+  padding-bottom:2rem;
+  border-bottom:1px solid var(--dim);
+}
+.doc-prose{
+  font-family:'Libre Baskerville',serif;
+  font-size:.97rem;
+  line-height:1.85;
+  color:var(--ash);
+  margin-bottom:1.75rem;
+  max-width:640px;
+}
+.doc-prose strong{color:var(--parchment)}
+.doc-prose em{color:var(--gold)}
+.doc-h2{
+  font-family:'Space Mono',monospace;
+  font-size:.72rem;
+  letter-spacing:.18em;
+  color:var(--parchment);
+  text-transform:uppercase;
+  margin:3rem 0 1.25rem;
+  padding-bottom:.6rem;
+  border-bottom:1px solid var(--dim);
+}
+.doc-rule{
+  font-family:'Playfair Display',serif;
+  font-size:1rem;
+  color:var(--dim);
+  text-align:center;
+  margin:3rem 0;
+  letter-spacing:.5em;
+}
+.field-card{
+  border:1px solid var(--dim);
+  margin-bottom:1px;
+}
+.field-card-head{
+  display:flex;
+  align-items:baseline;
+  gap:1rem;
+  padding:.75rem 1.25rem;
+  border-bottom:1px solid var(--dim);
+  background:rgba(255,255,255,.01);
+}
+.field-card-name{
+  font-family:'Space Mono',monospace;
+  font-size:.72rem;
+  letter-spacing:.12em;
+  color:var(--gold);
+  text-transform:uppercase;
+}
+.field-card-role{
+  font-family:'Libre Baskerville',serif;
+  font-size:.82rem;
+  color:var(--ghost);
+  font-style:italic;
+}
+.field-card-body{
+  padding:1rem 1.25rem;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1rem 2rem;
+}
+.field-card-item-label{
+  font-family:'Space Mono',monospace;
+  font-size:.58rem;
+  letter-spacing:.15em;
+  color:var(--rust);
+  text-transform:uppercase;
+  margin-bottom:.35rem;
+}
+.field-card-item-text{
+  font-family:'Space Mono',monospace;
+  font-size:.78rem;
+  color:var(--ash);
+  line-height:1.7;
+}
+.field-card-item-text em{color:var(--ghost);font-style:italic}
+.field-card-item-text strong{color:var(--parchment)}
+.prompt-block{
+  border:1px solid var(--dim);
+  margin-bottom:1.25rem;
+}
+.prompt-block-head{
+  padding:.6rem 1.1rem;
+  border-bottom:1px solid var(--dim);
+  display:flex;
+  align-items:baseline;
+  gap:.75rem;
+  background:rgba(201,150,58,.02);
+}
+.prompt-label{
+  font-family:'Space Mono',monospace;
+  font-size:.6rem;
+  letter-spacing:.18em;
+  color:var(--rust);
+  text-transform:uppercase;
+}
+.prompt-scope{
+  font-family:'Space Mono',monospace;
+  font-size:.6rem;
+  letter-spacing:.1em;
+  color:var(--ghost);
+  text-transform:uppercase;
+}
+.prompt-text{
+  padding:1rem 1.1rem;
+  font-family:'Space Mono',monospace;
+  font-size:.8rem;
+  color:var(--ash);
+  line-height:1.75;
+  white-space:pre-wrap;
+}
+.prompt-text mark{
+  background:rgba(201,150,58,.12);
+  color:var(--gold);
+  padding:0 .2em;
+  font-style:italic;
+}
+.doc-note{
+  font-family:'Space Mono',monospace;
+  font-size:.72rem;
+  line-height:1.7;
+  color:var(--ghost);
+  border-left:2px solid var(--dim);
+  padding:.5rem 1rem;
+  margin:1.75rem 0;
+  font-style:italic;
+}
+@media(max-width:720px){
+  .exp-divider{padding:2rem 1.5rem 0}
+  #doc-writing{padding:2.5rem 1.5rem 0 !important}
+  .doc-sec{padding:3.5rem 1.5rem 3rem}
+  .doc-h1{font-size:1.85rem}
+  .field-card-body{grid-template-columns:1fr}
+}
+</style>
+
+<!-- DIVIDER -->
+
+<div id="doc-writing" style="padding:4rem 4rem 0">
+  <div style="display:flex;align-items:center;gap:1.5rem">
+    <div style="font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.3em;color:var(--ghost);text-transform:uppercase;white-space:nowrap">Expansion Documents</div>
+    <div style="flex:1;height:1px;background:var(--dim)"></div>
+    <div style="font-family:'Playfair Display',serif;font-size:.9rem;color:var(--ghost);font-style:italic">Downstream from the scroll</div>
+  </div>
+</div>
+
+<!-- ─── DOC 1: HUMAN CONTENT WRITING GUIDE ─── -->
+
+<section class="doc-sec">
+  <div class="doc-hn">Document I &nbsp;·&nbsp; For the Editor</div>
+  <h1 class="doc-h1">Content Writing Guide<br><em>What the Fields Are For</em></h1>
+  <p class="doc-sub">You don't need to understand the architecture to use this guide. You need to know what field you're filling, what it's supposed to do, and what good looks like. That's what this is.</p>
+
+  <div class="doc-h2">Before You Open the CMS</div>
+  <p class="doc-prose">Know two things before you type a word: <strong>what appeal mode this page uses</strong>, and <strong>what the page is trying to accomplish</strong>. If you don't know, find out. Every field you fill depends on those answers. Without them you're writing in the dark and the visitor will feel it.</p>
+  <p class="doc-prose">The appeal mode is the org's choice about how to make its case. It's not your preference on any given day — it's the frame the page was built around.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1px;border:1px solid var(--dim);margin:1.75rem 0">
+    <div style="padding:.75rem 1.1rem;border-bottom:1px solid var(--dim);border-right:1px solid var(--dim)">
+      <div style="font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;margin-bottom:.4rem">Authority</div>
+      <div style="font-family:'Space Mono',monospace;font-size:.75rem;color:var(--ash);line-height:1.65">Lead with who we are and what we've done. Credentials, track record, numbers. The org earns trust before it asks for anything.</div>
+    </div>
+    <div style="padding:.75rem 1.1rem;border-bottom:1px solid var(--dim)">
+      <div style="font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;margin-bottom:.4rem">Transformation</div>
+      <div style="font-family:'Space Mono',monospace;font-size:.75rem;color:var(--ash);line-height:1.65">The visitor is the protagonist. Name where they're going, not what we offer. CTAs are thresholds, not buttons.</div>
+    </div>
+    <div style="padding:.75rem 1.1rem;border-bottom:1px solid var(--dim);border-right:1px solid var(--dim)">
+      <div style="font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;margin-bottom:.4rem">Belonging</div>
+      <div style="font-family:'Space Mono',monospace;font-size:.75rem;color:var(--ash);line-height:1.65">You are not alone here. Use "we" and "you" together. Community is the context, not the product.</div>
+    </div>
+    <div style="padding:.75rem 1.1rem;border-bottom:1px solid var(--dim)">
+      <div style="font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;margin-bottom:.4rem">Urgency</div>
+      <div style="font-family:'Space Mono',monospace;font-size:.75rem;color:var(--ash);line-height:1.65">The cost of waiting is real. Short sentences. Time-aware. No soft landings. The CTA resolves the tension the writing creates.</div>
+    </div>
+    <div style="padding:.75rem 1.1rem;border-right:1px solid var(--dim)">
+      <div style="font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;margin-bottom:.4rem">Evidence</div>
+      <div style="font-family:'Space Mono',monospace;font-size:.75rem;color:var(--ash);line-height:1.65">The data speaks. Make a claim, then back it. Statistics, case studies, named proof. Don't assert — demonstrate.</div>
+    </div>
+    <div style="padding:.75rem 1.1rem">
+      <div style="font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.12em;color:var(--ghost);text-transform:uppercase;margin-bottom:.4rem">Mixed</div>
+      <div style="font-family:'Space Mono',monospace;font-size:.75rem;color:var(--ghost);line-height:1.65">Most pages blend. Know which mode leads and which supports — so your writing doesn't cancel itself out.</div>
+    </div>
+  </div>
+
+  <div class="doc-h2">Field by Field</div>
+
+  <div class="field-card">
+    <div class="field-card-head">
+      <div class="field-card-name">Title / Headline</div>
+      <div class="field-card-role">The claim</div>
+    </div>
+    <div class="field-card-body">
+      <div>
+        <div class="field-card-item-label">What it's for</div>
+        <div class="field-card-item-text">Opens the argument. Makes a position. The visitor reads this and decides whether the page is for them. It is not a label — it is the first sentence of a case you are building.</div>
+      </div>
+      <div>
+        <div class="field-card-item-label">What good looks like</div>
+        <div class="field-card-item-text"><strong>"Free screenings. No appointment. One day only."</strong> — makes three claims in eight words.<br><strong>"We've helped 200 families find stable housing since 2018."</strong> — authority frame, specific, earned.</div>
+      </div>
+      <div>
+        <div class="field-card-item-label">What to avoid</div>
+        <div class="field-card-item-text"><em>"Welcome to Our Services Page."</em> Describes the page's existence. Makes no claim. Earns nothing from the visitor's attention.</div>
+      </div>
+      <div>
+        <div class="field-card-item-label">The test</div>
+        <div class="field-card-item-text">Read it aloud. Does it sound like an argument or a sign? If it sounds like a sign on a door, rewrite it as the first line of a conversation.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="field-card">
+    <div class="field-card-head">
+      <div class="field-card-name">Summary / Excerpt</div>
+      <div class="field-card-role">The standalone promise</div>
+    </div>
+    <div class="field-card-body">
+      <div>
+        <div class="field-card-item-label">What it's for</div>
+        <div class="field-card-item-text">Renders on cards, in search results, in social previews. The visitor reads this without the page around it and decides whether to click. It must work alone. It is not a shorter version of the body — it is a separate argument for why the page is worth their time.</div>
+      </div>
+      <div>
+        <div class="field-card-item-label">What good looks like</div>
+        <div class="field-card-item-text"><strong>"Same-week appointments. Sliding-scale fees. No referral needed."</strong> — answers three unstated objections. Reader knows what they'll find before they arrive.</div>
+      </div>
+      <div>
+        <div class="field-card-item-label">What to avoid</div>
+        <div class="field-card-item-text"><em>"Learn more about our comprehensive support services for individuals and families in need."</em> Promises nothing. Could describe any page on any org's site.</div>
+      </div>
+      <div>
+        <div class="field-card-item-label">The test</div>
+        <div class="field-card-item-text">Cover the headline. Read the summary alone. Does it tell a new visitor what they will find here and why that matters to them right now? If not, rewrite it as if it's the only thing they'll read.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="field-card">
+    <div class="field-card-head">
+      <div class="field-card-name">Body / Content</div>
+      <div class="field-card-role">The proof</div>
+    </div>
+    <div class="field-card-body">
+      <div>
+        <div class="field-card-item-label">What it's for</div>
+        <div class="field-card-item-text">Delivers what the headline promised. The visitor arrived because of your claim — the body's job is to honor it. Sequence: stakes first, then how it works, then evidence, then resolution. One idea per paragraph.</div>
+      </div>
+      <div>
+        <div class="field-card-item-label">What good looks like</div>
+        <div class="field-card-item-text">Opens with the problem or gap — not with the org's history. Builds toward the CTA. Each paragraph earns the next. No buried leads. The most important thing is in the first sentence of each paragraph, not the last.</div>
+      </div>
+      <div>
+        <div class="field-card-item-label">What to avoid</div>
+        <div class="field-card-item-text"><em>Starting with "We were founded in 1987..."</em> The visitor doesn't know yet if they care. Earn their interest before you spend it on history.</div>
+      </div>
+      <div>
+        <div class="field-card-item-label">The test</div>
+        <div class="field-card-item-text">Read only the first sentence of each paragraph. Does it tell the story on its own? Scanners read first sentences. Write for them first.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="field-card">
+    <div class="field-card-head">
+      <div class="field-card-name">CTA Label</div>
+      <div class="field-card-role">The next step, named precisely</div>
+    </div>
+    <div class="field-card-body">
+      <div>
+        <div class="field-card-item-label">What it's for</div>
+        <div class="field-card-item-text">The last word in the argument. Names exactly what happens when the visitor acts. Not a generic instruction — a specific, honest description of the commitment they're making.</div>
+      </div>
+      <div>
+        <div class="field-card-item-label">What good looks like</div>
+        <div class="field-card-item-text"><strong>"Book a free 20-minute call"</strong> — specific, low-stakes, no surprises.<br><strong>"See this month's open dates"</strong> — answers the next question they were about to ask.</div>
+      </div>
+      <div>
+        <div class="field-card-item-label">What to avoid</div>
+        <div class="field-card-item-text"><em>"Learn More." "Click Here." "Submit."</em> These name the mechanism, not the outcome. The visitor already knows they're clicking. Tell them what they get.</div>
+      </div>
+      <div>
+        <div class="field-card-item-label">The test</div>
+        <div class="field-card-item-text">Read only the CTA label. Can a visitor who has read nothing else on the page understand what they're committing to? If not, be more specific.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="field-card">
+    <div class="field-card-head">
+      <div class="field-card-name">Meta Title / SEO Title</div>
+      <div class="field-card-role">The off-page headline</div>
+    </div>
+    <div class="field-card-body">
+      <div>
+        <div class="field-card-item-label">What it's for</div>
+        <div class="field-card-item-text">Appears in search results and browser tabs. The visitor hasn't chosen you yet — this is often the first thing they read. It competes with every other result on the page. Write it as a headline for someone undecided, not as a label for someone already here.</div>
+      </div>
+      <div>
+        <div class="field-card-item-label">What good looks like</div>
+        <div class="field-card-item-text"><strong>"Free Mental Health Screenings — Walk-Ins Welcome · Org Name"</strong> — claim first, differentiator second, brand last. 55–60 characters.</div>
+      </div>
+      <div>
+        <div class="field-card-item-label">What to avoid</div>
+        <div class="field-card-item-text"><em>"Services | Org Name"</em> — describes a page category, not a value. Indistinguishable from every competitor.</div>
+      </div>
+      <div>
+        <div class="field-card-item-label">The test</div>
+        <div class="field-card-item-text">Look at it next to three competitors in a search result. Does it give a clearer reason to click? If not, sharpen the claim.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="doc-rule">✦</div>
+  <div class="doc-note">Voice reminder: warm but direct. No passive constructions. Make the visitor the subject when possible. Plain language unless precision requires a term — and if it does, introduce it, don't assume it. Every sentence should sound like a person said it.</div>
+</section>
+
+<!-- ─── DOC 2: AI CO-WRITING GUIDE ─── -->
+
+<section class="doc-sec" id="doc-cowriting">
+  <div class="doc-hn">Document II &nbsp;·&nbsp; For the Editor Using AI Assist</div>
+  <h1 class="doc-h1">Co-Writing with AI<br><em>How to Use It Well</em></h1>
+  <p class="doc-sub">The assistant knows the frame. It knows the field types, the appeal modes, the voice constraints. What it doesn't know is the specific service, the specific audience, the specific moment. You supply that. It does the drafting. You make the call.</p>
+
+  <div class="doc-h2">What It's Good At</div>
+  <p class="doc-prose">Generating multiple options fast. Critiquing a draft for whether it claims or describes. Rewriting org-centered copy as visitor-centered. Tightening a summary to character limits without losing the argument. Suggesting CTA language for a specific appeal mode. Flagging passive constructions, buried leads, and generic phrasing.</p>
+  <p class="doc-prose">It is not good at knowing what's true about your org, your community, or this specific service. It will hallucinate specifics if you don't supply them. <strong>You verify. You choose. It drafts.</strong></p>
+
+  <div class="doc-h2">How to Give It Context</div>
+  <p class="doc-prose">The more specific your input, the more useful its output. Before you ask it to write anything, give it three things:</p>
+
+  <div style="border:1px solid var(--dim);margin:1.75rem 0">
+    <div style="display:grid;grid-template-columns:auto 1fr;gap:0">
+      <div style="padding:.85rem 1.1rem;border-bottom:1px solid var(--dim);border-right:1px solid var(--dim);font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.12em;color:var(--gold);text-transform:uppercase">1. The field</div>
+      <div style="padding:.85rem 1.1rem;border-bottom:1px solid var(--dim);font-family:'Space Mono',monospace;font-size:.78rem;color:var(--ash)">What are you filling? Headline, summary, CTA, body, meta title.</div>
+      <div style="padding:.85rem 1.1rem;border-bottom:1px solid var(--dim);border-right:1px solid var(--dim);font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.12em;color:var(--gold);text-transform:uppercase">2. The frame</div>
+      <div style="padding:.85rem 1.1rem;border-bottom:1px solid var(--dim);font-family:'Space Mono',monospace;font-size:.78rem;color:var(--ash)">Which appeal mode? Transformation, Authority, Belonging, Urgency, Evidence.</div>
+      <div style="padding:.85rem 1.1rem;border-right:1px solid var(--dim);font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.12em;color:var(--gold);text-transform:uppercase">3. The fact</div>
+      <div style="padding:.85rem 1.1rem;font-family:'Space Mono',monospace;font-size:.78rem;color:var(--ash)">What is true about this service that the visitor needs to know? One or two specific, real details.</div>
+    </div>
+  </div>
+
+  <div class="doc-h2">When to Use It</div>
+  <p class="doc-prose"><strong>Generate from scratch</strong> — when the field is blank and you're not sure where to start. Give it the field, the frame, and the facts. Ask for three options.</p>
+  <p class="doc-prose"><strong>Critique a draft</strong> — when you've written something but it doesn't feel right. Paste your draft and ask: "Is this a claim or a description? Is the visitor the subject? Does it work without the page around it?" Let it identify the problem before it offers a fix.</p>
+  <p class="doc-prose"><strong>Tighten to limits</strong> — when you have 200 characters and the field takes 160. Ask it to preserve the claim and cut the rest.</p>
+  <p class="doc-prose"><strong>Shift the frame</strong> — when the same content needs to work across different modes. "Rewrite this headline for a Belonging frame instead of Authority."</p>
+
+  <div class="doc-h2">How to Evaluate What It Gives You</div>
+  <p class="doc-prose">Check every output against three questions before you use it:</p>
+  <div style="border:1px solid var(--dim);margin:1.75rem 0">
+    <div style="padding:.85rem 1.25rem;border-bottom:1px solid var(--dim);font-family:'Space Mono',monospace;font-size:.78rem;color:var(--ash);line-height:1.7"><strong style="color:var(--parchment)">Is it true?</strong> The assistant doesn't know your org. If it generated a specific claim — a number, a name, a fact — verify it before publishing.</div>
+    <div style="padding:.85rem 1.25rem;border-bottom:1px solid var(--dim);font-family:'Space Mono',monospace;font-size:.78rem;color:var(--ash);line-height:1.7"><strong style="color:var(--parchment)">Is it in our voice?</strong> The system prompt carries the voice constraints but it can drift toward generic. If it sounds like every other nonprofit, push back. "Make it more direct." "Remove the passive construction." "Start with the visitor, not us."</div>
+    <div style="padding:.85rem 1.25rem;font-family:'Space Mono',monospace;font-size:.78rem;color:var(--ash);line-height:1.7"><strong style="color:var(--parchment)">Does it make the right argument?</strong> Does the headline claim or describe? Does the summary stand alone? Does the CTA name the next step specifically? If not, ask it to fix the exact problem.</div>
+  </div>
+
+  <div class="doc-h2">What You Never Outsource</div>
+  <p class="doc-prose">The decision. The assistant generates options. You choose. You are the last editor between the draft and the visitor — the AI is a fast, knowledgeable collaborator, not a replacement for the judgment you bring to the work.</p>
+  <p class="doc-prose">Specifically: <strong>don't let it name real people, fabricate statistics, or make claims about outcomes you haven't verified.</strong> It will try to be helpful by being specific. Sometimes that specificity will be invented. Catch it before it publishes.</p>
+
+  <div class="doc-rule">✦</div>
+  <div class="doc-note">The assistant is scoped to the org's frame — it knows Authority from Transformation, claim from description, standalone promise from truncated body. What it doesn't know is what's true here, today, for this community. Supply the facts. Let it find the words.</div>
+</section>
+
+<!-- ─── DOC 3: PROMPT LIBRARY ─── -->
+
+<section class="doc-sec" id="doc-prompts">
+  <div class="doc-hn">Document III &nbsp;·&nbsp; Prompt Library</div>
+  <h1 class="doc-h1">Starter Prompts<br><em>Copy, Fill, Send</em></h1>
+  <p class="doc-sub">Each prompt below is a template. The bracketed text is yours to fill. Everything else is already scoped to the org's frame and voice. Copy the prompt, replace the brackets, send it to the assistant.</p>
+
+  <div class="doc-h2">Headline Prompts</div>
+
+  <div class="prompt-block">
+    <div class="prompt-block-head">
+      <div class="prompt-label">Headline</div>
+      <div class="prompt-scope">Transformation frame</div>
+    </div>
+    <div class="prompt-text">Write a headline for a <mark>[service name]</mark> page. Transformation frame — the visitor is the protagonist. Name their future state, not what we offer. 80 characters max. Give me three options, labeled.</div>
+  </div>
+
+  <div class="prompt-block">
+    <div class="prompt-block-head">
+      <div class="prompt-label">Headline</div>
+      <div class="prompt-scope">Authority frame</div>
+    </div>
+    <div class="prompt-text">Write a headline for our <mark>[service or page type]</mark>. Authority frame — lead with our standing. We have <mark>[credential, number, or track record]</mark>. Make a specific claim, not a description. 80 characters max. Three options.</div>
+  </div>
+
+  <div class="prompt-block">
+    <div class="prompt-block-head">
+      <div class="prompt-label">Headline</div>
+      <div class="prompt-scope">Critique and rewrite</div>
+    </div>
+    <div class="prompt-text">Here is my current headline: "<mark>[paste your headline]</mark>"
+
+Is this a claim or a description? Is the visitor the subject? In one sentence, tell me what’s weak about it — then give me two rewrites that fix the problem. Appeal mode: <mark>[Authority / Transformation / Belonging / Urgency / Evidence]</mark>.</div>
+
+  </div>
+
+  <div class="doc-h2">Summary Prompts</div>
+
+  <div class="prompt-block">
+    <div class="prompt-block-head">
+      <div class="prompt-label">Summary</div>
+      <div class="prompt-scope">Generate from facts</div>
+    </div>
+    <div class="prompt-text">Write a summary for a <mark>[content type: service page / event / article]</mark> about <mark>[topic in one sentence]</mark>. Key facts the visitor needs: <mark>[2–3 specific, true details]</mark>. The summary renders on cards and in search results — it must stand alone without the page. 155 characters max. Two options.</div>
+  </div>
+
+  <div class="prompt-block">
+    <div class="prompt-block-head">
+      <div class="prompt-label">Summary</div>
+      <div class="prompt-scope">Test and fix existing</div>
+    </div>
+    <div class="prompt-text">Here is my current summary: "<mark>[paste your summary]</mark>"
+
+Does this work as a standalone promise — without the headline or the page around it? Does it tell the visitor what they’ll find and why it matters to them now? If not, rewrite it so it does. Keep it under 155 characters.</div>
+
+  </div>
+
+  <div class="doc-h2">CTA Prompts</div>
+
+  <div class="prompt-block">
+    <div class="prompt-block-head">
+      <div class="prompt-label">CTA Label</div>
+      <div class="prompt-scope">Generate options by frame</div>
+    </div>
+    <div class="prompt-text">Write five CTA label options for a <mark>[service or page]</mark>. Appeal mode: <mark>[frame]</mark>. The CTA leads to: <mark>[what actually happens — a form, a calendar, a download, a phone call]</mark>. No "Learn More." No "Click Here." Each label should name what the visitor gets or does, not the mechanism. 2–6 words each.</div>
+  </div>
+
+  <div class="prompt-block">
+    <div class="prompt-block-head">
+      <div class="prompt-label">CTA Label</div>
+      <div class="prompt-scope">Urgency frame</div>
+    </div>
+    <div class="prompt-text">CTA label for a <mark>[time-limited event or offer]</mark>. Urgency frame — the cost of waiting is real. The CTA leads to <mark>[registration / booking / sign-up]</mark>. The deadline is <mark>[date or condition]</mark>. Give me three options that name the next step and carry the urgency. Under 6 words each.</div>
+  </div>
+
+  <div class="doc-h2">Body Copy Prompts</div>
+
+  <div class="prompt-block">
+    <div class="prompt-block-head">
+      <div class="prompt-label">Body</div>
+      <div class="prompt-scope">Opening paragraph from headline</div>
+    </div>
+    <div class="prompt-text">The headline for this page is: "<mark>[paste headline]</mark>"
+
+Write an opening paragraph that honors that claim — stakes first, then how it works. Don’t start with our org’s history or founding. Don’t start with “We.” Lead with the problem or the gap the visitor is already aware of. 60–80 words.</div>
+
+  </div>
+
+  <div class="prompt-block">
+    <div class="prompt-block-head">
+      <div class="prompt-label">Body</div>
+      <div class="prompt-scope">Rewrite org-centered as visitor-centered</div>
+    </div>
+    <div class="prompt-text">Rewrite this paragraph so the visitor is the subject, not us:
+
+“<mark>[paste paragraph]</mark>”
+
+Keep the facts. Change the frame. Don’t start any sentence with “We” or “Our.” Make the reader the protagonist.</div>
+
+  </div>
+
+  <div class="doc-h2">Meta Title Prompts</div>
+
+  <div class="prompt-block">
+    <div class="prompt-block-head">
+      <div class="prompt-label">Meta Title</div>
+      <div class="prompt-scope">Competitive search context</div>
+    </div>
+    <div class="prompt-text">Write a meta title for a <mark>[page type]</mark> page about <mark>[service or topic]</mark>. This appears in search results next to competitors. Lead with the claim or differentiator, not the org name. Include org name at the end if it fits. 55 characters max. Two options.</div>
+  </div>
+
+  <div class="doc-h2">Utility Prompts</div>
+
+  <div class="prompt-block">
+    <div class="prompt-block-head">
+      <div class="prompt-label">Voice Check</div>
+      <div class="prompt-scope">Any field</div>
+    </div>
+    <div class="prompt-text">Read this copy: "<mark>[paste any field content]</mark>"
+
+Flag: any passive constructions, any org-centered framing where visitor-centered would work better, any generic phrases that could appear on any org’s site, any claims that need verification. List the problems. Don’t rewrite yet — just diagnose.</div>
+
+  </div>
+
+  <div class="prompt-block">
+    <div class="prompt-block-head">
+      <div class="prompt-label">Frame Shift</div>
+      <div class="prompt-scope">Any field</div>
+    </div>
+    <div class="prompt-text">Here is copy written in <mark>[current appeal mode]</mark> frame: "<mark>[paste copy]</mark>"
+
+Rewrite it for a <mark>[target appeal mode]</mark> frame. Keep the core facts. Change the argument and the subject. Same field type, same character limit.</div>
+
+  </div>
+
+  <div class="doc-rule">✦</div>
+  <div class="doc-note">These prompts are starting points. Iterate. The assistant's first response is rarely the best one — but it usually reveals what you need to ask next. The conversation is the work.</div>
+</section>
+
+<footer class="ft" style="margin-top:0">
+  <span class="fl">The Bones Hold &nbsp;·&nbsp; A Content Architecture Scroll</span>
+  <span class="fr">✦</span>
+</footer>
+
+</body>
+</html>

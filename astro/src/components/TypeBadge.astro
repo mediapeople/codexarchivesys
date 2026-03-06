@@ -1,0 +1,72 @@
+---
+import { getTypeLabel } from '../lib/archive';
+
+interface Props {
+  type: string;
+}
+
+const { type } = Astro.props;
+
+const classMap: Record<string, string> = {
+  scroll: 'scroll',
+  artifact: 'artifact',
+  fieldlog: 'fieldlog',
+  codex: 'codex',
+  fragment: 'fragment',
+  nexus: 'nexus',
+};
+
+const badgeClass = classMap[type] || 'default';
+---
+
+<span class={`type-badge ${badgeClass}`}>{getTypeLabel(type)}</span>
+
+<style>
+  .type-badge {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--badge-border);
+    border-radius: 999px;
+    padding: 0.2rem 0.65rem;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .scroll {
+    --badge-border: rgba(112, 210, 167, 0.7);
+    color: #70d2a7;
+  }
+
+  .artifact {
+    --badge-border: rgba(242, 132, 96, 0.7);
+    color: #f28460;
+  }
+
+  .fieldlog {
+    --badge-border: rgba(186, 176, 137, 0.8);
+    color: #bab089;
+  }
+
+  .codex {
+    --badge-border: rgba(237, 199, 111, 0.8);
+    color: #edc76f;
+  }
+
+  .fragment {
+    --badge-border: rgba(138, 146, 168, 0.8);
+    color: #8a92a8;
+  }
+
+  .nexus {
+    --badge-border: rgba(160, 132, 247, 0.8);
+    color: #a084f7;
+  }
+
+  .default {
+    --badge-border: rgba(207, 210, 218, 0.7);
+    color: #cfd2da;
+  }
+</style>
+

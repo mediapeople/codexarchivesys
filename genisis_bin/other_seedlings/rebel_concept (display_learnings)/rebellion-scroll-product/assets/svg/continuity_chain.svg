@@ -1,0 +1,49 @@
+<svg viewBox="0 0 900 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Continuity chain diagram">
+  <defs>
+    <style>
+      .f{stroke:#2a2620;stroke-width:2;fill:none;opacity:.8}
+      .s{stroke:#8a8480;stroke-width:2;fill:none}
+      .sd{stroke:#5c5450;stroke-width:2;fill:none;opacity:.85}
+      .g{stroke:#c9963a;stroke-width:2;fill:none}
+      .gf{fill:#c9963a}
+      .lbl{font-family:Space Mono,monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;fill:#8a8480}
+      .lbls{fill:#f4f0e8}
+    </style>
+  </defs>
+  <line x1="70" y1="120" x2="830" y2="120" class="f"/>
+  <g transform="translate(120,120)">
+    <rect x="-24" y="-24" width="48" height="48" rx="10" class="s"/>
+    <path d="M-10,-6 L0,-16 L10,-6 L10,10 L-10,10 Z" class="sd"/>
+    <text x="0" y="52" class="lbl" text-anchor="middle">ARMOR</text>
+  </g>
+  <path d="M170,120 L230,120" class="sd"/><path d="M230,120 l-10,-6 l0,12 z" fill="#5c5450"/>
+  <g transform="translate(280,120)">
+    <rect x="-42" y="-22" width="84" height="44" rx="22" class="s"/>
+    <rect x="-20" y="-10" width="40" height="20" rx="10" class="sd"/>
+    <text x="0" y="52" class="lbl" text-anchor="middle">POD</text>
+  </g>
+  <path d="M330,120 L390,120" class="sd"/><path d="M390,120 l-10,-6 l0,12 z" fill="#5c5450"/>
+  <g transform="translate(440,120)">
+    <path d="M-34,10 C-18,26, 18,26, 34,10" class="s"/>
+    <path d="M-36,10 L36,10" class="sd"/>
+    <path d="M-10,-10 C-10,-28, 10,-28, 10,-10" class="sd"/>
+    <text x="0" y="52" class="lbl" text-anchor="middle">ARK</text>
+  </g>
+  <path d="M490,120 L550,120" class="sd"/><path d="M550,120 l-10,-6 l0,12 z" fill="#5c5450"/>
+  <g transform="translate(600,120)">
+    <path d="M-22,-26 C-40,-10,-40,10,-22,26 L22,26 C40,10,40,-10,22,-26 Z" class="s"/>
+    <circle cx="0" cy="0" r="6" class="gf"/>
+    <text x="0" y="52" class="lbl" text-anchor="middle">CAPSULE</text>
+  </g>
+  <path d="M650,120 L710,120" class="sd"/><path d="M710,120 l-10,-6 l0,12 z" fill="#5c5450"/>
+  <g transform="translate(760,120)">
+    <circle cx="0" cy="0" r="24" class="s"/>
+    <circle cx="0" cy="0" r="7" class="gf"/>
+    <line x1="0" y1="-24" x2="0" y2="-7" class="g"/>
+    <line x1="24" y1="0" x2="7" y2="0" class="g"/>
+    <line x1="0" y1="24" x2="0" y2="7" class="g"/>
+    <line x1="-24" y1="0" x2="-7" y2="0" class="g"/>
+    <text x="0" y="52" class="lbl" text-anchor="middle">NETWORK</text>
+  </g>
+  <text x="450" y="28" class="lbl lbls" text-anchor="middle">THE VESSEL CHANGES · THE CARGO REMAINS</text>
+</svg>

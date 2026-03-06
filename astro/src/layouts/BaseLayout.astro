@@ -1,0 +1,160 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Codex Archive',
+  description = 'Object-first archive for scrolls, artifacts, field logs, codexes, fragments, and nexus issues.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div class="noise"></div>
+    <header class="site-header">
+      <a class="brand" href="/">
+        <span class="brand-mark">Codex</span>
+        <span class="brand-sub">Archive System</span>
+      </a>
+      <nav class="site-nav">
+        <a href="/">Feed</a>
+        <a href="/objects/signal-descent-001">Nexus</a>
+      </nav>
+    </header>
+    <main class="shell">
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --bg-1: #0f121a;
+    --bg-2: #1b1320;
+    --bg-3: #191d28;
+    --text-strong: #f4edcf;
+    --text-body: #ddd6bb;
+    --text-dim: #a9a187;
+    --line: rgba(174, 163, 130, 0.26);
+    --accent: #edc76f;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    margin: 0;
+    min-height: 100%;
+  }
+
+  body {
+    font-family:
+      'Avenir Next',
+      'Gill Sans',
+      'Trebuchet MS',
+      sans-serif;
+    color: var(--text-body);
+    background:
+      radial-gradient(1200px circle at 12% 0%, rgba(228, 181, 86, 0.13), transparent 56%),
+      radial-gradient(900px circle at 88% 12%, rgba(89, 166, 140, 0.12), transparent 58%),
+      linear-gradient(140deg, var(--bg-1), var(--bg-2) 45%, var(--bg-3));
+  }
+
+  .noise {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.06;
+    background-image: radial-gradient(circle at 1px 1px, #f8f4dd 1px, transparent 0);
+    background-size: 3px 3px;
+  }
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(7px);
+    border-bottom: 1px solid var(--line);
+    padding: 0.85rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    background: rgba(15, 18, 26, 0.72);
+  }
+
+  .brand {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.55rem;
+  }
+
+  .brand-mark {
+    color: var(--text-strong);
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  .brand-sub {
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .site-nav {
+    display: inline-flex;
+    gap: 0.4rem;
+  }
+
+  .site-nav a {
+    text-decoration: none;
+    color: var(--text-dim);
+    border: 1px solid transparent;
+    border-radius: 999px;
+    padding: 0.3rem 0.75rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .site-nav a:hover {
+    color: var(--text-strong);
+    border-color: var(--line);
+  }
+
+  .shell {
+    width: min(1050px, 92vw);
+    margin: 0 auto;
+    padding: 1.2rem 0 2.6rem;
+  }
+
+  @media (max-width: 600px) {
+    .site-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .site-nav {
+      width: 100%;
+      flex-wrap: wrap;
+    }
+  }
+</style>
+

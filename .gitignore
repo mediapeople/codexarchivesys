@@ -1,0 +1,30 @@
+# macOS
+.DS_Store
+
+# Node / Astro
+node_modules/
+coverage/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+
+# Build artifacts in nested projects
+astro/node_modules/
+astro/dist/
+astro/.astro/
+
+# Temporary CLI scaffold left by Astro init
+astro/blue-bar/

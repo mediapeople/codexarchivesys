@@ -1,0 +1,369 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TypeBadge from '../../components/TypeBadge.astro';
+import ObjectCard from '../../components/ObjectCard.astro';
+import { getAllEntries, getTypeLabel } from '../../lib/archive';
+import { computeRelatedEntries } from '../../lib/relations';
+
+export async function getStaticPaths() {
+  const entries = await getAllEntries();
+  return entries.map((entry) => ({
+    params: { id: entry.data.id },
+  }));
+}
+
+const allEntries = await getAllEntries();
+const entry = allEntries.find((candidate) => candidate.data.id === Astro.params.id);
+
+if (!entry) {
+  throw new Error(`Missing entry for id: ${Astro.params.id}`);
+}
+
+const { Content } = await entry.render();
+const related = computeRelatedEntries(entry, allEntries, 3);
+const byId = new Map(allEntries.map((item) => [item.data.id, item]));
+
+const includedObjectsRaw = (entry.data as Record<string, unknown>).includedObjects;
+const includedObjects = Array.isArray(includedObjectsRaw)
+  ? includedObjectsRaw
+      .map((item) => {
+        if (
+          item &&
+          typeof item === 'object' &&
+          'ref' in item &&
+          'role' in item &&
+          typeof (item as { ref: unknown }).ref === 'string' &&
+          typeof (item as { role: unknown }).role === 'string'
+        ) {
+          return item as { ref: string; role: string };
+        }
+        return null;
+      })
+      .filter((item): item is { ref: string; role: string } => Boolean(item))
+  : [];
+
+function formatValue(value: unknown): string | null {
+  if (value === undefined || value === null) {
+    return null;
+  }
+  if (Array.isArray(value)) {
+    if (value.length === 0) {
+      return null;
+    }
+    if (typeof value[0] === 'object') {
+      return null;
+    }
+    return value.map((item) => String(item)).join(', ');
+  }
+  const trimmed = String(value).trim();
+  return trimmed ? trimmed : null;
+}
+
+const optionalFieldLabels: Record<string, string> = {
+  project: 'Project',
+  phase: 'Phase',
+  context: 'Context',
+  artifactType: 'Artifact Type',
+  materials: 'Materials',
+  dimensions: 'Dimensions',
+  year: 'Year',
+  version: 'Version',
+  scope: 'Scope',
+  systemArea: 'System Area',
+  changeType: 'Change Type',
+  lengthClass: 'Length Class',
+  voice: 'Voice',
+  origin: 'Origin',
+  themeStatement: 'Theme Statement',
+  releaseType: 'Release Type',
+};
+
+const optionalFieldOrder = Object.keys(optionalFieldLabels);
+const detailRows = optionalFieldOrder
+  .map((field) => {
+    const value = formatValue((entry.data as Record<string, unknown>)[field]);
+    if (!value) {
+      return null;
+    }
+    return {
+      label: optionalFieldLabels[field],
+      value,
+    };
+  })
+  .filter((row): row is { label: string; value: string } => Boolean(row));
+
+const readableDate = entry.data.date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout title={`${entry.data.title} | Codex Archive`}>
+  <article class="object-shell">
+    <a class="back" href="/">← Back to feed</a>
+
+    <header class="object-head">
+      <TypeBadge type={entry.collection} />
+      <h1>{entry.data.title}</h1>
+      {entry.data.excerpt && <p class="excerpt">{entry.data.excerpt}</p>}
+      <dl class="core-meta">
+        <div>
+          <dt>Date</dt>
+          <dd>{readableDate}</dd>
+        </div>
+        <div>
+          <dt>Type</dt>
+          <dd>{getTypeLabel(entry.collection)}</dd>
+        </div>
+        <div>
+          <dt>Status</dt>
+          <dd>{entry.data.status}</dd>
+        </div>
+        <div>
+          <dt>Visibility</dt>
+          <dd>{entry.data.visibility}</dd>
+        </div>
+      </dl>
+      {entry.data.themes.length > 0 && (
+        <ul class="pills">
+          {entry.data.themes.map((theme) => (
+            <li>{theme}</li>
+          ))}
+        </ul>
+      )}
+      {entry.data.constellations.length > 0 && (
+        <ul class="pills constellation">
+          {entry.data.constellations.map((name) => (
+            <li>{name}</li>
+          ))}
+        </ul>
+      )}
+    </header>
+
+    {detailRows.length > 0 && (
+      <section class="detail-grid">
+        {detailRows.map((row) => (
+          <article>
+            <p>{row.label}</p>
+            <strong>{row.value}</strong>
+          </article>
+        ))}
+      </section>
+    )}
+
+    {includedObjects.length > 0 && (
+      <section class="inclusion">
+        <h2>Nexus Sequence</h2>
+        <ol>
+          {includedObjects.map((item) => {
+            const target = byId.get(item.ref);
+            const label = target?.data.title || item.ref;
+            return (
+              <li>
+                <span>{item.role}</span>
+                <a href={`/objects/${item.ref}`}>{label}</a>
+              </li>
+            );
+          })}
+        </ol>
+      </section>
+    )}
+
+    <section class="body">
+      <Content />
+    </section>
+  </article>
+
+  {related.length > 0 && (
+    <section class="related">
+      <h2>Related Objects</h2>
+      <div class="cards">
+        {related.map((hit) => (
+          <ObjectCard entry={hit.entry} relationScore={hit.score} />
+        ))}
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .object-shell {
+    border: 1px solid rgba(179, 168, 136, 0.3);
+    border-radius: 18px;
+    padding: 1.05rem;
+    background: rgba(15, 19, 27, 0.68);
+  }
+
+  .back {
+    display: inline-block;
+    color: var(--text-dim);
+    text-decoration: none;
+    margin-bottom: 0.9rem;
+    font-size: 0.86rem;
+  }
+
+  .back:hover {
+    color: var(--text-strong);
+  }
+
+  .object-head h1 {
+    margin: 0.55rem 0 0.55rem;
+    color: var(--text-strong);
+    line-height: 1.12;
+    font-size: clamp(1.6rem, 4vw, 2.3rem);
+  }
+
+  .excerpt {
+    margin: 0;
+    color: var(--text-body);
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .core-meta {
+    margin: 1rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.6rem;
+  }
+
+  .core-meta div {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 0.55rem 0.65rem;
+    background: rgba(25, 29, 39, 0.68);
+  }
+
+  .core-meta dt {
+    margin: 0 0 0.2rem;
+    color: var(--text-dim);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .core-meta dd {
+    margin: 0;
+    color: var(--text-strong);
+    font-size: 0.93rem;
+  }
+
+  .pills {
+    margin: 0.8rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .pills li {
+    border-radius: 999px;
+    border: 1px solid rgba(142, 150, 172, 0.4);
+    color: #bac3dd;
+    padding: 0.21rem 0.62rem;
+    font-size: 0.75rem;
+  }
+
+  .constellation li {
+    border-color: rgba(233, 201, 119, 0.5);
+    color: #f0d69a;
+  }
+
+  .detail-grid {
+    margin: 0.95rem 0 0.55rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0.6rem;
+  }
+
+  .detail-grid article {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 0.62rem;
+    background: rgba(19, 23, 32, 0.65);
+  }
+
+  .detail-grid p {
+    margin: 0 0 0.2rem;
+    color: var(--text-dim);
+    font-size: 0.73rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .detail-grid strong {
+    color: var(--text-body);
+    font-size: 0.91rem;
+    line-height: 1.35;
+  }
+
+  .inclusion {
+    margin: 1rem 0 0.3rem;
+    border-top: 1px dashed rgba(182, 171, 141, 0.32);
+    padding-top: 0.8rem;
+  }
+
+  .inclusion h2 {
+    margin: 0 0 0.4rem;
+    color: var(--text-strong);
+    font-size: 1.08rem;
+  }
+
+  .inclusion ol {
+    margin: 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .inclusion li {
+    color: var(--text-body);
+  }
+
+  .inclusion span {
+    display: inline-block;
+    margin-right: 0.5rem;
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .inclusion a {
+    color: #f5dc9f;
+    text-decoration: none;
+  }
+
+  .inclusion a:hover {
+    text-decoration: underline;
+  }
+
+  .body {
+    margin-top: 1.1rem;
+    line-height: 1.62;
+  }
+
+  .body :global(p) {
+    margin: 0 0 0.95rem;
+    color: var(--text-body);
+  }
+
+  .related {
+    margin-top: 1rem;
+  }
+
+  .related h2 {
+    margin: 0 0 0.6rem;
+    font-size: 1.05rem;
+    color: var(--text-strong);
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 0.7rem;
+  }
+</style>
+
