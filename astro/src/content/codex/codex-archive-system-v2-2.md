@@ -6,7 +6,7 @@ date: 2026-03-04
 status: published
 visibility: public
 
-excerpt: "Object-Oriented Constellation Architecture. The system survives Tuesdays."
+excerpt: "The archive grows continuously. The system survives Tuesdays."
 
 themes:
   - systems
@@ -15,7 +15,10 @@ themes:
 
 constellations: []
 
-related: []
+related:
+  - on-object-oriented-archives
+  - systems-survive-tuesdays
+  - codex-archive-system-v2-4-notes
 
 media: []
 
@@ -33,7 +36,7 @@ Content Types, Navigation, Field Contracts.
 
 THE TEN SACRED FIELDS:
 id, type, title, date, themes, constellations,
-excerpt, images, related, status.
+excerpt, media, related, status.
 
 THE OBJECT TYPES:
 Scroll, Artifact, Field Log, Codex, Fragment, Nexus Issue.

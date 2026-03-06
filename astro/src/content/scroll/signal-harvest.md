@@ -16,7 +16,10 @@ themes:
 constellations:
   - Cascade Psalms
 
-related: []
+related:
+  - pressure-psalm-v
+  - signal-descent-001
+  - transmission-note-to-future-me
 
 media: []
 

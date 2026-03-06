@@ -17,7 +17,10 @@ themes:
 constellations:
   - Maintenance Psalms
 
-related: []
+related:
+  - ridge-line-lessons
+  - north-georgia-week-2
+  - maintenance-without-cure
 
 media: []
 

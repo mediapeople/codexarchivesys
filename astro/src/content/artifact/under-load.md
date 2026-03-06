@@ -6,7 +6,7 @@ date: 2026-02-24
 status: published
 visibility: public
 
-excerpt: "Skateboard deck. Comic panel collage. 8.25 x 32."
+excerpt: "A skateboard is already a pressure instrument."
 
 themes:
   - pressure
@@ -16,7 +16,10 @@ themes:
 constellations:
   - Archaeological Objects
 
-related: []
+related:
+  - deck-under-load-ii
+  - pressure-psalm-v
+  - signal-descent-001
 
 media:
   - kind: image

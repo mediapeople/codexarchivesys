@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-03-06T21:37:21.575Z",
-  "sourceDir": "../objects",
+  "generatedAt": "2026-03-06T21:45:25.755Z",
+  "sourceDir": "objects",
   "nodeCount": 19,
   "edgeCount": 90,
   "nodes": [
@@ -269,9 +269,50 @@
   ],
   "edges": [
     {
+      "source": "signal-descent-001",
+      "target": "signal-harvest",
+      "weight": 14,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related",
+        "nexus-inclusion"
+      ]
+    },
+    {
+      "source": "north-georgia-march-2026",
+      "target": "north-georgia-week-2",
+      "weight": 12,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "north-georgia-march-2026",
+      "target": "ridge-line-lessons",
+      "weight": 12,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "north-georgia-week-2",
       "target": "ridge-line-lessons",
       "weight": 12,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "deck-under-load-ii",
+      "target": "under-load",
+      "weight": 11,
       "reasons": [
         "shared-theme",
         "shared-constellation",
@@ -311,11 +352,10 @@
     },
     {
       "source": "signal-descent-001",
-      "target": "signal-harvest",
+      "target": "under-load",
       "weight": 11,
       "reasons": [
         "shared-theme",
-        "shared-constellation",
         "explicit-related",
         "nexus-inclusion"
       ]
@@ -332,6 +372,15 @@
       ]
     },
     {
+      "source": "codex-archive-system-v2-2",
+      "target": "codex-archive-system-v2-4-notes",
+      "weight": 9,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "maintenance-without-cure",
       "target": "north-georgia-week-2",
       "weight": 9,
@@ -342,8 +391,8 @@
       ]
     },
     {
-      "source": "north-georgia-march-2026",
-      "target": "north-georgia-week-2",
+      "source": "pressure-psalm-v",
+      "target": "signal-harvest",
       "weight": 9,
       "reasons": [
         "shared-theme",
@@ -352,12 +401,11 @@
       ]
     },
     {
-      "source": "north-georgia-march-2026",
-      "target": "ridge-line-lessons",
-      "weight": 9,
+      "source": "codex-archive-system-v2-2",
+      "target": "on-object-oriented-archives",
+      "weight": 8,
       "reasons": [
         "shared-theme",
-        "shared-constellation",
         "explicit-related"
       ]
     },
@@ -381,16 +429,6 @@
       ]
     },
     {
-      "source": "deck-under-load-ii",
-      "target": "under-load",
-      "weight": 8,
-      "reasons": [
-        "shared-theme",
-        "shared-constellation",
-        "explicit-related"
-      ]
-    },
-    {
       "source": "maintenance-without-cure",
       "target": "the-bones-hold",
       "weight": 8,
@@ -411,6 +449,15 @@
       ]
     },
     {
+      "source": "nothing-missing-only-unindexed",
+      "target": "on-object-oriented-archives",
+      "weight": 8,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "signal-descent-001",
       "target": "transmission-note-to-future-me",
       "weight": 8,
@@ -418,16 +465,6 @@
         "shared-theme",
         "shared-constellation",
         "explicit-related"
-      ]
-    },
-    {
-      "source": "signal-descent-001",
-      "target": "under-load",
-      "weight": 8,
-      "reasons": [
-        "shared-theme",
-        "explicit-related",
-        "nexus-inclusion"
       ]
     },
     {
@@ -442,6 +479,15 @@
     {
       "source": "archive-box-stamped-fragments",
       "target": "studio-log-adhesive-test-run",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
+      "target": "systems-survive-tuesdays",
       "weight": 7,
       "reasons": [
         "shared-theme",
@@ -495,11 +541,12 @@
       ]
     },
     {
-      "source": "codex-archive-system-v2-2",
-      "target": "codex-archive-system-v2-4-notes",
-      "weight": 6,
+      "source": "signal-harvest",
+      "target": "transmission-note-to-future-me",
+      "weight": 7,
       "reasons": [
         "shared-theme",
+        "shared-constellation",
         "explicit-related"
       ]
     },
@@ -512,8 +559,8 @@
       ]
     },
     {
-      "source": "pressure-psalm-v",
-      "target": "signal-harvest",
+      "source": "maintenance-without-cure",
+      "target": "north-georgia-march-2026",
       "weight": 6,
       "reasons": [
         "shared-theme",
@@ -522,7 +569,7 @@
       ]
     },
     {
-      "source": "nothing-missing-only-unindexed",
+      "source": "codex-archive-system-v2-4-notes",
       "target": "on-object-oriented-archives",
       "weight": 5,
       "reasons": [
@@ -558,15 +605,6 @@
       ]
     },
     {
-      "source": "codex-archive-system-v2-2",
-      "target": "systems-survive-tuesdays",
-      "weight": 4,
-      "reasons": [
-        "shared-theme",
-        "explicit-related"
-      ]
-    },
-    {
       "source": "pressure-psalm-v",
       "target": "signal-descent-001",
       "weight": 4,
@@ -585,17 +623,17 @@
       ]
     },
     {
-      "source": "signal-descent-002",
-      "target": "the-bones-hold",
+      "source": "pressure-psalm-v",
+      "target": "under-load",
       "weight": 4,
       "reasons": [
         "shared-theme",
-        "shared-constellation"
+        "explicit-related"
       ]
     },
     {
-      "source": "signal-harvest",
-      "target": "transmission-note-to-future-me",
+      "source": "signal-descent-002",
+      "target": "the-bones-hold",
       "weight": 4,
       "reasons": [
         "shared-theme",
@@ -634,15 +672,6 @@
       "weight": 3,
       "reasons": [
         "explicit-related"
-      ]
-    },
-    {
-      "source": "maintenance-without-cure",
-      "target": "north-georgia-march-2026",
-      "weight": 3,
-      "reasons": [
-        "shared-theme",
-        "shared-constellation"
       ]
     },
     {
@@ -709,23 +738,7 @@
     },
     {
       "source": "codex-archive-system-v2-2",
-      "target": "on-object-oriented-archives",
-      "weight": 2,
-      "reasons": [
-        "shared-theme"
-      ]
-    },
-    {
-      "source": "codex-archive-system-v2-2",
       "target": "studio-log-adhesive-test-run",
-      "weight": 2,
-      "reasons": [
-        "shared-theme"
-      ]
-    },
-    {
-      "source": "codex-archive-system-v2-4-notes",
-      "target": "on-object-oriented-archives",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -974,14 +987,6 @@
     {
       "source": "on-object-oriented-archives",
       "target": "transmission-note-to-future-me",
-      "weight": 1,
-      "reasons": [
-        "shared-theme"
-      ]
-    },
-    {
-      "source": "pressure-psalm-v",
-      "target": "under-load",
       "weight": 1,
       "reasons": [
         "shared-theme"

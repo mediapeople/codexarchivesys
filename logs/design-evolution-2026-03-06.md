@@ -17,7 +17,7 @@ Objects evaluated: 19
 - `relation_density_register`: pressure
   - isolated objects: 0/19 (0%)
   - highest explicit relation degree (overall): signal-descent-002 (15)
-  - highest explicit relation degree (non-nexus): codex-archive-system-v2-4-notes (8)
+  - highest explicit relation degree (non-nexus): codex-archive-system-v2-4-notes (10)
   - threshold: isolated >= 40% when object count >= 10 OR non-nexus max degree >= 8
 - `media_mix_register`: monitor
   - objects with media: 4
@@ -30,7 +30,7 @@ Objects evaluated: 19
 
 ## Structural Questions
 
-- Should high-degree non-nexus hub behavior be curated into a nexus issue? codex-archive-system-v2-4-notes has relation degree 8.
+- Should high-degree non-nexus hub behavior be curated into a nexus issue? codex-archive-system-v2-4-notes has relation degree 10.
 
 ## Protocol Result
 
