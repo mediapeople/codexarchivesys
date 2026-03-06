@@ -1,9 +1,37 @@
 {
-  "generatedAt": "2026-03-06T20:28:22.341Z",
+  "generatedAt": "2026-03-06T20:43:21.020Z",
   "sourceDir": "../objects",
-  "nodeCount": 7,
-  "edgeCount": 10,
+  "nodeCount": 19,
+  "edgeCount": 90,
   "nodes": [
+    {
+      "id": "archive-box-stamped-fragments",
+      "type": "artifact",
+      "title": "ARCHIVE BOX (STAMPED FRAGMENTS)",
+      "date": "2026-02-27",
+      "themes": [
+        "memory",
+        "collage",
+        "structure"
+      ],
+      "constellations": [
+        "Archaeological Objects"
+      ]
+    },
+    {
+      "id": "deck-under-load-ii",
+      "type": "artifact",
+      "title": "DECK UNDER LOAD II",
+      "date": "2026-03-01",
+      "themes": [
+        "pressure",
+        "collage",
+        "comics"
+      ],
+      "constellations": [
+        "Archaeological Objects"
+      ]
+    },
     {
       "id": "under-load",
       "type": "artifact",
@@ -31,6 +59,18 @@
       "constellations": []
     },
     {
+      "id": "codex-archive-system-v2-4-notes",
+      "type": "codex",
+      "title": "CODEX ARCHIVE SYSTEM v2.4 NOTES",
+      "date": "2026-03-06",
+      "themes": [
+        "systems",
+        "architecture",
+        "methodology"
+      ],
+      "constellations": []
+    },
+    {
       "id": "north-georgia-march-2026",
       "type": "fieldlog",
       "title": "FIELD LOG: NORTH GEORGIA",
@@ -46,6 +86,46 @@
       ]
     },
     {
+      "id": "north-georgia-week-2",
+      "type": "fieldlog",
+      "title": "FIELD LOG: NORTH GEORGIA (WEEK 2)",
+      "date": "2026-03-06",
+      "themes": [
+        "place",
+        "maintenance",
+        "morning",
+        "observation"
+      ],
+      "constellations": [
+        "Maintenance Psalms"
+      ]
+    },
+    {
+      "id": "studio-log-adhesive-test-run",
+      "type": "fieldlog",
+      "title": "STUDIO LOG: ADHESIVE TEST RUN",
+      "date": "2026-03-05",
+      "themes": [
+        "systems",
+        "methodology",
+        "observation",
+        "collage"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "nothing-missing-only-unindexed",
+      "type": "fragment",
+      "title": "Nothing Missing, Only Unindexed",
+      "date": "2026-03-04",
+      "themes": [
+        "memory",
+        "systems",
+        "signal"
+      ],
+      "constellations": []
+    },
+    {
       "id": "on-object-oriented-archives",
       "type": "fragment",
       "title": "On Object-Oriented Archives",
@@ -54,6 +134,18 @@
         "systems",
         "architecture",
         "signal"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "systems-survive-tuesdays",
+      "type": "fragment",
+      "title": "Systems Survive Tuesdays",
+      "date": "2026-03-06",
+      "themes": [
+        "systems",
+        "maintenance",
+        "structure"
       ],
       "constellations": []
     },
@@ -70,6 +162,64 @@
       ],
       "constellations": [
         "Cascade Psalms"
+      ]
+    },
+    {
+      "id": "signal-descent-002",
+      "type": "nexus",
+      "title": "SIGNAL DESCENT 002",
+      "date": "2026-03-06",
+      "themes": [
+        "signal",
+        "pressure",
+        "maintenance",
+        "transmission"
+      ],
+      "constellations": [
+        "Cascade Psalms"
+      ]
+    },
+    {
+      "id": "maintenance-without-cure",
+      "type": "scroll",
+      "title": "MAINTENANCE WITHOUT CURE",
+      "date": "2026-03-04",
+      "themes": [
+        "maintenance",
+        "survival",
+        "structure"
+      ],
+      "constellations": [
+        "Maintenance Psalms"
+      ]
+    },
+    {
+      "id": "pressure-psalm-v",
+      "type": "scroll",
+      "title": "PRESSURE PSALM V",
+      "date": "2026-03-05",
+      "themes": [
+        "pressure",
+        "signal",
+        "survival"
+      ],
+      "constellations": [
+        "Cascade Psalms"
+      ]
+    },
+    {
+      "id": "ridge-line-lessons",
+      "type": "scroll",
+      "title": "RIDGE LINE LESSONS",
+      "date": "2026-03-03",
+      "themes": [
+        "place",
+        "observation",
+        "morning",
+        "maintenance"
+      ],
+      "constellations": [
+        "Maintenance Psalms"
       ]
     },
     {
@@ -101,9 +251,54 @@
         "Maintenance Psalms",
         "Cascade Psalms"
       ]
+    },
+    {
+      "id": "transmission-note-to-future-me",
+      "type": "scroll",
+      "title": "TRANSMISSION NOTE TO FUTURE ME",
+      "date": "2026-03-02",
+      "themes": [
+        "transmission",
+        "memory",
+        "signal"
+      ],
+      "constellations": [
+        "Cascade Psalms"
+      ]
     }
   ],
   "edges": [
+    {
+      "source": "north-georgia-week-2",
+      "target": "ridge-line-lessons",
+      "weight": 12,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "maintenance-without-cure",
+      "target": "signal-descent-002",
+      "weight": 11,
+      "reasons": [
+        "shared-theme",
+        "explicit-related",
+        "nexus-inclusion"
+      ]
+    },
+    {
+      "source": "pressure-psalm-v",
+      "target": "signal-descent-002",
+      "weight": 11,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related",
+        "nexus-inclusion"
+      ]
+    },
     {
       "source": "signal-descent-001",
       "target": "signal-harvest",
@@ -127,6 +322,105 @@
       ]
     },
     {
+      "source": "maintenance-without-cure",
+      "target": "north-georgia-week-2",
+      "weight": 9,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "north-georgia-march-2026",
+      "target": "north-georgia-week-2",
+      "weight": 9,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "north-georgia-march-2026",
+      "target": "ridge-line-lessons",
+      "weight": 9,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-4-notes",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 8,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "deck-under-load-ii",
+      "target": "signal-descent-002",
+      "weight": 8,
+      "reasons": [
+        "shared-theme",
+        "explicit-related",
+        "nexus-inclusion"
+      ]
+    },
+    {
+      "source": "deck-under-load-ii",
+      "target": "under-load",
+      "weight": 8,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "maintenance-without-cure",
+      "target": "the-bones-hold",
+      "weight": 8,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "north-georgia-week-2",
+      "target": "signal-descent-002",
+      "weight": 8,
+      "reasons": [
+        "shared-theme",
+        "explicit-related",
+        "nexus-inclusion"
+      ]
+    },
+    {
+      "source": "nothing-missing-only-unindexed",
+      "target": "signal-descent-002",
+      "weight": 8,
+      "reasons": [
+        "shared-theme",
+        "explicit-related",
+        "nexus-inclusion"
+      ]
+    },
+    {
+      "source": "signal-descent-001",
+      "target": "transmission-note-to-future-me",
+      "weight": 8,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "signal-descent-001",
       "target": "under-load",
       "weight": 8,
@@ -134,6 +428,51 @@
         "shared-theme",
         "explicit-related",
         "nexus-inclusion"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-4-notes",
+      "target": "systems-survive-tuesdays",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "deck-under-load-ii",
+      "target": "pressure-psalm-v",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "deck-under-load-ii",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
       ]
     },
     {
@@ -146,6 +485,61 @@
       ]
     },
     {
+      "source": "signal-descent-002",
+      "target": "transmission-note-to-future-me",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
+      "target": "codex-archive-system-v2-4-notes",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-4-notes",
+      "target": "signal-descent-002",
+      "weight": 6,
+      "reasons": [
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "pressure-psalm-v",
+      "target": "signal-harvest",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "nothing-missing-only-unindexed",
+      "target": "on-object-oriented-archives",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "signal-descent-001",
+      "target": "signal-descent-002",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
       "source": "signal-harvest",
       "target": "the-bones-hold",
       "weight": 5,
@@ -155,8 +549,158 @@
       ]
     },
     {
+      "source": "systems-survive-tuesdays",
+      "target": "the-bones-hold",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
+      "target": "systems-survive-tuesdays",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "pressure-psalm-v",
+      "target": "signal-descent-001",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "pressure-psalm-v",
+      "target": "the-bones-hold",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "signal-descent-002",
+      "target": "the-bones-hold",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "signal-harvest",
+      "target": "transmission-note-to-future-me",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
+      "target": "deck-under-load-ii",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
+      "target": "on-object-oriented-archives",
+      "weight": 3,
+      "reasons": [
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
+      "target": "under-load",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-4-notes",
+      "target": "transmission-note-to-future-me",
+      "weight": 3,
+      "reasons": [
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "maintenance-without-cure",
+      "target": "north-georgia-march-2026",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "maintenance-without-cure",
+      "target": "ridge-line-lessons",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
       "source": "north-georgia-march-2026",
       "target": "the-bones-hold",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "north-georgia-week-2",
+      "target": "the-bones-hold",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "pressure-psalm-v",
+      "target": "systems-survive-tuesdays",
+      "weight": 3,
+      "reasons": [
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "pressure-psalm-v",
+      "target": "transmission-note-to-future-me",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "ridge-line-lessons",
+      "target": "the-bones-hold",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "signal-descent-002",
+      "target": "signal-harvest",
       "weight": 3,
       "reasons": [
         "shared-theme",
@@ -172,6 +716,222 @@
       ]
     },
     {
+      "source": "codex-archive-system-v2-2",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-4-notes",
+      "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "maintenance-without-cure",
+      "target": "systems-survive-tuesdays",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "nothing-missing-only-unindexed",
+      "target": "signal-descent-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "nothing-missing-only-unindexed",
+      "target": "signal-harvest",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "nothing-missing-only-unindexed",
+      "target": "transmission-note-to-future-me",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "the-bones-hold",
+      "target": "transmission-note-to-future-me",
+      "weight": 2,
+      "reasons": [
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
+      "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
+      "target": "signal-descent-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
+      "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
+      "target": "the-bones-hold",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
+      "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-4-notes",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "deck-under-load-ii",
+      "target": "signal-descent-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "deck-under-load-ii",
+      "target": "the-bones-hold",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "maintenance-without-cure",
+      "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "north-georgia-march-2026",
+      "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "north-georgia-march-2026",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "north-georgia-march-2026",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "north-georgia-week-2",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "north-georgia-week-2",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "nothing-missing-only-unindexed",
+      "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "nothing-missing-only-unindexed",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "nothing-missing-only-unindexed",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-object-oriented-archives",
+      "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "on-object-oriented-archives",
       "target": "signal-descent-001",
       "weight": 1,
@@ -181,7 +941,103 @@
     },
     {
       "source": "on-object-oriented-archives",
+      "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-object-oriented-archives",
       "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-object-oriented-archives",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-object-oriented-archives",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-object-oriented-archives",
+      "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pressure-psalm-v",
+      "target": "under-load",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ridge-line-lessons",
+      "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ridge-line-lessons",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ridge-line-lessons",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-002",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-002",
+      "target": "under-load",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "studio-log-adhesive-test-run",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "studio-log-adhesive-test-run",
+      "target": "under-load",
       "weight": 1,
       "reasons": [
         "shared-theme"
