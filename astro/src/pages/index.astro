@@ -1180,6 +1180,20 @@ function buildHref(
     }
   }
 
+  @media (max-width: 560px) {
+    .stack-view {
+      gap: 4.5rem;
+    }
+
+    .type-list {
+      gap: 2.8rem;
+    }
+
+    .mosaic-view {
+      grid-template-columns: 1fr;
+    }
+  }
+
   @media (max-width: 1040px) and (min-width: 701px) {
     .mosaic-view {
       grid-template-columns: repeat(8, minmax(0, 1fr));

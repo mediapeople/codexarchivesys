@@ -550,6 +550,13 @@ const readableDate = entry.data.date.toLocaleDateString('en-US', {
       padding: 1.9rem 0.45rem 2.2rem;
     }
 
+    .card.feed,
+    .card.related {
+      grid-template-columns: 1fr;
+      column-gap: 0;
+      row-gap: 1rem;
+    }
+
     .preview-wrap {
       grid-column: 1;
       grid-row: auto;
@@ -560,6 +567,14 @@ const readableDate = entry.data.date.toLocaleDateString('en-US', {
     .card.related .preview-wrap {
       order: 2;
       aspect-ratio: 16 / 9;
+    }
+
+    .card.feed .preview-wrap {
+      grid-column: 1;
+      grid-row: auto;
+      order: 2;
+      aspect-ratio: 16 / 9;
+      max-width: none;
     }
 
     .card.mosaic {
@@ -589,6 +604,89 @@ const readableDate = entry.data.date.toLocaleDateString('en-US', {
 
     .themes {
       order: 5;
+    }
+
+    .card:not(.mosaic) .meta {
+      margin-bottom: 0.36rem;
+    }
+
+    .card:not(.mosaic) .title,
+    .card.feed .title,
+    .card.related .title {
+      max-width: 100%;
+      font-size: clamp(1.5rem, 7vw, 2.1rem);
+      line-height: 1.18;
+      text-wrap: pretty;
+    }
+
+    .card:not(.mosaic) .excerpt,
+    .card.feed .excerpt,
+    .card.related .excerpt {
+      max-width: 100%;
+      margin: 0.62rem 0 0.68rem;
+      font-size: 1.02rem;
+      line-height: 1.62;
+    }
+
+    .card:not(.mosaic) .themes {
+      gap: 0.3rem 0.58rem;
+    }
+
+    .card:not(.mosaic) .author-tease {
+      width: 100%;
+      margin-top: 0.56rem;
+    }
+
+    .card:not(.mosaic) .author-name {
+      display: flex;
+      flex-wrap: wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .card:not(.mosaic) .author-name .name {
+      white-space: normal;
+    }
+
+    .card.mosaic {
+      padding: 0.64rem 0.62rem 0.76rem;
+      row-gap: 0.56rem;
+    }
+
+    .card.mosaic .title {
+      font-size: clamp(1.08rem, 4.8vw, 1.38rem);
+    }
+
+    .card.mosaic .excerpt {
+      -webkit-line-clamp: 4;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .card {
+      row-gap: 0.82rem;
+      padding: 1.55rem 0 1.9rem;
+    }
+
+    .preview-wrap,
+    .card.related .preview-wrap {
+      aspect-ratio: 4 / 3;
+    }
+
+    .card:not(.mosaic) .title {
+      font-size: clamp(1.34rem, 8.2vw, 1.8rem);
+    }
+
+    .card:not(.mosaic) .excerpt {
+      font-size: 0.96rem;
+      line-height: 1.56;
+    }
+
+    .themes li {
+      font-size: 9px;
+    }
+
+    .author-name {
+      font-size: 8px;
     }
   }
 </style>
