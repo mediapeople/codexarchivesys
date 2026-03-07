@@ -557,6 +557,11 @@ const readableDate = entry.data.date.toLocaleDateString('en-US', {
       row-gap: 1rem;
     }
 
+    .card.related {
+      padding-top: 1.65rem;
+      padding-bottom: 1.95rem;
+    }
+
     .preview-wrap {
       grid-column: 1;
       grid-row: auto;
@@ -584,6 +589,10 @@ const readableDate = entry.data.date.toLocaleDateString('en-US', {
     .card.mosaic .preview-wrap {
       order: 1;
       aspect-ratio: 4 / 3;
+    }
+
+    .card.related .meta {
+      margin-bottom: 0.26rem;
     }
 
     .meta {
@@ -687,6 +696,11 @@ const readableDate = entry.data.date.toLocaleDateString('en-US', {
 
     .author-name {
       font-size: 8px;
+    }
+
+    .card.mosaic .excerpt {
+      font-size: 0.9rem;
+      line-height: 1.5;
     }
   }
 </style>
