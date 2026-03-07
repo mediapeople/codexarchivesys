@@ -14,6 +14,8 @@ const queryParam = (searchParams.get('q') || '').trim();
 const normalizedQuery = queryParam.toLowerCase();
 const viewParam = (searchParams.get('view') || '').trim().toLowerCase();
 const selectedView = viewParam === 'mosaic' ? 'mosaic' : 'stack';
+const orderParam = (searchParams.get('order') || '').trim().toLowerCase();
+const selectedOrder = orderParam === 'curated' ? 'curated' : 'recent';
 
 const selectedType = COLLECTIONS.includes(typeParam as (typeof COLLECTIONS)[number])
   ? typeParam
@@ -92,7 +94,8 @@ function buildHref(
   nextType: string | null,
   nextTheme: string | null,
   nextQuery: string,
-  nextView: 'stack' | 'mosaic' = selectedView
+  nextView: 'stack' | 'mosaic' = selectedView,
+  nextOrder: 'recent' | 'curated' = selectedOrder
 ) {
   const params = new URLSearchParams();
   if (nextType) {
@@ -106,6 +109,9 @@ function buildHref(
   }
   if (nextView === 'mosaic') {
     params.set('view', 'mosaic');
+  }
+  if (nextOrder === 'curated') {
+    params.set('order', 'curated');
   }
   const qs = params.toString();
   return qs ? `/?${qs}` : '/';
@@ -159,6 +165,7 @@ function buildHref(
       <form action="/" method="GET" class="search" data-filter-form>
         {selectedType && <input type="hidden" name="type" value={selectedType} />}
         {selectedTheme && <input type="hidden" name="theme" value={selectedTheme} />}
+        {selectedOrder === 'curated' && <input type="hidden" name="order" value="curated" />}
         <input
           type="search"
           name="q"
@@ -192,6 +199,21 @@ function buildHref(
           aria-current={selectedView === 'mosaic' ? 'true' : 'false'}
         >
           Mosaic
+        </a>
+      </div>
+
+      <div class="chip-row order-row">
+        <a
+          class={selectedOrder === 'recent' ? 'chip on' : 'chip'}
+          href={buildHref(selectedType, selectedTheme, queryParam, selectedView, 'recent')}
+        >
+          Recent First
+        </a>
+        <a
+          class={selectedOrder === 'curated' ? 'chip on' : 'chip'}
+          href={buildHref(selectedType, selectedTheme, queryParam, selectedView, 'curated')}
+        >
+          Curated
         </a>
       </div>
 
@@ -270,19 +292,27 @@ function buildHref(
     ) : (
       <>
         <div class="stack-view" data-feed-view="stack" hidden={selectedView === 'mosaic'}>
-          {groupedEntries.map((group) => (
-            <section class={`type-section ${group.type}`} data-type={group.type}>
-              <header class="type-head">
-                <h2>{getTypeLabel(group.type)}</h2>
-                <span data-section-count>{group.entries.length} objects</span>
-              </header>
-              <div class="type-list">
-                {group.entries.map((entry) => (
-                  <ObjectCard entry={entry} />
-                ))}
-              </div>
-            </section>
-          ))}
+          {selectedOrder === 'curated' ? (
+            groupedEntries.map((group) => (
+              <section class={`type-section ${group.type}`} data-type={group.type}>
+                <header class="type-head">
+                  <h2>{getTypeLabel(group.type)}</h2>
+                  <span data-section-count>{group.entries.length} objects</span>
+                </header>
+                <div class="type-list">
+                  {group.entries.map((entry) => (
+                    <ObjectCard entry={entry} />
+                  ))}
+                </div>
+              </section>
+            ))
+          ) : (
+            <div class="time-list">
+              {filteredEntries.map((entry) => (
+                <ObjectCard entry={entry} />
+              ))}
+            </div>
+          )}
         </div>
         <div class="mosaic-view" data-feed-view="mosaic" hidden={selectedView !== 'mosaic'}>
           {filteredEntries.map((entry) => (
@@ -410,6 +440,7 @@ function buildHref(
       theme: '',
       q: '',
       view: 'stack',
+      order: 'recent',
     };
     let controlsExpanded = true;
 
@@ -439,10 +470,12 @@ function buildHref(
       const urlType = (params.get('type') || '').trim();
       const urlTheme = (params.get('theme') || '').trim();
       const urlView = (params.get('view') || '').trim().toLowerCase();
+      const urlOrder = (params.get('order') || '').trim().toLowerCase();
       state.type = validTypes.has(urlType) ? urlType : '';
       state.theme = validThemes.has(urlTheme) ? urlTheme : '';
       state.q = (params.get('q') || '').trim();
       state.view = validViews.has(urlView) ? urlView : 'stack';
+      state.order = urlOrder === 'curated' ? 'curated' : 'recent';
     }
 
     function updateUrlState() {
@@ -458,6 +491,9 @@ function buildHref(
       }
       if (state.view === 'mosaic') {
         params.set('view', 'mosaic');
+      }
+      if (state.order === 'curated') {
+        params.set('order', 'curated');
       }
       const qs = params.toString();
       const next = qs ? `/?${qs}` : '/';
@@ -884,6 +920,10 @@ function buildHref(
     margin-bottom: 1.2rem;
   }
 
+  .order-row {
+    margin-bottom: 1.1rem;
+  }
+
   .chip {
     border: 1px solid transparent;
     border-radius: 2px;
@@ -1019,6 +1059,11 @@ function buildHref(
   }
 
   .type-list {
+    display: grid;
+    gap: 3.8rem;
+  }
+
+  .time-list {
     display: grid;
     gap: 3.8rem;
   }
@@ -1292,6 +1337,10 @@ function buildHref(
     }
 
     .type-list {
+      gap: 2.8rem;
+    }
+
+    .time-list {
       gap: 2.8rem;
     }
   }

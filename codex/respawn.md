@@ -1,5 +1,5 @@
 # Codex Archive System - Respawn Operations
-Version: v2.7 go-live package
+Version: v3 ingest-alignment package
 Date: 2026-03-07
 
 ## Respawn Sequence

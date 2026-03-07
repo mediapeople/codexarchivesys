@@ -53,6 +53,16 @@ node scripts/generate-codex-log.mjs objects $(date +%F)
 node scripts/ingest-design-evolution.mjs objects $(date +%F)
 ```
 
+Optimize media payloads for web delivery:
+
+```bash
+node scripts/optimize-media-assets.mjs <file1> <file2> ...
+```
+
+Defaults:
+- JPEG: resize to max long edge `2400px`, recompress quality `68`
+- Video: transcode to MP4 (uses `ffmpeg` if present, else macOS `avconvert`)
+
 ## Push This Repo To Remote
 
 From repository root:
@@ -83,7 +93,7 @@ This repo includes `vercel.json` with monorepo-aware commands.
 GitHub Actions workflow is included at `.github/workflows/astro-build.yml`.
 It runs `npm ci` and `npm run build` inside `astro/` on pushes and PRs.
 
-## Respawn Files (v2.6)
+## Respawn Files (v3)
 
 Primary coworker load chain (new):
 
@@ -95,8 +105,8 @@ Primary coworker load chain (new):
 
 Extended archive context (legacy + governance):
 
-1. `docs/respawn-system-files-v2.6.md`
-2. `docs/codex-status-v2.6.md`
+1. `docs/respawn-system-files-v3.md`
+2. `docs/codex-status-v3.md`
 3. `docs/field-registry.md`
 4. `docs/constitutional-implementation-map.md`
 5. `docs/codex_addendum_structural_metering.md`

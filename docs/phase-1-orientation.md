@@ -16,10 +16,10 @@ Date: 2026-03-07
 - Canonical docs copied:
   - `docs/field-registry.md`
   - `docs/llm-intake-prompt.md`
-  - `docs/codex-status-v2.7.md`
+  - `docs/codex-status-v3.md`
   - `docs/constitutional-implementation-map.md`
   - `docs/codex_addendum_structural_metering.md`
-  - `docs/respawn-system-files-v2.7.md`
+  - `docs/respawn-system-files-v3.md`
 - Inbox pipeline dirs created:
   - `inbox/drop/`
   - `inbox/processing/`
@@ -61,12 +61,12 @@ Target files:
 2. Review draft objects and tighten excerpt/theme/relation quality.
 3. Push first deploy preview and smoke test feed, object, nexus, and graph routes.
 
-## Respawn Load Order (v2.7)
+## Respawn Load Order (v3)
 
 Use this sequence for clean system rehydration:
 
-1. `docs/respawn-system-files-v2.7.md`
-2. `docs/codex-status-v2.7.md`
+1. `docs/respawn-system-files-v3.md`
+2. `docs/codex-status-v3.md`
 3. `docs/field-registry.md`
 4. `docs/constitutional-implementation-map.md`
 5. `docs/codex_addendum_structural_metering.md`

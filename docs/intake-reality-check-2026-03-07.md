@@ -60,3 +60,124 @@ Updated cumulative total for 2026-03-07 intake checks:
 
 - Real intake runs documented: 5
 - Approved and promoted items: 5
+
+## Additional Intake Batch (WIP artifact source)
+
+Source drop item added:
+
+- `inbox/drop/WIP, Collage in process, JSA primary source/artifact - wip.md`
+- media:
+  - `inbox/drop/WIP, Collage in process, JSA primary source/photos/IMG_2863.HEIC`
+  - `inbox/drop/WIP, Collage in process, JSA primary source/photos/IMG_2864.HEIC`
+  - `inbox/drop/WIP, Collage in process, JSA primary source/photos/IMG_2865.HEIC`
+  - `inbox/drop/WIP, Collage in process, JSA primary source/photos/IMG_2866.HEIC`
+  - `inbox/drop/WIP, Collage in process, JSA primary source/photos/IMG_2867.HEIC`
+
+Processing outcome:
+
+- Created ready draft: `inbox/ready/2026-03-07-jsa-collage-wip-001.md`
+- Promoted canonical object: `objects/artifact/artifact-jsa-collage-wip-001.md`
+- Synced Astro content: `astro/src/content/artifact/artifact-jsa-collage-wip-001.md`
+- Converted and copied media:
+  - `astro/public/media/artifacts/jsa-collage-wip-001-1.jpg`
+  - `astro/public/media/artifacts/jsa-collage-wip-001-2.jpg`
+  - `astro/public/media/artifacts/jsa-collage-wip-001-3.jpg`
+  - `astro/public/media/artifacts/jsa-collage-wip-001-4.jpg`
+  - `astro/public/media/artifacts/jsa-collage-wip-001-5.jpg`
+- Publication status: `published`
+
+Notes:
+
+- Intake draft remains `draft`; canonical object promoted with curatorial decisions applied.
+- Constellation assignment set explicitly to `Archaeological Objects`.
+
+Updated cumulative total for 2026-03-07 intake checks:
+
+- Real intake runs documented: 6
+- Approved and promoted items: 6
+
+Validation/build result (post-promotion):
+
+- Objects validated: `32`
+- Build status: pass
+- Graph regenerated: `32` nodes, `325` edges
+
+## System Note Adjustments (v3 codex update)
+
+Following ingest and relation learnings, system notes were advanced to v3.
+
+Updates:
+
+- Added canonical release object: `objects/codex/codex-archive-system-v3-notes.md`
+- Added active status doc: `docs/codex-status-v3.md`
+- Added active respawn file chain doc: `docs/respawn-system-files-v3.md`
+- Advanced quickstart/orientation/intake preflight references from v2.7 to v3
+- Added relation continuity links from WIP/revision objects to newest release notes
+
+Validation/build result (post-v3 update):
+
+- Objects validated: `33`
+- Build status: pass
+- Graph regenerated: `33` nodes, `355` edges
+
+## Additional Intake Batch (first evo test)
+
+Source drop item added:
+
+- `inbox/drop/Update to WIP, JSA primary source/artifact evo.md`
+- media:
+  - `inbox/drop/Update to WIP, JSA primary source/IMG_2869.HEIC`
+  - `inbox/drop/Update to WIP, JSA primary source/IMG_2870.HEIC`
+  - `inbox/drop/Update to WIP, JSA primary source/IMG_2872.HEIC`
+  - `inbox/drop/Update to WIP, JSA primary source/IMG_2873.HEIC`
+  - `inbox/drop/Update to WIP, JSA primary source/IMG_2874.MOV`
+
+Processing outcome:
+
+- Created ready draft: `inbox/ready/2026-03-07-jsa-collage-evolution-001.md`
+- Promoted canonical object: `objects/fieldlog/jsa-collage-evolution-001.md`
+- Synced Astro content: `astro/src/content/fieldlog/jsa-collage-evolution-001.md`
+- Converted/copied media:
+  - `astro/public/media/fieldlogs/jsa-collage-evolution-001-1.jpg`
+  - `astro/public/media/fieldlogs/jsa-collage-evolution-001-2.jpg`
+  - `astro/public/media/fieldlogs/jsa-collage-evolution-001-3.jpg`
+  - `astro/public/media/fieldlogs/jsa-collage-evolution-001-4.jpg`
+  - `astro/public/media/fieldlogs/jsa-collage-evolution-001-process.mp4`
+- Publication status: `published`
+
+Notes:
+
+- Source `type: artifact-update` is out-of-schema; canonical mapping used `fieldlog`.
+- Source media list in raw frontmatter referenced older filenames; ingest used actual dropped update assets.
+- Post-ingest media optimization pass reduced JPG payload and transcoded process video to MP4.
+- Added reciprocal relation links among:
+  - `jsa-collage-evolution-001`
+  - `artifact-jsa-collage-wip-001`
+  - `codex-archive-system-v3-notes`
+
+Updated cumulative total for 2026-03-07 intake checks:
+
+- Real intake runs documented: 7
+- Approved and promoted items: 7
+
+Validation/build result (post-evo ingest):
+
+- Objects validated: `34`
+- Build status: pass
+- Graph regenerated: `34` nodes, `383` edges
+
+## System Rules Check (post-evo + media pass)
+
+Compliance summary:
+
+- Schema unchanged (`astro/src/content/config.ts` untouched).
+- Intake drafts remained `status: draft` in `inbox/ready/`.
+- Canonical publish moved through deliberate human promotion (`inbox/ready` -> `objects/`).
+- New canonical object types remain in allowed enum (`fieldlog` used for evolution state record).
+- Theme/constellation usage stayed within active registries.
+- Related references validated (no broken refs in `validate-objects`).
+
+Operational check:
+
+- `node scripts/validate-objects.mjs objects` -> pass
+- `cd astro && npm run build` -> pass

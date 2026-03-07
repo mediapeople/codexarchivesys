@@ -20,6 +20,7 @@ related:
   - under-load
   - pressure-psalm-v
   - studio-log-adhesive-test-run
+  - artifact-jsa-collage-wip-001
 
 media:
   - kind: image

@@ -1,19 +1,19 @@
 # Codex Archive System - Current State
-Version: 2.7
+Version: 3.0
 Date: 2026-03-07
 
 ## Focus
-production runtime stability and mobile reading quality
+published ingest continuity and update-linked object navigation
 
-## Key Changes in v2.7
-- production site live on ndcodex.com
-- GitHub to Netlify deploy loop active
-- mobile card and related layout hardening shipped
-- mobile search/filter controls now toggleable
-- release docs advanced to v2.7 chain
+## Key Changes in v3
+- v3 codex release note published as canonical object
+- WIP/revision intake guidance now requires links to newest relevant updates
+- WIP artifact relation graph tightened with reciprocal links to current release notes
+- promotion path now includes media normalization for camera-native source formats
+- release docs advanced to v3 orientation chain
 
 ## Schema State
-No schema expansion occurred in v2.7.
+No schema expansion occurred in v3.
 Object model remains stable while operations and presentation layers advance.
 
 ## Primary Surfaces

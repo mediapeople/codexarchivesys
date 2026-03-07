@@ -18,11 +18,13 @@ constellations:
   - Cascade Psalms
 
 related:
+  - codex-archive-system-v3-notes
   - codex-archive-system-v2-6-notes
   - go-live-milestone
   - apparatus-ledger
   - signal-descent-002
   - signal.citizen-agency
+  - artifact-jsa-collage-wip-001
 
 media: []
 
@@ -34,6 +36,9 @@ dependencies:
   - codex-archive-system-v2-6-notes
   - signal-descent-002
 ---
+
+v2.7 notes are now superseded by [CODEX ARCHIVE SYSTEM v3 NOTES](/objects/codex-archive-system-v3-notes).
+Use v2.7 as release-history context, not the active orientation contract.
 
 v2.7 is the go-live release.
 

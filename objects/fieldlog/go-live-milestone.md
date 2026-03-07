@@ -18,10 +18,13 @@ constellations:
   - Cascade Psalms
 
 related:
+  - codex-archive-system-v3-notes
+  - jsa-collage-evolution-001
   - codex-archive-system-v2-7-notes
   - codex-archive-system-v2-6-notes
   - signal-descent-002
   - apparatus-ledger
+  - artifact-jsa-collage-wip-001
 
 project: codex-archive-system
 phase: production-launch

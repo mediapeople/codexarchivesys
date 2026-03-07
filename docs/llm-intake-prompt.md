@@ -1,13 +1,13 @@
 # CODEX INTAKE PROMPT
 ## docs/llm-intake-prompt.md
-### Codex Archive System (schema v2.2, operations v2.7)
+### Codex Archive System (schema v2.2, operations v3)
 
 This is the prompt given to an LLM when processing raw inbox material.
 Copy verbatim into the LLM context, followed by the raw content to process.
 
 ---
 
-## ORIENTATION PREFLIGHT (v2.7)
+## ORIENTATION PREFLIGHT (v3)
 
 Before intake work, confirm:
 
@@ -15,7 +15,7 @@ Before intake work, confirm:
    `/Users/nathandavis/Projects/codex-archive-mega-site`
 2. iCloud root is not being used.
 3. Context has been oriented from:
-   `docs/respawn-system-files-v2.7.md` and `docs/respawn-quickstart.md`
+   `docs/respawn-system-files-v3.md` and `docs/respawn-quickstart.md`
 4. Existing git changes are preserved; do not revert unrelated work.
 
 ---
@@ -47,6 +47,13 @@ Given a raw inbox item — which may be a markdown draft, a note, a scan descrip
 7. Suggest **media** roles if media files are listed.
 8. Produce a complete draft frontmatter block in valid YAML.
 9. Output a ready-to-review object file.
+
+For WIP/revision artifacts (titles or notes indicating `WIP`, `work-in-progress`, `in progress`, or `revision`), include at least two suggested related candidates that point to the newest relevant system updates or release notes.
+
+For media-heavy items, include a short media-handling note in intake notes:
+- images should be prepared as web-delivery derivatives (resized/compressed)
+- process video should target MP4 for delivery
+- original capture files remain in `inbox/drop` as source-of-record
 
 ---
 

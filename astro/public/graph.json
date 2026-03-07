@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-07T21:17:22.177Z",
+  "generatedAt": "2026-03-07T23:26:21.151Z",
   "sourceDir": "../objects",
-  "nodeCount": 31,
-  "edgeCount": 305,
+  "nodeCount": 34,
+  "edgeCount": 383,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -13,6 +13,21 @@
         "memory",
         "collage",
         "structure"
+      ],
+      "constellations": [
+        "Archaeological Objects"
+      ]
+    },
+    {
+      "id": "artifact-jsa-collage-wip-001",
+      "type": "artifact",
+      "title": "JSA Collage - Work in Progress",
+      "date": "2026-03-07",
+      "themes": [
+        "collage",
+        "comics",
+        "signal",
+        "observation"
       ],
       "constellations": [
         "Archaeological Objects"
@@ -98,6 +113,22 @@
       ]
     },
     {
+      "id": "codex-archive-system-v3-notes",
+      "type": "codex",
+      "title": "CODEX ARCHIVE SYSTEM v3 NOTES",
+      "date": "2026-03-07",
+      "themes": [
+        "systems",
+        "architecture",
+        "methodology",
+        "maintenance",
+        "signal"
+      ],
+      "constellations": [
+        "Cascade Psalms"
+      ]
+    },
+    {
       "id": "the-bones-hold-content-architecture",
       "type": "codex",
       "title": "The Bones Hold: Content Architecture Scroll",
@@ -123,6 +154,22 @@
       ],
       "constellations": [
         "Cascade Psalms"
+      ]
+    },
+    {
+      "id": "jsa-collage-evolution-001",
+      "type": "fieldlog",
+      "title": "JSA Collage Evolution 001",
+      "date": "2026-03-07",
+      "themes": [
+        "collage",
+        "comics",
+        "observation",
+        "signal",
+        "methodology"
+      ],
+      "constellations": [
+        "Archaeological Objects"
       ]
     },
     {
@@ -449,6 +496,26 @@
       ]
     },
     {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "jsa-collage-evolution-001",
+      "weight": 12,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "codex-archive-system-v3-notes",
+      "weight": 12,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "north-georgia-march-2026",
       "target": "north-georgia-week-2",
       "weight": 12,
@@ -472,6 +539,26 @@
       "source": "north-georgia-week-2",
       "target": "ridge-line-lessons",
       "weight": 12,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "go-live-milestone",
+      "weight": 11,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "lean-mean-governance-machine",
+      "weight": 11,
       "reasons": [
         "shared-theme",
         "shared-constellation",
@@ -527,6 +614,16 @@
         "shared-theme",
         "explicit-related",
         "nexus-inclusion"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "deck-under-load-ii",
+      "weight": 10,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
       ]
     },
     {
@@ -655,6 +752,15 @@
       ]
     },
     {
+      "source": "codex-archive-system-v3-notes",
+      "target": "jsa-collage-evolution-001",
+      "weight": 8,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "deck-under-load-ii",
       "target": "signal-descent-002",
       "weight": 8,
@@ -724,6 +830,16 @@
       ]
     },
     {
+      "source": "apparatus-ledger",
+      "target": "codex-archive-system-v3-notes",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "archive-box-stamped-fragments",
       "target": "nothing-missing-only-unindexed",
       "weight": 7,
@@ -738,6 +854,43 @@
       "weight": 7,
       "reasons": [
         "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "codex-archive-system-v2-7-notes",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "codex-archive-system-v3-notes",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "go-live-milestone",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "under-load",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
         "explicit-related"
       ]
     },
@@ -780,6 +933,16 @@
       ]
     },
     {
+      "source": "codex-archive-system-v3-notes",
+      "target": "signal-descent-002",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "deck-under-load-ii",
       "target": "pressure-psalm-v",
       "weight": 7,
@@ -791,6 +954,15 @@
     {
       "source": "deck-under-load-ii",
       "target": "studio-log-adhesive-test-run",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "jsa-collage-evolution-001",
       "weight": 7,
       "reasons": [
         "shared-theme",
@@ -869,6 +1041,16 @@
       "source": "signal.citizen-agency",
       "target": "transmission-note-to-future-me",
       "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
+      "target": "artifact-jsa-collage-wip-001",
+      "weight": 6,
       "reasons": [
         "shared-theme",
         "shared-constellation",
@@ -1149,6 +1331,33 @@
       ]
     },
     {
+      "source": "codex-archive-system-v3-notes",
+      "target": "heart-does-not-dream",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "signal.citizen-agency",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "deck-under-load-ii",
+      "target": "jsa-collage-evolution-001",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
       "source": "go-live-milestone",
       "target": "heart-does-not-dream",
       "weight": 4,
@@ -1196,6 +1405,24 @@
     {
       "source": "heart-does-not-dream",
       "target": "signal-descent-002",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "studio-bench-cycle",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "under-load",
       "weight": 4,
       "reasons": [
         "shared-theme",
@@ -1375,6 +1602,15 @@
     },
     {
       "source": "archive-box-stamped-fragments",
+      "target": "jsa-collage-evolution-001",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
       "target": "on-object-oriented-archives",
       "weight": 3,
       "reasons": [
@@ -1391,8 +1627,33 @@
       ]
     },
     {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "heart-does-not-dream",
+      "weight": 3,
+      "reasons": [
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "studio-bench-cycle",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
       "source": "codex-archive-system-v2-2",
       "target": "codex-archive-system-v2-7-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
+      "target": "codex-archive-system-v3-notes",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -1409,6 +1670,14 @@
     {
       "source": "codex-archive-system-v2-5-notes",
       "target": "codex-archive-system-v2-7-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
+      "target": "codex-archive-system-v3-notes",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -1436,6 +1705,14 @@
       "weight": 3,
       "reasons": [
         "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
+      "target": "codex-archive-system-v3-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -1500,6 +1777,75 @@
     },
     {
       "source": "codex-archive-system-v2-7-notes",
+      "target": "transmission-note-to-future-me",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "on-object-oriented-archives",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "pressure-psalm-v",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "reduce-novelty-before-care",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "signal-descent-001",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "signal-harvest",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "the-bones-hold",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
       "target": "transmission-note-to-future-me",
       "weight": 3,
       "reasons": [
@@ -1586,6 +1932,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -1748,6 +2102,22 @@
       ]
     },
     {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "codex-archive-system-v2-2",
       "target": "lean-mean-governance-machine",
       "weight": 2,
@@ -1805,6 +2175,14 @@
     },
     {
       "source": "codex-archive-system-v2-7-notes",
+      "target": "jsa-collage-evolution-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
       "target": "nothing-missing-only-unindexed",
       "weight": 2,
       "reasons": [
@@ -1833,6 +2211,46 @@
       "weight": 2,
       "reasons": [
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "studio-bench-cycle",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "systems-survive-tuesdays",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -1913,6 +2331,14 @@
       "weight": 2,
       "reasons": [
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -2141,6 +2567,14 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "artifact-jsa-collage-wip-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "codex-archive-system-v2-2",
       "weight": 1,
       "reasons": [
@@ -2150,6 +2584,14 @@
     {
       "source": "apparatus-ledger",
       "target": "deck-under-load-ii",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
+      "target": "jsa-collage-evolution-001",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -2276,6 +2718,94 @@
       ]
     },
     {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "north-georgia-march-2026",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "north-georgia-week-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "on-object-oriented-archives",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "ridge-line-lessons",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "signal-descent-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "signal.citizen-agency",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "codex-archive-system-v2-2",
       "target": "go-live-milestone",
       "weight": 1,
@@ -2286,6 +2816,14 @@
     {
       "source": "codex-archive-system-v2-2",
       "target": "heart-does-not-dream",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
+      "target": "jsa-collage-evolution-001",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -2333,6 +2871,14 @@
     },
     {
       "source": "codex-archive-system-v2-5-notes",
+      "target": "jsa-collage-evolution-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
       "target": "nothing-missing-only-unindexed",
       "weight": 1,
       "reasons": [
@@ -2350,6 +2896,14 @@
     {
       "source": "codex-archive-system-v2-6-notes",
       "target": "heart-does-not-dream",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
+      "target": "jsa-collage-evolution-001",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -2406,6 +2960,46 @@
     {
       "source": "codex-archive-system-v2-7-notes",
       "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "north-georgia-march-2026",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "north-georgia-week-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "ridge-line-lessons",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "stairwell-signal",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -2534,6 +3128,118 @@
     {
       "source": "heart-does-not-dream",
       "target": "under-load",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "lean-mean-governance-machine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "north-georgia-march-2026",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "north-georgia-week-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "on-object-oriented-archives",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "reduce-novelty-before-care",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "ridge-line-lessons",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "signal-descent-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "signal.citizen-agency",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "transmission-note-to-future-me",
       "weight": 1,
       "reasons": [
         "shared-theme"

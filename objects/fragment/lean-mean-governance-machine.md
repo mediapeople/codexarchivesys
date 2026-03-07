@@ -17,6 +17,7 @@ constellations:
   - Cascade Psalms
 
 related:
+  - codex-archive-system-v3-notes
   - codex-archive-system-v2-7-notes
   - go-live-milestone
   - systems-survive-tuesdays

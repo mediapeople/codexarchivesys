@@ -1,0 +1,117 @@
+# CODEX ARCHIVE SYSTEM
+## Project Status Document
+### v3 - March 7, 2026
+
+---
+
+## CURRENT VERSION
+
+**v3**
+
+This document supersedes `docs/codex-status-v2.7.md` as the active status reference.
+
+Spine remains stable.
+Operations are now optimized for publish-ready ingest continuity.
+
+---
+
+## STATUS SUMMARY
+
+```
+SPEC            complete        v2.2 Master Specification
+FIELD REGISTRY  complete        docs/field-registry.md
+SCHEMA          complete        astro/src/content/config.ts
+INTAKE PROMPT   active          docs/llm-intake-prompt.md (v3 preflight + WIP update-link rule)
+ASTRO BUILD     active          feed, object pages, nexus, graph
+OBJECT ARCHIVE  active          canonical objects + codex v3 notes + go-live milestone
+INBOX SYSTEM    active          drop/processing/needs-info/ready
+RELATION ENGINE complete        astro/src/lib/relations.ts + build graph pipeline
+RESPAWN CHAIN   complete        docs/respawn-system-files-v3.md + quickstart
+DEPLOYMENT      live            ndcodex.com on Netlify (GitHub-linked deploys)
+```
+
+---
+
+## WHAT v3 ADDS
+
+v3 is an ingest-learning and release-note discipline update.
+
+1. Canonical release object added:
+   - `codex-archive-system-v3-notes`
+2. WIP/revision intake guidance now requires linking to newest relevant updates.
+3. WIP/revision artifact graph now includes reciprocal links to current release notes.
+4. Promotion flow now explicitly supports media normalization from capture formats (e.g., HEIC -> JPG).
+5. Status and respawn references advanced to a v3 chain in one pass.
+6. Media slimming workflow is now documented and repeatable via `scripts/optimize-media-assets.mjs`.
+
+---
+
+## EXPANDED LEARNINGS (v3)
+
+1. Ingest quality is relation quality; a clean object with weak links is still under-indexed.
+2. WIP objects need temporal context links to stay useful after subsequent releases.
+3. Media normalization should happen at promotion time, not deferred.
+4. Release-note updates should ingest operational learnings immediately, while context is fresh.
+5. Version moves are safer when status docs, respawn docs, and canonical release objects advance together.
+6. Camera-native assets must be compressed before publish; web compatibility is insufficient without payload control.
+
+---
+
+## MEDIA HANDLING NOTES (v3)
+
+1. Image handling (current default):
+   - Convert HEIC to JPG at ingest/promotion time.
+   - Resize to max long edge (`2400px`) and recompress for delivery.
+2. Video handling (current default):
+   - Convert MOV to MP4 before publish.
+   - Prefer medium-quality transcode preset for balance between fidelity and size.
+3. Source preservation:
+   - Keep original capture files in `inbox/drop/`.
+   - Publish optimized derivatives in `astro/public/media/`.
+4. Operational command:
+   - `node scripts/optimize-media-assets.mjs <file> [file...]`
+
+---
+
+## AI COWORKER ORIENTATION (FAST PATH)
+
+Use this exact sequence when a new AI coworker joins mid-stream.
+
+1. Confirm root:
+   `/Users/nathandavis/Projects/codex-archive-mega-site`
+2. Load:
+   `docs/respawn-system-files-v3.md`
+3. Then ingest in order:
+   `docs/codex-status-v3.md` ->
+   `docs/field-registry.md` ->
+   `docs/constitutional-implementation-map.md` ->
+   `docs/codex_addendum_structural_metering.md` ->
+   `docs/llm-intake-prompt.md` ->
+   `docs/phase-1-orientation.md`
+4. Resume from current git state without reverting unrelated changes.
+
+---
+
+## IMMEDIATE NEXT MOVES
+
+### 1) Run the next real art update through inbox
+
+Use the incoming art update to verify WIP -> update relation continuity.
+
+### 2) Tighten update-link suggestions in intake notes
+
+Prefer recent published codex/fieldlog anchors when confidence is high.
+
+### 3) Keep version references synchronized
+
+Advance status + respawn + current release object in the same commit when versioning.
+
+---
+
+## v3 DONE CONDITION
+
+- `docs/codex-status-v3.md` exists and is current.
+- `docs/respawn-system-files-v3.md` exists and is current.
+- `docs/respawn-quickstart.md` points to v3 chain.
+- `codex-archive-system-v3-notes` is present in canonical object stores.
+- Validation and build pass.
