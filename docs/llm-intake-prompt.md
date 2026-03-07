@@ -1,13 +1,13 @@
 # CODEX INTAKE PROMPT
 ## docs/llm-intake-prompt.md
-### Codex Archive System (schema v2.2, operations v2.6)
+### Codex Archive System (schema v2.2, operations v2.7)
 
 This is the prompt given to an LLM when processing raw inbox material.
 Copy verbatim into the LLM context, followed by the raw content to process.
 
 ---
 
-## ORIENTATION PREFLIGHT (v2.6)
+## ORIENTATION PREFLIGHT (v2.7)
 
 Before intake work, confirm:
 
@@ -15,7 +15,7 @@ Before intake work, confirm:
    `/Users/nathandavis/Projects/codex-archive-mega-site`
 2. iCloud root is not being used.
 3. Context has been oriented from:
-   `docs/respawn-system-files-v2.6.md` and `docs/respawn-quickstart.md`
+   `docs/respawn-system-files-v2.7.md` and `docs/respawn-quickstart.md`
 4. Existing git changes are preserved; do not revert unrelated work.
 
 ---

@@ -40,8 +40,8 @@ Primary coworker chain:
 
 Extended governance chain:
 
-1. `docs/respawn-system-files-v2.6.md`
-2. `docs/codex-status-v2.6.md`
+1. `docs/respawn-system-files-v2.7.md`
+2. `docs/codex-status-v2.7.md`
 3. `docs/field-registry.md`
 4. `docs/constitutional-implementation-map.md`
 5. `docs/codex_addendum_structural_metering.md`
@@ -52,5 +52,5 @@ Extended governance chain:
 
 ```
 New thread. Use /Users/nathandavis/Projects/codex-archive-mega-site as canonical root.
-Ignore deprecated iCloud root. Re-orient from docs/respawn-system-files-v2.6.md and docs/respawn-quickstart.md, then continue implementation from current git state without reverting unrelated changes.
+Ignore deprecated iCloud root. Re-orient from docs/respawn-system-files-v2.7.md and docs/respawn-quickstart.md, then continue implementation from current git state without reverting unrelated changes.
 ```

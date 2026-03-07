@@ -1,9 +1,9 @@
 # Codex Archive System - System Model
-Version: v2.6 support package
+Version: v2.7 go-live package
 Date: 2026-03-07
 
 ## Core Operating Rule
-The system optimizes for immediate orientation for a new AI coworker while preserving object-first reading quality.
+The system optimizes for immediate orientation and dependable live publishing while preserving object-first reading quality.
 
 ## Object Model
 Current object types:

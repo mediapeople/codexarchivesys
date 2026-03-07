@@ -16,6 +16,7 @@ themes:
 constellations: []
 
 related:
+  - codex-archive-system-v2-7-notes
   - codex-archive-system-v2-5-notes
   - codex-archive-system-v2-2
   - apparatus-ledger
@@ -32,6 +33,9 @@ dependencies:
   - codex-archive-system-v2-5-notes
   - codex-archive-system-v2-2
 ---
+
+v2.6 notes are now superseded by [CODEX ARCHIVE SYSTEM v2.7 NOTES](/objects/codex-archive-system-v2-7-notes).
+Use v2.6 as implementation context, not as the current release contract.
 
 v2.6 focuses on one operating rule: make orientation immediate for a new AI coworker while preserving object-first reading quality.
 

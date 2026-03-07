@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-07T20:27:08.167Z",
+  "generatedAt": "2026-03-07T20:49:21.369Z",
   "sourceDir": "../objects",
-  "nodeCount": 28,
-  "edgeCount": 232,
+  "nodeCount": 30,
+  "edgeCount": 278,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -83,6 +83,21 @@
       "constellations": []
     },
     {
+      "id": "codex-archive-system-v2-7-notes",
+      "type": "codex",
+      "title": "CODEX ARCHIVE SYSTEM v2.7 NOTES",
+      "date": "2026-03-07",
+      "themes": [
+        "systems",
+        "architecture",
+        "methodology",
+        "signal"
+      ],
+      "constellations": [
+        "Cascade Psalms"
+      ]
+    },
+    {
       "id": "the-bones-hold-content-architecture",
       "type": "codex",
       "title": "The Bones Hold: Content Architecture Scroll",
@@ -94,6 +109,21 @@
         "structure"
       ],
       "constellations": []
+    },
+    {
+      "id": "go-live-milestone",
+      "type": "fieldlog",
+      "title": "Go Live Milestone: ndcodex.com",
+      "date": "2026-03-07",
+      "themes": [
+        "systems",
+        "signal",
+        "transmission",
+        "maintenance"
+      ],
+      "constellations": [
+        "Cascade Psalms"
+      ]
     },
     {
       "id": "north-georgia-march-2026",
@@ -486,6 +516,16 @@
       ]
     },
     {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "go-live-milestone",
+      "weight": 10,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "signal-descent-001",
       "target": "the-bones-hold",
       "weight": 10,
@@ -524,6 +564,15 @@
       ]
     },
     {
+      "source": "codex-archive-system-v2-6-notes",
+      "target": "codex-archive-system-v2-7-notes",
+      "weight": 9,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "maintenance-without-cure",
       "target": "north-georgia-week-2",
       "weight": 9,
@@ -537,6 +586,16 @@
       "source": "pressure-psalm-v",
       "target": "signal-harvest",
       "weight": 9,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
+      "target": "go-live-milestone",
+      "weight": 8,
       "reasons": [
         "shared-theme",
         "shared-constellation",
@@ -592,6 +651,16 @@
       ]
     },
     {
+      "source": "go-live-milestone",
+      "target": "signal-descent-002",
+      "weight": 8,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "maintenance-without-cure",
       "target": "the-bones-hold",
       "weight": 8,
@@ -631,6 +700,16 @@
       ]
     },
     {
+      "source": "apparatus-ledger",
+      "target": "codex-archive-system-v2-7-notes",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "archive-box-stamped-fragments",
       "target": "nothing-missing-only-unindexed",
       "weight": 7,
@@ -663,6 +742,16 @@
       "weight": 7,
       "reasons": [
         "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "signal.citizen-agency",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
         "explicit-related"
       ]
     },
@@ -770,6 +859,16 @@
       ]
     },
     {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "signal-descent-002",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "maintenance-without-cure",
       "target": "north-georgia-march-2026",
       "weight": 6,
@@ -851,6 +950,15 @@
       "reasons": [
         "shared-theme",
         "explicit-related"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "signal.citizen-agency",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
       ]
     },
     {
@@ -986,6 +1094,42 @@
       "reasons": [
         "shared-theme",
         "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
+      "target": "go-live-milestone",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "heart-does-not-dream",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "signal-descent-001",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "transmission-note-to-future-me",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
       ]
     },
     {
@@ -1187,7 +1331,23 @@
     },
     {
       "source": "codex-archive-system-v2-2",
+      "target": "codex-archive-system-v2-7-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
       "target": "the-bones-hold-content-architecture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
+      "target": "codex-archive-system-v2-7-notes",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -1223,6 +1383,94 @@
       "weight": 3,
       "reasons": [
         "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "heart-does-not-dream",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "on-object-oriented-archives",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "pressure-psalm-v",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "signal-descent-001",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "signal-harvest",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "transmission-note-to-future-me",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "pressure-psalm-v",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "signal-harvest",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "the-bones-hold",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
       ]
     },
     {
@@ -1436,11 +1684,91 @@
       ]
     },
     {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "reduce-novelty-before-care",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "the-bones-hold",
+      "weight": 2,
+      "reasons": [
+        "shared-constellation"
+      ]
+    },
+    {
       "source": "deck-under-load-ii",
       "target": "studio-bench-cycle",
       "weight": 2,
       "reasons": [
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "reduce-novelty-before-care",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "stairwell-signal",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "systems-survive-tuesdays",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -1773,6 +2101,14 @@
     },
     {
       "source": "codex-archive-system-v2-2",
+      "target": "go-live-milestone",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
       "target": "heart-does-not-dream",
       "weight": 1,
       "reasons": [
@@ -1798,6 +2134,14 @@
     {
       "source": "codex-archive-system-v2-2",
       "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
+      "target": "go-live-milestone",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -1868,6 +2212,30 @@
       ]
     },
     {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "scroll-from-the-perimeter",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "deck-under-load-ii",
       "target": "heart-does-not-dream",
       "weight": 1,
@@ -1886,6 +2254,62 @@
     {
       "source": "deck-under-load-ii",
       "target": "the-bones-hold",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "north-georgia-march-2026",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "north-georgia-week-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "ridge-line-lessons",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "the-bones-hold-content-architecture",
       "weight": 1,
       "reasons": [
         "shared-theme"

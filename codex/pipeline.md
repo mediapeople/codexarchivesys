@@ -1,5 +1,5 @@
 # Codex Archive System - Ingestion Pipeline
-Version: v2.6 support package
+Version: v2.7 go-live package
 Date: 2026-03-07
 
 ## Ingestion Flow
