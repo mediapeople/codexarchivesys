@@ -67,7 +67,7 @@ id: the-bones-hold
 | **Required** | yes |
 | **Applies To** | all |
 | **Renders In** | type badge, layout selection, feed card, graph node shape |
-| **Allowed Values** | `scroll` `artifact` `fieldlog` `codex` `fragment` `nexus` |
+| **Allowed Values** | `scroll` `artifact` `fieldlog` `codex` `fragment` `nexus` `signal` |
 
 Determines layout, card rendering, and relational behavior. Type proliferation must be avoided. Fewer than 10 total types is the hard limit.
 
@@ -874,6 +874,51 @@ releaseType: issue
 
 ---
 
+### TYPE: signal
+
+A signal is a concept-level object. It captures a reusable observation that can connect multiple objects through shared meaning.
+
+---
+
+#### origin
+
+| Property | Value |
+|---|---|
+| **Owner** | llm-suggested (author-confirmed) |
+| **Type** | string |
+| **Required** | no |
+| **Applies To** | signal |
+| **Renders In** | object detail, graph context |
+
+Where this signal came from (for example: derived, observed, inferred).
+
+```yaml
+origin: derived
+```
+
+---
+
+#### markers
+
+| Property | Value |
+|---|---|
+| **Owner** | llm-suggested (author-confirmed) |
+| **Type** | array of strings |
+| **Required** | no |
+| **Applies To** | signal |
+| **Renders In** | signal preview, relation reasoning |
+
+Compact marker vocabulary used to keep the signal stable and reusable.
+
+```yaml
+markers:
+  - recognition-language
+  - naming-structures
+  - refusal-behavior
+```
+
+---
+
 ## LAYER 3: SYSTEM-DERIVED FIELDS
 
 Computed during ingest or build. Never manually maintained. Listed here for completeness and schema awareness.
@@ -922,6 +967,7 @@ Used in: feed card, constellation list
 | codex | excerpt or abstract |
 | fragment | full body (short) |
 | nexus | themeStatement or excerpt |
+| signal | excerpt or marker summary |
 
 ---
 
@@ -939,11 +985,11 @@ Used in: object detail page, related works module
 
 ### graphEdges
 
-Edge list derived from shared themes, constellations, explicit relations, and nexus inclusion.
+Edge list derived from shared themes, constellations, explicit relations, nexus inclusion, and signal linkage.
 
 ```text
 Owner: system-derived
-Computed from: themes, constellations, related, nexus.includedObjects
+Computed from: themes, constellations, related, nexus.includedObjects, signal objects
 Used in: graph view
 Weighted by: edge kind (explicit relation > shared constellation > shared theme)
 ```
@@ -1113,5 +1159,5 @@ Use this protocol to ingest design-evolution signals before proposing any schema
 ---
 
 *Field Registry — Codex Archive System v2.2*  
-*Last updated: 2026-03-06*  
-*Next review: when object count exceeds 50 or a new type is proposed*
+*Last updated: 2026-03-07*  
+*Next review: when object count exceeds 50 or signal schema requires expansion*

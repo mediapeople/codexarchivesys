@@ -17,7 +17,7 @@ constellations: []
 
 related:
   - codex-archive-system-v2-2
-  - codex-archive-system-v2-4-notes
+  - codex-archive-system-v2-5-notes
   - nothing-missing-only-unindexed
 
 media: []

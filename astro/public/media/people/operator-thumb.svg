@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Operator portrait placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7a3c25"/>
+      <stop offset="55%" stop-color="#3f2a22"/>
+      <stop offset="100%" stop-color="#211b1a"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="72%" cy="18%" r="62%">
+      <stop offset="0%" stop-color="#d79f5c" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#d79f5c" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="160" height="160" rx="10" fill="url(#bg)"/>
+  <rect width="160" height="160" rx="10" fill="url(#glow)"/>
+  <circle cx="80" cy="64" r="25" fill="#ccb8a0" fill-opacity="0.85"/>
+  <path d="M35 140c5-28 23-44 45-44s40 16 45 44" fill="#ccb8a0" fill-opacity="0.85"/>
+  <text x="80" y="150" text-anchor="middle" font-family="'Space Mono', monospace" font-size="16" fill="#f2dfc7" letter-spacing="2">ND</text>
+</svg>

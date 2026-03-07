@@ -19,6 +19,7 @@ const ObjectType = z.enum([
   'codex',
   'fragment',
   'nexus',
+  'signal',
 ]);
 
 const Status = z.enum([
@@ -178,6 +179,12 @@ const nexusFields = {
   releaseType:     ReleaseType.optional(),
 };
 
+const signalFields = {
+  ...universalFields,
+  origin:  z.string().optional(),
+  markers: z.array(z.string()).default([]),
+};
+
 // ─── COLLECTION DEFINITIONS ───────────────────────────────────────────────────
 
 export const collections = {
@@ -212,6 +219,11 @@ export const collections = {
     schema: z.object(nexusFields),
   }),
 
+  signal: defineCollection({
+    type:   'content',
+    schema: z.object(signalFields),
+  }),
+
 };
 
 // ─── EXPORTED TYPES ───────────────────────────────────────────────────────────
@@ -232,3 +244,4 @@ export type FieldLogData = z.infer<z.ZodObject<typeof fieldlogFields>>;
 export type CodexData    = z.infer<z.ZodObject<typeof codexFields>>;
 export type FragmentData = z.infer<z.ZodObject<typeof fragmentFields>>;
 export type NexusData    = z.infer<z.ZodObject<typeof nexusFields>>;
+export type SignalData   = z.infer<z.ZodObject<typeof signalFields>>;

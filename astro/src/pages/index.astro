@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ObjectCard from '../components/ObjectCard.astro';
 import { COLLECTIONS, getAllEntries, getTypeLabel } from '../lib/archive';
 import { getMediaItems, pickPrimaryMedia } from '../lib/media';
+import { formatDisplayTitle } from '../lib/headline';
 
 const entries = await getAllEntries();
 const searchParams = Astro.url.searchParams;
@@ -11,6 +12,8 @@ const typeParam = searchParams.get('type');
 const themeParam = searchParams.get('theme');
 const queryParam = (searchParams.get('q') || '').trim();
 const normalizedQuery = queryParam.toLowerCase();
+const viewParam = (searchParams.get('view') || '').trim().toLowerCase();
+const selectedView = viewParam === 'mosaic' ? 'mosaic' : 'stack';
 
 const selectedType = COLLECTIONS.includes(typeParam as (typeof COLLECTIONS)[number])
   ? typeParam
@@ -78,7 +81,19 @@ const entriesWithMedia = entries
   .filter((item) => item.mediaCount > 0)
   .slice(0, 4);
 
-function buildHref(nextType: string | null, nextTheme: string | null, nextQuery: string) {
+const groupedEntries = COLLECTIONS
+  .map((type) => ({
+    type,
+    entries: filteredEntries.filter((entry) => entry.collection === type),
+  }))
+  .filter((group) => group.entries.length > 0);
+
+function buildHref(
+  nextType: string | null,
+  nextTheme: string | null,
+  nextQuery: string,
+  nextView: 'stack' | 'mosaic' = selectedView
+) {
   const params = new URLSearchParams();
   if (nextType) {
     params.set('type', nextType);
@@ -89,48 +104,47 @@ function buildHref(nextType: string | null, nextTheme: string | null, nextQuery:
   if (nextQuery) {
     params.set('q', nextQuery);
   }
+  if (nextView === 'mosaic') {
+    params.set('view', 'mosaic');
+  }
   const qs = params.toString();
   return qs ? `/?${qs}` : '/';
 }
 ---
 
 <BaseLayout title="Codex Archive">
-  <section class="hero">
-    <p class="eyebrow">Codex Archive System</p>
-    <h1>Object-first archive feed</h1>
-    <p class="intro">
-      Scrolls, artifacts, field logs, codex documents, fragments, and nexus issues
-      live as independent objects. Discovery emerges from shared themes,
-      constellations, and explicit relations.
-    </p>
-  </section>
-
-  <section class="stats">
-    <article>
-      <strong>{entries.length}</strong>
-      <span>Objects</span>
-    </article>
-    <article>
-      <strong>{typeCounts.length}</strong>
-      <span>Types in use</span>
-    </article>
-    <article>
-      <strong>{constellationSet.size}</strong>
-      <span>Constellations</span>
-    </article>
-  </section>
-
-  <section class="type-grid">
-    {typeCounts.map((item) => (
-      <article class="type-box">
-        <p>{getTypeLabel(item.type)}</p>
-        <strong>{item.count}</strong>
-      </article>
-    ))}
+  <section class="feed-hero">
+    <p class="feed-label">Object feed</p>
+    <div class="feed-hero-grid">
+      <h1 class="feed-thesis">
+        Objects first. Structure supports retrieval, relation, and close reading.
+      </h1>
+      <aside class="hero-pulse" aria-label="Archive pulse">
+        <p class="pulse-label">Archive pulse</p>
+        <dl class="pulse-grid">
+          <div>
+            <dt>Shown</dt>
+            <dd data-shown-count>{filteredEntries.length}</dd>
+          </div>
+          <div>
+            <dt>Objects</dt>
+            <dd>{entries.length}</dd>
+          </div>
+          <div>
+            <dt>Types</dt>
+            <dd>{typeCounts.length}</dd>
+          </div>
+          <div>
+            <dt>Constellations</dt>
+            <dd>{constellationSet.size}</dd>
+          </div>
+        </dl>
+      </aside>
+    </div>
   </section>
 
   <section class="controls">
-    <form action="/" method="GET" class="search">
+    <form action="/" method="GET" class="search" data-filter-form>
       {selectedType && <input type="hidden" name="type" value={selectedType} />}
       {selectedTheme && <input type="hidden" name="theme" value={selectedTheme} />}
       <input
@@ -140,19 +154,52 @@ function buildHref(nextType: string | null, nextTheme: string | null, nextQuery:
         placeholder="Search title, excerpt, themes..."
       />
       <button type="submit">Search</button>
-      {(selectedType || selectedTheme || queryParam) && (
-        <a href="/">Clear</a>
-      )}
+      <button
+        type="button"
+        class="clear-filters"
+        data-clear-filters
+        hidden={!(selectedType || selectedTheme || queryParam)}
+      >
+        Clear
+      </button>
     </form>
 
+    <div class="view-toggle" role="navigation" aria-label="Feed view">
+      <a
+        class={selectedView === 'stack' ? 'view-chip on' : 'view-chip'}
+        href={buildHref(selectedType, selectedTheme, queryParam, 'stack')}
+        data-view="stack"
+        aria-current={selectedView === 'stack' ? 'true' : 'false'}
+      >
+        Stack
+      </a>
+      <a
+        class={selectedView === 'mosaic' ? 'view-chip on' : 'view-chip'}
+        href={buildHref(selectedType, selectedTheme, queryParam, 'mosaic')}
+        data-view="mosaic"
+        aria-current={selectedView === 'mosaic' ? 'true' : 'false'}
+      >
+        Mosaic
+      </a>
+    </div>
+
     <div class="chip-row">
-      <a class={selectedType ? 'chip' : 'chip on'} href={buildHref(null, selectedTheme, queryParam)}>
+      <a
+        class={selectedType ? 'chip' : 'chip on'}
+        href={buildHref(null, selectedTheme, queryParam, selectedView)}
+        data-filter-kind="type"
+        data-filter-value=""
+        data-filter-label="All Types"
+      >
         All Types
       </a>
       {typeCounts.map((item) => (
         <a
           class={selectedType === item.type ? 'chip on' : 'chip'}
-          href={buildHref(item.type, selectedTheme, queryParam)}
+          href={buildHref(item.type, selectedTheme, queryParam, selectedView)}
+          data-filter-kind="type"
+          data-filter-value={item.type}
+          data-filter-label={getTypeLabel(item.type)}
         >
           {getTypeLabel(item.type)} ({item.count})
         </a>
@@ -160,22 +207,112 @@ function buildHref(nextType: string | null, nextTheme: string | null, nextQuery:
     </div>
 
     <div class="chip-row themes">
-      <a class={selectedTheme ? 'chip' : 'chip on'} href={buildHref(selectedType, null, queryParam)}>
+      <a
+        class={selectedTheme ? 'chip' : 'chip on'}
+        href={buildHref(selectedType, null, queryParam, selectedView)}
+        data-filter-kind="theme"
+        data-filter-value=""
+        data-filter-label="All Themes"
+      >
         All Themes
       </a>
       {sortedThemes.slice(0, 16).map(([theme, count]) => (
         <a
           class={selectedTheme === theme ? 'chip on' : 'chip'}
-          href={buildHref(selectedType, theme, queryParam)}
+          href={buildHref(selectedType, theme, queryParam, selectedView)}
+          data-filter-kind="theme"
+          data-filter-value={theme}
+          data-filter-label={theme}
         >
           {theme} ({count})
         </a>
       ))}
     </div>
 
-    <p class="result-count">
-      Showing {filteredEntries.length} of {entries.length} objects
+    <p
+      class="active-filters"
+      data-active-filters
+      hidden={!(selectedType || selectedTheme || queryParam)}
+    >
+      Active filters: {
+        [
+          selectedType ? `Type: ${getTypeLabel(selectedType)}` : null,
+          selectedTheme ? `Theme: ${selectedTheme}` : null,
+          queryParam ? `Search: "${queryParam}"` : null,
+        ]
+          .filter(Boolean)
+          .join(' · ')
+      }
     </p>
+
+    <p class="result-count" data-result-count>Showing {filteredEntries.length} of {entries.length} objects</p>
+  </section>
+
+  <section class="feed" data-total-count={entries.length} data-view={selectedView}>
+    {filteredEntries.length === 0 ? (
+      <article class="empty-state">
+        <h2>No matches</h2>
+        <p>Try clearing one filter or using a broader search term.</p>
+      </article>
+    ) : (
+      <>
+        <div class="stack-view" data-feed-view="stack" hidden={selectedView === 'mosaic'}>
+          {groupedEntries.map((group) => (
+            <section class={`type-section ${group.type}`} data-type={group.type}>
+              <header class="type-head">
+                <h2>{getTypeLabel(group.type)}</h2>
+                <span data-section-count>{group.entries.length} objects</span>
+              </header>
+              <div class="type-list">
+                {group.entries.map((entry) => (
+                  <ObjectCard entry={entry} />
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+        <div class="mosaic-view" data-feed-view="mosaic" hidden={selectedView !== 'mosaic'}>
+          {filteredEntries.map((entry) => (
+            <ObjectCard entry={entry} variant="mosaic" />
+          ))}
+        </div>
+      </>
+    )}
+    <article class="empty-state is-dynamic" data-empty-state hidden>
+      <h2>No matches</h2>
+      <p>Try clearing one filter or using a broader search term.</p>
+    </article>
+  </section>
+
+  <section class="atlas">
+    <header>
+      <p>Archive atlas</p>
+      <span>System signal stays below the object list.</span>
+    </header>
+
+    <section class="stats">
+      <article>
+        <strong>{entries.length}</strong>
+        <span>Objects</span>
+      </article>
+      <article>
+        <strong>{typeCounts.length}</strong>
+        <span>Types in use</span>
+      </article>
+      <article>
+        <strong>{constellationSet.size}</strong>
+        <span>Constellations</span>
+      </article>
+    </section>
+
+    <section class="type-grid">
+      {typeCounts.map((item) => (
+        <article class="type-box">
+          <p>{getTypeLabel(item.type)}</p>
+          <strong>{item.count}</strong>
+        </article>
+      ))}
+    </section>
   </section>
 
   {entriesWithMedia.length > 0 && (
@@ -196,11 +333,11 @@ function buildHref(nextType: string | null, nextTheme: string | null, nextQuery:
               />
             ) : (
               <div class="media-fallback">
-                {item.primaryMedia ? item.primaryMedia.kind.toUpperCase() : 'MEDIA'}
+                {item.primaryMedia ? item.primaryMedia.kind : 'media'}
               </div>
             )}
             <div class="tile-meta">
-              <strong>{item.entry.data.title}</strong>
+              <strong>{formatDisplayTitle(item.entry.data.title)}</strong>
               <span>{item.mediaCount} media items</span>
             </div>
           </a>
@@ -208,257 +345,757 @@ function buildHref(nextType: string | null, nextTheme: string | null, nextQuery:
       </div>
     </section>
   )}
-
-  <section class="feed">
-    {filteredEntries.length === 0 ? (
-      <article class="empty-state">
-        <h2>No matches</h2>
-        <p>Try clearing one filter or using a broader search term.</p>
-      </article>
-    ) : (
-      filteredEntries.map((entry) => (
-        <ObjectCard entry={entry} />
-      ))
-    )}
-  </section>
 </BaseLayout>
 
+<script is:inline>
+  (() => {
+    const form = document.querySelector('[data-filter-form]');
+    const feed = document.querySelector('.feed[data-total-count]');
+    if (!form || !feed) {
+      return;
+    }
+
+    const searchInput = form.querySelector('input[name="q"]');
+    const clearButton = form.querySelector('[data-clear-filters]');
+    const resultCount = document.querySelector('[data-result-count]');
+    const shownCount = document.querySelector('[data-shown-count]');
+    const activeFilters = document.querySelector('[data-active-filters]');
+    const emptyState = feed.querySelector('[data-empty-state]');
+    const stackView = feed.querySelector('[data-feed-view="stack"]');
+    const mosaicView = feed.querySelector('[data-feed-view="mosaic"]');
+    const sections = Array.from(feed.querySelectorAll('.stack-view .type-section[data-type]'));
+    const stackCards = Array.from(feed.querySelectorAll('.stack-view .card[data-type]'));
+    const mosaicCards = Array.from(feed.querySelectorAll('.mosaic-view .card[data-type]'));
+    const typeChips = Array.from(document.querySelectorAll('.chip[data-filter-kind="type"]'));
+    const themeChips = Array.from(document.querySelectorAll('.chip[data-filter-kind="theme"]'));
+    const viewChips = Array.from(document.querySelectorAll('.view-chip[data-view]'));
+
+    const totalCount = Number(feed.getAttribute('data-total-count') || stackCards.length || mosaicCards.length);
+    const validTypes = new Set(
+      typeChips
+        .map((chip) => chip.getAttribute('data-filter-value') || '')
+        .filter(Boolean)
+    );
+    const validThemes = new Set(
+      themeChips
+        .map((chip) => chip.getAttribute('data-filter-value') || '')
+        .filter(Boolean)
+    );
+    const validViews = new Set(
+      viewChips
+        .map((chip) => (chip.getAttribute('data-view') || '').trim())
+        .filter(Boolean)
+    );
+
+    const state = {
+      type: '',
+      theme: '',
+      q: '',
+      view: 'stack',
+    };
+
+    const objectLabel = (count) => `${count} object${count === 1 ? '' : 's'}`;
+
+    function parseUrlState() {
+      const params = new URLSearchParams(window.location.search);
+      const urlType = (params.get('type') || '').trim();
+      const urlTheme = (params.get('theme') || '').trim();
+      const urlView = (params.get('view') || '').trim().toLowerCase();
+      state.type = validTypes.has(urlType) ? urlType : '';
+      state.theme = validThemes.has(urlTheme) ? urlTheme : '';
+      state.q = (params.get('q') || '').trim();
+      state.view = validViews.has(urlView) ? urlView : 'stack';
+    }
+
+    function updateUrlState() {
+      const params = new URLSearchParams();
+      if (state.type) {
+        params.set('type', state.type);
+      }
+      if (state.theme) {
+        params.set('theme', state.theme);
+      }
+      if (state.q) {
+        params.set('q', state.q);
+      }
+      if (state.view === 'mosaic') {
+        params.set('view', 'mosaic');
+      }
+      const qs = params.toString();
+      const next = qs ? `/?${qs}` : '/';
+      window.history.replaceState({}, '', next);
+    }
+
+    function setChipState(chips, activeValue) {
+      chips.forEach((chip) => {
+        const value = chip.getAttribute('data-filter-value') || '';
+        const active = activeValue ? value === activeValue : value === '';
+        chip.classList.toggle('on', active);
+        chip.setAttribute('aria-current', active ? 'true' : 'false');
+      });
+    }
+
+    function setViewChipState(activeView) {
+      viewChips.forEach((chip) => {
+        const value = (chip.getAttribute('data-view') || '').trim();
+        const active = value === activeView;
+        chip.classList.toggle('on', active);
+        chip.setAttribute('aria-current', active ? 'true' : 'false');
+      });
+    }
+
+    function updateActiveFilterLabel() {
+      if (!activeFilters) {
+        return;
+      }
+      const bits = [];
+      if (state.type) {
+        const typeChip = typeChips.find(
+          (chip) => (chip.getAttribute('data-filter-value') || '').trim() === state.type
+        );
+        const label = typeChip?.getAttribute('data-filter-label') || state.type;
+        bits.push(`Type: ${label}`);
+      }
+      if (state.theme) {
+        const themeChip = themeChips.find(
+          (chip) => (chip.getAttribute('data-filter-value') || '').trim() === state.theme
+        );
+        const label = themeChip?.getAttribute('data-filter-label') || state.theme;
+        bits.push(`Theme: ${label}`);
+      }
+      if (state.q) {
+        bits.push(`Search: "${state.q}"`);
+      }
+
+      const hasActive = bits.length > 0;
+      activeFilters.hidden = !hasActive;
+      activeFilters.textContent = hasActive ? `Active filters: ${bits.join(' · ')}` : '';
+    }
+
+    function cardMatches(card) {
+      const cardType = (card.getAttribute('data-type') || '').trim();
+      const cardThemes = (card.getAttribute('data-themes') || '')
+        .split('|')
+        .map((item) => item.trim())
+        .filter(Boolean);
+      const searchCorpus = (card.getAttribute('data-search') || '').toLowerCase();
+      const query = state.q.toLowerCase();
+
+      if (state.type && cardType !== state.type) {
+        return false;
+      }
+      if (state.theme && !cardThemes.includes(state.theme)) {
+        return false;
+      }
+      if (query && !searchCorpus.includes(query)) {
+        return false;
+      }
+      return true;
+    }
+
+    function applyFilters() {
+      let shown = 0;
+
+      if (sections.length > 0) {
+        sections.forEach((section) => {
+          let sectionShown = 0;
+          const sectionCards = Array.from(section.querySelectorAll('.card[data-type]'));
+
+          sectionCards.forEach((card) => {
+            const visible = cardMatches(card);
+            card.hidden = !visible;
+            card.style.display = visible ? '' : 'none';
+            if (visible) {
+              shown += 1;
+              sectionShown += 1;
+            }
+          });
+
+          const countNode = section.querySelector('[data-section-count]');
+          if (countNode) {
+            countNode.textContent = objectLabel(sectionShown);
+          }
+
+          section.hidden = sectionShown === 0;
+          section.style.display = sectionShown === 0 ? 'none' : '';
+        });
+      } else {
+        stackCards.forEach((card) => {
+          const visible = cardMatches(card);
+          card.hidden = !visible;
+          card.style.display = visible ? '' : 'none';
+          if (visible) {
+            shown += 1;
+          }
+        });
+      }
+
+      mosaicCards.forEach((card) => {
+        const visible = cardMatches(card);
+        card.hidden = !visible;
+        card.style.display = visible ? '' : 'none';
+      });
+
+      if (stackView) {
+        stackView.hidden = state.view !== 'stack';
+      }
+      if (mosaicView) {
+        mosaicView.hidden = state.view !== 'mosaic';
+      }
+
+      if (resultCount) {
+        resultCount.textContent = `Showing ${shown} of ${totalCount} objects`;
+      }
+      if (shownCount) {
+        shownCount.textContent = String(shown);
+      }
+      if (emptyState) {
+        emptyState.hidden = shown !== 0;
+      }
+      if (searchInput && searchInput.value !== state.q) {
+        searchInput.value = state.q;
+      }
+      if (clearButton) {
+        clearButton.hidden = !(state.type || state.theme || state.q);
+      }
+
+      setChipState(typeChips, state.type);
+      setChipState(themeChips, state.theme);
+      setViewChipState(state.view);
+      updateActiveFilterLabel();
+    }
+
+    typeChips.forEach((chip) => {
+      chip.addEventListener('click', (event) => {
+        event.preventDefault();
+        state.type = (chip.getAttribute('data-filter-value') || '').trim();
+        updateUrlState();
+        applyFilters();
+      });
+    });
+
+    themeChips.forEach((chip) => {
+      chip.addEventListener('click', (event) => {
+        event.preventDefault();
+        state.theme = (chip.getAttribute('data-filter-value') || '').trim();
+        updateUrlState();
+        applyFilters();
+      });
+    });
+
+    viewChips.forEach((chip) => {
+      chip.addEventListener('click', (event) => {
+        event.preventDefault();
+        const requestedView = (chip.getAttribute('data-view') || '').trim();
+        state.view = validViews.has(requestedView) ? requestedView : 'stack';
+        updateUrlState();
+        applyFilters();
+      });
+    });
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      state.q = (searchInput?.value || '').trim();
+      updateUrlState();
+      applyFilters();
+    });
+
+    clearButton?.addEventListener('click', () => {
+      state.type = '';
+      state.theme = '';
+      state.q = '';
+      updateUrlState();
+      applyFilters();
+    });
+
+    window.addEventListener('popstate', () => {
+      parseUrlState();
+      applyFilters();
+    });
+
+    parseUrlState();
+    applyFilters();
+  })();
+</script>
+
 <style>
-  .hero {
-    margin-bottom: 1.1rem;
-    padding: 1.2rem 1.1rem;
-    border: 1px solid rgba(175, 163, 121, 0.28);
-    border-radius: 18px;
-    background:
-      radial-gradient(circle at 85% 22%, rgba(237, 199, 111, 0.16), transparent 40%),
-      linear-gradient(160deg, rgba(19, 21, 30, 0.86), rgba(17, 20, 27, 0.86));
+  .feed-hero,
+  .controls,
+  .feed,
+  .atlas,
+  .media-strip {
+    padding-inline: clamp(0.45rem, 0.95vw, 1rem);
   }
 
-  .eyebrow {
+  .feed-hero {
     margin: 0;
+    padding: 6.4rem 0 4.8rem;
+  }
+
+  .feed-label {
+    margin: 0 0 0.45rem;
     color: var(--accent);
+    font-family: var(--font-ui);
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-size: 0.72rem;
-    font-weight: 600;
+    letter-spacing: var(--ls-label);
+    font-size: 10px;
+    font-weight: 400;
   }
 
-  h1 {
-    margin: 0.35rem 0 0.45rem;
-    color: var(--text-strong);
-    font-size: clamp(1.7rem, 4vw, 2.5rem);
-    line-height: 1.08;
-  }
-
-  .intro {
-    margin: 0;
-    max-width: 72ch;
-    color: var(--text-body);
-    line-height: 1.45;
-  }
-
-  .stats {
-    margin: 0 0 0.9rem;
+  .feed-hero-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.7rem;
+    grid-template-columns: minmax(0, 1fr) minmax(250px, 320px);
+    gap: 2.6rem 3.4rem;
+    align-items: end;
   }
 
-  .stats article {
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 0.75rem;
-    background: rgba(15, 18, 26, 0.48);
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-  }
-
-  .stats strong {
-    color: var(--text-strong);
-    font-size: 1.35rem;
-    line-height: 1;
-  }
-
-  .stats span {
-    color: var(--text-dim);
-    font-size: 0.82rem;
-    letter-spacing: 0.03em;
-  }
-
-  .type-grid {
-    margin: 0 0 1rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 0.55rem;
-  }
-
-  .type-box {
-    border: 1px dashed rgba(194, 184, 151, 0.3);
-    border-radius: 12px;
-    padding: 0.65rem 0.75rem;
-    background: rgba(21, 24, 33, 0.44);
-  }
-
-  .type-box p {
+  .feed-thesis {
     margin: 0;
-    font-size: 0.76rem;
-    color: var(--text-dim);
+    max-width: 22ch;
+    color: var(--bone);
+    font-size: clamp(2.2rem, 4.3vw, 4rem);
+    line-height: 1.1;
+    letter-spacing: -0.004em;
+  }
+
+  .hero-pulse {
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
+    padding: 1.15rem 1rem 1.05rem;
+    border-radius: 2px;
+  }
+
+  .pulse-label {
+    margin: 0 0 0.75rem;
+    color: var(--accent);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-label);
     text-transform: uppercase;
-    letter-spacing: 0.08em;
   }
 
-  .type-box strong {
-    color: var(--text-strong);
-    font-size: 1.2rem;
-  }
-
-  .feed {
+  .pulse-grid {
+    margin: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 0.8rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem 1rem;
+  }
+
+  .pulse-grid div {
+    min-width: 0;
+  }
+
+  .pulse-grid dt {
+    margin: 0;
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui);
+    text-transform: uppercase;
+  }
+
+  .pulse-grid dd {
+    margin: 0.1rem 0 0;
+    color: var(--star);
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+    line-height: 1.1;
+    letter-spacing: var(--ls-display);
   }
 
   .controls {
-    margin: 0 0 1rem;
-    border: 1px solid rgba(177, 166, 132, 0.24);
-    border-radius: 14px;
-    padding: 0.75rem;
-    background: rgba(16, 19, 28, 0.62);
+    margin: 0 0 6rem;
+    padding: 0;
+    background: transparent;
   }
 
   .search {
     display: flex;
-    gap: 0.45rem;
+    gap: 1rem;
     flex-wrap: wrap;
-    margin-bottom: 0.7rem;
+    margin-bottom: 1.35rem;
   }
 
   .search input {
-    flex: 1 1 260px;
+    flex: 1 1 340px;
     min-width: 0;
-    border: 1px solid rgba(177, 166, 132, 0.35);
-    border-radius: 10px;
-    padding: 0.5rem 0.65rem;
-    background: rgba(13, 16, 23, 0.72);
-    color: var(--text-strong);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    padding: 0.68rem 0.85rem;
+    background: rgba(255, 255, 255, 0.01);
+    color: var(--text-body);
+    font-family: var(--font-ui);
+    font-size: 13px;
+    line-height: 1.6;
+    letter-spacing: var(--ls-ui);
+  }
+
+  .search input:focus {
+    outline: none;
+    border-color: var(--gold);
   }
 
   .search button,
   .search a {
-    border: 1px solid rgba(177, 166, 132, 0.45);
-    border-radius: 10px;
-    padding: 0.46rem 0.72rem;
-    background: rgba(31, 36, 49, 0.8);
-    color: var(--text-body);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    padding: 0.65rem 0.95rem;
+    background: rgba(255, 255, 255, 0.01);
+    color: var(--ash);
+    font-family: var(--font-ui);
     text-decoration: none;
-    font-size: 0.86rem;
+    font-size: 12px;
+    letter-spacing: var(--ls-ui);
+    line-height: 1.2;
   }
 
   .search button:hover,
   .search a:hover {
-    border-color: rgba(236, 205, 119, 0.8);
-    color: var(--text-strong);
+    border-color: var(--gold);
+    color: var(--star);
+  }
+
+  .clear-filters[hidden] {
+    display: none;
+  }
+
+  .view-toggle {
+    display: inline-flex;
+    gap: 0.52rem;
+    margin: 0 0 1.25rem;
+  }
+
+  .view-chip {
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 2px;
+    padding: 0.3rem 0.7rem;
+    color: var(--mid);
+    font-family: var(--font-ui);
+    text-decoration: none;
+    font-size: 10px;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+    transition: 0.12s;
+  }
+
+  .view-chip:hover {
+    color: var(--star);
+    border-color: rgba(201, 150, 58, 0.52);
+  }
+
+  .view-chip.on {
+    color: #efc887;
+    border-color: rgba(201, 150, 58, 0.64);
+    background: rgba(201, 150, 58, 0.11);
   }
 
   .chip-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
-    margin-bottom: 0.45rem;
+    gap: 0.8rem;
+    margin-bottom: 1.2rem;
   }
 
   .chip {
-    border: 1px solid rgba(143, 153, 176, 0.42);
-    border-radius: 999px;
-    padding: 0.2rem 0.6rem;
-    color: #b7c0d7;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    padding: 0.2rem 0.45rem;
+    color: var(--mid);
+    font-family: var(--font-ui);
     text-decoration: none;
-    font-size: 0.75rem;
+    font-size: 11px;
+    letter-spacing: var(--ls-ui);
+    transition: 0.12s;
+  }
+
+  .chip:hover {
+    color: var(--parchment);
+    border-color: transparent;
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 255, 255, 0.28);
+    text-underline-offset: 0.2em;
   }
 
   .chip.on {
-    border-color: rgba(236, 205, 119, 0.85);
-    color: #f1d798;
-    background: rgba(60, 49, 18, 0.45);
-  }
-
-  .themes .chip {
-    border-color: rgba(112, 210, 167, 0.45);
-    color: #9ad8be;
+    border-color: var(--goldd);
+    color: #f2dfc6;
+    background: rgba(196, 98, 58, 0.09);
+    text-decoration: none;
   }
 
   .themes .chip.on {
-    border-color: rgba(112, 210, 167, 0.95);
-    background: rgba(27, 58, 49, 0.45);
+    border-color: var(--gold);
+    color: #e5c487;
+    background: rgba(201, 150, 58, 0.1);
   }
 
   .result-count {
-    margin: 0.45rem 0 0;
-    color: var(--text-dim);
-    font-size: 0.82rem;
+    margin: 1.5rem 0 0;
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 12px;
+    letter-spacing: var(--ls-ui);
+  }
+
+  .active-filters {
+    margin: 0.35rem 0 0;
+    color: var(--accent);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+  }
+
+  .active-filters[hidden] {
+    display: none;
+  }
+
+  .feed {
+    display: block;
+  }
+
+  .stack-view {
+    display: grid;
+    gap: 6.2rem;
+  }
+
+  .stack-view[hidden],
+  .mosaic-view[hidden] {
+    display: none !important;
+  }
+
+  .mosaic-view {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 1rem;
+    grid-auto-flow: dense;
+  }
+
+  .mosaic-view > :global(.card.mosaic) {
+    grid-column: span 4;
+    margin: 0;
+  }
+
+  .mosaic-view > :global(.card.mosaic:nth-child(7n + 1)) {
+    grid-column: span 6;
+  }
+
+  .mosaic-view > :global(.card.mosaic:nth-child(9n + 4)) {
+    grid-column: span 5;
+  }
+
+  .mosaic-view > :global(.card.mosaic:nth-child(11n + 7)) {
+    grid-column: span 3;
+  }
+
+  .type-section {
+    display: grid;
+    gap: 2.6rem;
+  }
+
+  .type-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.7rem 1.2rem;
+    padding-bottom: 0.25rem;
+  }
+
+  .type-head h2 {
+    margin: 0;
+    color: var(--accent);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    line-height: 1.25;
+  }
+
+  .type-head h2::after {
+    content: '';
+    width: 2.5rem;
+    height: 1px;
+    background: rgba(196, 98, 58, 0.42);
+  }
+
+  .type-head span {
+    color: var(--ghost);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+  }
+
+  .type-list {
+    display: grid;
+    gap: 3.8rem;
   }
 
   .empty-state {
-    border: 1px dashed rgba(179, 169, 137, 0.38);
-    border-radius: 14px;
-    padding: 1rem;
-    background: rgba(19, 23, 32, 0.72);
+    padding: 1.1rem 0;
+    background: transparent;
+  }
+
+  .empty-state.is-dynamic[hidden] {
+    display: none;
   }
 
   .empty-state h2 {
-    margin: 0 0 0.3rem;
-    color: var(--text-strong);
-    font-size: 1.08rem;
+    margin: 0 0 0.4rem;
+    color: var(--star);
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: var(--ls-display);
   }
 
   .empty-state p {
     margin: 0;
     color: var(--text-body);
+    font-size: 1.02rem;
+    line-height: 1.78;
+  }
+
+  .atlas {
+    margin-top: 10rem;
+    padding-top: 0;
+  }
+
+  .atlas header {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.55rem 1rem;
+    margin-bottom: 2.3rem;
+  }
+
+  .atlas header p {
+    margin: 0;
+    color: var(--accent);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+  }
+
+  .atlas header span {
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: var(--ls-ui);
+  }
+
+  .stats {
+    margin: 0 0 2.3rem;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2.4rem;
+  }
+
+  .stats article {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .stats strong {
+    color: var(--star);
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.9vw, 2.95rem);
+    line-height: 1;
+    letter-spacing: var(--ls-display);
+  }
+
+  .stats span {
+    color: var(--dim);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+  }
+
+  .type-grid {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.3rem;
+  }
+
+  .type-box {
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    border-radius: 2px;
+    padding: 0.7rem 0.9rem 0.82rem;
+    background: transparent;
+  }
+
+  .type-box p {
+    margin: 0 0 0.35rem;
+    font-family: var(--font-ui);
+    font-size: 10px;
+    color: var(--dim);
+    letter-spacing: var(--ls-ui-wide);
+  }
+
+  .type-box strong {
+    color: var(--star);
+    font-family: var(--font-display);
+    font-size: 1.9rem;
+    letter-spacing: var(--ls-display);
   }
 
   .media-strip {
-    margin: 0 0 1rem;
-    border: 1px solid rgba(167, 156, 125, 0.34);
-    border-radius: 16px;
-    background: rgba(17, 21, 30, 0.74);
-    padding: 0.75rem;
+    margin: 8rem 0 2.8rem;
+    background: transparent;
+    padding: 0;
   }
 
   .media-strip header {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 0.4rem;
-    margin-bottom: 0.55rem;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
   }
 
   .media-strip p {
     margin: 0;
-    color: #7ecfb6;
+    color: var(--accent);
+    font-family: var(--font-ui);
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-size: 0.72rem;
-    font-weight: 700;
+    letter-spacing: var(--ls-label);
+    font-size: 10px;
+    font-weight: 400;
   }
 
   .media-strip span {
-    color: var(--text-dim);
-    font-size: 0.78rem;
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: var(--ls-ui);
   }
 
   .media-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 0.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2.3rem;
   }
 
   .media-tile {
     text-decoration: none;
-    border: 1px solid rgba(161, 151, 125, 0.32);
-    border-radius: 12px;
+    border: none;
+    border-bottom: none;
     overflow: hidden;
-    background: rgba(11, 15, 24, 0.74);
+    background: transparent;
+    transition: 0.12s;
+  }
+
+  .media-tile:hover {
+    border-color: var(--ghost);
   }
 
   .media-tile img {
@@ -474,32 +1111,88 @@ function buildHref(nextType: string | null, nextTheme: string | null, nextQuery:
     display: grid;
     place-items: center;
     color: var(--text-dim);
-    font-size: 0.78rem;
-    letter-spacing: 0.08em;
-    background: linear-gradient(160deg, rgba(85, 146, 126, 0.28), rgba(56, 83, 107, 0.2));
+    font-size: 10px;
+    letter-spacing: var(--ls-ui);
+    text-transform: capitalize;
+    background: linear-gradient(160deg, rgba(90, 223, 138, 0.2), rgba(28, 28, 22, 0.42));
   }
 
   .tile-meta {
-    padding: 0.45rem 0.5rem 0.52rem;
+    padding: 1.15rem 0 0;
     display: grid;
-    gap: 0.2rem;
+    gap: 0.55rem;
   }
 
   .tile-meta strong {
-    color: var(--text-strong);
-    font-size: 0.83rem;
-    line-height: 1.25;
-    font-weight: 600;
+    color: var(--star);
+    font-size: 1.42rem;
+    line-height: 1.35;
+    font-style: italic;
+    font-weight: 700;
   }
 
   .tile-meta span {
-    color: var(--text-dim);
-    font-size: 0.73rem;
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 12px;
+    letter-spacing: var(--ls-ui);
   }
 
   @media (max-width: 700px) {
+    .feed-hero {
+      padding-top: 3.8rem;
+      padding-bottom: 3rem;
+    }
+
+    .feed-hero-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .feed-thesis {
+      font-size: 1.7rem;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .mosaic-view {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.72rem;
+    }
+
+    .mosaic-view > :global(.card.mosaic),
+    .mosaic-view > :global(.card.mosaic:nth-child(7n + 1)),
+    .mosaic-view > :global(.card.mosaic:nth-child(9n + 4)),
+    .mosaic-view > :global(.card.mosaic:nth-child(11n + 7)) {
+      grid-column: span 1;
+    }
+
+    .pulse-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     .stats {
       grid-template-columns: 1fr;
+    }
+
+    .atlas {
+      margin-top: 5.8rem;
+    }
+  }
+
+  @media (max-width: 1040px) and (min-width: 701px) {
+    .mosaic-view {
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+    }
+
+    .mosaic-view > :global(.card.mosaic) {
+      grid-column: span 4;
+    }
+
+    .mosaic-view > :global(.card.mosaic:nth-child(7n + 1)),
+    .mosaic-view > :global(.card.mosaic:nth-child(9n + 4)),
+    .mosaic-view > :global(.card.mosaic:nth-child(11n + 7)) {
+      grid-column: span 4;
     }
   }
 </style>

@@ -23,7 +23,7 @@ related:
   - north-georgia-week-2
   - nothing-missing-only-unindexed
   - maintenance-without-cure
-  - codex-archive-system-v2-4-notes
+  - codex-archive-system-v2-5-notes
 
 media: []
 

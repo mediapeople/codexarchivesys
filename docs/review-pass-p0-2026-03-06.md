@@ -40,7 +40,7 @@ Scope: first 6 prioritized draft objects from the work order.
 - `archive-box-stamped-fragments`
 - `studio-log-adhesive-test-run`
 - `nothing-missing-only-unindexed`
-- `codex-archive-system-v2-4-notes`
+- `codex-archive-system-v2-5-notes`
 
 ## Slice 2 Decisions (Executed)
 
@@ -64,7 +64,7 @@ Scope: first 6 prioritized draft objects from the work order.
   - Compact aphoristic fragment with strong system-memory fit.
   - Relation placement supports both nexus and artifact threads.
 
-- `codex-archive-system-v2-4-notes` — `keep`
+- `codex-archive-system-v2-5-notes` — `keep`
   - Good MVP operations framing and bounded change scope.
   - Dependencies and related fields are coherent with active object graph.
 

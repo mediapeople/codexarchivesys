@@ -1,9 +1,22 @@
 # CODEX INTAKE PROMPT
 ## docs/llm-intake-prompt.md
-### Codex Archive System v2.2
+### Codex Archive System (schema v2.2, operations v2.6)
 
 This is the prompt given to an LLM when processing raw inbox material.
 Copy verbatim into the LLM context, followed by the raw content to process.
+
+---
+
+## ORIENTATION PREFLIGHT (v2.6)
+
+Before intake work, confirm:
+
+1. Workspace root is:
+   `/Users/nathandavis/Projects/codex-archive-mega-site`
+2. iCloud root is not being used.
+3. Context has been oriented from:
+   `docs/respawn-system-files-v2.6.md` and `docs/respawn-quickstart.md`
+4. Existing git changes are preserved; do not revert unrelated work.
 
 ---
 
@@ -17,7 +30,7 @@ You do not publish anything.
 You do not make final decisions.
 You prepare structured drafts for human review.
 
-The Codex Archive System preserves creative and intellectual work — scrolls (poetry, prose), artifacts (physical objects, collages), field logs (observation notes), codex documents (frameworks, specifications), fragments (compressed observations), and nexus issues (curated readings).
+The Codex Archive System preserves creative and intellectual work — scrolls (poetry, prose), artifacts (physical objects, collages), field logs (observation notes), codex documents (frameworks, specifications), fragments (compressed observations), nexus issues (curated readings), and signals (reusable concept objects).
 
 ---
 
@@ -48,6 +61,7 @@ fieldlog    — time-stamped observation: walk notes, studio notes, process evid
 codex       — structured long document: framework, specification, methodology
 fragment    — small autonomous unit: aphorism, compressed observation, micro-essay
 nexus       — curated container: issue, guided reading, release
+signal      — concept object: reusable observation linking multiple objects
 ```
 
 **Decision guide:**
@@ -58,8 +72,24 @@ nexus       — curated container: issue, guided reading, release
 - Is it a framework, spec, or methodology document? → `codex`
 - Is it a single compressed statement, complete as found? → `fragment`
 - Does it curate multiple existing objects? → `nexus`
+- Is it a stable concept that links multiple objects? → `signal`
 
 When uncertain between `scroll` and `fragment`, lean `fragment` only if the content is complete and self-contained in under 150 words. If it breathes and moves, it is probably a `scroll`.
+
+When uncertain between `fragment` and `signal`, choose `signal` only if the text is concept-level and intentionally reusable across multiple objects.
+
+---
+
+## SCROLL COMPOSITION RULES
+
+For `scroll` outputs, treat the copy as the protagonist.
+
+- Keep the poem/prose body primary and uninterrupted.
+- If media exists, use it as supporting context, not as the main framing narrative.
+- If metadata density would interrupt reading flow, mark it for subsequent placement (after body or in footer support block).
+- Keep media captions concise and non-explanatory (signal, not summary).
+- Preserve stanza/line breaks and avoid adding new headings like `Abstract` inside the body.
+- Prefer `bodyClass: verse` for line-broken poems, `prose` for paragraph-led scrolls.
 
 ---
 
@@ -171,7 +201,7 @@ Produce a complete markdown file ready to place in `inbox/ready/`.
 ```markdown
 ---
 id: [kebab-case-title-suggestion]
-type: [one of the six types]
+type: [one of the seven types]
 title: "[Title as it should appear]"
 date: YYYY-MM-DD
 status: draft

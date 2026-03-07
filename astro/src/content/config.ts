@@ -19,6 +19,7 @@ const ObjectType = z.enum([
   'codex',
   'fragment',
   'nexus',
+  'signal',
 ]);
 
 const Status = z.enum([
@@ -86,6 +87,16 @@ const Voice = z.enum([
   'mythological',
 ]);
 
+const Contributor = z.object({
+  id: z.string().optional(),
+  name: z.string(),
+  designation: z.string().optional(),
+  role: z.string().optional(),
+  handle: z.string().optional(),
+  avatar: z.string().optional(),
+  bio: z.string().optional(),
+});
+
 // ─── MEDIA OBJECT ─────────────────────────────────────────────────────────────
 
 const MediaItem = z.object({
@@ -117,8 +128,11 @@ const universalFields = {
   themes:         z.array(z.string()).default([]),
   constellations: z.array(z.string()).default([]),
   related:        z.array(z.string()).default([]),
+  source:         z.string().optional(),
   visibility:     Visibility,
   media:          z.array(MediaItem).default([]),
+  author:         Contributor.optional(),
+  contributors:   z.array(Contributor).default([]),
 };
 
 // ─── TYPE FIELD SETS ──────────────────────────────────────────────────────────
@@ -178,6 +192,12 @@ const nexusFields = {
   releaseType:     ReleaseType.optional(),
 };
 
+const signalFields = {
+  ...universalFields,
+  origin:  z.string().optional(),
+  markers: z.array(z.string()).default([]),
+};
+
 // ─── COLLECTION DEFINITIONS ───────────────────────────────────────────────────
 
 export const collections = {
@@ -212,6 +232,11 @@ export const collections = {
     schema: z.object(nexusFields),
   }),
 
+  signal: defineCollection({
+    type:   'content',
+    schema: z.object(signalFields),
+  }),
+
 };
 
 // ─── EXPORTED TYPES ───────────────────────────────────────────────────────────
@@ -225,6 +250,7 @@ export type CodexMediaKind     = z.infer<typeof MediaKind>;
 export type CodexMediaRole     = z.infer<typeof MediaRole>;
 export type CodexReleaseType   = z.infer<typeof ReleaseType>;
 export type CodexBodyClass     = z.infer<typeof BodyClass>;
+export type CodexContributor   = z.infer<typeof Contributor>;
 
 export type ScrollData   = z.infer<z.ZodObject<typeof scrollFields>>;
 export type ArtifactData = z.infer<z.ZodObject<typeof artifactFields>>;
@@ -232,3 +258,4 @@ export type FieldLogData = z.infer<z.ZodObject<typeof fieldlogFields>>;
 export type CodexData    = z.infer<z.ZodObject<typeof codexFields>>;
 export type FragmentData = z.infer<z.ZodObject<typeof fragmentFields>>;
 export type NexusData    = z.infer<z.ZodObject<typeof nexusFields>>;
+export type SignalData   = z.infer<z.ZodObject<typeof signalFields>>;

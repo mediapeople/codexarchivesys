@@ -2,9 +2,11 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import TypeBadge from '../../components/TypeBadge.astro';
 import ObjectCard from '../../components/ObjectCard.astro';
-import { getAllEntries, getTypeLabel } from '../../lib/archive';
+import { getAllEntries } from '../../lib/archive';
 import { computeRelatedEntries } from '../../lib/relations';
 import { formatMediaLabel, getMediaItems, pickPrimaryMedia } from '../../lib/media';
+import { formatDisplayTitle } from '../../lib/headline';
+import { getAuthorInitials, getAuthorProfiles } from '../../lib/author';
 
 export async function getStaticPaths() {
   const entries = await getAllEntries();
@@ -80,6 +82,7 @@ const optionalFieldLabels: Record<string, string> = {
   lengthClass: 'Length Class',
   voice: 'Voice',
   origin: 'Origin',
+  markers: 'Markers',
   themeStatement: 'Theme Statement',
   releaseType: 'Release Type',
 };
@@ -103,69 +106,60 @@ const readableDate = entry.data.date.toLocaleDateString('en-US', {
   month: 'long',
   day: 'numeric',
 });
+const displayTitle = formatDisplayTitle(entry.data.title);
+const bodyClassRaw = (entry.data as Record<string, unknown>).bodyClass;
+const bodyClass = typeof bodyClassRaw === 'string' ? bodyClassRaw : 'prose';
+const objectFirstFlow = true;
+const hasTaxonomy = entry.data.themes.length > 0 || entry.data.constellations.length > 0;
+const contributors = getAuthorProfiles(entry);
+const primaryAuthor = contributors[0];
+const secondaryContributors = contributors.slice(1);
+const authorInitials = getAuthorInitials(primaryAuthor.name);
+const primaryDesignation = primaryAuthor.designation || primaryAuthor.role;
 ---
 
-<BaseLayout title={`${entry.data.title} | Codex Archive`}>
-  <article class="object-shell">
+<BaseLayout title={`${displayTitle} | Codex Archive`}>
+  <article class={`object-shell ${entry.collection} ${objectFirstFlow ? 'text-first-media' : ''}`}>
     <a class="back" href="/">← Back to feed</a>
 
     <header class="object-head">
-      <TypeBadge type={entry.collection} />
-      <h1>{entry.data.title}</h1>
+      <h1>{displayTitle}</h1>
       {entry.data.excerpt && <p class="excerpt">{entry.data.excerpt}</p>}
-      <dl class="core-meta">
-        <div>
-          <dt>Date</dt>
-          <dd>{readableDate}</dd>
-        </div>
-        <div>
-          <dt>Type</dt>
-          <dd>{getTypeLabel(entry.collection)}</dd>
-        </div>
-        <div>
-          <dt>Status</dt>
-          <dd>{entry.data.status}</dd>
-        </div>
-        <div>
-          <dt>Visibility</dt>
-          <dd>{entry.data.visibility}</dd>
-        </div>
-      </dl>
-      {entry.data.themes.length > 0 && (
-        <ul class="pills">
-          {entry.data.themes.map((theme) => (
-            <li>{theme}</li>
-          ))}
-        </ul>
-      )}
-      {entry.data.constellations.length > 0 && (
-        <ul class="pills constellation">
-          {entry.data.constellations.map((name) => (
-            <li>{name}</li>
-          ))}
-        </ul>
-      )}
+      <div class="object-type-callout">
+        <TypeBadge type={entry.collection} />
+      </div>
     </header>
 
-    {detailRows.length > 0 && (
-      <section class="detail-grid">
-        {detailRows.map((row) => (
-          <article>
-            <p>{row.label}</p>
-            <strong>{row.value}</strong>
-          </article>
-        ))}
+    <section class={`body ${bodyClass}`}>
+      <Content />
+    </section>
+
+    {includedObjects.length > 0 && (
+      <section class="inclusion">
+        <h2>Nexus Sequence</h2>
+        <ol>
+          {includedObjects.map((item) => {
+            const target = byId.get(item.ref);
+            const label = target?.data.title ? formatDisplayTitle(target.data.title) : item.ref;
+            return (
+              <li>
+                <span class="sequence-role">{item.role}</span>
+                <a class="sequence-link" href={`/objects/${item.ref}`}>{label}</a>
+              </li>
+            );
+          })}
+        </ol>
       </section>
     )}
 
     {primaryMedia && (
-      <section class="media-stage">
+      <section class="media-stage media-stage--supporting">
         <article class="media-primary">
           {primaryMedia.kind === 'image' && (
             <img
               src={primaryMedia.src}
               alt={primaryMedia.alt || `${entry.data.title} primary media`}
-              loading="eager"
+              loading="lazy"
               decoding="async"
             />
           )}
@@ -218,35 +212,105 @@ const readableDate = entry.data.date.toLocaleDateString('en-US', {
       </section>
     )}
 
-    {includedObjects.length > 0 && (
-      <section class="inclusion">
-        <h2>Nexus Sequence</h2>
-        <ol>
-          {includedObjects.map((item) => {
-            const target = byId.get(item.ref);
-            const label = target?.data.title || item.ref;
-            return (
-              <li>
-                <span>{item.role}</span>
-                <a href={`/objects/${item.ref}`}>{label}</a>
-              </li>
-            );
-          })}
-        </ol>
+    {detailRows.length > 0 && (
+      <section class="detail-grid detail-grid--supporting">
+        {detailRows.map((row) => (
+          <article>
+            <p>{row.label}</p>
+            <strong>{row.value}</strong>
+          </article>
+        ))}
       </section>
     )}
 
-    <section class="body">
-      <Content />
-    </section>
+    <footer class="source-signature source-signature--triptych">
+      <article class="source-card">
+        <div class="source-thumb" aria-hidden="true">
+          {primaryAuthor.avatar ? (
+            <img src={primaryAuthor.avatar} alt="" loading="lazy" decoding="async" />
+          ) : (
+            <span>{authorInitials}</span>
+          )}
+        </div>
+        <div class="source-copy">
+          <p class="source-label">Source</p>
+          <p class="source-name">
+            {primaryAuthor.name}
+            {primaryDesignation && <span>, {primaryDesignation}</span>}
+          </p>
+          {primaryAuthor.handle && <p class="source-handle">{primaryAuthor.handle}</p>}
+          {primaryAuthor.bio && <p class="source-bio">{primaryAuthor.bio}</p>}
+        </div>
+      </article>
+
+      <section class="footer-unit footer-core-meta" aria-label="Object state">
+        <p class="footer-unit-label">Object State</p>
+        <dl>
+          <div>
+            <dt>Date</dt>
+            <dd>{readableDate}</dd>
+          </div>
+          <div>
+            <dt>Status</dt>
+            <dd>{entry.data.status}</dd>
+          </div>
+          <div>
+            <dt>Visibility</dt>
+            <dd>{entry.data.visibility}</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="footer-unit footer-taxonomy" aria-label="Object taxonomy">
+        <p class="footer-unit-label">Taxonomy</p>
+        {entry.data.themes.length > 0 && (
+          <div class="footer-tag-group">
+            <p class="footer-tag-label">Themes</p>
+            <ul class="pills">
+              {entry.data.themes.map((theme) => (
+                <li>{theme}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {entry.data.constellations.length > 0 && (
+          <div class="footer-tag-group">
+            <p class="footer-tag-label">Constellation</p>
+            <ul class="pills constellation">
+              {entry.data.constellations.map((name) => (
+                <li>{name}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {!hasTaxonomy && <p class="footer-empty">No taxonomy assigned.</p>}
+      </section>
+
+      {secondaryContributors.length > 0 && (
+        <section class="co-authors-wrap">
+          <p class="co-authors-label">Contributors</p>
+          <ul class="co-authors">
+            {secondaryContributors.map((person) => (
+              <li>
+                <strong>{person.name}</strong>
+                {(person.designation || person.role) && <span>{person.designation || person.role}</span>}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </footer>
   </article>
 
   {related.length > 0 && (
     <section class="related">
-      <h2>Related Objects</h2>
+      <header class="related-head">
+        <h2>Related Objects</h2>
+        <span>{related.length} objects</span>
+      </header>
       <div class="cards">
         {related.map((hit) => (
-          <ObjectCard entry={hit.entry} relationScore={hit.score} />
+          <ObjectCard entry={hit.entry} relationScore={hit.score} variant="related" />
         ))}
       </div>
     </section>
@@ -255,179 +319,591 @@ const readableDate = entry.data.date.toLocaleDateString('en-US', {
 
 <style>
   .object-shell {
-    border: 1px solid rgba(179, 168, 136, 0.3);
-    border-radius: 18px;
-    padding: 1.05rem;
-    background: rgba(15, 19, 27, 0.68);
+    border-bottom: none;
+    padding: 4rem 0 5.2rem;
+    background: transparent;
+    --table-line: rgba(164, 134, 97, 0.28);
+    --table-line-soft: rgba(164, 134, 97, 0.2);
+    --table-fill: rgba(255, 255, 255, 0.01);
   }
 
   .back {
     display: inline-block;
-    color: var(--text-dim);
+    color: var(--mid);
     text-decoration: none;
-    margin-bottom: 0.9rem;
-    font-size: 0.86rem;
+    margin-bottom: 1.1rem;
+    font-family: var(--font-ui);
+    font-size: 12px;
+    letter-spacing: var(--ls-ui);
+    border-bottom: 1px solid var(--line);
+    padding: 0 0 0.2rem;
+    transition: 0.12s;
   }
 
   .back:hover {
-    color: var(--text-strong);
+    color: var(--star);
+    border-color: var(--mid);
+  }
+
+  .object-head > :global(.type-badge) {
+    margin-top: 0.1rem;
+  }
+
+  .object-type-callout {
+    margin-top: 0.38rem;
+    margin-bottom: 0.34rem;
+  }
+
+  .object-type-callout :global(.type-badge) {
+    background: rgba(196, 98, 58, 0.06);
+    border-color: rgba(196, 98, 58, 0.36);
+    color: rgba(223, 171, 146, 0.92);
   }
 
   .object-head h1 {
-    margin: 0.55rem 0 0.55rem;
-    color: var(--text-strong);
-    line-height: 1.12;
-    font-size: clamp(1.6rem, 4vw, 2.3rem);
+    margin: 0.85rem 0 1.15rem;
+    color: var(--star);
+    line-height: 1.1;
+    font-size: clamp(2.7rem, 5.5vw, 4.9rem);
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: var(--ls-display);
   }
 
   .excerpt {
     margin: 0;
     color: var(--text-body);
-    font-size: 1rem;
-    line-height: 1.5;
+    font-size: 1.26rem;
+    line-height: 1.74;
+    font-style: normal;
+    max-width: 44ch;
   }
 
   .core-meta {
-    margin: 1rem 0 0;
+    margin: 2.8rem 0 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 0.6rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    border-top: 1px solid var(--table-line);
+    border-bottom: 1px solid var(--table-line-soft);
+    padding: 1.15rem 0 1.02rem;
+    background: transparent;
   }
 
   .core-meta div {
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 0.55rem 0.65rem;
-    background: rgba(25, 29, 39, 0.68);
+    min-height: 0;
+    padding: 0 1.25rem 0 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    position: relative;
+  }
+
+  .core-meta div + div {
+    padding-left: 1.08rem;
+  }
+
+  .core-meta div:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 0.25rem;
+    right: 0;
+    width: 1px;
+    height: calc(100% - 0.5rem);
+    background: var(--table-line-soft);
   }
 
   .core-meta dt {
-    margin: 0 0 0.2rem;
-    color: var(--text-dim);
-    font-size: 0.72rem;
+    margin: 0 0 0.4rem;
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: var(--ls-ui-wide);
   }
 
   .core-meta dd {
     margin: 0;
-    color: var(--text-strong);
-    font-size: 0.93rem;
+    color: var(--mid);
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 0.98rem;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+    font-weight: 400;
+  }
+
+  .meta-tags {
+    margin-top: 1.06rem;
+  }
+
+  .meta-tags + .meta-tags {
+    margin-top: 0.72rem;
+  }
+
+  .meta-tags-label {
+    margin: 0 0 0.24rem;
+    color: rgba(164, 134, 97, 0.9);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+    line-height: 1.2;
   }
 
   .pills {
-    margin: 0.8rem 0 0;
+    margin: 0;
     padding: 0;
     list-style: none;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.35rem;
+    gap: 0.52rem 1rem;
   }
 
   .pills li {
-    border-radius: 999px;
-    border: 1px solid rgba(142, 150, 172, 0.4);
-    color: #bac3dd;
-    padding: 0.21rem 0.62rem;
-    font-size: 0.75rem;
-  }
-
-  .constellation li {
-    border-color: rgba(233, 201, 119, 0.5);
-    color: #f0d69a;
-  }
-
-  .detail-grid {
-    margin: 0.95rem 0 0.55rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 0.6rem;
-  }
-
-  .detail-grid article {
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 0.62rem;
-    background: rgba(19, 23, 32, 0.65);
-  }
-
-  .detail-grid p {
-    margin: 0 0 0.2rem;
-    color: var(--text-dim);
-    font-size: 0.73rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-
-  .detail-grid strong {
-    color: var(--text-body);
-    font-size: 0.91rem;
+    border: none;
+    color: var(--ash);
+    font-family: var(--font-ui);
+    padding: 0;
+    font-size: 12px;
+    letter-spacing: var(--ls-ui);
+    text-transform: lowercase;
     line-height: 1.35;
   }
 
-  .media-stage {
-    margin-top: 0.95rem;
+  .pills li::before {
+    content: '#';
+    color: rgba(164, 134, 97, 0.82);
+    margin-right: 0.24rem;
+  }
+
+  .constellation li {
+    color: var(--gold);
+    text-transform: none;
+  }
+
+  .constellation li::before {
+    content: '↳';
+    color: rgba(201, 150, 58, 0.82);
+    margin-right: 0.34rem;
+  }
+
+  .source-signature {
+    margin-top: 4.6rem;
+    padding-top: 1.65rem;
+    max-width: min(420px, 100%);
+  }
+
+  .source-signature--triptych {
+    margin-top: 3.2rem;
+    padding-top: 1.45rem;
+    max-width: min(1120px, 100%);
+    border-top: 1px solid var(--table-line-soft);
     display: grid;
-    gap: 0.6rem;
+    grid-template-columns: minmax(260px, 1.1fr) minmax(220px, 0.85fr) minmax(260px, 1fr);
+    gap: 1rem 1.45rem;
+    align-items: start;
+    --meta-font-label: var(--font-ui);
+    --meta-font-value: var(--font-body);
+  }
+
+  .source-signature--triptych .source-card {
+    max-width: none;
+  }
+
+  .source-signature--triptych .source-label,
+  .source-signature--triptych .footer-unit-label,
+  .source-signature--triptych .footer-core-meta dt,
+  .source-signature--triptych .footer-tag-label {
+    font-family: var(--meta-font-label);
+    letter-spacing: var(--ls-ui-wide);
+  }
+
+  .source-signature--triptych .source-name,
+  .source-signature--triptych .footer-core-meta dd,
+  .source-signature--triptych .source-bio {
+    font-family: var(--meta-font-value);
+  }
+
+  .source-signature--triptych .source-name {
+    font-size: clamp(1.02rem, 1.6vw, 1.18rem);
+    font-weight: 600;
+    line-height: 1.34;
+    letter-spacing: -0.006em;
+  }
+
+  .source-signature--triptych .source-name span {
+    font-family: var(--meta-font-label);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui-wide);
+  }
+
+  .source-signature--triptych .source-handle {
+    font-family: var(--meta-font-label);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui);
+  }
+
+  .source-signature--triptych .source-bio {
+    font-size: 1.02rem;
+    line-height: 1.58;
+    letter-spacing: -0.003em;
+    max-width: 34ch;
+  }
+
+  .source-signature--triptych .source-bio::before {
+    font-family: var(--meta-font-value);
+    font-size: 1.48rem;
+  }
+
+  .footer-unit {
+    min-width: 0;
+  }
+
+  .footer-unit-label {
+    margin: 0 0 0.58rem;
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+
+  .footer-core-meta dl {
+    margin: 0;
+    display: grid;
+    gap: 0.46rem;
+  }
+
+  .footer-core-meta div {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 0.62rem;
+    align-items: baseline;
+  }
+
+  .footer-core-meta dt {
+    margin: 0;
+    color: rgba(164, 134, 97, 0.88);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+
+  .footer-core-meta dd {
+    margin: 0;
+    color: var(--mid);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-style: italic;
+    line-height: 1.25;
+    letter-spacing: 0.01em;
+  }
+
+  .footer-tag-group + .footer-tag-group {
+    margin-top: 0.58rem;
+  }
+
+  .footer-tag-label {
+    margin: 0 0 0.2rem;
+    color: rgba(164, 134, 97, 0.88);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+
+  .footer-empty {
+    margin: 0.12rem 0 0;
+    color: var(--ghost);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui);
+    text-transform: lowercase;
+    line-height: 1.35;
+  }
+
+  .source-signature--triptych .footer-taxonomy .pills {
+    gap: 0.34rem 0.74rem;
+  }
+
+  .source-signature--triptych .footer-taxonomy .pills li {
+    font-family: var(--meta-font-label);
+    font-size: 11px;
+    letter-spacing: var(--ls-ui);
+  }
+
+  .source-card {
+    display: block;
+    padding: 0;
+    background: transparent;
+    max-width: min(420px, 100%);
+  }
+
+  .source-card::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+
+  .source-thumb {
+    width: clamp(2.25rem, 4vw, 4rem);
+    height: clamp(2.25rem, 4vw, 4rem);
+    max-width: 64px;
+    max-height: 64px;
+    float: left;
+    margin-right: 0.85rem;
+    margin-top: 0.05rem;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid var(--table-line);
+    background: rgba(255, 255, 255, 0.03);
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+  }
+
+  .source-thumb img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  .source-thumb span {
+    font-family: var(--font-ui);
+    font-size: 0.62rem;
+    color: var(--mid);
+    letter-spacing: 0.11em;
+  }
+
+  .source-copy {
+    overflow: hidden;
+    min-width: 0;
+    padding-top: 0.02rem;
+  }
+
+  .source-label {
+    margin: 0;
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+    line-height: 1.3;
+  }
+
+  .source-name {
+    margin: 0.2rem 0 0;
+    color: var(--star);
+    font-size: 1rem;
+    line-height: 1.4;
+    font-style: normal;
+  }
+
+  .source-name span {
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .source-handle {
+    margin: 0.26rem 0 0;
+    color: var(--ghost);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui);
+    line-height: 1.3;
+  }
+
+  .source-bio {
+    margin: 0.74rem 0 0;
+    color: var(--text-body);
+    font-size: 1.08rem;
+    line-height: 1.66;
+    font-style: italic;
+    letter-spacing: -0.004em;
+    max-width: 30ch;
+    padding-left: 0.68rem;
+    border-left: none;
+    position: relative;
+  }
+
+  .source-bio::before {
+    content: '“';
+    position: absolute;
+    left: 0;
+    top: -0.46rem;
+    color: rgba(201, 150, 58, 0.62);
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    line-height: 1;
+  }
+
+  .co-authors-wrap {
+    margin-top: 0.82rem;
+    max-width: min(420px, 100%);
+  }
+
+  .source-signature--triptych .co-authors-wrap {
+    grid-column: 1 / -1;
+    max-width: none;
+    margin-top: 0.25rem;
+  }
+
+  .co-authors-label {
+    margin: 0 0 0.45rem;
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+  }
+
+  .co-authors {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .co-authors li {
+    border: none;
+    padding: 0;
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui);
+    color: var(--mid);
+    display: inline-flex;
+    gap: 0.36rem;
+    align-items: baseline;
+  }
+
+  .co-authors li::before {
+    content: '•';
+    color: rgba(164, 134, 97, 0.72);
+    margin-right: 0.16rem;
+  }
+
+  .co-authors strong {
+    color: var(--bone);
+    font-weight: 600;
+  }
+
+  .detail-grid {
+    margin: 2.3rem 0 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0;
+    border: 1px solid var(--table-line);
+    background: var(--table-fill);
+  }
+
+  .detail-grid article {
+    border-right: 1px solid var(--table-line-soft);
+    border-bottom: 1px solid var(--table-line-soft);
+    margin-right: -1px;
+    margin-bottom: -1px;
+    padding: 1.02rem 1.2rem 1.16rem;
+    background: transparent;
+  }
+
+  .detail-grid p {
+    margin: 0 0 0.34rem;
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: var(--ls-ui-wide);
+  }
+
+  .detail-grid strong {
+    color: var(--bone);
+    font-size: 1.08rem;
+    line-height: 1.58;
+    font-weight: 600;
+  }
+
+  .detail-grid--supporting {
+    margin: 2.45rem 0 2.25rem;
+  }
+
+  .media-stage {
+    margin-top: 4.2rem;
+    display: grid;
+    gap: 2rem;
+    max-width: min(1120px, 100%);
   }
 
   .media-primary {
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 0.55rem;
-    background: rgba(20, 24, 34, 0.75);
+    padding: 0.7rem 0 0.8rem;
+    background: transparent;
   }
 
   .media-primary img,
   .media-primary video {
-    width: 100%;
-    border-radius: 10px;
+    width: auto;
+    max-width: 100%;
+    max-height: min(68vh, 820px);
+    border-radius: 2px;
     display: block;
-    border: 1px solid rgba(173, 162, 128, 0.4);
-    background: rgba(8, 11, 18, 0.75);
+    margin-inline: auto;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--void);
   }
 
   .media-meta {
-    margin: 0.48rem 0 0;
-    color: #7ecfb6;
-    font-size: 0.76rem;
-    letter-spacing: 0.07em;
+    margin: 0.72rem 0 0;
+    color: var(--accent);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: var(--ls-label);
     text-transform: uppercase;
   }
 
   .media-caption {
-    margin: 0.26rem 0 0;
-    color: var(--text-dim);
-    font-size: 0.84rem;
-    line-height: 1.3;
+    margin: 0.48rem 0 0;
+    color: var(--text-body);
+    font-size: 1.04rem;
+    line-height: 1.85;
   }
 
   .media-rail {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 0.55rem;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 0.9rem;
+    max-width: min(1120px, 100%);
   }
 
   .media-item {
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 0.4rem;
-    background: rgba(20, 24, 34, 0.7);
+    padding: 0.55rem 0 0.65rem;
+    background: transparent;
   }
 
   .media-item img,
   .media-item video {
     width: 100%;
-    border-radius: 8px;
+    max-height: min(42vh, 420px);
+    border-radius: 2px;
     display: block;
-    background: rgba(10, 14, 22, 0.75);
-    border: 1px solid rgba(164, 154, 125, 0.35);
+    background: var(--void);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    object-fit: contain;
   }
 
   .audio-shell {
-    border: 1px solid rgba(157, 149, 124, 0.38);
-    border-radius: 10px;
-    background: rgba(12, 16, 24, 0.8);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    background: var(--void);
     padding: 0.5rem;
   }
 
@@ -436,85 +912,415 @@ const readableDate = entry.data.date.toLocaleDateString('en-US', {
   }
 
   .media-item p {
-    margin: 0.34rem 0 0;
-    color: #7ecfb6;
-    font-size: 0.73rem;
+    margin: 0.5rem 0 0;
+    color: var(--accent);
+    font-family: var(--font-ui);
+    font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: var(--ls-ui-wide);
   }
 
   .media-item span {
     display: block;
-    margin-top: 0.18rem;
-    color: var(--text-dim);
-    font-size: 0.79rem;
-    line-height: 1.25;
+    margin-top: 0.3rem;
+    color: var(--mid);
+    font-size: 1rem;
+    line-height: 1.82;
   }
 
   .inclusion {
-    margin: 1rem 0 0.3rem;
-    border-top: 1px dashed rgba(182, 171, 141, 0.32);
-    padding-top: 0.8rem;
+    margin: 4rem 0 1.8rem;
+    padding-top: 0.2rem;
+    max-width: min(1080px, 100%);
   }
 
   .inclusion h2 {
-    margin: 0 0 0.4rem;
-    color: var(--text-strong);
-    font-size: 1.08rem;
+    margin: 0 0 1.55rem;
+    color: var(--star);
+    font-size: clamp(1.7rem, 2.3vw, 2.2rem);
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: var(--ls-title);
   }
 
   .inclusion ol {
     margin: 0;
-    padding-left: 1.1rem;
+    padding: 0;
+    list-style: none;
     display: grid;
-    gap: 0.4rem;
+    gap: clamp(1.35rem, 2.2vw, 1.95rem);
+    counter-reset: nexus-sequence;
   }
 
   .inclusion li {
-    color: var(--text-body);
+    counter-increment: nexus-sequence;
+    display: grid;
+    grid-template-columns: minmax(210px, 26ch) minmax(0, 1fr);
+    align-items: baseline;
+    column-gap: 1.2rem;
+    row-gap: 0.34rem;
+    padding-bottom: 0.06rem;
   }
 
-  .inclusion span {
-    display: inline-block;
-    margin-right: 0.5rem;
-    color: var(--text-dim);
-    font-size: 0.8rem;
+  .inclusion .sequence-role {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.48rem;
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    white-space: nowrap;
   }
 
-  .inclusion a {
-    color: #f5dc9f;
+  .inclusion .sequence-role::before {
+    content: counter(nexus-sequence) '.';
+    color: var(--star);
+    font-family: var(--font-display);
+    font-size: 1.95rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0;
+    transform: translateY(0.08em);
+  }
+
+  .inclusion .sequence-link {
+    color: var(--star);
     text-decoration: none;
+    font-size: clamp(2rem, 2.7vw, 3rem);
+    line-height: 1.1;
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: var(--ls-title);
+    text-wrap: balance;
   }
 
-  .inclusion a:hover {
-    text-decoration: underline;
+  .inclusion .sequence-link:hover {
+    color: var(--gold);
   }
 
   .body {
-    margin-top: 1.1rem;
-    line-height: 1.62;
+    margin-top: 4.2rem;
+    line-height: 1.95;
+    padding-top: 0.2rem;
   }
 
   .body :global(p) {
-    margin: 0 0 0.95rem;
+    margin: 0 0 2.3rem;
     color: var(--text-body);
+    font-style: normal;
+    font-size: 1.16rem;
+    line-height: 1.95;
+    max-width: 68ch;
+  }
+
+  .body :global(a) {
+    color: #dfb266;
+    text-decoration-color: rgba(201, 150, 58, 0.68);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.16em;
+    transition: color 0.12s ease, text-decoration-color 0.12s ease;
+  }
+
+  .body :global(a:visited) {
+    color: #dfb266;
+    text-decoration-color: rgba(201, 150, 58, 0.62);
+  }
+
+  .body :global(a:hover) {
+    color: var(--star);
+    text-decoration-color: rgba(244, 240, 232, 0.78);
+  }
+
+  .body :global(a:focus-visible) {
+    outline: 1px solid rgba(201, 150, 58, 0.72);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  .body.verse :global(p) {
+    max-width: 42ch;
+  }
+
+  .body.prose :global(p) {
+    max-width: 68ch;
+  }
+
+  .body.hybrid :global(p) {
+    max-width: 58ch;
+  }
+
+  .body.list :global(p) {
+    max-width: 74ch;
   }
 
   .related {
-    margin-top: 1rem;
+    margin-top: 7rem;
+    padding-top: 0.2rem;
   }
 
-  .related h2 {
-    margin: 0 0 0.6rem;
-    font-size: 1.05rem;
-    color: var(--text-strong);
+  .related-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.7rem 1.2rem;
+    margin: 0 0 2.4rem;
+    padding-bottom: 0.2rem;
+  }
+
+  .related-head h2 {
+    margin: 0;
+    color: var(--accent);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    line-height: 1.25;
+  }
+
+  .related-head h2::after {
+    content: '';
+    width: 2.5rem;
+    height: 1px;
+    background: rgba(196, 98, 58, 0.42);
+  }
+
+  .related-head span {
+    color: var(--ghost);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
   }
 
   .cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 0.7rem;
+    grid-template-columns: 1fr;
+    gap: 5.2rem;
+  }
+
+  .object-shell.scroll .body :global(p),
+  .object-shell.fragment .body :global(p) {
+    max-width: 64ch;
+  }
+
+  .object-shell.fieldlog .body {
+    max-width: 90ch;
+  }
+
+  .object-shell.codex .detail-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.1rem;
+  }
+
+  .object-shell.text-first-media .core-meta {
+    margin-top: 1.22rem;
+    padding: 0;
+    border: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.62rem 1.55rem;
+  }
+
+  .object-shell.text-first-media .core-meta dt {
+    margin: 0;
+    font-size: 10px;
+    line-height: 1.2;
+  }
+
+  .object-shell.text-first-media .core-meta dd {
+    color: var(--mid);
+    font-size: 0.94rem;
+    line-height: 1.28;
+    letter-spacing: 0.01em;
+  }
+
+  .object-shell.text-first-media .core-meta div {
+    min-height: 0;
+    padding: 0;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.42rem;
+  }
+
+  .object-shell.text-first-media .core-meta div + div {
+    padding-left: 1.26rem;
+  }
+
+  .object-shell.text-first-media .core-meta div + div::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.14rem;
+    width: 1px;
+    height: calc(100% - 0.28rem);
+    background: var(--table-line-soft);
+  }
+
+  .object-shell.text-first-media .core-meta div:not(:last-child)::after {
+    display: none;
+  }
+
+  .object-shell.text-first-media .pills {
+    gap: 0.42rem 0.9rem;
+  }
+
+  .object-shell.text-first-media .meta-tags {
+    margin-top: 0.44rem;
+  }
+
+  .object-shell.text-first-media .meta-tags + .meta-tags {
+    margin-top: 0.58rem;
+  }
+
+  .object-shell.text-first-media .excerpt {
+    margin-top: 0.08rem;
+    color: rgba(232, 226, 212, 0.86);
+    font-style: italic;
+    font-size: clamp(1.14rem, 1.75vw, 1.34rem);
+    font-weight: 400;
+    line-height: 1.58;
+    letter-spacing: 0.006em;
+    max-width: 42ch;
+  }
+
+  .object-shell.text-first-media .object-type-callout {
+    margin-top: 0.92rem;
+    margin-bottom: 0.84rem;
+  }
+
+  .object-shell.text-first-media .body {
+    margin-top: 2.05rem;
+  }
+
+  @media (min-width: 1100px) {
+    .object-shell,
+    .related {
+      padding-left: clamp(1.1rem, 2.2vw, 2.4rem);
+      padding-right: clamp(1.1rem, 2.2vw, 2.4rem);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .media-primary img,
+    .media-primary video {
+      max-height: min(60vh, 700px);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .core-meta {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.86rem 1rem;
+      padding: 1rem 0 0.9rem;
+    }
+
+    .core-meta div {
+      padding: 0;
+    }
+
+    .core-meta div + div {
+      padding-left: 0;
+    }
+
+    .core-meta div::after {
+      display: none;
+    }
+
+    .core-meta div:nth-child(2n) {
+      padding-left: 0.9rem;
+      border-left: 1px solid var(--table-line-soft);
+    }
+
+    .core-meta div:nth-child(n + 3) {
+      padding-top: 0.82rem;
+      border-top: 1px solid var(--table-line-soft);
+    }
+
+    .inclusion li {
+      grid-template-columns: 1fr;
+      row-gap: 0.42rem;
+    }
+
+    .inclusion .sequence-link {
+      font-size: clamp(1.5rem, 6vw, 2.2rem);
+      line-height: 1.14;
+    }
+
+    .source-signature--triptych {
+      grid-template-columns: 1fr;
+      gap: 0.9rem;
+      margin-top: 2.8rem;
+    }
+
+    .object-shell.text-first-media .core-meta {
+      gap: 0.4rem 0.95rem;
+    }
+
+    .object-shell.text-first-media .core-meta div:nth-child(2n) {
+      padding-left: 0;
+      border-left: none;
+    }
+
+    .object-shell.text-first-media .core-meta div:nth-child(n + 3) {
+      padding-top: 0;
+      border-top: none;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .core-meta {
+      grid-template-columns: 1fr;
+      gap: 0.64rem;
+      padding: 0.88rem 0 0.78rem;
+    }
+
+    .core-meta div {
+      border: none;
+      padding: 0;
+    }
+
+    .core-meta div:nth-child(2n) {
+      padding-left: 0;
+      border-left: none;
+    }
+
+    .core-meta div:nth-child(n + 2) {
+      padding-top: 0.66rem;
+      border-top: 1px solid var(--table-line-soft);
+    }
+
+    .object-shell.text-first-media .core-meta {
+      gap: 0.32rem 0.78rem;
+    }
+
+    .object-shell.text-first-media .core-meta div + div {
+      padding-left: 0.78rem;
+    }
+
+    .source-signature {
+      margin-top: 3.5rem;
+      padding-top: 1.7rem;
+    }
+
+    .source-card {
+      padding: 0.9rem 0.9rem 0.95rem;
+    }
+
+    .source-bio {
+      font-size: 0.96rem;
+      line-height: 1.65;
+    }
+
+    .related-head {
+      grid-template-columns: 1fr;
+      gap: 0.4rem;
+      margin-bottom: 1.9rem;
+    }
   }
 </style>

@@ -18,7 +18,7 @@ constellations: []
 related:
   - codex-archive-system-v2-2
   - the-bones-hold
-  - codex-archive-system-v2-4-notes
+  - codex-archive-system-v2-5-notes
 
 media: []
 

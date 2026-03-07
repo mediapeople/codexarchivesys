@@ -11,7 +11,7 @@ Source reports:
 ## Evidence
 
 - Non-nexus max relation degree reached threshold:
-  - `codex-archive-system-v2-4-notes` → degree `8`
+  - `codex-archive-system-v2-5-notes` → degree `8`
 - Isolated objects are not a concern:
   - `0 / 19` isolated (`0%`)
 
@@ -27,7 +27,7 @@ Should high-degree non-nexus hub behavior be absorbed by structural change (new 
 ## Action
 
 1. Keep field registry and schema unchanged.
-2. On next nexus release, include or reference `codex-archive-system-v2-4-notes` as a curated hub anchor.
+2. On next nexus release, include or reference `codex-archive-system-v2-5-notes` as a curated hub anchor.
 3. Re-check relation density on the next ingest run.
 
 ## Result

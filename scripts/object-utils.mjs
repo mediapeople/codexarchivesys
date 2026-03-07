@@ -8,6 +8,7 @@ export const ALLOWED_TYPES = new Set([
   'codex',
   'fragment',
   'nexus',
+  'signal',
 ]);
 
 export const ALLOWED_STATUS = new Set([
@@ -366,4 +367,3 @@ export function validateObjects(objects) {
     idSet: new Set(idToFile.keys()),
   };
 }
-

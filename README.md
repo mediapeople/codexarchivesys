@@ -2,6 +2,19 @@
 
 This repository contains the Codex archive workspace and an Astro app in `astro/`.
 
+## Workspace Path Policy
+
+Canonical local path:
+
+`/Users/nathandavis/Projects/codex-archive-mega-site`
+
+Deprecated path (do not run builds from here):
+
+`/Users/nathandavis/Library/Mobile Documents/com~apple~CloudDocs/Projects/codex archive (mega site)`
+
+Why: iCloud-synced paths have caused build/dev instability and path confusion.
+The `astro` npm scripts now hard-fail when run from an iCloud path.
+
 ## What You Need
 
 - Git account (GitHub/GitLab/Bitbucket)
@@ -36,8 +49,8 @@ Note: `astro` now runs this automatically before every `npm run build`.
 Generate codex log + design evolution ingest report:
 
 ```bash
-node scripts/generate-codex-log.mjs objects 2026-03-06
-node scripts/ingest-design-evolution.mjs objects 2026-03-06
+node scripts/generate-codex-log.mjs objects $(date +%F)
+node scripts/ingest-design-evolution.mjs objects $(date +%F)
 ```
 
 ## Push This Repo To Remote
@@ -69,3 +82,22 @@ This repo includes `vercel.json` with monorepo-aware commands.
 
 GitHub Actions workflow is included at `.github/workflows/astro-build.yml`.
 It runs `npm ci` and `npm run build` inside `astro/` on pushes and PRs.
+
+## Respawn Files (v2.6)
+
+Primary coworker load chain (new):
+
+1. `codex/root.md`
+2. `codex/system.md`
+3. `codex/pipeline.md`
+4. `codex/current.md`
+5. `codex/respawn.md`
+
+Extended archive context (legacy + governance):
+
+1. `docs/respawn-system-files-v2.6.md`
+2. `docs/codex-status-v2.6.md`
+3. `docs/field-registry.md`
+4. `docs/constitutional-implementation-map.md`
+5. `docs/codex_addendum_structural_metering.md`
+6. `docs/llm-intake-prompt.md`

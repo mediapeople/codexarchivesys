@@ -6,8 +6,20 @@ interface Props {
 
 const {
   title = 'Codex Archive',
-  description = 'Object-first archive for scrolls, artifacts, field logs, codexes, fragments, and nexus issues.',
+  description = 'Object-first archive for scrolls, artifacts, field logs, codexes, fragments, nexus issues, and signals.',
 } = Astro.props;
+
+const currentPath = Astro.url.pathname;
+const feedActive = currentPath === '/' || currentPath.startsWith('/objects/');
+const nexusActive = currentPath.startsWith('/nexus');
+const graphActive = currentPath.startsWith('/graph');
+const homeFeed = currentPath === '/';
+
+const navItems = [
+  { href: '/', label: 'Feed', active: feedActive },
+  { href: '/nexus', label: 'Nexus', active: nexusActive },
+  { href: '/graph', label: 'Graph', active: graphActive },
+];
 ---
 
 <!doctype html>
@@ -16,23 +28,29 @@ const {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body>
+  <body class={homeFeed ? 'page-feed' : undefined}>
     <div class="noise"></div>
     <header class="site-header">
-      <a class="brand" href="/">
-        <span class="brand-mark">Codex</span>
-        <span class="brand-sub">Archive System</span>
-      </a>
-      <nav class="site-nav">
-        <a href="/">Feed</a>
-        <a href="/nexus">Nexus</a>
-        <a href="/graph">Graph</a>
-      </nav>
+      <div class="site-header-inner">
+        <a class="brand" href="/">Codex Archive System</a>
+        <nav class="site-nav" aria-label="Primary">
+          {navItems.map((item) => (
+            <a class={item.active ? 'active' : ''} href={item.href}>{item.label}</a>
+          ))}
+        </nav>
+        <span class="site-sigil" aria-hidden="true">✦</span>
+      </div>
     </header>
     <main class="shell">
       <slot />
@@ -42,14 +60,48 @@ const {
 
 <style is:global>
   :root {
-    --bg-1: #0f121a;
-    --bg-2: #1b1320;
-    --bg-3: #191d28;
-    --text-strong: #f4edcf;
-    --text-body: #ddd6bb;
-    --text-dim: #a9a187;
-    --line: rgba(174, 163, 130, 0.26);
-    --accent: #edc76f;
+    --ink: #0e0c0a;
+    --parchment: #f4f0e8;
+    --bone: #e8e2d4;
+    --rust: #c4623a;
+    --ash: #9f9488;
+    --gold: #c9963a;
+    --dim: #433a31;
+    --ghost: #6f6256;
+    --rust-dark: #8b3a1e;
+    --void: var(--ink);
+    --deep: #12100d;
+    --surface: #17130f;
+    --line: #3b332b;
+    --mid: #b8ada0;
+    --pale: var(--bone);
+    --star: var(--parchment);
+    --goldd: var(--rust-dark);
+    --green: #8ca996;
+    --ember: #d2744f;
+    --text-strong: var(--star);
+    --text-body: var(--bone);
+    --text-dim: var(--mid);
+    --accent: var(--rust);
+    --font-display:
+      'Playfair Display',
+      'Times New Roman',
+      serif;
+    --font-body:
+      'Libre Baskerville',
+      Georgia,
+      serif;
+    --font-ui:
+      'Space Mono',
+      'Courier New',
+      monospace;
+    --gutter: clamp(2.1rem, 5.2vw, 6.2rem);
+    --content-max: 1220px;
+    --ls-display: -0.016em;
+    --ls-title: -0.012em;
+    --ls-ui: 0.07em;
+    --ls-ui-wide: 0.11em;
+    --ls-label: 0.14em;
   }
 
   * {
@@ -63,98 +115,199 @@ const {
   }
 
   body {
-    font-family:
-      'Avenir Next',
-      'Gill Sans',
-      'Trebuchet MS',
-      sans-serif;
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.9;
     color: var(--text-body);
+    background: var(--void);
+    position: relative;
+    isolation: isolate;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -2;
     background:
-      radial-gradient(1200px circle at 12% 0%, rgba(228, 181, 86, 0.13), transparent 56%),
-      radial-gradient(900px circle at 88% 12%, rgba(89, 166, 140, 0.12), transparent 58%),
-      linear-gradient(140deg, var(--bg-1), var(--bg-2) 45%, var(--bg-3));
+      radial-gradient(circle at 84% -12%, rgba(196, 98, 58, 0.14), transparent 44%),
+      radial-gradient(circle at 8% 112%, rgba(201, 150, 58, 0.08), transparent 42%),
+      var(--void);
+  }
+
+  button,
+  input,
+  textarea {
+    font-family: var(--font-ui);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    letter-spacing: var(--ls-display);
   }
 
   .noise {
     position: fixed;
     inset: 0;
+    z-index: -1;
     pointer-events: none;
-    opacity: 0.06;
-    background-image: radial-gradient(circle at 1px 1px, #f8f4dd 1px, transparent 0);
+    opacity: 0.018;
+    background-image: radial-gradient(circle at 1px 1px, #d3cb9d 1px, transparent 0);
     background-size: 3px 3px;
   }
 
   .site-header {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    backdrop-filter: blur(7px);
-    border-bottom: 1px solid var(--line);
-    padding: 0.85rem 1rem;
+    position: relative;
+    top: auto;
+    z-index: 40;
+    padding: 1.38rem var(--gutter) 1.12rem;
+    background: rgba(14, 12, 10, 0.9);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: inset 0 -1px 0 rgba(135, 91, 58, 0.2);
+  }
+
+  .site-header-inner {
+    width: min(100%, 1480px);
+    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
-    background: rgba(15, 18, 26, 0.72);
+    gap: 1.4rem;
   }
 
   .brand {
-    text-decoration: none;
-    display: inline-flex;
-    align-items: baseline;
-    gap: 0.55rem;
-  }
-
-  .brand-mark {
-    color: var(--text-strong);
+    font-family: var(--font-ui);
+    font-size: 0.76rem;
     font-weight: 700;
-    letter-spacing: 0.09em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
+    color: var(--ash);
+    text-decoration: none;
+    white-space: nowrap;
   }
 
-  .brand-sub {
-    color: var(--text-dim);
-    font-size: 0.8rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+  .brand:visited,
+  .brand:hover,
+  .brand:active {
+    color: var(--ash);
+    text-decoration: none;
   }
 
   .site-nav {
     display: inline-flex;
-    gap: 0.4rem;
+    gap: 1.4rem;
+    align-items: center;
+    margin-left: auto;
   }
 
   .site-nav a {
     text-decoration: none;
-    color: var(--text-dim);
-    border: 1px solid transparent;
-    border-radius: 999px;
-    padding: 0.3rem 0.75rem;
-    font-size: 0.78rem;
-    letter-spacing: 0.06em;
+    color: var(--mid);
+    font-family: var(--font-ui);
+    border: none;
+    border-bottom: 1px solid transparent;
+    border-radius: 0;
+    padding: 0.12rem 0 0.26rem;
+    font-size: 0.74rem;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
+    transition: 0.15s;
   }
 
   .site-nav a:hover {
-    color: var(--text-strong);
-    border-color: var(--line);
+    color: var(--star);
+    border-bottom-color: rgba(255, 255, 255, 0.22);
+  }
+
+  .site-nav a.active {
+    color: var(--parchment);
+    border-bottom-color: var(--rust);
+  }
+
+  .site-sigil {
+    color: var(--gold);
+    font-family: var(--font-display);
+    font-size: 0.98rem;
+    line-height: 1;
+    flex: 0 0 auto;
   }
 
   .shell {
-    width: min(1050px, 92vw);
+    width: 100%;
     margin: 0 auto;
-    padding: 1.2rem 0 2.6rem;
+    padding: 0 var(--gutter) 7rem;
+    position: relative;
+  }
+
+  body.page-feed .shell::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: min(520px, 48vh);
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(circle at 62% -18%, rgba(132, 74, 46, 0.25), transparent 58%),
+      linear-gradient(180deg, rgba(100, 58, 35, 0.24) 0%, rgba(65, 39, 26, 0.14) 42%, transparent 100%);
+  }
+
+  .shell > * {
+    width: 100%;
+    max-width: var(--content-max);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0;
+    padding-right: 0;
+    position: relative;
+    z-index: 1;
   }
 
   @media (max-width: 600px) {
     .site-header {
-      flex-direction: column;
-      align-items: flex-start;
+      padding: 0.95rem 1.25rem 0.82rem;
+    }
+
+    .site-header-inner {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-areas:
+        'brand sigil'
+        'nav nav';
+      row-gap: 0.72rem;
+    }
+
+    .brand {
+      grid-area: brand;
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+    }
+
+    .site-sigil {
+      grid-area: sigil;
+      justify-self: end;
     }
 
     .site-nav {
-      width: 100%;
+      grid-area: nav;
       flex-wrap: wrap;
+      width: 100%;
+      margin-left: 0;
+      gap: 1rem;
+      border-top: 1px solid rgba(135, 91, 58, 0.2);
+      padding-top: 0.62rem;
+    }
+
+    .site-nav a {
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
     }
   }
 </style>

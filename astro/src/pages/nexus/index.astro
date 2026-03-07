@@ -2,132 +2,205 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import TypeBadge from '../../components/TypeBadge.astro';
+import { getAllEntries } from '../../lib/archive';
+import { getMediaItems, pickPrimaryMedia } from '../../lib/media';
+import { formatDisplayTitle } from '../../lib/headline';
 
 const issues = (await getCollection('nexus')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
+
+const allEntries = await getAllEntries();
+const byId = new Map(allEntries.map((entry) => [entry.data.id, entry]));
+const issueCards = issues.map((issue) => {
+  const firstItem = issue.data.includedObjects[0];
+  const seedEntry = firstItem ? byId.get(firstItem.ref) : null;
+  const seedMedia = seedEntry ? pickPrimaryMedia(getMediaItems(seedEntry)) : null;
+  return {
+    issue,
+    seedMedia,
+  };
+});
 ---
 
 <BaseLayout title="Nexus Issues">
-  <section class="hero">
-    <p class="eyebrow">Nexus Stream</p>
-    <h1>Curated issue releases</h1>
-    <p>
+  <section class="stream-meta">
+    <p class="label">Nexus stream</p>
+    <p class="intro">
       Nexus issues are guided reading sequences built from archive objects.
       They carry editorial ordering and transmission intent.
     </p>
   </section>
 
   <section class="issues">
-    {issues.map((issue) => (
+    {issueCards.map(({ issue, seedMedia }) => (
       <article class="issue">
         <a class="hitbox" href={`/nexus/${issue.data.id}`} aria-label={`Open ${issue.data.title}`}></a>
-        <header>
-          <TypeBadge type="nexus" />
-          <span>{issue.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
-        </header>
-        <h2>{issue.data.title}</h2>
-        {issue.data.excerpt && <p class="excerpt">{issue.data.excerpt}</p>}
-        {issue.data.themeStatement && <p class="statement">{issue.data.themeStatement}</p>}
-        <div class="meta">
-          <span>{issue.data.includedObjects.length} sequence items</span>
-          {issue.data.releaseType && <span>{issue.data.releaseType}</span>}
+        <div class="copy">
+          <header>
+            <TypeBadge type="nexus" />
+            <span>{issue.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+          </header>
+          <h2>{formatDisplayTitle(issue.data.title)}</h2>
+          {issue.data.excerpt && <p class="excerpt">{issue.data.excerpt}</p>}
+          {issue.data.themeStatement && <p class="statement">{issue.data.themeStatement}</p>}
+          <div class="meta">
+            <span>{issue.data.includedObjects.length} sequence items</span>
+            {issue.data.releaseType && <span>{issue.data.releaseType}</span>}
+          </div>
         </div>
+        <aside class="visual">
+          {seedMedia?.kind === 'image' ? (
+            <img
+              src={seedMedia.src}
+              alt={seedMedia.alt || `${issue.data.title} lead image`}
+              loading="lazy"
+              decoding="async"
+            />
+          ) : (
+            <div class="visual-fallback">
+              <span>Nexus</span>
+            </div>
+          )}
+        </aside>
       </article>
     ))}
   </section>
 </BaseLayout>
 
 <style>
-  .hero {
-    margin-bottom: 1rem;
-    border: 1px solid rgba(177, 166, 132, 0.32);
-    border-radius: 18px;
-    padding: 1rem;
-    background: rgba(17, 20, 29, 0.72);
+  .stream-meta {
+    margin: 0 0 2.8rem;
+    padding: 6rem 0 3rem;
+    background: transparent;
   }
 
-  .eyebrow {
-    margin: 0;
+  .label {
+    margin: 0 0 0.45rem;
     color: var(--accent);
-    font-size: 0.72rem;
+    font-family: var(--font-ui);
+    font-size: 10px;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-weight: 600;
+    letter-spacing: var(--ls-label);
+    font-weight: 400;
   }
 
-  h1 {
-    margin: 0.35rem 0;
-    color: var(--text-strong);
-  }
-
-  .hero p {
+  .intro {
     margin: 0;
     color: var(--text-body);
-    line-height: 1.45;
+    line-height: 1.78;
+    font-size: 1.15rem;
+    max-width: 42ch;
   }
 
   .issues {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 0.8rem;
+    gap: 5.2rem;
   }
 
   .issue {
     position: relative;
-    border: 1px solid rgba(177, 166, 132, 0.24);
-    border-radius: 16px;
-    padding: 1rem;
-    background:
-      radial-gradient(circle at top right, rgba(160, 132, 247, 0.12), transparent 48%),
-      linear-gradient(150deg, rgba(20, 24, 34, 0.9), rgba(16, 19, 28, 0.9));
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 38%);
+    column-gap: 3.5rem;
+    align-items: start;
+    padding: 0;
+    background: transparent;
+    transition: transform 0.12s;
+  }
+
+  .issue:hover {
+    transform: translateY(-1px);
   }
 
   .issue header {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.7rem;
+    gap: 0.55rem;
+    margin-bottom: 1.05rem;
   }
 
   .issue header span {
-    color: var(--text-dim);
-    font-size: 0.78rem;
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: var(--ls-ui);
   }
 
   .issue h2 {
     margin: 0;
-    color: var(--text-strong);
-    font-size: 1.16rem;
+    color: var(--star);
+    font-size: clamp(2.3rem, 3.8vw, 3.5rem);
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.16;
   }
 
   .excerpt,
   .statement {
-    margin: 0.65rem 0 0;
+    margin: 1.3rem 0 0;
     color: var(--text-body);
-    line-height: 1.45;
+    line-height: 1.86;
+    font-size: 1.22rem;
+    max-width: 38ch;
   }
 
   .statement {
-    color: #cec5a9;
-    font-size: 0.92rem;
+    color: var(--bone);
+    font-size: 1.18rem;
+    font-style: italic;
   }
 
   .meta {
-    margin-top: 0.8rem;
+    margin-top: 1.8rem;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.35rem;
+    gap: 0.3rem 0.55rem;
   }
 
   .meta span {
-    border: 1px solid rgba(177, 166, 132, 0.35);
-    border-radius: 999px;
-    padding: 0.18rem 0.55rem;
-    color: var(--text-dim);
-    font-size: 0.72rem;
+    padding: 0;
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: var(--ls-ui);
+  }
+
+  .meta span + span::before {
+    content: '·';
+    margin-right: 0.5rem;
+    color: var(--ghost);
+  }
+
+  .visual {
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 2px;
+    overflow: hidden;
+    background: rgba(14, 12, 10, 0.64);
+    aspect-ratio: 4 / 3;
+  }
+
+  .visual img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .visual-fallback {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(145deg, rgba(196, 98, 58, 0.25), rgba(20, 26, 41, 0.52));
+  }
+
+  .visual-fallback span {
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 0.86rem;
+    letter-spacing: var(--ls-ui);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
   }
 
   .hitbox {
@@ -135,5 +208,22 @@ const issues = (await getCollection('nexus')).sort(
     inset: 0;
     z-index: 2;
   }
-</style>
 
+  @media (max-width: 920px) {
+    .issue {
+      grid-template-columns: 1fr;
+      row-gap: 1.45rem;
+    }
+
+    .visual {
+      max-width: min(700px, 100%);
+    }
+  }
+
+  @media (max-width: 700px) {
+    .stream-meta {
+      padding-top: 3.8rem;
+      padding-bottom: 2.2rem;
+    }
+  }
+</style>

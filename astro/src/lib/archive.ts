@@ -7,6 +7,7 @@ export const COLLECTIONS = [
   'codex',
   'fragment',
   'nexus',
+  'signal',
 ] as const;
 
 export type CodexCollection = (typeof COLLECTIONS)[number];
@@ -17,14 +18,15 @@ export type ArchiveEntry =
   | CollectionEntry<'fieldlog'>
   | CollectionEntry<'codex'>
   | CollectionEntry<'fragment'>
-  | CollectionEntry<'nexus'>;
+  | CollectionEntry<'nexus'>
+  | CollectionEntry<'signal'>;
 
 function byDateDesc(a: ArchiveEntry, b: ArchiveEntry) {
   return b.data.date.valueOf() - a.data.date.valueOf();
 }
 
 export async function getAllEntries(): Promise<ArchiveEntry[]> {
-  const [scroll, artifact, fieldlog, codex, fragment, nexus] =
+  const [scroll, artifact, fieldlog, codex, fragment, nexus, signal] =
     await Promise.all([
       getCollection('scroll'),
       getCollection('artifact'),
@@ -32,6 +34,7 @@ export async function getAllEntries(): Promise<ArchiveEntry[]> {
       getCollection('codex'),
       getCollection('fragment'),
       getCollection('nexus'),
+      getCollection('signal'),
     ]);
 
   return [
@@ -41,6 +44,7 @@ export async function getAllEntries(): Promise<ArchiveEntry[]> {
     ...codex,
     ...fragment,
     ...nexus,
+    ...signal,
   ].sort(byDateDesc);
 }
 
@@ -52,7 +56,7 @@ export function getTypeLabel(type: string): string {
     codex: 'Codex',
     fragment: 'Fragment',
     nexus: 'Nexus',
+    signal: 'Signal',
   };
   return labelMap[type] || type;
 }
-

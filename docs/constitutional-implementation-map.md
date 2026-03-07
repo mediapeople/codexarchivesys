@@ -2,7 +2,7 @@
 
 ## Twelve Notes → Actual Files
 
-### Codex Archive System v2.3 — March 2026
+### Codex Archive System v2.5 — March 2026
 
 ---
 
@@ -65,7 +65,7 @@
 |---|---|
 | **Enforced by** | `field-registry.md` — five required fields: `id`, `type`, `title`, `date`, `status`. Everything else is optional. The spine is explicitly bounded and named. |
 | **Enforced by** | `config.ts` — the five required fields are enforced as required schema fields. No `.optional()`. The schema rejects an object missing any of them. |
-| **Enforced by** | `codex-status-v2.3.md` — the doctrine appears explicitly: *the spine changes rarely. If the spine remains stable, the system remains understandable.* |
+| **Enforced by** | `codex-status-v2.5.md` — the doctrine appears explicitly: *the spine changes rarely. If the spine remains stable, the system remains understandable.* |
 | **Gap** | The spine is defined and schema-enforced, but it has no change-control mechanism. There is no rule yet stating that spine changes require a version increment and documented rationale. That governance remains constitutional only. |
 | **What closes the gap** | A short "Spine Change Protocol" section in `field-registry.md`. |
 
@@ -106,7 +106,7 @@
 
 | Status | CONSTITUTIONAL ONLY |
 |---|---|
-| **Enforced by** | `codex-status-v2.3.md` — the status document is a manual instance of self-observation. Object counts, type counts, constraint counts, and gaps are recorded. But this is human-authored, not system-generated. |
+| **Enforced by** | `codex-status-v2.5.md` — the status document is a manual instance of self-observation. Object counts, type counts, constraint counts, and gaps are recorded. But this is human-authored, not system-generated. |
 | **Defined in** | `v2.2 Master Specification` Section XXXII — the Codex Log System. Defined as `logs/codex-log-YYYY-MM-DD.md`. Specifies object counts, type counts, theme counts, constellation counts, graph edge counts, schema warnings, and suggested cleanups. |
 | **Gap** | No log has ever been generated. The log system is architecture without implementation. The `logs/` directory does not exist. No script produces log files. |
 | **What closes the gap** | A single build script: walk `objects/`, count by type, theme, and constellation, count graph edges, check for schema warnings, and write `logs/codex-log-YYYY-MM-DD.md`. |
@@ -178,7 +178,7 @@
 | Status | IMPLEMENTED |
 |---|---|
 | **Stated in** | `v2.2 Master Specification` Section XXXV — *"The spine stays tight. The lattice remains bounded. The archive grows without collapsing into disorder."* |
-| **Stated in** | `codex-status-v2.3.md` — the status document closes with the doctrine statement. |
+| **Stated in** | `codex-status-v2.5.md` — the status document closes with the doctrine statement. |
 | **Tested against** | `field-registry.md` — every new field is governed by Rule 1: what is it for, where does it render, who owns it, is it required, does it duplicate an existing field. This is the doctrine operating as a practical test. |
 | **Gap** | The doctrine is stated but not applied retroactively across all current artifacts. No document had yet asked, file by file: does this loosen the spine unnecessarily? Does this unbound the lattice unnecessarily? |
 | **What closes the gap** | This document. The implementation map is the doctrine operating as checksum. |
@@ -274,6 +274,6 @@ The system is ready to build.
 
 ---
 
-*Constitutional Implementation Map — Codex Archive System v2.3*  
-*Date: 2026-03-06*  
-*Triggered by: Constitutional Notes → System Design Map*
+*Constitutional Implementation Map — Codex Archive System v2.5*  
+*Date: 2026-03-07*  
+*Triggered by: v2.5 Respawn Alignment Pass*

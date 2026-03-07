@@ -14,6 +14,7 @@ const classMap: Record<string, string> = {
   codex: 'codex',
   fragment: 'fragment',
   nexus: 'nexus',
+  signal: 'signal',
 };
 
 const badgeClass = classMap[type] || 'default';
@@ -25,47 +26,63 @@ const badgeClass = classMap[type] || 'default';
   .type-badge {
     display: inline-flex;
     align-items: center;
-    border: 1px solid var(--badge-border);
-    border-radius: 999px;
-    padding: 0.2rem 0.65rem;
-    font-size: 0.68rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    padding: 1px 6px;
+    font-family: var(--font-ui);
+    font-size: 9px;
+    line-height: 1.55;
+    font-weight: 700;
+    letter-spacing: var(--ls-ui);
     text-transform: uppercase;
+    background: rgba(255, 255, 255, 0.02);
   }
 
   .scroll {
-    --badge-border: rgba(112, 210, 167, 0.7);
-    color: #70d2a7;
+    border-color: rgba(196, 98, 58, 0.45);
+    background: rgba(196, 98, 58, 0.1);
+    color: #dfab92;
   }
 
   .artifact {
-    --badge-border: rgba(242, 132, 96, 0.7);
-    color: #f28460;
+    border-color: rgba(201, 150, 58, 0.45);
+    background: rgba(201, 150, 58, 0.1);
+    color: #e6c27d;
   }
 
   .fieldlog {
-    --badge-border: rgba(186, 176, 137, 0.8);
-    color: #bab089;
+    border-color: rgba(138, 132, 128, 0.4);
+    background: rgba(138, 132, 128, 0.12);
+    color: var(--ash);
   }
 
   .codex {
-    --badge-border: rgba(237, 199, 111, 0.8);
-    color: #edc76f;
+    border-color: rgba(201, 150, 58, 0.45);
+    background: rgba(201, 150, 58, 0.12);
+    color: var(--gold);
   }
 
   .fragment {
-    --badge-border: rgba(138, 146, 168, 0.8);
-    color: #8a92a8;
+    border-color: rgba(92, 84, 80, 0.46);
+    background: rgba(92, 84, 80, 0.16);
+    color: #b8b0ac;
   }
 
   .nexus {
-    --badge-border: rgba(99, 184, 157, 0.8);
-    color: #63b89d;
+    border-color: var(--rust);
+    background: rgba(196, 98, 58, 0.14);
+    color: #efc9ba;
+  }
+
+  .signal {
+    border-color: rgba(132, 176, 158, 0.56);
+    background: rgba(132, 176, 158, 0.12);
+    color: #bcd8cb;
   }
 
   .default {
-    --badge-border: rgba(207, 210, 218, 0.7);
-    color: #cfd2da;
+    background: rgba(255, 255, 255, 0.03);
+    border-color: var(--line);
+    color: var(--text-dim);
   }
 </style>

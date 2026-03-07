@@ -16,9 +16,10 @@ themes:
 constellations: []
 
 related:
+  - codex-archive-system-v2-6-notes
   - on-object-oriented-archives
   - systems-survive-tuesdays
-  - codex-archive-system-v2-4-notes
+  - codex-archive-system-v2-5-notes
 
 media: []
 

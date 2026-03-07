@@ -51,6 +51,7 @@ const KNOWN_TYPE_FIELDS = {
     'themeStatement',
     'releaseType',
   ]),
+  signal: new Set(['origin', 'markers']),
 };
 
 function countValues(items) {

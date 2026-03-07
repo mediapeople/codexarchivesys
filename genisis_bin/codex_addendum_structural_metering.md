@@ -2,7 +2,7 @@
 
 ## Structural Metering
 
-**Applies to:** Codex Archive System v2.3\
+**Applies to:** Codex Archive System v2.5\
 **Status:** Clarification\
 **Purpose:** Define how the system determines when structural change
 should be considered.

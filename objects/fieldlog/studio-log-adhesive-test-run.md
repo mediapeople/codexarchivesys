@@ -19,7 +19,7 @@ constellations: []
 related:
   - deck-under-load-ii
   - archive-box-stamped-fragments
-  - codex-archive-system-v2-4-notes
+  - codex-archive-system-v2-5-notes
 
 media:
   - kind: image

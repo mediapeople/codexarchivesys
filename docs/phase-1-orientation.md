@@ -1,6 +1,6 @@
 # Codex Phase 1 Orientation
 
-Date: 2026-03-06
+Date: 2026-03-07
 
 ## What Is Now Scaffolded
 
@@ -12,12 +12,14 @@ Date: 2026-03-06
   - `astro/src/content/codex/`
   - `astro/src/content/fragment/`
   - `astro/src/content/nexus/`
+  - `astro/src/content/signal/`
 - Canonical docs copied:
   - `docs/field-registry.md`
   - `docs/llm-intake-prompt.md`
-  - `docs/codex-status-v2.3.md`
+  - `docs/codex-status-v2.6.md`
   - `docs/constitutional-implementation-map.md`
   - `docs/codex_addendum_structural_metering.md`
+  - `docs/respawn-system-files-v2.6.md`
 - Inbox pipeline dirs created:
   - `inbox/drop/`
   - `inbox/processing/`
@@ -30,6 +32,7 @@ Date: 2026-03-06
   - `objects/codex/`
   - `objects/fragment/`
   - `objects/nexus/`
+  - `objects/signal/`
 - `logs/` created for codex self-observation output.
 
 ## Seed Port Plan (7 Objects)
@@ -54,9 +57,20 @@ Target files:
 
 ## Immediate Next Execution Step
 
-1. Bootstrap the Astro app shell (`package.json`, `astro.config.*`, and install deps) so schema checks can run in `astro/`.
-2. Port base layout/feed components from prototype behavior.
-3. Add relationship + graph libs under `astro/src/lib/`.
+1. Run validation + codex log + graph generation.
+2. Review draft objects and tighten excerpt/theme/relation quality.
+3. Push first deploy preview and smoke test feed, object, nexus, and graph routes.
+
+## Respawn Load Order (v2.6)
+
+Use this sequence for clean system rehydration:
+
+1. `docs/respawn-system-files-v2.6.md`
+2. `docs/codex-status-v2.6.md`
+3. `docs/field-registry.md`
+4. `docs/constitutional-implementation-map.md`
+5. `docs/codex_addendum_structural_metering.md`
+6. `docs/llm-intake-prompt.md`
 
 ## Scripts Added
 
@@ -68,12 +82,12 @@ Run:
 
 ```bash
 node scripts/validate-objects.mjs objects
-node scripts/generate-codex-log.mjs objects 2026-03-06
+node scripts/generate-codex-log.mjs objects $(date +%F)
 ```
 
 Current generated log:
 
-- `logs/codex-log-2026-03-06.md`
+- `logs/codex-log-2026-03-07.md` (or latest available date)
 
 ## Astro Runtime Bootstrap (Completed)
 
