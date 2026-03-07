@@ -143,109 +143,122 @@ function buildHref(
     </div>
   </section>
 
-  <section class="controls">
-    <form action="/" method="GET" class="search" data-filter-form>
-      {selectedType && <input type="hidden" name="type" value={selectedType} />}
-      {selectedTheme && <input type="hidden" name="theme" value={selectedTheme} />}
-      <input
-        type="search"
-        name="q"
-        value={queryParam}
-        placeholder="Search title, excerpt, themes..."
-      />
-      <button type="submit">Search</button>
-      <button
-        type="button"
-        class="clear-filters"
-        data-clear-filters
+  <section class="controls" data-mobile-controls>
+    <button
+      type="button"
+      class="controls-toggle"
+      data-controls-toggle
+      aria-expanded="true"
+      aria-controls="feed-controls-panel"
+    >
+      <span class="controls-toggle-label">Search & filters</span>
+      <span class="controls-toggle-state" data-controls-toggle-state>Hide</span>
+    </button>
+
+    <div class="controls-panel" id="feed-controls-panel" data-controls-panel>
+      <form action="/" method="GET" class="search" data-filter-form>
+        {selectedType && <input type="hidden" name="type" value={selectedType} />}
+        {selectedTheme && <input type="hidden" name="theme" value={selectedTheme} />}
+        <input
+          type="search"
+          name="q"
+          value={queryParam}
+          placeholder="Search title, excerpt, themes..."
+        />
+        <button type="submit">Search</button>
+        <button
+          type="button"
+          class="clear-filters"
+          data-clear-filters
+          hidden={!(selectedType || selectedTheme || queryParam)}
+        >
+          Clear
+        </button>
+      </form>
+
+      <div class="view-toggle" role="navigation" aria-label="Feed view">
+        <a
+          class={selectedView === 'stack' ? 'view-chip on' : 'view-chip'}
+          href={buildHref(selectedType, selectedTheme, queryParam, 'stack')}
+          data-view="stack"
+          aria-current={selectedView === 'stack' ? 'true' : 'false'}
+        >
+          Stack
+        </a>
+        <a
+          class={selectedView === 'mosaic' ? 'view-chip on' : 'view-chip'}
+          href={buildHref(selectedType, selectedTheme, queryParam, 'mosaic')}
+          data-view="mosaic"
+          aria-current={selectedView === 'mosaic' ? 'true' : 'false'}
+        >
+          Mosaic
+        </a>
+      </div>
+
+      <div class="chip-row">
+        <a
+          class={selectedType ? 'chip' : 'chip on'}
+          href={buildHref(null, selectedTheme, queryParam, selectedView)}
+          data-filter-kind="type"
+          data-filter-value=""
+          data-filter-label="All Types"
+        >
+          All Types
+        </a>
+        {typeCounts.map((item) => (
+          <a
+            class={selectedType === item.type ? 'chip on' : 'chip'}
+            href={buildHref(item.type, selectedTheme, queryParam, selectedView)}
+            data-filter-kind="type"
+            data-filter-value={item.type}
+            data-filter-label={getTypeLabel(item.type)}
+          >
+            {getTypeLabel(item.type)} ({item.count})
+          </a>
+        ))}
+      </div>
+
+      <div class="chip-row themes">
+        <a
+          class={selectedTheme ? 'chip' : 'chip on'}
+          href={buildHref(selectedType, null, queryParam, selectedView)}
+          data-filter-kind="theme"
+          data-filter-value=""
+          data-filter-label="All Themes"
+        >
+          All Themes
+        </a>
+        {sortedThemes.slice(0, 16).map(([theme, count]) => (
+          <a
+            class={selectedTheme === theme ? 'chip on' : 'chip'}
+            href={buildHref(selectedType, theme, queryParam, selectedView)}
+            data-filter-kind="theme"
+            data-filter-value={theme}
+            data-filter-label={theme}
+          >
+            {theme} ({count})
+          </a>
+        ))}
+      </div>
+
+      <p
+        class="active-filters"
+        data-active-filters
         hidden={!(selectedType || selectedTheme || queryParam)}
       >
-        Clear
-      </button>
-    </form>
+        Active filters: {
+          [
+            selectedType ? `Type: ${getTypeLabel(selectedType)}` : null,
+            selectedTheme ? `Theme: ${selectedTheme}` : null,
+            queryParam ? `Search: "${queryParam}"` : null,
+          ]
+            .filter(Boolean)
+            .join(' · ')
+        }
+      </p>
 
-    <div class="view-toggle" role="navigation" aria-label="Feed view">
-      <a
-        class={selectedView === 'stack' ? 'view-chip on' : 'view-chip'}
-        href={buildHref(selectedType, selectedTheme, queryParam, 'stack')}
-        data-view="stack"
-        aria-current={selectedView === 'stack' ? 'true' : 'false'}
-      >
-        Stack
-      </a>
-      <a
-        class={selectedView === 'mosaic' ? 'view-chip on' : 'view-chip'}
-        href={buildHref(selectedType, selectedTheme, queryParam, 'mosaic')}
-        data-view="mosaic"
-        aria-current={selectedView === 'mosaic' ? 'true' : 'false'}
-      >
-        Mosaic
-      </a>
+      <p class="result-count" data-result-count>Showing {filteredEntries.length} of {entries.length} objects</p>
     </div>
-
-    <div class="chip-row">
-      <a
-        class={selectedType ? 'chip' : 'chip on'}
-        href={buildHref(null, selectedTheme, queryParam, selectedView)}
-        data-filter-kind="type"
-        data-filter-value=""
-        data-filter-label="All Types"
-      >
-        All Types
-      </a>
-      {typeCounts.map((item) => (
-        <a
-          class={selectedType === item.type ? 'chip on' : 'chip'}
-          href={buildHref(item.type, selectedTheme, queryParam, selectedView)}
-          data-filter-kind="type"
-          data-filter-value={item.type}
-          data-filter-label={getTypeLabel(item.type)}
-        >
-          {getTypeLabel(item.type)} ({item.count})
-        </a>
-      ))}
-    </div>
-
-    <div class="chip-row themes">
-      <a
-        class={selectedTheme ? 'chip' : 'chip on'}
-        href={buildHref(selectedType, null, queryParam, selectedView)}
-        data-filter-kind="theme"
-        data-filter-value=""
-        data-filter-label="All Themes"
-      >
-        All Themes
-      </a>
-      {sortedThemes.slice(0, 16).map(([theme, count]) => (
-        <a
-          class={selectedTheme === theme ? 'chip on' : 'chip'}
-          href={buildHref(selectedType, theme, queryParam, selectedView)}
-          data-filter-kind="theme"
-          data-filter-value={theme}
-          data-filter-label={theme}
-        >
-          {theme} ({count})
-        </a>
-      ))}
-    </div>
-
-    <p
-      class="active-filters"
-      data-active-filters
-      hidden={!(selectedType || selectedTheme || queryParam)}
-    >
-      Active filters: {
-        [
-          selectedType ? `Type: ${getTypeLabel(selectedType)}` : null,
-          selectedTheme ? `Theme: ${selectedTheme}` : null,
-          queryParam ? `Search: "${queryParam}"` : null,
-        ]
-          .filter(Boolean)
-          .join(' · ')
-      }
-    </p>
-
-    <p class="result-count" data-result-count>Showing {filteredEntries.length} of {entries.length} objects</p>
   </section>
 
   <section class="feed" data-total-count={entries.length} data-view={selectedView}>
@@ -357,6 +370,10 @@ function buildHref(
 
     const searchInput = form.querySelector('input[name="q"]');
     const clearButton = form.querySelector('[data-clear-filters]');
+    const controls = document.querySelector('[data-mobile-controls]');
+    const controlsToggle = controls?.querySelector('[data-controls-toggle]');
+    const controlsPanel = controls?.querySelector('[data-controls-panel]');
+    const controlsToggleState = controls?.querySelector('[data-controls-toggle-state]');
     const resultCount = document.querySelector('[data-result-count]');
     const shownCount = document.querySelector('[data-shown-count]');
     const activeFilters = document.querySelector('[data-active-filters]');
@@ -386,6 +403,7 @@ function buildHref(
         .map((chip) => (chip.getAttribute('data-view') || '').trim())
         .filter(Boolean)
     );
+    const mobileControlsQuery = window.matchMedia('(max-width: 760px)');
 
     const state = {
       type: '',
@@ -393,8 +411,28 @@ function buildHref(
       q: '',
       view: 'stack',
     };
+    let controlsExpanded = true;
 
     const objectLabel = (count) => `${count} object${count === 1 ? '' : 's'}`;
+    const hasActiveControls = () => Boolean(state.type || state.theme || state.q);
+
+    function syncControlsState() {
+      if (!controls || !controlsToggle || !controlsPanel) {
+        return;
+      }
+
+      if (!mobileControlsQuery.matches) {
+        controlsExpanded = true;
+      }
+
+      const expanded = !mobileControlsQuery.matches || controlsExpanded;
+      controlsPanel.hidden = !expanded;
+      controls.setAttribute('data-controls-open', expanded ? 'true' : 'false');
+      controlsToggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      if (controlsToggleState) {
+        controlsToggleState.textContent = expanded ? 'Hide' : 'Show';
+      }
+    }
 
     function parseUrlState() {
       const params = new URLSearchParams(window.location.search);
@@ -563,6 +601,11 @@ function buildHref(
       setChipState(themeChips, state.theme);
       setViewChipState(state.view);
       updateActiveFilterLabel();
+
+      if (mobileControlsQuery.matches && hasActiveControls()) {
+        controlsExpanded = true;
+      }
+      syncControlsState();
     }
 
     typeChips.forEach((chip) => {
@@ -608,12 +651,32 @@ function buildHref(
       applyFilters();
     });
 
+    controlsToggle?.addEventListener('click', () => {
+      controlsExpanded = !controlsExpanded;
+      syncControlsState();
+    });
+
     window.addEventListener('popstate', () => {
       parseUrlState();
       applyFilters();
     });
 
+    const handleMobileControlsChange = () => {
+      if (mobileControlsQuery.matches) {
+        controlsExpanded = hasActiveControls();
+      }
+      syncControlsState();
+    };
+
+    if (typeof mobileControlsQuery.addEventListener === 'function') {
+      mobileControlsQuery.addEventListener('change', handleMobileControlsChange);
+    } else if (typeof mobileControlsQuery.addListener === 'function') {
+      mobileControlsQuery.addListener(handleMobileControlsChange);
+    }
+
     parseUrlState();
+    controlsExpanded = !mobileControlsQuery.matches || hasActiveControls();
+    syncControlsState();
     applyFilters();
   })();
 </script>
@@ -707,6 +770,31 @@ function buildHref(
     margin: 0 0 6rem;
     padding: 0;
     background: transparent;
+  }
+
+  .controls-toggle {
+    display: none;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    padding: 0.62rem 0.74rem;
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+
+  .controls-toggle-state {
+    color: var(--accent);
+  }
+
+  .controls-panel[hidden] {
+    display: none;
   }
 
   .search {
@@ -1139,6 +1227,24 @@ function buildHref(
   }
 
   @media (max-width: 760px) {
+    .controls {
+      margin-bottom: 4.4rem;
+    }
+
+    .controls-toggle {
+      display: inline-flex;
+      margin-bottom: 0.86rem;
+    }
+
+    .controls-panel {
+      border-top: 1px solid rgba(255, 255, 255, 0.09);
+      padding-top: 0.92rem;
+    }
+
+    .controls[data-controls-open='false'] .controls-toggle {
+      border-color: rgba(201, 150, 58, 0.32);
+    }
+
     .feed-hero {
       padding-top: 3.8rem;
       padding-bottom: 3rem;
