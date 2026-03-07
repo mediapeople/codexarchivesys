@@ -181,3 +181,20 @@ Operational check:
 
 - `node scripts/validate-objects.mjs objects` -> pass
 - `cd astro && npm run build` -> pass
+
+## Inbox Drop Cleanup Sweep (same day)
+
+Scope: non-destructive hygiene for `inbox/drop/` after evo ingest.
+
+Actions:
+
+- Removed Finder metadata artifacts (`.DS_Store`) from:
+  - `inbox/`
+  - `inbox/drop/`
+  - `inbox/drop/WIP, Collage in process, JSA primary source/`
+- Preserved all raw capture files and source markdown in `inbox/drop/` as source-of-record.
+- Confirmed `inbox/drop/` still contains the full provenance set for processed March 6-7 ingest batches.
+
+Follow-up flag:
+
+- `inbox/drop/raw-2026-03-06-index-card-line.md` remains in drop without a documented ready/promotion pass and should be triaged in the next inbox sweep.
