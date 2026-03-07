@@ -330,6 +330,9 @@ const readableDate = entry.data.date.toLocaleDateString('en-US', {
     font-size: 10px;
     color: var(--mid);
     letter-spacing: var(--ls-ui);
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
   }
 
   .score {
@@ -543,18 +546,40 @@ const readableDate = entry.data.date.toLocaleDateString('en-US', {
     display: none;
   }
 
-  @media (max-width: 840px) {
-    .card {
-      grid-template-columns: 1fr;
-      row-gap: 1rem;
-      padding: 1.9rem 0.45rem 2.2rem;
-    }
-
+  @media (max-width: 1040px) {
     .card.feed,
     .card.related {
       grid-template-columns: 1fr;
       column-gap: 0;
       row-gap: 1rem;
+    }
+
+    .preview-wrap {
+      grid-column: 1;
+      grid-row: auto;
+      order: 2;
+      max-width: none;
+    }
+
+    .card.feed .preview-wrap,
+    .card.related .preview-wrap {
+      grid-column: 1;
+      grid-row: auto;
+      order: 2;
+      aspect-ratio: 16 / 9;
+      max-width: none;
+    }
+
+    .card.related .meta {
+      margin-bottom: 0.26rem;
+    }
+  }
+
+  @media (max-width: 840px) {
+    .card {
+      grid-template-columns: 1fr;
+      row-gap: 1rem;
+      padding: 1.9rem 0.45rem 2.2rem;
     }
 
     .card.related {
@@ -563,23 +588,15 @@ const readableDate = entry.data.date.toLocaleDateString('en-US', {
     }
 
     .preview-wrap {
-      grid-column: 1;
-      grid-row: auto;
-      order: 2;
       aspect-ratio: 16 / 9;
     }
 
     .card.related .preview-wrap {
-      order: 2;
       aspect-ratio: 16 / 9;
     }
 
     .card.feed .preview-wrap {
-      grid-column: 1;
-      grid-row: auto;
-      order: 2;
       aspect-ratio: 16 / 9;
-      max-width: none;
     }
 
     .card.mosaic {
@@ -589,10 +606,6 @@ const readableDate = entry.data.date.toLocaleDateString('en-US', {
     .card.mosaic .preview-wrap {
       order: 1;
       aspect-ratio: 4 / 3;
-    }
-
-    .card.related .meta {
-      margin-bottom: 0.26rem;
     }
 
     .meta {
