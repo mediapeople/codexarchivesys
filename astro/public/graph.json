@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-07T20:49:21.369Z",
+  "generatedAt": "2026-03-07T21:17:22.177Z",
   "sourceDir": "../objects",
-  "nodeCount": 30,
-  "edgeCount": 278,
+  "nodeCount": 31,
+  "edgeCount": 305,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -181,6 +181,20 @@
         "collage"
       ],
       "constellations": []
+    },
+    {
+      "id": "lean-mean-governance-machine",
+      "type": "fragment",
+      "title": "Lean Mean Governance Machine",
+      "date": "2026-03-07",
+      "themes": [
+        "systems",
+        "methodology",
+        "maintenance"
+      ],
+      "constellations": [
+        "Cascade Psalms"
+      ]
     },
     {
       "id": "nothing-missing-only-unindexed",
@@ -747,6 +761,16 @@
     },
     {
       "source": "codex-archive-system-v2-7-notes",
+      "target": "lean-mean-governance-machine",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
       "target": "signal.citizen-agency",
       "weight": 7,
       "reasons": [
@@ -770,6 +794,16 @@
       "weight": 7,
       "reasons": [
         "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "lean-mean-governance-machine",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
         "explicit-related"
       ]
     },
@@ -971,6 +1005,15 @@
       ]
     },
     {
+      "source": "lean-mean-governance-machine",
+      "target": "systems-survive-tuesdays",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "on-object-oriented-archives",
       "target": "the-bones-hold-content-architecture",
       "weight": 5,
@@ -1134,6 +1177,15 @@
     },
     {
       "source": "heart-does-not-dream",
+      "target": "lean-mean-governance-machine",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "heart-does-not-dream",
       "target": "scroll-from-the-perimeter",
       "weight": 4,
       "reasons": [
@@ -1283,6 +1335,15 @@
       "reasons": [
         "shared-theme",
         "explicit-related"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
+      "target": "lean-mean-governance-machine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
       ]
     },
     {
@@ -1528,6 +1589,41 @@
       ]
     },
     {
+      "source": "lean-mean-governance-machine",
+      "target": "reduce-novelty-before-care",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
+      "target": "signal-descent-002",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
+      "target": "signal.citizen-agency",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
+      "target": "the-bones-hold",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
       "source": "maintenance-without-cure",
       "target": "ridge-line-lessons",
       "weight": 3,
@@ -1653,6 +1749,14 @@
     },
     {
       "source": "codex-archive-system-v2-2",
+      "target": "lean-mean-governance-machine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
       "target": "reduce-novelty-before-care",
       "weight": 2,
       "reasons": [
@@ -1662,6 +1766,22 @@
     {
       "source": "codex-archive-system-v2-2",
       "target": "studio-log-adhesive-test-run",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
+      "target": "lean-mean-governance-machine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
+      "target": "lean-mean-governance-machine",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -1789,6 +1909,62 @@
     },
     {
       "source": "heart-does-not-dream",
+      "target": "transmission-note-to-future-me",
+      "weight": 2,
+      "reasons": [
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
+      "target": "pressure-psalm-v",
+      "weight": 2,
+      "reasons": [
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
+      "target": "signal-descent-001",
+      "weight": 2,
+      "reasons": [
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
+      "target": "signal-harvest",
+      "weight": 2,
+      "reasons": [
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
+      "target": "studio-bench-cycle",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
       "target": "transmission-note-to-future-me",
       "weight": 2,
       "reasons": [
@@ -2358,6 +2534,70 @@
     {
       "source": "heart-does-not-dream",
       "target": "under-load",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
+      "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
+      "target": "north-georgia-march-2026",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
+      "target": "north-georgia-week-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
+      "target": "on-object-oriented-archives",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
+      "target": "ridge-line-lessons",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
+      "target": "scroll-from-the-perimeter",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
+      "target": "stairwell-signal",
       "weight": 1,
       "reasons": [
         "shared-theme"
