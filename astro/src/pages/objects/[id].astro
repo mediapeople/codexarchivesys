@@ -174,8 +174,13 @@ const primaryDesignation = primaryAuthor.designation || primaryAuthor.role;
             <img
               src={primaryMedia.src}
               alt={primaryMedia.alt || `${entry.data.title} primary media`}
+              data-expandable-image
+              data-lightbox-caption={primaryMedia.caption || formatMediaLabel(primaryMedia)}
               loading="lazy"
               decoding="async"
+              tabindex="0"
+              role="button"
+              aria-label="Expand image"
             />
           )}
           {primaryMedia.kind === 'video' && (
@@ -202,8 +207,13 @@ const primaryDesignation = primaryAuthor.designation || primaryAuthor.role;
                   <img
                     src={item.src}
                     alt={item.alt || `${entry.data.title} media`}
+                    data-expandable-image
+                    data-lightbox-caption={item.caption || formatMediaLabel(item)}
                     loading="lazy"
                     decoding="async"
+                    tabindex="0"
+                    role="button"
+                    aria-label="Expand image"
                   />
                 )}
                 {item.kind === 'video' && (
@@ -330,6 +340,114 @@ const primaryDesignation = primaryAuthor.designation || primaryAuthor.role;
       </div>
     </section>
   )}
+
+  <div class="image-lightbox" data-image-lightbox hidden aria-hidden="true">
+    <button class="image-lightbox-close" type="button" data-image-lightbox-close aria-label="Close expanded image">
+      Close
+    </button>
+    <figure class="image-lightbox-frame">
+      <img src="" alt="" data-image-lightbox-image />
+      <figcaption data-image-lightbox-caption hidden></figcaption>
+    </figure>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const lightbox = document.querySelector('[data-image-lightbox]');
+      if (!(lightbox instanceof HTMLElement)) return;
+
+      const lightboxImage = lightbox.querySelector('[data-image-lightbox-image]');
+      const lightboxCaption = lightbox.querySelector('[data-image-lightbox-caption]');
+      const closeButton = lightbox.querySelector('[data-image-lightbox-close]');
+      if (!(lightboxImage instanceof HTMLImageElement)) return;
+      if (!(lightboxCaption instanceof HTMLElement)) return;
+
+      const selectors = '.object-shell .media-stage img[data-expandable-image], .object-shell .body img';
+      const candidates = Array.from(document.querySelectorAll(selectors)).filter(
+        (node) => node instanceof HTMLImageElement
+      );
+      if (!candidates.length) return;
+
+      let lastFocusedImage = null;
+      let previousOverflow = '';
+
+      const closeLightbox = () => {
+        if (lightbox.hidden) return;
+        lightbox.hidden = true;
+        lightbox.setAttribute('aria-hidden', 'true');
+        lightboxImage.removeAttribute('src');
+        lightboxImage.removeAttribute('alt');
+        lightboxCaption.textContent = '';
+        lightboxCaption.hidden = true;
+        document.body.style.overflow = previousOverflow;
+        if (lastFocusedImage instanceof HTMLElement) {
+          lastFocusedImage.focus();
+        }
+      };
+
+      const openLightbox = (imageEl) => {
+        const source = imageEl.currentSrc || imageEl.src;
+        if (!source) return;
+
+        previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        lastFocusedImage = imageEl;
+
+        lightboxImage.src = source;
+        lightboxImage.alt = imageEl.alt || 'Expanded image';
+
+        const caption = imageEl.getAttribute('data-lightbox-caption') || imageEl.alt || '';
+        if (caption) {
+          lightboxCaption.textContent = caption;
+          lightboxCaption.hidden = false;
+        } else {
+          lightboxCaption.textContent = '';
+          lightboxCaption.hidden = true;
+        }
+
+        lightbox.hidden = false;
+        lightbox.setAttribute('aria-hidden', 'false');
+      };
+
+      candidates.forEach((imageEl) => {
+        if (!(imageEl instanceof HTMLImageElement)) return;
+        if (imageEl.closest('a')) return;
+
+        imageEl.classList.add('expandable-image');
+        if (!imageEl.hasAttribute('tabindex')) {
+          imageEl.setAttribute('tabindex', '0');
+        }
+        if (!imageEl.hasAttribute('role')) {
+          imageEl.setAttribute('role', 'button');
+        }
+        if (!imageEl.getAttribute('aria-label')) {
+          imageEl.setAttribute('aria-label', 'Expand image');
+        }
+
+        imageEl.addEventListener('click', () => openLightbox(imageEl));
+        imageEl.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            openLightbox(imageEl);
+          }
+        });
+      });
+
+      closeButton?.addEventListener('click', closeLightbox);
+
+      lightbox.addEventListener('click', (event) => {
+        if (event.target === lightbox) {
+          closeLightbox();
+        }
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          closeLightbox();
+        }
+      });
+    })();
+  </script>
 </BaseLayout>
 
 <style>
@@ -876,6 +994,19 @@ const primaryDesignation = primaryAuthor.designation || primaryAuthor.role;
     background: var(--void);
   }
 
+  .media-primary img[data-expandable-image],
+  .media-item img[data-expandable-image],
+  .body :global(img.expandable-image) {
+    cursor: zoom-in;
+  }
+
+  .media-primary img[data-expandable-image]:focus-visible,
+  .media-item img[data-expandable-image]:focus-visible,
+  .body :global(img.expandable-image:focus-visible) {
+    outline: 2px solid rgba(201, 150, 58, 0.85);
+    outline-offset: 3px;
+  }
+
   .media-meta {
     margin: 0.72rem 0 0;
     color: var(--accent);
@@ -1068,6 +1199,72 @@ const primaryDesignation = primaryAuthor.designation || primaryAuthor.role;
 
   .body.list :global(p) {
     max-width: 74ch;
+  }
+
+  .image-lightbox[hidden] {
+    display: none;
+  }
+
+  .image-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 0.65rem;
+    align-items: center;
+    justify-items: center;
+    padding: clamp(0.9rem, 2vw, 1.7rem);
+    background: rgba(7, 6, 4, 0.94);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .image-lightbox-close {
+    justify-self: end;
+    border: 1px solid rgba(244, 240, 232, 0.36);
+    background: rgba(14, 12, 10, 0.76);
+    color: var(--parchment);
+    font-family: var(--font-ui);
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.42rem 0.72rem;
+    cursor: pointer;
+  }
+
+  .image-lightbox-close:hover {
+    border-color: rgba(244, 240, 232, 0.76);
+  }
+
+  .image-lightbox-frame {
+    margin: 0;
+    width: min(96vw, 1600px);
+    height: min(88vh, 1100px);
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    gap: 0.6rem;
+  }
+
+  .image-lightbox-frame img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: calc(min(88vh, 1100px) - 3rem);
+    object-fit: contain;
+    border: 1px solid rgba(244, 240, 232, 0.2);
+    background: rgba(12, 11, 9, 0.95);
+  }
+
+  .image-lightbox-frame figcaption {
+    margin: 0;
+    max-width: min(96vw, 110ch);
+    color: var(--mid);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    text-align: center;
+    text-wrap: balance;
   }
 
   .related {
