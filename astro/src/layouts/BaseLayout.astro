@@ -281,32 +281,18 @@ const navItems = [
     position: relative;
   }
 
-  body.page-feed .shell::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: min(520px, 48vh);
-    pointer-events: none;
-    z-index: 0;
-    background:
-      radial-gradient(circle at 62% -18%, rgba(132, 74, 46, 0.25), transparent 58%),
-      linear-gradient(180deg, rgba(100, 58, 35, 0.24) 0%, rgba(65, 39, 26, 0.14) 42%, transparent 100%);
-  }
-
   body.page-feed .shell::after {
     content: '';
     position: absolute;
-    top: clamp(-2.4rem, -1.4vw, -0.9rem);
+    top: clamp(-9rem, -6.5vw, -3.6rem);
     left: 50%;
     transform: translateX(-50%);
-    width: min(1780px, 134vw);
-    height: clamp(16rem, 29vw, 28rem);
+    width: min(2680px, 188vw);
+    height: clamp(26rem, 56vw, 52rem);
     pointer-events: none;
     z-index: 0;
-    opacity: 0.2;
-    background: url('/media/decor/feed-hero-swoosh.svg') no-repeat center / 100% 100%;
+    opacity: 0.17;
+    background: url('/media/decor/feed-hero-swoosh.svg') no-repeat 58% 34% / 142% 142%;
   }
 
   .shell > * {
@@ -362,10 +348,12 @@ const navItems = [
     }
 
     body.page-feed .shell::after {
-      top: -1.4rem;
-      width: 190vw;
-      height: 14rem;
-      opacity: 0.15;
+      top: -4.8rem;
+      width: 255vw;
+      height: 21rem;
+      opacity: 0.12;
+      background-size: 176% 176%;
+      background-position: 62% 30%;
     }
   }
 </style>
