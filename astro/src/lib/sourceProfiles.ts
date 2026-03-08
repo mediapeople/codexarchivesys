@@ -1,3 +1,8 @@
+export type SourceLink = {
+  label: string;
+  href: string;
+};
+
 export type SourceProfile = {
   id: string;
   name: string;
@@ -5,6 +10,8 @@ export type SourceProfile = {
   handle?: string;
   avatar?: string;
   bio?: string;
+  orientationBio?: string;
+  links?: SourceLink[];
 };
 
 export const SOURCE_PROFILES: Record<string, SourceProfile> = {
@@ -12,9 +19,25 @@ export const SOURCE_PROFILES: Record<string, SourceProfile> = {
     id: 'nathan-davis',
     name: 'Nathan Davis',
     designation: 'Archive Operator',
-    handle: 'nfile.co · @tornframes · @mediapeople',
+    handle: '@nathandavis',
     avatar: '/media/people/nathan-davis.jpg',
-    bio: 'Multi-faceted creative, builder, and maker working across design systems, product craft, collage, and poetry. Through nfile.co and social streams, Nathan documents process, experiments, and signal in public. The Codex Archive is his operating layer for turning creative output into structured, connected, and retrievable objects.',
+    bio: 'Designer, builder, and curator of the Codex Archive System.',
+    orientationBio:
+      'Multi-faceted creative, builder, and maker working across design systems, product craft, collage, and poetry. Through nfile.co and social streams, Nathan documents process, experiments, and signal in public. The Codex Archive is his operating layer for turning creative output into structured, connected, and retrievable objects.',
+    links: [
+      {
+        label: 'nfile.co',
+        href: 'https://www.nfile.co/',
+      },
+      {
+        label: 'Instagram · @tornframes',
+        href: 'https://www.instagram.com/tornframes/',
+      },
+      {
+        label: 'Threads · @mediapeople',
+        href: 'https://www.threads.com/@mediapeople',
+      },
+    ],
   },
 };
 
