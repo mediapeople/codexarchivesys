@@ -1,0 +1,49 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800">
+  <rect width="800" height="800" fill="#000000"/>
+
+  <!-- faint grid -->
+  <g stroke="#2a2a2a" stroke-width="1">
+    <line x1="0" y1="200" x2="800" y2="200"/>
+    <line x1="0" y1="400" x2="800" y2="400"/>
+    <line x1="0" y1="600" x2="800" y2="600"/>
+    <line x1="200" y1="0" x2="200" y2="800"/>
+    <line x1="400" y1="0" x2="400" y2="800"/>
+    <line x1="600" y1="0" x2="600" y2="800"/>
+  </g>
+
+  <!-- signal branches -->
+  <g stroke="#ff7a00" stroke-width="3" fill="none">
+    <line x1="400" y1="400" x2="400" y2="120"/>
+    <line x1="400" y1="400" x2="700" y2="400"/>
+    <line x1="400" y1="400" x2="120" y2="400"/>
+    <line x1="400" y1="400" x2="400" y2="700"/>
+
+    <!-- branching sparks -->
+    <line x1="400" y1="400" x2="560" y2="250"/>
+    <line x1="400" y1="400" x2="260" y2="540"/>
+  </g>
+
+  <!-- nodes -->
+  <g fill="#ff7a00">
+    <circle cx="400" cy="120" r="6"/>
+    <circle cx="700" cy="400" r="6"/>
+    <circle cx="120" cy="400" r="6"/>
+    <circle cx="400" cy="700" r="6"/>
+    <circle cx="560" cy="250" r="6"/>
+    <circle cx="260" cy="540" r="6"/>
+  </g>
+
+  <!-- recursion spiral -->
+  <path d="
+    M400 400
+    m0 -60
+    a60 60 0 1 1 -60 60
+    a45 45 0 1 0 45 -45
+    a30 30 0 1 1 -30 30
+    a15 15 0 1 0 15 -15
+  "
+  stroke="#ff7a00"
+  stroke-width="3"
+  fill="none"/>
+</svg>
