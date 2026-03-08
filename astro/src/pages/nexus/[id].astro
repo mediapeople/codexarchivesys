@@ -38,6 +38,7 @@ const issueIndex = nexusEntries.findIndex((entry) => entry.data.id === issue.dat
 const newerIssue = issueIndex > 0 ? nexusEntries[issueIndex - 1] : null;
 const olderIssue = issueIndex < nexusEntries.length - 1 ? nexusEntries[issueIndex + 1] : null;
 const displayIssueTitle = formatDisplayTitle(issue.data.title);
+const nexusContextQuery = `?from=nexus&nexus=${encodeURIComponent(issue.data.id)}`;
 ---
 
 <BaseLayout title={`${displayIssueTitle} | Nexus`}>
@@ -63,7 +64,7 @@ const displayIssueTitle = formatDisplayTitle(issue.data.title);
             <div class="seq-num">{String(item.index).padStart(2, '0')}</div>
             <div class="seq-main">
               <p class="role">{item.role}</p>
-              <a href={`/objects/${item.ref}`}>
+              <a href={`/objects/${item.ref}${nexusContextQuery}`}>
                 {item.entry?.data.title ? formatDisplayTitle(item.entry.data.title) : item.ref}
               </a>
               {item.entry?.data.excerpt && <p class="preview">{item.entry.data.excerpt}</p>}

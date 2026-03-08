@@ -50,6 +50,17 @@ const includedObjects = Array.isArray(includedObjectsRaw)
       })
       .filter((item): item is { ref: string; role: string } => Boolean(item))
   : [];
+const isNexusObject = entry.collection === 'nexus';
+const sequenceItems = includedObjects.map((item, index) => {
+  const target = byId.get(item.ref);
+  return {
+    index: index + 1,
+    role: item.role,
+    ref: item.ref,
+    label: target?.data.title ? formatDisplayTitle(target.data.title) : item.ref,
+    preview: target?.data.excerpt || '',
+  };
+});
 
 function formatValue(value: unknown): string | null {
   if (value === undefined || value === null) {
@@ -124,6 +135,11 @@ const primaryAuthor = contributors[0];
 const secondaryContributors = contributors.slice(1);
 const authorInitials = getAuthorInitials(primaryAuthor.name);
 const primaryDesignation = primaryAuthor.designation || primaryAuthor.role;
+const nexusObjectContextQuery = isNexusObject
+  ? `?from=nexus&nexus=${encodeURIComponent(entry.data.id)}`
+  : '';
+const defaultBackHref = isNexusObject ? '/nexus' : '/';
+const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 ---
 
 <BaseLayout
@@ -135,7 +151,15 @@ const primaryDesignation = primaryAuthor.designation || primaryAuthor.role;
   twitterCard={shareMeta.twitterCard}
 >
   <article class={`object-shell ${entry.collection} ${objectFirstFlow ? 'text-first-media' : ''}`}>
-    <a class="back" href="/">← Back to feed</a>
+    <a
+      class="back"
+      href={defaultBackHref}
+      data-context-back-link
+      data-default-href={defaultBackHref}
+      data-default-label={defaultBackLabel}
+    >
+      ← {defaultBackLabel}
+    </a>
 
     <header class="object-head">
       <h1>{displayTitle}</h1>
@@ -149,20 +173,31 @@ const primaryDesignation = primaryAuthor.designation || primaryAuthor.role;
       <Content />
     </section>
 
-    {includedObjects.length > 0 && (
-      <section class="inclusion">
-        <h2>Nexus Stack</h2>
+    {sequenceItems.length > 0 && (
+      <section class={`inclusion ${isNexusObject ? 'inclusion--nexus' : ''}`}>
+        <h2>{isNexusObject ? 'Reading Sequence' : 'Nexus Stack'}</h2>
         <ol>
-          {includedObjects.map((item) => {
-            const target = byId.get(item.ref);
-            const label = target?.data.title ? formatDisplayTitle(target.data.title) : item.ref;
-            return (
-              <li>
-                <span class="sequence-role">{item.role}</span>
-                <a class="sequence-link" href={`/objects/${item.ref}`}>{label}</a>
-              </li>
-            );
-          })}
+          {sequenceItems.map((item) => (
+            <li>
+              {isNexusObject ? (
+                <>
+                  <div class="seq-num">{String(item.index).padStart(2, '0')}</div>
+                  <div class="seq-main">
+                    <p class="role">{item.role}</p>
+                    <a class="sequence-link" href={`/objects/${item.ref}${nexusObjectContextQuery}`}>
+                      {item.label}
+                    </a>
+                    {item.preview && <p class="preview">{item.preview}</p>}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <span class="sequence-role">{item.role}</span>
+                  <a class="sequence-link" href={`/objects/${item.ref}`}>{item.label}</a>
+                </>
+              )}
+            </li>
+          ))}
         </ol>
       </section>
     )}
@@ -348,6 +383,40 @@ const primaryDesignation = primaryAuthor.designation || primaryAuthor.role;
       <figcaption data-image-lightbox-caption hidden></figcaption>
     </figure>
   </div>
+
+  <script is:inline>
+    (() => {
+      const backLink = document.querySelector('[data-context-back-link]');
+      if (!(backLink instanceof HTMLAnchorElement)) return;
+
+      const safePath = (value) =>
+        typeof value === 'string' && value.startsWith('/') && !value.startsWith('//');
+
+      const setBackLink = (href, label) => {
+        backLink.href = href;
+        backLink.textContent = `← ${label}`;
+      };
+
+      const params = new URLSearchParams(window.location.search);
+      const from = params.get('from');
+      const nexusId = params.get('nexus');
+      const explicitBack = params.get('back');
+
+      if (safePath(explicitBack)) {
+        const label = explicitBack.startsWith('/nexus') ? 'Back to nexus' : 'Back';
+        setBackLink(explicitBack, label);
+        return;
+      }
+
+      if (from === 'nexus') {
+        if (nexusId && /^[a-z0-9._-]+$/i.test(nexusId)) {
+          setBackLink(`/nexus/${encodeURIComponent(nexusId)}`, 'Back to nexus issue');
+        } else {
+          setBackLink('/nexus', 'Back to nexus');
+        }
+      }
+    })();
+  </script>
 
   <script is:inline>
     (() => {
@@ -1162,6 +1231,77 @@ const primaryDesignation = primaryAuthor.designation || primaryAuthor.role;
     color: var(--gold);
   }
 
+  .inclusion--nexus h2 {
+    margin: 0 0 1.65rem;
+    color: var(--mid);
+    font-family: var(--font-display);
+    font-size: 1.65rem;
+    font-weight: 600;
+    letter-spacing: var(--ls-title);
+    text-transform: none;
+    display: block;
+  }
+
+  .inclusion--nexus h2::after {
+    display: none;
+  }
+
+  .inclusion--nexus ol {
+    border: none;
+  }
+
+  .inclusion--nexus li {
+    padding: 2rem 0;
+    grid-template-columns: 3.1rem 1fr;
+    gap: 1.6rem;
+    align-items: start;
+  }
+
+  .inclusion--nexus li + li {
+    margin-top: 1.2rem;
+  }
+
+  .inclusion--nexus li:not(:last-child) {
+    border-bottom: none;
+  }
+
+  .inclusion--nexus li:hover .seq-num {
+    color: var(--goldd);
+  }
+
+  .inclusion--nexus .seq-num {
+    color: var(--dim);
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 5vw, 2.9rem);
+    font-weight: 900;
+    line-height: 1;
+    padding-top: 0.05rem;
+  }
+
+  .inclusion--nexus .role {
+    margin: 0;
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: var(--ls-ui);
+  }
+
+  .inclusion--nexus .sequence-link {
+    font-size: clamp(1.5rem, 2.8vw, 2.1rem);
+    line-height: 1.25;
+    font-weight: 600;
+    letter-spacing: var(--ls-title);
+  }
+
+  .inclusion--nexus .preview {
+    margin: 0.82rem 0 0;
+    color: var(--text-body);
+    font-size: 1.12rem;
+    line-height: 1.9;
+    max-width: 44ch;
+  }
+
   .body {
     margin-top: 4.2rem;
     line-height: 1.95;
@@ -1696,6 +1836,26 @@ const primaryDesignation = primaryAuthor.designation || primaryAuthor.role;
     .inclusion .sequence-link {
       font-size: clamp(1.56rem, 6vw, 2.2rem);
       line-height: 1.14;
+    }
+
+    .inclusion--nexus li {
+      grid-template-columns: 2.6rem 1fr;
+      row-gap: 0.2rem;
+      padding: 1.15rem 0;
+    }
+
+    .inclusion--nexus li + li {
+      margin-top: 0.9rem;
+    }
+
+    .inclusion--nexus .sequence-link {
+      font-size: clamp(1.34rem, 5.3vw, 1.78rem);
+      line-height: 1.22;
+    }
+
+    .inclusion--nexus .preview {
+      font-size: 1rem;
+      line-height: 1.72;
     }
 
     .source-signature--triptych {
