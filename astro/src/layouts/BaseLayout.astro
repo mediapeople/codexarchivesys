@@ -95,6 +95,7 @@ const navItems = [
 
     <div class="card-image-lightbox" data-card-image-lightbox hidden aria-hidden="true">
       <div class="card-image-lightbox-topbar">
+        <p class="card-image-lightbox-count" data-card-image-lightbox-count hidden aria-live="polite"></p>
         <a class="card-image-lightbox-link" href="/" data-card-image-lightbox-link>
           Open attached post
         </a>
@@ -108,7 +109,25 @@ const navItems = [
         </button>
       </div>
       <figure class="card-image-lightbox-frame">
+        <button
+          class="card-image-lightbox-nav card-image-lightbox-nav--prev"
+          type="button"
+          data-card-image-lightbox-prev
+          aria-label="Show previous image"
+          hidden
+        >
+          Prev
+        </button>
         <img src="" alt="" data-card-image-lightbox-image />
+        <button
+          class="card-image-lightbox-nav card-image-lightbox-nav--next"
+          type="button"
+          data-card-image-lightbox-next
+          aria-label="Show next image"
+          hidden
+        >
+          Next
+        </button>
         <figcaption data-card-image-lightbox-caption hidden></figcaption>
       </figure>
     </div>
@@ -120,12 +139,20 @@ const navItems = [
 
         const lightboxImage = lightbox.querySelector('[data-card-image-lightbox-image]');
         const lightboxCaption = lightbox.querySelector('[data-card-image-lightbox-caption]');
+        const lightboxCount = lightbox.querySelector('[data-card-image-lightbox-count]');
         const lightboxLink = lightbox.querySelector('[data-card-image-lightbox-link]');
         const closeButton = lightbox.querySelector('[data-card-image-lightbox-close]');
+        const prevButton = lightbox.querySelector('[data-card-image-lightbox-prev]');
+        const nextButton = lightbox.querySelector('[data-card-image-lightbox-next]');
+        const lightboxFrame = lightbox.querySelector('.card-image-lightbox-frame');
 
         if (!(lightboxImage instanceof HTMLImageElement)) return;
         if (!(lightboxCaption instanceof HTMLElement)) return;
+        if (!(lightboxCount instanceof HTMLElement)) return;
         if (!(lightboxLink instanceof HTMLAnchorElement)) return;
+        if (!(prevButton instanceof HTMLButtonElement)) return;
+        if (!(nextButton instanceof HTMLButtonElement)) return;
+        if (!(lightboxFrame instanceof HTMLElement)) return;
 
         const triggers = Array.from(document.querySelectorAll('[data-card-image-trigger="true"]')).filter(
           (node) => node instanceof HTMLElement
@@ -134,6 +161,139 @@ const navItems = [
 
         let lastFocusedTrigger = null;
         let previousOverflow = '';
+        let activeGallery = [];
+        let activeIndex = -1;
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let isTransitioning = false;
+        let transitionSwapTimeout = 0;
+        let transitionCleanupTimeout = 0;
+        let lastGestureNavigationAt = 0;
+        const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const mobileTapNavigationQuery = window.matchMedia('(max-width: 600px)');
+
+        const clearTransitionTimers = () => {
+          if (transitionSwapTimeout) {
+            window.clearTimeout(transitionSwapTimeout);
+            transitionSwapTimeout = 0;
+          }
+
+          if (transitionCleanupTimeout) {
+            window.clearTimeout(transitionCleanupTimeout);
+            transitionCleanupTimeout = 0;
+          }
+        };
+
+        const clearTransitionState = () => {
+          clearTransitionTimers();
+          isTransitioning = false;
+          lightboxFrame.classList.remove('is-transitioning-out', 'is-transitioning-in', 'is-forward', 'is-backward');
+        };
+
+        const syncNavState = () => {
+          const hasGallery = activeGallery.length > 1;
+          const atStart = activeIndex <= 0;
+          const atEnd = activeIndex >= activeGallery.length - 1;
+
+          lightbox.classList.toggle('is-gallery', hasGallery);
+          prevButton.hidden = !hasGallery;
+          nextButton.hidden = !hasGallery;
+          prevButton.disabled = !hasGallery || atStart;
+          nextButton.disabled = !hasGallery || atEnd;
+
+          if (hasGallery && activeIndex >= 0) {
+            lightboxCount.textContent = `${activeIndex + 1} / ${activeGallery.length}`;
+            lightboxCount.hidden = false;
+          } else {
+            lightboxCount.textContent = '';
+            lightboxCount.hidden = true;
+          }
+        };
+
+        const applyGalleryIndex = (index) => {
+          const item = activeGallery[index];
+          if (!item || typeof item.src !== 'string' || !item.src) return;
+
+          activeIndex = index;
+          lightboxImage.src = item.src;
+          lightboxImage.alt = typeof item.alt === 'string' && item.alt ? item.alt : 'Expanded image';
+
+          const caption = typeof item.caption === 'string' ? item.caption : '';
+          if (caption) {
+            lightboxCaption.textContent = caption;
+            lightboxCaption.hidden = false;
+          } else {
+            lightboxCaption.textContent = '';
+            lightboxCaption.hidden = true;
+          }
+
+          syncNavState();
+        };
+
+        const renderGalleryIndex = (index, direction = 0) => {
+          const item = activeGallery[index];
+          if (!item || typeof item.src !== 'string' || !item.src) return;
+
+          const shouldAnimate =
+            direction !== 0 &&
+            !lightbox.hidden &&
+            !reducedMotionQuery.matches;
+
+          if (!shouldAnimate) {
+            clearTransitionState();
+            applyGalleryIndex(index);
+            return;
+          }
+
+          clearTransitionState();
+          isTransitioning = true;
+          lightboxFrame.classList.add('is-transitioning-out', direction > 0 ? 'is-forward' : 'is-backward');
+
+          transitionSwapTimeout = window.setTimeout(() => {
+            applyGalleryIndex(index);
+            lightboxFrame.classList.remove('is-transitioning-out');
+            lightboxFrame.classList.add('is-transitioning-in');
+
+            transitionCleanupTimeout = window.setTimeout(() => {
+              clearTransitionState();
+            }, 240);
+          }, 120);
+        };
+
+        const stepGallery = (direction) => {
+          if (activeIndex < 0 || isTransitioning) return;
+
+          const nextIndex = activeIndex + direction;
+          if (nextIndex < 0 || nextIndex >= activeGallery.length) return;
+
+          renderGalleryIndex(nextIndex, direction);
+        };
+
+        const readTriggerGallery = (trigger) => {
+          const rawItems = trigger.getAttribute('data-card-lightbox-images');
+          if (rawItems) {
+            try {
+              const parsed = JSON.parse(rawItems);
+              if (Array.isArray(parsed)) {
+                const sanitized = parsed.filter(
+                  (item) => item && typeof item === 'object' && typeof item.src === 'string' && item.src
+                );
+                if (sanitized.length > 0) {
+                  return sanitized;
+                }
+              }
+            } catch {}
+          }
+
+          const source = trigger.getAttribute('data-card-lightbox-src');
+          if (!source) return [];
+
+          return [{
+            src: source,
+            alt: trigger.getAttribute('data-card-lightbox-alt') || 'Expanded image',
+            caption: trigger.getAttribute('data-card-lightbox-caption') || '',
+          }];
+        };
 
         const closeLightbox = () => {
           if (lightbox.hidden) return;
@@ -144,9 +304,15 @@ const navItems = [
           lightboxImage.removeAttribute('alt');
           lightboxCaption.textContent = '';
           lightboxCaption.hidden = true;
+          lightboxCount.textContent = '';
+          lightboxCount.hidden = true;
           lightboxLink.href = '/';
           lightboxLink.textContent = 'Open attached post';
           lightboxLink.setAttribute('aria-label', 'Open attached post');
+          lightbox.classList.remove('is-gallery');
+          clearTransitionState();
+          activeGallery = [];
+          activeIndex = -1;
           document.body.style.overflow = previousOverflow;
 
           if (lastFocusedTrigger instanceof HTMLElement) {
@@ -155,24 +321,15 @@ const navItems = [
         };
 
         const openLightbox = (trigger) => {
-          const source = trigger.getAttribute('data-card-lightbox-src');
-          if (!source) return;
+          const gallery = readTriggerGallery(trigger);
+          if (!gallery.length) return;
 
           previousOverflow = document.body.style.overflow;
           document.body.style.overflow = 'hidden';
           lastFocusedTrigger = trigger;
-
-          lightboxImage.src = source;
-          lightboxImage.alt = trigger.getAttribute('data-card-lightbox-alt') || 'Expanded image';
-
-          const caption = trigger.getAttribute('data-card-lightbox-caption') || '';
-          if (caption) {
-            lightboxCaption.textContent = caption;
-            lightboxCaption.hidden = false;
-          } else {
-            lightboxCaption.textContent = '';
-            lightboxCaption.hidden = true;
-          }
+          activeGallery = gallery;
+          clearTransitionState();
+          renderGalleryIndex(0);
 
           const href = trigger.getAttribute('data-card-lightbox-href') || '/';
           const title = trigger.getAttribute('data-card-lightbox-title') || 'attached post';
@@ -202,6 +359,8 @@ const navItems = [
         });
 
         closeButton?.addEventListener('click', closeLightbox);
+        prevButton.addEventListener('click', () => stepGallery(-1));
+        nextButton.addEventListener('click', () => stepGallery(1));
 
         lightbox.addEventListener('click', (event) => {
           if (event.target === lightbox) {
@@ -209,9 +368,72 @@ const navItems = [
           }
         });
 
+        lightboxFrame.addEventListener(
+          'touchstart',
+          (event) => {
+            const touch = event.touches[0];
+            if (!touch) return;
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+          },
+          { passive: true }
+        );
+
+        lightboxFrame.addEventListener(
+          'touchend',
+          (event) => {
+            const touch = event.changedTouches[0];
+            if (!touch) return;
+
+            const deltaX = touch.clientX - touchStartX;
+            const deltaY = touch.clientY - touchStartY;
+          if (Math.abs(deltaX) < 48 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+
+          lastGestureNavigationAt = Date.now();
+          if (deltaX < 0) {
+            stepGallery(1);
+          } else {
+            stepGallery(-1);
+          }
+          },
+          { passive: true }
+        );
+
+        lightboxFrame.addEventListener('click', (event) => {
+          if (lightbox.hidden) return;
+          if (!mobileTapNavigationQuery.matches) return;
+          if (activeGallery.length <= 1 || isTransitioning) return;
+          if (Date.now() - lastGestureNavigationAt < 360) return;
+          if (event.target instanceof HTMLElement && event.target.closest('button, a, figcaption')) return;
+
+          const captionRect = lightboxCaption.hidden ? null : lightboxCaption.getBoundingClientRect();
+          if (captionRect && event.clientY >= captionRect.top) return;
+
+          const frameRect = lightboxFrame.getBoundingClientRect();
+          const midpoint = frameRect.left + frameRect.width / 2;
+          if (event.clientX < midpoint) {
+            stepGallery(-1);
+          } else {
+            stepGallery(1);
+          }
+        });
+
         document.addEventListener('keydown', (event) => {
           if (event.key === 'Escape') {
             closeLightbox();
+            return;
+          }
+
+          if (lightbox.hidden) return;
+
+          if (event.key === 'ArrowLeft') {
+            event.preventDefault();
+            stepGallery(-1);
+          }
+
+          if (event.key === 'ArrowRight') {
+            event.preventDefault();
+            stepGallery(1);
           }
         });
       })();
@@ -456,10 +678,20 @@ const navItems = [
 
   .card-image-lightbox-topbar {
     width: min(96vw, 1600px);
-    display: flex;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
     justify-content: space-between;
     gap: 0.8rem;
+  }
+
+  .card-image-lightbox-count {
+    margin: 0;
+    color: rgba(244, 240, 232, 0.74);
+    font-family: var(--font-ui);
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
   }
 
   .card-image-lightbox-link,
@@ -489,12 +721,18 @@ const navItems = [
     width: min(96vw, 1600px);
     height: min(88vh, 1100px);
     display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-rows: minmax(0, 1fr) auto;
     justify-items: center;
     align-content: center;
+    align-items: center;
     gap: 0.6rem;
+    position: relative;
   }
 
   .card-image-lightbox-frame img {
+    grid-column: 2;
+    grid-row: 1;
     width: auto;
     height: auto;
     max-width: 100%;
@@ -507,7 +745,79 @@ const navItems = [
       0 6px 12px rgba(0, 0, 0, 0.18);
   }
 
+  .card-image-lightbox-frame img,
   .card-image-lightbox-frame figcaption {
+    will-change: opacity, transform;
+  }
+
+  .card-image-lightbox-frame.is-transitioning-out img,
+  .card-image-lightbox-frame.is-transitioning-out figcaption {
+    transition:
+      opacity 120ms ease,
+      transform 120ms ease;
+  }
+
+  .card-image-lightbox-frame.is-transitioning-out.is-forward img,
+  .card-image-lightbox-frame.is-transitioning-out.is-forward figcaption {
+    opacity: 0;
+    transform: translate3d(-0.32rem, 0, 0) scale(0.996);
+  }
+
+  .card-image-lightbox-frame.is-transitioning-out.is-backward img,
+  .card-image-lightbox-frame.is-transitioning-out.is-backward figcaption {
+    opacity: 0;
+    transform: translate3d(0.32rem, 0, 0) scale(0.996);
+  }
+
+  .card-image-lightbox-frame.is-transitioning-in.is-forward img {
+    animation: card-gallery-image-enter-forward 240ms ease both;
+  }
+
+  .card-image-lightbox-frame.is-transitioning-in.is-backward img {
+    animation: card-gallery-image-enter-backward 240ms ease both;
+  }
+
+  .card-image-lightbox-frame.is-transitioning-in figcaption {
+    animation: card-gallery-caption-enter 220ms ease both;
+  }
+
+  .card-image-lightbox-nav {
+    grid-row: 1;
+    align-self: center;
+    border: 1px solid rgba(244, 240, 232, 0.22);
+    background: rgba(14, 12, 10, 0.72);
+    color: var(--parchment);
+    font-family: var(--font-ui);
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 0.7rem 0.82rem;
+    min-width: 4.2rem;
+    cursor: pointer;
+  }
+
+  .card-image-lightbox-nav--prev {
+    grid-column: 1;
+    justify-self: start;
+  }
+
+  .card-image-lightbox-nav--next {
+    grid-column: 3;
+    justify-self: end;
+  }
+
+  .card-image-lightbox-nav:hover:not(:disabled) {
+    border-color: rgba(244, 240, 232, 0.56);
+  }
+
+  .card-image-lightbox-nav:disabled {
+    opacity: 0.34;
+    cursor: default;
+  }
+
+  .card-image-lightbox-frame figcaption {
+    grid-column: 1 / -1;
+    grid-row: 2;
     margin: 0;
     max-width: min(96vw, 110ch);
     color: var(--mid);
@@ -579,7 +889,7 @@ const navItems = [
       bottom: calc(env(safe-area-inset-bottom, 0px) + 0.9rem);
       width: auto;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-columns: 1fr 1fr;
       gap: 0.55rem;
       padding: 0.5rem;
       border: 1px solid rgba(244, 240, 232, 0.14);
@@ -589,6 +899,14 @@ const navItems = [
       box-shadow: 0 12px 24px rgba(0, 0, 0, 0.24);
       justify-content: initial;
       align-items: stretch;
+    }
+
+    .card-image-lightbox-count {
+      grid-column: 1 / -1;
+      font-size: 0.56rem;
+      letter-spacing: 0.16em;
+      padding: 0.1rem 0.12rem 0;
+      text-align: center;
     }
 
     .card-image-lightbox-link,
@@ -626,16 +944,50 @@ const navItems = [
     .card-image-lightbox-frame {
       width: 100%;
       height: calc(100vh - 7.6rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+      grid-template-columns: 1fr;
+      grid-template-rows: minmax(0, 1fr) auto;
       gap: 0.75rem;
       align-content: start;
       padding-top: 0.35rem;
     }
 
+    .card-image-lightbox.is-gallery .card-image-lightbox-frame::before,
+    .card-image-lightbox.is-gallery .card-image-lightbox-frame::after {
+      content: '';
+      position: absolute;
+      top: calc(50% - 1.2rem);
+      width: 0.62rem;
+      height: 0.62rem;
+      border-top: 1px solid rgba(244, 240, 232, 0.34);
+      pointer-events: none;
+      opacity: 0.56;
+    }
+
+    .card-image-lightbox.is-gallery .card-image-lightbox-frame::before {
+      left: 0.2rem;
+      border-left: 1px solid rgba(244, 240, 232, 0.34);
+      transform: rotate(-45deg);
+      animation: card-swipe-hint-left 2.2s ease-in-out infinite;
+    }
+
+    .card-image-lightbox.is-gallery .card-image-lightbox-frame::after {
+      right: 0.2rem;
+      border-right: 1px solid rgba(244, 240, 232, 0.34);
+      transform: rotate(45deg);
+      animation: card-swipe-hint-right 2.2s ease-in-out infinite;
+    }
+
     .card-image-lightbox-frame img {
-      max-height: calc(100vh - 12rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+      grid-column: 1;
+      max-height: calc(100vh - 9.8rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    }
+
+    .card-image-lightbox-nav {
+      display: none !important;
     }
 
     .card-image-lightbox-frame figcaption {
+      grid-row: 2;
       max-width: 100%;
       font-size: 0.84rem;
       line-height: 1.48;
@@ -646,6 +998,68 @@ const navItems = [
   @media (max-width: 420px) {
     body.page-feed {
       --gutter: 0.82rem;
+    }
+  }
+
+  @keyframes card-swipe-hint-left {
+    0%,
+    100% {
+      opacity: 0.34;
+      transform: translateX(0.06rem) rotate(-45deg);
+    }
+
+    50% {
+      opacity: 0.62;
+      transform: translateX(-0.08rem) rotate(-45deg);
+    }
+  }
+
+  @keyframes card-swipe-hint-right {
+    0%,
+    100% {
+      opacity: 0.34;
+      transform: translateX(-0.06rem) rotate(45deg);
+    }
+
+    50% {
+      opacity: 0.62;
+      transform: translateX(0.08rem) rotate(45deg);
+    }
+  }
+
+  @keyframes card-gallery-image-enter-forward {
+    from {
+      opacity: 0;
+      transform: translate3d(0.4rem, 0, 0) scale(0.997);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+  }
+
+  @keyframes card-gallery-image-enter-backward {
+    from {
+      opacity: 0;
+      transform: translate3d(-0.4rem, 0, 0) scale(0.997);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+  }
+
+  @keyframes card-gallery-caption-enter {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 0.18rem, 0);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
     }
   }
 </style>

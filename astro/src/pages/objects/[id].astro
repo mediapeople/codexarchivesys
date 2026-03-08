@@ -372,11 +372,32 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
   )}
 
   <div class="image-lightbox" data-image-lightbox hidden aria-hidden="true">
-    <button class="image-lightbox-close" type="button" data-image-lightbox-close aria-label="Close expanded image">
-      Close
-    </button>
+    <div class="image-lightbox-topbar">
+      <p class="image-lightbox-count" data-image-lightbox-count hidden aria-live="polite"></p>
+      <button class="image-lightbox-close" type="button" data-image-lightbox-close aria-label="Close expanded image">
+        Close
+      </button>
+    </div>
     <figure class="image-lightbox-frame">
+      <button
+        class="image-lightbox-nav image-lightbox-nav--prev"
+        type="button"
+        data-image-lightbox-prev
+        aria-label="Show previous image"
+        hidden
+      >
+        Prev
+      </button>
       <img src="" alt="" data-image-lightbox-image />
+      <button
+        class="image-lightbox-nav image-lightbox-nav--next"
+        type="button"
+        data-image-lightbox-next
+        aria-label="Show next image"
+        hidden
+      >
+        Next
+      </button>
       <figcaption data-image-lightbox-caption hidden></figcaption>
     </figure>
   </div>
@@ -422,9 +443,17 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
       const lightboxImage = lightbox.querySelector('[data-image-lightbox-image]');
       const lightboxCaption = lightbox.querySelector('[data-image-lightbox-caption]');
+      const lightboxCount = lightbox.querySelector('[data-image-lightbox-count]');
       const closeButton = lightbox.querySelector('[data-image-lightbox-close]');
+      const prevButton = lightbox.querySelector('[data-image-lightbox-prev]');
+      const nextButton = lightbox.querySelector('[data-image-lightbox-next]');
+      const lightboxFrame = lightbox.querySelector('.image-lightbox-frame');
       if (!(lightboxImage instanceof HTMLImageElement)) return;
       if (!(lightboxCaption instanceof HTMLElement)) return;
+      if (!(lightboxCount instanceof HTMLElement)) return;
+      if (!(prevButton instanceof HTMLButtonElement)) return;
+      if (!(nextButton instanceof HTMLButtonElement)) return;
+      if (!(lightboxFrame instanceof HTMLElement)) return;
 
       const selectors = '.object-shell .media-stage img[data-expandable-image], .object-shell .body img';
       const candidates = Array.from(document.querySelectorAll(selectors)).filter(
@@ -434,29 +463,62 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
       let lastFocusedImage = null;
       let previousOverflow = '';
+      let activeIndex = -1;
+      let touchStartX = 0;
+      let touchStartY = 0;
+      let isTransitioning = false;
+      let transitionSwapTimeout = 0;
+      let transitionCleanupTimeout = 0;
+      let lastGestureNavigationAt = 0;
+      const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const mobileTapNavigationQuery = window.matchMedia('(max-width: 560px)');
 
-      const closeLightbox = () => {
-        if (lightbox.hidden) return;
-        lightbox.hidden = true;
-        lightbox.setAttribute('aria-hidden', 'true');
-        lightboxImage.removeAttribute('src');
-        lightboxImage.removeAttribute('alt');
-        lightboxCaption.textContent = '';
-        lightboxCaption.hidden = true;
-        document.body.style.overflow = previousOverflow;
-        if (lastFocusedImage instanceof HTMLElement) {
-          lastFocusedImage.focus();
+      const clearTransitionTimers = () => {
+        if (transitionSwapTimeout) {
+          window.clearTimeout(transitionSwapTimeout);
+          transitionSwapTimeout = 0;
+        }
+
+        if (transitionCleanupTimeout) {
+          window.clearTimeout(transitionCleanupTimeout);
+          transitionCleanupTimeout = 0;
         }
       };
 
-      const openLightbox = (imageEl) => {
+      const clearTransitionState = () => {
+        clearTransitionTimers();
+        isTransitioning = false;
+        lightboxFrame.classList.remove('is-transitioning-out', 'is-transitioning-in', 'is-forward', 'is-backward');
+      };
+
+      const syncNavState = () => {
+        const hasGallery = candidates.length > 1;
+        const atStart = activeIndex <= 0;
+        const atEnd = activeIndex >= candidates.length - 1;
+
+        lightbox.classList.toggle('is-gallery', hasGallery);
+        prevButton.hidden = !hasGallery;
+        nextButton.hidden = !hasGallery;
+        prevButton.disabled = !hasGallery || atStart;
+        nextButton.disabled = !hasGallery || atEnd;
+
+        if (hasGallery && activeIndex >= 0) {
+          lightboxCount.textContent = `${activeIndex + 1} / ${candidates.length}`;
+          lightboxCount.hidden = false;
+        } else {
+          lightboxCount.textContent = '';
+          lightboxCount.hidden = true;
+          }
+        };
+
+      const applyImageAtIndex = (index) => {
+        const imageEl = candidates[index];
+        if (!(imageEl instanceof HTMLImageElement)) return;
+
         const source = imageEl.currentSrc || imageEl.src;
         if (!source) return;
 
-        previousOverflow = document.body.style.overflow;
-        document.body.style.overflow = 'hidden';
-        lastFocusedImage = imageEl;
-
+        activeIndex = index;
         lightboxImage.src = source;
         lightboxImage.alt = imageEl.alt || 'Expanded image';
 
@@ -468,6 +530,77 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
           lightboxCaption.textContent = '';
           lightboxCaption.hidden = true;
         }
+
+        syncNavState();
+      };
+
+      const renderImageAtIndex = (index, direction = 0) => {
+        const imageEl = candidates[index];
+        if (!(imageEl instanceof HTMLImageElement)) return;
+
+        const shouldAnimate =
+          direction !== 0 &&
+          !lightbox.hidden &&
+          !reducedMotionQuery.matches;
+
+        if (!shouldAnimate) {
+          clearTransitionState();
+          applyImageAtIndex(index);
+          return;
+        }
+
+        clearTransitionState();
+        isTransitioning = true;
+        lightboxFrame.classList.add('is-transitioning-out', direction > 0 ? 'is-forward' : 'is-backward');
+
+        transitionSwapTimeout = window.setTimeout(() => {
+          applyImageAtIndex(index);
+          lightboxFrame.classList.remove('is-transitioning-out');
+          lightboxFrame.classList.add('is-transitioning-in');
+
+          transitionCleanupTimeout = window.setTimeout(() => {
+            clearTransitionState();
+          }, 240);
+        }, 120);
+      };
+
+      const stepGallery = (direction) => {
+        if (activeIndex < 0 || isTransitioning) return;
+
+        const nextIndex = activeIndex + direction;
+        if (nextIndex < 0 || nextIndex >= candidates.length) return;
+
+        renderImageAtIndex(nextIndex, direction);
+      };
+
+      const closeLightbox = () => {
+        if (lightbox.hidden) return;
+        lightbox.hidden = true;
+        lightbox.setAttribute('aria-hidden', 'true');
+        lightboxImage.removeAttribute('src');
+        lightboxImage.removeAttribute('alt');
+        lightboxCaption.textContent = '';
+        lightboxCaption.hidden = true;
+        lightboxCount.textContent = '';
+        lightboxCount.hidden = true;
+        lightbox.classList.remove('is-gallery');
+        clearTransitionState();
+        activeIndex = -1;
+        document.body.style.overflow = previousOverflow;
+        if (lastFocusedImage instanceof HTMLElement) {
+          lastFocusedImage.focus();
+        }
+      };
+
+      const openLightbox = (imageEl) => {
+        const index = candidates.indexOf(imageEl);
+        if (index === -1) return;
+
+        previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        lastFocusedImage = imageEl;
+        clearTransitionState();
+        renderImageAtIndex(index);
 
         lightbox.hidden = false;
         lightbox.setAttribute('aria-hidden', 'false');
@@ -498,6 +631,8 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
       });
 
       closeButton?.addEventListener('click', closeLightbox);
+      prevButton.addEventListener('click', () => stepGallery(-1));
+      nextButton.addEventListener('click', () => stepGallery(1));
 
       lightbox.addEventListener('click', (event) => {
         if (event.target === lightbox) {
@@ -505,9 +640,72 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
         }
       });
 
+      lightboxFrame.addEventListener(
+        'touchstart',
+        (event) => {
+          const touch = event.touches[0];
+          if (!touch) return;
+          touchStartX = touch.clientX;
+          touchStartY = touch.clientY;
+        },
+        { passive: true }
+      );
+
+      lightboxFrame.addEventListener(
+        'touchend',
+        (event) => {
+          const touch = event.changedTouches[0];
+          if (!touch) return;
+
+          const deltaX = touch.clientX - touchStartX;
+          const deltaY = touch.clientY - touchStartY;
+          if (Math.abs(deltaX) < 48 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+
+          lastGestureNavigationAt = Date.now();
+          if (deltaX < 0) {
+            stepGallery(1);
+          } else {
+            stepGallery(-1);
+          }
+        },
+        { passive: true }
+      );
+
+      lightboxFrame.addEventListener('click', (event) => {
+        if (lightbox.hidden) return;
+        if (!mobileTapNavigationQuery.matches) return;
+        if (candidates.length <= 1 || isTransitioning) return;
+        if (Date.now() - lastGestureNavigationAt < 360) return;
+        if (event.target instanceof HTMLElement && event.target.closest('button, a, figcaption')) return;
+
+        const captionRect = lightboxCaption.hidden ? null : lightboxCaption.getBoundingClientRect();
+        if (captionRect && event.clientY >= captionRect.top) return;
+
+        const frameRect = lightboxFrame.getBoundingClientRect();
+        const midpoint = frameRect.left + frameRect.width / 2;
+        if (event.clientX < midpoint) {
+          stepGallery(-1);
+        } else {
+          stepGallery(1);
+        }
+      });
+
       document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
           closeLightbox();
+          return;
+        }
+
+        if (lightbox.hidden) return;
+
+        if (event.key === 'ArrowLeft') {
+          event.preventDefault();
+          stepGallery(-1);
+        }
+
+        if (event.key === 'ArrowRight') {
+          event.preventDefault();
+          stepGallery(1);
         }
       });
     })();
@@ -1554,6 +1752,23 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     -webkit-backdrop-filter: blur(4px);
   }
 
+  .image-lightbox-topbar {
+    width: min(96vw, 1600px);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .image-lightbox-count {
+    margin: 0;
+    color: rgba(244, 240, 232, 0.76);
+    font-family: var(--font-ui);
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
   .image-lightbox-close {
     justify-self: end;
     border: 1px solid rgba(244, 240, 232, 0.36);
@@ -1576,12 +1791,18 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     width: min(96vw, 1600px);
     height: min(88vh, 1100px);
     display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-rows: minmax(0, 1fr) auto;
     justify-items: center;
     align-content: center;
+    align-items: center;
     gap: 0.6rem;
+    position: relative;
   }
 
   .image-lightbox-frame img {
+    grid-column: 2;
+    grid-row: 1;
     width: auto;
     height: auto;
     max-width: 100%;
@@ -1591,7 +1812,79 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     background: rgba(12, 11, 9, 0.95);
   }
 
+  .image-lightbox-frame img,
   .image-lightbox-frame figcaption {
+    will-change: opacity, transform;
+  }
+
+  .image-lightbox-frame.is-transitioning-out img,
+  .image-lightbox-frame.is-transitioning-out figcaption {
+    transition:
+      opacity 120ms ease,
+      transform 120ms ease;
+  }
+
+  .image-lightbox-frame.is-transitioning-out.is-forward img,
+  .image-lightbox-frame.is-transitioning-out.is-forward figcaption {
+    opacity: 0;
+    transform: translate3d(-0.32rem, 0, 0) scale(0.996);
+  }
+
+  .image-lightbox-frame.is-transitioning-out.is-backward img,
+  .image-lightbox-frame.is-transitioning-out.is-backward figcaption {
+    opacity: 0;
+    transform: translate3d(0.32rem, 0, 0) scale(0.996);
+  }
+
+  .image-lightbox-frame.is-transitioning-in.is-forward img {
+    animation: object-gallery-image-enter-forward 240ms ease both;
+  }
+
+  .image-lightbox-frame.is-transitioning-in.is-backward img {
+    animation: object-gallery-image-enter-backward 240ms ease both;
+  }
+
+  .image-lightbox-frame.is-transitioning-in figcaption {
+    animation: object-gallery-caption-enter 220ms ease both;
+  }
+
+  .image-lightbox-nav {
+    grid-row: 1;
+    align-self: center;
+    border: 1px solid rgba(244, 240, 232, 0.22);
+    background: rgba(14, 12, 10, 0.72);
+    color: var(--parchment);
+    font-family: var(--font-ui);
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 0.7rem 0.82rem;
+    min-width: 4.2rem;
+    cursor: pointer;
+  }
+
+  .image-lightbox-nav--prev {
+    grid-column: 1;
+    justify-self: start;
+  }
+
+  .image-lightbox-nav--next {
+    grid-column: 3;
+    justify-self: end;
+  }
+
+  .image-lightbox-nav:hover:not(:disabled) {
+    border-color: rgba(244, 240, 232, 0.56);
+  }
+
+  .image-lightbox-nav:disabled {
+    opacity: 0.34;
+    cursor: default;
+  }
+
+  .image-lightbox-frame figcaption {
+    grid-column: 1 / -1;
+    grid-row: 2;
     margin: 0;
     max-width: min(96vw, 110ch);
     color: var(--mid);
@@ -1760,6 +2053,33 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
   }
 
   @media (max-width: 900px) {
+    .back {
+      margin-bottom: 1.35rem;
+    }
+
+    .object-head h1 {
+      margin: 1rem 0 1.34rem;
+      font-size: clamp(2.95rem, 8.8vw, 4rem);
+      line-height: 1.05;
+      text-wrap: balance;
+    }
+
+    .excerpt,
+    .object-shell.text-first-media .excerpt {
+      max-width: 100%;
+      font-size: 1.2rem;
+      line-height: 1.72;
+    }
+
+    .object-shell.text-first-media .object-type-callout {
+      margin-top: 1.12rem;
+      margin-bottom: 1rem;
+    }
+
+    .object-shell.text-first-media .body {
+      margin-top: 2.35rem;
+    }
+
     .body :global(ul),
     .body :global(ol) {
       margin-bottom: 2.1rem;
@@ -1885,6 +2205,97 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
   }
 
   @media (max-width: 560px) {
+    .back {
+      margin-bottom: 1.48rem;
+    }
+
+    .object-head h1 {
+      margin: 1.08rem 0 1.48rem;
+      font-size: clamp(3.08rem, 10.2vw, 4.18rem);
+      line-height: 1.03;
+    }
+
+    .excerpt,
+    .object-shell.text-first-media .excerpt {
+      font-size: 1.24rem;
+      line-height: 1.74;
+    }
+
+    .object-shell.text-first-media .object-type-callout {
+      margin-top: 1.2rem;
+      margin-bottom: 1.08rem;
+    }
+
+    .object-shell.text-first-media .body {
+      margin-top: 2.5rem;
+    }
+
+    .image-lightbox {
+      padding:
+        max(0.8rem, env(safe-area-inset-top, 0px))
+        0.8rem
+        max(0.95rem, env(safe-area-inset-bottom, 0px))
+        0.8rem;
+    }
+
+    .image-lightbox-topbar {
+      width: 100%;
+      gap: 0.6rem;
+    }
+
+    .image-lightbox-count {
+      font-size: 0.56rem;
+      letter-spacing: 0.16em;
+    }
+
+    .image-lightbox-frame {
+      width: 100%;
+      height: calc(100vh - 4.6rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+      grid-template-columns: 1fr;
+      grid-template-rows: minmax(0, 1fr) auto;
+      gap: 0.75rem;
+    }
+
+    .image-lightbox.is-gallery .image-lightbox-frame::before,
+    .image-lightbox.is-gallery .image-lightbox-frame::after {
+      content: '';
+      position: absolute;
+      top: calc(50% - 1.2rem);
+      width: 0.62rem;
+      height: 0.62rem;
+      border-top: 1px solid rgba(244, 240, 232, 0.36);
+      pointer-events: none;
+      opacity: 0.56;
+    }
+
+    .image-lightbox.is-gallery .image-lightbox-frame::before {
+      left: 0.18rem;
+      border-left: 1px solid rgba(244, 240, 232, 0.36);
+      transform: rotate(-45deg);
+      animation: object-swipe-hint-left 2.2s ease-in-out infinite;
+    }
+
+    .image-lightbox.is-gallery .image-lightbox-frame::after {
+      right: 0.18rem;
+      border-right: 1px solid rgba(244, 240, 232, 0.36);
+      transform: rotate(45deg);
+      animation: object-swipe-hint-right 2.2s ease-in-out infinite;
+    }
+
+    .image-lightbox-frame img {
+      grid-column: 1;
+      max-height: calc(100vh - 7.6rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    }
+
+    .image-lightbox-nav {
+      display: none !important;
+    }
+
+    .image-lightbox-frame figcaption {
+      grid-row: 2;
+      font-size: 0.82rem;
+    }
+
     .body :global(ul),
     .body :global(ol) {
       margin-bottom: 1.86rem;
@@ -1991,6 +2402,68 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
     .cards {
       gap: 1.8rem;
+    }
+  }
+
+  @keyframes object-swipe-hint-left {
+    0%,
+    100% {
+      opacity: 0.34;
+      transform: translateX(0.06rem) rotate(-45deg);
+    }
+
+    50% {
+      opacity: 0.62;
+      transform: translateX(-0.08rem) rotate(-45deg);
+    }
+  }
+
+  @keyframes object-swipe-hint-right {
+    0%,
+    100% {
+      opacity: 0.34;
+      transform: translateX(-0.06rem) rotate(45deg);
+    }
+
+    50% {
+      opacity: 0.62;
+      transform: translateX(0.08rem) rotate(45deg);
+    }
+  }
+
+  @keyframes object-gallery-image-enter-forward {
+    from {
+      opacity: 0;
+      transform: translate3d(0.4rem, 0, 0) scale(0.997);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+  }
+
+  @keyframes object-gallery-image-enter-backward {
+    from {
+      opacity: 0;
+      transform: translate3d(-0.4rem, 0, 0) scale(0.997);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+  }
+
+  @keyframes object-gallery-caption-enter {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 0.18rem, 0);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
     }
   }
 </style>
