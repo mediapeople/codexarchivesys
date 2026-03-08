@@ -4,6 +4,8 @@ import ObjectCard from '../components/ObjectCard.astro';
 import { COLLECTIONS, getAllEntries, getTypeLabel } from '../lib/archive';
 import { getMediaItems, pickPrimaryMedia } from '../lib/media';
 import { formatDisplayTitle } from '../lib/headline';
+import { readdirSync, readFileSync, statSync } from 'node:fs';
+import { join } from 'node:path';
 
 const entries = await getAllEntries();
 const searchParams = Astro.url.searchParams;
@@ -14,8 +16,7 @@ const queryParam = (searchParams.get('q') || '').trim();
 const normalizedQuery = queryParam.toLowerCase();
 const viewParam = (searchParams.get('view') || '').trim().toLowerCase();
 const selectedView = viewParam === 'mosaic' ? 'mosaic' : 'stack';
-const orderParam = (searchParams.get('order') || '').trim().toLowerCase();
-const selectedOrder = orderParam === 'curated' ? 'curated' : 'recent';
+const pinParam = (searchParams.get('pin') || '').trim();
 
 const selectedType = COLLECTIONS.includes(typeParam as (typeof COLLECTIONS)[number])
   ? typeParam
@@ -60,6 +61,48 @@ const filteredEntries = entries.filter((entry) => {
   return true;
 });
 
+const contentMtimeById = new Map<string, number>();
+const contentRoot = join(process.cwd(), 'src', 'content');
+for (const collection of COLLECTIONS) {
+  const collectionRoot = join(contentRoot, collection);
+  const files = readdirSync(collectionRoot, { withFileTypes: true });
+  for (const file of files) {
+    if (!file.isFile() || !file.name.endsWith('.md')) {
+      continue;
+    }
+    const filePath = join(collectionRoot, file.name);
+    const raw = readFileSync(filePath, 'utf8');
+    const idMatch = raw.match(/^id:\s*["']?([^"'\n]+)["']?\s*$/m);
+    if (!idMatch) {
+      continue;
+    }
+    const objectId = idMatch[1].trim();
+    const mtime = statSync(filePath).mtimeMs;
+    if (!contentMtimeById.has(objectId) || mtime > (contentMtimeById.get(objectId) || 0)) {
+      contentMtimeById.set(objectId, mtime);
+    }
+  }
+}
+
+function byNewestFirst(a: (typeof entries)[number], b: (typeof entries)[number]) {
+  const dateDelta = b.data.date.valueOf() - a.data.date.valueOf();
+  if (dateDelta !== 0) {
+    return dateDelta;
+  }
+  const mtimeDelta = (contentMtimeById.get(b.data.id) || 0) - (contentMtimeById.get(a.data.id) || 0);
+  if (mtimeDelta !== 0) {
+    return mtimeDelta;
+  }
+  return b.data.id.localeCompare(a.data.id);
+}
+
+const recentEntries = [...filteredEntries].sort(byNewestFirst);
+const selectedPin = pinParam && recentEntries.some((entry) => entry.data.id === pinParam) ? pinParam : null;
+const pinnedEntry = selectedPin ? recentEntries.find((entry) => entry.data.id === selectedPin) || null : null;
+const feedEntries = pinnedEntry
+  ? recentEntries.filter((entry) => entry.data.id !== pinnedEntry.data.id)
+  : recentEntries;
+
 const typeCounts = COLLECTIONS
   .map((type) => ({
     type,
@@ -83,19 +126,12 @@ const entriesWithMedia = entries
   .filter((item) => item.mediaCount > 0)
   .slice(0, 4);
 
-const groupedEntries = COLLECTIONS
-  .map((type) => ({
-    type,
-    entries: filteredEntries.filter((entry) => entry.collection === type),
-  }))
-  .filter((group) => group.entries.length > 0);
-
 function buildHref(
   nextType: string | null,
   nextTheme: string | null,
   nextQuery: string,
   nextView: 'stack' | 'mosaic' = selectedView,
-  nextOrder: 'recent' | 'curated' = selectedOrder
+  nextPin: string | null = selectedPin
 ) {
   const params = new URLSearchParams();
   if (nextType) {
@@ -110,8 +146,8 @@ function buildHref(
   if (nextView === 'mosaic') {
     params.set('view', 'mosaic');
   }
-  if (nextOrder === 'curated') {
-    params.set('order', 'curated');
+  if (nextPin) {
+    params.set('pin', nextPin);
   }
   const qs = params.toString();
   return qs ? `/?${qs}` : '/';
@@ -165,7 +201,7 @@ function buildHref(
       <form action="/" method="GET" class="search" data-filter-form>
         {selectedType && <input type="hidden" name="type" value={selectedType} />}
         {selectedTheme && <input type="hidden" name="theme" value={selectedTheme} />}
-        {selectedOrder === 'curated' && <input type="hidden" name="order" value="curated" />}
+        {selectedPin && <input type="hidden" name="pin" value={selectedPin} />}
         <input
           type="search"
           name="q"
@@ -202,20 +238,33 @@ function buildHref(
         </a>
       </div>
 
-      <div class="chip-row order-row">
-        <a
-          class={selectedOrder === 'recent' ? 'chip on' : 'chip'}
-          href={buildHref(selectedType, selectedTheme, queryParam, selectedView, 'recent')}
-        >
-          Recent First
-        </a>
-        <a
-          class={selectedOrder === 'curated' ? 'chip on' : 'chip'}
-          href={buildHref(selectedType, selectedTheme, queryParam, selectedView, 'curated')}
-        >
-          Curated
-        </a>
-      </div>
+      {selectedPin && (
+        <p class="pin-state">
+          Pinned feature: <code>{selectedPin}</code>{' '}
+          <a href={buildHref(selectedType, selectedTheme, queryParam, selectedView, null)}>clear</a>
+        </p>
+      )}
+
+      {recentEntries.length > 0 && (
+        <div class="chip-row pin-picks">
+          <span class="pin-picks-label">Pin Feature</span>
+          <a
+            class={!selectedPin ? 'chip on' : 'chip'}
+            href={buildHref(selectedType, selectedTheme, queryParam, selectedView, null)}
+          >
+            None
+          </a>
+          {recentEntries.slice(0, 6).map((entry) => (
+            <a
+              class={selectedPin === entry.data.id ? 'chip on' : 'chip'}
+              href={buildHref(selectedType, selectedTheme, queryParam, selectedView, entry.data.id)}
+              title={formatDisplayTitle(entry.data.title)}
+            >
+              {entry.data.id}
+            </a>
+          ))}
+        </div>
+      )}
 
       <div class="chip-row">
         <a
@@ -266,13 +315,14 @@ function buildHref(
       <p
         class="active-filters"
         data-active-filters
-        hidden={!(selectedType || selectedTheme || queryParam)}
+        hidden={!(selectedType || selectedTheme || queryParam || selectedPin)}
       >
         Active filters: {
           [
             selectedType ? `Type: ${getTypeLabel(selectedType)}` : null,
             selectedTheme ? `Theme: ${selectedTheme}` : null,
             queryParam ? `Search: "${queryParam}"` : null,
+            selectedPin ? `Pinned: ${selectedPin}` : null,
           ]
             .filter(Boolean)
             .join(' · ')
@@ -292,30 +342,23 @@ function buildHref(
     ) : (
       <>
         <div class="stack-view" data-feed-view="stack" hidden={selectedView === 'mosaic'}>
-          {selectedOrder === 'curated' ? (
-            groupedEntries.map((group) => (
-              <section class={`type-section ${group.type}`} data-type={group.type}>
-                <header class="type-head">
-                  <h2>{getTypeLabel(group.type)}</h2>
-                  <span data-section-count>{group.entries.length} objects</span>
-                </header>
-                <div class="type-list">
-                  {group.entries.map((entry) => (
-                    <ObjectCard entry={entry} />
-                  ))}
-                </div>
-              </section>
-            ))
-          ) : (
-            <div class="time-list">
-              {filteredEntries.map((entry) => (
-                <ObjectCard entry={entry} />
-              ))}
-            </div>
+          {pinnedEntry && (
+            <section class="pinned-feature" data-pinned-feature>
+              <header class="pinned-head">
+                <h2>Pinned Feature</h2>
+                <span>{pinnedEntry.data.id}</span>
+              </header>
+              <ObjectCard entry={pinnedEntry} />
+            </section>
           )}
+          <div class="time-list">
+            {feedEntries.map((entry) => (
+              <ObjectCard entry={entry} />
+            ))}
+          </div>
         </div>
         <div class="mosaic-view" data-feed-view="mosaic" hidden={selectedView !== 'mosaic'}>
-          {filteredEntries.map((entry) => (
+          {recentEntries.map((entry) => (
             <ObjectCard entry={entry} variant="mosaic" />
           ))}
         </div>
@@ -407,10 +450,10 @@ function buildHref(
     const resultCount = document.querySelector('[data-result-count]');
     const shownCount = document.querySelector('[data-shown-count]');
     const activeFilters = document.querySelector('[data-active-filters]');
+    const pinnedFeature = feed.querySelector('[data-pinned-feature]');
     const emptyState = feed.querySelector('[data-empty-state]');
     const stackView = feed.querySelector('[data-feed-view="stack"]');
     const mosaicView = feed.querySelector('[data-feed-view="mosaic"]');
-    const sections = Array.from(feed.querySelectorAll('.stack-view .type-section[data-type]'));
     const stackCards = Array.from(feed.querySelectorAll('.stack-view .card[data-type]'));
     const mosaicCards = Array.from(feed.querySelectorAll('.mosaic-view .card[data-type]'));
     const typeChips = Array.from(document.querySelectorAll('.chip[data-filter-kind="type"]'));
@@ -440,12 +483,11 @@ function buildHref(
       theme: '',
       q: '',
       view: 'stack',
-      order: 'recent',
+      pin: '',
     };
     let controlsExpanded = true;
 
-    const objectLabel = (count) => `${count} object${count === 1 ? '' : 's'}`;
-    const hasActiveControls = () => Boolean(state.type || state.theme || state.q);
+    const hasActiveControls = () => Boolean(state.type || state.theme || state.q || state.pin);
 
     function syncControlsState() {
       if (!controls || !controlsToggle || !controlsPanel) {
@@ -470,12 +512,11 @@ function buildHref(
       const urlType = (params.get('type') || '').trim();
       const urlTheme = (params.get('theme') || '').trim();
       const urlView = (params.get('view') || '').trim().toLowerCase();
-      const urlOrder = (params.get('order') || '').trim().toLowerCase();
       state.type = validTypes.has(urlType) ? urlType : '';
       state.theme = validThemes.has(urlTheme) ? urlTheme : '';
       state.q = (params.get('q') || '').trim();
       state.view = validViews.has(urlView) ? urlView : 'stack';
-      state.order = urlOrder === 'curated' ? 'curated' : 'recent';
+      state.pin = (params.get('pin') || '').trim();
     }
 
     function updateUrlState() {
@@ -492,8 +533,8 @@ function buildHref(
       if (state.view === 'mosaic') {
         params.set('view', 'mosaic');
       }
-      if (state.order === 'curated') {
-        params.set('order', 'curated');
+      if (state.pin) {
+        params.set('pin', state.pin);
       }
       const qs = params.toString();
       const next = qs ? `/?${qs}` : '/';
@@ -540,6 +581,9 @@ function buildHref(
       if (state.q) {
         bits.push(`Search: "${state.q}"`);
       }
+      if (state.pin) {
+        bits.push(`Pinned: ${state.pin}`);
+      }
 
       const hasActive = bits.length > 0;
       activeFilters.hidden = !hasActive;
@@ -570,38 +614,22 @@ function buildHref(
     function applyFilters() {
       let shown = 0;
 
-      if (sections.length > 0) {
-        sections.forEach((section) => {
-          let sectionShown = 0;
-          const sectionCards = Array.from(section.querySelectorAll('.card[data-type]'));
+      stackCards.forEach((card) => {
+        const visible = cardMatches(card);
+        card.hidden = !visible;
+        card.style.display = visible ? '' : 'none';
+        if (visible) {
+          shown += 1;
+        }
+      });
 
-          sectionCards.forEach((card) => {
-            const visible = cardMatches(card);
-            card.hidden = !visible;
-            card.style.display = visible ? '' : 'none';
-            if (visible) {
-              shown += 1;
-              sectionShown += 1;
-            }
-          });
-
-          const countNode = section.querySelector('[data-section-count]');
-          if (countNode) {
-            countNode.textContent = objectLabel(sectionShown);
-          }
-
-          section.hidden = sectionShown === 0;
-          section.style.display = sectionShown === 0 ? 'none' : '';
-        });
-      } else {
-        stackCards.forEach((card) => {
-          const visible = cardMatches(card);
-          card.hidden = !visible;
-          card.style.display = visible ? '' : 'none';
-          if (visible) {
-            shown += 1;
-          }
-        });
+      if (pinnedFeature) {
+        const pinnedCard = pinnedFeature.querySelector('.card[data-type]');
+        if (pinnedCard instanceof HTMLElement) {
+          const pinnedVisible = !pinnedCard.hidden && pinnedCard.style.display !== 'none';
+          pinnedFeature.hidden = !pinnedVisible;
+          pinnedFeature.style.display = pinnedVisible ? '' : 'none';
+        }
       }
 
       mosaicCards.forEach((card) => {
@@ -630,7 +658,7 @@ function buildHref(
         searchInput.value = state.q;
       }
       if (clearButton) {
-        clearButton.hidden = !(state.type || state.theme || state.q);
+        clearButton.hidden = !(state.type || state.theme || state.q || state.pin);
       }
 
       setChipState(typeChips, state.type);
@@ -683,6 +711,7 @@ function buildHref(
       state.type = '';
       state.theme = '';
       state.q = '';
+      state.pin = '';
       updateUrlState();
       applyFilters();
     });
@@ -920,8 +949,51 @@ function buildHref(
     margin-bottom: 1.2rem;
   }
 
-  .order-row {
-    margin-bottom: 1.1rem;
+  .pin-state {
+    margin: 0 0 1rem;
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui);
+    text-transform: uppercase;
+  }
+
+  .pin-state code {
+    color: var(--star);
+    background: rgba(201, 150, 58, 0.12);
+    border: 1px solid rgba(201, 150, 58, 0.34);
+    border-radius: 2px;
+    padding: 0.08rem 0.3rem;
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: 0.02em;
+    text-transform: none;
+  }
+
+  .pin-state a {
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(201, 150, 58, 0.45);
+    margin-left: 0.35rem;
+    text-transform: none;
+  }
+
+  .pin-state a:hover {
+    color: var(--star);
+    border-color: rgba(244, 240, 232, 0.7);
+  }
+
+  .pin-picks {
+    align-items: center;
+  }
+
+  .pin-picks-label {
+    color: var(--accent);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    margin-right: 0.35rem;
   }
 
   .chip {
@@ -1066,6 +1138,39 @@ function buildHref(
   .time-list {
     display: grid;
     gap: 3.8rem;
+  }
+
+  .pinned-feature {
+    display: grid;
+    gap: 1.45rem;
+    margin-bottom: 1rem;
+    padding: 0 0 2rem;
+    border-bottom: 1px solid rgba(201, 150, 58, 0.22);
+  }
+
+  .pinned-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.8rem;
+    padding-bottom: 0.35rem;
+  }
+
+  .pinned-head h2 {
+    margin: 0;
+    color: #efc887;
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+  }
+
+  .pinned-head span {
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui);
   }
 
   .empty-state {

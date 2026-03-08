@@ -198,3 +198,22 @@ Actions:
 Follow-up flag:
 
 - `inbox/drop/raw-2026-03-06-index-card-line.md` remains in drop without a documented ready/promotion pass and should be triaged in the next inbox sweep.
+
+## System Note Adjustments (v3+ codex update)
+
+Following presentation-runtime learnings, system notes were advanced to v3+.
+
+Updates:
+
+- Added canonical release object: `objects/codex/codex-archive-system-v3-plus-notes.md`
+- Synced Astro content copy: `astro/src/content/codex/codex-archive-system-v3-plus-notes.md`
+- Marked `codex-archive-system-v3-notes` as superseded context
+- Added newest-release links from live WIP/evolution/go-live/fragment objects to `codex-archive-system-v3-plus-notes`
+- Updated status/respawn/current-state docs to reflect v3+ as active operational patch level
+- Added feed runtime adjustment: force recent-first ordering with optional single pinned feature (`?pin=<object-id>`)
+
+Validation/build result (post-v3+ update):
+
+- Objects validated: `35`
+- Build status: pass
+- Graph regenerated: `35` nodes, `414` edges

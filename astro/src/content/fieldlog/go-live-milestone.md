@@ -18,6 +18,7 @@ constellations:
   - Cascade Psalms
 
 related:
+  - codex-archive-system-v3-plus-notes
   - codex-archive-system-v3-notes
   - jsa-collage-evolution-001
   - codex-archive-system-v2-7-notes

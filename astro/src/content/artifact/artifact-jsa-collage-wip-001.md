@@ -22,6 +22,7 @@ related:
   - under-load
   - deck-under-load-ii
   - archive-box-stamped-fragments
+  - codex-archive-system-v3-plus-notes
   - codex-archive-system-v3-notes
   - codex-archive-system-v2-7-notes
   - go-live-milestone

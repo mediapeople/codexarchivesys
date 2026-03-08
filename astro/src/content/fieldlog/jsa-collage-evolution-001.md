@@ -20,6 +20,7 @@ constellations:
 
 related:
   - artifact-jsa-collage-wip-001
+  - codex-archive-system-v3-plus-notes
   - codex-archive-system-v3-notes
   - go-live-milestone
 

@@ -1,12 +1,12 @@
 # CODEX ARCHIVE SYSTEM
 ## Project Status Document
-### v3 - March 7, 2026
+### v3+ - March 7, 2026
 
 ---
 
 ## CURRENT VERSION
 
-**v3**
+**v3+**
 
 This document supersedes `docs/codex-status-v2.7.md` as the active status reference.
 
@@ -23,7 +23,7 @@ FIELD REGISTRY  complete        docs/field-registry.md
 SCHEMA          complete        astro/src/content/config.ts
 INTAKE PROMPT   active          docs/llm-intake-prompt.md (v3 preflight + WIP update-link rule)
 ASTRO BUILD     active          feed, object pages, nexus, graph
-OBJECT ARCHIVE  active          canonical objects + codex v3 notes + go-live milestone
+OBJECT ARCHIVE  active          canonical objects + codex v3+ notes + go-live milestone
 INBOX SYSTEM    active          drop/processing/needs-info/ready
 RELATION ENGINE complete        astro/src/lib/relations.ts + build graph pipeline
 RESPAWN CHAIN   complete        docs/respawn-system-files-v3.md + quickstart
@@ -32,21 +32,25 @@ DEPLOYMENT      live            ndcodex.com on Netlify (GitHub-linked deploys)
 
 ---
 
-## WHAT v3 ADDS
+## WHAT v3+ ADDS
 
-v3 is an ingest-learning and release-note discipline update.
+v3+ extends the v3 ingest discipline with presentation-runtime hardening.
 
 1. Canonical release object added:
-   - `codex-archive-system-v3-notes`
+   - `codex-archive-system-v3-plus-notes`
 2. WIP/revision intake guidance now requires linking to newest relevant updates.
 3. WIP/revision artifact graph now includes reciprocal links to current release notes.
 4. Promotion flow now explicitly supports media normalization from capture formats (e.g., HEIC -> JPG).
 5. Status and respawn references advanced to a v3 chain in one pass.
 6. Media slimming workflow is now documented and repeatable via `scripts/optimize-media-assets.mjs`.
+7. Object pages now emit type-aware share metadata (Open Graph + Twitter + canonical).
+8. Fallback social image is now explicit for no-media pages: `/social/ndcodex-minimal-og.png`.
+9. Favicon set was refreshed to a minimal codex mark.
+10. Object-page images are now clickable and expandable for fullscreen inspection.
 
 ---
 
-## EXPANDED LEARNINGS (v3)
+## EXPANDED LEARNINGS (v3+)
 
 1. Ingest quality is relation quality; a clean object with weak links is still under-indexed.
 2. WIP objects need temporal context links to stay useful after subsequent releases.
@@ -54,10 +58,12 @@ v3 is an ingest-learning and release-note discipline update.
 4. Release-note updates should ingest operational learnings immediately, while context is fresh.
 5. Version moves are safer when status docs, respawn docs, and canonical release objects advance together.
 6. Camera-native assets must be compressed before publish; web compatibility is insufficient without payload control.
+7. Social cards need deterministic fallback behavior to avoid crawler ambiguity.
+8. Media-rich objects require inspectability as a first-class reading behavior.
 
 ---
 
-## MEDIA HANDLING NOTES (v3)
+## MEDIA HANDLING NOTES (v3+)
 
 1. Image handling (current default):
    - Convert HEIC to JPG at ingest/promotion time.
@@ -70,6 +76,8 @@ v3 is an ingest-learning and release-note discipline update.
    - Publish optimized derivatives in `astro/public/media/`.
 4. Operational command:
    - `node scripts/optimize-media-assets.mjs <file> [file...]`
+5. Sharing fallback:
+   - Use a lightweight default social image for pages without object media.
 
 ---
 
@@ -108,10 +116,10 @@ Advance status + respawn + current release object in the same commit when versio
 
 ---
 
-## v3 DONE CONDITION
+## v3+ DONE CONDITION
 
 - `docs/codex-status-v3.md` exists and is current.
 - `docs/respawn-system-files-v3.md` exists and is current.
 - `docs/respawn-quickstart.md` points to v3 chain.
-- `codex-archive-system-v3-notes` is present in canonical object stores.
+- `codex-archive-system-v3-plus-notes` is present in canonical object stores.
 - Validation and build pass.
