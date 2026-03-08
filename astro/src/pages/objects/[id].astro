@@ -151,7 +151,7 @@ const primaryDesignation = primaryAuthor.designation || primaryAuthor.role;
 
     {includedObjects.length > 0 && (
       <section class="inclusion">
-        <h2>Nexus Sequence</h2>
+        <h2>Nexus Stack</h2>
         <ol>
           {includedObjects.map((item) => {
             const target = byId.get(item.ref);
@@ -1073,18 +1073,30 @@ const primaryDesignation = primaryAuthor.designation || primaryAuthor.role;
   }
 
   .inclusion {
-    margin: 4rem 0 1.8rem;
+    margin: 4.5rem 0 2.15rem;
     padding-top: 0.2rem;
     max-width: min(1080px, 100%);
   }
 
   .inclusion h2 {
-    margin: 0 0 1.55rem;
-    color: var(--star);
-    font-size: clamp(1.7rem, 2.3vw, 2.2rem);
-    font-style: normal;
-    font-weight: 600;
-    letter-spacing: var(--ls-title);
+    margin: 0 0 1rem;
+    color: var(--accent);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.68rem;
+    line-height: 1.24;
+  }
+
+  .inclusion h2::after {
+    content: '';
+    width: 2.55rem;
+    height: 1px;
+    background: rgba(196, 98, 58, 0.4);
   }
 
   .inclusion ol {
@@ -1092,18 +1104,24 @@ const primaryDesignation = primaryAuthor.designation || primaryAuthor.role;
     padding: 0;
     list-style: none;
     display: grid;
-    gap: clamp(1.35rem, 2.2vw, 1.95rem);
+    gap: 0;
     counter-reset: nexus-sequence;
+    border-top: 1px solid rgba(164, 134, 97, 0.25);
+    border-bottom: 1px solid rgba(164, 134, 97, 0.22);
   }
 
   .inclusion li {
     counter-increment: nexus-sequence;
     display: grid;
     grid-template-columns: minmax(210px, 26ch) minmax(0, 1fr);
-    align-items: baseline;
-    column-gap: 1.2rem;
-    row-gap: 0.34rem;
-    padding-bottom: 0.06rem;
+    align-items: center;
+    column-gap: clamp(1.2rem, 2vw, 1.9rem);
+    row-gap: 0.44rem;
+    padding: clamp(1.05rem, 1.45vw, 1.38rem) 0;
+  }
+
+  .inclusion li:not(:last-child) {
+    border-bottom: 1px solid rgba(164, 134, 97, 0.18);
   }
 
   .inclusion .sequence-role {
@@ -1112,8 +1130,8 @@ const primaryDesignation = primaryAuthor.designation || primaryAuthor.role;
     gap: 0.48rem;
     color: var(--mid);
     font-family: var(--font-ui);
-    font-size: 0.82rem;
-    letter-spacing: 0.12em;
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     white-space: nowrap;
   }
@@ -1132,8 +1150,8 @@ const primaryDesignation = primaryAuthor.designation || primaryAuthor.role;
   .inclusion .sequence-link {
     color: var(--star);
     text-decoration: none;
-    font-size: clamp(2rem, 2.7vw, 3rem);
-    line-height: 1.1;
+    font-size: clamp(2.05rem, 2.55vw, 2.88rem);
+    line-height: 1.12;
     font-style: normal;
     font-weight: 600;
     letter-spacing: var(--ls-title);
@@ -1671,11 +1689,12 @@ const primaryDesignation = primaryAuthor.designation || primaryAuthor.role;
 
     .inclusion li {
       grid-template-columns: 1fr;
-      row-gap: 0.42rem;
+      row-gap: 0.5rem;
+      padding: 0.98rem 0 1.06rem;
     }
 
     .inclusion .sequence-link {
-      font-size: clamp(1.5rem, 6vw, 2.2rem);
+      font-size: clamp(1.56rem, 6vw, 2.2rem);
       line-height: 1.14;
     }
 
