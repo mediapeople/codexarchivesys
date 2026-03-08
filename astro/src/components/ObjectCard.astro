@@ -161,6 +161,10 @@ const showFragmentStageFooter = showFragmentStage && !isFragmentInterlude;
 const showExcerpt = Boolean(summaryText) && !showFragmentStage;
 const showThemes = entry.data.themes.length > 0 && variant !== 'mosaic' && !showFragmentStage;
 const showAuthorTease = !showFragmentStage;
+const hasImagePreview = !showFragmentStage && primaryMedia?.kind === 'image';
+const hasIndependentPreviewAction = hasImagePreview && (variant === 'feed' || variant === 'related');
+const useCenteredCopyStack = !showFragmentStage && (variant === 'feed' || variant === 'related');
+const primaryMediaCaption = primaryMedia ? (primaryMedia.caption || formatMediaLabel(primaryMedia)) : '';
 const searchCorpus = [displayTitle, summaryText, ...entry.data.themes, ...entry.data.constellations]
   .join(' ')
   .toLowerCase();
@@ -175,7 +179,18 @@ const readableDate = formatArchiveDate(entry.data.date);
   data-search={searchCorpus}
 >
   {!showFragmentStage && <a class="hitbox" href={href} aria-label={`Open ${entry.data.title}`}></a>}
-  <div class={`preview-wrap ${showFragmentStage ? 'fragment-stage' : ''}`}>
+  <div
+    class={`preview-wrap ${showFragmentStage ? 'fragment-stage' : ''} ${hasImagePreview ? 'has-image-preview' : ''} ${hasIndependentPreviewAction ? 'card-image-trigger' : ''}`}
+    data-card-image-trigger={hasIndependentPreviewAction ? 'true' : undefined}
+    data-card-lightbox-src={hasIndependentPreviewAction ? primaryMedia?.src : undefined}
+    data-card-lightbox-alt={hasIndependentPreviewAction ? (primaryMedia?.alt || `${entry.data.title} media preview`) : undefined}
+    data-card-lightbox-caption={hasIndependentPreviewAction ? primaryMediaCaption : undefined}
+    data-card-lightbox-href={hasIndependentPreviewAction ? href : undefined}
+    data-card-lightbox-title={hasIndependentPreviewAction ? entry.data.title : undefined}
+    tabindex={hasIndependentPreviewAction ? 0 : undefined}
+    role={hasIndependentPreviewAction ? 'button' : undefined}
+    aria-label={hasIndependentPreviewAction ? `Expand image from ${entry.data.title}` : undefined}
+  >
     {showFragmentStage ? (
       <>
         <span class="fragment-stage-mark" aria-hidden="true">"</span>
@@ -224,45 +239,82 @@ const readableDate = formatArchiveDate(entry.data.date);
         <span>{entry.collection}</span>
       </div>
     )}
+    {hasIndependentPreviewAction && <span class="preview-expand-mark" aria-hidden="true">+</span>}
   </div>
-  {!isFragmentInterlude && (
-    <header class="meta">
-      <TypeBadge type={entry.collection} />
-      {variant !== 'mosaic' && <span class="date">{readableDate}</span>}
-      {variant === 'related' && relationScore !== undefined && <span class="score">{relationScore} signals</span>}
-    </header>
-  )}
-  <h3 class={`title ${isFragmentInterlude ? 'fragment-title-hidden' : ''}`}>{displayTitle}</h3>
-  {showFragmentStage && (
-    <p class="fragment-meta-link-row">
-      {isFragmentInterlude && <span class="fragment-foot-label">Fragment</span>}
-      <a class={`fragment-meta-link ${isFragmentInterlude ? 'fragment-meta-link--interlude' : ''}`} href={href}>
-        {isFragmentInterlude ? 'Inspect context' : 'View metadata'}
-      </a>
-    </p>
-  )}
-  {showExcerpt && <p class="excerpt">{summaryText}</p>}
-  {showThemes && (
-    <ul class="themes">
-      {entry.data.themes.slice(0, 3).map((theme) => (
-        <li>{theme}</li>
-      ))}
-    </ul>
-  )}
-  {showAuthorTease && (
-    <div class="author-tease">
-      <div class="author-thumb" aria-hidden="true">
-        {primaryAuthor.avatar ? (
-          <img src={primaryAuthor.avatar} alt="" loading="lazy" decoding="async" />
-        ) : (
-          <span>{authorInitials}</span>
-        )}
-      </div>
-      <p class="author-name">
-        <span class="name">{primaryAuthor.name}</span>
-        <span class="designation">, {authorDesignation}</span>
-      </p>
+  {useCenteredCopyStack ? (
+    <div class="copy-stack">
+      <header class="meta">
+        <TypeBadge type={entry.collection} />
+        {variant !== 'mosaic' && <span class="date">{readableDate}</span>}
+        {variant === 'related' && relationScore !== undefined && <span class="score">{relationScore} signals</span>}
+      </header>
+      <h3 class="title">{displayTitle}</h3>
+      {showExcerpt && <p class="excerpt">{summaryText}</p>}
+      {showThemes && (
+        <ul class="themes">
+          {entry.data.themes.slice(0, 3).map((theme) => (
+            <li>{theme}</li>
+          ))}
+        </ul>
+      )}
+      {showAuthorTease && (
+        <div class="author-tease">
+          <div class="author-thumb" aria-hidden="true">
+            {primaryAuthor.avatar ? (
+              <img src={primaryAuthor.avatar} alt="" loading="lazy" decoding="async" />
+            ) : (
+              <span>{authorInitials}</span>
+            )}
+          </div>
+          <p class="author-name">
+            <span class="name">{primaryAuthor.name}</span>
+            <span class="designation">, {authorDesignation}</span>
+          </p>
+        </div>
+      )}
     </div>
+  ) : (
+    <>
+      {!isFragmentInterlude && (
+        <header class="meta">
+          <TypeBadge type={entry.collection} />
+          {variant !== 'mosaic' && <span class="date">{readableDate}</span>}
+          {variant === 'related' && relationScore !== undefined && <span class="score">{relationScore} signals</span>}
+        </header>
+      )}
+      <h3 class={`title ${isFragmentInterlude ? 'fragment-title-hidden' : ''}`}>{displayTitle}</h3>
+      {showFragmentStage && (
+        <p class="fragment-meta-link-row">
+          {isFragmentInterlude && <span class="fragment-foot-label">Fragment</span>}
+          <a class={`fragment-meta-link ${isFragmentInterlude ? 'fragment-meta-link--interlude' : ''}`} href={href}>
+            {isFragmentInterlude ? 'Inspect context' : 'View metadata'}
+          </a>
+        </p>
+      )}
+      {showExcerpt && <p class="excerpt">{summaryText}</p>}
+      {showThemes && (
+        <ul class="themes">
+          {entry.data.themes.slice(0, 3).map((theme) => (
+            <li>{theme}</li>
+          ))}
+        </ul>
+      )}
+      {showAuthorTease && (
+        <div class="author-tease">
+          <div class="author-thumb" aria-hidden="true">
+            {primaryAuthor.avatar ? (
+              <img src={primaryAuthor.avatar} alt="" loading="lazy" decoding="async" />
+            ) : (
+              <span>{authorInitials}</span>
+            )}
+          </div>
+          <p class="author-name">
+            <span class="name">{primaryAuthor.name}</span>
+            <span class="designation">, {authorDesignation}</span>
+          </p>
+        </div>
+      )}
+    </>
   )}
 </article>
 
@@ -294,11 +346,17 @@ const readableDate = formatArchiveDate(entry.data.date);
   }
 
   .card.feed {
+    --specimen-tilt: -0.9deg;
     grid-template-columns: minmax(0, 1fr) minmax(340px, 42%);
     padding-left: 0;
     padding-right: 0;
     padding-top: 1.9rem;
     padding-bottom: 2.2rem;
+  }
+
+  .card.feed:nth-of-type(even),
+  .card.related:nth-of-type(even) {
+    --specimen-tilt: 0.75deg;
   }
 
   .card.feed.fragment {
@@ -313,6 +371,7 @@ const readableDate = formatArchiveDate(entry.data.date);
   }
 
   .card.related {
+    --specimen-tilt: -0.7deg;
     grid-template-columns: minmax(0, 1fr) minmax(320px, 40%);
     column-gap: 4.8rem;
     row-gap: 1.2rem;
@@ -413,6 +472,30 @@ const readableDate = formatArchiveDate(entry.data.date);
     align-self: start;
   }
 
+  .preview-wrap.card-image-trigger {
+    z-index: 3;
+    cursor: zoom-in;
+  }
+
+  .preview-wrap.card-image-trigger:focus-visible {
+    outline: 1px solid rgba(233, 201, 140, 0.76);
+    outline-offset: 4px;
+  }
+
+  .copy-stack {
+    grid-column: 1;
+    grid-row: 1 / span 5;
+    min-width: 0;
+  }
+
+  .card.feed .copy-stack,
+  .card.related .copy-stack {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: stretch;
+  }
+
   .card.mosaic .preview-wrap {
     grid-column: 1;
     grid-row: auto;
@@ -459,6 +542,71 @@ const readableDate = formatArchiveDate(entry.data.date);
 
   .card.feed .preview-wrap {
     aspect-ratio: 16 / 10;
+  }
+
+  .card.feed .preview-wrap.has-image-preview,
+  .card.related .preview-wrap.has-image-preview {
+    aspect-ratio: 14 / 15;
+    padding:
+      clamp(1.05rem, 2.4vw, 1.6rem)
+      clamp(0.8rem, 1.9vw, 1.25rem);
+    position: relative;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0) 18%),
+      linear-gradient(180deg, rgba(58, 48, 41, 0.92), rgba(34, 29, 25, 0.96));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 12px 24px rgba(0, 0, 0, 0.14);
+  }
+
+  .card.feed .preview-wrap.has-image-preview::before,
+  .card.related .preview-wrap.has-image-preview::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(255, 255, 255, 0.018), transparent 14%, transparent 86%, rgba(0, 0, 0, 0.05)),
+      repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.012) 0 1px, transparent 1px 22px);
+    pointer-events: none;
+  }
+
+  .card.feed .preview-wrap.has-image-preview::after,
+  .card.related .preview-wrap.has-image-preview::after {
+    content: '';
+    position: absolute;
+    left: 14%;
+    right: 14%;
+    bottom: clamp(0.5rem, 1.3vw, 0.85rem);
+    height: clamp(0.65rem, 1.6vw, 1rem);
+    border-radius: 999px;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.38), transparent 72%);
+    filter: blur(10px);
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .preview-expand-mark {
+    position: absolute;
+    top: 0.52rem;
+    right: 0.52rem;
+    z-index: 2;
+    width: 1.15rem;
+    height: 1.15rem;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(244, 240, 232, 0.22);
+    background: rgba(14, 12, 10, 0.58);
+    color: rgba(244, 240, 232, 0.72);
+    font-family: var(--font-ui);
+    font-size: 0.62rem;
+    line-height: 1;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+    pointer-events: none;
+    transition:
+      border-color 160ms ease,
+      color 160ms ease,
+      background 160ms ease,
+      transform 160ms ease;
   }
 
   .card.feed.fragment .preview-wrap.fragment-stage {
@@ -696,6 +844,38 @@ const readableDate = formatArchiveDate(entry.data.date);
     height: 100%;
     display: block;
     object-fit: cover;
+  }
+
+  .preview-wrap.has-image-preview .preview-image {
+    position: relative;
+    z-index: 1;
+    object-fit: contain;
+    object-position: center center;
+    transform: translateY(0.08rem) rotate(var(--specimen-tilt, -0.85deg));
+    transform-origin: center 56%;
+    transition:
+      transform 180ms ease,
+      filter 180ms ease;
+    filter:
+      drop-shadow(0 14px 18px rgba(0, 0, 0, 0.32))
+      drop-shadow(0 3px 6px rgba(0, 0, 0, 0.22));
+  }
+
+  .card.feed:hover .preview-wrap.has-image-preview .preview-image,
+  .card.related:hover .preview-wrap.has-image-preview .preview-image {
+    transform: translateY(0) rotate(0deg);
+    filter:
+      drop-shadow(0 12px 16px rgba(0, 0, 0, 0.28))
+      drop-shadow(0 2px 4px rgba(0, 0, 0, 0.18));
+  }
+
+  .card.feed:hover .preview-expand-mark,
+  .card.related:hover .preview-expand-mark,
+  .preview-wrap.card-image-trigger:focus-visible .preview-expand-mark {
+    border-color: rgba(244, 240, 232, 0.42);
+    color: rgba(244, 240, 232, 0.92);
+    background: rgba(14, 12, 10, 0.74);
+    transform: translateY(-1px);
   }
 
   .preview-fallback,
@@ -1154,6 +1334,12 @@ const readableDate = formatArchiveDate(entry.data.date);
       max-width: none;
     }
 
+    .copy-stack {
+      grid-column: 1;
+      grid-row: auto;
+      order: 1;
+    }
+
     .card.feed .preview-wrap,
     .card.related .preview-wrap {
       grid-column: 1;
@@ -1161,6 +1347,11 @@ const readableDate = formatArchiveDate(entry.data.date);
       order: 2;
       aspect-ratio: 16 / 9;
       max-width: none;
+    }
+
+    .card.feed .preview-wrap.has-image-preview,
+    .card.related .preview-wrap.has-image-preview {
+      aspect-ratio: 1 / 1;
     }
 
     .card.feed.fragment .preview-wrap.fragment-stage {
@@ -1211,6 +1402,12 @@ const readableDate = formatArchiveDate(entry.data.date);
 
     .card.feed .preview-wrap {
       aspect-ratio: 16 / 9;
+    }
+
+    .card.feed .preview-wrap.has-image-preview,
+    .card.related .preview-wrap.has-image-preview {
+      aspect-ratio: 1 / 1;
+      padding: 0.98rem 0.82rem;
     }
 
     .card.fragment .preview-wrap.fragment-stage {
@@ -1352,6 +1549,12 @@ const readableDate = formatArchiveDate(entry.data.date);
     .preview-wrap,
     .card.related .preview-wrap {
       aspect-ratio: 4 / 3;
+    }
+
+    .card.feed .preview-wrap.has-image-preview,
+    .card.related .preview-wrap.has-image-preview {
+      aspect-ratio: 1 / 1;
+      padding: 0.84rem 0.7rem;
     }
 
     .card.fragment .preview-wrap.fragment-stage {

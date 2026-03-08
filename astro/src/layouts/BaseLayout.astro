@@ -92,6 +92,128 @@ const navItems = [
     <main class="shell">
       <slot />
     </main>
+
+    <div class="card-image-lightbox" data-card-image-lightbox hidden aria-hidden="true">
+      <div class="card-image-lightbox-topbar">
+        <a class="card-image-lightbox-link" href="/" data-card-image-lightbox-link>
+          Open attached post
+        </a>
+        <button
+          class="card-image-lightbox-close"
+          type="button"
+          data-card-image-lightbox-close
+          aria-label="Close expanded card image"
+        >
+          Close
+        </button>
+      </div>
+      <figure class="card-image-lightbox-frame">
+        <img src="" alt="" data-card-image-lightbox-image />
+        <figcaption data-card-image-lightbox-caption hidden></figcaption>
+      </figure>
+    </div>
+
+    <script is:inline>
+      (() => {
+        const lightbox = document.querySelector('[data-card-image-lightbox]');
+        if (!(lightbox instanceof HTMLElement)) return;
+
+        const lightboxImage = lightbox.querySelector('[data-card-image-lightbox-image]');
+        const lightboxCaption = lightbox.querySelector('[data-card-image-lightbox-caption]');
+        const lightboxLink = lightbox.querySelector('[data-card-image-lightbox-link]');
+        const closeButton = lightbox.querySelector('[data-card-image-lightbox-close]');
+
+        if (!(lightboxImage instanceof HTMLImageElement)) return;
+        if (!(lightboxCaption instanceof HTMLElement)) return;
+        if (!(lightboxLink instanceof HTMLAnchorElement)) return;
+
+        const triggers = Array.from(document.querySelectorAll('[data-card-image-trigger="true"]')).filter(
+          (node) => node instanceof HTMLElement
+        );
+        if (!triggers.length) return;
+
+        let lastFocusedTrigger = null;
+        let previousOverflow = '';
+
+        const closeLightbox = () => {
+          if (lightbox.hidden) return;
+
+          lightbox.hidden = true;
+          lightbox.setAttribute('aria-hidden', 'true');
+          lightboxImage.removeAttribute('src');
+          lightboxImage.removeAttribute('alt');
+          lightboxCaption.textContent = '';
+          lightboxCaption.hidden = true;
+          lightboxLink.href = '/';
+          lightboxLink.textContent = 'Open attached post';
+          document.body.style.overflow = previousOverflow;
+
+          if (lastFocusedTrigger instanceof HTMLElement) {
+            lastFocusedTrigger.focus();
+          }
+        };
+
+        const openLightbox = (trigger) => {
+          const source = trigger.getAttribute('data-card-lightbox-src');
+          if (!source) return;
+
+          previousOverflow = document.body.style.overflow;
+          document.body.style.overflow = 'hidden';
+          lastFocusedTrigger = trigger;
+
+          lightboxImage.src = source;
+          lightboxImage.alt = trigger.getAttribute('data-card-lightbox-alt') || 'Expanded image';
+
+          const caption = trigger.getAttribute('data-card-lightbox-caption') || '';
+          if (caption) {
+            lightboxCaption.textContent = caption;
+            lightboxCaption.hidden = false;
+          } else {
+            lightboxCaption.textContent = '';
+            lightboxCaption.hidden = true;
+          }
+
+          const href = trigger.getAttribute('data-card-lightbox-href') || '/';
+          const title = trigger.getAttribute('data-card-lightbox-title') || 'attached post';
+          lightboxLink.href = href;
+          lightboxLink.textContent = `Open ${title}`;
+
+          lightbox.hidden = false;
+          lightbox.setAttribute('aria-hidden', 'false');
+        };
+
+        triggers.forEach((trigger) => {
+          if (!(trigger instanceof HTMLElement)) return;
+
+          trigger.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            openLightbox(trigger);
+          });
+
+          trigger.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault();
+              openLightbox(trigger);
+            }
+          });
+        });
+
+        closeButton?.addEventListener('click', closeLightbox);
+
+        lightbox.addEventListener('click', (event) => {
+          if (event.target === lightbox) {
+            closeLightbox();
+          }
+        });
+
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') {
+            closeLightbox();
+          }
+        });
+      })();
+    </script>
   </body>
 </html>
 
@@ -311,6 +433,88 @@ const navItems = [
     z-index: 1;
   }
 
+  .card-image-lightbox[hidden] {
+    display: none;
+  }
+
+  .card-image-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 320;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 0.8rem;
+    align-items: center;
+    justify-items: center;
+    padding: clamp(0.95rem, 2vw, 1.7rem);
+    background: rgba(7, 6, 4, 0.94);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .card-image-lightbox-topbar {
+    width: min(96vw, 1600px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+  }
+
+  .card-image-lightbox-link,
+  .card-image-lightbox-close {
+    border: 1px solid rgba(244, 240, 232, 0.3);
+    background: rgba(14, 12, 10, 0.76);
+    color: var(--parchment);
+    font-family: var(--font-ui);
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.42rem 0.72rem;
+    text-decoration: none;
+  }
+
+  .card-image-lightbox-close {
+    cursor: pointer;
+  }
+
+  .card-image-lightbox-link:hover,
+  .card-image-lightbox-close:hover {
+    border-color: rgba(244, 240, 232, 0.76);
+  }
+
+  .card-image-lightbox-frame {
+    margin: 0;
+    width: min(96vw, 1600px);
+    height: min(88vh, 1100px);
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    gap: 0.6rem;
+  }
+
+  .card-image-lightbox-frame img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: calc(min(88vh, 1100px) - 3.2rem);
+    object-fit: contain;
+    border: 1px solid rgba(244, 240, 232, 0.14);
+    background: rgba(12, 11, 9, 0.96);
+    box-shadow:
+      0 22px 40px rgba(0, 0, 0, 0.28),
+      0 6px 12px rgba(0, 0, 0, 0.18);
+  }
+
+  .card-image-lightbox-frame figcaption {
+    margin: 0;
+    max-width: min(96vw, 110ch);
+    color: var(--mid);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    text-align: center;
+    text-wrap: balance;
+  }
+
   @media (max-width: 600px) {
     body.page-feed {
       --gutter: 1rem;
@@ -363,6 +567,18 @@ const navItems = [
       opacity: 0.12;
       background-size: 176% 176%;
       background-position: 62% 30%;
+    }
+
+    .card-image-lightbox-topbar {
+      width: 100%;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .card-image-lightbox-link,
+    .card-image-lightbox-close {
+      font-size: 0.62rem;
+      padding: 0.4rem 0.64rem;
     }
   }
 
