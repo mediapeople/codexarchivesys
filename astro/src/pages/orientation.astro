@@ -1,0 +1,487 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { COLLECTIONS, getAllEntries, getTypeLabel } from '../lib/archive';
+import { getDefaultSourceProfile } from '../lib/sourceProfiles';
+
+const entries = await getAllEntries();
+const operator = getDefaultSourceProfile();
+
+const typeCounts = COLLECTIONS.map((type) => ({
+  type,
+  count: entries.filter((entry) => entry.collection === type).length,
+})).filter((item) => item.count > 0);
+
+const activeConstellations = [...new Set(entries.flatMap((entry) => entry.data.constellations))].sort(
+  (a, b) => a.localeCompare(b)
+);
+
+const constellationBlueprint = [
+  {
+    name: 'Cascade Psalms',
+    description: 'Compression, pressure, and what survives weight.',
+    scope: 'Signal under load',
+    tone: 'cascade',
+  },
+  {
+    name: 'Maintenance Psalms',
+    description: 'Continuing, Tuesdays, and the practice of keeping on.',
+    scope: 'Durable routines',
+    tone: 'maintenance',
+  },
+  {
+    name: 'Archaeological Objects',
+    description: 'Physical artifacts, constructed works, and recovered material.',
+    scope: 'Material evidence',
+    tone: 'archaeology',
+  },
+] as const;
+
+const constellationCards = constellationBlueprint.map((item) => ({
+  ...item,
+  count: entries.filter((entry) => entry.data.constellations.includes(item.name)).length,
+}));
+
+const latestEntry = entries[0] || null;
+const latestDate = latestEntry
+  ? latestEntry.data.date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    })
+  : null;
+
+const coreOperatingRule =
+  'The system optimizes for immediate orientation and dependable live publishing while preserving object-first reading quality.';
+
+const stabilityRules = ['schema slow', 'objects fast', 'relations growing'];
+---
+
+<BaseLayout
+  title="Orientation | Codex Archive"
+  description="Operator profile, system intent, and active constellation map for the Codex Archive."
+  canonicalPath="/orientation"
+>
+  <section class="orientation-hero">
+    <p class="label">Orientation</p>
+    <h1>Operator, intent, and constellation map.</h1>
+    <p class="lead">
+      Start here for system context before entering the live feed.
+      This page names who operates the archive, what governs decisions,
+      and how the current constellation structure is organized.
+    </p>
+    <div class="hero-stats">
+      <article>
+        <strong>{entries.length}</strong>
+        <span>Objects indexed</span>
+      </article>
+      <article>
+        <strong>{typeCounts.length}</strong>
+        <span>Types active</span>
+      </article>
+      <article>
+        <strong>{activeConstellations.length}</strong>
+        <span>Constellations active</span>
+      </article>
+      {latestDate && (
+        <article>
+          <strong>{latestDate}</strong>
+          <span>Latest object date</span>
+        </article>
+      )}
+    </div>
+  </section>
+
+  <section class="panel operator-panel">
+    <p class="kicker">Operator</p>
+    <div class="operator-grid">
+      <div>
+        <h2>{operator.name}</h2>
+        <p class="designation">{operator.designation}</p>
+        {operator.bio && <p class="body-copy">{operator.bio}</p>}
+        {operator.handle && <p class="handle">{operator.handle}</p>}
+      </div>
+      {operator.avatar ? (
+        <img src={operator.avatar} alt={`${operator.name} portrait`} loading="lazy" decoding="async" />
+      ) : (
+        <div class="avatar-fallback" aria-hidden="true">
+          <span>{operator.name}</span>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="panel intent-panel">
+    <p class="kicker">Intent</p>
+    <h2>Core operating rule</h2>
+    <p class="rule">{coreOperatingRule}</p>
+    <div class="intent-grid">
+      <article>
+        <h3>Stability rule</h3>
+        <ul class="rule-list">
+          {stabilityRules.map((rule) => (
+            <li>{rule}</li>
+          ))}
+        </ul>
+      </article>
+      <article>
+        <h3>Type envelope</h3>
+        <p class="body-copy">
+          <strong>{typeCounts.length}</strong> active object types.
+        </p>
+        <ul class="type-list">
+          {typeCounts.map((item) => (
+            <li>
+              <span>{getTypeLabel(item.type)}</span>
+              <code>{item.count}</code>
+            </li>
+          ))}
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="panel constellation-panel">
+    <p class="kicker">Basic constellation</p>
+    <h2>Active constellation map</h2>
+    <p class="body-copy">
+      Constellations are editor-assigned clusters used to preserve legibility,
+      improve relation quality, and support retrieval over time.
+    </p>
+    <div class="constellation-grid">
+      {constellationCards.map((item) => (
+        <article class={`constellation-card ${item.tone}`}>
+          <h3>{item.name}</h3>
+          <p>{item.description}</p>
+          <div class="constellation-meta">
+            <span>{item.scope}</span>
+            <code>{item.count} objects</code>
+          </div>
+        </article>
+      ))}
+    </div>
+    <p class="capacity">{activeConstellations.length} active of 100 capacity.</p>
+  </section>
+
+  <section class="panel path-panel">
+    <p class="kicker">Read path</p>
+    <h2>How to move through the archive</h2>
+    <ol>
+      <li>Start in Feed for newest-first objects and optional pinned emphasis.</li>
+      <li>Open object pages for body-first reading, then metadata and relations.</li>
+      <li>Use Nexus for intentional sequences and Graph for network-level context.</li>
+    </ol>
+  </section>
+</BaseLayout>
+
+<style>
+  .orientation-hero {
+    padding: 6rem 0 3.1rem;
+  }
+
+  .label,
+  .kicker {
+    margin: 0 0 0.5rem;
+    color: var(--accent);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+
+  h1 {
+    margin: 0;
+    max-width: 17ch;
+    font-size: clamp(2.1rem, 5vw, 4rem);
+    line-height: 1.08;
+    color: var(--star);
+  }
+
+  .lead {
+    margin: 1.25rem 0 0;
+    max-width: 52ch;
+    color: var(--text-body);
+    font-size: 1.18rem;
+    line-height: 1.86;
+  }
+
+  .hero-stats {
+    margin-top: 2.4rem;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+
+  .hero-stats article {
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 2px;
+    padding: 0.9rem 0.95rem 0.86rem;
+    background: rgba(18, 14, 11, 0.56);
+  }
+
+  .hero-stats strong {
+    display: block;
+    color: var(--star);
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 2vw, 1.6rem);
+    line-height: 1.25;
+  }
+
+  .hero-stats span {
+    display: block;
+    margin-top: 0.35rem;
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui);
+    text-transform: uppercase;
+  }
+
+  .panel {
+    margin-top: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 2px;
+    padding: 1.45rem 1.6rem 1.7rem;
+    background: rgba(14, 12, 10, 0.44);
+  }
+
+  .panel h2 {
+    margin: 0;
+    color: var(--star);
+    font-size: clamp(1.48rem, 2.8vw, 2.2rem);
+    line-height: 1.22;
+  }
+
+  .body-copy,
+  .rule {
+    margin: 0.9rem 0 0;
+    color: var(--text-body);
+    font-size: 1.05rem;
+    line-height: 1.82;
+  }
+
+  .operator-grid {
+    display: grid;
+    gap: 1.2rem;
+    grid-template-columns: minmax(0, 1fr) 144px;
+    align-items: center;
+  }
+
+  .operator-grid img,
+  .avatar-fallback {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    object-fit: cover;
+  }
+
+  .avatar-fallback {
+    display: grid;
+    place-items: center;
+    background: linear-gradient(150deg, rgba(196, 98, 58, 0.22), rgba(26, 34, 45, 0.44));
+  }
+
+  .avatar-fallback span {
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui);
+    text-transform: uppercase;
+  }
+
+  .designation {
+    margin: 0.6rem 0 0;
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: var(--ls-ui);
+    text-transform: uppercase;
+  }
+
+  .handle {
+    margin: 0.65rem 0 0;
+    color: var(--gold);
+    font-family: var(--font-ui);
+    font-size: 12px;
+    letter-spacing: var(--ls-ui);
+  }
+
+  .intent-grid {
+    margin-top: 1.25rem;
+    display: grid;
+    gap: 1.05rem;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+
+  .intent-grid article {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    padding: 1rem 1rem 1.05rem;
+    background: rgba(10, 9, 8, 0.48);
+  }
+
+  .intent-grid h3 {
+    margin: 0;
+    color: var(--bone);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .rule-list {
+    margin: 0.7rem 0 0;
+    padding-left: 1.1rem;
+    color: var(--text-body);
+    font-family: var(--font-ui);
+    font-size: 12px;
+    line-height: 1.8;
+    letter-spacing: 0.03em;
+  }
+
+  .type-list {
+    margin: 0.8rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.3rem;
+  }
+
+  .type-list li {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.8rem;
+    color: var(--text-body);
+  }
+
+  .type-list span {
+    font-size: 0.98rem;
+  }
+
+  .type-list code,
+  .constellation-meta code {
+    padding: 2px 6px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    color: var(--bone);
+    font-family: var(--font-ui);
+    font-size: 11px;
+  }
+
+  .constellation-grid {
+    margin-top: 1.1rem;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+
+  .constellation-card {
+    padding: 1.05rem 1rem 1.02rem;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 2px;
+    background: rgba(10, 9, 8, 0.46);
+  }
+
+  .constellation-card h3 {
+    margin: 0;
+    color: var(--star);
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    line-height: 1.2;
+    letter-spacing: var(--ls-title);
+  }
+
+  .constellation-card p {
+    margin: 0.56rem 0 0;
+    color: var(--text-body);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .constellation-meta {
+    margin-top: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+  }
+
+  .constellation-meta span {
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui);
+    text-transform: uppercase;
+  }
+
+  .constellation-card.cascade {
+    background:
+      linear-gradient(150deg, rgba(82, 34, 23, 0.38), rgba(10, 12, 22, 0.44));
+  }
+
+  .constellation-card.maintenance {
+    background:
+      linear-gradient(150deg, rgba(44, 48, 30, 0.34), rgba(15, 16, 19, 0.48));
+  }
+
+  .constellation-card.archaeology {
+    background:
+      linear-gradient(150deg, rgba(78, 56, 26, 0.36), rgba(15, 14, 10, 0.46));
+  }
+
+  .capacity {
+    margin: 1rem 0 0;
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+  }
+
+  .path-panel ol {
+    margin: 1rem 0 0;
+    padding-left: 1.2rem;
+    color: var(--text-body);
+    line-height: 1.84;
+    font-size: 1.04rem;
+  }
+
+  .path-panel li + li {
+    margin-top: 0.45rem;
+  }
+
+  @media (max-width: 760px) {
+    .orientation-hero {
+      padding-top: 3.9rem;
+      padding-bottom: 2.4rem;
+    }
+
+    .lead {
+      font-size: 1rem;
+      line-height: 1.72;
+      max-width: 100%;
+    }
+
+    .panel {
+      margin-top: 1.25rem;
+      padding: 1.2rem 1rem 1.18rem;
+    }
+
+    .operator-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .operator-grid img,
+    .avatar-fallback {
+      max-width: 132px;
+    }
+
+    .path-panel ol {
+      font-size: 0.98rem;
+      line-height: 1.72;
+    }
+  }
+</style>

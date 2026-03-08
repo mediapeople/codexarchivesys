@@ -34,10 +34,12 @@ const resolvedTwitterCard = twitterCard || 'summary';
 const feedActive = currentPath === '/' || currentPath.startsWith('/objects/');
 const nexusActive = currentPath.startsWith('/nexus');
 const graphActive = currentPath.startsWith('/graph');
+const orientationActive = currentPath.startsWith('/orientation');
 const homeFeed = currentPath === '/';
 
 const navItems = [
   { href: '/', label: 'Feed', active: feedActive },
+  { href: '/orientation', label: 'Orientation', active: orientationActive },
   { href: '/nexus', label: 'Nexus', active: nexusActive },
   { href: '/graph', label: 'Graph', active: graphActive },
 ];
