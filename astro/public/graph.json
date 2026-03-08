@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-08T19:20:37.413Z",
+  "generatedAt": "2026-03-08T19:52:26.059Z",
   "sourceDir": "../objects",
-  "nodeCount": 45,
-  "edgeCount": 741,
+  "nodeCount": 46,
+  "edgeCount": 780,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -587,6 +587,19 @@
       "constellations": [
         "Maintenance Psalms"
       ]
+    },
+    {
+      "id": "steel-elbow-flinchian",
+      "type": "scroll",
+      "title": "Flinchian Sonic Analysis - The Steel Elbow Diagnostic",
+      "date": "2026-03-08",
+      "themes": [
+        "systems",
+        "signal",
+        "transmission",
+        "pressure"
+      ],
+      "constellations": []
     },
     {
       "id": "suwanee-ga-loremap",
@@ -1774,12 +1787,30 @@
       ]
     },
     {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "steel-elbow-flinchian",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "maintenance-without-cure",
       "target": "north-georgia-march-2026",
       "weight": 6,
       "reasons": [
         "shared-theme",
         "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "scripture-with-machines",
+      "target": "steel-elbow-flinchian",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
         "explicit-related"
       ]
     },
@@ -2219,6 +2250,14 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "steel-elbow-flinchian",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "transmission-note-to-future-me",
       "weight": 4,
       "reasons": [
@@ -2505,6 +2544,15 @@
       ]
     },
     {
+      "source": "lean-mean-governance-machine",
+      "target": "steel-elbow-flinchian",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "maintenance-without-cure",
       "target": "scroll-from-the-perimeter",
       "weight": 4,
@@ -2664,6 +2712,15 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "signal-harvest",
+      "target": "steel-elbow-flinchian",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
       ]
     },
     {
@@ -3239,6 +3296,14 @@
     },
     {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "steel-elbow-flinchian",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "the-bones-hold-content-architecture",
       "weight": 3,
       "reasons": [
@@ -3366,6 +3431,14 @@
     },
     {
       "source": "codex-archive-system-v3-plus-notes",
+      "target": "steel-elbow-flinchian",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
       "target": "the-bones-hold",
       "weight": 3,
       "reasons": [
@@ -3413,6 +3486,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "steel-elbow-flinchian",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -3722,12 +3803,28 @@
       ]
     },
     {
+      "source": "signal-descent-001",
+      "target": "steel-elbow-flinchian",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "signal-descent-002",
       "target": "signal-harvest",
       "weight": 3,
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "signal-descent-002",
+      "target": "steel-elbow-flinchian",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -3740,12 +3837,36 @@
       ]
     },
     {
+      "source": "signal-descent-003",
+      "target": "steel-elbow-flinchian",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-004",
+      "target": "steel-elbow-flinchian",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "signal-descent-004",
       "target": "the-bones-hold",
       "weight": 3,
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "signal.citizen-agency",
+      "target": "steel-elbow-flinchian",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -3823,6 +3944,14 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "steel-elbow-flinchian",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "suwanee-ga-loremap",
       "weight": 2,
       "reasons": [
@@ -3840,6 +3969,14 @@
     {
       "source": "artifact-jsa-collage-001",
       "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "steel-elbow-flinchian",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -4031,6 +4168,14 @@
     },
     {
       "source": "codex-archive-system-v2-7-notes",
+      "target": "steel-elbow-flinchian",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
       "target": "studio-log-adhesive-test-run",
       "weight": 2,
       "reasons": [
@@ -4072,6 +4217,14 @@
     {
       "source": "codex-archive-system-v3-1-build-notes",
       "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "steel-elbow-flinchian",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -4176,6 +4329,14 @@
     {
       "source": "codex-archive-system-v3-notes",
       "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "steel-elbow-flinchian",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -4339,6 +4500,14 @@
       "weight": 2,
       "reasons": [
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "heart-does-not-dream",
+      "target": "steel-elbow-flinchian",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -4615,6 +4784,14 @@
     },
     {
       "source": "nothing-missing-only-unindexed",
+      "target": "steel-elbow-flinchian",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "nothing-missing-only-unindexed",
       "target": "transmission-note-to-future-me",
       "weight": 2,
       "reasons": [
@@ -4654,8 +4831,24 @@
       ]
     },
     {
+      "source": "on-object-oriented-archives",
+      "target": "steel-elbow-flinchian",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "pressure-psalm-v",
       "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pressure-psalm-v",
+      "target": "steel-elbow-flinchian",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -4875,6 +5068,22 @@
       "weight": 2,
       "reasons": [
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "steel-elbow-flinchian",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "steel-elbow-flinchian",
+      "target": "transmission-note-to-future-me",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -5439,6 +5648,14 @@
     },
     {
       "source": "artifact-jsa-collage-wip-001",
+      "target": "steel-elbow-flinchian",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
       "target": "transmission-note-to-future-me",
       "weight": 1,
       "reasons": [
@@ -5504,6 +5721,14 @@
     {
       "source": "codex-archive-system-v2-2",
       "target": "signal.citizen-agency",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
+      "target": "steel-elbow-flinchian",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -5582,6 +5807,14 @@
       ]
     },
     {
+      "source": "codex-archive-system-v2-5-notes",
+      "target": "steel-elbow-flinchian",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "codex-archive-system-v2-6-notes",
       "target": "heart-does-not-dream",
       "weight": 1,
@@ -5632,6 +5865,14 @@
     {
       "source": "codex-archive-system-v2-6-notes",
       "target": "signal.citizen-agency",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
+      "target": "steel-elbow-flinchian",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -5848,6 +6089,14 @@
     {
       "source": "deck-under-load-ii",
       "target": "signal-descent-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "deck-under-load-ii",
+      "target": "steel-elbow-flinchian",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -6167,6 +6416,14 @@
     },
     {
       "source": "jsa-collage-evolution-001",
+      "target": "steel-elbow-flinchian",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
       "target": "the-bones-hold-content-architecture",
       "weight": 1,
       "reasons": [
@@ -6280,6 +6537,14 @@
     {
       "source": "jsa-collage-evolution-002",
       "target": "signal.citizen-agency",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-002",
+      "target": "steel-elbow-flinchian",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -6663,6 +6928,14 @@
     },
     {
       "source": "reduce-novelty-before-care",
+      "target": "steel-elbow-flinchian",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "reduce-novelty-before-care",
       "target": "the-bones-hold",
       "weight": 1,
       "reasons": [
@@ -6752,6 +7025,14 @@
     {
       "source": "scroll-from-the-perimeter",
       "target": "signal.citizen-agency",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "scroll-from-the-perimeter",
+      "target": "steel-elbow-flinchian",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -6871,6 +7152,14 @@
     },
     {
       "source": "stairwell-signal",
+      "target": "steel-elbow-flinchian",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "stairwell-signal",
       "target": "studio-bench-cycle",
       "weight": 1,
       "reasons": [
@@ -6880,6 +7169,46 @@
     {
       "source": "stairwell-signal",
       "target": "suwanee-ga-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "steel-elbow-flinchian",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "steel-elbow-flinchian",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "steel-elbow-flinchian",
+      "target": "the-bones-hold",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "steel-elbow-flinchian",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "steel-elbow-flinchian",
+      "target": "under-load",
       "weight": 1,
       "reasons": [
         "shared-theme"
