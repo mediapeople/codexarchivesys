@@ -104,6 +104,10 @@ const readableDate = entry.data.date.toLocaleDateString('en-US', {
 <style>
   .card {
     --type-accent: var(--ghost);
+    --placeholder-surface:
+      linear-gradient(150deg, rgba(60, 53, 46, 0.24), rgba(18, 16, 14, 0.9));
+    --placeholder-motif: radial-gradient(circle at center, rgba(255, 255, 255, 0.04), transparent 62%);
+    --placeholder-label: rgba(231, 222, 209, 0.76);
     position: relative;
     display: grid;
     column-gap: 3.2rem;
@@ -147,30 +151,65 @@ const readableDate = entry.data.date.toLocaleDateString('en-US', {
 
   .card.scroll {
     --type-accent: rgba(196, 98, 58, 0.85);
+    --placeholder-surface:
+      linear-gradient(152deg, rgba(196, 98, 58, 0.16), rgba(20, 18, 16, 0.92));
+    --placeholder-motif:
+      repeating-linear-gradient(180deg, rgba(244, 240, 232, 0.055) 0 1px, transparent 1px 14px),
+      linear-gradient(90deg, rgba(196, 98, 58, 0.08), transparent 62%);
   }
 
   .card.artifact {
     --type-accent: rgba(201, 150, 58, 0.88);
+    --placeholder-surface:
+      linear-gradient(150deg, rgba(201, 150, 58, 0.17), rgba(22, 19, 16, 0.92));
+    --placeholder-motif:
+      repeating-linear-gradient(45deg, rgba(233, 201, 140, 0.05) 0 1px, transparent 1px 12px),
+      repeating-linear-gradient(-45deg, rgba(233, 201, 140, 0.035) 0 1px, transparent 1px 14px);
   }
 
   .card.fieldlog {
     --type-accent: rgba(138, 132, 128, 0.8);
+    --placeholder-surface:
+      linear-gradient(150deg, rgba(138, 132, 128, 0.18), rgba(20, 18, 16, 0.9));
+    --placeholder-motif:
+      repeating-linear-gradient(0deg, rgba(232, 226, 212, 0.045) 0 1px, transparent 1px 16px),
+      repeating-linear-gradient(90deg, rgba(232, 226, 212, 0.04) 0 1px, transparent 1px 16px);
   }
 
   .card.codex {
     --type-accent: rgba(201, 150, 58, 0.7);
+    --placeholder-surface:
+      linear-gradient(150deg, rgba(184, 153, 102, 0.15), rgba(19, 17, 15, 0.92));
+    --placeholder-motif:
+      repeating-linear-gradient(90deg, rgba(229, 196, 134, 0.045) 0 2px, transparent 2px 28px),
+      linear-gradient(180deg, rgba(233, 201, 140, 0.045), transparent 60%);
   }
 
   .card.fragment {
     --type-accent: rgba(92, 84, 80, 0.86);
+    --placeholder-surface:
+      linear-gradient(150deg, rgba(92, 84, 80, 0.22), rgba(20, 18, 16, 0.9));
+    --placeholder-motif:
+      repeating-linear-gradient(132deg, rgba(215, 196, 167, 0.042) 0 1px, transparent 1px 13px),
+      repeating-linear-gradient(168deg, rgba(215, 196, 167, 0.03) 0 1px, transparent 1px 21px);
   }
 
   .card.nexus {
     --type-accent: var(--rust);
+    --placeholder-surface:
+      linear-gradient(150deg, rgba(196, 98, 58, 0.2), rgba(24, 18, 16, 0.94));
+    --placeholder-motif:
+      radial-gradient(circle at 50% 50%, transparent 0 16%, rgba(231, 171, 130, 0.08) 16% 17%, transparent 17% 33%, rgba(231, 171, 130, 0.06) 33% 34%, transparent 34% 100%),
+      linear-gradient(0deg, rgba(196, 98, 58, 0.07), transparent 58%);
   }
 
   .card.signal {
     --type-accent: rgba(132, 176, 158, 0.82);
+    --placeholder-surface:
+      linear-gradient(150deg, rgba(100, 148, 131, 0.18), rgba(18, 23, 21, 0.95));
+    --placeholder-motif:
+      radial-gradient(circle at 50% 50%, rgba(132, 176, 158, 0.14) 0 12%, transparent 40%),
+      repeating-linear-gradient(90deg, rgba(171, 214, 196, 0.045) 0 1px, transparent 1px 18px);
   }
 
   .hitbox {
@@ -254,50 +293,52 @@ const readableDate = entry.data.date.toLocaleDateString('en-US', {
     place-items: center;
     text-align: center;
     gap: 0.25rem;
-    color: var(--text-dim);
+    color: var(--placeholder-label);
+    background: var(--placeholder-surface);
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .preview-fallback::before,
+  .preview-empty::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--placeholder-motif);
+    opacity: 0.82;
+    pointer-events: none;
+  }
+
+  .preview-fallback::after,
+  .preview-empty::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 50% 50%, transparent 38%, rgba(14, 12, 10, 0.18) 100%),
+      linear-gradient(180deg, rgba(244, 240, 232, 0.06), rgba(14, 12, 10, 0.4));
+    pointer-events: none;
   }
 
   .preview-fallback span,
   .preview-empty span {
+    position: relative;
+    z-index: 1;
     font-family: var(--font-ui);
     font-size: 0.67rem;
     letter-spacing: var(--ls-ui-wide);
     text-transform: uppercase;
     font-weight: 700;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
   }
 
   .preview-fallback small {
+    position: relative;
+    z-index: 1;
     font-family: var(--font-ui);
     font-size: 0.62rem;
     letter-spacing: var(--ls-ui);
-  }
-
-  .preview-empty.artifact {
-    background: linear-gradient(150deg, rgba(201, 150, 58, 0.24), rgba(92, 84, 80, 0.16));
-  }
-
-  .preview-empty.scroll {
-    background: linear-gradient(150deg, rgba(196, 98, 58, 0.22), rgba(42, 38, 32, 0.34));
-  }
-
-  .preview-empty.fieldlog {
-    background: linear-gradient(150deg, rgba(138, 132, 128, 0.25), rgba(42, 38, 32, 0.28));
-  }
-
-  .preview-empty.codex {
-    background: linear-gradient(150deg, rgba(201, 150, 58, 0.24), rgba(42, 38, 32, 0.28));
-  }
-
-  .preview-empty.fragment {
-    background: linear-gradient(150deg, rgba(92, 84, 80, 0.38), rgba(42, 38, 32, 0.25));
-  }
-
-  .preview-empty.nexus {
-    background: linear-gradient(150deg, rgba(196, 98, 58, 0.25), rgba(139, 58, 30, 0.22));
-  }
-
-  .preview-empty.signal {
-    background: linear-gradient(150deg, rgba(132, 176, 158, 0.25), rgba(55, 82, 72, 0.26));
   }
 
   .meta {
