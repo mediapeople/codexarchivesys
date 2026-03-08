@@ -50,6 +50,20 @@ v3+ extends the v3 ingest discipline with presentation-runtime hardening.
 
 ---
 
+## RUNTIME POLISH ADDENDUM (March 7, 2026 — late pass)
+
+1. Feed hero rendering moved from local container treatment to full-bleed/global layering.
+2. Large linework motif now persists behind page sections (no hero clipping).
+3. Feed `Archive Pulse` panel now uses restrained glass treatment (transparent blur + subtle highlight).
+4. Graph page supporting labels were brightened for readability on textured dark backgrounds.
+5. Object metadata expression was tightened: verbose source bio moved out of object footers.
+6. Orientation page now carries the expanded operator bio and external source links.
+7. Inbox drop hygiene pass completed:
+   - processed source payloads archived under `inbox/archive/drop/2026-03-07-sweep-01`
+   - active `inbox/drop/` reset for next intake cycle
+
+---
+
 ## EXPANDED LEARNINGS (v3+)
 
 1. Ingest quality is relation quality; a clean object with weak links is still under-indexed.
@@ -72,7 +86,8 @@ v3+ extends the v3 ingest discipline with presentation-runtime hardening.
    - Convert MOV to MP4 before publish.
    - Prefer medium-quality transcode preset for balance between fidelity and size.
 3. Source preservation:
-   - Keep original capture files in `inbox/drop/`.
+   - Keep original capture files in `inbox/drop/` during active intake.
+   - After promotion, move them to `inbox/archive/drop/<dated-sweep>/`.
    - Publish optimized derivatives in `astro/public/media/`.
 4. Operational command:
    - `node scripts/optimize-media-assets.mjs <file> [file...]`

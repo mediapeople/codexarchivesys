@@ -2,22 +2,22 @@
 
 Generated: 2026-03-07
 Source: `objects/`
-Objects evaluated: 34
+Objects evaluated: 36
 
 ## Register Snapshot
 
 - `theme_register`: pressure
-  - dominant theme: systems (16, 47.1%)
+  - dominant theme: systems (18, 50%)
   - out-of-registry themes: none
   - threshold: dominant theme >= 45% OR any out-of-registry theme
 - `constellation_register`: monitor
-  - objects without constellation: 9/34 (26.5%)
+  - objects without constellation: 9/36 (25%)
   - active constellations in use: 3
   - threshold: >= 60% without constellation when object count >= 10
 - `relation_density_register`: pressure
-  - isolated objects: 0/34 (0%)
-  - highest explicit relation degree (overall): signal-descent-002 (20)
-  - highest explicit relation degree (non-nexus): codex-archive-system-v2-5-notes (16)
+  - isolated objects: 0/36 (0%)
+  - highest explicit relation degree (overall): signal-descent-002 (21)
+  - highest explicit relation degree (non-nexus): artifact-jsa-collage-wip-001 (17)
   - threshold: isolated >= 40% when object count >= 10 OR non-nexus max degree >= 8
 - `media_mix_register`: monitor
   - objects with media: 8
@@ -30,8 +30,8 @@ Objects evaluated: 34
 
 ## Structural Questions
 
-- Does dominant theme concentration require constellation split or reframing? systems appears in 47.1% of objects.
-- Should high-degree non-nexus hub behavior be curated into a nexus issue? codex-archive-system-v2-5-notes has relation degree 16.
+- Does dominant theme concentration require constellation split or reframing? systems appears in 50% of objects.
+- Should high-degree non-nexus hub behavior be curated into a nexus issue? artifact-jsa-collage-wip-001 has relation degree 17.
 - Should unregistered fields be admitted or removed? Found: source (1).
 
 ## Protocol Result
