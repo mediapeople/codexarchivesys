@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-08T20:16:07.032Z",
+  "generatedAt": "2026-03-08T22:16:48.993Z",
   "sourceDir": "../objects",
-  "nodeCount": 47,
-  "edgeCount": 816,
+  "nodeCount": 49,
+  "edgeCount": 887,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -253,6 +253,20 @@
       "constellations": []
     },
     {
+      "id": "jsa-collage-evolution-003",
+      "type": "fieldlog",
+      "title": "JSA Collage Evolution 003",
+      "date": "2026-03-08",
+      "themes": [
+        "collage",
+        "comics",
+        "observation",
+        "pressure",
+        "signal"
+      ],
+      "constellations": []
+    },
+    {
       "id": "north-georgia-march-2026",
       "type": "fieldlog",
       "title": "FIELD LOG: NORTH GEORGIA",
@@ -306,6 +320,18 @@
         "methodology",
         "observation",
         "collage"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "cities-built-on-ruin",
+      "type": "fragment",
+      "title": "Cities Built on Ruin",
+      "date": "2026-03-08",
+      "themes": [
+        "survival",
+        "structure",
+        "signal"
       ],
       "constellations": []
     },
@@ -1178,6 +1204,15 @@
       ]
     },
     {
+      "source": "artifact-jsa-collage-001",
+      "target": "jsa-collage-evolution-003",
+      "weight": 8,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "artifact-jsa-collage-wip-001",
       "target": "signal-descent-003",
       "weight": 8,
@@ -1433,11 +1468,29 @@
     },
     {
       "source": "artifact-jsa-collage-wip-001",
+      "target": "jsa-collage-evolution-003",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
       "target": "under-load",
       "weight": 7,
       "reasons": [
         "shared-theme",
         "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "jsa-collage-evolution-003",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
         "explicit-related"
       ]
     },
@@ -1596,6 +1649,24 @@
     {
       "source": "i-work-with-machines-to-write-scripture",
       "target": "lean-mean-governance-machine",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "jsa-collage-evolution-003",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-002",
+      "target": "jsa-collage-evolution-003",
       "weight": 7,
       "reasons": [
         "shared-theme",
@@ -1934,6 +2005,15 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "pressure-psalm-v",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
       ]
     },
     {
@@ -2324,6 +2404,15 @@
     },
     {
       "source": "artifact-jsa-collage-001",
+      "target": "cities-built-on-ruin",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
       "target": "pressure-psalm-v",
       "weight": 4,
       "reasons": [
@@ -2347,6 +2436,15 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "signal-harvest",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
       ]
     },
     {
@@ -2455,6 +2553,15 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
+      "target": "jsa-collage-evolution-003",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
       ]
     },
     {
@@ -2895,6 +3002,14 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "jsa-collage-evolution-003",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "pressure-psalm-v",
       "weight": 3,
       "reasons": [
@@ -3511,6 +3626,14 @@
       ]
     },
     {
+      "source": "deck-under-load-ii",
+      "target": "jsa-collage-evolution-003",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "go-live-milestone",
       "target": "i-work-with-machines-to-write-scripture",
       "weight": 3,
@@ -3642,6 +3765,14 @@
     {
       "source": "jsa-collage-evolution-002",
       "target": "studio-log-adhesive-test-run",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "under-load",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -3960,6 +4091,14 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "jsa-collage-evolution-003",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "on-object-oriented-archives",
       "weight": 2,
       "reasons": [
@@ -3985,6 +4124,14 @@
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "artifact-jsa-collage-wip-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "cities-built-on-ruin",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -4097,6 +4244,30 @@
     {
       "source": "artifact-jsa-collage-wip-001",
       "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "maintenance-without-cure",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "the-bones-hold",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -4753,6 +4924,62 @@
     {
       "source": "jsa-collage-evolution-002",
       "target": "under-load",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "pressure-psalm-v",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "signal-descent-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "signal-descent-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "steel-elbow-flinchian",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "suwanee-ga-loremap",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -5296,6 +5523,14 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "cities-built-on-ruin",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "codex-archive-system-v2-2",
       "weight": 1,
       "reasons": [
@@ -5384,7 +5619,23 @@
     },
     {
       "source": "archive-box-stamped-fragments",
+      "target": "cities-built-on-ruin",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
       "target": "jsa-collage-evolution-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
+      "target": "jsa-collage-evolution-003",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -5688,6 +5939,14 @@
     },
     {
       "source": "artifact-jsa-collage-wip-001",
+      "target": "cities-built-on-ruin",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
       "target": "codex-archive-system-v3-1-build-notes",
       "weight": 1,
       "reasons": [
@@ -5823,6 +6082,190 @@
       ]
     },
     {
+      "source": "cities-built-on-ruin",
+      "target": "codex-archive-system-v2-7-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "codex-archive-system-v3-1-build-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "codex-archive-system-v3-2-fragment-feed-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "codex-archive-system-v3-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "codex-archive-system-v3-plus-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "go-live-milestone",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "heart-does-not-dream",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "i-work-with-machines-to-write-scripture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "jsa-collage-evolution-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "jsa-collage-evolution-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "on-object-oriented-archives",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "scripture-with-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "signal-descent-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "signal-descent-003",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "signal-descent-004",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "signal.citizen-agency",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "steel-elbow-flinchian",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "suwanee-ga-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "codex-archive-system-v2-2",
       "target": "go-live-milestone",
       "weight": 1,
@@ -6073,6 +6516,14 @@
     {
       "source": "codex-archive-system-v2-6-notes",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "jsa-collage-evolution-003",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -6113,6 +6564,14 @@
     {
       "source": "codex-archive-system-v2-7-notes",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "jsa-collage-evolution-003",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -6168,6 +6627,14 @@
     },
     {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "jsa-collage-evolution-003",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "scroll-from-the-perimeter",
       "weight": 1,
       "reasons": [
@@ -6185,6 +6652,14 @@
     {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "jsa-collage-evolution-003",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -6312,6 +6787,14 @@
     },
     {
       "source": "go-live-milestone",
+      "target": "jsa-collage-evolution-003",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
       "target": "maintenance-without-cure",
       "weight": 1,
       "reasons": [
@@ -6369,6 +6852,14 @@
     {
       "source": "heart-does-not-dream",
       "target": "i-work-with-machines-to-write-scripture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "heart-does-not-dream",
+      "target": "jsa-collage-evolution-003",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -6441,6 +6932,14 @@
     {
       "source": "i-work-with-machines-to-write-scripture",
       "target": "jsa-collage-evolution-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "jsa-collage-evolution-003",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -6752,6 +7251,110 @@
     },
     {
       "source": "jsa-collage-evolution-002",
+      "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "north-georgia-march-2026",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "north-georgia-week-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "on-object-oriented-archives",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "ridge-line-lessons",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "scripture-with-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "signal-descent-003",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "signal-descent-004",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "signal.citizen-agency",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "the-bones-hold",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
       "target": "transmission-note-to-future-me",
       "weight": 1,
       "reasons": [
