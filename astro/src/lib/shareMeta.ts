@@ -83,8 +83,7 @@ export function buildObjectShareMeta({
   const socialImage = pickShareImage(mediaItems);
   const fallbackDescription = `${title}. ${profile.defaultDescription}`;
   const description = trimToLength(excerpt || fallbackDescription);
-  const twitterCard: TwitterCard =
-    profile.prefersLargeImage && socialImage ? 'summary_large_image' : 'summary';
+  const twitterCard: TwitterCard = profile.prefersLargeImage ? 'summary_large_image' : 'summary';
 
   return {
     description,
