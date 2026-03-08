@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-08T17:50:26.801Z",
+  "generatedAt": "2026-03-08T18:00:25.192Z",
   "sourceDir": "../objects",
-  "nodeCount": 40,
-  "edgeCount": 563,
+  "nodeCount": 42,
+  "edgeCount": 627,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -280,6 +280,18 @@
       "constellations": []
     },
     {
+      "id": "i-work-with-machines-to-write-scripture",
+      "type": "fragment",
+      "title": "I Work With Machines to Write Scripture",
+      "date": "2026-03-08",
+      "themes": [
+        "signal",
+        "transmission",
+        "systems"
+      ],
+      "constellations": []
+    },
+    {
       "id": "lean-mean-governance-machine",
       "type": "fragment",
       "title": "Lean Mean Governance Machine",
@@ -473,6 +485,19 @@
       "constellations": [
         "Maintenance Psalms"
       ]
+    },
+    {
+      "id": "scripture-with-machines",
+      "type": "scroll",
+      "title": "Scripture With Machines",
+      "date": "2026-03-08",
+      "themes": [
+        "signal",
+        "transmission",
+        "methodology",
+        "systems"
+      ],
+      "constellations": []
     },
     {
       "id": "scroll-from-the-perimeter",
@@ -1908,6 +1933,14 @@
     },
     {
       "source": "codex-archive-system-v3-plus-notes",
+      "target": "scripture-with-machines",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
       "target": "signal-descent-001",
       "weight": 4,
       "reasons": [
@@ -2196,11 +2229,27 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "i-work-with-machines-to-write-scripture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "lean-mean-governance-machine",
       "weight": 3,
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
+      "target": "scripture-with-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -2543,6 +2592,14 @@
     },
     {
       "source": "codex-archive-system-v2-7-notes",
+      "target": "scripture-with-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
       "target": "signal-descent-001",
       "weight": 3,
       "reasons": [
@@ -2591,6 +2648,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "scripture-with-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -2664,6 +2729,14 @@
     },
     {
       "source": "codex-archive-system-v3-notes",
+      "target": "scripture-with-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
       "target": "signal-descent-001",
       "weight": 3,
       "reasons": [
@@ -2704,6 +2777,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
+      "target": "i-work-with-machines-to-write-scripture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -2759,11 +2840,27 @@
     },
     {
       "source": "go-live-milestone",
+      "target": "i-work-with-machines-to-write-scripture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
       "target": "pressure-psalm-v",
       "weight": 3,
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "scripture-with-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -2836,6 +2933,30 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "scripture-with-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "signal-descent-003",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "signal.citizen-agency",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -3025,6 +3146,22 @@
       ]
     },
     {
+      "source": "scripture-with-machines",
+      "target": "signal-descent-003",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "scripture-with-machines",
+      "target": "signal.citizen-agency",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "signal-descent-002",
       "target": "signal-harvest",
       "weight": 3,
@@ -3189,6 +3326,14 @@
     },
     {
       "source": "codex-archive-system-v2-2",
+      "target": "scripture-with-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
       "target": "studio-log-adhesive-test-run",
       "weight": 2,
       "reasons": [
@@ -3198,6 +3343,14 @@
     {
       "source": "codex-archive-system-v2-5-notes",
       "target": "lean-mean-governance-machine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
+      "target": "scripture-with-machines",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -3222,6 +3375,22 @@
     {
       "source": "codex-archive-system-v2-6-notes",
       "target": "reduce-novelty-before-care",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
+      "target": "scripture-with-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "i-work-with-machines-to-write-scripture",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -3269,6 +3438,14 @@
     },
     {
       "source": "codex-archive-system-v3-1-build-notes",
+      "target": "i-work-with-machines-to-write-scripture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
       "target": "nothing-missing-only-unindexed",
       "weight": 2,
       "reasons": [
@@ -3302,6 +3479,14 @@
     {
       "source": "codex-archive-system-v3-1-build-notes",
       "target": "systems-survive-tuesdays",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "i-work-with-machines-to-write-scripture",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -3492,6 +3677,62 @@
       ]
     },
     {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "signal-descent-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "signal-descent-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "transmission-note-to-future-me",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "scripture-with-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "jsa-collage-evolution-001",
       "target": "scroll-from-the-perimeter",
       "weight": 2,
@@ -3513,6 +3754,14 @@
       "weight": 2,
       "reasons": [
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
+      "target": "scripture-with-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -3597,6 +3846,14 @@
     },
     {
       "source": "nothing-missing-only-unindexed",
+      "target": "scripture-with-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "nothing-missing-only-unindexed",
       "target": "signal-descent-001",
       "weight": 2,
       "reasons": [
@@ -3637,6 +3894,14 @@
     },
     {
       "source": "on-object-oriented-archives",
+      "target": "scripture-with-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-object-oriented-archives",
       "target": "signal-descent-003",
       "weight": 2,
       "reasons": [
@@ -3654,6 +3919,14 @@
     {
       "source": "pressure-psalm-v",
       "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "reduce-novelty-before-care",
+      "target": "scripture-with-machines",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -3686,6 +3959,54 @@
     {
       "source": "ridge-line-lessons",
       "target": "studio-bench-cycle",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "scripture-with-machines",
+      "target": "signal-descent-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "scripture-with-machines",
+      "target": "signal-descent-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "scripture-with-machines",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "scripture-with-machines",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "scripture-with-machines",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "scripture-with-machines",
+      "target": "transmission-note-to-future-me",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -4013,6 +4334,14 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "i-work-with-machines-to-write-scripture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "maintenance-without-cure",
       "weight": 1,
       "reasons": [
@@ -4054,6 +4383,14 @@
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "ridge-line-lessons",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "scripture-with-machines",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -4109,6 +4446,14 @@
     },
     {
       "source": "artifact-jsa-collage-001",
+      "target": "i-work-with-machines-to-write-scripture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -4148,8 +4493,24 @@
       ]
     },
     {
+      "source": "artifact-jsa-collage-001",
+      "target": "scripture-with-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "artifact-jsa-collage-wip-001",
       "target": "codex-archive-system-v3-1-build-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "i-work-with-machines-to-write-scripture",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -4198,6 +4559,14 @@
     {
       "source": "artifact-jsa-collage-wip-001",
       "target": "ridge-line-lessons",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "scripture-with-machines",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -4261,6 +4630,14 @@
     },
     {
       "source": "codex-archive-system-v2-2",
+      "target": "i-work-with-machines-to-write-scripture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
       "target": "jsa-collage-evolution-001",
       "weight": 1,
       "reasons": [
@@ -4317,6 +4694,14 @@
     },
     {
       "source": "codex-archive-system-v2-5-notes",
+      "target": "i-work-with-machines-to-write-scripture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
       "target": "jsa-collage-evolution-001",
       "weight": 1,
       "reasons": [
@@ -4350,6 +4735,14 @@
     {
       "source": "codex-archive-system-v2-6-notes",
       "target": "heart-does-not-dream",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
+      "target": "i-work-with-machines-to-write-scripture",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -4645,6 +5038,14 @@
     },
     {
       "source": "heart-does-not-dream",
+      "target": "i-work-with-machines-to-write-scripture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "heart-does-not-dream",
       "target": "nothing-missing-only-unindexed",
       "weight": 1,
       "reasons": [
@@ -4654,6 +5055,14 @@
     {
       "source": "heart-does-not-dream",
       "target": "on-object-oriented-archives",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "heart-does-not-dream",
+      "target": "scripture-with-machines",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -4686,6 +5095,86 @@
     {
       "source": "heart-does-not-dream",
       "target": "under-load",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "jsa-collage-evolution-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "lean-mean-governance-machine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "reduce-novelty-before-care",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "scroll-from-the-perimeter",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "stairwell-signal",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "the-bones-hold-content-architecture",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -5101,6 +5590,14 @@
     },
     {
       "source": "pressure-psalm-v",
+      "target": "scripture-with-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pressure-psalm-v",
       "target": "suwanee-ga-loremap",
       "weight": 1,
       "reasons": [
@@ -5165,6 +5662,46 @@
     },
     {
       "source": "ridge-line-lessons",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "scripture-with-machines",
+      "target": "scroll-from-the-perimeter",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "scripture-with-machines",
+      "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "scripture-with-machines",
+      "target": "stairwell-signal",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "scripture-with-machines",
+      "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "scripture-with-machines",
       "target": "systems-survive-tuesdays",
       "weight": 1,
       "reasons": [

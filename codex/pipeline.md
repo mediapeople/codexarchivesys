@@ -17,6 +17,9 @@ Named operator loop:
 - Hand-off = system runs the post-confirmation finalize path
 - Ping-back = system returns on completion or blocker
 
+Operator note:
+- Let it breathe = after local success and push, allow deploy/cache propagation before judging the remote result
+
 1. Detect raw source in `inbox/drop/`.
 2. Draft/revise a review file in `inbox/ready/`.
 3. Talk through the draft with the operator and get explicit approval.
@@ -28,6 +31,7 @@ Named operator loop:
    - archives matching drop payloads
    - validates objects
    - builds Astro
+6. If local output is correct and the push succeeded, let it breathe before treating remote lag as a system fault.
 
 State meaning:
 - `inbox/drop` = raw source, unresolved

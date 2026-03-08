@@ -71,6 +71,9 @@ Operator loop:
 - `Hand-off` -> system runs finalize script
 - `Ping-back` -> system returns on completion or blocker
 
+Operator note:
+- `Let it breathe` -> after local success and push, allow deploy/cache propagation before judging the remote result
+
 ```bash
 # inspect fresh source material
 find inbox/drop -maxdepth 2 -type f | sort
@@ -84,6 +87,7 @@ Notes:
 - `inbox/ready/` is human review territory.
 - `objects/` + `astro/src/content/` are canonical publish state.
 - Human interaction should stay narrow: review drafts, confirm approval, then let the system run the rest.
+- After a correct local result and successful push, let it breathe before treating remote lag as a feed-order bug.
 - `scripts/finalize-approved-ready.mjs` wraps promotion, inbox reconciliation, cleanup, validation, and build.
 - Approval records append to `logs/promotion-log.ndjson`.
 
