@@ -312,6 +312,10 @@ const navItems = [
   }
 
   @media (max-width: 600px) {
+    body.page-feed {
+      --gutter: 1rem;
+    }
+
     .site-header {
       padding: 0.95rem 1.25rem 0.82rem;
     }
@@ -359,6 +363,12 @@ const navItems = [
       opacity: 0.12;
       background-size: 176% 176%;
       background-position: 62% 30%;
+    }
+  }
+
+  @media (max-width: 420px) {
+    body.page-feed {
+      --gutter: 0.82rem;
     }
   }
 </style>
