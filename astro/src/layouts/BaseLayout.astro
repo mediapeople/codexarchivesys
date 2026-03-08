@@ -295,6 +295,20 @@ const navItems = [
       linear-gradient(180deg, rgba(100, 58, 35, 0.24) 0%, rgba(65, 39, 26, 0.14) 42%, transparent 100%);
   }
 
+  body.page-feed .shell::after {
+    content: '';
+    position: absolute;
+    top: clamp(-2.4rem, -1.4vw, -0.9rem);
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(1780px, 134vw);
+    height: clamp(16rem, 29vw, 28rem);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.2;
+    background: url('/media/decor/feed-hero-swoosh.svg') no-repeat center / 100% 100%;
+  }
+
   .shell > * {
     width: 100%;
     max-width: var(--content-max);
@@ -345,6 +359,13 @@ const navItems = [
     .site-nav a {
       font-size: 0.68rem;
       letter-spacing: 0.14em;
+    }
+
+    body.page-feed .shell::after {
+      top: -1.4rem;
+      width: 190vw;
+      height: 14rem;
+      opacity: 0.15;
     }
   }
 </style>
