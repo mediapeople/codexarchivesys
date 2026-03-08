@@ -197,32 +197,34 @@ function buildHref(
 
 <BaseLayout title="Codex Archive">
   <section class="feed-hero">
-    <p class="feed-label">Object feed</p>
-    <div class="feed-hero-grid">
-      <h1 class="feed-thesis">
-        Objects first. Structure supports retrieval, relation, and close reading.
-      </h1>
-      <aside class="hero-pulse" aria-label="Archive pulse">
-        <p class="pulse-label">Archive pulse</p>
-        <dl class="pulse-grid">
-          <div>
-            <dt>Shown</dt>
-            <dd data-shown-count>{filteredEntries.length}</dd>
-          </div>
-          <div>
-            <dt>Objects</dt>
-            <dd>{entries.length}</dd>
-          </div>
-          <div>
-            <dt>Types</dt>
-            <dd>{typeCounts.length}</dd>
-          </div>
-          <div>
-            <dt>Constellations</dt>
-            <dd>{constellationSet.size}</dd>
-          </div>
-        </dl>
-      </aside>
+    <div class="feed-hero-inner">
+      <p class="feed-label">Object feed</p>
+      <div class="feed-hero-grid">
+        <h1 class="feed-thesis">
+          Objects first. Structure supports retrieval, relation, and close reading.
+        </h1>
+        <aside class="hero-pulse" aria-label="Archive pulse">
+          <p class="pulse-label">Archive pulse</p>
+          <dl class="pulse-grid">
+            <div>
+              <dt>Shown</dt>
+              <dd data-shown-count>{filteredEntries.length}</dd>
+            </div>
+            <div>
+              <dt>Objects</dt>
+              <dd>{entries.length}</dd>
+            </div>
+            <div>
+              <dt>Types</dt>
+              <dd>{typeCounts.length}</dd>
+            </div>
+            <div>
+              <dt>Constellations</dt>
+              <dd>{constellationSet.size}</dd>
+            </div>
+          </dl>
+        </aside>
+      </div>
     </div>
   </section>
 
@@ -759,22 +761,20 @@ function buildHref(
     padding-inline: clamp(0.45rem, 0.95vw, 1rem);
   }
 
-  .shell > .feed-hero {
-    width: 100vw;
-    max-width: none;
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
-    padding-left: var(--gutter);
-    padding-right: var(--gutter);
-  }
-
   .feed-hero {
-    margin: 0;
+    margin: 0 auto;
     padding: 5.1rem 0 4.75rem;
     position: relative;
     overflow: visible;
     isolation: isolate;
     background: transparent;
+  }
+
+  .feed-hero-inner {
+    width: min(100%, var(--content-max));
+    margin-left: auto;
+    margin-right: auto;
+    padding-inline: clamp(0.45rem, 0.95vw, 1rem);
   }
 
   .feed-hero::before {
@@ -797,7 +797,7 @@ function buildHref(
     font-family: var(--font-ui);
     text-transform: uppercase;
     letter-spacing: var(--ls-label);
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 400;
   }
 
@@ -852,7 +852,7 @@ function buildHref(
     margin: 0 0 0.75rem;
     color: var(--accent);
     font-family: var(--font-ui);
-    font-size: 10px;
+    font-size: 12px;
     letter-spacing: var(--ls-label);
     text-transform: uppercase;
   }
@@ -887,7 +887,7 @@ function buildHref(
   }
 
   .controls {
-    margin: 0 0 6rem;
+    margin: 0 auto 6rem;
     padding: 0;
     background: transparent;
   }
@@ -1223,7 +1223,7 @@ function buildHref(
     margin: 0;
     color: var(--accent);
     font-family: var(--font-ui);
-    font-size: 10px;
+    font-size: 12px;
     letter-spacing: var(--ls-label);
     text-transform: uppercase;
   }
@@ -1295,7 +1295,7 @@ function buildHref(
   }
 
   .media-strip {
-    margin: 8rem 0 2.8rem;
+    margin: 8rem auto 2.8rem;
     background: transparent;
     padding: 0;
   }

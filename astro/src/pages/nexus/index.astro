@@ -73,8 +73,8 @@ const issueCards = issues.map((issue) => {
 
 <style>
   .stream-meta {
-    margin: 0 0 2.8rem;
-    padding: 6rem 0 3rem;
+    margin: 0 auto 2.8rem;
+    padding: 6rem clamp(0.45rem, 0.95vw, 1rem) 3rem;
     background: transparent;
   }
 
@@ -82,7 +82,7 @@ const issueCards = issues.map((issue) => {
     margin: 0 0 0.45rem;
     color: var(--accent);
     font-family: var(--font-ui);
-    font-size: 10px;
+    font-size: 12px;
     text-transform: uppercase;
     letter-spacing: var(--ls-label);
     font-weight: 400;
@@ -98,6 +98,7 @@ const issueCards = issues.map((issue) => {
 
   .issues {
     display: grid;
+    padding-inline: clamp(0.45rem, 0.95vw, 1rem);
     gap: 5.2rem;
   }
 
