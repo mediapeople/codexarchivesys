@@ -12,9 +12,9 @@ export const SOURCE_PROFILES: Record<string, SourceProfile> = {
     id: 'nathan-davis',
     name: 'Nathan Davis',
     designation: 'Archive Operator',
-    handle: '@nathandavis',
+    handle: 'nfile.co · @tornframes · @mediapeople',
     avatar: '/media/people/nathan-davis.jpg',
-    bio: 'Builder and curator of the Codex Archive System.',
+    bio: 'Multi-faceted creative, builder, and maker working across design systems, product craft, collage, and poetry. Through nfile.co and social streams, Nathan documents process, experiments, and signal in public. The Codex Archive is his operating layer for turning creative output into structured, connected, and retrievable objects.',
   },
 };
 
