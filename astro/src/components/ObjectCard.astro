@@ -25,9 +25,51 @@ const displayTitle = formatDisplayTitle(entry.data.title);
 const primaryAuthor = getPrimaryAuthor(entry);
 const authorInitials = getAuthorInitials(primaryAuthor.name);
 const authorDesignation = primaryAuthor.designation || primaryAuthor.role || 'Archive operator';
+const isFragment = entry.collection === 'fragment';
 
 function normalizeForCompare(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+}
+
+function stripMarkdownFormatting(value: string): string {
+  return value
+    .replace(/\r\n/g, '\n')
+    .replace(/!\[[^\]]*\]\([^)]+\)/g, '')
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/`([^`]+)`/g, '$1')
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/\*([^*]+)\*/g, '$1')
+    .replace(/^>\s?/gm, '')
+    .replace(/^[-*+]\s+/gm, '')
+    .trim();
+}
+
+function getFragmentStageContent(body: string, fallback: string, maxLines: number) {
+  const source = stripMarkdownFormatting(body || fallback);
+  const normalizedLines = source
+    .split('\n')
+    .map((line) => line.trim())
+    .reduce<string[]>((lines, line) => {
+      if (!line) {
+        if (lines.length > 0 && lines[lines.length - 1] !== '') {
+          lines.push('');
+        }
+        return lines;
+      }
+
+      lines.push(line);
+      return lines;
+    }, [])
+    .filter((line, index, lines) => !(line === '' && index === lines.length - 1));
+
+  if (normalizedLines.length <= maxLines) {
+    return normalizedLines;
+  }
+
+  const truncated = normalizedLines.slice(0, maxLines);
+  const lastLine = truncated[maxLines - 1];
+  truncated[maxLines - 1] = lastLine ? `${lastLine.replace(/[.?!,:;]+$/, '')}...` : '...';
+  return truncated;
 }
 
 const fallbackSummary = (entry.data as Record<string, unknown>).themeStatement;
@@ -35,6 +77,16 @@ const rawSummary =
   entry.data.excerpt ||
   (typeof fallbackSummary === 'string' ? fallbackSummary : '');
 const summaryText = normalizeForCompare(rawSummary) ? rawSummary : '';
+const fragmentStageLines = isFragment && variant !== 'related'
+  ? getFragmentStageContent(entry.body, summaryText, variant === 'mosaic' ? 4 : 6)
+  : [];
+const lengthClass = isFragment && typeof (entry.data as Record<string, unknown>).lengthClass === 'string'
+  ? String((entry.data as Record<string, unknown>).lengthClass)
+  : '';
+const showFragmentStage = fragmentStageLines.length > 0;
+const showExcerpt = Boolean(summaryText) && !showFragmentStage;
+const showThemes = entry.data.themes.length > 0 && variant !== 'mosaic' && !showFragmentStage;
+const showAuthorTease = !showFragmentStage;
 const searchCorpus = [displayTitle, summaryText, ...entry.data.themes, ...entry.data.constellations]
   .join(' ')
   .toLowerCase();
@@ -48,9 +100,26 @@ const readableDate = formatArchiveDate(entry.data.date);
   data-themes={entry.data.themes.join('|').toLowerCase()}
   data-search={searchCorpus}
 >
-  <a class="hitbox" href={href} aria-label={`Open ${entry.data.title}`}></a>
-  <div class="preview-wrap">
-    {primaryMedia?.kind === 'image' ? (
+  {!showFragmentStage && <a class="hitbox" href={href} aria-label={`Open ${entry.data.title}`}></a>}
+  <div class={`preview-wrap ${showFragmentStage ? 'fragment-stage' : ''}`}>
+    {showFragmentStage ? (
+      <>
+        <span class="fragment-stage-mark" aria-hidden="true">"</span>
+        <div class="fragment-piece" aria-label="Fragment text preview">
+          {fragmentStageLines.map((line) => (
+            line ? (
+              <span class="fragment-line">{line}</span>
+            ) : (
+              <span class="fragment-gap" aria-hidden="true"></span>
+            )
+          ))}
+        </div>
+        <div class="fragment-stage-footer">
+          <span>{lengthClass ? `${lengthClass} fragment` : 'Fragment'}</span>
+          {entry.data.related.length > 0 && <span>{entry.data.related.length} linked</span>}
+        </div>
+      </>
+    ) : primaryMedia?.kind === 'image' ? (
       <img
         class="preview-image"
         src={primaryMedia.src}
@@ -75,27 +144,34 @@ const readableDate = formatArchiveDate(entry.data.date);
     {variant === 'related' && relationScore !== undefined && <span class="score">{relationScore} signals</span>}
   </header>
   <h3 class="title">{displayTitle}</h3>
-  {summaryText && <p class="excerpt">{summaryText}</p>}
-  {entry.data.themes.length > 0 && variant !== 'mosaic' && (
+  {showFragmentStage && (
+    <p class="fragment-meta-link-row">
+      <a class="fragment-meta-link" href={href}>View metadata</a>
+    </p>
+  )}
+  {showExcerpt && <p class="excerpt">{summaryText}</p>}
+  {showThemes && (
     <ul class="themes">
       {entry.data.themes.slice(0, 3).map((theme) => (
         <li>{theme}</li>
       ))}
     </ul>
   )}
-  <div class="author-tease">
-    <div class="author-thumb" aria-hidden="true">
-      {primaryAuthor.avatar ? (
-        <img src={primaryAuthor.avatar} alt="" loading="lazy" decoding="async" />
-      ) : (
-        <span>{authorInitials}</span>
-      )}
+  {showAuthorTease && (
+    <div class="author-tease">
+      <div class="author-thumb" aria-hidden="true">
+        {primaryAuthor.avatar ? (
+          <img src={primaryAuthor.avatar} alt="" loading="lazy" decoding="async" />
+        ) : (
+          <span>{authorInitials}</span>
+        )}
+      </div>
+      <p class="author-name">
+        <span class="name">{primaryAuthor.name}</span>
+        <span class="designation">, {authorDesignation}</span>
+      </p>
     </div>
-    <p class="author-name">
-      <span class="name">{primaryAuthor.name}</span>
-      <span class="designation">, {authorDesignation}</span>
-    </p>
-  </div>
+  )}
 </article>
 
 <style>
@@ -120,12 +196,30 @@ const readableDate = formatArchiveDate(entry.data.date);
     transform: translateY(-1px);
   }
 
+  .card.feed.fragment:hover,
+  .card.mosaic.fragment:hover {
+    transform: none;
+  }
+
   .card.feed {
     grid-template-columns: minmax(0, 1fr) minmax(340px, 42%);
     padding-left: 0;
     padding-right: 0;
     padding-top: 1.9rem;
     padding-bottom: 2.2rem;
+  }
+
+  .card.feed.fragment {
+    grid-template-columns: minmax(0, 0.82fr) minmax(360px, 48%);
+    margin: 1.55rem 0 1.85rem;
+    padding-top: 2.5rem;
+    padding-bottom: 2.7rem;
+    background:
+      linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.022) 14%, rgba(255, 255, 255, 0.022) 86%, transparent),
+      transparent;
+    box-shadow:
+      inset 0 1px 0 rgba(201, 150, 58, 0.18),
+      inset 0 -1px 0 rgba(201, 150, 58, 0.12);
   }
 
   .card.related {
@@ -275,6 +369,88 @@ const readableDate = formatArchiveDate(entry.data.date);
 
   .card.feed .preview-wrap {
     aspect-ratio: 16 / 10;
+  }
+
+  .fragment-stage {
+    display: grid;
+    align-content: space-between;
+    gap: 1.05rem;
+    padding: 1.15rem 1.2rem 1rem;
+    aspect-ratio: auto;
+    min-height: clamp(15rem, 34vw, 21rem);
+    border-color: rgba(215, 196, 167, 0.24);
+    background:
+      radial-gradient(circle at 86% 18%, rgba(201, 150, 58, 0.1), transparent 30%),
+      linear-gradient(165deg, rgba(70, 60, 54, 0.28), rgba(16, 14, 12, 0.98)),
+      rgba(14, 12, 10, 0.86);
+    isolation: isolate;
+  }
+
+  .fragment-stage::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 34%),
+      repeating-linear-gradient(180deg, rgba(231, 222, 209, 0.03) 0 1px, transparent 1px 18px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .fragment-stage-mark {
+    position: absolute;
+    top: 0.2rem;
+    left: 0.8rem;
+    z-index: 0;
+    font-family: var(--font-display);
+    font-size: clamp(4.8rem, 10vw, 7rem);
+    line-height: 1;
+    color: rgba(233, 201, 140, 0.11);
+  }
+
+  .fragment-piece,
+  .fragment-stage-footer {
+    position: relative;
+    z-index: 1;
+  }
+
+  .fragment-piece {
+    display: grid;
+    gap: 0.36rem;
+    padding-top: 1.5rem;
+  }
+
+  .fragment-line {
+    display: block;
+    max-width: 16ch;
+    color: var(--star);
+    font-size: clamp(1.38rem, 2.35vw, 1.95rem);
+    line-height: 1.42;
+    letter-spacing: -0.012em;
+    text-wrap: pretty;
+  }
+
+  .fragment-gap {
+    display: block;
+    height: 0.5rem;
+  }
+
+  .fragment-stage-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.38rem 0.76rem;
+    align-items: center;
+    color: rgba(232, 226, 212, 0.66);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: var(--ls-ui);
+  }
+
+  .fragment-stage-footer span + span::before {
+    content: '•';
+    margin-right: 0.76rem;
+    color: rgba(201, 150, 58, 0.62);
   }
 
   .preview-image {
@@ -493,6 +669,12 @@ const readableDate = formatArchiveDate(entry.data.date);
     line-height: 1.14;
   }
 
+  .card.feed.fragment .title {
+    max-width: 20ch;
+    font-size: clamp(1.34rem, 2.15vw, 1.78rem);
+    line-height: 1.22;
+  }
+
   .card:hover .title {
     color: #f5d8b5;
   }
@@ -539,6 +721,79 @@ const readableDate = formatArchiveDate(entry.data.date);
     margin: 1.14rem 0 1.02rem;
     max-width: 38ch;
     line-height: 1.78;
+  }
+
+  .card.feed.fragment .meta {
+    margin-bottom: 0.56rem;
+  }
+
+  .fragment-meta-link-row {
+    grid-column: 1;
+    margin: 0.56rem 0 0;
+  }
+
+  .fragment-meta-link {
+    position: relative;
+    z-index: 3;
+    color: rgba(232, 226, 212, 0.7);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: var(--ls-ui-wide);
+  }
+
+  .fragment-meta-link:hover {
+    color: var(--gold);
+  }
+
+  .card.feed.fragment .author-tease {
+    margin-top: 0.82rem;
+  }
+
+  .card.mosaic.fragment .preview-wrap.fragment-stage {
+    min-height: 11.2rem;
+    padding: 0.86rem 0.88rem 0.8rem;
+  }
+
+  .card.mosaic.fragment .fragment-piece {
+    gap: 0.28rem;
+    padding-top: 1rem;
+  }
+
+  .card.mosaic.fragment .fragment-stage-mark {
+    top: 0.12rem;
+    left: 0.56rem;
+    font-size: 3.65rem;
+  }
+
+  .card.mosaic.fragment .fragment-line {
+    max-width: 100%;
+    font-size: 0.98rem;
+    line-height: 1.42;
+  }
+
+  .card.mosaic.fragment .fragment-gap {
+    height: 0.34rem;
+  }
+
+  .card.mosaic.fragment .fragment-stage-footer {
+    font-size: 9px;
+    gap: 0.28rem 0.52rem;
+  }
+
+  .card.mosaic.fragment .fragment-stage-footer span + span::before {
+    margin-right: 0.52rem;
+  }
+
+  .card.mosaic.fragment .title {
+    font-size: clamp(1rem, 1.6vw, 1.16rem);
+    line-height: 1.22;
+  }
+
+  .card.feed.fragment:hover .title,
+  .card.mosaic.fragment:hover .title {
+    color: var(--star);
   }
 
   .card.nexus .excerpt {
@@ -617,6 +872,17 @@ const readableDate = formatArchiveDate(entry.data.date);
       max-width: none;
     }
 
+    .card.feed.fragment .preview-wrap.fragment-stage {
+      min-height: 14rem;
+      aspect-ratio: auto;
+    }
+
+    .card.feed.fragment {
+      margin: 1.15rem 0 1.4rem;
+      padding-top: 2rem;
+      padding-bottom: 2.1rem;
+    }
+
     .card.related .meta {
       margin-bottom: 0.26rem;
     }
@@ -634,6 +900,11 @@ const readableDate = formatArchiveDate(entry.data.date);
       padding-bottom: 1.95rem;
     }
 
+    .card.feed.fragment {
+      padding-top: 1.7rem;
+      padding-bottom: 1.8rem;
+    }
+
     .preview-wrap {
       aspect-ratio: 16 / 9;
     }
@@ -644,6 +915,11 @@ const readableDate = formatArchiveDate(entry.data.date);
 
     .card.feed .preview-wrap {
       aspect-ratio: 16 / 9;
+    }
+
+    .card.fragment .preview-wrap.fragment-stage {
+      min-height: 12.2rem;
+      padding: 0.92rem 0.95rem 0.88rem;
     }
 
     .card.mosaic {
@@ -697,6 +973,18 @@ const readableDate = formatArchiveDate(entry.data.date);
       line-height: 1.62;
     }
 
+    .card.feed.fragment .title,
+    .card.related.fragment .title {
+      font-size: clamp(1.22rem, 5.6vw, 1.64rem);
+      line-height: 1.24;
+    }
+
+    .card.fragment .fragment-line {
+      max-width: 100%;
+      font-size: clamp(1.05rem, 4.3vw, 1.34rem);
+      line-height: 1.42;
+    }
+
     .card:not(.mosaic) .themes {
       gap: 0.3rem 0.58rem;
     }
@@ -736,9 +1024,20 @@ const readableDate = formatArchiveDate(entry.data.date);
       padding: 1.55rem 0 1.9rem;
     }
 
+    .card.feed.fragment {
+      margin: 0.88rem 0 1.12rem;
+      padding-top: 1.5rem;
+      padding-bottom: 1.6rem;
+    }
+
     .preview-wrap,
     .card.related .preview-wrap {
       aspect-ratio: 4 / 3;
+    }
+
+    .card.fragment .preview-wrap.fragment-stage {
+      min-height: 11.2rem;
+      padding: 0.82rem 0.84rem 0.8rem;
     }
 
     .card:not(.mosaic) .title {
