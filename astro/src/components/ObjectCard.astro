@@ -4,6 +4,7 @@ import type { ArchiveEntry } from '../lib/archive';
 import { formatMediaLabel, getMediaItems, pickPrimaryMedia } from '../lib/media';
 import { formatDisplayTitle } from '../lib/headline';
 import { getAuthorInitials, getPrimaryAuthor } from '../lib/author';
+import { formatArchiveDate } from '../lib/timeline';
 
 interface Props {
   entry: ArchiveEntry;
@@ -38,11 +39,7 @@ const searchCorpus = [displayTitle, summaryText, ...entry.data.themes, ...entry.
   .join(' ')
   .toLowerCase();
 
-const readableDate = entry.data.date.toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'short',
-  day: 'numeric',
-});
+const readableDate = formatArchiveDate(entry.data.date);
 ---
 
 <article

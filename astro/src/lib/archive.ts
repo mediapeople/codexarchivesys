@@ -1,4 +1,5 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
+import { compareByPureTimeline } from './timeline';
 
 export const COLLECTIONS = [
   'scroll',
@@ -22,9 +23,11 @@ export type ArchiveEntry =
   | CollectionEntry<'signal'>;
 
 function byDateDesc(a: ArchiveEntry, b: ArchiveEntry) {
-  const bTimestamp = (b.data.postedAt || b.data.date).valueOf();
-  const aTimestamp = (a.data.postedAt || a.data.date).valueOf();
-  return bTimestamp - aTimestamp;
+  const timelineDelta = compareByPureTimeline(a, b);
+  if (timelineDelta !== 0) {
+    return timelineDelta;
+  }
+  return b.data.id.localeCompare(a.data.id);
 }
 
 export async function getAllEntries(): Promise<ArchiveEntry[]> {

@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { COLLECTIONS, getAllEntries } from '../lib/archive';
 import { getDefaultSourceProfile } from '../lib/sourceProfiles';
 import TypeBadge from '../components/TypeBadge.astro';
+import { formatArchiveDate } from '../lib/timeline';
 
 const entries = await getAllEntries();
 const operator = getDefaultSourceProfile();
@@ -90,13 +91,7 @@ const constellationCards = constellationBlueprint.map((item) => ({
 }));
 
 const latestEntry = entries[0] || null;
-const latestDate = latestEntry
-  ? latestEntry.data.date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    })
-  : null;
+const latestDate = latestEntry ? formatArchiveDate(latestEntry.data.date) : null;
 
 const coreOperatingRule =
   'The system optimizes for immediate orientation and dependable live publishing while preserving object-first reading quality.';

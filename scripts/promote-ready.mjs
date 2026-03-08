@@ -174,9 +174,10 @@ function splitFrontmatter(raw) {
   };
 }
 
-function cleanFrontmatter(frontmatter, targetStatus) {
+function cleanFrontmatter(frontmatter, targetStatus, publishedAt) {
   const lines = frontmatter.split('\n');
   const cleaned = [];
+  const hasPostedAt = lines.some((line) => /^postedAt:\s*/.test(line));
 
   for (const line of lines) {
     if (line.trim().startsWith('#')) {
@@ -189,6 +190,10 @@ function cleanFrontmatter(frontmatter, targetStatus) {
     }
 
     cleaned.push(line);
+
+    if (!hasPostedAt && targetStatus === 'published' && /^date:\s*/.test(line)) {
+      cleaned.push(`postedAt: ${publishedAt}`);
+    }
   }
 
   return cleaned.join('\n').replace(/\n{3,}/g, '\n\n');
@@ -240,7 +245,7 @@ for (const readyFile of readyDraftFiles) {
 
   const raw = fs.readFileSync(readyFile, 'utf8');
   const { frontmatter, body } = splitFrontmatter(raw);
-  const canonical = `---\n${cleanFrontmatter(frontmatter, options.status)}\n---\n\n${stripIntakeNotes(body)}`;
+  const canonical = `---\n${cleanFrontmatter(frontmatter, options.status, timestamp)}\n---\n\n${stripIntakeNotes(body)}`;
 
   const objectTarget = path.join(objectsRoot, objectType, `${objectId}.md`);
   const astroTarget = path.join(astroContentRoot, objectType, `${objectId}.md`);

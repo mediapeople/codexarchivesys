@@ -3,6 +3,7 @@ id: art-is-for-people-who-want-to-feel-alive
 type: scroll
 title: "Art Is for People Who Want to Feel Alive"
 date: 2026-03-08
+postedAt: 2026-03-08T13:34:32-04:00
 status: published
 visibility: public
 

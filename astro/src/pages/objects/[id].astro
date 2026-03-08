@@ -8,6 +8,7 @@ import { formatMediaLabel, getMediaItems, pickPrimaryMedia } from '../../lib/med
 import { formatDisplayTitle } from '../../lib/headline';
 import { getAuthorInitials, getAuthorProfiles } from '../../lib/author';
 import { buildObjectShareMeta } from '../../lib/shareMeta';
+import { formatArchiveLongDate } from '../../lib/timeline';
 
 export async function getStaticPaths() {
   const entries = await getAllEntries();
@@ -113,11 +114,7 @@ const detailRows = optionalFieldOrder
   })
   .filter((row): row is { label: string; value: string } => Boolean(row));
 
-const readableDate = entry.data.date.toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
+const readableDate = formatArchiveLongDate(entry.data.date);
 const displayTitle = formatDisplayTitle(entry.data.title);
 const shareMeta = buildObjectShareMeta({
   collection: entry.collection,

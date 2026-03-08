@@ -5,9 +5,10 @@ import TypeBadge from '../../components/TypeBadge.astro';
 import { getAllEntries } from '../../lib/archive';
 import { getMediaItems, pickPrimaryMedia } from '../../lib/media';
 import { formatDisplayTitle } from '../../lib/headline';
+import { compareByPureTimeline, formatArchiveDate } from '../../lib/timeline';
 
 const issues = (await getCollection('nexus')).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+  (a, b) => compareByPureTimeline(a, b) || b.data.id.localeCompare(a.data.id)
 );
 
 const allEntries = await getAllEntries();
@@ -39,7 +40,7 @@ const issueCards = issues.map((issue) => {
         <div class="copy">
           <header>
             <TypeBadge type="nexus" />
-            <span>{issue.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+            <span>{formatArchiveDate(issue.data.date)}</span>
           </header>
           <h2>{formatDisplayTitle(issue.data.title)}</h2>
           {issue.data.excerpt && <p class="excerpt">{issue.data.excerpt}</p>}

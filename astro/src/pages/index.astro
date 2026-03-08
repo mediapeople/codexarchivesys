@@ -5,6 +5,7 @@ import { COLLECTIONS, getAllEntries, getTypeLabel } from '../lib/archive';
 import { getMediaItems, pickPrimaryMedia } from '../lib/media';
 import { formatDisplayTitle } from '../lib/headline';
 import { getFeedPinnedFeatureId } from '../lib/feedConfig';
+import { compareByPureTimeline } from '../lib/timeline';
 import { execSync } from 'node:child_process';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
@@ -122,11 +123,9 @@ try {
 }
 
 function byNewestFirst(a: (typeof entries)[number], b: (typeof entries)[number]) {
-  const bTimestamp = (b.data.postedAt || b.data.date).valueOf();
-  const aTimestamp = (a.data.postedAt || a.data.date).valueOf();
-  const dateDelta = bTimestamp - aTimestamp;
-  if (dateDelta !== 0) {
-    return dateDelta;
+  const timelineDelta = compareByPureTimeline(a, b);
+  if (timelineDelta !== 0) {
+    return timelineDelta;
   }
   const gitDelta = (contentGitTimeById.get(b.data.id) || 0) - (contentGitTimeById.get(a.data.id) || 0);
   if (gitDelta !== 0) {
