@@ -4,6 +4,7 @@ import ObjectCard from '../components/ObjectCard.astro';
 import { COLLECTIONS, getAllEntries, getTypeLabel } from '../lib/archive';
 import { getMediaItems, pickPrimaryMedia } from '../lib/media';
 import { formatDisplayTitle } from '../lib/headline';
+import { getFeedPinnedFeatureId } from '../lib/feedConfig';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -16,7 +17,6 @@ const queryParam = (searchParams.get('q') || '').trim();
 const normalizedQuery = queryParam.toLowerCase();
 const viewParam = (searchParams.get('view') || '').trim().toLowerCase();
 const selectedView = viewParam === 'mosaic' ? 'mosaic' : 'stack';
-const pinParam = (searchParams.get('pin') || '').trim();
 
 const selectedType = COLLECTIONS.includes(typeParam as (typeof COLLECTIONS)[number])
   ? typeParam
@@ -97,8 +97,10 @@ function byNewestFirst(a: (typeof entries)[number], b: (typeof entries)[number])
 }
 
 const recentEntries = [...filteredEntries].sort(byNewestFirst);
-const selectedPin = pinParam && recentEntries.some((entry) => entry.data.id === pinParam) ? pinParam : null;
-const pinnedEntry = selectedPin ? recentEntries.find((entry) => entry.data.id === selectedPin) || null : null;
+const backendPinnedId = getFeedPinnedFeatureId();
+const pinnedEntry = backendPinnedId
+  ? recentEntries.find((entry) => entry.data.id === backendPinnedId) || null
+  : null;
 const feedEntries = pinnedEntry
   ? recentEntries.filter((entry) => entry.data.id !== pinnedEntry.data.id)
   : recentEntries;
@@ -130,8 +132,7 @@ function buildHref(
   nextType: string | null,
   nextTheme: string | null,
   nextQuery: string,
-  nextView: 'stack' | 'mosaic' = selectedView,
-  nextPin: string | null = selectedPin
+  nextView: 'stack' | 'mosaic' = selectedView
 ) {
   const params = new URLSearchParams();
   if (nextType) {
@@ -145,9 +146,6 @@ function buildHref(
   }
   if (nextView === 'mosaic') {
     params.set('view', 'mosaic');
-  }
-  if (nextPin) {
-    params.set('pin', nextPin);
   }
   const qs = params.toString();
   return qs ? `/?${qs}` : '/';
@@ -201,7 +199,6 @@ function buildHref(
       <form action="/" method="GET" class="search" data-filter-form>
         {selectedType && <input type="hidden" name="type" value={selectedType} />}
         {selectedTheme && <input type="hidden" name="theme" value={selectedTheme} />}
-        {selectedPin && <input type="hidden" name="pin" value={selectedPin} />}
         <input
           type="search"
           name="q"
@@ -237,34 +234,6 @@ function buildHref(
           Mosaic
         </a>
       </div>
-
-      {selectedPin && (
-        <p class="pin-state">
-          Pinned feature: <code>{selectedPin}</code>{' '}
-          <a href={buildHref(selectedType, selectedTheme, queryParam, selectedView, null)}>clear</a>
-        </p>
-      )}
-
-      {recentEntries.length > 0 && (
-        <div class="chip-row pin-picks">
-          <span class="pin-picks-label">Pin Feature</span>
-          <a
-            class={!selectedPin ? 'chip on' : 'chip'}
-            href={buildHref(selectedType, selectedTheme, queryParam, selectedView, null)}
-          >
-            None
-          </a>
-          {recentEntries.slice(0, 6).map((entry) => (
-            <a
-              class={selectedPin === entry.data.id ? 'chip on' : 'chip'}
-              href={buildHref(selectedType, selectedTheme, queryParam, selectedView, entry.data.id)}
-              title={formatDisplayTitle(entry.data.title)}
-            >
-              {entry.data.id}
-            </a>
-          ))}
-        </div>
-      )}
 
       <div class="chip-row">
         <a
@@ -315,14 +284,13 @@ function buildHref(
       <p
         class="active-filters"
         data-active-filters
-        hidden={!(selectedType || selectedTheme || queryParam || selectedPin)}
+        hidden={!(selectedType || selectedTheme || queryParam)}
       >
         Active filters: {
           [
             selectedType ? `Type: ${getTypeLabel(selectedType)}` : null,
             selectedTheme ? `Theme: ${selectedTheme}` : null,
             queryParam ? `Search: "${queryParam}"` : null,
-            selectedPin ? `Pinned: ${selectedPin}` : null,
           ]
             .filter(Boolean)
             .join(' · ')
@@ -483,11 +451,10 @@ function buildHref(
       theme: '',
       q: '',
       view: 'stack',
-      pin: '',
     };
     let controlsExpanded = true;
 
-    const hasActiveControls = () => Boolean(state.type || state.theme || state.q || state.pin);
+    const hasActiveControls = () => Boolean(state.type || state.theme || state.q);
 
     function syncControlsState() {
       if (!controls || !controlsToggle || !controlsPanel) {
@@ -516,7 +483,6 @@ function buildHref(
       state.theme = validThemes.has(urlTheme) ? urlTheme : '';
       state.q = (params.get('q') || '').trim();
       state.view = validViews.has(urlView) ? urlView : 'stack';
-      state.pin = (params.get('pin') || '').trim();
     }
 
     function updateUrlState() {
@@ -532,9 +498,6 @@ function buildHref(
       }
       if (state.view === 'mosaic') {
         params.set('view', 'mosaic');
-      }
-      if (state.pin) {
-        params.set('pin', state.pin);
       }
       const qs = params.toString();
       const next = qs ? `/?${qs}` : '/';
@@ -581,9 +544,6 @@ function buildHref(
       if (state.q) {
         bits.push(`Search: "${state.q}"`);
       }
-      if (state.pin) {
-        bits.push(`Pinned: ${state.pin}`);
-      }
 
       const hasActive = bits.length > 0;
       activeFilters.hidden = !hasActive;
@@ -629,6 +589,9 @@ function buildHref(
           const pinnedVisible = !pinnedCard.hidden && pinnedCard.style.display !== 'none';
           pinnedFeature.hidden = !pinnedVisible;
           pinnedFeature.style.display = pinnedVisible ? '' : 'none';
+          if (pinnedVisible) {
+            shown += 1;
+          }
         }
       }
 
@@ -658,7 +621,7 @@ function buildHref(
         searchInput.value = state.q;
       }
       if (clearButton) {
-        clearButton.hidden = !(state.type || state.theme || state.q || state.pin);
+        clearButton.hidden = !(state.type || state.theme || state.q);
       }
 
       setChipState(typeChips, state.type);
@@ -711,7 +674,6 @@ function buildHref(
       state.type = '';
       state.theme = '';
       state.q = '';
-      state.pin = '';
       updateUrlState();
       applyFilters();
     });
@@ -947,53 +909,6 @@ function buildHref(
     flex-wrap: wrap;
     gap: 0.8rem;
     margin-bottom: 1.2rem;
-  }
-
-  .pin-state {
-    margin: 0 0 1rem;
-    color: var(--mid);
-    font-family: var(--font-ui);
-    font-size: 10px;
-    letter-spacing: var(--ls-ui);
-    text-transform: uppercase;
-  }
-
-  .pin-state code {
-    color: var(--star);
-    background: rgba(201, 150, 58, 0.12);
-    border: 1px solid rgba(201, 150, 58, 0.34);
-    border-radius: 2px;
-    padding: 0.08rem 0.3rem;
-    font-family: var(--font-ui);
-    font-size: 10px;
-    letter-spacing: 0.02em;
-    text-transform: none;
-  }
-
-  .pin-state a {
-    color: var(--gold);
-    text-decoration: none;
-    border-bottom: 1px solid rgba(201, 150, 58, 0.45);
-    margin-left: 0.35rem;
-    text-transform: none;
-  }
-
-  .pin-state a:hover {
-    color: var(--star);
-    border-color: rgba(244, 240, 232, 0.7);
-  }
-
-  .pin-picks {
-    align-items: center;
-  }
-
-  .pin-picks-label {
-    color: var(--accent);
-    font-family: var(--font-ui);
-    font-size: 10px;
-    letter-spacing: var(--ls-label);
-    text-transform: uppercase;
-    margin-right: 0.35rem;
   }
 
   .chip {
