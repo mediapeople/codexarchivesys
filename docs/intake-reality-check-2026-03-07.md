@@ -217,3 +217,46 @@ Validation/build result (post-v3+ update):
 - Objects validated: `35`
 - Build status: pass
 - Graph regenerated: `35` nodes, `414` edges
+
+## Additional Intake Batch (completed collage artifact)
+
+Source drop item added:
+
+- `inbox/drop/Complete Collage, It cost us dearly/artifact-jsa-collage-2, complete.md`
+- media:
+  - `inbox/drop/Complete Collage, It cost us dearly/A7B584C9-56A0-49A1-8427-2135FF3C8DF3.JPG`
+  - `inbox/drop/Complete Collage, It cost us dearly/652491FA-D330-44A8-B38F-52C049E3D6A8.JPG`
+  - `inbox/drop/Complete Collage, It cost us dearly/IMG_2838.HEIC`
+
+Processing outcome:
+
+- Created ready draft: `inbox/ready/2026-03-07-artifact-jsa-collage-001.md`
+- Promoted canonical object: `objects/artifact/artifact-jsa-collage-001.md`
+- Synced Astro content: `astro/src/content/artifact/artifact-jsa-collage-001.md`
+- Converted/optimized media:
+  - `astro/public/media/artifacts/jsa-collage-001-1.jpg`
+  - `astro/public/media/artifacts/jsa-collage-001-2.jpg`
+  - `astro/public/media/artifacts/jsa-collage-001-3.jpg`
+- Publication status: `published`
+
+Relation continuity updates:
+
+- Added reciprocal links to preserve sequence continuity:
+  - `artifact-jsa-collage-wip-001` -> `artifact-jsa-collage-001`
+  - `jsa-collage-evolution-001` -> `artifact-jsa-collage-001`
+
+Notes:
+
+- Source frontmatter used out-of-schema fields and inactive themes/constellation labels; canonical promotion normalized to active schema fields and theme registry.
+- Source media list referenced previous WIP filenames; ingest used actual dropped complete-stage captures.
+
+Updated cumulative total for 2026-03-07 intake checks:
+
+- Real intake runs documented: 8
+- Approved and promoted items: 8
+
+Validation/build result (post-complete artifact ingest):
+
+- Objects validated: `37`
+- Build status: pass
+- Graph regenerated: `37` nodes, `474` edges

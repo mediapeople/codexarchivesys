@@ -18,6 +18,7 @@ constellations:
   - Archaeological Objects
 
 related:
+  - artifact-jsa-collage-001
   - jsa-collage-evolution-001
   - under-load
   - deck-under-load-ii

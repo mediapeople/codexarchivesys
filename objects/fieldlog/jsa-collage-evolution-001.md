@@ -19,6 +19,7 @@ constellations:
   - Archaeological Objects
 
 related:
+  - artifact-jsa-collage-001
   - artifact-jsa-collage-wip-001
   - codex-archive-system-v3-plus-notes
   - codex-archive-system-v3-notes

@@ -196,13 +196,8 @@ const issueCards = issues.map((issue) => {
   .visual::before {
     z-index: 1;
     background:
-      repeating-linear-gradient(
-        90deg,
-        rgba(196, 98, 58, 0.14) 0 34px,
-        rgba(20, 17, 15, 0.06) 34px 68px
-      ),
-      linear-gradient(145deg, rgba(196, 98, 58, 0.27), rgba(20, 26, 41, 0.62));
-    opacity: 0.9;
+      linear-gradient(150deg, rgba(196, 98, 58, 0.2), rgba(24, 18, 16, 0.94));
+    opacity: 1;
   }
 
   .visual::after {
@@ -211,12 +206,13 @@ const issueCards = issues.map((issue) => {
       radial-gradient(
         circle at 50% 50%,
         transparent 0 16%,
-        rgba(231, 171, 130, 0.1) 16% 17%,
+        rgba(231, 171, 130, 0.08) 16% 17%,
         transparent 17% 33%,
-        rgba(231, 171, 130, 0.08) 33% 34%,
+        rgba(231, 171, 130, 0.06) 33% 34%,
         transparent 34% 100%
-      );
-    opacity: 0.85;
+      ),
+      linear-gradient(0deg, rgba(196, 98, 58, 0.07), transparent 58%);
+    opacity: 1;
   }
 
   .visual img {
@@ -243,11 +239,11 @@ const issueCards = issues.map((issue) => {
   }
 
   .visual.has-image::before {
-    opacity: 0.7;
+    opacity: 0.56;
   }
 
   .visual.has-image::after {
-    opacity: 0.52;
+    opacity: 0.4;
   }
 
   .visual-fallback {

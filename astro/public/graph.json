@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-08T02:42:37.200Z",
+  "generatedAt": "2026-03-08T03:39:52.334Z",
   "sourceDir": "../objects",
-  "nodeCount": 36,
-  "edgeCount": 446,
+  "nodeCount": 37,
+  "edgeCount": 474,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -16,6 +16,23 @@
       ],
       "constellations": [
         "Archaeological Objects"
+      ]
+    },
+    {
+      "id": "artifact-jsa-collage-001",
+      "type": "artifact",
+      "title": "It Cost Us Dearly",
+      "date": "2026-03-07",
+      "themes": [
+        "collage",
+        "comics",
+        "signal",
+        "observation",
+        "pressure"
+      ],
+      "constellations": [
+        "Archaeological Objects",
+        "Cascade Psalms"
       ]
     },
     {
@@ -569,6 +586,26 @@
         "shared-constellation",
         "explicit-related",
         "nexus-inclusion"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "artifact-jsa-collage-wip-001",
+      "weight": 12,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "jsa-collage-evolution-001",
+      "weight": 12,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
       ]
     },
     {
@@ -1233,6 +1270,26 @@
       ]
     },
     {
+      "source": "artifact-jsa-collage-001",
+      "target": "codex-archive-system-v3-plus-notes",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "go-live-milestone",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "codex-archive-system-v2-5-notes",
       "target": "signal-descent-002",
       "weight": 6,
@@ -1332,6 +1389,24 @@
       "reasons": [
         "shared-constellation",
         "explicit-related"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "deck-under-load-ii",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "under-load",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
       ]
     },
     {
@@ -1498,6 +1573,15 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "artifact-jsa-collage-001",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "codex-archive-system-v2-5-notes",
       "weight": 4,
       "reasons": [
@@ -1535,6 +1619,33 @@
     {
       "source": "apparatus-ledger",
       "target": "transmission-note-to-future-me",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "pressure-psalm-v",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "signal-descent-001",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "signal-descent-002",
       "weight": 4,
       "reasons": [
         "shared-theme",
@@ -1894,6 +2005,15 @@
     },
     {
       "source": "archive-box-stamped-fragments",
+      "target": "artifact-jsa-collage-001",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
       "target": "deck-under-load-ii",
       "weight": 3,
       "reasons": [
@@ -1921,6 +2041,87 @@
     {
       "source": "archive-box-stamped-fragments",
       "target": "under-load",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "codex-archive-system-v2-7-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "codex-archive-system-v3-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "heart-does-not-dream",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "signal-descent-003",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "signal-harvest",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "signal.citizen-agency",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "studio-bench-cycle",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "the-bones-hold",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "transmission-note-to-future-me",
       "weight": 3,
       "reasons": [
         "shared-theme",
@@ -2526,6 +2727,30 @@
     {
       "source": "apparatus-ledger",
       "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "lean-mean-governance-machine",
+      "weight": 2,
+      "reasons": [
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "studio-log-adhesive-test-run",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -3214,6 +3439,46 @@
     {
       "source": "archive-box-stamped-fragments",
       "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "north-georgia-march-2026",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "north-georgia-week-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "on-object-oriented-archives",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "ridge-line-lessons",
       "weight": 1,
       "reasons": [
         "shared-theme"
