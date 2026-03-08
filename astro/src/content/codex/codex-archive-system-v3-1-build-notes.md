@@ -41,6 +41,9 @@ dependencies:
   - go-live-milestone
 ---
 
+v3.1 notes are now extended by [CODEX ARCHIVE SYSTEM v3.2 FRAGMENT FEED NOTES](/objects/codex-archive-system-v3-2-fragment-feed-notes).
+Use v3.1 as runtime cleanup context and v3.2 for current feed/fragments behavior.
+
 v3.1 is a runtime polish and operations cleanup patch layered on v3+.
 
 Operator value prop:

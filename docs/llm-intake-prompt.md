@@ -55,6 +55,9 @@ For media-heavy items, include a short media-handling note in intake notes:
 - process video should target MP4 for delivery
 - original capture files remain in `inbox/drop` as source-of-record
 
+For fragment intake shape, use:
+- `docs/fragment-optimal-ingest-form.md`
+
 ---
 
 ## OBJECT TYPES
@@ -84,6 +87,9 @@ signal      — concept object: reusable observation linking multiple objects
 When uncertain between `scroll` and `fragment`, lean `fragment` only if the content is complete and self-contained in under 150 words. If it breathes and moves, it is probably a `scroll`.
 
 When uncertain between `fragment` and `signal`, choose `signal` only if the text is concept-level and intentionally reusable across multiple objects.
+
+For `fragment`, preserve line breaks and speaker tags when they are carrying meaning.
+The feed now renders fragments directly, so body shape should be treated as publish-facing, not incidental.
 
 ---
 

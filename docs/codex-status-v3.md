@@ -1,12 +1,12 @@
 # CODEX ARCHIVE SYSTEM
 ## Project Status Document
-### v3.1.1 - March 8, 2026
+### v3.2.0 - March 8, 2026
 
 ---
 
 ## CURRENT VERSION
 
-**v3.1.1**
+**v3.2.0**
 
 This document supersedes `docs/codex-status-v2.7.md` as the active status reference.
 
@@ -21,9 +21,9 @@ Operations are now optimized for publish-ready ingest continuity.
 SPEC            complete        v2.2 Master Specification
 FIELD REGISTRY  complete        docs/field-registry.md
 SCHEMA          complete        astro/src/content/config.ts
-INTAKE PROMPT   active          docs/llm-intake-prompt.md (v3 preflight + WIP update-link rule)
+INTAKE PROMPT   active          docs/llm-intake-prompt.md + docs/fragment-optimal-ingest-form.md
 ASTRO BUILD     active          feed, object pages, nexus, graph
-OBJECT ARCHIVE  active          canonical objects + codex v3.1 build notes + go-live milestone
+OBJECT ARCHIVE  active          canonical objects + codex v3.2 fragment feed notes + go-live milestone
 INBOX SYSTEM    active          drop/processing/needs-info/ready
 RELATION ENGINE complete        astro/src/lib/relations.ts + build graph pipeline
 RESPAWN CHAIN   complete        docs/respawn-system-files-v3.md + quickstart
@@ -82,6 +82,19 @@ v3+ extends the v3 ingest discipline with presentation-runtime hardening.
 5. Update-note convention added for operator scan speed:
    - every codex update post must include one short `Operator value prop` line
    - every work chunk in that post must include a short `Value prop` phrase
+
+---
+
+## FRAGMENT FEED ADDENDUM (March 8, 2026 — v3.2.0)
+
+1. Canonical release object added:
+   - `codex-archive-system-v3-2-fragment-feed-notes`
+2. Fragments now publish in the feed as direct communication rather than generic teaser cards.
+3. Feed fragments now use a dedicated interlude renderer with natural height and quiet footer labeling.
+4. Prompt/return exchanges now preview as readable `Prompt` and `Return` contact.
+5. Conversational fragment measure was widened so system returns do not collapse into narrow vertical stacks.
+6. Dedicated fragment ingest guidance now exists at:
+   - `docs/fragment-optimal-ingest-form.md`
 
 ---
 
@@ -174,5 +187,5 @@ The approval record remains durable in `logs/promotion-log.ndjson`.
 - `docs/codex-status-v3.md` exists and is current.
 - `docs/respawn-system-files-v3.md` exists and is current.
 - `docs/respawn-quickstart.md` points to v3 chain.
-- `codex-archive-system-v3-plus-notes` is present in canonical object stores.
+- `codex-archive-system-v3-2-fragment-feed-notes` is present in canonical object stores.
 - Validation and build pass.
