@@ -59,10 +59,16 @@ const topNodes = [...graph.nodes]
 <BaseLayout title="Codex Graph">
   <section class="graph-meta">
     <p class="label">Graph export</p>
+    <h1>Archive relation snapshot.</h1>
     <p class="intro">
-      Source file: <code>/astro/public/graph.json</code>
-      {graph.generatedAt && <> · Generated {new Date(graph.generatedAt).toLocaleString('en-US')}</>}
+      Read the structure layer directly: how objects connect, where weight accumulates, and what links carry the most signal.
     </p>
+    <div class="meta-row">
+      <a class="source-link" href="/graph.json" target="_blank" rel="noreferrer">Open source JSON</a>
+      {graph.generatedAt && (
+        <span class="generated">Generated {new Date(graph.generatedAt).toLocaleString('en-US')}</span>
+      )}
+    </div>
   </section>
 
   {loadError ? (
@@ -114,7 +120,7 @@ const topNodes = [...graph.nodes]
   .graph-meta {
     padding: 6rem 0 3.2rem;
     background: transparent;
-    margin-bottom: 2.8rem;
+    margin-bottom: 2.4rem;
   }
 
   .label {
@@ -127,21 +133,53 @@ const topNodes = [...graph.nodes]
     font-weight: 400;
   }
 
-  .intro {
+  .graph-meta h1 {
     margin: 0;
-    color: var(--text-body);
-    font-size: 1.2rem;
-    line-height: 1.8;
-    max-width: 44ch;
+    max-width: 20ch;
+    color: var(--star);
+    font-size: clamp(2rem, 4.2vw, 3.1rem);
+    line-height: 1.08;
   }
 
-  .graph-meta code {
-    border: 1px solid rgba(255, 255, 255, 0.16);
+  .intro {
+    margin: 1rem 0 0;
+    color: var(--text-body);
+    font-size: 1.08rem;
+    line-height: 1.78;
+    max-width: 58ch;
+  }
+
+  .meta-row {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 0.9rem;
+    align-items: center;
+  }
+
+  .source-link {
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 2px;
-    padding: 2px 6px;
+    padding: 4px 8px;
     color: var(--bone);
     font-family: var(--font-ui);
-    font-size: 11px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: var(--ls-ui-wide);
+  }
+
+  .source-link:hover {
+    border-color: rgba(196, 98, 58, 0.55);
+    color: var(--star);
+  }
+
+  .generated {
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui);
+    text-transform: uppercase;
   }
 
   .stats {

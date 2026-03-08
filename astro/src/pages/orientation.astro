@@ -159,9 +159,6 @@ const fieldContractRows = [
       This page names who operates the archive, what governs decisions,
       and how the current constellation structure is organized.
     </p>
-    <blockquote class="orientation-statement">
-      <p>The Codex is not a CMS. It is an object archive for human creative work.</p>
-    </blockquote>
     <div class="hero-stats">
       <article>
         <strong>{entries.length}</strong>
@@ -203,13 +200,16 @@ const fieldContractRows = [
           </div>
         )}
       </div>
-      {operator.avatar ? (
-        <img src={operator.avatar} alt={`${operator.name} portrait`} loading="lazy" decoding="async" />
-      ) : (
-        <div class="avatar-fallback" aria-hidden="true">
-          <span>{operator.name}</span>
-        </div>
-      )}
+      <figure class="operator-media">
+        {operator.avatar ? (
+          <img src={operator.avatar} alt={`${operator.name} portrait`} loading="lazy" decoding="async" />
+        ) : (
+          <div class="avatar-fallback" aria-hidden="true">
+            <span>{operator.name}</span>
+          </div>
+        )}
+        <figcaption>Primary operator portrait</figcaption>
+      </figure>
     </div>
   </section>
 
@@ -217,8 +217,11 @@ const fieldContractRows = [
     <p class="kicker">Intent</p>
     <h2>Core operating rule</h2>
     <p class="rule">{coreOperatingRule}</p>
-    <div class="intent-grid">
-      <article>
+    <blockquote class="orientation-statement orientation-statement--intent">
+      <p>The Codex is not a CMS. It is an object archive for human creative work.</p>
+    </blockquote>
+    <div class="intent-stack">
+      <article class="stability-envelope">
         <h3>Stability rule</h3>
         <ul class="rule-list">
           {stabilityRules.map((rule) => (
@@ -226,17 +229,75 @@ const fieldContractRows = [
           ))}
         </ul>
       </article>
-      <article>
-        <h3>Type envelope</h3>
-        <p class="body-copy">
-          <strong>{typeCounts.length}</strong> active object types.
+      <article class="type-envelope">
+        <h3>Object legend</h3>
+        <p class="body-copy legend-intro">
+          <strong>{typeCounts.length}</strong> active object types. Each one has a clear job in the Codex.
         </p>
         <ul class="type-catalog">
           {typeCounts.map((item) => (
-            <li class="type-definition">
+            <li class={`type-definition ${item.type}`}>
               <div class="type-definition-head">
-                <TypeBadge type={item.type} />
-                <span class="type-definition-brief">{typeDefinitionMap[item.type].brief}</span>
+                <div class="type-definition-identity">
+                  <span class={`type-symbol ${item.type}`} aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" focusable="false">
+                      {item.type === 'scroll' && (
+                        <>
+                          <path d="M5 7.5H19" />
+                          <path d="M5 12H19" />
+                          <path d="M5 16.5H15.5" />
+                        </>
+                      )}
+                      {item.type === 'artifact' && (
+                        <>
+                          <rect x="5.5" y="6.2" width="13" height="11.6" rx="1.4" />
+                          <path d="M8 9.4H16" />
+                          <path d="M8 13H14.4" />
+                        </>
+                      )}
+                      {item.type === 'fieldlog' && (
+                        <>
+                          <rect x="6" y="5.8" width="12" height="12.4" rx="1.5" />
+                          <path d="M8.5 10H15.5" />
+                          <path d="M8.5 13.4H15.5" />
+                          <circle cx="9" cy="7.9" r="0.85" />
+                        </>
+                      )}
+                      {item.type === 'codex' && (
+                        <>
+                          <path d="M5.5 6.6V17.4" />
+                          <path d="M18.5 6.6V17.4" />
+                          <path d="M5.5 7.5C7.5 6.6 9.4 6.6 11.5 7.5V16.8C9.4 15.9 7.5 15.9 5.5 16.8" />
+                          <path d="M18.5 7.5C16.5 6.6 14.6 6.6 12.5 7.5V16.8C14.6 15.9 16.5 15.9 18.5 16.8" />
+                        </>
+                      )}
+                      {item.type === 'fragment' && (
+                        <>
+                          <circle cx="8.2" cy="8.2" r="1.35" />
+                          <circle cx="13.7" cy="11.2" r="1" />
+                          <circle cx="10" cy="15" r="0.9" />
+                          <path d="M15.4 15.4L18.1 13" />
+                        </>
+                      )}
+                      {item.type === 'nexus' && (
+                        <>
+                          <circle cx="12" cy="12" r="5.8" />
+                          <circle cx="12" cy="12" r="2.6" />
+                        </>
+                      )}
+                      {item.type === 'signal' && (
+                        <>
+                          <path d="M4.5 12H8.2" />
+                          <path d="M8.2 12C9.8 12 9.8 9 11.4 9C13 9 13 15 14.6 15C16.2 15 16.2 12 17.8 12H19.5" />
+                        </>
+                      )}
+                    </svg>
+                  </span>
+                  <div class="type-definition-meta">
+                    <TypeBadge type={item.type} />
+                    <span class="type-definition-brief">{typeDefinitionMap[item.type].brief}</span>
+                  </div>
+                </div>
                 <code>{item.count}</code>
               </div>
               <p>{typeDefinitionMap[item.type].description}</p>
@@ -334,7 +395,7 @@ const fieldContractRows = [
 
 <style>
   .orientation-hero {
-    padding: 6rem 0 3.1rem;
+    padding: 6.6rem 0 3.9rem;
   }
 
   .label,
@@ -365,7 +426,7 @@ const fieldContractRows = [
   }
 
   .orientation-statement {
-    margin: 2rem 0 0;
+    margin: 1.35rem 0 0;
     padding: 1rem 0 0.2rem 1rem;
     max-width: 30ch;
     border-left: 2px solid rgba(201, 150, 58, 0.44);
@@ -381,21 +442,25 @@ const fieldContractRows = [
     font-style: italic;
   }
 
-  .orientation-statement + .hero-stats {
-    margin-top: 2.15rem;
+  .orientation-statement--intent {
+    max-width: 34ch;
+  }
+
+  .orientation-statement--intent p {
+    font-size: clamp(1.38rem, 2.55vw, 2rem);
   }
 
   .hero-stats {
-    margin-top: 2.4rem;
+    margin-top: 2.1rem;
     display: grid;
-    gap: 1rem;
+    gap: 1.15rem;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   }
 
   .hero-stats article {
     border: 1px solid rgba(255, 255, 255, 0.16);
     border-radius: 2px;
-    padding: 0.9rem 0.95rem 0.86rem;
+    padding: 1.02rem 1.08rem 1rem;
     background: rgba(18, 14, 11, 0.56);
   }
 
@@ -418,10 +483,10 @@ const fieldContractRows = [
   }
 
   .panel {
-    margin-top: 2rem;
+    margin-top: 2.75rem;
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 2px;
-    padding: 1.45rem 1.6rem 1.7rem;
+    padding: 2.1rem 2.35rem 2.45rem;
     background: rgba(14, 12, 10, 0.44);
   }
 
@@ -442,18 +507,28 @@ const fieldContractRows = [
 
   .operator-grid {
     display: grid;
-    gap: 1.2rem;
-    grid-template-columns: minmax(0, 1fr) 144px;
-    align-items: center;
+    gap: 1.5rem;
+    grid-template-columns: minmax(0, 1fr) clamp(164px, 19vw, 228px);
+    align-items: start;
+  }
+
+  .operator-media {
+    margin: 0;
+    display: grid;
+    gap: 0.48rem;
+    justify-items: end;
+    align-self: start;
   }
 
   .operator-grid img,
   .avatar-fallback {
     width: 100%;
     aspect-ratio: 1 / 1;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 2px;
     object-fit: cover;
+    background: rgba(0, 0, 0, 0.34);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.32);
   }
 
   .avatar-fallback {
@@ -468,6 +543,15 @@ const fieldContractRows = [
     font-size: 10px;
     letter-spacing: var(--ls-ui);
     text-transform: uppercase;
+  }
+
+  .operator-media figcaption {
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 9px;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+    text-align: right;
   }
 
   .designation {
@@ -532,80 +616,181 @@ const fieldContractRows = [
     color: var(--star);
   }
 
-  .intent-grid {
-    margin-top: 1.25rem;
-    display: grid;
-    gap: 1.05rem;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  .intent-stack {
+    margin-top: 1.55rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.55rem;
   }
 
-  .intent-grid article {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 2px;
-    padding: 1rem 1rem 1.05rem;
-    background: rgba(10, 9, 8, 0.48);
+  .intent-stack article {
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    background: transparent;
   }
 
-  .intent-grid h3 {
+  .intent-stack h3 {
     margin: 0;
-    color: var(--bone);
+    color: var(--accent);
     font-family: var(--font-ui);
-    font-size: 11px;
-    letter-spacing: var(--ls-ui-wide);
+    font-size: 10px;
+    letter-spacing: var(--ls-label);
     text-transform: uppercase;
-    font-weight: 700;
+    font-weight: 400;
   }
 
   .rule-list {
-    margin: 0.7rem 0 0;
+    margin: 0.78rem 0 0;
     padding-left: 1.1rem;
     color: var(--text-body);
     font-family: var(--font-ui);
-    font-size: 12px;
-    line-height: 1.8;
+    font-size: 13px;
+    line-height: 1.9;
     letter-spacing: 0.03em;
   }
 
+  .stability-envelope {
+    max-width: 640px;
+    padding: 0 0 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .type-envelope {
+    padding-top: 0.2rem;
+  }
+
+  .legend-intro {
+    margin-top: 0.72rem;
+    max-width: 58ch;
+  }
+
   .type-catalog {
-    margin: 0.86rem 0 0;
+    margin: 1rem 0 0;
     padding: 0;
     list-style: none;
     display: grid;
-    gap: 0.56rem;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 0.96rem;
   }
 
   .type-definition {
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 2px;
-    padding: 0.7rem 0.78rem 0.76rem;
-    background: rgba(8, 8, 8, 0.4);
+    padding: 1.08rem 1.12rem 1.14rem;
+    background:
+      linear-gradient(150deg, rgba(20, 16, 12, 0.56) 0%, rgba(8, 8, 8, 0.48) 78%);
   }
 
   .type-definition-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.62rem;
+  }
+
+  .type-definition-identity {
     display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: 0.56rem;
+    grid-template-columns: auto 1fr;
+    align-items: start;
+    gap: 0.62rem;
+    min-width: 0;
+  }
+
+  .type-definition-meta {
+    display: grid;
+    gap: 0.2rem;
+    min-width: 0;
+  }
+
+  .type-definition-meta :global(.type-badge) {
+    justify-self: start;
+  }
+
+  .type-symbol {
+    display: grid;
+    place-items: center;
+    width: 1.72rem;
+    height: 1.72rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--mid);
+    flex-shrink: 0;
+  }
+
+  .type-symbol svg {
+    width: 1.08rem;
+    height: 1.08rem;
+  }
+
+  .type-symbol svg :where(path, rect, circle) {
+    stroke: currentColor;
+    stroke-width: 1.48;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .type-symbol.scroll {
+    border-color: rgba(196, 98, 58, 0.42);
+    background: rgba(196, 98, 58, 0.14);
+    color: #deaf9a;
+  }
+
+  .type-symbol.artifact {
+    border-color: rgba(201, 150, 58, 0.42);
+    background: rgba(201, 150, 58, 0.16);
+    color: #e5c98d;
+  }
+
+  .type-symbol.fieldlog {
+    border-color: rgba(138, 132, 128, 0.44);
+    background: rgba(138, 132, 128, 0.14);
+    color: #bfb7b2;
+  }
+
+  .type-symbol.codex {
+    border-color: rgba(201, 150, 58, 0.46);
+    background: rgba(201, 150, 58, 0.14);
+    color: #dfba6d;
+  }
+
+  .type-symbol.fragment {
+    border-color: rgba(92, 84, 80, 0.5);
+    background: rgba(92, 84, 80, 0.16);
+    color: #b9b2ad;
+  }
+
+  .type-symbol.nexus {
+    border-color: rgba(196, 98, 58, 0.45);
+    background: rgba(196, 98, 58, 0.14);
+    color: #e2b2a0;
+  }
+
+  .type-symbol.signal {
+    border-color: rgba(132, 176, 158, 0.48);
+    background: rgba(132, 176, 158, 0.16);
+    color: #c4dbd0;
   }
 
   .type-definition-brief {
     color: var(--mid);
     font-family: var(--font-ui);
-    font-size: 10px;
+    font-size: 9px;
     letter-spacing: var(--ls-ui);
     line-height: 1.4;
     text-transform: uppercase;
   }
 
   .type-definition p {
-    margin: 0.52rem 0 0;
+    margin: 0.74rem 0 0;
     color: var(--text-body);
-    font-size: 0.98rem;
-    line-height: 1.66;
+    font-size: 1.01rem;
+    line-height: 1.74;
   }
 
   .type-definition-tags {
-    margin-top: 0.52rem;
+    margin-top: 0.72rem;
     display: flex;
     flex-wrap: wrap;
     gap: 0.34rem 0.4rem;
@@ -626,19 +811,20 @@ const fieldContractRows = [
 
   .type-definition code,
   .constellation-meta code {
-    padding: 2px 6px;
+    padding: 2px 7px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 2px;
     color: var(--bone);
     font-family: var(--font-ui);
     font-size: 11px;
+    line-height: 1.4;
   }
 
   .fieldmap-layout {
-    margin-top: 1.1rem;
+    margin-top: 1.6rem;
     display: grid;
-    gap: 1rem;
-    grid-template-columns: minmax(0, 1.18fr) minmax(0, 1fr);
+    gap: 1.85rem;
+    grid-template-columns: minmax(0, 1.16fr) minmax(0, 0.9fr);
     align-items: start;
   }
 
@@ -696,6 +882,7 @@ const fieldContractRows = [
   }
 
   .field-contract {
+    margin-left: 0.2rem;
     border: 1px solid rgba(255, 255, 255, 0.14);
     border-radius: 2px;
     background: rgba(9, 9, 9, 0.44);
@@ -758,9 +945,9 @@ const fieldContractRows = [
   }
 
   .constellation-grid {
-    margin-top: 1.1rem;
+    margin-top: 1.45rem;
     display: grid;
-    gap: 1rem;
+    gap: 1.1rem;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   }
 
@@ -828,7 +1015,7 @@ const fieldContractRows = [
   }
 
   .path-panel ol {
-    margin: 1rem 0 0;
+    margin: 1.15rem 0 0;
     padding-left: 1.2rem;
     color: var(--text-body);
     line-height: 1.84;
@@ -867,8 +1054,21 @@ const fieldContractRows = [
       padding: 1.2rem 1rem 1.18rem;
     }
 
+    .stability-envelope {
+      max-width: 100%;
+      padding-bottom: 0.85rem;
+    }
+
     .operator-grid {
       grid-template-columns: 1fr;
+    }
+
+    .operator-media {
+      justify-items: start;
+    }
+
+    .operator-media figcaption {
+      text-align: left;
     }
 
     .operator-grid img,
@@ -883,14 +1083,23 @@ const fieldContractRows = [
 
     .fieldmap-layout {
       grid-template-columns: 1fr;
+      gap: 1.15rem;
     }
 
     .fieldmap-canvas {
       min-height: 300px;
     }
 
+    .field-contract {
+      margin-left: 0;
+    }
+
     .field-contract-row {
       grid-template-columns: 1fr 1fr;
+    }
+
+    .type-catalog {
+      grid-template-columns: 1fr;
     }
 
     .field-contract-row .contract-cell:last-child {
