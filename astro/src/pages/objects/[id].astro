@@ -7,6 +7,7 @@ import { computeRelatedEntries } from '../../lib/relations';
 import { formatMediaLabel, getMediaItems, pickPrimaryMedia } from '../../lib/media';
 import { formatDisplayTitle } from '../../lib/headline';
 import { getAuthorInitials, getAuthorProfiles } from '../../lib/author';
+import { buildObjectShareMeta } from '../../lib/shareMeta';
 
 export async function getStaticPaths() {
   const entries = await getAllEntries();
@@ -107,6 +108,13 @@ const readableDate = entry.data.date.toLocaleDateString('en-US', {
   day: 'numeric',
 });
 const displayTitle = formatDisplayTitle(entry.data.title);
+const shareMeta = buildObjectShareMeta({
+  collection: entry.collection,
+  title: displayTitle,
+  excerpt: entry.data.excerpt,
+  mediaItems,
+  canonicalPath: `/objects/${entry.data.id}`,
+});
 const bodyClassRaw = (entry.data as Record<string, unknown>).bodyClass;
 const bodyClass = typeof bodyClassRaw === 'string' ? bodyClassRaw : 'prose';
 const objectFirstFlow = true;
@@ -118,7 +126,14 @@ const authorInitials = getAuthorInitials(primaryAuthor.name);
 const primaryDesignation = primaryAuthor.designation || primaryAuthor.role;
 ---
 
-<BaseLayout title={`${displayTitle} | Codex Archive`}>
+<BaseLayout
+  title={`${displayTitle} | Codex Archive`}
+  description={shareMeta.description}
+  canonicalPath={shareMeta.canonicalPath}
+  socialImage={shareMeta.socialImage}
+  socialType={shareMeta.socialType}
+  twitterCard={shareMeta.twitterCard}
+>
   <article class={`object-shell ${entry.collection} ${objectFirstFlow ? 'text-first-media' : ''}`}>
     <a class="back" href="/">← Back to feed</a>
 

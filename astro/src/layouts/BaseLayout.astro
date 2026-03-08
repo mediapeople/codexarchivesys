@@ -2,14 +2,34 @@
 interface Props {
   title?: string;
   description?: string;
+  canonicalPath?: string;
+  socialImage?: string;
+  socialType?: 'website' | 'article';
+  twitterCard?: 'summary' | 'summary_large_image';
 }
 
 const {
   title = 'Codex Archive',
   description = 'Object-first archive for scrolls, artifacts, field logs, codexes, fragments, nexus issues, and signals.',
+  canonicalPath,
+  socialImage,
+  socialType = 'website',
+  twitterCard,
 } = Astro.props;
 
 const currentPath = Astro.url.pathname;
+const siteBase = Astro.site ? new URL(Astro.site.toString()) : new URL(Astro.url.origin);
+
+function toAbsoluteUrl(value: string): string {
+  if (/^https?:\/\//i.test(value)) {
+    return value;
+  }
+  return new URL(value, siteBase).toString();
+}
+
+const canonicalUrl = toAbsoluteUrl(canonicalPath || currentPath);
+const socialImageUrl = socialImage ? toAbsoluteUrl(socialImage) : null;
+const resolvedTwitterCard = twitterCard || (socialImageUrl ? 'summary_large_image' : 'summary');
 const feedActive = currentPath === '/' || currentPath.startsWith('/objects/');
 const nexusActive = currentPath.startsWith('/nexus');
 const graphActive = currentPath.startsWith('/graph');
@@ -28,6 +48,17 @@ const navItems = [
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:site_name" content="Codex Archive" />
+    <meta property="og:type" content={socialType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    {socialImageUrl && <meta property="og:image" content={socialImageUrl} />}
+    <meta name="twitter:card" content={resolvedTwitterCard} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {socialImageUrl && <meta name="twitter:image" content={socialImageUrl} />}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
