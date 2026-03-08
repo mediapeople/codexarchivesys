@@ -22,7 +22,9 @@ export type ArchiveEntry =
   | CollectionEntry<'signal'>;
 
 function byDateDesc(a: ArchiveEntry, b: ArchiveEntry) {
-  return b.data.date.valueOf() - a.data.date.valueOf();
+  const bTimestamp = (b.data.postedAt || b.data.date).valueOf();
+  const aTimestamp = (a.data.postedAt || a.data.date).valueOf();
+  return bTimestamp - aTimestamp;
 }
 
 export async function getAllEntries(): Promise<ArchiveEntry[]> {

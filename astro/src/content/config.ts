@@ -122,6 +122,7 @@ const universalFields = {
   type:           ObjectType,
   title:          z.string(),
   date:           z.coerce.date(),
+  postedAt:       z.coerce.date().optional(),
   status:         Status,
 
   excerpt:        z.string().optional(),

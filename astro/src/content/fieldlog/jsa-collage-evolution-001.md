@@ -3,6 +3,7 @@ id: jsa-collage-evolution-001
 type: fieldlog
 title: "JSA Collage Evolution 001"
 date: 2026-03-07
+postedAt: 2026-03-07T19:40:00-05:00
 status: published
 visibility: public
 

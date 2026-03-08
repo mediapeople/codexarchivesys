@@ -3,6 +3,7 @@ id: artifact-jsa-collage-wip-001
 type: artifact
 title: "JSA Collage - Work in Progress"
 date: 2026-03-07
+postedAt: 2026-03-07T19:10:00-05:00
 status: published
 visibility: public
 

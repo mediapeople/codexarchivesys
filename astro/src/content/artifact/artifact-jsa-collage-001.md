@@ -3,6 +3,7 @@ id: artifact-jsa-collage-001
 type: artifact
 title: "It Cost Us Dearly"
 date: 2026-03-07
+postedAt: 2026-03-07T20:10:00-05:00
 status: published
 visibility: public
 
