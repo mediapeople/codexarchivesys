@@ -40,8 +40,8 @@ dependencies:
   - codex-archive-system-v3-plus-notes
 ---
 
-v3.2 extends [CODEX ARCHIVE SYSTEM v3.1 BUILD NOTES](/objects/codex-archive-system-v3-1-build-notes).
-Use v3.1 as runtime cleanup context and v3.2 for current fragment/feed presentation behavior.
+v3.2 notes are now extended by [CODEX ARCHIVE SYSTEM v3.3 MODEST TABLE NOTES](/objects/codex-archive-system-v3-3-modest-table-notes).
+Use v3.2 as fragment/feed context and v3.3 for current card-image staging and inspection behavior.
 
 v3.2 is the feed-behavior release.
 

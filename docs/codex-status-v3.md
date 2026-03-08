@@ -1,12 +1,12 @@
 # CODEX ARCHIVE SYSTEM
 ## Project Status Document
-### v3.2.0 - March 8, 2026
+### v3.3.0 - March 8, 2026
 
 ---
 
 ## CURRENT VERSION
 
-**v3.2.0**
+**v3.3.0**
 
 This document supersedes `docs/codex-status-v2.7.md` as the active status reference.
 
@@ -23,7 +23,7 @@ FIELD REGISTRY  complete        docs/field-registry.md
 SCHEMA          complete        astro/src/content/config.ts
 INTAKE PROMPT   active          docs/llm-intake-prompt.md + docs/fragment-optimal-ingest-form.md
 ASTRO BUILD     active          feed, object pages, nexus, graph
-OBJECT ARCHIVE  active          canonical objects + codex v3.2 fragment feed notes + go-live milestone
+OBJECT ARCHIVE  active          canonical objects + codex v3.3 modest table notes + go-live milestone
 INBOX SYSTEM    active          drop/processing/needs-info/ready
 RELATION ENGINE complete        astro/src/lib/relations.ts + build graph pipeline
 RESPAWN CHAIN   complete        docs/respawn-system-files-v3.md + quickstart
@@ -95,6 +95,17 @@ v3+ extends the v3 ingest discipline with presentation-runtime hardening.
 5. Conversational fragment measure was widened so system returns do not collapse into narrow vertical stacks.
 6. Dedicated fragment ingest guidance now exists at:
    - `docs/fragment-optimal-ingest-form.md`
+
+---
+
+## MODEST TABLE ADDENDUM (March 8, 2026 — v3.3.0)
+
+1. Canonical release object added:
+   - `codex-archive-system-v3-3-modest-table-notes`
+2. Image-backed feed and related cards now present objects on a contained specimen stage instead of hard crops.
+3. The table/image surface now has its own lightbox path while the rest of the card remains the canonical post link.
+4. Mobile lightbox interaction now uses a cleaner touch tray with larger controls and shorter CTA copy.
+5. Mobile table staging now gives raw camera-native objects more top/bottom breathing room.
 
 ---
 
@@ -187,5 +198,5 @@ The approval record remains durable in `logs/promotion-log.ndjson`.
 - `docs/codex-status-v3.md` exists and is current.
 - `docs/respawn-system-files-v3.md` exists and is current.
 - `docs/respawn-quickstart.md` points to v3 chain.
-- `codex-archive-system-v3-2-fragment-feed-notes` is present in canonical object stores.
+- `codex-archive-system-v3-3-modest-table-notes` is present in canonical object stores.
 - Validation and build pass.

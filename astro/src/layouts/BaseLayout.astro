@@ -146,6 +146,7 @@ const navItems = [
           lightboxCaption.hidden = true;
           lightboxLink.href = '/';
           lightboxLink.textContent = 'Open attached post';
+          lightboxLink.setAttribute('aria-label', 'Open attached post');
           document.body.style.overflow = previousOverflow;
 
           if (lastFocusedTrigger instanceof HTMLElement) {
@@ -176,7 +177,8 @@ const navItems = [
           const href = trigger.getAttribute('data-card-lightbox-href') || '/';
           const title = trigger.getAttribute('data-card-lightbox-title') || 'attached post';
           lightboxLink.href = href;
-          lightboxLink.textContent = `Open ${title}`;
+          lightboxLink.textContent = 'Open attached post';
+          lightboxLink.setAttribute('aria-label', `Open ${title}`);
 
           lightbox.hidden = false;
           lightbox.setAttribute('aria-hidden', 'false');
@@ -571,14 +573,73 @@ const navItems = [
 
     .card-image-lightbox-topbar {
       width: 100%;
-      justify-content: space-between;
-      flex-wrap: wrap;
+      position: absolute;
+      left: 0.9rem;
+      right: 0.9rem;
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 0.9rem);
+      width: auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 0.55rem;
+      padding: 0.5rem;
+      border: 1px solid rgba(244, 240, 232, 0.14);
+      background: rgba(12, 10, 9, 0.82);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.24);
+      justify-content: initial;
+      align-items: stretch;
     }
 
     .card-image-lightbox-link,
     .card-image-lightbox-close {
-      font-size: 0.62rem;
-      padding: 0.4rem 0.64rem;
+      min-height: 2.7rem;
+      font-size: 0.6rem;
+      padding: 0.5rem 0.72rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      text-wrap: balance;
+    }
+
+    .card-image-lightbox-link {
+      background: rgba(196, 98, 58, 0.14);
+      border-color: rgba(196, 98, 58, 0.28);
+    }
+
+    .card-image-lightbox-close {
+      min-width: 2.85rem;
+      padding-left: 0.68rem;
+      padding-right: 0.68rem;
+    }
+
+    .card-image-lightbox {
+      padding:
+        max(0.9rem, env(safe-area-inset-top, 0px))
+        0.85rem
+        calc(5.7rem + env(safe-area-inset-bottom, 0px))
+        0.85rem;
+      gap: 0.5rem;
+    }
+
+    .card-image-lightbox-frame {
+      width: 100%;
+      height: calc(100vh - 7.6rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+      gap: 0.75rem;
+      align-content: start;
+      padding-top: 0.35rem;
+    }
+
+    .card-image-lightbox-frame img {
+      max-height: calc(100vh - 12rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    }
+
+    .card-image-lightbox-frame figcaption {
+      max-width: 100%;
+      font-size: 0.84rem;
+      line-height: 1.48;
+      padding: 0 0.15rem;
     }
   }
 
