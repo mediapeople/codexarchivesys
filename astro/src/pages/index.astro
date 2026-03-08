@@ -202,27 +202,6 @@ function buildHref(
         <h1 class="feed-thesis">
           Objects first. Structure supports retrieval, relation, and close reading.
         </h1>
-        <aside class="hero-pulse" aria-label="Archive pulse">
-          <p class="pulse-label">Archive pulse</p>
-          <dl class="pulse-grid">
-            <div>
-              <dt>Shown</dt>
-              <dd data-shown-count>{filteredEntries.length}</dd>
-            </div>
-            <div>
-              <dt>Objects</dt>
-              <dd>{entries.length}</dd>
-            </div>
-            <div>
-              <dt>Types</dt>
-              <dd>{typeCounts.length}</dd>
-            </div>
-            <div>
-              <dt>Constellations</dt>
-              <dd>{constellationSet.size}</dd>
-            </div>
-          </dl>
-        </aside>
       </div>
     </div>
   </section>
@@ -801,10 +780,7 @@ function buildHref(
   }
 
   .feed-hero-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(250px, 320px);
-    gap: 2.6rem 3.4rem;
-    align-items: end;
+    display: block;
   }
 
   .feed-thesis {
@@ -814,75 +790,6 @@ function buildHref(
     font-size: clamp(2.2rem, 4.3vw, 4rem);
     line-height: 1.1;
     letter-spacing: -0.004em;
-  }
-
-  .hero-pulse {
-    position: relative;
-    border: 1px solid rgba(255, 255, 255, 0.11);
-    background:
-      radial-gradient(130% 100% at 0% 0%, rgba(201, 150, 58, 0.11), transparent 62%),
-      linear-gradient(160deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.025) 45%, rgba(8, 7, 6, 0.16));
-    backdrop-filter: blur(7px) saturate(112%);
-    -webkit-backdrop-filter: blur(7px) saturate(112%);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.11),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.16),
-      0 8px 18px rgba(0, 0, 0, 0.14);
-    padding: 1.34rem 1.26rem 1.24rem;
-    border-radius: 3px;
-    overflow: hidden;
-  }
-
-  .hero-pulse::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: linear-gradient(
-      112deg,
-      rgba(255, 255, 255, 0.12) 0%,
-      rgba(255, 255, 255, 0.03) 17%,
-      transparent 41%
-    );
-    opacity: 0.3;
-  }
-
-  .pulse-label {
-    margin: 0 0 0.75rem;
-    color: var(--accent);
-    font-family: var(--font-ui);
-    font-size: 12px;
-    letter-spacing: var(--ls-label);
-    text-transform: uppercase;
-  }
-
-  .pulse-grid {
-    margin: 0;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem 1.25rem;
-  }
-
-  .pulse-grid div {
-    min-width: 0;
-  }
-
-  .pulse-grid dt {
-    margin: 0;
-    color: var(--mid);
-    font-family: var(--font-ui);
-    font-size: 10px;
-    letter-spacing: var(--ls-ui);
-    text-transform: uppercase;
-  }
-
-  .pulse-grid dd {
-    margin: 0.1rem 0 0;
-    color: var(--star);
-    font-family: var(--font-display);
-    font-size: clamp(1.3rem, 2.2vw, 1.8rem);
-    line-height: 1.1;
-    letter-spacing: var(--ls-display);
   }
 
   .controls {
@@ -1411,11 +1318,6 @@ function buildHref(
       opacity: 0;
     }
 
-    .feed-hero-grid {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-
     .feed-thesis {
       font-size: 1.7rem;
       line-height: 1.2;
@@ -1432,10 +1334,6 @@ function buildHref(
     .mosaic-view > :global(.card.mosaic:nth-child(9n + 4)),
     .mosaic-view > :global(.card.mosaic:nth-child(11n + 7)) {
       grid-column: span 1;
-    }
-
-    .pulse-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .stats {
