@@ -5,8 +5,9 @@ import { COLLECTIONS, getAllEntries, getTypeLabel } from '../lib/archive';
 import { getMediaItems, pickPrimaryMedia } from '../lib/media';
 import { formatDisplayTitle } from '../lib/headline';
 import { getFeedPinnedFeatureId } from '../lib/feedConfig';
+import { execSync } from 'node:child_process';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, relative } from 'node:path';
 
 const entries = await getAllEntries();
 const searchParams = Astro.url.searchParams;
@@ -62,6 +63,8 @@ const filteredEntries = entries.filter((entry) => {
 });
 
 const contentMtimeById = new Map<string, number>();
+const contentPathById = new Map<string, string>();
+const contentGitTimeById = new Map<string, number>();
 const contentRoot = join(process.cwd(), 'src', 'content');
 for (const collection of COLLECTIONS) {
   const collectionRoot = join(contentRoot, collection);
@@ -77,17 +80,55 @@ for (const collection of COLLECTIONS) {
       continue;
     }
     const objectId = idMatch[1].trim();
+    const relPath = relative(process.cwd(), filePath).replace(/\\/g, '/');
     const mtime = statSync(filePath).mtimeMs;
+    contentPathById.set(objectId, relPath);
     if (!contentMtimeById.has(objectId) || mtime > (contentMtimeById.get(objectId) || 0)) {
       contentMtimeById.set(objectId, mtime);
     }
   }
 }
 
+try {
+  const gitLog = execSync('git log --name-only --pretty=format:%ct -- src/content', {
+    cwd: process.cwd(),
+    encoding: 'utf8',
+    stdio: ['ignore', 'pipe', 'ignore'],
+  });
+  const commitTimeByPath = new Map<string, number>();
+  let currentCommitTime = 0;
+  for (const rawLine of gitLog.split('\n')) {
+    const line = rawLine.trim();
+    if (!line) {
+      continue;
+    }
+    if (/^\d{9,}$/.test(line)) {
+      currentCommitTime = Number(line);
+      continue;
+    }
+    if (!line.endsWith('.md') || commitTimeByPath.has(line)) {
+      continue;
+    }
+    commitTimeByPath.set(line, currentCommitTime * 1000);
+  }
+  for (const [id, relPath] of contentPathById) {
+    const commitTime = commitTimeByPath.get(relPath);
+    if (commitTime) {
+      contentGitTimeById.set(id, commitTime);
+    }
+  }
+} catch {
+  // Fallback to mtime and id if git metadata is unavailable in build environment.
+}
+
 function byNewestFirst(a: (typeof entries)[number], b: (typeof entries)[number]) {
   const dateDelta = b.data.date.valueOf() - a.data.date.valueOf();
   if (dateDelta !== 0) {
     return dateDelta;
+  }
+  const gitDelta = (contentGitTimeById.get(b.data.id) || 0) - (contentGitTimeById.get(a.data.id) || 0);
+  if (gitDelta !== 0) {
+    return gitDelta;
   }
   const mtimeDelta = (contentMtimeById.get(b.data.id) || 0) - (contentMtimeById.get(a.data.id) || 0);
   if (mtimeDelta !== 0) {
