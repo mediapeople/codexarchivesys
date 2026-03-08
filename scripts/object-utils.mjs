@@ -227,21 +227,23 @@ function extractIncludedRefs(frontmatterText) {
 
 export function loadObjects(rootDir = 'objects') {
   const files = walkMarkdownFiles(rootDir);
-  return files.map((file) => {
-    const raw = fs.readFileSync(file, 'utf8');
-    const { fields, errors, frontmatterText } = parseFrontmatter(raw);
-    return {
-      file,
-      fields: {
-        ...fields,
-        themes: normalizeArray(fields.themes),
-        constellations: normalizeArray(fields.constellations),
-        related: normalizeArray(fields.related),
-      },
-      includedRefs: extractIncludedRefs(frontmatterText),
-      parseErrors: errors,
-    };
-  });
+  return files.map((file) => loadObjectFile(file));
+}
+
+export function loadObjectFile(file) {
+  const raw = fs.readFileSync(file, 'utf8');
+  const { fields, errors, frontmatterText } = parseFrontmatter(raw);
+  return {
+    file,
+    fields: {
+      ...fields,
+      themes: normalizeArray(fields.themes),
+      constellations: normalizeArray(fields.constellations),
+      related: normalizeArray(fields.related),
+    },
+    includedRefs: extractIncludedRefs(frontmatterText),
+    parseErrors: errors,
+  };
 }
 
 export function validateObjects(objects) {
