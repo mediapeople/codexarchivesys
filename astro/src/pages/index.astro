@@ -719,37 +719,65 @@ function buildHref(
 
   .feed-hero {
     margin: 0;
-    padding: 5.3rem 0 4.45rem;
+    padding: 5.1rem 0 4.75rem;
     position: relative;
     overflow: hidden;
     isolation: isolate;
+    background:
+      radial-gradient(
+        145% 122% at 66% -42%,
+        rgba(196, 98, 58, 0.34) 0%,
+        rgba(158, 78, 46, 0.2) 28%,
+        rgba(97, 53, 34, 0.1) 56%,
+        rgba(26, 19, 14, 0.02) 82%,
+        transparent 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(110, 62, 40, 0.24) 0%,
+        rgba(80, 47, 30, 0.16) 30%,
+        rgba(45, 29, 20, 0.08) 56%,
+        rgba(18, 14, 11, 0.03) 76%,
+        transparent 100%
+      );
   }
 
   .feed-hero::before {
     content: '';
     position: absolute;
-    inset: -2.8rem -2rem auto;
-    height: 8.5rem;
+    inset: -5.5rem -12vw -6.6rem;
     z-index: -1;
     pointer-events: none;
     background:
-      linear-gradient(180deg, rgba(196, 98, 58, 0.2), rgba(196, 98, 58, 0.03) 58%, transparent),
-      linear-gradient(90deg, transparent, rgba(196, 98, 58, 0.07), transparent);
+      radial-gradient(
+        65% 72% at 72% 18%,
+        rgba(206, 123, 70, 0.14) 0%,
+        rgba(196, 98, 58, 0.08) 34%,
+        rgba(196, 98, 58, 0.03) 52%,
+        transparent 82%
+      ),
+      linear-gradient(
+        90deg,
+        rgba(196, 98, 58, 0.02) 0%,
+        rgba(196, 98, 58, 0.08) 48%,
+        rgba(196, 98, 58, 0.02) 100%
+      );
+    opacity: 0.86;
   }
 
   .feed-hero::after {
     content: '';
     position: absolute;
-    top: 0.32rem;
-    left: clamp(30%, 24vw, 22rem);
-    right: clamp(0.35rem, 3.8vw, 2.25rem);
-    height: 6.55rem;
+    top: clamp(-0.55rem, 1.2vw, 0.8rem);
+    left: clamp(22%, 30vw, 28rem);
+    right: clamp(-18vw, -10vw, -4vw);
+    height: clamp(9.25rem, 20vw, 15.6rem);
     z-index: -1;
     pointer-events: none;
-    opacity: 0.26;
+    opacity: 0.23;
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 210' fill='none'%3E%3Cpath d='M12 108H1188' stroke='%23a57647' stroke-width='3' stroke-linecap='round' stroke-opacity='.62'/%3E%3Cpath d='M706 30c127 0 142 50 44 62-89 12-88 42 13 45 89 3 98 34 8 38-64 3-72 22-4 24' stroke='%23a57647' stroke-width='3' stroke-linecap='round' stroke-opacity='.72'/%3E%3Cpath d='M744 22c27 11 34 23 16 35' stroke='%23a57647' stroke-width='2.4' stroke-linecap='round' stroke-opacity='.44'/%3E%3C/svg%3E");
+    background-image: url('/media/decor/feed-hero-swoosh.svg');
   }
 
   .feed-label {
@@ -1346,11 +1374,11 @@ function buildHref(
     }
 
     .feed-hero::after {
-      top: 0.15rem;
-      left: 43%;
-      right: 0;
-      height: 4.65rem;
-      opacity: 0.22;
+      top: -0.15rem;
+      left: 27%;
+      right: -38%;
+      height: 6.8rem;
+      opacity: 0.18;
     }
 
     .feed-hero-grid {
@@ -1391,10 +1419,10 @@ function buildHref(
 
   @media (max-width: 560px) {
     .feed-hero::after {
-      left: 52%;
-      right: -10%;
-      height: 3.95rem;
-      opacity: 0.18;
+      left: 20%;
+      right: -56%;
+      height: 5.6rem;
+      opacity: 0.14;
     }
 
     .stack-view {
