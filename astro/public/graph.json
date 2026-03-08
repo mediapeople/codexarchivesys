@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-08T14:34:41.335Z",
+  "generatedAt": "2026-03-08T17:34:07.124Z",
   "sourceDir": "../objects",
-  "nodeCount": 38,
-  "edgeCount": 508,
+  "nodeCount": 40,
+  "edgeCount": 563,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -403,6 +403,19 @@
       ]
     },
     {
+      "id": "art-is-for-people-who-want-to-feel-alive",
+      "type": "scroll",
+      "title": "Art Is for People Who Want to Feel Alive",
+      "date": "2026-03-08",
+      "themes": [
+        "signal",
+        "survival",
+        "observation",
+        "pressure"
+      ],
+      "constellations": []
+    },
+    {
       "id": "heart-does-not-dream",
       "type": "scroll",
       "title": "The Heart Does Not Dream. It Repeats.",
@@ -503,6 +516,19 @@
       "constellations": [
         "Maintenance Psalms"
       ]
+    },
+    {
+      "id": "suwanee-ga-loremap",
+      "type": "scroll",
+      "title": "Loremap: Suwanee, GA",
+      "date": "2026-03-08",
+      "themes": [
+        "place",
+        "observation",
+        "signal",
+        "transmission"
+      ],
+      "constellations": []
     },
     {
       "id": "the-bones-hold",
@@ -1476,6 +1502,24 @@
       ]
     },
     {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "heart-does-not-dream",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "the-bones-hold",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "artifact-jsa-collage-001",
       "target": "deck-under-load-ii",
       "weight": 5,
@@ -1584,6 +1628,15 @@
       ]
     },
     {
+      "source": "north-georgia-march-2026",
+      "target": "suwanee-ga-loremap",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "on-object-oriented-archives",
       "target": "the-bones-hold-content-architecture",
       "weight": 5,
@@ -1595,6 +1648,15 @@
     {
       "source": "reduce-novelty-before-care",
       "target": "systems-survive-tuesdays",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "ridge-line-lessons",
+      "target": "suwanee-ga-loremap",
       "weight": 5,
       "reasons": [
         "shared-theme",
@@ -1734,6 +1796,15 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "signal-harvest",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
       ]
     },
     {
@@ -2097,6 +2168,15 @@
       ]
     },
     {
+      "source": "signal-harvest",
+      "target": "suwanee-ga-loremap",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "stairwell-signal",
       "target": "systems-survive-tuesdays",
       "weight": 4,
@@ -2183,6 +2263,30 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "artifact-jsa-collage-001",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "pressure-psalm-v",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "scroll-from-the-perimeter",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -2949,7 +3053,63 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "art-is-for-people-who-want-to-feel-alive",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "artifact-jsa-collage-wip-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "jsa-collage-evolution-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "signal-descent-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "signal-descent-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "suwanee-ga-loremap",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -2980,6 +3140,14 @@
       ]
     },
     {
+      "source": "artifact-jsa-collage-001",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "artifact-jsa-collage-wip-001",
       "target": "scroll-from-the-perimeter",
       "weight": 2,
@@ -2990,6 +3158,14 @@
     {
       "source": "artifact-jsa-collage-wip-001",
       "target": "studio-log-adhesive-test-run",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "suwanee-ga-loremap",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -3213,6 +3389,14 @@
     },
     {
       "source": "codex-archive-system-v3-plus-notes",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
       "target": "systems-survive-tuesdays",
       "weight": 2,
       "reasons": [
@@ -3269,6 +3453,14 @@
     },
     {
       "source": "go-live-milestone",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
       "target": "systems-survive-tuesdays",
       "weight": 2,
       "reasons": [
@@ -3302,6 +3494,14 @@
     {
       "source": "jsa-collage-evolution-001",
       "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "suwanee-ga-loremap",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -3382,6 +3582,14 @@
     {
       "source": "north-georgia-week-2",
       "target": "studio-bench-cycle",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "north-georgia-week-2",
+      "target": "suwanee-ga-loremap",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -3492,8 +3700,24 @@
       ]
     },
     {
+      "source": "scroll-from-the-perimeter",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "signal-descent-001",
       "target": "stairwell-signal",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-001",
+      "target": "suwanee-ga-loremap",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -3508,8 +3732,32 @@
       ]
     },
     {
+      "source": "signal-descent-002",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-003",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "signal-descent-003",
       "target": "systems-survive-tuesdays",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal.citizen-agency",
+      "target": "suwanee-ga-loremap",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -3534,6 +3782,14 @@
     {
       "source": "studio-log-adhesive-test-run",
       "target": "the-bones-hold-content-architecture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "suwanee-ga-loremap",
+      "target": "transmission-note-to-future-me",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -3708,6 +3964,150 @@
       ]
     },
     {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "codex-archive-system-v2-7-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "codex-archive-system-v3-1-build-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "codex-archive-system-v3-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "codex-archive-system-v3-plus-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "deck-under-load-ii",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "go-live-milestone",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "north-georgia-march-2026",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "north-georgia-week-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "on-object-oriented-archives",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "ridge-line-lessons",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "signal-descent-003",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "signal.citizen-agency",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "under-load",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "artifact-jsa-collage-001",
       "target": "north-georgia-march-2026",
       "weight": 1,
@@ -4021,6 +4421,14 @@
     },
     {
       "source": "codex-archive-system-v2-7-notes",
+      "target": "suwanee-ga-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
       "target": "systems-survive-tuesdays",
       "weight": 1,
       "reasons": [
@@ -4068,6 +4476,14 @@
       ]
     },
     {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "suwanee-ga-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "codex-archive-system-v3-notes",
       "target": "maintenance-without-cure",
       "weight": 1,
@@ -4102,6 +4518,14 @@
     {
       "source": "codex-archive-system-v3-notes",
       "target": "stairwell-signal",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "suwanee-ga-loremap",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -4581,6 +5005,14 @@
     },
     {
       "source": "nothing-missing-only-unindexed",
+      "target": "suwanee-ga-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "nothing-missing-only-unindexed",
       "target": "systems-survive-tuesdays",
       "weight": 1,
       "reasons": [
@@ -4645,6 +5077,14 @@
     },
     {
       "source": "on-object-oriented-archives",
+      "target": "suwanee-ga-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-object-oriented-archives",
       "target": "systems-survive-tuesdays",
       "weight": 1,
       "reasons": [
@@ -4654,6 +5094,14 @@
     {
       "source": "on-object-oriented-archives",
       "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pressure-psalm-v",
+      "target": "suwanee-ga-loremap",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -4868,6 +5316,22 @@
       ]
     },
     {
+      "source": "stairwell-signal",
+      "target": "suwanee-ga-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "studio-bench-cycle",
+      "target": "suwanee-ga-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "studio-bench-cycle",
       "target": "systems-survive-tuesdays",
       "weight": 1,
@@ -4886,6 +5350,14 @@
     {
       "source": "studio-bench-cycle",
       "target": "the-bones-hold-content-architecture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "studio-log-adhesive-test-run",
+      "target": "suwanee-ga-loremap",
       "weight": 1,
       "reasons": [
         "shared-theme"

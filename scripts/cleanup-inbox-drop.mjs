@@ -3,6 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { loadObjects } from './object-utils.mjs';
 
 const args = process.argv.slice(2);
 
@@ -13,6 +14,7 @@ function printUsage() {
 Options:
   --item <name>          Item inside inbox/drop (repeatable)
   --source <path>        Absolute or relative path to a drop item (repeatable)
+  --auto-published       Archive drop items referenced by ready drafts already published in objects/
   --all                  Process all items currently in inbox/drop
   --mode <archive|purge> Cleanup mode (default: archive)
   --sweep <name>         Archive sweep folder name (archive mode only)
@@ -22,6 +24,7 @@ Options:
 
 Examples:
   node scripts/cleanup-inbox-drop.mjs --item "Complete Collage, It cost us dearly" --note "Published: /objects/artifact-jsa-collage-001"
+  node scripts/cleanup-inbox-drop.mjs --auto-published --note "Auto post-publish cleanup"
   node scripts/cleanup-inbox-drop.mjs --all --note "End-of-day sweep"
   node scripts/cleanup-inbox-drop.mjs --mode purge --item "duplicate-drop"
 `);
@@ -36,6 +39,7 @@ const options = {
   mode: 'archive',
   items: [],
   sources: [],
+  autoPublished: false,
   all: false,
   sweep: '',
   note: '',
@@ -105,6 +109,11 @@ for (let i = 0; i < args.length; i += 1) {
     continue;
   }
 
+  if (arg === '--auto-published') {
+    options.autoPublished = true;
+    continue;
+  }
+
   if (arg === '--dry-run') {
     options.dryRun = true;
     continue;
@@ -118,7 +127,10 @@ const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(scriptDir, '..');
 const inboxRoot = path.join(repoRoot, 'inbox');
 const dropRoot = path.join(inboxRoot, 'drop');
+const readyRoot = path.join(inboxRoot, 'ready');
+const readyArchiveRoot = path.join(inboxRoot, 'archive', 'ready');
 const archiveRoot = path.join(inboxRoot, 'archive', 'drop');
+const objectsRoot = path.join(repoRoot, 'objects');
 const now = new Date();
 const timestamp = now.toISOString();
 
@@ -169,6 +181,63 @@ function nextSweepName() {
   return `${prefix}${String(max + 1).padStart(2, '0')}`;
 }
 
+function extractDropTargetsFromReadyDraft(raw) {
+  const targets = new Set();
+  const matches = raw.matchAll(/`(inbox\/drop\/[^`\n]+)`/g);
+
+  for (const match of matches) {
+    const relativeSource = match[1].replace(/^inbox\/drop\//, '');
+    const topLevelName = relativeSource.split('/')[0];
+    if (!topLevelName) {
+      continue;
+    }
+
+    targets.add(path.resolve(dropRoot, topLevelName));
+  }
+
+  return [...targets];
+}
+
+function collectAutoPublishedTargets() {
+  if (!fs.existsSync(objectsRoot)) {
+    return [];
+  }
+
+  const publishedIds = new Set(
+    loadObjects(objectsRoot)
+      .filter((obj) => String(obj.fields.status || '').trim() === 'published')
+      .map((obj) => String(obj.fields.id || '').trim())
+      .filter(Boolean)
+  );
+
+  const targets = [];
+  const readyDrafts = [];
+
+  if (fs.existsSync(readyRoot)) {
+    readyDrafts.push(...loadObjects(readyRoot));
+  }
+
+  if (fs.existsSync(readyArchiveRoot)) {
+    readyDrafts.push(...loadObjects(readyArchiveRoot));
+  }
+
+  for (const readyDraft of readyDrafts) {
+    const readyId = String(readyDraft.fields.id || '').trim();
+    if (!readyId || !publishedIds.has(readyId)) {
+      continue;
+    }
+
+    const raw = fs.readFileSync(readyDraft.file, 'utf8');
+    for (const target of extractDropTargetsFromReadyDraft(raw)) {
+      if (fs.existsSync(target)) {
+        targets.push(target);
+      }
+    }
+  }
+
+  return [...new Set(targets.map((target) => path.resolve(target)))];
+}
+
 function collectTargets() {
   const explicit = [];
 
@@ -183,6 +252,10 @@ function collectTargets() {
 
   let targets = explicit;
 
+  if (options.autoPublished) {
+    targets = targets.concat(collectAutoPublishedTargets());
+  }
+
   if (options.all) {
     const dropEntries = fs
       .readdirSync(dropRoot, { withFileTypes: true })
@@ -194,6 +267,9 @@ function collectTargets() {
   const deduped = [...new Set(targets.map((target) => path.resolve(target)))];
 
   if (deduped.length === 0) {
+    if (options.autoPublished) {
+      return [];
+    }
     throw new Error('No targets selected. Use --item, --source, or --all.');
   }
 
@@ -215,6 +291,11 @@ function appendCleanupLog(records) {
 }
 
 const targets = collectTargets();
+if (targets.length === 0) {
+  console.log('No cleanup targets found.');
+  process.exit(0);
+}
+
 const records = [];
 
 let sweepName = '';

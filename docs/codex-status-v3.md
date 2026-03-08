@@ -71,8 +71,14 @@ v3+ extends the v3 ingest discipline with presentation-runtime hardening.
 2. Mobile viewport overflow containment now explicitly handled for feed + graph small-screen sessions.
 3. Feed atlas/footer label contrast adjusted for legibility on dark textured surfaces.
 4. Inbox post-publish cleanup is now scriptable via:
+   - `node scripts/finalize-approved-ready.mjs`
+   - `node scripts/promote-ready.mjs`
+   - `node scripts/reconcile-inbox.mjs`
+   - `node scripts/cleanup-inbox-drop.mjs --auto-published`
    - `node scripts/cleanup-inbox-drop.mjs ...`
-   - cleanup audit log: `inbox/archive/drop/cleanup-log.ndjson`
+   - cleanup audit logs:
+     - `inbox/archive/ready/cleanup-log.ndjson`
+     - `inbox/archive/drop/cleanup-log.ndjson`
 5. Update-note convention added for operator scan speed:
    - every codex update post must include one short `Operator value prop` line
    - every work chunk in that post must include a short `Value prop` phrase
@@ -143,6 +149,23 @@ Prefer recent published codex/fieldlog anchors when confidence is high.
 ### 3) Keep version references synchronized
 
 Advance status + respawn + current release object in the same commit when versioning.
+
+### 4) Keep the active inbox honest
+
+Archive promoted ready drafts out of `inbox/ready` so the operator sees real pending review need.
+Operator shorthand: `keeping the beast fed :) and not chewing cud`
+
+### 5) Activate promotion cleanly
+
+Use conversation + explicit operator confirmation as the approval point, then hand the rest to:
+- `node scripts/finalize-approved-ready.mjs --source <ready-draft> --note "<approval reason>"`
+
+Low-level promotion remains available, but the intended flow is:
+- human talks through draft
+- human confirms
+- AI/system runs promotion, reconciliation, cleanup, validation, and build
+
+The approval record remains durable in `logs/promotion-log.ndjson`.
 
 ---
 

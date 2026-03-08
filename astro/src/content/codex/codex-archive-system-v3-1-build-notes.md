@@ -7,7 +7,7 @@ postedAt: 2026-03-08T09:55:00-05:00
 status: published
 visibility: public
 
-excerpt: "v3.1 locks mobile reading surfaces to the viewport, improves feed legibility, and adds one-command inbox drop cleanup with audit logging."
+excerpt: "v3.1 locks mobile reading surfaces to the viewport, improves feed legibility, and keeps the active inbox honest."
 
 themes:
   - systems
@@ -31,7 +31,7 @@ related:
 media: []
 
 version: "3.1.1"
-scope: "mobile viewport containment, feed readability, and inbox-drop cleanup automation"
+scope: "mobile viewport containment, feed readability, and honest-inbox cleanup automation"
 systemArea: "runtime"
 changeType: patch
 dependencies:
@@ -42,7 +42,7 @@ dependencies:
 v3.1 is a runtime polish and operations cleanup patch layered on v3+.
 
 Operator value prop:
-- Ship clean and stay clean: mobile reading stays locked in-frame, and processed inbox payloads clear in one command.
+- Ship clean and stay clean: mobile reading stays locked in-frame, and the active inbox reflects real pending work.
 
 Work chunks and wins:
 
@@ -56,11 +56,19 @@ Work chunks and wins:
    - Raise low-contrast footer/atlas labels from dim token usage to readable mid token usage.
    - Normalize small UI labels toward shared 12px conventions where intended.
 
-3. Inbox post-publish cleanup
-   Value prop: Completed source drops leave active intake immediately, with traceability preserved.
-   - Add `scripts/cleanup-inbox-drop.mjs` for archive/purge workflows.
-   - Auto-write cleanup audit records to `inbox/archive/drop/cleanup-log.ndjson`.
-   - Move published `Complete Collage, It cost us dearly` source payload into dated archive sweep.
+3. Honest inbox activation
+   Value prop: The human operator can move from detected source to published object without mixing live work and completed work.
+   - Name the operator loop explicitly: `Talk -> Confirm -> Hand-off -> Ping-back`.
+   - Add `scripts/finalize-approved-ready.mjs` so post-confirmation work can run as one system handoff.
+   - Add `scripts/promote-ready.mjs` for the deliberate `inbox/ready` -> canonical publish step.
+   - Require explicit operator approval via `--approve` before canonical files are written.
+   - Require an approval note and append promotion records to `logs/promotion-log.ndjson`.
+   - Require `--approve-all` for batch promotion so one broad command cannot masquerade as item-level review.
+   - Add `scripts/reconcile-inbox.mjs` to archive ready drafts once they have canonical `objects/` counterparts.
+   - Extend `scripts/cleanup-inbox-drop.mjs` with `--auto-published` for source-payload sweeps discoverable from ready/archive-ready drafts.
+   - Write cleanup audit records to both `inbox/archive/ready/cleanup-log.ndjson` and `inbox/archive/drop/cleanup-log.ndjson`.
+   - Keep active `inbox/ready/` limited to real pending review.
+   - Operator shorthand: `keeping the beast fed :) and not chewing cud`
 
 No schema expansion is proposed in v3.1.
 No new object type is proposed in v3.1.

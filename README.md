@@ -63,11 +63,45 @@ Defaults:
 - JPEG: resize to max long edge `2400px`, recompress quality `68`
 - Video: transcode to MP4 (uses `ffmpeg` if present, else macOS `avconvert`)
 
+Activate the inbox pipeline:
+
+Operator loop:
+- `Talk` -> review drafts and discuss decisions
+- `Confirm` -> operator gives explicit approval
+- `Hand-off` -> system runs finalize script
+- `Ping-back` -> system returns on completion or blocker
+
+```bash
+# inspect fresh source material
+find inbox/drop -maxdepth 2 -type f | sort
+
+# after conversation + explicit approval, let the system finish the approved batch
+node scripts/finalize-approved-ready.mjs --source inbox/ready/2026-03-08-art-is-for-people-who-want-to-feel-alive.md --note "Operator approved for publish"
+```
+
+Notes:
+- `inbox/drop/` is raw source detection.
+- `inbox/ready/` is human review territory.
+- `objects/` + `astro/src/content/` are canonical publish state.
+- Human interaction should stay narrow: review drafts, confirm approval, then let the system run the rest.
+- `scripts/finalize-approved-ready.mjs` wraps promotion, inbox reconciliation, cleanup, validation, and build.
+- Approval records append to `logs/promotion-log.ndjson`.
+
+Low-level scripts still exist when needed:
+
+```bash
+node scripts/promote-ready.mjs --approve --note "Approved for publish" --source inbox/ready/<file>.md
+node scripts/reconcile-inbox.mjs --note "Keep active inbox honest"
+```
+
 Clean up processed inbox drop items:
 
 ```bash
 # archive one processed drop item into inbox/archive/drop/<YYYY-MM-DD-sweep-##>
 node scripts/cleanup-inbox-drop.mjs --item "Complete Collage, It cost us dearly" --note "Published: /objects/artifact-jsa-collage-001"
+
+# archive published-source payloads still discoverable from ready/archive-ready drafts
+node scripts/cleanup-inbox-drop.mjs --auto-published --note "Auto post-publish cleanup"
 
 # archive everything currently in inbox/drop (end-of-day sweep)
 node scripts/cleanup-inbox-drop.mjs --all --note "End-of-day sweep"
@@ -79,6 +113,22 @@ node scripts/cleanup-inbox-drop.mjs --mode purge --item "duplicate-drop"
 Notes:
 - Archives are moved to `inbox/archive/drop/<dated-sweep>/`.
 - Every cleanup run appends an audit record to `inbox/archive/drop/cleanup-log.ndjson`.
+
+Keep the active inbox honest:
+
+```bash
+# preview which already-promoted ready drafts would leave the active queue
+node scripts/reconcile-inbox.mjs --dry-run
+
+# archive promoted ready drafts out of inbox/ready and sweep any still-live source drop payloads
+node scripts/reconcile-inbox.mjs --note "Keep active inbox honest"
+```
+
+Notes:
+- Promoted ready drafts move to `inbox/archive/ready/<dated-sweep>/`.
+- Matching source payloads still present in `inbox/drop/` move to `inbox/archive/drop/<dated-sweep>/`.
+- Active `inbox/ready/` should reflect actual human review need, not historical churn.
+- Operator shorthand: `keeping the beast fed :) and not chewing cud`
 
 ## Push This Repo To Remote
 

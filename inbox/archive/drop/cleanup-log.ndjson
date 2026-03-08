@@ -1,1 +1,4 @@
 {"timestamp":"2026-03-08T13:22:56.983Z","action":"archive","note":"Published: https://ndcodex.com/objects/artifact-jsa-collage-001/","source":"inbox/drop/Complete Collage, It cost us dearly","destination":"inbox/archive/drop/2026-03-08-sweep-01/Complete Collage, It cost us dearly","sweep":"2026-03-08-sweep-01"}
+{"timestamp":"2026-03-08T17:21:21.525Z","action":"purge","note":"Remove Finder artifact","source":"inbox/drop/.DS_Store","destination":null,"sweep":null}
+{"timestamp":"2026-03-08T17:21:21.525Z","action":"archive","note":"Promoted March 8 inbox batch","source":"inbox/drop/art is for people who, signal.md","destination":"inbox/archive/drop/2026-03-08-sweep-03/art is for people who, signal.md","sweep":"2026-03-08-sweep-03"}
+{"timestamp":"2026-03-08T17:21:21.525Z","action":"archive","note":"Promoted March 8 inbox batch","source":"inbox/drop/loremap, suwanee","destination":"inbox/archive/drop/2026-03-08-sweep-03/loremap, suwanee","sweep":"2026-03-08-sweep-03"}
