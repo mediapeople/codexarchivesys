@@ -49,14 +49,17 @@ const issueCards = issues.map((issue) => {
             {issue.data.releaseType && <span>{issue.data.releaseType}</span>}
           </div>
         </div>
-        <aside class="visual">
+        <aside class={`visual ${seedMedia?.kind === 'image' ? 'has-image' : 'is-fallback'}`}>
           {seedMedia?.kind === 'image' ? (
-            <img
-              src={seedMedia.src}
-              alt={seedMedia.alt || `${issue.data.title} lead image`}
-              loading="lazy"
-              decoding="async"
-            />
+            <>
+              <img
+                src={seedMedia.src}
+                alt={seedMedia.alt || `${issue.data.title} lead image`}
+                loading="lazy"
+                decoding="async"
+              />
+              <span class="visual-mark">Nexus</span>
+            </>
           ) : (
             <div class="visual-fallback">
               <span>Nexus</span>
@@ -173,18 +176,78 @@ const issueCards = issues.map((issue) => {
   }
 
   .visual {
+    position: relative;
     border: 1px solid rgba(255, 255, 255, 0.16);
     border-radius: 2px;
     overflow: hidden;
     background: rgba(14, 12, 10, 0.64);
     aspect-ratio: 4 / 3;
+    isolation: isolate;
+  }
+
+  .visual::before,
+  .visual::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .visual::before {
+    z-index: 1;
+    background:
+      repeating-linear-gradient(
+        90deg,
+        rgba(196, 98, 58, 0.14) 0 34px,
+        rgba(20, 17, 15, 0.06) 34px 68px
+      ),
+      linear-gradient(145deg, rgba(196, 98, 58, 0.27), rgba(20, 26, 41, 0.62));
+    opacity: 0.9;
+  }
+
+  .visual::after {
+    z-index: 2;
+    background:
+      radial-gradient(
+        circle at 50% 50%,
+        transparent 0 16%,
+        rgba(231, 171, 130, 0.1) 16% 17%,
+        transparent 17% 33%,
+        rgba(231, 171, 130, 0.08) 33% 34%,
+        transparent 34% 100%
+      );
+    opacity: 0.85;
   }
 
   .visual img {
+    position: relative;
+    z-index: 0;
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  .visual-mark {
+    position: absolute;
+    z-index: 3;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: rgba(232, 226, 212, 0.84);
+    font-family: var(--font-ui);
+    font-size: 0.88rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
+  }
+
+  .visual.has-image::before {
+    opacity: 0.7;
+  }
+
+  .visual.has-image::after {
+    opacity: 0.52;
   }
 
   .visual-fallback {
@@ -192,15 +255,18 @@ const issueCards = issues.map((issue) => {
     height: 100%;
     display: grid;
     place-items: center;
-    background: linear-gradient(145deg, rgba(196, 98, 58, 0.25), rgba(20, 26, 41, 0.52));
+    position: relative;
+    z-index: 3;
+    background: transparent;
   }
 
   .visual-fallback span {
-    color: var(--mid);
+    color: rgba(232, 226, 212, 0.84);
     font-family: var(--font-ui);
     font-size: 0.86rem;
-    letter-spacing: var(--ls-ui);
+    letter-spacing: 0.12em;
     text-transform: uppercase;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
   }
 
   .hitbox {
