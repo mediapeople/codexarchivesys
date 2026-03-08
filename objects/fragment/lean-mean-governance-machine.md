@@ -22,6 +22,8 @@ related:
   - codex-archive-system-v2-7-notes
   - go-live-milestone
   - systems-survive-tuesdays
+  - scripture-with-machines
+  - i-work-with-machines-to-write-scripture
 
 media: []
 

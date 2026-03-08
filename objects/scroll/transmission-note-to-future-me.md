@@ -20,6 +20,7 @@ related:
   - signal-descent-001
   - codex-archive-system-v2-5-notes
   - signal-descent-002
+  - scripture-with-machines
 
 media: []
 

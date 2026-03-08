@@ -24,9 +24,11 @@ related:
   - codex-archive-system-v3-notes
   - go-live-milestone
   - signal-descent-003
+  - signal-descent-004
   - reduce-novelty-before-care
   - artifact-jsa-collage-001
   - jsa-collage-evolution-001
+  - scripture-with-machines
 
 media: []
 

@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-08T18:00:25.192Z",
+  "generatedAt": "2026-03-08T18:08:21.630Z",
   "sourceDir": "../objects",
-  "nodeCount": 42,
-  "edgeCount": 627,
+  "nodeCount": 43,
+  "edgeCount": 666,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -400,6 +400,22 @@
       ]
     },
     {
+      "id": "signal-descent-004",
+      "type": "nexus",
+      "title": "SIGNAL DESCENT 004",
+      "date": "2026-03-08",
+      "themes": [
+        "signal",
+        "transmission",
+        "methodology",
+        "systems",
+        "maintenance"
+      ],
+      "constellations": [
+        "Cascade Psalms"
+      ]
+    },
+    {
       "id": "apparatus-ledger",
       "type": "scroll",
       "title": "✦ APPARATUS LEDGER ✦",
@@ -602,6 +618,17 @@
   ],
   "edges": [
     {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "signal-descent-004",
+      "weight": 16,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related",
+        "nexus-inclusion"
+      ]
+    },
+    {
       "source": "signal-descent-001",
       "target": "signal-harvest",
       "weight": 14,
@@ -716,6 +743,17 @@
       ]
     },
     {
+      "source": "lean-mean-governance-machine",
+      "target": "signal-descent-004",
+      "weight": 12,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related",
+        "nexus-inclusion"
+      ]
+    },
+    {
       "source": "north-georgia-march-2026",
       "target": "north-georgia-week-2",
       "weight": 12,
@@ -738,6 +776,16 @@
     {
       "source": "north-georgia-week-2",
       "target": "ridge-line-lessons",
+      "weight": 12,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "signal-descent-003",
+      "target": "signal-descent-004",
       "weight": 12,
       "reasons": [
         "shared-theme",
@@ -828,11 +876,32 @@
       ]
     },
     {
+      "source": "scripture-with-machines",
+      "target": "signal-descent-004",
+      "weight": 11,
+      "reasons": [
+        "shared-theme",
+        "explicit-related",
+        "nexus-inclusion"
+      ]
+    },
+    {
       "source": "signal-descent-001",
       "target": "under-load",
       "weight": 11,
       "reasons": [
         "shared-theme",
+        "explicit-related",
+        "nexus-inclusion"
+      ]
+    },
+    {
+      "source": "signal-descent-004",
+      "target": "transmission-note-to-future-me",
+      "weight": 11,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
         "explicit-related",
         "nexus-inclusion"
       ]
@@ -868,8 +937,29 @@
       ]
     },
     {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "signal-descent-004",
+      "weight": 10,
+      "reasons": [
+        "shared-theme",
+        "explicit-related",
+        "nexus-inclusion"
+      ]
+    },
+    {
       "source": "signal-descent-001",
       "target": "the-bones-hold",
+      "weight": 10,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related",
+        "nexus-inclusion"
+      ]
+    },
+    {
+      "source": "signal-descent-004",
+      "target": "signal-harvest",
       "weight": 10,
       "reasons": [
         "shared-theme",
@@ -908,6 +998,24 @@
     {
       "source": "codex-archive-system-v2-6-notes",
       "target": "codex-archive-system-v2-7-notes",
+      "weight": 9,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "scripture-with-machines",
+      "weight": 9,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "scripture-with-machines",
       "weight": 9,
       "reasons": [
         "shared-theme",
@@ -1081,6 +1189,15 @@
       ]
     },
     {
+      "source": "lean-mean-governance-machine",
+      "target": "scripture-with-machines",
+      "weight": 8,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "maintenance-without-cure",
       "target": "the-bones-hold",
       "weight": 8,
@@ -1103,6 +1220,15 @@
     {
       "source": "nothing-missing-only-unindexed",
       "target": "on-object-oriented-archives",
+      "weight": 8,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "scripture-with-machines",
+      "target": "transmission-note-to-future-me",
       "weight": 8,
       "reasons": [
         "shared-theme",
@@ -1262,6 +1388,15 @@
       ]
     },
     {
+      "source": "codex-archive-system-v3-plus-notes",
+      "target": "signal-descent-004",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
       "source": "deck-under-load-ii",
       "target": "pressure-psalm-v",
       "weight": 7,
@@ -1328,12 +1463,30 @@
       ]
     },
     {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "lean-mean-governance-machine",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "north-georgia-march-2026",
       "target": "signal-descent-001",
       "weight": 7,
       "reasons": [
         "explicit-related",
         "nexus-inclusion"
+      ]
+    },
+    {
+      "source": "scripture-with-machines",
+      "target": "signal-harvest",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
       ]
     },
     {
@@ -1461,6 +1614,24 @@
       ]
     },
     {
+      "source": "codex-archive-system-v3-notes",
+      "target": "signal-descent-004",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "signal-descent-004",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
       "source": "heart-does-not-dream",
       "target": "signal-descent-003",
       "weight": 6,
@@ -1511,6 +1682,15 @@
     {
       "source": "apparatus-ledger",
       "target": "signal-descent-001",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
+      "target": "signal-descent-004",
       "weight": 5,
       "reasons": [
         "shared-theme",
@@ -1590,6 +1770,15 @@
       ]
     },
     {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "signal-descent-004",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
       "source": "codex-archive-system-v3-1-build-notes",
       "target": "jsa-collage-evolution-001",
       "weight": 5,
@@ -1637,6 +1826,15 @@
     {
       "source": "heart-does-not-dream",
       "target": "reduce-novelty-before-care",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "transmission-note-to-future-me",
       "weight": 5,
       "reasons": [
         "shared-theme",
@@ -1716,8 +1914,26 @@
       ]
     },
     {
+      "source": "signal-descent-002",
+      "target": "signal-descent-004",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
       "source": "signal-descent-003",
       "target": "the-bones-hold",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "signal-descent-004",
+      "target": "signal.citizen-agency",
       "weight": 5,
       "reasons": [
         "shared-theme",
@@ -2021,6 +2237,24 @@
       ]
     },
     {
+      "source": "heart-does-not-dream",
+      "target": "signal-descent-004",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "signal-harvest",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "jsa-collage-evolution-001",
       "target": "studio-bench-cycle",
       "weight": 4,
@@ -2149,6 +2383,15 @@
     {
       "source": "signal-descent-001",
       "target": "signal-descent-003",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "signal-descent-001",
+      "target": "signal-descent-004",
       "weight": 4,
       "reasons": [
         "shared-theme",
@@ -2368,6 +2611,15 @@
     {
       "source": "artifact-jsa-collage-001",
       "target": "signal-descent-003",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "signal-descent-004",
       "weight": 3,
       "reasons": [
         "shared-theme",
@@ -2648,14 +2900,6 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
-      ]
-    },
-    {
-      "source": "codex-archive-system-v3-1-build-notes",
-      "target": "scripture-with-machines",
-      "weight": 3,
-      "reasons": [
-        "shared-theme"
       ]
     },
     {
@@ -2937,14 +3181,6 @@
     },
     {
       "source": "i-work-with-machines-to-write-scripture",
-      "target": "scripture-with-machines",
-      "weight": 3,
-      "reasons": [
-        "shared-theme"
-      ]
-    },
-    {
-      "source": "i-work-with-machines-to-write-scripture",
       "target": "signal-descent-003",
       "weight": 3,
       "reasons": [
@@ -3094,6 +3330,15 @@
     },
     {
       "source": "pressure-psalm-v",
+      "target": "signal-descent-004",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "pressure-psalm-v",
       "target": "signal.citizen-agency",
       "weight": 3,
       "reasons": [
@@ -3116,6 +3361,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "reduce-novelty-before-care",
+      "target": "signal-descent-004",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -3173,6 +3426,15 @@
     {
       "source": "signal-descent-003",
       "target": "signal-harvest",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "signal-descent-004",
+      "target": "the-bones-hold",
       "weight": 3,
       "reasons": [
         "shared-theme",
@@ -3334,6 +3596,14 @@
     },
     {
       "source": "codex-archive-system-v2-2",
+      "target": "signal-descent-004",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
       "target": "studio-log-adhesive-test-run",
       "weight": 2,
       "reasons": [
@@ -3351,6 +3621,14 @@
     {
       "source": "codex-archive-system-v2-5-notes",
       "target": "scripture-with-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
+      "target": "signal-descent-004",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -3383,6 +3661,14 @@
     {
       "source": "codex-archive-system-v2-6-notes",
       "target": "scripture-with-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
+      "target": "signal-descent-004",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -3717,14 +4003,6 @@
       ]
     },
     {
-      "source": "i-work-with-machines-to-write-scripture",
-      "target": "transmission-note-to-future-me",
-      "weight": 2,
-      "reasons": [
-        "shared-theme"
-      ]
-    },
-    {
       "source": "jsa-collage-evolution-001",
       "target": "scripture-with-machines",
       "weight": 2,
@@ -3735,6 +4013,14 @@
     {
       "source": "jsa-collage-evolution-001",
       "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "signal-descent-004",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -3754,14 +4040,6 @@
       "weight": 2,
       "reasons": [
         "shared-constellation"
-      ]
-    },
-    {
-      "source": "lean-mean-governance-machine",
-      "target": "scripture-with-machines",
-      "weight": 2,
-      "reasons": [
-        "shared-theme"
       ]
     },
     {
@@ -3870,6 +4148,14 @@
     },
     {
       "source": "nothing-missing-only-unindexed",
+      "target": "signal-descent-004",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "nothing-missing-only-unindexed",
       "target": "signal-harvest",
       "weight": 2,
       "reasons": [
@@ -3903,6 +4189,14 @@
     {
       "source": "on-object-oriented-archives",
       "target": "signal-descent-003",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-object-oriented-archives",
+      "target": "signal-descent-004",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -4005,8 +4299,8 @@
       ]
     },
     {
-      "source": "scripture-with-machines",
-      "target": "transmission-note-to-future-me",
+      "source": "scroll-from-the-perimeter",
+      "target": "signal-descent-002",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -4014,7 +4308,7 @@
     },
     {
       "source": "scroll-from-the-perimeter",
-      "target": "signal-descent-002",
+      "target": "signal-descent-004",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -4071,6 +4365,54 @@
     {
       "source": "signal-descent-003",
       "target": "systems-survive-tuesdays",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-004",
+      "target": "stairwell-signal",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-004",
+      "target": "studio-bench-cycle",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-004",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-004",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-004",
+      "target": "systems-survive-tuesdays",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-004",
+      "target": "the-bones-hold-content-architecture",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -4406,6 +4748,14 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "signal-descent-004",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "signal.citizen-agency",
       "weight": 1,
       "reasons": [
@@ -4590,6 +4940,14 @@
     },
     {
       "source": "artifact-jsa-collage-wip-001",
+      "target": "signal-descent-004",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
       "target": "signal-harvest",
       "weight": 1,
       "reasons": [
@@ -5110,14 +5468,6 @@
     },
     {
       "source": "i-work-with-machines-to-write-scripture",
-      "target": "lean-mean-governance-machine",
-      "weight": 1,
-      "reasons": [
-        "shared-theme"
-      ]
-    },
-    {
-      "source": "i-work-with-machines-to-write-scripture",
       "target": "pressure-psalm-v",
       "weight": 1,
       "reasons": [
@@ -5135,14 +5485,6 @@
     {
       "source": "i-work-with-machines-to-write-scripture",
       "target": "scroll-from-the-perimeter",
-      "weight": 1,
-      "reasons": [
-        "shared-theme"
-      ]
-    },
-    {
-      "source": "i-work-with-machines-to-write-scripture",
-      "target": "signal-harvest",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -5382,6 +5724,14 @@
     },
     {
       "source": "maintenance-without-cure",
+      "target": "signal-descent-004",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "maintenance-without-cure",
       "target": "studio-bench-cycle",
       "weight": 1,
       "reasons": [
@@ -5414,6 +5764,14 @@
     },
     {
       "source": "north-georgia-march-2026",
+      "target": "signal-descent-004",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "north-georgia-march-2026",
       "target": "studio-log-adhesive-test-run",
       "weight": 1,
       "reasons": [
@@ -5431,6 +5789,14 @@
     {
       "source": "north-georgia-week-2",
       "target": "reduce-novelty-before-care",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "north-georgia-week-2",
+      "target": "signal-descent-004",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -5654,6 +6020,14 @@
     },
     {
       "source": "ridge-line-lessons",
+      "target": "signal-descent-004",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ridge-line-lessons",
       "target": "studio-log-adhesive-test-run",
       "weight": 1,
       "reasons": [
@@ -5671,14 +6045,6 @@
     {
       "source": "scripture-with-machines",
       "target": "scroll-from-the-perimeter",
-      "weight": 1,
-      "reasons": [
-        "shared-theme"
-      ]
-    },
-    {
-      "source": "scripture-with-machines",
-      "target": "signal-harvest",
       "weight": 1,
       "reasons": [
         "shared-theme"

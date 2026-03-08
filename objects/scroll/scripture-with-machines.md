@@ -15,7 +15,12 @@ themes:
   - methodology
   - systems
 
-related: []
+related:
+  - i-work-with-machines-to-write-scripture
+  - signal-harvest
+  - transmission-note-to-future-me
+  - lean-mean-governance-machine
+  - codex-archive-system-v3-1-build-notes
 
 media: []
 

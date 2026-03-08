@@ -14,7 +14,11 @@ themes:
   - transmission
   - systems
 
-related: []
+related:
+  - scripture-with-machines
+  - signal-harvest
+  - transmission-note-to-future-me
+  - lean-mean-governance-machine
 
 media: []
 

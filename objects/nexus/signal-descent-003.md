@@ -25,6 +25,7 @@ related:
   - artifact-jsa-collage-wip-001
   - codex-archive-system-v3-plus-notes
   - reduce-novelty-before-care
+  - signal-descent-004
 
 media: []
 
