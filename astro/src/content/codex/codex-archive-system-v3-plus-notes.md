@@ -20,6 +20,7 @@ constellations:
   - Cascade Psalms
 
 related:
+  - codex-archive-system-v3-1-build-notes
   - codex-archive-system-v3-notes
   - go-live-milestone
   - jsa-collage-evolution-001
@@ -39,6 +40,9 @@ dependencies:
   - codex-archive-system-v3-notes
   - go-live-milestone
 ---
+
+v3+ notes are now extended by [CODEX ARCHIVE SYSTEM v3.1 BUILD NOTES](/objects/codex-archive-system-v3-1-build-notes).
+Use v3+ as presentation-runtime context and v3.1 for current patch-level operations.
 
 v3+ is the presentation hardening pass layered on top of v3 ingest discipline.
 

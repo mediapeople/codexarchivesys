@@ -1,12 +1,12 @@
 # CODEX ARCHIVE SYSTEM
 ## Project Status Document
-### v3+ - March 7, 2026
+### v3.1.1 - March 8, 2026
 
 ---
 
 ## CURRENT VERSION
 
-**v3+**
+**v3.1.1**
 
 This document supersedes `docs/codex-status-v2.7.md` as the active status reference.
 
@@ -23,7 +23,7 @@ FIELD REGISTRY  complete        docs/field-registry.md
 SCHEMA          complete        astro/src/content/config.ts
 INTAKE PROMPT   active          docs/llm-intake-prompt.md (v3 preflight + WIP update-link rule)
 ASTRO BUILD     active          feed, object pages, nexus, graph
-OBJECT ARCHIVE  active          canonical objects + codex v3+ notes + go-live milestone
+OBJECT ARCHIVE  active          canonical objects + codex v3.1 build notes + go-live milestone
 INBOX SYSTEM    active          drop/processing/needs-info/ready
 RELATION ENGINE complete        astro/src/lib/relations.ts + build graph pipeline
 RESPAWN CHAIN   complete        docs/respawn-system-files-v3.md + quickstart
@@ -61,6 +61,21 @@ v3+ extends the v3 ingest discipline with presentation-runtime hardening.
 7. Inbox drop hygiene pass completed:
    - processed source payloads archived under `inbox/archive/drop/2026-03-07-sweep-01`
    - active `inbox/drop/` reset for next intake cycle
+
+---
+
+## BUILD PATCH ADDENDUM (March 8, 2026 — v3.1.1)
+
+1. Canonical patch-level release object added:
+   - `codex-archive-system-v3-1-build-notes`
+2. Mobile viewport overflow containment now explicitly handled for feed + graph small-screen sessions.
+3. Feed atlas/footer label contrast adjusted for legibility on dark textured surfaces.
+4. Inbox post-publish cleanup is now scriptable via:
+   - `node scripts/cleanup-inbox-drop.mjs ...`
+   - cleanup audit log: `inbox/archive/drop/cleanup-log.ndjson`
+5. Update-note convention added for operator scan speed:
+   - every codex update post must include one short `Operator value prop` line
+   - every work chunk in that post must include a short `Value prop` phrase
 
 ---
 

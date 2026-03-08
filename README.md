@@ -63,6 +63,23 @@ Defaults:
 - JPEG: resize to max long edge `2400px`, recompress quality `68`
 - Video: transcode to MP4 (uses `ffmpeg` if present, else macOS `avconvert`)
 
+Clean up processed inbox drop items:
+
+```bash
+# archive one processed drop item into inbox/archive/drop/<YYYY-MM-DD-sweep-##>
+node scripts/cleanup-inbox-drop.mjs --item "Complete Collage, It cost us dearly" --note "Published: /objects/artifact-jsa-collage-001"
+
+# archive everything currently in inbox/drop (end-of-day sweep)
+node scripts/cleanup-inbox-drop.mjs --all --note "End-of-day sweep"
+
+# hard purge from drop without archiving (use sparingly)
+node scripts/cleanup-inbox-drop.mjs --mode purge --item "duplicate-drop"
+```
+
+Notes:
+- Archives are moved to `inbox/archive/drop/<dated-sweep>/`.
+- Every cleanup run appends an audit record to `inbox/archive/drop/cleanup-log.ndjson`.
+
 ## Push This Repo To Remote
 
 From repository root:

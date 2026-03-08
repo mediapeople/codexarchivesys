@@ -162,6 +162,7 @@ const navItems = [
     background: var(--void);
     position: relative;
     isolation: isolate;
+    overflow-x: hidden;
   }
 
   body::before {
@@ -282,6 +283,7 @@ const navItems = [
     margin: 0 auto;
     padding: 0 var(--gutter) 7rem;
     position: relative;
+    overflow-x: clip;
   }
 
   body.page-feed .shell::after {
