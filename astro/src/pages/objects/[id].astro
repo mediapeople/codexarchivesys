@@ -1517,6 +1517,37 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     max-width: 68ch;
   }
 
+  .body :global(h2) {
+    margin: 4.3rem 0 1.35rem;
+    color: var(--accent);
+    font-family: var(--font-display);
+    font-size: clamp(1.56rem, 2vw, 2.05rem);
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: 0.02em;
+    max-width: 18ch;
+  }
+
+  .body :global(h2)::before {
+    content: '';
+    display: block;
+    width: 2.6rem;
+    height: 1px;
+    margin: 0 0 0.85rem;
+    background: rgba(196, 98, 58, 0.42);
+  }
+
+  .body :global(h3) {
+    margin: 3rem 0 1rem;
+    color: rgba(244, 240, 232, 0.92);
+    font-family: var(--font-display);
+    font-size: clamp(1.18rem, 1.25vw, 1.42rem);
+    font-weight: 700;
+    line-height: 1.18;
+    letter-spacing: 0.015em;
+    max-width: 24ch;
+  }
+
   .body :global(ul),
   .body :global(ol) {
     margin: 0.45rem 0 2.45rem;
@@ -2080,6 +2111,25 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
       margin-top: 2.35rem;
     }
 
+    .body :global(h2) {
+      margin: 3.7rem 0 1.18rem;
+      font-size: clamp(1.48rem, 5.8vw, 1.84rem);
+      line-height: 1.06;
+      max-width: 20ch;
+    }
+
+    .body :global(h2)::before {
+      width: 2.2rem;
+      margin-bottom: 0.72rem;
+    }
+
+    .body :global(h3) {
+      margin: 2.35rem 0 0.92rem;
+      font-size: clamp(1.12rem, 4.2vw, 1.28rem);
+      line-height: 1.16;
+      max-width: 22ch;
+    }
+
     .body :global(ul),
     .body :global(ol) {
       margin-bottom: 2.1rem;
@@ -2228,6 +2278,21 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
     .object-shell.text-first-media .body {
       margin-top: 2.5rem;
+    }
+
+    .body :global(h2) {
+      margin: 3.2rem 0 1.02rem;
+      font-size: clamp(1.44rem, 6.7vw, 1.74rem);
+    }
+
+    .body :global(h2)::before {
+      width: 2rem;
+      margin-bottom: 0.64rem;
+    }
+
+    .body :global(h3) {
+      margin: 2.05rem 0 0.84rem;
+      font-size: clamp(1.08rem, 4.9vw, 1.22rem);
     }
 
     .image-lightbox {

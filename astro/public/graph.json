@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-08T23:38:32.684Z",
+  "generatedAt": "2026-03-09T01:16:13.260Z",
   "sourceDir": "../objects",
-  "nodeCount": 53,
-  "edgeCount": 1066,
+  "nodeCount": 57,
+  "edgeCount": 1245,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -267,6 +267,19 @@
       "constellations": []
     },
     {
+      "id": "builder-lineage-reflection",
+      "type": "fieldlog",
+      "title": "Reflection: On Cain, Bezalel, and the Workbench",
+      "date": "2026-03-08",
+      "themes": [
+        "observation",
+        "structure",
+        "systems",
+        "signal"
+      ],
+      "constellations": []
+    },
+    {
       "id": "go-live-milestone",
       "type": "fieldlog",
       "title": "Go Live Milestone: ndcodex.com",
@@ -445,6 +458,18 @@
       "constellations": []
     },
     {
+      "id": "operator-winks-at-the-machines",
+      "type": "fragment",
+      "title": "The Operator Winks at the Machines",
+      "date": "2026-03-09",
+      "themes": [
+        "systems",
+        "signal",
+        "transmission"
+      ],
+      "constellations": []
+    },
+    {
       "id": "reduce-novelty-before-care",
       "type": "fragment",
       "title": "Reduce Novelty Before Care",
@@ -567,6 +592,33 @@
         "survival",
         "observation",
         "pressure"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "bezalel-the-designated-hand",
+      "type": "scroll",
+      "title": "Bezalel: The Designated Hand",
+      "date": "2026-03-08",
+      "themes": [
+        "architecture",
+        "structure",
+        "place",
+        "transmission"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "cities-built-on-ruin-reminiscence",
+      "type": "scroll",
+      "title": "Cities Built on Ruin: Reminiscence of the Third Evolution",
+      "date": "2026-03-08",
+      "themes": [
+        "collage",
+        "pressure",
+        "structure",
+        "signal",
+        "memory"
       ],
       "constellations": []
     },
@@ -1361,6 +1413,15 @@
       ]
     },
     {
+      "source": "builder-lineage-reflection",
+      "target": "cities-built-on-ruin-reminiscence",
+      "weight": 8,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "codex-archive-system-v2-2",
       "target": "on-object-oriented-archives",
       "weight": 8,
@@ -1644,6 +1705,24 @@
       ]
     },
     {
+      "source": "bezalel-the-designated-hand",
+      "target": "builder-lineage-reflection",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "cities-built-on-ruin-reminiscence",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "cities-built-on-ruin",
       "target": "jsa-collage-evolution-003",
       "weight": 7,
@@ -1909,6 +1988,15 @@
     },
     {
       "source": "artifact-jsa-collage-001",
+      "target": "cities-built-on-ruin-reminiscence",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
       "target": "codex-archive-system-v3-1-build-notes",
       "weight": 6,
       "reasons": [
@@ -1934,6 +2022,15 @@
       "reasons": [
         "shared-theme",
         "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "jsa-collage-evolution-003",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
         "explicit-related"
       ]
     },
@@ -2128,6 +2225,15 @@
     },
     {
       "source": "i-work-with-machines-to-write-scripture",
+      "target": "operator-winks-at-the-machines",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
       "target": "steel-elbow-flinchian",
       "weight": 6,
       "reasons": [
@@ -2253,6 +2359,33 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "cities-built-on-ruin",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "jsa-collage-evolution-003",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "cities-built-on-ruin-reminiscence",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
       ]
     },
     {
@@ -2501,6 +2634,15 @@
     {
       "source": "on-object-oriented-archives",
       "target": "the-bones-hold-content-architecture",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "operator-winks-at-the-machines",
+      "target": "when-the-commit-leaves-your-hands",
       "weight": 5,
       "reasons": [
         "shared-theme",
@@ -2759,6 +2901,15 @@
       ]
     },
     {
+      "source": "bezalel-the-designated-hand",
+      "target": "cities-built-on-ruin",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "cities-built-on-ruin",
       "target": "codex-archive-system-v3-3-modest-table-notes",
       "weight": 4,
@@ -3167,6 +3318,15 @@
     },
     {
       "source": "lean-mean-governance-machine",
+      "target": "operator-winks-at-the-machines",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
       "target": "signal-descent-003",
       "weight": 4,
       "reasons": [
@@ -3400,6 +3560,14 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "operator-winks-at-the-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "scripture-with-machines",
       "weight": 3,
       "reasons": [
@@ -3431,6 +3599,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
+      "target": "cities-built-on-ruin-reminiscence",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -3614,6 +3790,46 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "codex-archive-system-v3-3-modest-table-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "codex-archive-system-v3-4-image-experience-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "codex-glyph-grammar",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "codex-glyph-system-first-emergence",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "signal-descent-001",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -4013,6 +4229,14 @@
     },
     {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "operator-winks-at-the-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "pressure-psalm-v",
       "weight": 3,
       "reasons": [
@@ -4345,6 +4569,14 @@
     {
       "source": "codex-archive-system-v3-plus-notes",
       "target": "on-object-oriented-archives",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
+      "target": "operator-winks-at-the-machines",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -4452,6 +4684,14 @@
     {
       "source": "go-live-milestone",
       "target": "i-work-with-machines-to-write-scripture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "operator-winks-at-the-machines",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -4711,6 +4951,46 @@
       ]
     },
     {
+      "source": "operator-winks-at-the-machines",
+      "target": "scripture-with-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "operator-winks-at-the-machines",
+      "target": "signal-descent-003",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "operator-winks-at-the-machines",
+      "target": "signal-descent-004",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "operator-winks-at-the-machines",
+      "target": "signal.citizen-agency",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "operator-winks-at-the-machines",
+      "target": "steel-elbow-flinchian",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "pressure-psalm-v",
       "target": "signal-descent-003",
       "weight": 3,
@@ -4907,6 +5187,22 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "builder-lineage-reflection",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
+      "target": "cities-built-on-ruin-reminiscence",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "codex-glyph-grammar",
       "weight": 2,
       "reasons": [
@@ -4963,7 +5259,23 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "builder-lineage-reflection",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "cities-built-on-ruin",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "cities-built-on-ruin-reminiscence",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -5035,6 +5347,14 @@
     },
     {
       "source": "artifact-jsa-collage-001",
+      "target": "builder-lineage-reflection",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
       "target": "lean-mean-governance-machine",
       "weight": 2,
       "reasons": [
@@ -5075,6 +5395,22 @@
     },
     {
       "source": "artifact-jsa-collage-wip-001",
+      "target": "builder-lineage-reflection",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "cities-built-on-ruin-reminiscence",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
       "target": "codex-archive-system-v3-3-modest-table-notes",
       "weight": 2,
       "reasons": [
@@ -5108,6 +5444,334 @@
     {
       "source": "artifact-jsa-collage-wip-001",
       "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "codex-archive-system-v3-2-fragment-feed-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "codex-archive-system-v3-plus-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "codex-glyph-grammar",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "codex-glyph-system-first-emergence",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "codex-archive-system-v2-7-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "codex-archive-system-v3-1-build-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "codex-archive-system-v3-2-fragment-feed-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "codex-archive-system-v3-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "codex-archive-system-v3-plus-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "go-live-milestone",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "i-work-with-machines-to-write-scripture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "jsa-collage-evolution-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "jsa-collage-evolution-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "operator-winks-at-the-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "scripture-with-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "signal-descent-003",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "signal-descent-004",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "signal.citizen-agency",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "steel-elbow-flinchian",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "systems-survive-tuesdays",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "codex-glyph-grammar",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "codex-glyph-system-first-emergence",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "deck-under-load-ii",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "jsa-collage-evolution-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "jsa-collage-evolution-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "pressure-psalm-v",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "signal-descent-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "signal-harvest",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "steel-elbow-flinchian",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "the-bones-hold",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "transmission-note-to-future-me",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "under-load",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -5315,6 +5979,14 @@
     },
     {
       "source": "codex-archive-system-v2-7-notes",
+      "target": "operator-winks-at-the-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
       "target": "reduce-novelty-before-care",
       "weight": 2,
       "reasons": [
@@ -5364,6 +6036,14 @@
     {
       "source": "codex-archive-system-v3-1-build-notes",
       "target": "nothing-missing-only-unindexed",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "operator-winks-at-the-machines",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -5483,6 +6163,14 @@
     },
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "operator-winks-at-the-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "reduce-novelty-before-care",
       "weight": 2,
       "reasons": [
@@ -5540,6 +6228,14 @@
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "nothing-missing-only-unindexed",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "operator-winks-at-the-machines",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -5612,6 +6308,14 @@
     {
       "source": "codex-archive-system-v3-notes",
       "target": "nothing-missing-only-unindexed",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "operator-winks-at-the-machines",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -5771,6 +6475,14 @@
     },
     {
       "source": "codex-glyph-grammar",
+      "target": "operator-winks-at-the-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
       "target": "reduce-novelty-before-care",
       "weight": 2,
       "reasons": [
@@ -5828,6 +6540,14 @@
     {
       "source": "codex-glyph-system-first-emergence",
       "target": "nothing-missing-only-unindexed",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
+      "target": "operator-winks-at-the-machines",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -6259,6 +6979,14 @@
     },
     {
       "source": "nothing-missing-only-unindexed",
+      "target": "operator-winks-at-the-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "nothing-missing-only-unindexed",
       "target": "scripture-with-machines",
       "weight": 2,
       "reasons": [
@@ -6323,6 +7051,14 @@
     },
     {
       "source": "on-object-oriented-archives",
+      "target": "operator-winks-at-the-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-object-oriented-archives",
       "target": "scripture-with-machines",
       "weight": 2,
       "reasons": [
@@ -6356,6 +7092,38 @@
     {
       "source": "on-object-oriented-archives",
       "target": "steel-elbow-flinchian",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "operator-winks-at-the-machines",
+      "target": "signal-descent-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "operator-winks-at-the-machines",
+      "target": "signal-descent-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "operator-winks-at-the-machines",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "operator-winks-at-the-machines",
+      "target": "transmission-note-to-future-me",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -6707,6 +7475,14 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "bezalel-the-designated-hand",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "cities-built-on-ruin",
       "weight": 1,
       "reasons": [
@@ -6803,6 +7579,22 @@
     },
     {
       "source": "archive-box-stamped-fragments",
+      "target": "bezalel-the-designated-hand",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
+      "target": "builder-lineage-reflection",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
       "target": "cities-built-on-ruin",
       "weight": 1,
       "reasons": [
@@ -7027,6 +7819,14 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "operator-winks-at-the-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "ridge-line-lessons",
       "weight": 1,
       "reasons": [
@@ -7148,6 +7948,14 @@
     {
       "source": "artifact-jsa-collage-001",
       "target": "on-object-oriented-archives",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "operator-winks-at-the-machines",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -7251,6 +8059,14 @@
     },
     {
       "source": "artifact-jsa-collage-wip-001",
+      "target": "operator-winks-at-the-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
       "target": "pressure-psalm-v",
       "weight": 1,
       "reasons": [
@@ -7324,6 +8140,558 @@
     {
       "source": "artifact-jsa-collage-wip-001",
       "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "codex-archive-system-v2-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "codex-archive-system-v2-5-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "codex-archive-system-v2-6-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "codex-archive-system-v2-7-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "codex-archive-system-v3-1-build-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "codex-archive-system-v3-3-modest-table-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "codex-archive-system-v3-4-image-experience-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "codex-archive-system-v3-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "go-live-milestone",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "i-work-with-machines-to-write-scripture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "north-georgia-march-2026",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "north-georgia-week-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "on-object-oriented-archives",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "operator-winks-at-the-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "ridge-line-lessons",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "scripture-with-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "signal-descent-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "signal-descent-003",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "signal-descent-004",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "signal.citizen-agency",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "stairwell-signal",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "steel-elbow-flinchian",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "the-bones-hold",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "codex-archive-system-v2-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "codex-archive-system-v2-5-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "codex-archive-system-v2-6-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "heart-does-not-dream",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "lean-mean-governance-machine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "north-georgia-march-2026",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "north-georgia-week-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "reduce-novelty-before-care",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "ridge-line-lessons",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "signal-descent-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "the-bones-hold",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "codex-archive-system-v2-7-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "codex-archive-system-v3-1-build-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "codex-archive-system-v3-2-fragment-feed-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "codex-archive-system-v3-3-modest-table-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "codex-archive-system-v3-4-image-experience-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "codex-archive-system-v3-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "codex-archive-system-v3-plus-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "go-live-milestone",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "heart-does-not-dream",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "i-work-with-machines-to-write-scripture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "on-object-oriented-archives",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "operator-winks-at-the-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "scripture-with-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "scroll-from-the-perimeter",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "signal-descent-003",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "signal-descent-004",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "signal.citizen-agency",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "stairwell-signal",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "suwanee-ga-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "the-bones-hold-content-architecture",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -7420,6 +8788,14 @@
     {
       "source": "cities-built-on-ruin",
       "target": "on-object-oriented-archives",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "operator-winks-at-the-machines",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -7563,6 +8939,14 @@
     },
     {
       "source": "codex-archive-system-v2-2",
+      "target": "operator-winks-at-the-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
       "target": "signal-descent-003",
       "weight": 1,
       "reasons": [
@@ -7651,6 +9035,14 @@
     },
     {
       "source": "codex-archive-system-v2-5-notes",
+      "target": "operator-winks-at-the-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
       "target": "signal-descent-003",
       "weight": 1,
       "reasons": [
@@ -7716,6 +9108,14 @@
     {
       "source": "codex-archive-system-v2-6-notes",
       "target": "nothing-missing-only-unindexed",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
+      "target": "operator-winks-at-the-machines",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -8428,6 +9828,14 @@
     {
       "source": "heart-does-not-dream",
       "target": "on-object-oriented-archives",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "heart-does-not-dream",
+      "target": "operator-winks-at-the-machines",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -8595,6 +10003,14 @@
     },
     {
       "source": "jsa-collage-evolution-001",
+      "target": "operator-winks-at-the-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
       "target": "pressure-psalm-v",
       "weight": 1,
       "reasons": [
@@ -8723,6 +10139,14 @@
     },
     {
       "source": "jsa-collage-evolution-002",
+      "target": "operator-winks-at-the-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-002",
       "target": "pressure-psalm-v",
       "weight": 1,
       "reasons": [
@@ -8836,6 +10260,14 @@
     {
       "source": "jsa-collage-evolution-003",
       "target": "on-object-oriented-archives",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "operator-winks-at-the-machines",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -9260,6 +10692,70 @@
     {
       "source": "on-object-oriented-archives",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "operator-winks-at-the-machines",
+      "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "operator-winks-at-the-machines",
+      "target": "reduce-novelty-before-care",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "operator-winks-at-the-machines",
+      "target": "scroll-from-the-perimeter",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "operator-winks-at-the-machines",
+      "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "operator-winks-at-the-machines",
+      "target": "stairwell-signal",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "operator-winks-at-the-machines",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "operator-winks-at-the-machines",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "operator-winks-at-the-machines",
+      "target": "the-bones-hold-content-architecture",
       "weight": 1,
       "reasons": [
         "shared-theme"
