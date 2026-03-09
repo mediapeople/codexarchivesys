@@ -812,7 +812,7 @@ const readableDate = formatArchiveDate(entry.data.date);
     max-width: 16ch;
     text-align: center;
     font-size: clamp(2rem, 4.8vw, 4rem);
-    line-height: 1;
+    line-height: 1.05;
     letter-spacing: -0.035em;
     text-wrap: balance;
     text-shadow: 0 0 22px rgba(255, 255, 255, 0.035);
@@ -1372,31 +1372,22 @@ const readableDate = formatArchiveDate(entry.data.date);
   @media (max-width: 1040px) {
     .card.feed,
     .card.related {
-      grid-template-columns: 1fr;
-      column-gap: 0;
       row-gap: 1rem;
     }
 
-    .preview-wrap {
-      grid-column: 1;
-      grid-row: auto;
-      order: 2;
-      max-width: none;
+    .card.feed {
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 38%);
+      column-gap: 2.2rem;
     }
 
-    .copy-stack {
-      grid-column: 1;
-      grid-row: auto;
-      order: 1;
+    .card.related {
+      grid-template-columns: minmax(0, 1fr) minmax(248px, 37%);
+      column-gap: 2.6rem;
     }
 
     .card.feed .preview-wrap,
     .card.related .preview-wrap {
-      grid-column: 1;
-      grid-row: auto;
-      order: 2;
-      aspect-ratio: 16 / 9;
-      max-width: none;
+      aspect-ratio: 4 / 3;
     }
 
     .card.feed .preview-wrap.has-image-preview,
@@ -1439,6 +1430,8 @@ const readableDate = formatArchiveDate(entry.data.date);
 
     .card.feed:not(.fragment),
     .card.related:not(.fragment) {
+      grid-template-columns: 1fr;
+      column-gap: 0;
       row-gap: 1.16rem;
       padding-top: 1.88rem;
       padding-bottom: 2.14rem;
@@ -1450,14 +1443,30 @@ const readableDate = formatArchiveDate(entry.data.date);
     }
 
     .preview-wrap {
+      grid-column: 1;
+      grid-row: auto;
+      order: 2;
+      max-width: none;
       aspect-ratio: 16 / 9;
     }
 
+    .copy-stack {
+      grid-column: 1;
+      grid-row: auto;
+      order: 1;
+    }
+
     .card.related .preview-wrap {
+      grid-column: 1;
+      grid-row: auto;
+      order: 2;
       aspect-ratio: 16 / 9;
     }
 
     .card.feed .preview-wrap {
+      grid-column: 1;
+      grid-row: auto;
+      order: 2;
       aspect-ratio: 16 / 9;
     }
 
@@ -1544,7 +1553,7 @@ const readableDate = formatArchiveDate(entry.data.date);
 
     .card.feed.fragment .fragment-line {
       font-size: clamp(1.45rem, 7vw, 2.2rem);
-      line-height: 1.04;
+      line-height: 1.08;
     }
 
     .card.feed.fragment .fragment-line--operator .fragment-utterance {

@@ -537,6 +537,10 @@ const navItems = [
     --ls-ui: 0.07em;
     --ls-ui-wide: 0.11em;
     --ls-label: 0.14em;
+    --page-title-size-mobile: 2.2rem;
+    --page-title-size-tablet: 2.72rem;
+    --page-title-size-desktop: 3.18rem;
+    --page-title-leading: 1.05;
   }
 
   * {
@@ -586,6 +590,21 @@ const navItems = [
     font-family: var(--font-display);
     font-weight: 900;
     letter-spacing: var(--ls-display);
+  }
+
+  :global(.feed-thesis),
+  :global(.graph-meta h1),
+  :global(.orientation-hero h1),
+  :global(.issues .issue h2),
+  :global(.issue-shell .head h1),
+  :global(.object-head h1) {
+    color: var(--star);
+    font-size: var(--page-title-size-mobile);
+    font-style: normal;
+    font-weight: 600;
+    line-height: var(--page-title-leading);
+    letter-spacing: var(--ls-display);
+    text-wrap: balance;
   }
 
   .noise {
@@ -1201,6 +1220,28 @@ const navItems = [
     to {
       opacity: 1;
       transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @media (min-width: 761px) {
+    :global(.feed-thesis),
+    :global(.graph-meta h1),
+    :global(.orientation-hero h1),
+    :global(.issues .issue h2),
+    :global(.issue-shell .head h1),
+    :global(.object-head h1) {
+      font-size: var(--page-title-size-tablet);
+    }
+  }
+
+  @media (min-width: 1040px) {
+    :global(.feed-thesis),
+    :global(.graph-meta h1),
+    :global(.orientation-hero h1),
+    :global(.issues .issue h2),
+    :global(.issue-shell .head h1),
+    :global(.object-head h1) {
+      font-size: var(--page-title-size-desktop);
     }
   }
 
