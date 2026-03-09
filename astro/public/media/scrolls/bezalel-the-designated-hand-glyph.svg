@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" fill="none">
+  <rect width="1200" height="1200" fill="#0d0b09"/>
+  <defs>
+    <linearGradient id="frameGlow" x1="174" y1="174" x2="1026" y2="1026" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f4c56a"/>
+      <stop offset="1" stop-color="#de6d2f"/>
+    </linearGradient>
+    <radialGradient id="ember" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(600 600) rotate(90) scale(428)">
+      <stop offset="0" stop-color="#f7c978" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#f7c978" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <circle cx="600" cy="600" r="428" fill="url(#ember)"/>
+
+  <path d="M210 238V990H962" stroke="url(#frameGlow)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M962 210H700" stroke="url(#frameGlow)" stroke-width="18" stroke-linecap="round"/>
+  <path d="M990 238V500" stroke="url(#frameGlow)" stroke-width="18" stroke-linecap="round"/>
+
+
+  <path d="M600 600C600 600 643 595 660 566C677 537 667 497 636 478C591 451 534 472 514 522C492 579 516 651 579 681C652 716 741 681 781 605C823 521 797 410 701 355C586 289 444 330 381 451" stroke="#f4c56a" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+
+
+  <g stroke-linejoin="round">
+    <path d="M661.91 561.32L829.82 456.39" stroke="#f4c56a" stroke-width="8" stroke-linecap="round" opacity="0.72"/>
+    <path d="M638.68 661.91L743.61 829.82" stroke="#f4c56a" stroke-width="8" stroke-linecap="round" opacity="0.72"/>
+    <path d="M538.09 638.68L370.18 743.61" stroke="#f4c56a" stroke-width="8" stroke-linecap="round" opacity="0.72"/>
+    <path d="M561.32 538.09L456.39 370.18" stroke="#f4c56a" stroke-width="8" stroke-linecap="round" opacity="0.72"/>
+    <path d="M336 336H864V864H336Z" stroke="#de6d2f" stroke-width="6" opacity="0.72"/>
+    <path d="M352 462C442 402 530 372 600 372C679 372 766 401 848 458" stroke="#de6d2f" stroke-width="8" opacity="0.75" stroke-linecap="round"/>
+  </g>
+  <g>
+    <circle cx="829.82" cy="456.39" r="12" fill="#f4c56a"/>
+    <circle cx="743.61" cy="829.82" r="12" fill="#f4c56a"/>
+    <circle cx="370.18" cy="743.61" r="12" fill="#f4c56a"/>
+    <circle cx="456.39" cy="370.18" r="12" fill="#f4c56a"/>
+  </g>
+
+</svg>

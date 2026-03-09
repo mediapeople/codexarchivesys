@@ -78,8 +78,10 @@ Operator note:
 # inspect fresh source material
 find inbox/drop -maxdepth 2 -type f | sort
 
-# if a reviewed draft should ship with a glyph, generate the SVG before hand-off
-node scripts/generate-codex-glyph.mjs --source inbox/ready/<file>.md
+# draft the object in inbox/ready/<file>.md
+
+# optional prep step for scrolls/codex entries that should ship with a glyph
+node scripts/prepare-ready.mjs --source inbox/ready/<file>.md --glyph
 
 # after conversation + explicit approval, let the system finish the approved batch
 node scripts/finalize-approved-ready.mjs --source inbox/ready/2026-03-08-art-is-for-people-who-want-to-feel-alive.md --note "Operator approved for publish"
@@ -88,7 +90,8 @@ node scripts/finalize-approved-ready.mjs --source inbox/ready/2026-03-08-art-is-
 Notes:
 - `inbox/drop/` is raw source detection.
 - `inbox/ready/` is human review territory.
-- `scripts/generate-codex-glyph.mjs` prints the emitted web path and a suggested `media` block for the draft.
+- `scripts/prepare-ready.mjs --glyph` is the operator-facing prep step when a draft should carry a glyph; it generates the SVG and writes the glyph media entry into the draft.
+- `scripts/generate-codex-glyph.mjs` remains available as the low-level glyph tool when you want the SVG without modifying draft frontmatter.
 - `objects/` + `astro/src/content/` are canonical publish state.
 - Human interaction should stay narrow: review drafts, confirm approval, then let the system run the rest.
 - After a correct local result and successful push, let it breathe before treating remote lag as a feed-order bug.

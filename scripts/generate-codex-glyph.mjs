@@ -6,82 +6,11 @@ import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { loadObjectFile, ALLOWED_TYPES } from './object-utils.mjs';
 
-const args = process.argv.slice(2);
+const thisFile = fileURLToPath(import.meta.url);
+const scriptDir = path.dirname(thisFile);
+export const repoRoot = path.resolve(scriptDir, '..');
 
-function printUsage() {
-  console.log(`Usage:
-  node scripts/generate-codex-glyph.mjs --source <markdown-file> [--out <svg-path>]
-
-What it does:
-  - reads a ready/object/content markdown file
-  - derives a deterministic glyph from id, type, themes, and status
-  - writes an SVG asset into astro/public/media by default
-  - prints the web path and a suggested media block
-
-Examples:
-  node scripts/generate-codex-glyph.mjs --source inbox/ready/2026-03-08-codex-glyph-system-first-emergence.md
-  node scripts/generate-codex-glyph.mjs --source objects/codex/codex-archive-system-v3-plus-notes.md --out astro/public/media/codex/v3-plus-glyph.svg
-`);
-}
-
-if (args.includes('-h') || args.includes('--help')) {
-  printUsage();
-  process.exit(0);
-}
-
-const options = {
-  source: '',
-  out: '',
-};
-
-for (let i = 0; i < args.length; i += 1) {
-  const arg = args[i];
-
-  if (arg === '--source') {
-    options.source = args[i + 1] || '';
-    i += 1;
-    continue;
-  }
-
-  if (arg === '--out') {
-    options.out = args[i + 1] || '';
-    i += 1;
-    continue;
-  }
-
-  console.error(`Unknown argument: ${arg}`);
-  process.exit(1);
-}
-
-if (!options.source) {
-  console.error('Missing required --source path.');
-  printUsage();
-  process.exit(1);
-}
-
-const scriptDir = path.dirname(fileURLToPath(import.meta.url));
-const repoRoot = path.resolve(scriptDir, '..');
-const sourcePath = path.resolve(repoRoot, options.source);
-
-if (!fs.existsSync(sourcePath)) {
-  console.error(`Source file not found: ${sourcePath}`);
-  process.exit(1);
-}
-
-const object = loadObjectFile(sourcePath);
-const { id = '', type = '', title = '', status = 'draft', themes = [] } = object.fields;
-
-if (!id || !type) {
-  console.error('Source frontmatter must include id and type.');
-  process.exit(1);
-}
-
-if (!ALLOWED_TYPES.has(type)) {
-  console.error(`Unsupported type for glyph generation: ${type}`);
-  process.exit(1);
-}
-
-const mediaDirByType = {
+export const mediaDirByType = {
   scroll: 'scrolls',
   artifact: 'artifacts',
   fieldlog: 'fieldlogs',
@@ -90,17 +19,6 @@ const mediaDirByType = {
   nexus: 'nexus',
   signal: 'signals',
 };
-
-const defaultOutPath = path.join(
-  repoRoot,
-  'astro',
-  'public',
-  'media',
-  mediaDirByType[type],
-  `${id}-glyph.svg`
-);
-const outPath = path.resolve(repoRoot, options.out || defaultOutPath);
-const webPath = `/${path.relative(path.join(repoRoot, 'astro', 'public'), outPath).split(path.sep).join('/')}`;
 
 function hashChunks(input) {
   const hex = crypto.createHash('sha256').update(input).digest('hex');
@@ -267,8 +185,51 @@ function buildThemeGeometry(activeThemes, seed) {
 `;
 }
 
-const seed = hashChunks([id, type, status, ...themes].join(':'));
-const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" fill="none">
+export function getDefaultGlyphOutputPath(type, id) {
+  return path.join(
+    repoRoot,
+    'astro',
+    'public',
+    'media',
+    mediaDirByType[type],
+    `${id}-glyph.svg`
+  );
+}
+
+export function getGlyphAltText(title, id) {
+  return `Generated glyph for ${title || id}.`;
+}
+
+export function buildGlyphMediaItem({ webPath, title, id, role = 'hero', alt } = {}) {
+  return {
+    kind: 'image',
+    src: webPath,
+    role,
+    alt: alt || getGlyphAltText(title, id),
+  };
+}
+
+export function formatGlyphMediaBlockLines(mediaItem) {
+  const lines = [
+    'media:',
+    `  - kind: ${mediaItem.kind}`,
+    `    src: ${mediaItem.src}`,
+    `    role: ${mediaItem.role}`,
+    `    alt: "${String(mediaItem.alt).replace(/"/g, '\\"')}"`,
+  ];
+
+  if (mediaItem.caption) {
+    lines.push(`    caption: "${String(mediaItem.caption).replace(/"/g, '\\"')}"`);
+  }
+
+  return lines;
+}
+
+export function renderGlyphSvg(fields) {
+  const { id = '', type = '', status = 'draft', themes = [] } = fields;
+  const seed = hashChunks([id, type, status, ...themes].join(':'));
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" fill="none">
   <rect width="1200" height="1200" fill="#0d0b09"/>
   <defs>
     <linearGradient id="frameGlow" x1="174" y1="174" x2="1026" y2="1026" gradientUnits="userSpaceOnUse">
@@ -286,18 +247,126 @@ ${buildTypeGeometry(type, seed)}
 ${buildThemeGeometry(themes, seed)}
 </svg>
 `;
+}
 
-fs.mkdirSync(path.dirname(outPath), { recursive: true });
-fs.writeFileSync(outPath, svg, 'utf8');
+export function generateGlyphForSource(source, options = {}) {
+  const resolvedSource = path.isAbsolute(source) ? source : path.resolve(repoRoot, source);
 
-console.log(`Generated glyph for ${title || id}`);
-console.log(`Source: ${path.relative(repoRoot, sourcePath)}`);
-console.log(`Output: ${path.relative(repoRoot, outPath)}`);
-console.log(`Web path: ${webPath}`);
-console.log('');
-console.log('Suggested media block:');
-console.log('media:');
-console.log('  - kind: image');
-console.log(`    src: ${webPath}`);
-console.log('    role: hero');
-console.log(`    alt: "Generated glyph for ${title || id}."`);
+  if (!fs.existsSync(resolvedSource)) {
+    throw new Error(`Source file not found: ${resolvedSource}`);
+  }
+
+  const object = loadObjectFile(resolvedSource);
+  const { id = '', type = '', title = '', status = 'draft' } = object.fields;
+
+  if (!id || !type) {
+    throw new Error('Source frontmatter must include id and type.');
+  }
+
+  if (!ALLOWED_TYPES.has(type)) {
+    throw new Error(`Unsupported type for glyph generation: ${type}`);
+  }
+
+  const resolvedOut = path.isAbsolute(options.out || '')
+    ? options.out
+    : path.resolve(repoRoot, options.out || getDefaultGlyphOutputPath(type, id));
+  const webPath = `/${path.relative(path.join(repoRoot, 'astro', 'public'), resolvedOut).split(path.sep).join('/')}`;
+  const svg = renderGlyphSvg(object.fields);
+
+  if (options.write !== false) {
+    fs.mkdirSync(path.dirname(resolvedOut), { recursive: true });
+    fs.writeFileSync(resolvedOut, svg, 'utf8');
+  }
+
+  return {
+    object,
+    title,
+    status,
+    sourcePath: resolvedSource,
+    outPath: resolvedOut,
+    webPath,
+    svg,
+    mediaItem: buildGlyphMediaItem({
+      webPath,
+      title,
+      id,
+      role: options.role || 'hero',
+      alt: options.alt,
+    }),
+  };
+}
+
+function printUsage() {
+  console.log(`Usage:
+  node scripts/generate-codex-glyph.mjs --source <markdown-file> [--out <svg-path>]
+
+What it does:
+  - reads a ready/object/content markdown file
+  - derives a deterministic glyph from id, type, themes, and status
+  - writes an SVG asset into astro/public/media by default
+  - prints the web path and a suggested media block
+
+Examples:
+  node scripts/generate-codex-glyph.mjs --source inbox/ready/2026-03-08-codex-glyph-system-first-emergence.md
+  node scripts/generate-codex-glyph.mjs --source objects/codex/codex-archive-system-v3-plus-notes.md --out astro/public/media/codex/v3-plus-glyph.svg
+`);
+}
+
+function main() {
+  const args = process.argv.slice(2);
+
+  if (args.includes('-h') || args.includes('--help')) {
+    printUsage();
+    process.exit(0);
+  }
+
+  const options = {
+    source: '',
+    out: '',
+  };
+
+  for (let i = 0; i < args.length; i += 1) {
+    const arg = args[i];
+
+    if (arg === '--source') {
+      options.source = args[i + 1] || '';
+      i += 1;
+      continue;
+    }
+
+    if (arg === '--out') {
+      options.out = args[i + 1] || '';
+      i += 1;
+      continue;
+    }
+
+    console.error(`Unknown argument: ${arg}`);
+    process.exit(1);
+  }
+
+  if (!options.source) {
+    console.error('Missing required --source path.');
+    printUsage();
+    process.exit(1);
+  }
+
+  try {
+    const result = generateGlyphForSource(options.source, { out: options.out });
+    console.log(`Generated glyph for ${result.title || result.object.fields.id}`);
+    console.log(`Source: ${path.relative(repoRoot, result.sourcePath)}`);
+    console.log(`Output: ${path.relative(repoRoot, result.outPath)}`);
+    console.log(`Web path: ${result.webPath}`);
+    console.log('');
+    console.log('Suggested media block:');
+    for (const line of formatGlyphMediaBlockLines(result.mediaItem)) {
+      console.log(line);
+    }
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : String(error));
+    process.exit(1);
+  }
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === thisFile) {
+  main();
+}
