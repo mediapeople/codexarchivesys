@@ -33,7 +33,7 @@ dependencies:
   - signal-descent-002
 ---
 
-v2.5 notes are now superseded by [CODEX ARCHIVE SYSTEM v2.6 NOTES](/objects/codex-archive-system-v2-6-notes).
+v2.5 notes are now superseded by [Codex Archive System v2.6 Notes](/objects/codex-archive-system-v2-6-notes).
 Use v2.5 as implementation context, not as the current orientation contract.
 
 v2.5 prioritized operational reliability, design coherence, and restart clarity over structural novelty.

@@ -40,7 +40,7 @@ dependencies:
   - codex-archive-system-v3-3-modest-table-notes
 ---
 
-v3.5 extends [CODEX ARCHIVE SYSTEM v3.4 IMAGE EXPERIENCE NOTES](/objects/codex-archive-system-v3-4-image-experience-notes).
+v3.5 extends [Codex Archive System v3.4 Image Experience Notes](/objects/codex-archive-system-v3-4-image-experience-notes).
 Use v3.4 as viewing-surface context and v3.5 for current feed-control and header behavior.
 
 v3.5 is the control-surface release.

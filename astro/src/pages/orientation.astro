@@ -18,44 +18,28 @@ const typeCounts = COLLECTIONS.map((type) => ({
 const typeDefinitionMap: Record<
   (typeof COLLECTIONS)[number],
   {
-    brief: string;
-    tags: string[];
     description: string;
   }
 > = {
   scroll: {
-    brief: 'Longform transmission',
-    tags: ['process', 'continuity', 'method'],
     description: 'Extended writing that carries context, sequence, and sustained argument.',
   },
   artifact: {
-    brief: 'Material evidence',
-    tags: ['build', 'capture', 'proof'],
     description: 'Physical or digital outputs that document what was made and how it holds up.',
   },
   fieldlog: {
-    brief: 'Operational note',
-    tags: ['status', 'maintenance', 'observation'],
     description: 'Dated records of system condition, constraints, and directional adjustments.',
   },
   codex: {
-    brief: 'Canonical rule',
-    tags: ['governance', 'architecture', 'policy'],
     description: 'Core references that define stable standards for structure and publishing.',
   },
   fragment: {
-    brief: 'Compressed signal',
-    tags: ['seed', 'draft', 'line'],
     description: 'Small units of meaning meant to stay useful alone and expandable later.',
   },
   nexus: {
-    brief: 'Guided sequence',
-    tags: ['sequence', 'relation', 'context'],
     description: 'Curated reading chains that connect objects into coherent narrative movement.',
   },
   signal: {
-    brief: 'Public dispatch',
-    tags: ['release', 'claim', 'transmission'],
     description: 'Short, high-clarity statements intended for immediate interpretation and use.',
   },
 };
@@ -233,74 +217,10 @@ const fieldContractRows = [
           {typeCounts.map((item) => (
             <li class={`type-definition ${item.type}`}>
               <div class="type-definition-head">
-                <div class="type-definition-identity">
-                  <span class={`type-symbol ${item.type}`} aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" focusable="false">
-                      {item.type === 'scroll' && (
-                        <>
-                          <path d="M5 7.5H19" />
-                          <path d="M5 12H19" />
-                          <path d="M5 16.5H15.5" />
-                        </>
-                      )}
-                      {item.type === 'artifact' && (
-                        <>
-                          <rect x="5.5" y="6.2" width="13" height="11.6" rx="1.4" />
-                          <path d="M8 9.4H16" />
-                          <path d="M8 13H14.4" />
-                        </>
-                      )}
-                      {item.type === 'fieldlog' && (
-                        <>
-                          <rect x="6" y="5.8" width="12" height="12.4" rx="1.5" />
-                          <path d="M8.5 10H15.5" />
-                          <path d="M8.5 13.4H15.5" />
-                          <circle cx="9" cy="7.9" r="0.85" />
-                        </>
-                      )}
-                      {item.type === 'codex' && (
-                        <>
-                          <path d="M5.5 6.6V17.4" />
-                          <path d="M18.5 6.6V17.4" />
-                          <path d="M5.5 7.5C7.5 6.6 9.4 6.6 11.5 7.5V16.8C9.4 15.9 7.5 15.9 5.5 16.8" />
-                          <path d="M18.5 7.5C16.5 6.6 14.6 6.6 12.5 7.5V16.8C14.6 15.9 16.5 15.9 18.5 16.8" />
-                        </>
-                      )}
-                      {item.type === 'fragment' && (
-                        <>
-                          <circle cx="8.2" cy="8.2" r="1.35" />
-                          <circle cx="13.7" cy="11.2" r="1" />
-                          <circle cx="10" cy="15" r="0.9" />
-                          <path d="M15.4 15.4L18.1 13" />
-                        </>
-                      )}
-                      {item.type === 'nexus' && (
-                        <>
-                          <circle cx="12" cy="12" r="5.8" />
-                          <circle cx="12" cy="12" r="2.6" />
-                        </>
-                      )}
-                      {item.type === 'signal' && (
-                        <>
-                          <path d="M4.5 12H8.2" />
-                          <path d="M8.2 12C9.8 12 9.8 9 11.4 9C13 9 13 15 14.6 15C16.2 15 16.2 12 17.8 12H19.5" />
-                        </>
-                      )}
-                    </svg>
-                  </span>
-                  <div class="type-definition-meta">
-                    <TypeBadge type={item.type} />
-                    <span class="type-definition-brief">{typeDefinitionMap[item.type].brief}</span>
-                  </div>
-                </div>
-                <code>{item.count}</code>
+                <TypeBadge type={item.type} showIcon={true} />
+                <span class="type-definition-count">{item.count} objects</span>
               </div>
               <p>{typeDefinitionMap[item.type].description}</p>
-              <div class="type-definition-tags">
-                {typeDefinitionMap[item.type].tags.map((tag) => (
-                  <span>#{tag}</span>
-                ))}
-              </div>
             </li>
           ))}
         </ul>
@@ -659,154 +579,83 @@ const fieldContractRows = [
 
   .legend-intro {
     margin-top: 0.72rem;
-    max-width: 58ch;
+    max-width: 62ch;
   }
 
   .type-catalog {
-    margin: 1.35rem 0 0;
+    margin: 1.7rem 0 0;
     padding: 0;
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.25rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem 1.65rem;
+    max-width: 1120px;
   }
 
   .type-definition {
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    position: relative;
+    min-width: 0;
+    width: 100%;
+    max-width: none;
+    min-height: 100%;
+    padding: 1.45rem 1.4rem 1.52rem;
     border-radius: 2px;
-    padding: 1.34rem 1.4rem 1.45rem;
     background:
-      linear-gradient(150deg, rgba(20, 16, 12, 0.56) 0%, rgba(8, 8, 8, 0.48) 78%);
+      linear-gradient(145deg, rgba(18, 15, 12, 0.82), rgba(9, 9, 9, 0.36));
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+      0 0 0 1px rgba(196, 98, 58, 0.04);
   }
 
   .type-definition-head {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 0.62rem;
+    gap: 1rem;
+    margin-bottom: 1.28rem;
   }
 
-  .type-definition-identity {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: start;
-    gap: 0.62rem;
-    min-width: 0;
-  }
-
-  .type-definition-meta {
-    display: grid;
-    gap: 0.2rem;
-    min-width: 0;
-  }
-
-  .type-definition-meta :global(.type-badge) {
-    justify-self: start;
-  }
-
-  .type-symbol {
-    display: grid;
-    place-items: center;
-    width: 1.72rem;
-    height: 1.72rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 2px;
-    background: rgba(255, 255, 255, 0.02);
-    color: var(--mid);
+  .type-definition-head :global(.type-badge) {
     flex-shrink: 0;
   }
 
-  .type-symbol svg {
-    width: 1.08rem;
-    height: 1.08rem;
+  .type-definition-head :global(.type-badge.has-icon) {
+    padding: 0.34rem 0.72rem 0.32rem 0.66rem;
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: inset 0 0 0 1px rgba(196, 98, 58, 0.06);
   }
 
-  .type-symbol svg :where(path, rect, circle) {
-    stroke: currentColor;
-    stroke-width: 1.48;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+  .type-definition-head :global(.type-badge.has-icon .type-badge-icon) {
+    width: 0.92rem;
+    height: 0.92rem;
+    opacity: 0.72;
   }
 
-  .type-symbol.scroll {
-    border-color: rgba(196, 98, 58, 0.42);
-    background: rgba(196, 98, 58, 0.14);
-    color: #deaf9a;
+  .type-definition-head :global(.type-badge.has-icon svg) {
+    width: 0.82rem;
+    height: 0.82rem;
   }
 
-  .type-symbol.artifact {
-    border-color: rgba(201, 150, 58, 0.42);
-    background: rgba(201, 150, 58, 0.16);
-    color: #e5c98d;
+  .type-definition p {
+    margin: 0;
+    max-width: 16ch;
+    color: var(--bone);
+    font-size: clamp(1.08rem, 1.4vw, 1.16rem);
+    line-height: 1.56;
   }
 
-  .type-symbol.fieldlog {
-    border-color: rgba(138, 132, 128, 0.44);
-    background: rgba(138, 132, 128, 0.14);
-    color: #bfb7b2;
-  }
-
-  .type-symbol.codex {
-    border-color: rgba(201, 150, 58, 0.46);
-    background: rgba(201, 150, 58, 0.14);
-    color: #dfba6d;
-  }
-
-  .type-symbol.fragment {
-    border-color: rgba(92, 84, 80, 0.5);
-    background: rgba(92, 84, 80, 0.16);
-    color: #b9b2ad;
-  }
-
-  .type-symbol.nexus {
-    border-color: rgba(196, 98, 58, 0.45);
-    background: rgba(196, 98, 58, 0.14);
-    color: #e2b2a0;
-  }
-
-  .type-symbol.signal {
-    border-color: rgba(132, 176, 158, 0.48);
-    background: rgba(132, 176, 158, 0.16);
-    color: #c4dbd0;
-  }
-
-  .type-definition-brief {
+  .type-definition-count {
     color: var(--mid);
     font-family: var(--font-ui);
     font-size: 10px;
     letter-spacing: var(--ls-ui);
-    line-height: 1.4;
-    text-transform: uppercase;
+    line-height: 1.3;
+    text-transform: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding-top: 0.12rem;
   }
 
-  .type-definition p {
-    margin: 0.74rem 0 0;
-    color: var(--text-body);
-    font-size: 1.01rem;
-    line-height: 1.74;
-  }
-
-  .type-definition-tags {
-    margin-top: 0.72rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.34rem 0.4rem;
-  }
-
-  .type-definition-tags span {
-    display: inline-flex;
-    align-items: center;
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    border-radius: 999px;
-    padding: 1px 7px;
-    color: var(--mid);
-    font-family: var(--font-ui);
-    font-size: 12px;
-    letter-spacing: var(--ls-ui);
-    text-transform: uppercase;
-  }
-
-  .type-definition code,
   .constellation-meta code {
     padding: 2px 7px;
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -1023,6 +872,14 @@ const fieldContractRows = [
     margin-top: 0.75rem;
   }
 
+  @media (max-width: 980px) {
+    .type-catalog {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      max-width: 760px;
+      gap: 1.35rem 1.45rem;
+    }
+  }
+
   @media (max-width: 760px) {
     .orientation-hero {
       padding-top: 3.9rem;
@@ -1091,12 +948,18 @@ const fieldContractRows = [
       margin-left: 0;
     }
 
-    .field-contract-row {
-      grid-template-columns: 1fr 1fr;
-    }
-
     .type-catalog {
       grid-template-columns: 1fr;
+      max-width: none;
+      gap: 1rem;
+    }
+
+    .type-definition {
+      padding: 1.22rem 1.14rem 1.28rem;
+    }
+
+    .field-contract-row {
+      grid-template-columns: 1fr 1fr;
     }
 
     .field-contract-row .contract-cell:last-child {

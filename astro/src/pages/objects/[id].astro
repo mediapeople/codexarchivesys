@@ -1750,6 +1750,25 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     border-radius: 2px;
   }
 
+  .object-shell.codex .body :global(a) {
+    color: var(--accent-quote-soft);
+    text-decoration-color: rgba(216, 188, 132, 0.42);
+  }
+
+  .object-shell.codex .body :global(a:visited) {
+    color: rgba(216, 188, 132, 0.8);
+    text-decoration-color: rgba(216, 188, 132, 0.34);
+  }
+
+  .object-shell.codex .body :global(a:hover) {
+    color: var(--bone);
+    text-decoration-color: rgba(232, 226, 212, 0.58);
+  }
+
+  .object-shell.codex .body :global(a:focus-visible) {
+    outline-color: rgba(216, 188, 132, 0.56);
+  }
+
   .body.verse :global(p) {
     max-width: 42ch;
   }

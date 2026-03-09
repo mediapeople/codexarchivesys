@@ -39,7 +39,7 @@ dependencies:
   - codex-archive-system-v3-plus-notes
 ---
 
-v3.3 extends [CODEX ARCHIVE SYSTEM v3.2 FRAGMENT FEED NOTES](/objects/codex-archive-system-v3-2-fragment-feed-notes).
+v3.3 extends [Codex Archive System v3.2 Fragment Feed Notes](/objects/codex-archive-system-v3-2-fragment-feed-notes).
 Use v3.2 as feed/interlude context and v3.3 for current card-image staging and inspection behavior.
 
 v3.3 is the specimen-stage release.

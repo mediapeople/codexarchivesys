@@ -37,7 +37,7 @@ dependencies:
   - codex-archive-system-v3-4-image-experience-notes
 ---
 
-v3.6 extends [CODEX ARCHIVE SYSTEM v3.5 CONTROL SURFACE NOTES](/objects/codex-archive-system-v3-5-control-surface-notes).
+v3.6 extends [Codex Archive System v3.5 Control Surface Notes](/objects/codex-archive-system-v3-5-control-surface-notes).
 Use v3.5 for control-surface behavior and v3.6 for current reading rhythm and measure.
 
 v3.6 is the reading-surface typography release.

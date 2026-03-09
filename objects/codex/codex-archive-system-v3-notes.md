@@ -39,7 +39,7 @@ dependencies:
   - go-live-milestone
 ---
 
-v3 notes are now superseded by [CODEX ARCHIVE SYSTEM v3+ NOTES](/objects/codex-archive-system-v3-plus-notes).
+v3 notes are now superseded by [Codex Archive System v3+ Notes](/objects/codex-archive-system-v3-plus-notes).
 Use v3 as release-history context for ingest discipline updates.
 
 v3 is a systems update focused on ingest learnings and note adjustments, not schema expansion.

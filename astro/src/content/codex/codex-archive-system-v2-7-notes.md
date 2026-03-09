@@ -37,7 +37,7 @@ dependencies:
   - signal-descent-002
 ---
 
-v2.7 notes are now superseded by [CODEX ARCHIVE SYSTEM v3 NOTES](/objects/codex-archive-system-v3-notes).
+v2.7 notes are now superseded by [Codex Archive System v3 Notes](/objects/codex-archive-system-v3-notes).
 Use v2.7 as release-history context, not the active orientation contract.
 
 v2.7 is the go-live release.

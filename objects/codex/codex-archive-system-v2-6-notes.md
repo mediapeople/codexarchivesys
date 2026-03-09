@@ -34,7 +34,7 @@ dependencies:
   - codex-archive-system-v2-2
 ---
 
-v2.6 notes are now superseded by [CODEX ARCHIVE SYSTEM v2.7 NOTES](/objects/codex-archive-system-v2-7-notes).
+v2.6 notes are now superseded by [Codex Archive System v2.7 Notes](/objects/codex-archive-system-v2-7-notes).
 Use v2.6 as implementation context, not as the current release contract.
 
 v2.6 focuses on one operating rule: make orientation immediate for a new AI coworker while preserving object-first reading quality.

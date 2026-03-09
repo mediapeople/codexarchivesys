@@ -3,9 +3,10 @@ import { getTypeLabel } from '../lib/archive';
 
 interface Props {
   type: string;
+  showIcon?: boolean;
 }
 
-const { type } = Astro.props;
+const { type, showIcon = false } = Astro.props;
 
 const classMap: Record<string, string> = {
   scroll: 'scroll',
@@ -20,12 +21,71 @@ const classMap: Record<string, string> = {
 const badgeClass = classMap[type] || 'default';
 ---
 
-<span class={`type-badge ${badgeClass}`}>{getTypeLabel(type)}</span>
+<span class={`type-badge ${badgeClass} ${showIcon ? 'has-icon' : ''}`}>
+  {showIcon && (
+    <span class="type-badge-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" focusable="false">
+        {type === 'scroll' && (
+          <>
+            <path d="M5 7.5H19" />
+            <path d="M5 12H19" />
+            <path d="M5 16.5H15.5" />
+          </>
+        )}
+        {type === 'artifact' && (
+          <>
+            <rect x="5.5" y="6.2" width="13" height="11.6" rx="1.4" />
+            <path d="M8 9.4H16" />
+            <path d="M8 13H14.4" />
+          </>
+        )}
+        {type === 'fieldlog' && (
+          <>
+            <rect x="6" y="5.8" width="12" height="12.4" rx="1.5" />
+            <path d="M8.5 10H15.5" />
+            <path d="M8.5 13.4H15.5" />
+            <circle cx="9" cy="7.9" r="0.85" />
+          </>
+        )}
+        {type === 'codex' && (
+          <>
+            <path d="M5.5 6.6V17.4" />
+            <path d="M18.5 6.6V17.4" />
+            <path d="M5.5 7.5C7.5 6.6 9.4 6.6 11.5 7.5V16.8C9.4 15.9 7.5 15.9 5.5 16.8" />
+            <path d="M18.5 7.5C16.5 6.6 14.6 6.6 12.5 7.5V16.8C14.6 15.9 16.5 15.9 18.5 16.8" />
+          </>
+        )}
+        {type === 'fragment' && (
+          <>
+            <circle cx="8.2" cy="8.2" r="1.35" />
+            <circle cx="13.7" cy="11.2" r="1" />
+            <circle cx="10" cy="15" r="0.9" />
+            <path d="M15.4 15.4L18.1 13" />
+          </>
+        )}
+        {type === 'nexus' && (
+          <>
+            <circle cx="12" cy="12" r="5.8" />
+            <circle cx="12" cy="12" r="2.6" />
+          </>
+        )}
+        {type === 'signal' && (
+          <>
+            <path d="M4.5 12H8.2" />
+            <path d="M8.2 12C9.8 12 9.8 9 11.4 9C13 9 13 15 14.6 15C16.2 15 16.2 12 17.8 12H19.5" />
+          </>
+        )}
+      </svg>
+    </span>
+  )}
+  <span class="type-badge-label">{getTypeLabel(type)}</span>
+</span>
 
 <style>
   .type-badge {
     display: inline-flex;
     align-items: center;
+    gap: 0.38rem;
     border: 1px solid var(--line);
     border-radius: 2px;
     padding: 1px 6px;
@@ -36,6 +96,36 @@ const badgeClass = classMap[type] || 'default';
     letter-spacing: var(--ls-ui);
     text-transform: uppercase;
     background: rgba(255, 255, 255, 0.02);
+  }
+
+  .type-badge.has-icon {
+    gap: 0.46rem;
+    padding: 2px 7px 2px 6px;
+  }
+
+  .type-badge-icon {
+    display: grid;
+    place-items: center;
+    width: 0.86rem;
+    height: 0.86rem;
+    flex-shrink: 0;
+    opacity: 0.84;
+  }
+
+  .type-badge svg {
+    width: 0.78rem;
+    height: 0.78rem;
+  }
+
+  .type-badge svg :where(path, rect, circle) {
+    stroke: currentColor;
+    stroke-width: 1.48;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .type-badge-label {
+    transform: translateY(0.01em);
   }
 
   .scroll {

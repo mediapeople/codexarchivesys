@@ -41,7 +41,7 @@ dependencies:
   - codex-archive-system-v3-plus-notes
 ---
 
-v3.4 extends [CODEX ARCHIVE SYSTEM v3.3 MODEST TABLE NOTES](/objects/codex-archive-system-v3-3-modest-table-notes).
+v3.4 extends [Codex Archive System v3.3 Modest Table Notes](/objects/codex-archive-system-v3-3-modest-table-notes).
 Use v3.3 as specimen-stage context and v3.4 for current gallery continuity and mobile reading behavior.
 
 v3.4 is the image-experience release.
