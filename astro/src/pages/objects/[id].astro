@@ -126,6 +126,8 @@ const shareMeta = buildObjectShareMeta({
 const bodyClassRaw = (entry.data as Record<string, unknown>).bodyClass;
 const bodyClass = typeof bodyClassRaw === 'string' ? bodyClassRaw : 'prose';
 const objectFirstFlow = true;
+const artifactLeadsWithMedia = entry.collection === 'artifact';
+const artifactHasSupport = artifactLeadsWithMedia && (secondaryMedia.length > 0 || detailRows.length > 0);
 const hasTaxonomy = entry.data.themes.length > 0 || entry.data.constellations.length > 0;
 const contributors = getAuthorProfiles(entry);
 const primaryAuthor = contributors[0];
@@ -166,6 +168,93 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
       </div>
     </header>
 
+    {artifactLeadsWithMedia && primaryMedia && (
+      <section class="artifact-evidence">
+        <section class="media-stage media-stage--artifact-lead">
+          <article class="media-primary">
+            {primaryMedia.kind === 'image' && (
+              <img
+                src={primaryMedia.src}
+                alt={primaryMedia.alt || `${entry.data.title} primary media`}
+                data-expandable-image
+                data-lightbox-caption={primaryMedia.caption || formatMediaLabel(primaryMedia)}
+                loading="lazy"
+                decoding="async"
+                tabindex="0"
+                role="button"
+                aria-label="Expand image"
+              />
+            )}
+            {primaryMedia.kind === 'video' && (
+              <video controls preload="metadata" src={primaryMedia.src}>
+                Your browser does not support the video element.
+              </video>
+            )}
+            {primaryMedia.kind === 'audio' && (
+              <div class="audio-shell">
+                <audio controls preload="metadata" src={primaryMedia.src}>
+                  Your browser does not support the audio element.
+                </audio>
+              </div>
+            )}
+            <p class="media-meta">{formatMediaLabel(primaryMedia)}</p>
+            {primaryMedia.caption && <p class="media-caption">{primaryMedia.caption}</p>}
+          </article>
+        </section>
+
+        {artifactHasSupport && (
+          <section class="artifact-evidence-support">
+            {secondaryMedia.length > 0 && (
+              <div class="media-rail media-rail--artifact-support">
+                {secondaryMedia.map((item) => (
+                  <article class="media-item">
+                    {item.kind === 'image' && (
+                      <img
+                        src={item.src}
+                        alt={item.alt || `${entry.data.title} media`}
+                        data-expandable-image
+                        data-lightbox-caption={item.caption || formatMediaLabel(item)}
+                        loading="lazy"
+                        decoding="async"
+                        tabindex="0"
+                        role="button"
+                        aria-label="Expand image"
+                      />
+                    )}
+                    {item.kind === 'video' && (
+                      <video controls preload="metadata" src={item.src}>
+                        Your browser does not support the video element.
+                      </video>
+                    )}
+                    {item.kind === 'audio' && (
+                      <div class="audio-shell">
+                        <audio controls preload="metadata" src={item.src}>
+                          Your browser does not support the audio element.
+                        </audio>
+                      </div>
+                    )}
+                    <p>{formatMediaLabel(item)}</p>
+                    {item.caption && <span>{item.caption}</span>}
+                  </article>
+                ))}
+              </div>
+            )}
+
+            {detailRows.length > 0 && (
+              <section class="detail-grid detail-grid--artifact-support">
+                {detailRows.map((row) => (
+                  <article>
+                    <p>{row.label}</p>
+                    <strong>{row.value}</strong>
+                  </article>
+                ))}
+              </section>
+            )}
+          </section>
+        )}
+      </section>
+    )}
+
     <section class={`body ${bodyClass}`}>
       <Content />
     </section>
@@ -199,7 +288,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
       </section>
     )}
 
-    {primaryMedia && (
+    {!artifactLeadsWithMedia && primaryMedia && (
       <section class="media-stage media-stage--supporting">
         <article class="media-primary">
           {primaryMedia.kind === 'image' && (
@@ -269,7 +358,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
       </section>
     )}
 
-    {detailRows.length > 0 && (
+    {!artifactLeadsWithMedia && detailRows.length > 0 && (
       <section class="detail-grid detail-grid--supporting">
         {detailRows.map((row) => (
           <article>
@@ -455,7 +544,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
       if (!(nextButton instanceof HTMLButtonElement)) return;
       if (!(lightboxFrame instanceof HTMLElement)) return;
 
-      const selectors = '.object-shell .media-stage img[data-expandable-image], .object-shell .body img';
+      const selectors = '.object-shell img[data-expandable-image], .object-shell .body img';
       const candidates = Array.from(document.querySelectorAll(selectors)).filter(
         (node) => node instanceof HTMLImageElement
       );
@@ -720,6 +809,11 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     --table-line: rgba(164, 134, 97, 0.28);
     --table-line-soft: rgba(164, 134, 97, 0.2);
     --table-fill: rgba(255, 255, 255, 0.01);
+  }
+
+  .object-shell.artifact {
+    --artifact-frame-line: rgba(164, 134, 97, 0.28);
+    --artifact-frame-line-soft: rgba(164, 134, 97, 0.2);
   }
 
   .back {
@@ -1232,6 +1326,60 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
   .detail-grid--supporting {
     margin: 2.45rem 0 2.25rem;
+  }
+
+  .artifact-evidence {
+    margin-top: 2.2rem;
+    display: grid;
+    gap: 1.3rem;
+    max-width: min(1120px, 100%);
+  }
+
+  .artifact-evidence .media-stage {
+    margin-top: 0;
+    max-width: none;
+    gap: 0;
+  }
+
+  .artifact-evidence-support {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(340px, 0.9fr);
+    gap: 1.3rem 2.8rem;
+    align-items: start;
+  }
+
+  .media-rail--artifact-support {
+    max-width: none;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 300px));
+    gap: 1rem 1.15rem;
+    align-content: start;
+    justify-content: start;
+  }
+
+  .artifact-evidence-support .media-item {
+    padding: 0.4rem 0 0.45rem;
+  }
+
+  .artifact-evidence-support .media-item img,
+  .artifact-evidence-support .media-item video {
+    max-height: min(32vh, 280px);
+  }
+
+  .artifact-evidence-support .media-item p {
+    margin-top: 0.42rem;
+    color: rgba(201, 150, 58, 0.76);
+    font-size: 10px;
+  }
+
+  .artifact-evidence-support .media-item span {
+    margin-top: 0.22rem;
+    font-size: 0.95rem;
+    line-height: 1.66;
+  }
+
+  .detail-grid--artifact-support {
+    margin: 0;
+    max-width: none;
   }
 
   .media-stage {
@@ -2094,6 +2242,23 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     margin-top: 2.05rem;
   }
 
+  .object-shell.artifact .media-primary img,
+  .object-shell.artifact .media-primary video,
+  .object-shell.artifact .media-item img,
+  .object-shell.artifact .media-item video,
+  .object-shell.artifact .audio-shell {
+    border-color: var(--artifact-frame-line);
+  }
+
+  .object-shell.artifact .detail-grid {
+    border-color: var(--artifact-frame-line);
+  }
+
+  .object-shell.artifact .detail-grid article {
+    border-right-color: var(--artifact-frame-line-soft);
+    border-bottom-color: var(--artifact-frame-line-soft);
+  }
+
   @media (min-width: 1100px) {
     .object-shell,
     .related {
@@ -2106,6 +2271,23 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     .media-primary img,
     .media-primary video {
       max-height: min(60vh, 700px);
+    }
+  }
+
+  @media (max-width: 980px) {
+    .artifact-evidence-support {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .detail-grid--artifact-support {
+      order: 1;
+    }
+
+    .media-rail--artifact-support {
+      order: 2;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 260px));
+      gap: 0.9rem 1rem;
     }
   }
 
@@ -2139,6 +2321,15 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
     .object-shell.text-first-media .body {
       margin-top: 2.35rem;
+    }
+
+    .artifact-evidence {
+      margin-top: 1.9rem;
+    }
+
+    .artifact-evidence-support {
+      grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.9fr);
+      gap: 1.4rem 3.1rem;
     }
 
     .body :global(h2) {
