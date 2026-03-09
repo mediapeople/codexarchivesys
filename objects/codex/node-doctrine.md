@@ -21,7 +21,12 @@ related:
   - constellation-node-alchemy
   - signal.citizen-agency
 
-media: []
+media:
+  - kind: image
+    src: /media/codex/node-doctrine-glyph.svg
+    role: hero
+    alt: "Generated glyph for Node Doctrine."
+    caption: "Glyph generated from the doctrine's metadata for page and share use."
 
 version: "0.1.0"
 scope: "node theory, routing ethics, and signal continuity across human and archive systems"
