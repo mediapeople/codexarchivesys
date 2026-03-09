@@ -34,6 +34,7 @@ const sortedThemes = [...themeMap.entries()]
   .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
 
 const selectedTheme = themeParam && themeMap.has(themeParam) ? themeParam : null;
+const hasActiveQueryControls = Boolean(selectedType || selectedTheme || queryParam);
 
 function matchesQuery(entry: (typeof entries)[number]) {
   if (!normalizedQuery) {
@@ -206,16 +207,26 @@ function buildHref(
     </div>
   </section>
 
-  <section class="controls" data-mobile-controls>
+  <section
+    class="controls"
+    data-feed-controls
+    data-controls-open={hasActiveQueryControls ? 'true' : 'false'}
+    data-controls-active={hasActiveQueryControls ? 'true' : 'false'}
+  >
     <button
       type="button"
       class="controls-toggle"
       data-controls-toggle
-      aria-expanded="true"
+      aria-expanded={hasActiveQueryControls ? 'true' : 'false'}
       aria-controls="feed-controls-panel"
     >
-      <span class="controls-toggle-label">Search & filters</span>
-      <span class="controls-toggle-state" data-controls-toggle-state>Hide</span>
+      <span class="controls-toggle-copy">
+        <span class="controls-toggle-label">Search & filters</span>
+        <span class="controls-toggle-summary" data-controls-toggle-summary hidden></span>
+      </span>
+      <span class="controls-toggle-state" data-controls-toggle-state>
+        {hasActiveQueryControls ? 'Hide' : 'Show'}
+      </span>
     </button>
 
     <div class="controls-panel" id="feed-controls-panel" data-controls-panel>
@@ -434,10 +445,11 @@ function buildHref(
 
     const searchInput = form.querySelector('input[name="q"]');
     const clearButton = form.querySelector('[data-clear-filters]');
-    const controls = document.querySelector('[data-mobile-controls]');
+    const controls = document.querySelector('[data-feed-controls]');
     const controlsToggle = controls?.querySelector('[data-controls-toggle]');
     const controlsPanel = controls?.querySelector('[data-controls-panel]');
     const controlsToggleState = controls?.querySelector('[data-controls-toggle-state]');
+    const controlsToggleSummary = controls?.querySelector('[data-controls-toggle-summary]');
     const resultCount = document.querySelector('[data-result-count]');
     const shownCount = document.querySelector('[data-shown-count]');
     const activeFilters = document.querySelector('[data-active-filters]');
@@ -467,8 +479,6 @@ function buildHref(
         .map((chip) => (chip.getAttribute('data-view') || '').trim())
         .filter(Boolean)
     );
-    const mobileControlsQuery = window.matchMedia('(max-width: 760px)');
-
     const state = {
       type: '',
       theme: '',
@@ -479,21 +489,54 @@ function buildHref(
 
     const hasActiveControls = () => Boolean(state.type || state.theme || state.q);
 
+    function getActiveControlBits() {
+      const bits = [];
+
+      if (state.type) {
+        const typeChip = typeChips.find(
+          (chip) => (chip.getAttribute('data-filter-value') || '').trim() === state.type
+        );
+        const label = typeChip?.getAttribute('data-filter-label') || state.type;
+        bits.push(`Type: ${label}`);
+      }
+
+      if (state.theme) {
+        const themeChip = themeChips.find(
+          (chip) => (chip.getAttribute('data-filter-value') || '').trim() === state.theme
+        );
+        const label = themeChip?.getAttribute('data-filter-label') || state.theme;
+        bits.push(`Theme: ${label}`);
+      }
+
+      if (state.q) {
+        bits.push(`Search: "${state.q}"`);
+      }
+
+      return bits;
+    }
+
     function syncControlsState() {
       if (!controls || !controlsToggle || !controlsPanel) {
         return;
       }
 
-      if (!mobileControlsQuery.matches) {
-        controlsExpanded = true;
-      }
+      const bits = getActiveControlBits();
+      const hasActive = bits.length > 0;
+      const expanded = controlsExpanded;
 
-      const expanded = !mobileControlsQuery.matches || controlsExpanded;
       controlsPanel.hidden = !expanded;
       controls.setAttribute('data-controls-open', expanded ? 'true' : 'false');
+      controls.setAttribute('data-controls-active', hasActive ? 'true' : 'false');
       controlsToggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+
       if (controlsToggleState) {
-        controlsToggleState.textContent = expanded ? 'Hide' : 'Show';
+        controlsToggleState.textContent = expanded ? 'Hide' : hasActive ? `${bits.length} active` : 'Show';
+      }
+
+      if (controlsToggleSummary instanceof HTMLElement) {
+        const showSummary = !expanded && hasActive;
+        controlsToggleSummary.hidden = !showSummary;
+        controlsToggleSummary.textContent = showSummary ? bits.join(' · ') : '';
       }
     }
 
@@ -549,24 +592,7 @@ function buildHref(
       if (!activeFilters) {
         return;
       }
-      const bits = [];
-      if (state.type) {
-        const typeChip = typeChips.find(
-          (chip) => (chip.getAttribute('data-filter-value') || '').trim() === state.type
-        );
-        const label = typeChip?.getAttribute('data-filter-label') || state.type;
-        bits.push(`Type: ${label}`);
-      }
-      if (state.theme) {
-        const themeChip = themeChips.find(
-          (chip) => (chip.getAttribute('data-filter-value') || '').trim() === state.theme
-        );
-        const label = themeChip?.getAttribute('data-filter-label') || state.theme;
-        bits.push(`Theme: ${label}`);
-      }
-      if (state.q) {
-        bits.push(`Search: "${state.q}"`);
-      }
+      const bits = getActiveControlBits();
 
       const hasActive = bits.length > 0;
       activeFilters.hidden = !hasActive;
@@ -652,7 +678,7 @@ function buildHref(
       setViewChipState(state.view);
       updateActiveFilterLabel();
 
-      if (mobileControlsQuery.matches && hasActiveControls()) {
+      if (hasActiveControls()) {
         controlsExpanded = true;
       }
       syncControlsState();
@@ -711,21 +737,8 @@ function buildHref(
       applyFilters();
     });
 
-    const handleMobileControlsChange = () => {
-      if (mobileControlsQuery.matches) {
-        controlsExpanded = hasActiveControls();
-      }
-      syncControlsState();
-    };
-
-    if (typeof mobileControlsQuery.addEventListener === 'function') {
-      mobileControlsQuery.addEventListener('change', handleMobileControlsChange);
-    } else if (typeof mobileControlsQuery.addListener === 'function') {
-      mobileControlsQuery.addListener(handleMobileControlsChange);
-    }
-
     parseUrlState();
-    controlsExpanded = !mobileControlsQuery.matches || hasActiveControls();
+    controlsExpanded = hasActiveControls();
     syncControlsState();
     applyFilters();
   })();
@@ -796,31 +809,93 @@ function buildHref(
     margin: 0 auto 6rem;
     padding: 0;
     background: transparent;
+    transition: margin-bottom 180ms ease;
+  }
+
+  .controls[data-controls-open='false'] {
+    margin-bottom: 3.35rem;
   }
 
   .controls-toggle {
-    display: none;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.85rem;
     width: 100%;
-    justify-content: space-between;
     align-items: center;
     border: 1px solid var(--line);
     border-radius: 2px;
-    padding: 0.62rem 0.74rem;
-    background: rgba(255, 255, 255, 0.02);
+    padding: 0.8rem 0.9rem 0.82rem;
+    background: rgba(255, 255, 255, 0.015);
     color: var(--mid);
     font-family: var(--font-ui);
     font-size: 10px;
     letter-spacing: var(--ls-ui-wide);
     text-transform: uppercase;
     line-height: 1.2;
+    text-align: left;
+    transition:
+      border-color 140ms ease,
+      background-color 140ms ease,
+      color 140ms ease;
+  }
+
+  .controls-toggle:hover {
+    border-color: rgba(201, 150, 58, 0.34);
+    color: var(--star);
+  }
+
+  .controls-toggle-copy {
+    min-width: 0;
+    display: grid;
+    gap: 0.22rem;
+  }
+
+  .controls-toggle-label,
+  .controls-toggle-state {
+    display: block;
+  }
+
+  .controls-toggle-summary {
+    min-width: 0;
+    color: var(--ash);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui);
+    line-height: 1.45;
+    text-transform: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .controls-toggle-summary[hidden] {
+    display: none;
   }
 
   .controls-toggle-state {
     color: var(--accent);
   }
 
+  .controls[data-controls-active='true'] .controls-toggle {
+    border-color: rgba(196, 98, 58, 0.28);
+  }
+
+  .controls[data-controls-open='false'][data-controls-active='true'] .controls-toggle {
+    border-color: rgba(201, 150, 58, 0.42);
+    background: rgba(201, 150, 58, 0.055);
+  }
+
+  .controls[data-controls-open='false'][data-controls-active='true'] .controls-toggle-state {
+    color: #efc887;
+  }
+
   .controls-panel[hidden] {
     display: none;
+  }
+
+  .controls-panel {
+    margin-top: 0.92rem;
+    padding-top: 0.92rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.09);
   }
 
   .search {
@@ -1295,18 +1370,17 @@ function buildHref(
       margin-bottom: 3.6rem;
     }
 
+    .controls[data-controls-open='false'] {
+      margin-bottom: 2.7rem;
+    }
+
     .controls-toggle {
-      display: inline-flex;
-      margin-bottom: 0.86rem;
+      gap: 0.72rem;
+      padding: 0.72rem 0.78rem 0.74rem;
     }
 
-    .controls-panel {
-      border-top: 1px solid rgba(255, 255, 255, 0.09);
-      padding-top: 0.92rem;
-    }
-
-    .controls[data-controls-open='false'] .controls-toggle {
-      border-color: rgba(201, 150, 58, 0.32);
+    .controls-toggle-summary {
+      font-size: 9px;
     }
 
     .feed-hero {
