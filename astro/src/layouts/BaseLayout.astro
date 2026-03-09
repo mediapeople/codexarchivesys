@@ -89,6 +89,55 @@ const navItems = [
         <span class="site-sigil" aria-hidden="true">✦</span>
       </div>
     </header>
+    <script is:inline>
+      (() => {
+        const header = document.querySelector('.site-header');
+        if (!(header instanceof HTMLElement)) return;
+
+        let lastY = window.scrollY;
+        let ticking = false;
+        const body = document.body;
+        const floatThreshold = 8;
+        const floatRange = 112;
+        const hideThreshold = 140;
+        const directionThreshold = 6;
+
+        const updateHeaderState = () => {
+          const currentY = window.scrollY;
+          const delta = currentY - lastY;
+          const floatProgress = Math.max(0, Math.min((currentY - floatThreshold) / floatRange, 1));
+          const isCondensed = floatProgress > 0.02;
+
+          header.classList.toggle('is-condensed', isCondensed);
+
+          if (!isCondensed) {
+            header.classList.remove('is-hidden');
+          } else if (currentY > hideThreshold && delta > directionThreshold) {
+            header.classList.add('is-hidden');
+          } else if (delta < -directionThreshold || currentY <= hideThreshold) {
+            header.classList.remove('is-hidden');
+          }
+
+          const isHidden = header.classList.contains('is-hidden');
+          body.style.setProperty('--header-float-progress', floatProgress.toFixed(3));
+          body.style.setProperty('--header-hidden-progress', isHidden ? '1' : '0');
+
+          lastY = currentY;
+          ticking = false;
+        };
+
+        const requestUpdate = () => {
+          if (ticking) return;
+          ticking = true;
+          window.requestAnimationFrame(updateHeaderState);
+        };
+
+        updateHeaderState();
+        window.addEventListener('scroll', requestUpdate, { passive: true });
+        window.addEventListener('resize', requestUpdate);
+        window.addEventListener('pageshow', requestUpdate);
+      })();
+    </script>
     <main class="shell">
       <slot />
     </main>
@@ -501,6 +550,8 @@ const navItems = [
   }
 
   body {
+    --header-float-progress: 0;
+    --header-hidden-progress: 0;
     font-family: var(--font-body);
     font-size: 17px;
     line-height: 1.9;
@@ -548,14 +599,66 @@ const navItems = [
   }
 
   .site-header {
-    position: relative;
-    top: auto;
-    z-index: 40;
+    --header-peek: 0.72rem;
+    --header-shadow-progress: calc(
+      (var(--header-float-progress) * 0.84) + (var(--header-hidden-progress) * 0.16)
+    );
+    position: sticky;
+    top: 0;
+    z-index: 60;
     padding: 1.38rem var(--gutter) 1.12rem;
-    background: rgba(14, 12, 10, 0.9);
+    background-color: rgb(
+      14 12 10 / calc(0.9 + (0.045 * var(--header-float-progress)) + (0.025 * var(--header-hidden-progress)))
+    );
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    box-shadow: inset 0 -1px 0 rgba(135, 91, 58, 0.2);
+    box-shadow:
+      inset 0 -1px 0 rgb(135 91 58 / calc(0.2 + (0.08 * var(--header-shadow-progress)))),
+      0 calc(2px + (6px * var(--header-shadow-progress)))
+        calc(6px + (14px * var(--header-shadow-progress)))
+        rgb(0 0 0 / calc(0.015 + (0.11 * var(--header-shadow-progress))));
+    transition:
+      transform 220ms ease,
+      background-color 160ms linear,
+      box-shadow 160ms linear;
+    will-change: transform;
+  }
+
+  .site-header::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2.35rem;
+    height: 2.5rem;
+    pointer-events: none;
+    opacity: calc((0.76 * var(--header-float-progress)) + (0.18 * var(--header-hidden-progress)));
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(14, 12, 10, 0.34) 0%,
+        rgba(14, 12, 10, 0.16) 42%,
+        rgba(14, 12, 10, 0.05) 72%,
+        rgba(14, 12, 10, 0) 100%
+      );
+    transition: opacity 160ms linear;
+  }
+
+  .site-header::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1rem;
+    height: 1rem;
+    pointer-events: none;
+    opacity: calc((0.62 * var(--header-float-progress)) + (0.14 * var(--header-hidden-progress)));
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.22), transparent 78%);
+    transition: opacity 160ms linear;
+  }
+
+  .site-header.is-hidden {
+    transform: translate3d(0, calc(-100% + var(--header-peek)), 0);
   }
 
   .site-header-inner {
@@ -629,7 +732,31 @@ const navItems = [
     margin: 0 auto;
     padding: 0 var(--gutter) 7rem;
     position: relative;
+    z-index: 0;
+    isolation: isolate;
     overflow-x: clip;
+  }
+
+  .shell::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6.4rem;
+    pointer-events: none;
+    z-index: 2;
+    opacity: calc((0.58 * var(--header-float-progress)) + (0.08 * var(--header-hidden-progress)));
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(10, 9, 7, 0.72) 0%,
+        rgba(10, 9, 7, 0.42) 22%,
+        rgba(10, 9, 7, 0.18) 54%,
+        rgba(10, 9, 7, 0.05) 76%,
+        rgba(10, 9, 7, 0) 100%
+      );
+    transition: opacity 160ms linear;
   }
 
   body.page-feed .shell::after {
@@ -833,7 +960,13 @@ const navItems = [
     }
 
     .site-header {
+      --header-peek: 0.64rem;
       padding: 0.95rem 1.25rem 0.82rem;
+    }
+
+    .site-header::before {
+      bottom: -2rem;
+      height: 2.1rem;
     }
 
     .site-header-inner {
@@ -872,6 +1005,10 @@ const navItems = [
       letter-spacing: 0.14em;
     }
 
+    .shell::before {
+      height: 5.2rem;
+    }
+
     body.page-feed .shell::after {
       top: -4.8rem;
       width: 255vw;
@@ -879,6 +1016,10 @@ const navItems = [
       opacity: 0.12;
       background-size: 176% 176%;
       background-position: 62% 30%;
+    }
+
+    .site-header.is-hidden {
+      transform: translate3d(0, calc(-100% + var(--header-peek)), 0);
     }
 
     .card-image-lightbox-topbar {
@@ -1060,6 +1201,15 @@ const navItems = [
     to {
       opacity: 1;
       transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-header,
+    .site-header::before,
+    .site-header::after,
+    .shell::before {
+      transition: none;
     }
   }
 </style>
