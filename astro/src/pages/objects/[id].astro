@@ -1348,6 +1348,10 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     align-items: start;
   }
 
+  .artifact-evidence-support > * {
+    min-width: 0;
+  }
+
   .media-rail--artifact-support {
     max-width: none;
     grid-template-columns: repeat(auto-fit, minmax(220px, 300px));
@@ -2327,11 +2331,6 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
       margin-top: 1.9rem;
     }
 
-    .artifact-evidence-support {
-      grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.9fr);
-      gap: 1.4rem 3.1rem;
-    }
-
     .body :global(h2) {
       margin: 3.7rem 0 1.55rem;
       font-size: clamp(1.48rem, 5.8vw, 1.84rem);
@@ -2472,6 +2471,26 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     .object-shell.text-first-media .core-meta div:nth-child(n + 3) {
       padding-top: 0;
       border-top: none;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .artifact-evidence {
+      gap: 1.15rem;
+    }
+
+    .artifact-evidence-support {
+      gap: 1.2rem;
+    }
+
+    .media-rail--artifact-support {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .artifact-evidence-support .media-item img,
+    .artifact-evidence-support .media-item video {
+      max-height: min(48vh, 420px);
     }
   }
 
