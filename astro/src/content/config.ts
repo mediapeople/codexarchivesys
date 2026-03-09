@@ -52,6 +52,11 @@ const MediaRole = z.enum([
   'reference',
 ]);
 
+const ConnectionDisplay = z.enum([
+  'inline',
+  'feature',
+]);
+
 const ReleaseType = z.enum([
   'issue',
   'sequence',
@@ -114,6 +119,12 @@ const NexusIncludedObject = z.object({
   role: z.string(), // role label within this nexus
 });
 
+const ConnectionItem = z.object({
+  ref: z.string(),
+  role: z.string(),
+  display: ConnectionDisplay.default('inline'),
+});
+
 // ─── UNIVERSAL BASE FIELDS ────────────────────────────────────────────────────
 // Present on every object type. See registry Layer 1.
 
@@ -129,6 +140,7 @@ const universalFields = {
   themes:         z.array(z.string()).default([]),
   constellations: z.array(z.string()).default([]),
   related:        z.array(z.string()).default([]),
+  connections:    z.array(ConnectionItem).default([]),
   source:         z.string().optional(),
   visibility:     Visibility,
   media:          z.array(MediaItem).default([]),
@@ -252,6 +264,7 @@ export type CodexMediaRole     = z.infer<typeof MediaRole>;
 export type CodexReleaseType   = z.infer<typeof ReleaseType>;
 export type CodexBodyClass     = z.infer<typeof BodyClass>;
 export type CodexContributor   = z.infer<typeof Contributor>;
+export type CodexConnection    = z.infer<typeof ConnectionItem>;
 
 export type ScrollData   = z.infer<z.ZodObject<typeof scrollFields>>;
 export type ArtifactData = z.infer<z.ZodObject<typeof artifactFields>>;

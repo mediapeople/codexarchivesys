@@ -126,6 +126,12 @@ for (let i = 0; i < objects.length; i += 1) {
 
 for (const obj of objects) {
   const sourceId = String(obj.fields.id || '').trim();
+  for (const connection of obj.fields.connections || []) {
+    if (byId.has(connection.ref)) {
+      upsertEdge(sourceId, connection.ref, connection.display === 'feature' ? 5 : 4, 'explicit-connection');
+    }
+  }
+
   for (const relatedId of obj.fields.related || []) {
     if (byId.has(relatedId)) {
       upsertEdge(sourceId, relatedId, 3, 'explicit-related');
@@ -175,4 +181,3 @@ fs.writeFileSync(outPath, `${JSON.stringify(graph, null, 2)}\n`, 'utf8');
 console.log(`Wrote ${outPath}`);
 console.log(`Nodes: ${graph.nodeCount}`);
 console.log(`Edges: ${graph.edgeCount}`);
-

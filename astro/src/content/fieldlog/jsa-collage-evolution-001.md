@@ -26,6 +26,13 @@ related:
   - codex-archive-system-v3-notes
   - go-live-milestone
 
+connections:
+  - ref: artifact-jsa-collage-wip-001
+    role: WIP source
+    display: feature
+  - ref: jsa-collage-evolution-002
+    role: next update
+
 media:
   - kind: image
     src: /media/fieldlogs/jsa-collage-evolution-001-1.jpg

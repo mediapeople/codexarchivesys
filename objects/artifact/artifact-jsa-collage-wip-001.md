@@ -3,6 +3,7 @@ id: artifact-jsa-collage-wip-001
 type: artifact
 title: "JSA Collage - Work in Progress"
 date: 2026-03-07
+postedAt: 2026-03-07T19:10:00-05:00
 status: published
 visibility: public
 
@@ -28,6 +29,15 @@ related:
   - codex-archive-system-v2-7-notes
   - go-live-milestone
   - heart-does-not-dream
+
+connections:
+  - ref: jsa-collage-evolution-001
+    role: first update
+    display: feature
+  - ref: artifact-jsa-collage-001
+    role: resolved artifact
+  - ref: artifact-jsa-signal-fracture-001
+    role: mastered variant
 
 media:
   - kind: image

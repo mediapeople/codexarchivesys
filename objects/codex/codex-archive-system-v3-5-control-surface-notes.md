@@ -29,6 +29,13 @@ related:
   - cities-built-on-ruin-reminiscence
   - bezalel-the-designated-hand
 
+connections:
+  - ref: codex-archive-system-v3-4-image-experience-notes
+    role: previous version
+    display: feature
+  - ref: codex-archive-system-v3-6-reading-surface-notes
+    role: next update
+
 media: []
 
 version: "3.5.0"

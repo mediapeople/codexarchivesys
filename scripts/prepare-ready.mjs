@@ -98,6 +98,7 @@ function injectGlyphMedia(frontmatter, mediaLines, glyphSrc) {
   }
 
   const anchor =
+    findBlock(lines, 'connections') ||
     findBlock(lines, 'related') ||
     findBlock(lines, 'themes') ||
     findBlock(lines, 'excerpt') ||

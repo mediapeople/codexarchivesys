@@ -26,6 +26,13 @@ related:
   - builder-lineage-reflection
   - bezalel-the-designated-hand
 
+connections:
+  - ref: codex-archive-system-v3-5-control-surface-notes
+    role: previous version
+    display: feature
+  - ref: codex-archive-system-v3-4-image-experience-notes
+    role: earlier version
+
 media: []
 
 version: "3.6.0"

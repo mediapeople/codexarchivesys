@@ -37,12 +37,34 @@ function getIncludedRefs(entry: ArchiveEntry): string[] {
     .filter((value): value is string => Boolean(value));
 }
 
+function getConnectionRefs(entry: ArchiveEntry): string[] {
+  const maybeConnections = (entry.data as Record<string, unknown>).connections;
+  if (!Array.isArray(maybeConnections)) {
+    return [];
+  }
+
+  return maybeConnections
+    .map((item) => {
+      if (
+        item &&
+        typeof item === 'object' &&
+        'ref' in item &&
+        typeof (item as { ref: unknown }).ref === 'string'
+      ) {
+        return (item as { ref: string }).ref;
+      }
+      return null;
+    })
+    .filter((value): value is string => Boolean(value));
+}
+
 export function computeRelatedEntries(
   source: ArchiveEntry,
   allEntries: ArchiveEntry[],
   limit = 3
 ): RelatedHit[] {
   const sourceRelated = source.data.related || [];
+  const sourceConnections = getConnectionRefs(source);
   const sourceIncluded = getIncludedRefs(source);
 
   const scored = allEntries
@@ -71,9 +93,20 @@ export function computeRelatedEntries(
         reasons.push('explicit-link');
       }
 
+      if (sourceConnections.includes(candidate.data.id)) {
+        score += 6;
+        reasons.push('explicit-connection');
+      }
+
       if (candidate.data.related.includes(source.data.id)) {
         score += 2;
         reasons.push('reverse-link');
+      }
+
+      const candidateConnections = getConnectionRefs(candidate);
+      if (candidateConnections.includes(source.data.id)) {
+        score += 3;
+        reasons.push('reverse-connection');
       }
 
       const candidateIncluded = getIncludedRefs(candidate);
@@ -102,4 +135,3 @@ export function computeRelatedEntries(
 
   return scored.slice(0, limit);
 }
-

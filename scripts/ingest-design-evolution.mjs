@@ -27,6 +27,7 @@ const KNOWN_BASE_FIELDS = new Set([
   'themes',
   'constellations',
   'related',
+  'connections',
   'media',
 ]);
 
@@ -157,6 +158,13 @@ for (const obj of objects) {
     if (ids.has(relatedId)) {
       outbound.set(id, (outbound.get(id) || 0) + 1);
       inbound.set(relatedId, (inbound.get(relatedId) || 0) + 1);
+    }
+  }
+
+  for (const connection of obj.fields.connections || []) {
+    if (ids.has(connection.ref)) {
+      outbound.set(id, (outbound.get(id) || 0) + 1);
+      inbound.set(connection.ref, (inbound.get(connection.ref) || 0) + 1);
     }
   }
 

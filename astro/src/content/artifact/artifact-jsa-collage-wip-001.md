@@ -30,6 +30,15 @@ related:
   - go-live-milestone
   - heart-does-not-dream
 
+connections:
+  - ref: jsa-collage-evolution-001
+    role: first update
+    display: feature
+  - ref: artifact-jsa-collage-001
+    role: resolved artifact
+  - ref: artifact-jsa-signal-fracture-001
+    role: mastered variant
+
 media:
   - kind: image
     src: /media/artifacts/jsa-collage-wip-001-1.jpg

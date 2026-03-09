@@ -3,6 +3,7 @@ id: artifact-jsa-collage-001
 type: artifact
 title: "It Cost Us Dearly"
 date: 2026-03-07
+postedAt: 2026-03-07T20:10:00-05:00
 status: published
 visibility: public
 
@@ -24,6 +25,15 @@ related:
   - jsa-collage-evolution-001
   - codex-archive-system-v3-plus-notes
   - go-live-milestone
+
+connections:
+  - ref: artifact-jsa-collage-wip-001
+    role: WIP source
+    display: feature
+  - ref: jsa-collage-evolution-003
+    role: latest update
+  - ref: artifact-jsa-signal-fracture-001
+    role: mastered variant
 
 media:
   - kind: image

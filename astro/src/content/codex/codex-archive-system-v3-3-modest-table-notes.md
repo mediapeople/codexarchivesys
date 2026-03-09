@@ -28,6 +28,13 @@ related:
   - when-the-commit-leaves-your-hands
   - on-object-oriented-archives
 
+connections:
+  - ref: codex-archive-system-v3-2-fragment-feed-notes
+    role: previous version
+    display: feature
+  - ref: codex-archive-system-v3-4-image-experience-notes
+    role: next update
+
 media: []
 
 version: "3.3.0"

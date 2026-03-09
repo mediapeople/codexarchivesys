@@ -25,8 +25,49 @@ if (!entry) {
 }
 
 const { Content } = await entry.render();
-const related = computeRelatedEntries(entry, allEntries, 3);
 const byId = new Map(allEntries.map((item) => [item.data.id, item]));
+const connectionsRaw = (entry.data as Record<string, unknown>).connections;
+const connections = Array.isArray(connectionsRaw)
+  ? connectionsRaw
+      .map((item) => {
+        if (
+          item &&
+          typeof item === 'object' &&
+          'ref' in item &&
+          'role' in item &&
+          typeof (item as { ref: unknown }).ref === 'string' &&
+          typeof (item as { role: unknown }).role === 'string'
+        ) {
+          const ref = (item as { ref: string }).ref;
+          const target = byId.get(ref);
+          if (!target) {
+            return null;
+          }
+
+          return {
+            ref,
+            role: (item as { role: string }).role,
+            display:
+              'display' in item && typeof (item as { display?: unknown }).display === 'string'
+                ? String((item as { display?: string }).display)
+                : 'inline',
+            entry: target,
+          };
+        }
+        return null;
+      })
+      .filter(
+        (
+          item
+        ): item is { ref: string; role: string; display: string; entry: (typeof allEntries)[number] } => Boolean(item)
+      )
+  : [];
+const connectedIds = new Set(connections.map((item) => item.ref));
+const featuredConnections = connections.filter((item) => item.display === 'feature');
+const inlineConnections = connections.filter((item) => item.display !== 'feature');
+const related = computeRelatedEntries(entry, allEntries, 3).filter(
+  (hit) => !connectedIds.has(hit.entry.data.id)
+);
 const mediaItems = getMediaItems(entry);
 const primaryMedia = pickPrimaryMedia(mediaItems);
 const secondaryMedia = primaryMedia
@@ -258,6 +299,31 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     <section class={`body ${bodyClass}`}>
       <Content />
     </section>
+
+    {connections.length > 0 && (
+      <section class="connections">
+        <header class="related-head connections-head">
+          <h2>Connected Context</h2>
+          <span>{connections.length} explicit links</span>
+        </header>
+
+        {featuredConnections.length > 0 && (
+          <div class="cards cards--connections-featured">
+            {featuredConnections.map((item) => (
+              <ObjectCard entry={item.entry} variant="related" eyebrow={item.role} />
+            ))}
+          </div>
+        )}
+
+        {inlineConnections.length > 0 && (
+          <div class="cards cards--connections-inline">
+            {inlineConnections.map((item) => (
+              <ObjectCard entry={item.entry} variant="related" eyebrow={item.role} />
+            ))}
+          </div>
+        )}
+      </section>
+    )}
 
     {sequenceItems.length > 0 && (
       <section class={`inclusion ${isNexusObject ? 'inclusion--nexus' : ''}`}>
@@ -2101,6 +2167,25 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
   .related {
     margin-top: 4.8rem;
     padding-top: 0.2rem;
+  }
+
+  .connections {
+    margin-top: 4.2rem;
+    padding-top: 0.1rem;
+  }
+
+  .connections-head {
+    margin-bottom: 1.7rem;
+  }
+
+  .cards--connections-featured {
+    gap: 2.2rem;
+    margin-bottom: 2.2rem;
+  }
+
+  .cards--connections-inline {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.2rem 1.8rem;
   }
 
   .related-head {

@@ -74,6 +74,12 @@ for (const obj of objects) {
     continue;
   }
 
+  for (const connection of obj.fields.connections || []) {
+    if (ids.has(connection.ref)) {
+      registerEdge(id, connection.ref, 'explicitRelated');
+    }
+  }
+
   for (const relatedId of obj.fields.related) {
     if (ids.has(relatedId)) {
       registerEdge(id, relatedId, 'explicitRelated');
@@ -189,4 +195,3 @@ console.log(
 );
 
 process.exit(validation.errorCount > 0 ? 1 : 0);
-

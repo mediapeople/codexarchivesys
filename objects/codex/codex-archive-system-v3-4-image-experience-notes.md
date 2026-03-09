@@ -30,6 +30,13 @@ related:
   - when-the-commit-leaves-your-hands
   - on-object-oriented-archives
 
+connections:
+  - ref: codex-archive-system-v3-3-modest-table-notes
+    role: previous version
+    display: feature
+  - ref: codex-archive-system-v3-5-control-surface-notes
+    role: next update
+
 media: []
 
 version: "3.4.0"

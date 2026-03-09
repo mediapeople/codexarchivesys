@@ -215,6 +215,38 @@ related:
 
 ---
 
+### connections
+
+| Property | Value |
+|---|---|
+| **Owner** | author / editor (llm-suggested) |
+| **Type** | array of connection objects |
+| **Required** | no |
+| **Applies To** | all |
+| **Renders In** | inline connection module, graph edges, curated object-page previews |
+| **Allowed Values** | `ref` must target a valid object id; `display` is `inline` or `feature` |
+
+Explicit authored adjacency with a named role. Use this when the tie itself carries meaning: previous version, next update, WIP source, implementation companion, mastered variant, and similar lineage/expansion links. `related` remains the looser resonance layer; `connections` is for directed, named, page-facing associations.
+
+```yaml
+connections:
+  - ref: codex-archive-system-v3-5-control-surface-notes
+    role: previous version
+    display: feature
+  - ref: codex-archive-system-v3-6-reading-surface-notes
+    role: next update
+```
+
+Connection object shape:
+
+| Property | Type | Required | Description |
+|---|---|---|---|
+| `ref` | string | yes | target object id |
+| `role` | string | yes | human-readable relationship label |
+| `display` | enum | no | render hint: `inline` or `feature` |
+
+---
+
 ### visibility
 
 | Property | Value |

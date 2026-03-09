@@ -30,6 +30,13 @@ related:
   - lean-mean-governance-machine
   - signal-descent-002
 
+connections:
+  - ref: codex-archive-system-v3-1-build-notes
+    role: next update
+    display: feature
+  - ref: codex-archive-system-v3-notes
+    role: previous version
+
 media: []
 
 version: "3.1.0"

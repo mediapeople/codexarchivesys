@@ -24,6 +24,15 @@ related:
   - cities-built-on-ruin
   - codex-archive-system-v3-plus-notes
 
+connections:
+  - ref: jsa-collage-evolution-002
+    role: previous update
+    display: feature
+  - ref: artifact-jsa-collage-001
+    role: resolved artifact
+  - ref: artifact-jsa-signal-fracture-001
+    role: mastered variant
+
 media:
   - kind: image
     src: /media/fieldlogs/jsa-collage-evolution-003-1.jpg

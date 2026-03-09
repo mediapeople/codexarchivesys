@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-09T16:21:01.947Z",
+  "generatedAt": "2026-03-09T21:20:23.930Z",
   "sourceDir": "../objects",
-  "nodeCount": 60,
-  "edgeCount": 1401,
+  "nodeCount": 64,
+  "edgeCount": 1629,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -296,6 +296,20 @@
         "architecture",
         "signal",
         "structure"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "node-doctrine",
+      "type": "codex",
+      "title": "Node Doctrine",
+      "date": "2026-03-09",
+      "themes": [
+        "systems",
+        "signal",
+        "methodology",
+        "structure",
+        "transmission"
       ],
       "constellations": []
     },
@@ -669,6 +683,34 @@
       "constellations": []
     },
     {
+      "id": "citizen-network-doctrine",
+      "type": "scroll",
+      "title": "The Citizen Network Doctrine",
+      "date": "2026-03-09",
+      "themes": [
+        "signal",
+        "systems",
+        "transmission",
+        "structure",
+        "memory"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "constellation-node-alchemy",
+      "type": "scroll",
+      "title": "Constellation Alchemy: Nodes That Remember",
+      "date": "2026-03-09",
+      "themes": [
+        "signal",
+        "memory",
+        "transmission",
+        "systems",
+        "observation"
+      ],
+      "constellations": []
+    },
+    {
       "id": "heart-does-not-dream",
       "type": "scroll",
       "title": "The Heart Does Not Dream. It Repeats.",
@@ -840,6 +882,20 @@
       ]
     },
     {
+      "id": "unacceptable-cost",
+      "type": "scroll",
+      "title": "The Unacceptable Cost",
+      "date": "2026-03-09",
+      "themes": [
+        "systems",
+        "pressure",
+        "survival",
+        "signal",
+        "observation"
+      ],
+      "constellations": []
+    },
+    {
       "id": "signal.citizen-agency",
       "type": "signal",
       "title": "Citizen Agency Recognition",
@@ -857,6 +913,146 @@
   "edges": [
     {
       "source": "codex-archive-system-v3-1-build-notes",
+      "target": "codex-archive-system-v3-plus-notes",
+      "weight": 23,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-connection",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "jsa-collage-evolution-001",
+      "weight": 22,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-connection",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "codex-archive-system-v3-plus-notes",
+      "weight": 22,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-connection",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "artifact-jsa-collage-wip-001",
+      "weight": 21,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-connection",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "codex-archive-system-v3-notes",
+      "weight": 21,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-connection",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "codex-archive-system-v3-4-image-experience-notes",
+      "weight": 19,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-connection",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "codex-archive-system-v3-5-control-surface-notes",
+      "weight": 19,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-connection",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "codex-archive-system-v3-6-reading-surface-notes",
+      "weight": 19,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-connection",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "codex-archive-system-v3-2-fragment-feed-notes",
+      "weight": 18,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-connection",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "codex-archive-system-v3-3-modest-table-notes",
+      "weight": 18,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-connection",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "jsa-collage-evolution-002",
+      "weight": 17,
+      "reasons": [
+        "shared-theme",
+        "explicit-connection",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "artifact-jsa-signal-fracture-001",
+      "weight": 16,
+      "reasons": [
+        "shared-theme",
+        "explicit-connection",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "jsa-collage-evolution-003",
+      "weight": 16,
+      "reasons": [
+        "shared-theme",
+        "explicit-connection",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
       "target": "signal-descent-004",
       "weight": 16,
       "reasons": [
@@ -864,6 +1060,37 @@
         "shared-constellation",
         "explicit-related",
         "nexus-inclusion"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-002",
+      "target": "jsa-collage-evolution-003",
+      "weight": 16,
+      "reasons": [
+        "shared-theme",
+        "explicit-connection",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
+      "target": "jsa-collage-evolution-003",
+      "weight": 15,
+      "reasons": [
+        "shared-theme",
+        "explicit-connection",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "codex-archive-system-v3-6-reading-surface-notes",
+      "weight": 14,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-connection",
+        "explicit-related"
       ]
     },
     {
@@ -878,23 +1105,13 @@
       ]
     },
     {
-      "source": "codex-archive-system-v3-1-build-notes",
-      "target": "codex-archive-system-v3-plus-notes",
+      "source": "codex-archive-system-v2-6-notes",
+      "target": "codex-archive-system-v2-7-notes",
       "weight": 13,
       "reasons": [
         "shared-theme",
-        "shared-constellation",
-        "explicit-related"
-      ]
-    },
-    {
-      "source": "codex-archive-system-v3-notes",
-      "target": "codex-archive-system-v3-plus-notes",
-      "weight": 13,
-      "reasons": [
-        "shared-theme",
-        "shared-constellation",
-        "explicit-related"
+        "explicit-related",
+        "explicit-connection"
       ]
     },
     {
@@ -932,37 +1149,7 @@
     },
     {
       "source": "artifact-jsa-collage-001",
-      "target": "artifact-jsa-collage-wip-001",
-      "weight": 12,
-      "reasons": [
-        "shared-theme",
-        "shared-constellation",
-        "explicit-related"
-      ]
-    },
-    {
-      "source": "artifact-jsa-collage-001",
       "target": "jsa-collage-evolution-001",
-      "weight": 12,
-      "reasons": [
-        "shared-theme",
-        "shared-constellation",
-        "explicit-related"
-      ]
-    },
-    {
-      "source": "artifact-jsa-collage-wip-001",
-      "target": "jsa-collage-evolution-001",
-      "weight": 12,
-      "reasons": [
-        "shared-theme",
-        "shared-constellation",
-        "explicit-related"
-      ]
-    },
-    {
-      "source": "codex-archive-system-v2-7-notes",
-      "target": "codex-archive-system-v3-notes",
       "weight": 12,
       "reasons": [
         "shared-theme",
@@ -1040,6 +1227,16 @@
         "shared-constellation",
         "explicit-related",
         "nexus-inclusion"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "artifact-jsa-signal-fracture-001",
+      "weight": 11,
+      "reasons": [
+        "shared-theme",
+        "explicit-connection",
+        "explicit-related"
       ]
     },
     {
@@ -1155,6 +1352,15 @@
       ]
     },
     {
+      "source": "citizen-network-doctrine",
+      "target": "node-doctrine",
+      "weight": 10,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "codex-archive-system-v2-7-notes",
       "target": "go-live-milestone",
       "weight": 10,
@@ -1186,47 +1392,7 @@
     },
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
-      "target": "codex-archive-system-v3-4-image-experience-notes",
-      "weight": 10,
-      "reasons": [
-        "shared-theme",
-        "shared-constellation",
-        "explicit-related"
-      ]
-    },
-    {
-      "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "codex-archive-system-v3-5-control-surface-notes",
-      "weight": 10,
-      "reasons": [
-        "shared-theme",
-        "shared-constellation",
-        "explicit-related"
-      ]
-    },
-    {
-      "source": "codex-archive-system-v3-4-image-experience-notes",
-      "target": "codex-archive-system-v3-5-control-surface-notes",
-      "weight": 10,
-      "reasons": [
-        "shared-theme",
-        "shared-constellation",
-        "explicit-related"
-      ]
-    },
-    {
-      "source": "codex-archive-system-v3-4-image-experience-notes",
-      "target": "codex-archive-system-v3-6-reading-surface-notes",
-      "weight": 10,
-      "reasons": [
-        "shared-theme",
-        "shared-constellation",
-        "explicit-related"
-      ]
-    },
-    {
-      "source": "codex-archive-system-v3-5-control-surface-notes",
-      "target": "codex-archive-system-v3-6-reading-surface-notes",
       "weight": 10,
       "reasons": [
         "shared-theme",
@@ -1303,25 +1469,6 @@
       ]
     },
     {
-      "source": "codex-archive-system-v2-6-notes",
-      "target": "codex-archive-system-v2-7-notes",
-      "weight": 9,
-      "reasons": [
-        "shared-theme",
-        "explicit-related"
-      ]
-    },
-    {
-      "source": "codex-archive-system-v3-1-build-notes",
-      "target": "codex-archive-system-v3-2-fragment-feed-notes",
-      "weight": 9,
-      "reasons": [
-        "shared-theme",
-        "shared-constellation",
-        "explicit-related"
-      ]
-    },
-    {
       "source": "codex-archive-system-v3-1-build-notes",
       "target": "codex-archive-system-v3-3-modest-table-notes",
       "weight": 9,
@@ -1357,16 +1504,6 @@
       "weight": 9,
       "reasons": [
         "shared-theme",
-        "explicit-related"
-      ]
-    },
-    {
-      "source": "codex-archive-system-v3-2-fragment-feed-notes",
-      "target": "codex-archive-system-v3-3-modest-table-notes",
-      "weight": 9,
-      "reasons": [
-        "shared-theme",
-        "shared-constellation",
         "explicit-related"
       ]
     },
@@ -1427,6 +1564,15 @@
       "reasons": [
         "shared-theme",
         "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "node-doctrine",
+      "weight": 9,
+      "reasons": [
+        "shared-theme",
         "explicit-related"
       ]
     },
@@ -1506,15 +1652,6 @@
       "reasons": [
         "shared-theme",
         "shared-constellation",
-        "explicit-related"
-      ]
-    },
-    {
-      "source": "artifact-jsa-collage-001",
-      "target": "jsa-collage-evolution-003",
-      "weight": 8,
-      "reasons": [
-        "shared-theme",
         "explicit-related"
       ]
     },
@@ -1624,15 +1761,6 @@
       ]
     },
     {
-      "source": "jsa-collage-evolution-001",
-      "target": "jsa-collage-evolution-002",
-      "weight": 8,
-      "reasons": [
-        "shared-theme",
-        "explicit-related"
-      ]
-    },
-    {
       "source": "lean-mean-governance-machine",
       "target": "scripture-with-machines",
       "weight": 8,
@@ -1729,15 +1857,6 @@
     },
     {
       "source": "artifact-jsa-collage-001",
-      "target": "artifact-jsa-signal-fracture-001",
-      "weight": 7,
-      "reasons": [
-        "shared-theme",
-        "explicit-related"
-      ]
-    },
-    {
-      "source": "artifact-jsa-collage-001",
       "target": "codex-archive-system-v3-3-modest-table-notes",
       "weight": 7,
       "reasons": [
@@ -1759,15 +1878,6 @@
     {
       "source": "artifact-jsa-collage-001",
       "target": "jsa-collage-evolution-002",
-      "weight": 7,
-      "reasons": [
-        "shared-theme",
-        "explicit-related"
-      ]
-    },
-    {
-      "source": "artifact-jsa-collage-wip-001",
-      "target": "artifact-jsa-signal-fracture-001",
       "weight": 7,
       "reasons": [
         "shared-theme",
@@ -1839,15 +1949,6 @@
       ]
     },
     {
-      "source": "artifact-jsa-signal-fracture-001",
-      "target": "jsa-collage-evolution-003",
-      "weight": 7,
-      "reasons": [
-        "shared-theme",
-        "explicit-related"
-      ]
-    },
-    {
       "source": "bezalel-the-designated-hand",
       "target": "builder-lineage-reflection",
       "weight": 7,
@@ -1868,6 +1969,15 @@
     {
       "source": "cities-built-on-ruin",
       "target": "jsa-collage-evolution-003",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "constellation-node-alchemy",
       "weight": 7,
       "reasons": [
         "shared-theme",
@@ -2072,15 +2182,6 @@
       ]
     },
     {
-      "source": "jsa-collage-evolution-002",
-      "target": "jsa-collage-evolution-003",
-      "weight": 7,
-      "reasons": [
-        "shared-theme",
-        "explicit-related"
-      ]
-    },
-    {
       "source": "north-georgia-march-2026",
       "target": "signal-descent-001",
       "weight": 7,
@@ -2125,6 +2226,24 @@
       "reasons": [
         "shared-theme",
         "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
+      "target": "citizen-network-doctrine",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
+      "target": "unacceptable-cost",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
         "explicit-related"
       ]
     },
@@ -2189,6 +2308,15 @@
     {
       "source": "cities-built-on-ruin-reminiscence",
       "target": "jsa-collage-evolution-003",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "signal.citizen-agency",
       "weight": 6,
       "reasons": [
         "shared-theme",
@@ -2430,6 +2558,15 @@
       ]
     },
     {
+      "source": "constellation-node-alchemy",
+      "target": "signal.citizen-agency",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "go-live-milestone",
       "target": "signal-descent-004",
       "weight": 6,
@@ -2481,6 +2618,15 @@
       "reasons": [
         "shared-theme",
         "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "signal.citizen-agency",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
         "explicit-related"
       ]
     },
@@ -2991,6 +3137,15 @@
       ]
     },
     {
+      "source": "signal.citizen-agency",
+      "target": "unacceptable-cost",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "stairwell-signal",
       "target": "transmission-note-to-future-me",
       "weight": 5,
@@ -3131,6 +3286,14 @@
       "reasons": [
         "shared-theme",
         "explicit-related"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "unacceptable-cost",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -3348,6 +3511,14 @@
     {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "codex-glyph-grammar",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "node-doctrine",
       "weight": 4,
       "reasons": [
         "shared-theme"
@@ -3620,6 +3791,14 @@
     },
     {
       "source": "codex-archive-system-v3-plus-notes",
+      "target": "node-doctrine",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
       "target": "scripture-with-machines",
       "weight": 4,
       "reasons": [
@@ -3642,6 +3821,23 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
+      "target": "node-doctrine",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "heart-does-not-dream",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
       ]
     },
     {
@@ -3771,12 +3967,37 @@
       ]
     },
     {
+      "source": "lean-mean-governance-machine",
+      "target": "unacceptable-cost",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "maintenance-without-cure",
       "target": "scroll-from-the-perimeter",
       "weight": 4,
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "scripture-with-machines",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "signal-descent-004",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -3970,6 +4191,14 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "constellation-node-alchemy",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "i-work-with-machines-to-write-scripture",
       "weight": 3,
       "reasons": [
@@ -3983,6 +4212,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
+      "target": "node-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -4203,6 +4440,14 @@
       ]
     },
     {
+      "source": "artifact-jsa-collage-001",
+      "target": "unacceptable-cost",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "artifact-jsa-collage-wip-001",
       "target": "heart-does-not-dream",
       "weight": 3,
@@ -4230,6 +4475,14 @@
     {
       "source": "artifact-jsa-signal-fracture-001",
       "target": "cities-built-on-ruin-reminiscence",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "citizen-network-doctrine",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -4276,8 +4529,152 @@
       ]
     },
     {
+      "source": "builder-lineage-reflection",
+      "target": "constellation-node-alchemy",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "node-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "unacceptable-cost",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "citizen-network-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "cities-built-on-ruin-reminiscence",
       "target": "signal-descent-001",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "codex-archive-system-v3-2-fragment-feed-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "codex-archive-system-v3-plus-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "codex-glyph-grammar",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "codex-glyph-system-first-emergence",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "go-live-milestone",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "i-work-with-machines-to-write-scripture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "operator-winks-at-the-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "scripture-with-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "signal-descent-001",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "signal-descent-003",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "signal-descent-004",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "steel-elbow-flinchian",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "transmission-note-to-future-me",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -4574,6 +4971,14 @@
     },
     {
       "source": "codex-archive-system-v2-7-notes",
+      "target": "node-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
       "target": "on-object-oriented-archives",
       "weight": 3,
       "reasons": [
@@ -4635,6 +5040,14 @@
     {
       "source": "codex-archive-system-v3-1-build-notes",
       "target": "codex-glyph-system-first-emergence",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "node-doctrine",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -4711,6 +5124,14 @@
     },
     {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "constellation-node-alchemy",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "heart-does-not-dream",
       "weight": 3,
       "reasons": [
@@ -4778,6 +5199,14 @@
     },
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "constellation-node-alchemy",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "heart-does-not-dream",
       "weight": 3,
       "reasons": [
@@ -4796,6 +5225,14 @@
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "jsa-collage-evolution-002",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "node-doctrine",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -4871,8 +5308,24 @@
       ]
     },
     {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "unacceptable-cost",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "codex-glyph-system-first-emergence",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "constellation-node-alchemy",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -4898,6 +5351,14 @@
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "jsa-collage-evolution-002",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "node-doctrine",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -4973,8 +5434,24 @@
       ]
     },
     {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "unacceptable-cost",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "codex-archive-system-v3-5-control-surface-notes",
       "target": "codex-glyph-system-first-emergence",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "constellation-node-alchemy",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -5000,6 +5477,14 @@
     {
       "source": "codex-archive-system-v3-5-control-surface-notes",
       "target": "jsa-collage-evolution-002",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "node-doctrine",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -5075,8 +5560,24 @@
       ]
     },
     {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "unacceptable-cost",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "codex-glyph-system-first-emergence",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "constellation-node-alchemy",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -5102,6 +5603,14 @@
     {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "jsa-collage-evolution-002",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "node-doctrine",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -5185,8 +5694,24 @@
       ]
     },
     {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "unacceptable-cost",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "codex-archive-system-v3-notes",
       "target": "codex-glyph-system-first-emergence",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "node-doctrine",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -5267,6 +5792,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
+      "target": "constellation-node-alchemy",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -5378,7 +5911,111 @@
     },
     {
       "source": "codex-glyph-system-first-emergence",
+      "target": "node-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
       "target": "on-object-oriented-archives",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "go-live-milestone",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "i-work-with-machines-to-write-scripture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "operator-winks-at-the-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "scripture-with-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "signal-descent-001",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "signal-descent-003",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "signal-descent-004",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "steel-elbow-flinchian",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "suwanee-ga-loremap",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "transmission-note-to-future-me",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "unacceptable-cost",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -5395,6 +6032,14 @@
     {
       "source": "go-live-milestone",
       "target": "i-work-with-machines-to-write-scripture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "node-doctrine",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -5506,6 +6151,22 @@
       ]
     },
     {
+      "source": "heart-does-not-dream",
+      "target": "unacceptable-cost",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "node-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "i-work-with-machines-to-write-scripture",
       "target": "signal-descent-003",
       "weight": 3,
@@ -5532,6 +6193,14 @@
     {
       "source": "jsa-collage-evolution-002",
       "target": "studio-log-adhesive-test-run",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "unacceptable-cost",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -5605,6 +6274,38 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "operator-winks-at-the-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "signal-descent-003",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "steel-elbow-flinchian",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -5746,6 +6447,14 @@
       ]
     },
     {
+      "source": "pressure-psalm-v",
+      "target": "unacceptable-cost",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "reduce-novelty-before-care",
       "target": "signal-descent-004",
       "weight": 3,
@@ -5791,6 +6500,14 @@
     {
       "source": "scripture-with-machines",
       "target": "signal.citizen-agency",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "scroll-from-the-perimeter",
+      "target": "unacceptable-cost",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -5886,6 +6603,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "steel-elbow-flinchian",
+      "target": "unacceptable-cost",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -5969,6 +6694,14 @@
       ]
     },
     {
+      "source": "archive-box-stamped-fragments",
+      "target": "citizen-network-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "artifact-jsa-collage-wip-001",
       "weight": 2,
@@ -6042,6 +6775,14 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "constellation-node-alchemy",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "jsa-collage-evolution-001",
       "weight": 2,
       "reasons": [
@@ -6091,6 +6832,14 @@
     {
       "source": "artifact-jsa-collage-001",
       "target": "builder-lineage-reflection",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "constellation-node-alchemy",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -6186,6 +6935,14 @@
     },
     {
       "source": "artifact-jsa-collage-wip-001",
+      "target": "constellation-node-alchemy",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
       "target": "scroll-from-the-perimeter",
       "weight": 2,
       "reasons": [
@@ -6209,8 +6966,24 @@
       ]
     },
     {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "artifact-jsa-signal-fracture-001",
       "target": "cities-built-on-ruin",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
+      "target": "citizen-network-doctrine",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -6266,7 +7039,23 @@
     },
     {
       "source": "artifact-jsa-signal-fracture-001",
+      "target": "constellation-node-alchemy",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
       "target": "deck-under-load-ii",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
+      "target": "node-doctrine",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -6298,7 +7087,23 @@
     },
     {
       "source": "artifact-jsa-signal-fracture-001",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
       "target": "under-load",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "citizen-network-doctrine",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -6331,6 +7136,14 @@
     {
       "source": "bezalel-the-designated-hand",
       "target": "codex-glyph-system-first-emergence",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "node-doctrine",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -6546,6 +7359,14 @@
     },
     {
       "source": "cities-built-on-ruin-reminiscence",
+      "target": "constellation-node-alchemy",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
       "target": "deck-under-load-ii",
       "weight": 2,
       "reasons": [
@@ -6563,6 +7384,14 @@
     {
       "source": "cities-built-on-ruin-reminiscence",
       "target": "jsa-collage-evolution-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "node-doctrine",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -6626,7 +7455,23 @@
     },
     {
       "source": "cities-built-on-ruin-reminiscence",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
       "target": "under-load",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "citizen-network-doctrine",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -6658,6 +7503,14 @@
     },
     {
       "source": "cities-built-on-ruin",
+      "target": "node-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
       "target": "scroll-from-the-perimeter",
       "weight": 2,
       "reasons": [
@@ -6673,6 +7526,142 @@
       ]
     },
     {
+      "source": "cities-built-on-ruin",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "codex-archive-system-v2-7-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "codex-archive-system-v3-1-build-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "codex-archive-system-v3-3-modest-table-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "codex-archive-system-v3-4-image-experience-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "codex-archive-system-v3-5-control-surface-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "codex-archive-system-v3-6-reading-surface-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "codex-archive-system-v3-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "signal-descent-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "signal-harvest",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "stairwell-signal",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "systems-survive-tuesdays",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "when-the-commit-leaves-your-hands",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "codex-archive-system-v2-2",
       "target": "codex-glyph-system-first-emergence",
       "weight": 2,
@@ -6683,6 +7672,14 @@
     {
       "source": "codex-archive-system-v2-2",
       "target": "lean-mean-governance-machine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
+      "target": "node-doctrine",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -6738,6 +7735,14 @@
     },
     {
       "source": "codex-archive-system-v2-5-notes",
+      "target": "node-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
       "target": "scripture-with-machines",
       "weight": 2,
       "reasons": [
@@ -6770,6 +7775,14 @@
     },
     {
       "source": "codex-archive-system-v2-6-notes",
+      "target": "node-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
       "target": "on-object-oriented-archives",
       "weight": 2,
       "reasons": [
@@ -6795,6 +7808,14 @@
     {
       "source": "codex-archive-system-v2-6-notes",
       "target": "signal-descent-004",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "constellation-node-alchemy",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -6870,6 +7891,22 @@
       "weight": 2,
       "reasons": [
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "constellation-node-alchemy",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -6945,6 +7982,14 @@
       ]
     },
     {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "jsa-collage-evolution-001",
       "weight": 2,
@@ -6990,6 +8035,14 @@
       "weight": 2,
       "reasons": [
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -7306,6 +8359,14 @@
     },
     {
       "source": "codex-archive-system-v3-notes",
+      "target": "constellation-node-alchemy",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
       "target": "i-work-with-machines-to-write-scripture",
       "weight": 2,
       "reasons": [
@@ -7378,6 +8439,14 @@
     },
     {
       "source": "codex-archive-system-v3-notes",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
       "target": "when-the-commit-leaves-your-hands",
       "weight": 2,
       "reasons": [
@@ -7435,6 +8504,22 @@
     {
       "source": "codex-archive-system-v3-plus-notes",
       "target": "systems-survive-tuesdays",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
+      "target": "constellation-node-alchemy",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -7537,6 +8622,22 @@
       ]
     },
     {
+      "source": "codex-glyph-grammar",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
+      "target": "constellation-node-alchemy",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "codex-glyph-system-first-emergence",
       "target": "go-live-milestone",
       "weight": 2,
@@ -7609,6 +8710,94 @@
       ]
     },
     {
+      "source": "codex-glyph-system-first-emergence",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "jsa-collage-evolution-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "jsa-collage-evolution-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "jsa-collage-evolution-003",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "signal-descent-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "signal-harvest",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "stairwell-signal",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "when-the-commit-leaves-your-hands",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "deck-under-load-ii",
       "target": "jsa-collage-evolution-002",
       "weight": 2,
@@ -7675,6 +8864,14 @@
     {
       "source": "go-live-milestone",
       "target": "systems-survive-tuesdays",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "unacceptable-cost",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -7762,7 +8959,23 @@
     },
     {
       "source": "i-work-with-machines-to-write-scripture",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "node-doctrine",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -7795,6 +9008,22 @@
     {
       "source": "jsa-collage-evolution-001",
       "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-002",
+      "target": "node-doctrine",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -7835,6 +9064,14 @@
     {
       "source": "jsa-collage-evolution-002",
       "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-002",
+      "target": "unacceptable-cost",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -7899,6 +9136,14 @@
     {
       "source": "jsa-collage-evolution-003",
       "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
+      "target": "node-doctrine",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -7963,6 +9208,94 @@
     {
       "source": "maintenance-without-cure",
       "target": "systems-survive-tuesdays",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "reduce-novelty-before-care",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "signal-descent-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "signal-descent-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "systems-survive-tuesdays",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "transmission-note-to-future-me",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "when-the-commit-leaves-your-hands",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -8065,6 +9398,14 @@
       ]
     },
     {
+      "source": "nothing-missing-only-unindexed",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "on-object-oriented-archives",
       "target": "operator-winks-at-the-machines",
       "weight": 2,
@@ -8113,6 +9454,14 @@
       ]
     },
     {
+      "source": "on-object-oriented-archives",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "operator-winks-at-the-machines",
       "target": "signal-descent-001",
       "weight": 2,
@@ -8139,6 +9488,14 @@
     {
       "source": "operator-winks-at-the-machines",
       "target": "transmission-note-to-future-me",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "operator-winks-at-the-machines",
+      "target": "unacceptable-cost",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -8249,6 +9606,14 @@
       ]
     },
     {
+      "source": "scripture-with-machines",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "scroll-from-the-perimeter",
       "target": "signal-descent-002",
       "weight": 2,
@@ -8289,6 +9654,14 @@
       ]
     },
     {
+      "source": "signal-descent-001",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "signal-descent-002",
       "target": "stairwell-signal",
       "weight": 2,
@@ -8299,6 +9672,14 @@
     {
       "source": "signal-descent-002",
       "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-002",
+      "target": "unacceptable-cost",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -8323,6 +9704,14 @@
     {
       "source": "signal-descent-003",
       "target": "systems-survive-tuesdays",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-003",
+      "target": "unacceptable-cost",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -8371,6 +9760,14 @@
     {
       "source": "signal-descent-004",
       "target": "the-bones-hold-content-architecture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-004",
+      "target": "unacceptable-cost",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -8449,8 +9846,24 @@
       ]
     },
     {
+      "source": "studio-log-adhesive-test-run",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "suwanee-ga-loremap",
       "target": "transmission-note-to-future-me",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "suwanee-ga-loremap",
+      "target": "unacceptable-cost",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -8478,6 +9891,14 @@
       "weight": 2,
       "reasons": [
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "the-bones-hold",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -8642,6 +10063,14 @@
     },
     {
       "source": "archive-box-stamped-fragments",
+      "target": "constellation-node-alchemy",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
       "target": "jsa-collage-evolution-002",
       "weight": 1,
       "reasons": [
@@ -8659,6 +10088,14 @@
     {
       "source": "archive-box-stamped-fragments",
       "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
+      "target": "node-doctrine",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -8715,6 +10152,14 @@
     {
       "source": "archive-box-stamped-fragments",
       "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "citizen-network-doctrine",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -8803,6 +10248,14 @@
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "node-doctrine",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -8922,6 +10375,14 @@
     },
     {
       "source": "artifact-jsa-collage-001",
+      "target": "citizen-network-doctrine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
       "target": "codex-glyph-grammar",
       "weight": 1,
       "reasons": [
@@ -8939,6 +10400,14 @@
     {
       "source": "artifact-jsa-collage-001",
       "target": "i-work-with-machines-to-write-scripture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "node-doctrine",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -9010,6 +10479,14 @@
     },
     {
       "source": "artifact-jsa-collage-wip-001",
+      "target": "citizen-network-doctrine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
       "target": "codex-archive-system-v3-1-build-notes",
       "weight": 1,
       "reasons": [
@@ -9043,6 +10520,14 @@
     {
       "source": "artifact-jsa-collage-wip-001",
       "target": "i-work-with-machines-to-write-scripture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "node-doctrine",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -9459,6 +10944,14 @@
     {
       "source": "bezalel-the-designated-hand",
       "target": "codex-archive-system-v3-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "constellation-node-alchemy",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -10010,6 +11503,14 @@
     },
     {
       "source": "cities-built-on-ruin",
+      "target": "constellation-node-alchemy",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
       "target": "go-live-milestone",
       "weight": 1,
       "reasons": [
@@ -10161,6 +11662,126 @@
       ]
     },
     {
+      "source": "citizen-network-doctrine",
+      "target": "codex-archive-system-v2-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "codex-archive-system-v2-5-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "codex-archive-system-v2-6-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "heart-does-not-dream",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "jsa-collage-evolution-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "jsa-collage-evolution-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "jsa-collage-evolution-003",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "lean-mean-governance-machine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "reduce-novelty-before-care",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "scroll-from-the-perimeter",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "the-bones-hold",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
+      "target": "constellation-node-alchemy",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "codex-archive-system-v2-2",
       "target": "go-live-milestone",
       "weight": 1,
@@ -10250,7 +11871,23 @@
     },
     {
       "source": "codex-archive-system-v2-2",
+      "target": "unacceptable-cost",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
+      "target": "constellation-node-alchemy",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -10338,7 +11975,23 @@
     },
     {
       "source": "codex-archive-system-v2-5-notes",
+      "target": "unacceptable-cost",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
+      "target": "constellation-node-alchemy",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -10427,6 +12080,14 @@
     {
       "source": "codex-archive-system-v2-6-notes",
       "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
+      "target": "unacceptable-cost",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -11049,6 +12710,78 @@
       ]
     },
     {
+      "source": "constellation-node-alchemy",
+      "target": "lean-mean-governance-machine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "north-georgia-march-2026",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "north-georgia-week-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "reduce-novelty-before-care",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "ridge-line-lessons",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "deck-under-load-ii",
       "target": "heart-does-not-dream",
       "weight": 1,
@@ -11075,6 +12808,14 @@
     {
       "source": "deck-under-load-ii",
       "target": "the-bones-hold",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "deck-under-load-ii",
+      "target": "unacceptable-cost",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -11163,6 +12904,14 @@
     {
       "source": "heart-does-not-dream",
       "target": "jsa-collage-evolution-003",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "heart-does-not-dream",
+      "target": "node-doctrine",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -11586,6 +13335,14 @@
     },
     {
       "source": "jsa-collage-evolution-003",
+      "target": "node-doctrine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -11762,6 +13519,14 @@
     },
     {
       "source": "maintenance-without-cure",
+      "target": "node-doctrine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "maintenance-without-cure",
       "target": "pressure-psalm-v",
       "weight": 1,
       "reasons": [
@@ -11802,7 +13567,63 @@
     },
     {
       "source": "maintenance-without-cure",
+      "target": "unacceptable-cost",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "maintenance-without-cure",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "scroll-from-the-perimeter",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "stairwell-signal",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "the-bones-hold",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -11850,6 +13671,14 @@
     },
     {
       "source": "north-georgia-march-2026",
+      "target": "unacceptable-cost",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "north-georgia-march-2026",
       "target": "when-the-commit-leaves-your-hands",
       "weight": 1,
       "reasons": [
@@ -11883,6 +13712,14 @@
     {
       "source": "north-georgia-week-2",
       "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "north-georgia-week-2",
+      "target": "unacceptable-cost",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -12177,6 +14014,14 @@
       ]
     },
     {
+      "source": "reduce-novelty-before-care",
+      "target": "unacceptable-cost",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "ridge-line-lessons",
       "target": "signal-descent-002",
       "weight": 1,
@@ -12203,6 +14048,14 @@
     {
       "source": "ridge-line-lessons",
       "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ridge-line-lessons",
+      "target": "unacceptable-cost",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -12377,6 +14230,14 @@
       ]
     },
     {
+      "source": "signal-harvest",
+      "target": "unacceptable-cost",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "signal.citizen-agency",
       "target": "stairwell-signal",
       "weight": 1,
@@ -12506,6 +14367,14 @@
     },
     {
       "source": "studio-bench-cycle",
+      "target": "unacceptable-cost",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "studio-bench-cycle",
       "target": "when-the-commit-leaves-your-hands",
       "weight": 1,
       "reasons": [
@@ -12553,6 +14422,22 @@
       ]
     },
     {
+      "source": "systems-survive-tuesdays",
+      "target": "unacceptable-cost",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "the-bones-hold-content-architecture",
+      "target": "unacceptable-cost",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "the-bones-hold-content-architecture",
       "target": "when-the-commit-leaves-your-hands",
       "weight": 1,
@@ -12578,6 +14463,30 @@
     },
     {
       "source": "transmission-note-to-future-me",
+      "target": "unacceptable-cost",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "transmission-note-to-future-me",
+      "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "unacceptable-cost",
+      "target": "under-load",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "unacceptable-cost",
       "target": "when-the-commit-leaves-your-hands",
       "weight": 1,
       "reasons": [

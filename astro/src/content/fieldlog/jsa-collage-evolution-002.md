@@ -22,6 +22,13 @@ related:
   - artifact-jsa-collage-001
   - codex-archive-system-v3-plus-notes
 
+connections:
+  - ref: jsa-collage-evolution-001
+    role: previous update
+    display: feature
+  - ref: jsa-collage-evolution-003
+    role: next update
+
 media:
   - kind: image
     src: /media/fieldlogs/jsa-collage-evolution-002-1.jpg

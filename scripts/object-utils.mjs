@@ -225,6 +225,76 @@ function extractIncludedRefs(frontmatterText) {
   return refs;
 }
 
+function extractConnections(frontmatterText) {
+  const connections = [];
+  const lines = frontmatterText.split(/\r?\n/);
+  let inBlock = false;
+  let current = null;
+
+  function flushCurrent() {
+    if (current?.ref && current.role) {
+      connections.push({
+        ref: current.ref,
+        role: current.role,
+        display: current.display || 'inline',
+      });
+    }
+    current = null;
+  }
+
+  for (const line of lines) {
+    if (!inBlock) {
+      if (/^connections:\s*$/.test(line)) {
+        inBlock = true;
+      }
+      continue;
+    }
+
+    if (/^[A-Za-z][\w-]*:\s*/.test(line)) {
+      flushCurrent();
+      break;
+    }
+
+    const itemRefMatch = line.match(/^\s*-\s*ref:\s*(.+)\s*$/);
+    if (itemRefMatch) {
+      flushCurrent();
+      current = {
+        ref: unquote(itemRefMatch[1]),
+        role: '',
+        display: 'inline',
+      };
+      continue;
+    }
+
+    const refMatch = line.match(/^\s*ref:\s*(.+)\s*$/);
+    if (refMatch) {
+      if (!current) {
+        current = {
+          ref: '',
+          role: '',
+          display: 'inline',
+        };
+      }
+      current.ref = unquote(refMatch[1]);
+      continue;
+    }
+
+    const roleMatch = line.match(/^\s*role:\s*(.+)\s*$/);
+    if (roleMatch && current) {
+      current.role = unquote(roleMatch[1]);
+      continue;
+    }
+
+    const displayMatch = line.match(/^\s*display:\s*(.+)\s*$/);
+    if (displayMatch && current) {
+      current.display = unquote(displayMatch[1]);
+    }
+  }
+
+  flushCurrent();
+  return connections;
+}
+
 export function loadObjects(rootDir = 'objects') {
   const files = walkMarkdownFiles(rootDir);
   return files.map((file) => loadObjectFile(file));
@@ -240,6 +310,7 @@ export function loadObjectFile(file) {
       themes: normalizeArray(fields.themes),
       constellations: normalizeArray(fields.constellations),
       related: normalizeArray(fields.related),
+      connections: extractConnections(frontmatterText),
     },
     includedRefs: extractIncludedRefs(frontmatterText),
     parseErrors: errors,
@@ -357,6 +428,32 @@ export function validateObjects(objects, options = {}) {
           level: 'ERROR',
           file: obj.file,
           message: `self-reference in related: ${relatedId}`,
+        });
+      }
+    }
+
+    for (const connection of obj.fields.connections || []) {
+      const connectionId = String(connection.ref || '').trim();
+      const targetExists =
+        idToFile.has(connectionId) || referenceIdToFile.has(connectionId);
+
+      if (!connectionId || !String(connection.role || '').trim()) {
+        findings.push({
+          level: 'ERROR',
+          file: obj.file,
+          message: 'invalid connection entry: ref and role are required',
+        });
+      } else if (!targetExists) {
+        findings.push({
+          level: 'ERROR',
+          file: obj.file,
+          message: `broken connection reference: ${connectionId}`,
+        });
+      } else if (connectionId === id) {
+        findings.push({
+          level: 'ERROR',
+          file: obj.file,
+          message: `self-reference in connections: ${connectionId}`,
         });
       }
     }

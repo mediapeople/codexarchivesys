@@ -26,6 +26,15 @@ related:
   - codex-archive-system-v3-plus-notes
   - go-live-milestone
 
+connections:
+  - ref: artifact-jsa-collage-wip-001
+    role: WIP source
+    display: feature
+  - ref: jsa-collage-evolution-003
+    role: latest update
+  - ref: artifact-jsa-signal-fracture-001
+    role: mastered variant
+
 media:
   - kind: image
     src: /media/artifacts/jsa-collage-001-1.jpg

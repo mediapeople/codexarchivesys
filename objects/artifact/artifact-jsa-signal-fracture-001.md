@@ -21,6 +21,13 @@ related:
   - jsa-collage-evolution-003
   - artifact-jsa-collage-001
 
+connections:
+  - ref: artifact-jsa-collage-001
+    role: predecessor artifact
+    display: feature
+  - ref: jsa-collage-evolution-003
+    role: latest process state
+
 media:
   - kind: image
     src: /media/artifacts/jsa-signal-fracture-001-1.jpg

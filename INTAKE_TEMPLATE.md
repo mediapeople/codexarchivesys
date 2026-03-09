@@ -40,6 +40,8 @@ themes:
 
 related: []
 
+connections: []
+
 media: []
 ---
 ```
@@ -122,6 +124,20 @@ origin: derived
 markers: []
 ```
 
+`connections` shape:
+
+```yaml
+connections:
+  - ref: object-id
+    role: previous version
+    display: feature # inline | feature
+```
+
+Connection guidance:
+- use `connections` when the relationship itself has a named role: previous version, next update, WIP source, companion implementation, mastered variant
+- keep `related` for broader conceptual adjacency
+- use `display: feature` for the one or two ties that should float ahead of the generic related stack
+
 ## Recommended Full Intake Draft Shape
 
 ```md
@@ -144,6 +160,8 @@ themes:
 #   - Cascade Psalms
 
 related: []
+
+connections: []
 
 media: []
 

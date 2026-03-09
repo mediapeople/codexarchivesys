@@ -26,6 +26,13 @@ related:
   - signal.citizen-agency
   - artifact-jsa-collage-wip-001
 
+connections:
+  - ref: codex-archive-system-v3-notes
+    role: superseded by
+    display: feature
+  - ref: codex-archive-system-v2-6-notes
+    role: previous version
+
 media: []
 
 version: "2.7.0"

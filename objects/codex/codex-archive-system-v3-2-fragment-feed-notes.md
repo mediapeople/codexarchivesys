@@ -29,6 +29,13 @@ related:
   - reduce-novelty-before-care
   - signal-descent-004
 
+connections:
+  - ref: codex-archive-system-v3-1-build-notes
+    role: previous version
+    display: feature
+  - ref: codex-archive-system-v3-3-modest-table-notes
+    role: next update
+
 media: []
 
 version: "3.2.0"

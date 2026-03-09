@@ -44,13 +44,19 @@ Given a raw inbox item — which may be a markdown draft, a note, a scan descrip
 4. Suggest **themes** drawn from the active theme list.
 5. Suggest **constellations** if the content clearly belongs to one.
 6. Identify **related** candidates by content resonance.
-7. Suggest **media** roles if media files are listed.
-8. Produce a complete draft frontmatter block in valid YAML.
-9. Output a ready-to-review object file.
+7. Identify any **explicit connections** where the relationship itself has a named role.
+8. Suggest **media** roles if media files are listed.
+9. Produce a complete draft frontmatter block in valid YAML.
+10. Output a ready-to-review object file.
 
 For WIP/revision artifacts (titles or notes indicating `WIP`, `work-in-progress`, `in progress`, or `revision`), include at least two suggested related candidates that point to the newest relevant system updates or release notes.
 
 For expansion, evolution, sequel, or variant items, include explicit `related` links in frontmatter to the nearest predecessor object(s) when those ids are already present in the workspace. If exact ids cannot be confirmed, leave `related` empty and explain the candidate links in intake notes instead of inventing them.
+
+When the relationship itself carries editorial meaning, also use `connections`:
+- examples: `previous version`, `next update`, `WIP source`, `companion implementation`, `mastered variant`
+- use `display: feature` for the one or two ties that should surface before the generic related module
+- keep `related` for broader resonance and graph adjacency
 
 For media-heavy items, include a short media-handling note in intake notes:
 - images should be prepared as web-delivery derivatives (resized/compressed)
@@ -233,6 +239,8 @@ themes:
 #   - Constellation Name
 
 related: []
+
+connections: []
 
 media: []
 
