@@ -50,6 +50,8 @@ Given a raw inbox item — which may be a markdown draft, a note, a scan descrip
 
 For WIP/revision artifacts (titles or notes indicating `WIP`, `work-in-progress`, `in progress`, or `revision`), include at least two suggested related candidates that point to the newest relevant system updates or release notes.
 
+For expansion, evolution, sequel, or variant items, include explicit `related` links in frontmatter to the nearest predecessor object(s) when those ids are already present in the workspace. If exact ids cannot be confirmed, leave `related` empty and explain the candidate links in intake notes instead of inventing them.
+
 For media-heavy items, include a short media-handling note in intake notes:
 - images should be prepared as web-delivery derivatives (resized/compressed)
 - process video should target MP4 for delivery

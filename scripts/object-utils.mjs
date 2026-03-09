@@ -246,9 +246,22 @@ export function loadObjectFile(file) {
   };
 }
 
-export function validateObjects(objects) {
+export function validateObjects(objects, options = {}) {
   const findings = [];
   const idToFile = new Map();
+  const referenceIdToFile = new Map();
+  const referenceObjects = Array.isArray(options.referenceObjects)
+    ? options.referenceObjects
+    : [];
+
+  for (const obj of referenceObjects) {
+    const id = String(obj.fields.id || '').trim();
+    if (!id || idToFile.has(id) || referenceIdToFile.has(id)) {
+      continue;
+    }
+
+    referenceIdToFile.set(id, obj.file);
+  }
 
   for (const obj of objects) {
     for (const parseError of obj.parseErrors) {
@@ -309,7 +322,13 @@ export function validateObjects(objects) {
 
     const id = String(obj.fields.id || '').trim();
     if (id) {
-      if (idToFile.has(id)) {
+      if (referenceIdToFile.has(id)) {
+        findings.push({
+          level: 'ERROR',
+          file: obj.file,
+          message: `duplicate id: ${id} (already exists in ${referenceIdToFile.get(id)})`,
+        });
+      } else if (idToFile.has(id)) {
         findings.push({
           level: 'ERROR',
           file: obj.file,
@@ -324,7 +343,10 @@ export function validateObjects(objects) {
   for (const obj of objects) {
     const id = String(obj.fields.id || '').trim();
     for (const relatedId of obj.fields.related) {
-      if (!idToFile.has(relatedId)) {
+      const targetExists =
+        idToFile.has(relatedId) || referenceIdToFile.has(relatedId);
+
+      if (!targetExists) {
         findings.push({
           level: 'ERROR',
           file: obj.file,
@@ -341,7 +363,7 @@ export function validateObjects(objects) {
 
     if (String(obj.fields.type) === 'nexus') {
       for (const ref of obj.includedRefs) {
-        if (!idToFile.has(ref)) {
+        if (!idToFile.has(ref) && !referenceIdToFile.has(ref)) {
           findings.push({
             level: 'ERROR',
             file: obj.file,

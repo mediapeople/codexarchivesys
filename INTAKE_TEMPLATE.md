@@ -12,6 +12,7 @@ Rules:
 - Intake outputs are drafts, not published objects.
 - Use only active themes from the registry.
 - Suggest constellations only when clearly warranted; do not force them.
+- For expansion, evolution, variant, or follow-on items, include explicit `related` links to predecessor objects when those ids are already known from the workspace.
 - Include only the type-specific fields that apply.
 - Omit `postedAt` until promotion/publish.
 - Filename format: `inbox/ready/YYYY-MM-DD-<id>.md`
