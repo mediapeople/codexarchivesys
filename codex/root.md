@@ -5,6 +5,10 @@ Date: 2026-03-07
 ## Purpose
 Provide deterministic orientation for a new or restarted AI coworker.
 
+Fast path for bounded work:
+- `/codex/dispatch.md` for `ingest`, `publishing`, or `dev`
+- use the full load order below when the task crosses modes or needs system context
+
 ## Load Order
 1. /codex/root.md
 2. /codex/system.md

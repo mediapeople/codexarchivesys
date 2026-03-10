@@ -2,6 +2,10 @@
 
 This repository contains the Codex archive workspace and an Astro app in `astro/`.
 
+Fast orientation:
+- Full system orientation: `codex/root.md`
+- Bounded work dispatch (`ingest`, `publishing`, `dev`): `codex/dispatch.md`
+
 ## Workspace Path Policy
 
 Canonical local path:
