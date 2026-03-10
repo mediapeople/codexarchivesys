@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-10T13:43:04.552Z",
+  "generatedAt": "2026-03-10T16:05:59.167Z",
   "sourceDir": "../objects",
-  "nodeCount": 70,
-  "edgeCount": 1984,
+  "nodeCount": 71,
+  "edgeCount": 2045,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -457,6 +457,20 @@
       "constellations": [
         "Maintenance Psalms"
       ]
+    },
+    {
+      "id": "race-to-the-top-six-bridges",
+      "type": "fieldlog",
+      "title": "FIELD LOG: RACE TO THE TOP AT SIX BRIDGES",
+      "date": "2026-03-10",
+      "themes": [
+        "place",
+        "observation",
+        "systems",
+        "transmission",
+        "architecture"
+      ],
+      "constellations": []
     },
     {
       "id": "studio-bench-cycle",
@@ -4391,6 +4405,14 @@
     },
     {
       "source": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-7-loremap-foundation-notes",
       "target": "signal-descent-004",
       "weight": 4,
       "reasons": [
@@ -5200,6 +5222,14 @@
       ]
     },
     {
+      "source": "bezalel-the-designated-hand",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "builder-lineage-reflection",
       "target": "citizen-network-doctrine",
       "weight": 3,
@@ -5296,6 +5326,14 @@
       ]
     },
     {
+      "source": "chattahoochee-river-loremap",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "cities-built-on-ruin-reminiscence",
       "target": "citizen-network-doctrine",
       "weight": 3,
@@ -5368,6 +5406,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -5615,6 +5661,14 @@
     {
       "source": "citizen-network-map-hi-fi",
       "target": "operator-winks-at-the-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
+      "target": "race-to-the-top-six-bridges",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -6186,6 +6240,14 @@
     },
     {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "signal-harvest",
       "weight": 3,
       "reasons": [
@@ -6277,6 +6339,14 @@
     },
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "scripture-with-machines",
       "weight": 3,
       "reasons": [
@@ -6411,6 +6481,14 @@
     },
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "scripture-with-machines",
       "weight": 3,
       "reasons": [
@@ -6541,6 +6619,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -6683,6 +6769,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -6957,6 +7051,14 @@
     },
     {
       "source": "codex-archive-system-v3-plus-notes",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
       "target": "reduce-novelty-before-care",
       "weight": 3,
       "reasons": [
@@ -7120,6 +7222,14 @@
     {
       "source": "constellation-node-alchemy",
       "target": "operator-winks-at-the-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "race-to-the-top-six-bridges",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -7671,6 +7781,14 @@
       ]
     },
     {
+      "source": "race-to-the-top-six-bridges",
+      "target": "suwanee-ga-loremap",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "reduce-novelty-before-care",
       "target": "signal-descent-004",
       "weight": 3,
@@ -7888,6 +8006,14 @@
     {
       "source": "apparatus-ledger",
       "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
+      "target": "race-to-the-top-six-bridges",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -8583,6 +8709,14 @@
     },
     {
       "source": "builder-lineage-reflection",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
       "target": "scripture-with-machines",
       "weight": 2,
       "reasons": [
@@ -9127,6 +9261,14 @@
     },
     {
       "source": "citizen-network-doctrine",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
       "target": "signal-descent-002",
       "weight": 2,
       "reasons": [
@@ -9311,6 +9453,14 @@
     },
     {
       "source": "codex-archive-system-v2-2",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
       "target": "reduce-novelty-before-care",
       "weight": 2,
       "reasons": [
@@ -9367,6 +9517,14 @@
     },
     {
       "source": "codex-archive-system-v2-5-notes",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
       "target": "scripture-with-machines",
       "weight": 2,
       "reasons": [
@@ -9408,6 +9566,14 @@
     {
       "source": "codex-archive-system-v2-6-notes",
       "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
+      "target": "race-to-the-top-six-bridges",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -9496,6 +9662,14 @@
     {
       "source": "codex-archive-system-v2-7-notes",
       "target": "operator-winks-at-the-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "race-to-the-top-six-bridges",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -9592,6 +9766,14 @@
     {
       "source": "codex-archive-system-v3-1-build-notes",
       "target": "operator-winks-at-the-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "race-to-the-top-six-bridges",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -10239,6 +10421,14 @@
     },
     {
       "source": "codex-archive-system-v3-notes",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
       "target": "scroll-from-the-perimeter",
       "weight": 2,
       "reasons": [
@@ -10431,6 +10621,14 @@
     },
     {
       "source": "codex-glyph-grammar",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
       "target": "reduce-novelty-before-care",
       "weight": 2,
       "reasons": [
@@ -10512,6 +10710,14 @@
     {
       "source": "codex-glyph-system-first-emergence",
       "target": "operator-winks-at-the-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
+      "target": "race-to-the-top-six-bridges",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -10727,6 +10933,14 @@
     },
     {
       "source": "disrespectful-power",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "disrespectful-power",
       "target": "scripture-with-machines",
       "weight": 2,
       "reasons": [
@@ -10816,6 +11030,14 @@
     {
       "source": "go-live-milestone",
       "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "race-to-the-top-six-bridges",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -10920,6 +11142,14 @@
     {
       "source": "i-work-with-machines-to-write-scripture",
       "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "race-to-the-top-six-bridges",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -11215,6 +11445,14 @@
     },
     {
       "source": "machine-creatures",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
       "target": "signal-descent-001",
       "weight": 2,
       "reasons": [
@@ -11303,6 +11541,14 @@
     },
     {
       "source": "node-doctrine",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
       "target": "reduce-novelty-before-care",
       "weight": 2,
       "reasons": [
@@ -11375,7 +11621,23 @@
     },
     {
       "source": "north-georgia-march-2026",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "north-georgia-march-2026",
       "target": "studio-bench-cycle",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "north-georgia-week-2",
+      "target": "race-to-the-top-six-bridges",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -11487,6 +11749,14 @@
     },
     {
       "source": "on-object-oriented-archives",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-object-oriented-archives",
       "target": "scripture-with-machines",
       "weight": 2,
       "reasons": [
@@ -11528,6 +11798,14 @@
     {
       "source": "on-object-oriented-archives",
       "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "operator-winks-at-the-machines",
+      "target": "race-to-the-top-six-bridges",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -11584,6 +11862,86 @@
     {
       "source": "pressure-psalm-v",
       "target": "steel-elbow-flinchian",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "race-to-the-top-six-bridges",
+      "target": "ridge-line-lessons",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "race-to-the-top-six-bridges",
+      "target": "scripture-with-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "race-to-the-top-six-bridges",
+      "target": "signal-descent-003",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "race-to-the-top-six-bridges",
+      "target": "signal-descent-004",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "race-to-the-top-six-bridges",
+      "target": "signal.citizen-agency",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "race-to-the-top-six-bridges",
+      "target": "steel-elbow-flinchian",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "race-to-the-top-six-bridges",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "race-to-the-top-six-bridges",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "race-to-the-top-six-bridges",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "race-to-the-top-six-bridges",
+      "target": "when-the-commit-leaves-your-hands",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -12455,6 +12813,14 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "ridge-line-lessons",
       "weight": 1,
       "reasons": [
@@ -12631,6 +12997,14 @@
     },
     {
       "source": "artifact-jsa-collage-001",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
       "target": "ridge-line-lessons",
       "weight": 1,
       "reasons": [
@@ -12784,6 +13158,14 @@
     {
       "source": "artifact-jsa-collage-wip-001",
       "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "race-to-the-top-six-bridges",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -12992,6 +13374,14 @@
     {
       "source": "artifact-jsa-signal-fracture-001",
       "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
+      "target": "race-to-the-top-six-bridges",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -15855,6 +16245,14 @@
     },
     {
       "source": "heart-does-not-dream",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "heart-does-not-dream",
       "target": "scripture-with-machines",
       "weight": 1,
       "reasons": [
@@ -16039,6 +16437,14 @@
     },
     {
       "source": "jsa-collage-evolution-001",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
       "target": "reduce-novelty-before-care",
       "weight": 1,
       "reasons": [
@@ -16183,6 +16589,14 @@
     },
     {
       "source": "jsa-collage-evolution-002",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-002",
       "target": "reduce-novelty-before-care",
       "weight": 1,
       "reasons": [
@@ -16319,6 +16733,14 @@
     },
     {
       "source": "jsa-collage-evolution-003",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
       "target": "ridge-line-lessons",
       "weight": 1,
       "reasons": [
@@ -16432,6 +16854,14 @@
     {
       "source": "lean-mean-governance-machine",
       "target": "on-object-oriented-archives",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
+      "target": "race-to-the-top-six-bridges",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -16743,6 +17173,14 @@
     },
     {
       "source": "nothing-missing-only-unindexed",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "nothing-missing-only-unindexed",
       "target": "reduce-novelty-before-care",
       "weight": 1,
       "reasons": [
@@ -16960,6 +17398,70 @@
     {
       "source": "pressure-psalm-v",
       "target": "suwanee-ga-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "race-to-the-top-six-bridges",
+      "target": "reduce-novelty-before-care",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "race-to-the-top-six-bridges",
+      "target": "scroll-from-the-perimeter",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "race-to-the-top-six-bridges",
+      "target": "signal-descent-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "race-to-the-top-six-bridges",
+      "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "race-to-the-top-six-bridges",
+      "target": "stairwell-signal",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "race-to-the-top-six-bridges",
+      "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "race-to-the-top-six-bridges",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "race-to-the-top-six-bridges",
+      "target": "transmission-note-to-future-me",
       "weight": 1,
       "reasons": [
         "shared-theme"
