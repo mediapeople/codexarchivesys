@@ -10,7 +10,7 @@ interface Props {
 
 const {
   title = 'Codex Archive',
-  description = 'Object-first archive for scrolls, artifacts, field logs, codexes, fragments, nexus issues, and signals.',
+  description = 'An object archive for human creative work.',
   canonicalPath,
   socialImage,
   socialType = 'website',
@@ -28,8 +28,22 @@ function toAbsoluteUrl(value: string): string {
   return new URL(value, siteBase).toString();
 }
 
-const canonicalUrl = toAbsoluteUrl(canonicalPath || currentPath);
+function normalizeCanonicalUrl(value: string): string {
+  const absolute = new URL(toAbsoluteUrl(value));
+  const isFileLikePath = /\.[a-z0-9]+$/i.test(absolute.pathname);
+
+  if (absolute.pathname !== '/' && !isFileLikePath && !absolute.pathname.endsWith('/')) {
+    absolute.pathname = `${absolute.pathname}/`;
+  }
+
+  return absolute.toString();
+}
+
+const canonicalUrl = normalizeCanonicalUrl(canonicalPath || currentPath);
 const socialImageUrl = toAbsoluteUrl(socialImage || defaultSocialImage);
+const rssFeedUrl = toAbsoluteUrl('/rss.xml');
+const jsonFeedUrl = toAbsoluteUrl('/feed.json');
+const siteHomeUrl = toAbsoluteUrl('/');
 const resolvedTwitterCard = twitterCard || 'summary';
 const feedActive = currentPath === '/' || currentPath.startsWith('/objects/');
 const nexusActive = currentPath.startsWith('/nexus');
@@ -65,6 +79,8 @@ const navItems = [
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImageUrl} />
+    <link rel="alternate" type="application/rss+xml" title="Codex Archive RSS Feed" href={rssFeedUrl} />
+    <link rel="alternate" type="application/feed+json" title="Codex Archive JSON Feed" href={jsonFeedUrl} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -141,6 +157,19 @@ const navItems = [
     <main class="shell">
       <slot />
     </main>
+    <footer class="site-footer">
+      <div class="site-footer-inner">
+        <p class="site-footer-label">Follow</p>
+        <p class="site-footer-copy">
+          Paste the site URL into most readers. Direct feeds are available if your reader wants them explicitly.
+        </p>
+        <div class="site-footer-links">
+          <a href={siteHomeUrl}>Site URL</a>
+          <a href={rssFeedUrl}>RSS</a>
+          <a href={jsonFeedUrl}>JSON Feed</a>
+        </div>
+      </div>
+    </footer>
 
     <div class="card-image-lightbox" data-card-image-lightbox hidden aria-hidden="true">
       <div class="card-image-lightbox-topbar">
@@ -749,7 +778,7 @@ const navItems = [
   .shell {
     width: 100%;
     margin: 0 auto;
-    padding: 0 var(--gutter) 7rem;
+    padding: 0 var(--gutter) 5rem;
     position: relative;
     z-index: 0;
     isolation: isolate;
@@ -801,6 +830,62 @@ const navItems = [
     padding-right: 0;
     position: relative;
     z-index: 1;
+  }
+
+  .site-footer {
+    width: 100%;
+    padding: 0 var(--gutter) 4.25rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .site-footer-inner {
+    width: min(100%, 1480px);
+    margin: 0 auto;
+    border-top: 1px solid rgba(135, 91, 58, 0.22);
+    padding-top: 1rem;
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .site-footer-label {
+    margin: 0;
+    color: var(--accent);
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .site-footer-copy {
+    margin: 0;
+    max-width: 46ch;
+    color: var(--mid);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .site-footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem 1rem;
+    align-items: center;
+  }
+
+  .site-footer-links a {
+    color: var(--parchment);
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(244, 240, 232, 0.18);
+    padding-bottom: 0.16rem;
+  }
+
+  .site-footer-links a:hover {
+    color: var(--star);
+    border-bottom-color: rgba(244, 240, 232, 0.42);
   }
 
   .card-image-lightbox[hidden] {
@@ -1026,6 +1111,14 @@ const navItems = [
 
     .shell::before {
       height: 5.2rem;
+    }
+
+    .site-footer {
+      padding-bottom: 3.2rem;
+    }
+
+    .site-footer-copy {
+      font-size: 0.88rem;
     }
 
     body.page-feed .shell::after {

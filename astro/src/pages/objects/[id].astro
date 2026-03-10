@@ -841,6 +841,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
         lightbox.classList.remove('is-gallery');
         clearTransitionState();
         activeIndex = -1;
+        document.body.classList.remove('object-lightbox-open');
         document.body.style.overflow = previousOverflow;
         if (lastFocusedImage instanceof HTMLElement) {
           lastFocusedImage.focus();
@@ -857,6 +858,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
         clearTransitionState();
         renderImageAtIndex(index);
 
+        document.body.classList.add('object-lightbox-open');
         lightbox.hidden = false;
         lightbox.setAttribute('aria-hidden', 'false');
       };
@@ -2338,7 +2340,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
   .image-lightbox {
     position: fixed;
     inset: 0;
-    z-index: 300;
+    z-index: 1200;
     display: grid;
     grid-template-rows: auto 1fr;
     gap: 0.65rem;
@@ -2348,6 +2350,17 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     background: rgba(7, 6, 4, 0.94);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
+  }
+
+  :global(body.object-lightbox-open .site-header) {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate3d(0, calc(-100% - 1rem), 0);
+  }
+
+  :global(body.object-lightbox-open .site-header::before),
+  :global(body.object-lightbox-open .site-header::after) {
+    opacity: 0;
   }
 
   .image-lightbox-topbar {
