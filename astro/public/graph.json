@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-10T19:39:13.397Z",
+  "generatedAt": "2026-03-10T21:25:24.850Z",
   "sourceDir": "../objects",
-  "nodeCount": 73,
-  "edgeCount": 2170,
+  "nodeCount": 75,
+  "edgeCount": 2284,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -90,6 +90,35 @@
       ],
       "constellations": [
         "Archaeological Objects"
+      ]
+    },
+    {
+      "id": "distortion-atlas",
+      "type": "artifact",
+      "title": "The Distortion Atlas",
+      "date": "2026-03-10",
+      "themes": [
+        "observation",
+        "structure",
+        "memory",
+        "survival"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "on-visceral-distillation",
+      "type": "artifact",
+      "title": "On Visceral Distillation",
+      "date": "2026-03-10",
+      "themes": [
+        "pressure",
+        "structure",
+        "systems",
+        "transmission",
+        "architecture"
+      ],
+      "constellations": [
+        "Cascade Psalms"
       ]
     },
     {
@@ -2641,6 +2670,15 @@
     },
     {
       "source": "citizen-network-doctrine",
+      "target": "on-visceral-distillation",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
       "target": "signal.citizen-agency",
       "weight": 6,
       "reasons": [
@@ -3082,6 +3120,16 @@
       ]
     },
     {
+      "source": "on-visceral-distillation",
+      "target": "pressure-psalm-v",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "scripture-with-machines",
       "target": "steel-elbow-flinchian",
       "weight": 6,
@@ -3135,6 +3183,15 @@
       "reasons": [
         "shared-theme",
         "explicit-related"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
+      "target": "on-visceral-distillation",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
       ]
     },
     {
@@ -3310,6 +3367,15 @@
     },
     {
       "source": "citizen-network-dispatch",
+      "target": "on-visceral-distillation",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
       "target": "signal-descent-003",
       "weight": 5,
       "reasons": [
@@ -3428,6 +3494,15 @@
     {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "go-live-milestone",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "on-visceral-distillation",
       "weight": 5,
       "reasons": [
         "shared-theme",
@@ -3598,6 +3673,15 @@
     },
     {
       "source": "codex-archive-system-v3-plus-notes",
+      "target": "on-visceral-distillation",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
       "target": "signal.citizen-agency",
       "weight": 5,
       "reasons": [
@@ -3683,6 +3767,15 @@
       "weight": 5,
       "reasons": [
         "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "on-visceral-distillation",
+      "target": "signal-harvest",
+      "weight": 5,
+      "reasons": [
+        "shared-constellation",
         "explicit-related"
       ]
     },
@@ -4267,6 +4360,14 @@
       ]
     },
     {
+      "source": "citizen-network-map-hi-fi",
+      "target": "on-visceral-distillation",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "codex-archive-system-v2-5-notes",
       "target": "studio-bench-cycle",
       "weight": 4,
@@ -4294,6 +4395,15 @@
     },
     {
       "source": "codex-archive-system-v2-7-notes",
+      "target": "on-visceral-distillation",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
       "target": "signal-descent-003",
       "weight": 4,
       "reasons": [
@@ -4312,6 +4422,15 @@
     {
       "source": "codex-archive-system-v3-1-build-notes",
       "target": "heart-does-not-dream",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "on-visceral-distillation",
       "weight": 4,
       "reasons": [
         "shared-theme",
@@ -4416,6 +4535,15 @@
     },
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "on-visceral-distillation",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "signal-descent-003",
       "weight": 4,
       "reasons": [
@@ -4469,6 +4597,15 @@
     },
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "on-visceral-distillation",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "signal-descent-003",
       "weight": 4,
       "reasons": [
@@ -4522,6 +4659,15 @@
     },
     {
       "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "on-visceral-distillation",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
       "target": "signal-descent-003",
       "weight": 4,
       "reasons": [
@@ -4558,6 +4704,15 @@
     {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "lean-mean-governance-machine",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "on-visceral-distillation",
       "weight": 4,
       "reasons": [
         "shared-theme",
@@ -4585,6 +4740,15 @@
     {
       "source": "codex-archive-system-v3-7-loremap-foundation-notes",
       "target": "lean-mean-governance-machine",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "target": "on-visceral-distillation",
       "weight": 4,
       "reasons": [
         "shared-theme",
@@ -4636,6 +4800,15 @@
     },
     {
       "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "on-visceral-distillation",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
       "target": "signal-descent-003",
       "weight": 4,
       "reasons": [
@@ -4663,6 +4836,15 @@
     {
       "source": "codex-archive-system-v3-notes",
       "target": "heart-does-not-dream",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "on-visceral-distillation",
       "weight": 4,
       "reasons": [
         "shared-theme",
@@ -4758,6 +4940,15 @@
     },
     {
       "source": "go-live-milestone",
+      "target": "on-visceral-distillation",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
       "target": "signal-descent-001",
       "weight": 4,
       "reasons": [
@@ -4777,6 +4968,15 @@
     {
       "source": "heart-does-not-dream",
       "target": "lean-mean-governance-machine",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "heart-does-not-dream",
+      "target": "on-visceral-distillation",
       "weight": 4,
       "reasons": [
         "shared-theme",
@@ -4940,6 +5140,60 @@
       "reasons": [
         "shared-theme",
         "explicit-related"
+      ]
+    },
+    {
+      "source": "on-visceral-distillation",
+      "target": "signal-descent-001",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "on-visceral-distillation",
+      "target": "signal-descent-002",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "on-visceral-distillation",
+      "target": "signal-descent-003",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "on-visceral-distillation",
+      "target": "signal-descent-004",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "on-visceral-distillation",
+      "target": "signal.citizen-agency",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "on-visceral-distillation",
+      "target": "the-bones-hold",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
       ]
     },
     {
@@ -5327,6 +5581,15 @@
     },
     {
       "source": "artifact-jsa-collage-001",
+      "target": "on-visceral-distillation",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
       "target": "signal-descent-003",
       "weight": 3,
       "reasons": [
@@ -5448,6 +5711,14 @@
     {
       "source": "bezalel-the-designated-hand",
       "target": "citizen-network-map-hi-fi",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "on-visceral-distillation",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -7555,6 +7826,14 @@
     },
     {
       "source": "codex-glyph-grammar",
+      "target": "on-visceral-distillation",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
       "target": "scripture-with-machines",
       "weight": 3,
       "reasons": [
@@ -7596,6 +7875,14 @@
     {
       "source": "codex-glyph-system-first-emergence",
       "target": "on-object-oriented-archives",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
+      "target": "on-visceral-distillation",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -7940,6 +8227,15 @@
     },
     {
       "source": "lean-mean-governance-machine",
+      "target": "on-visceral-distillation",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
       "target": "reduce-novelty-before-care",
       "weight": 3,
       "reasons": [
@@ -7971,6 +8267,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "on-visceral-distillation",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -8035,6 +8339,14 @@
     {
       "source": "mothers-calendar",
       "target": "suwanee-ga-loremap",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "on-visceral-distillation",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -8120,6 +8432,39 @@
     {
       "source": "north-georgia-week-2",
       "target": "the-bones-hold",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "on-visceral-distillation",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-visceral-distillation",
+      "target": "steel-elbow-flinchian",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-visceral-distillation",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-visceral-distillation",
+      "target": "transmission-note-to-future-me",
       "weight": 3,
       "reasons": [
         "shared-theme",
@@ -8490,6 +8835,14 @@
       ]
     },
     {
+      "source": "archive-box-stamped-fragments",
+      "target": "distortion-atlas",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "artifact-jsa-collage-wip-001",
       "weight": 2,
@@ -8588,6 +8941,14 @@
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "disrespectful-power",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "distortion-atlas",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -8932,6 +9293,14 @@
     {
       "source": "artifact-jsa-signal-fracture-001",
       "target": "deck-under-load-ii",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
+      "target": "distortion-atlas",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -9147,6 +9516,14 @@
     },
     {
       "source": "builder-lineage-reflection",
+      "target": "distortion-atlas",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
       "target": "go-live-milestone",
       "weight": 2,
       "reasons": [
@@ -9196,6 +9573,14 @@
     {
       "source": "builder-lineage-reflection",
       "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "on-visceral-distillation",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -9323,6 +9708,14 @@
     },
     {
       "source": "chattahoochee-river-loremap",
+      "target": "distortion-atlas",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "chattahoochee-river-loremap",
       "target": "north-georgia-week-2",
       "weight": 2,
       "reasons": [
@@ -9419,6 +9812,14 @@
     },
     {
       "source": "cities-built-on-ruin-reminiscence",
+      "target": "distortion-atlas",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
       "target": "jsa-collage-evolution-001",
       "weight": 2,
       "reasons": [
@@ -9460,6 +9861,14 @@
     {
       "source": "cities-built-on-ruin-reminiscence",
       "target": "nothing-missing-only-unindexed",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "on-visceral-distillation",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -9579,6 +9988,14 @@
     },
     {
       "source": "cities-built-on-ruin",
+      "target": "distortion-atlas",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
       "target": "machine-creatures",
       "weight": 2,
       "reasons": [
@@ -9620,6 +10037,14 @@
     {
       "source": "cities-built-on-ruin",
       "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "distortion-atlas",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -9772,6 +10197,14 @@
     {
       "source": "citizen-network-doctrine",
       "target": "codex-archive-system-v3-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "distortion-atlas",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -9987,6 +10420,14 @@
     },
     {
       "source": "codex-archive-system-v2-2",
+      "target": "on-visceral-distillation",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
       "target": "race-to-the-top-six-bridges",
       "weight": 2,
       "reasons": [
@@ -10051,6 +10492,14 @@
     },
     {
       "source": "codex-archive-system-v2-5-notes",
+      "target": "on-visceral-distillation",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
       "target": "race-to-the-top-six-bridges",
       "weight": 2,
       "reasons": [
@@ -10100,6 +10549,14 @@
     {
       "source": "codex-archive-system-v2-6-notes",
       "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
+      "target": "on-visceral-distillation",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -11435,6 +11892,14 @@
     },
     {
       "source": "constellation-node-alchemy",
+      "target": "distortion-atlas",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
       "target": "jsa-collage-evolution-001",
       "weight": 2,
       "reasons": [
@@ -11460,6 +11925,14 @@
     {
       "source": "constellation-node-alchemy",
       "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "on-visceral-distillation",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -11531,6 +12004,14 @@
     },
     {
       "source": "disrespectful-power",
+      "target": "distortion-atlas",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "disrespectful-power",
       "target": "go-live-milestone",
       "weight": 2,
       "reasons": [
@@ -11588,6 +12069,14 @@
     {
       "source": "disrespectful-power",
       "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "disrespectful-power",
+      "target": "on-visceral-distillation",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -11684,6 +12173,46 @@
     {
       "source": "disrespectful-power",
       "target": "the-bones-hold-content-architecture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "maintenance-without-cure",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "mothers-calendar",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "the-bones-hold",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "unacceptable-cost",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -11812,6 +12341,14 @@
     {
       "source": "i-work-with-machines-to-write-scripture",
       "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "on-visceral-distillation",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -12507,6 +13044,14 @@
     },
     {
       "source": "on-object-oriented-archives",
+      "target": "on-visceral-distillation",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-object-oriented-archives",
       "target": "operator-winks-at-the-machines",
       "weight": 2,
       "reasons": [
@@ -12564,6 +13109,46 @@
     {
       "source": "on-object-oriented-archives",
       "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-visceral-distillation",
+      "target": "operator-winks-at-the-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-visceral-distillation",
+      "target": "scripture-with-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-visceral-distillation",
+      "target": "systems-survive-tuesdays",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-visceral-distillation",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-visceral-distillation",
+      "target": "when-the-commit-leaves-your-hands",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -13363,6 +13948,14 @@
     },
     {
       "source": "archive-box-stamped-fragments",
+      "target": "on-visceral-distillation",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
       "target": "signal-descent-001",
       "weight": 1,
       "reasons": [
@@ -13587,6 +14180,14 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "on-visceral-distillation",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "operator-winks-at-the-machines",
       "weight": 1,
       "reasons": [
@@ -13708,6 +14309,14 @@
     {
       "source": "artifact-jsa-collage-001",
       "target": "codex-glyph-system-first-emergence",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "distortion-atlas",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -13868,6 +14477,14 @@
     {
       "source": "artifact-jsa-collage-wip-001",
       "target": "codex-glyph-system-first-emergence",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "distortion-atlas",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -14147,6 +14764,14 @@
     },
     {
       "source": "artifact-jsa-signal-fracture-001",
+      "target": "on-visceral-distillation",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
       "target": "operator-winks-at-the-machines",
       "weight": 1,
       "reasons": [
@@ -14364,6 +14989,14 @@
     {
       "source": "bezalel-the-designated-hand",
       "target": "disrespectful-power",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "distortion-atlas",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -14835,6 +15468,14 @@
     },
     {
       "source": "chattahoochee-river-loremap",
+      "target": "on-visceral-distillation",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "chattahoochee-river-loremap",
       "target": "operator-winks-at-the-machines",
       "weight": 1,
       "reasons": [
@@ -15259,6 +15900,14 @@
     },
     {
       "source": "cities-built-on-ruin",
+      "target": "on-visceral-distillation",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
       "target": "operator-winks-at-the-machines",
       "weight": 1,
       "reasons": [
@@ -15555,6 +16204,14 @@
     },
     {
       "source": "citizen-network-map-hi-fi",
+      "target": "distortion-atlas",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
       "target": "heart-does-not-dream",
       "weight": 1,
       "reasons": [
@@ -16203,6 +16860,14 @@
     },
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "distortion-atlas",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -16235,6 +16900,14 @@
     },
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "distortion-atlas",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -16260,6 +16933,14 @@
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "distortion-atlas",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -16307,6 +16988,14 @@
     },
     {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "distortion-atlas",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -16340,6 +17029,14 @@
     {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "target": "distortion-atlas",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -16412,6 +17109,14 @@
     {
       "source": "codex-archive-system-v3-7-loremap-foundation-notes",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "distortion-atlas",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -16563,6 +17268,14 @@
     },
     {
       "source": "codex-glyph-grammar",
+      "target": "distortion-atlas",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
       "target": "heart-does-not-dream",
       "weight": 1,
       "reasons": [
@@ -16668,6 +17381,14 @@
     {
       "source": "codex-glyph-grammar",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
+      "target": "distortion-atlas",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -16899,6 +17620,14 @@
     },
     {
       "source": "deck-under-load-ii",
+      "target": "on-visceral-distillation",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "deck-under-load-ii",
       "target": "signal-descent-001",
       "weight": 1,
       "reasons": [
@@ -17044,6 +17773,182 @@
     {
       "source": "disrespectful-power",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "heart-does-not-dream",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "jsa-collage-evolution-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "jsa-collage-evolution-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "jsa-collage-evolution-003",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "machine-creatures",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "node-doctrine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "north-georgia-march-2026",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "north-georgia-week-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "on-visceral-distillation",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "ridge-line-lessons",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "signal-descent-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "stairwell-signal",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "suwanee-ga-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "transmission-note-to-future-me",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -17675,6 +18580,14 @@
     },
     {
       "source": "jsa-collage-evolution-003",
+      "target": "on-visceral-distillation",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
       "target": "operator-winks-at-the-machines",
       "weight": 1,
       "reasons": [
@@ -17908,6 +18821,14 @@
     {
       "source": "maintenance-without-cure",
       "target": "node-doctrine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "maintenance-without-cure",
+      "target": "on-visceral-distillation",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -18227,6 +19148,14 @@
     },
     {
       "source": "nothing-missing-only-unindexed",
+      "target": "on-visceral-distillation",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "nothing-missing-only-unindexed",
       "target": "pressure-psalm-v",
       "weight": 1,
       "reasons": [
@@ -18380,6 +19309,46 @@
     {
       "source": "on-object-oriented-archives",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-visceral-distillation",
+      "target": "reduce-novelty-before-care",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-visceral-distillation",
+      "target": "stairwell-signal",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-visceral-distillation",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-visceral-distillation",
+      "target": "suwanee-ga-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-visceral-distillation",
+      "target": "under-load",
       "weight": 1,
       "reasons": [
         "shared-theme"

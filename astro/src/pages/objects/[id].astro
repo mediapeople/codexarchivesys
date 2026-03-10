@@ -123,6 +123,20 @@ function formatValue(value: unknown): string | null {
   return trimmed ? trimmed : null;
 }
 
+function isHtmlDownloadSource(value: string | null): value is string {
+  return Boolean(value && /^\/.+\.html$/i.test(value));
+}
+
+function formatSourceLabel(value: string): string {
+  const basename = value.split('/').filter(Boolean).pop()?.replace(/\.html$/i, '') || value;
+
+  return basename
+    .split(/[-_]+/)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
+}
+
 const optionalFieldLabels: Record<string, string> = {
   location: 'Location',
   geo: 'Geo',
@@ -160,6 +174,17 @@ const detailRows = optionalFieldOrder
   })
   .filter((row): row is { label: string; value: string } => Boolean(row));
 
+const readableDate = formatArchiveLongDate(entry.data.date);
+const displayTitle = formatDisplayTitle(entry.data.title);
+const artifactSourceValue = entry.collection === 'artifact'
+  ? formatValue((entry.data as Record<string, unknown>).source)
+  : null;
+const artifactSourceHref = isHtmlDownloadSource(artifactSourceValue) ? artifactSourceValue : '';
+const isHtmlArtifact = Boolean(artifactSourceHref);
+const artifactSurfaceLabel = artifactSourceHref ? formatSourceLabel(artifactSourceHref) : displayTitle;
+const artifactSurfaceType = entry.collection === 'artifact'
+  ? formatValue((entry.data as Record<string, unknown>).artifactType) || 'HTML artifact'
+  : 'HTML artifact';
 const fieldlogSpecsRaw = (entry.data as Record<string, unknown>).specs;
 const fieldlogSpecs = Array.isArray(fieldlogSpecsRaw)
   ? fieldlogSpecsRaw
@@ -192,16 +217,20 @@ const loremapFieldLabels = new Set(['Location', 'Geo', 'Terrain']);
 const loremapDetailRows = isLoremapObject
   ? detailRows.filter((row) => loremapFieldLabels.has(row.label))
   : [];
-const supportingDetailRows = isLoremapObject
+const rawSupportingDetailRows = isLoremapObject
   ? detailRows.filter((row) => !loremapFieldLabels.has(row.label))
   : detailRows;
+const artifactSupportRows = isHtmlArtifact
+  ? detailRows.filter((row) => row.label !== 'Source')
+  : detailRows;
+const supportingDetailRows = isHtmlArtifact
+  ? rawSupportingDetailRows.filter((row) => row.label !== 'Source')
+  : rawSupportingDetailRows;
 const loremapClassificationRaw = (entry.data as Record<string, unknown>).classification;
 const loremapClassification = Array.isArray(loremapClassificationRaw)
   ? loremapClassificationRaw.map((item) => String(item).trim()).filter(Boolean)
   : [];
 
-const readableDate = formatArchiveLongDate(entry.data.date);
-const displayTitle = formatDisplayTitle(entry.data.title);
 const shareMeta = buildObjectShareMeta({
   collection: entry.collection,
   title: displayTitle,
@@ -213,7 +242,8 @@ const bodyClassRaw = (entry.data as Record<string, unknown>).bodyClass;
 const bodyClass = typeof bodyClassRaw === 'string' ? bodyClassRaw : 'prose';
 const objectFirstFlow = true;
 const artifactLeadsWithMedia = entry.collection === 'artifact';
-const artifactHasSupport = artifactLeadsWithMedia && (secondaryMedia.length > 0 || detailRows.length > 0);
+const artifactHasSupport =
+  artifactLeadsWithMedia && (secondaryMedia.length > 0 || artifactSupportRows.length > 0);
 const loremapAtlas = getLoremapAtlasRender(entry.data as Record<string, unknown>, displayTitle, 'page');
 const loremapLocation = loremapAtlas.location;
 const loremapGeo = loremapAtlas.geo;
@@ -419,9 +449,9 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
               </div>
             )}
 
-            {detailRows.length > 0 && (
+            {artifactSupportRows.length > 0 && (
               <section class="detail-grid detail-grid--artifact-support">
-                {detailRows.map((row) => (
+                {artifactSupportRows.map((row) => (
                   <article>
                     <p>{row.label}</p>
                     <strong>{row.value}</strong>
@@ -429,6 +459,57 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
                 ))}
               </section>
             )}
+          </section>
+        )}
+      </section>
+    )}
+
+    {isHtmlArtifact && (
+      <section class={`html-scroll-stage ${primaryMedia ? 'html-scroll-stage--with-media' : ''}`}>
+        <div class="html-scroll-stage-copy">
+          <p class="html-scroll-stage-label">Browser-native reading surface</p>
+          <h2>Open the preserved HTML surface.</h2>
+          <p>
+            This artifact is archived as a live HTML experience. Use the source file when layout,
+            motion, and scroll behavior are part of the meaning.
+          </p>
+          <div class="html-scroll-stage-actions">
+            <a class="html-scroll-stage-action" href={artifactSourceHref} target="_blank" rel="noreferrer">
+              Open HTML surface
+            </a>
+            <a class="html-scroll-stage-action html-scroll-stage-action--secondary" href={artifactSourceHref} download>
+              Download original HTML
+            </a>
+          </div>
+        </div>
+
+        <div class="html-scroll-stage-plate" aria-hidden="true">
+          <div class="html-scroll-stage-chrome">
+            <span></span>
+            <span></span>
+            <span></span>
+            <p>{artifactSurfaceLabel}</p>
+          </div>
+          <div class="html-scroll-stage-field">
+            <p class="html-scroll-stage-kicker">Elevated scroll</p>
+            <strong class="html-scroll-stage-title">{artifactSurfaceType}</strong>
+            <span class="html-scroll-stage-file">{artifactSourceHref}</span>
+          </div>
+          <div class="html-scroll-stage-measure">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+
+        {!primaryMedia && artifactSupportRows.length > 0 && (
+          <section class="detail-grid detail-grid--html-scroll">
+            {artifactSupportRows.map((row) => (
+              <article>
+                <p>{row.label}</p>
+                <strong>{row.value}</strong>
+              </article>
+            ))}
           </section>
         )}
       </section>
@@ -1820,6 +1901,251 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     max-width: none;
   }
 
+  .html-scroll-stage {
+    margin-top: 2.2rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+    gap: 1.3rem 2.8rem;
+    align-items: stretch;
+    max-width: min(1120px, 100%);
+    padding: clamp(1.1rem, 1.8vw, 1.45rem);
+    border: 1px solid rgba(201, 150, 58, 0.16);
+    background:
+      radial-gradient(circle at 86% 18%, rgba(201, 150, 58, 0.12), transparent 26%),
+      linear-gradient(145deg, rgba(38, 31, 25, 0.9), rgba(10, 9, 8, 0.96));
+    position: relative;
+    overflow: hidden;
+  }
+
+  .html-scroll-stage::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 24%),
+      repeating-linear-gradient(180deg, rgba(244, 240, 232, 0.022) 0 1px, transparent 1px 19px);
+    pointer-events: none;
+  }
+
+  .html-scroll-stage--with-media {
+    margin-top: 1.45rem;
+  }
+
+  .html-scroll-stage-copy,
+  .html-scroll-stage-plate,
+  .detail-grid--html-scroll {
+    position: relative;
+    z-index: 1;
+  }
+
+  .html-scroll-stage-copy {
+    align-self: center;
+    max-width: 44ch;
+  }
+
+  .html-scroll-stage-label {
+    margin: 0 0 0.82rem;
+    color: rgba(222, 193, 138, 0.82);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+  }
+
+  .html-scroll-stage-copy h2 {
+    margin: 0;
+    color: rgba(244, 240, 232, 0.96);
+    font-family: var(--font-display);
+    font-size: clamp(1.68rem, 2.4vw, 2.3rem);
+    font-weight: 800;
+    line-height: 1.04;
+    max-width: 14ch;
+    text-wrap: balance;
+  }
+
+  .html-scroll-stage-copy > p:last-of-type {
+    margin: 1rem 0 0;
+    color: var(--text-body);
+    font-size: 1.08rem;
+    line-height: 1.78;
+  }
+
+  .html-scroll-stage-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.72rem;
+    margin-top: 1.2rem;
+  }
+
+  .html-scroll-stage-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.55rem;
+    padding: 0.72rem 1.05rem;
+    border: 1px solid rgba(201, 150, 58, 0.32);
+    background: rgba(201, 150, 58, 0.08);
+    color: rgba(244, 240, 232, 0.94);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition:
+      border-color 140ms ease,
+      background 140ms ease,
+      color 140ms ease,
+      transform 140ms ease;
+  }
+
+  .html-scroll-stage-action:hover {
+    border-color: rgba(233, 201, 140, 0.48);
+    background: rgba(201, 150, 58, 0.12);
+    transform: translateY(-1px);
+  }
+
+  .html-scroll-stage-action--secondary {
+    background: rgba(255, 255, 255, 0.02);
+    color: rgba(244, 240, 232, 0.82);
+  }
+
+  .html-scroll-stage-action:focus-visible {
+    outline: 2px solid rgba(233, 201, 140, 0.7);
+    outline-offset: 2px;
+  }
+
+  .html-scroll-stage-plate {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 0.9rem;
+    min-height: clamp(16rem, 30vw, 22rem);
+    padding: 0.9rem 0.94rem 0.98rem;
+    border: 1px solid rgba(201, 150, 58, 0.14);
+    background:
+      radial-gradient(circle at 82% 18%, rgba(201, 150, 58, 0.16), transparent 30%),
+      linear-gradient(145deg, rgba(44, 34, 24, 0.96), rgba(11, 9, 8, 0.99));
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .html-scroll-stage-plate::before {
+    content: '';
+    position: absolute;
+    left: 18%;
+    right: 18%;
+    bottom: 0.78rem;
+    height: 0.9rem;
+    border-radius: 999px;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.42), transparent 72%);
+    filter: blur(10px);
+    opacity: 0.56;
+    pointer-events: none;
+  }
+
+  .html-scroll-stage-chrome,
+  .html-scroll-stage-field,
+  .html-scroll-stage-measure {
+    position: relative;
+    z-index: 1;
+  }
+
+  .html-scroll-stage-chrome {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: rgba(222, 193, 138, 0.72);
+    font-family: var(--font-ui);
+    font-size: 0.54rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .html-scroll-stage-chrome span {
+    width: 0.46rem;
+    height: 0.46rem;
+    border-radius: 50%;
+    border: 1px solid rgba(222, 193, 138, 0.34);
+    background: rgba(222, 193, 138, 0.08);
+  }
+
+  .html-scroll-stage-chrome p {
+    margin: 0 0 0 auto;
+  }
+
+  .html-scroll-stage-field {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.44rem;
+    padding: clamp(1.05rem, 1.6vw, 1.25rem);
+    border: 1px solid rgba(201, 150, 58, 0.18);
+    background:
+      linear-gradient(180deg, rgba(201, 150, 58, 0.08), rgba(201, 150, 58, 0.02) 22%, rgba(12, 10, 9, 0.18) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .html-scroll-stage-field::before {
+    content: '';
+    position: absolute;
+    top: 0.92rem;
+    bottom: 0.92rem;
+    left: 1rem;
+    width: 1px;
+    background: linear-gradient(180deg, rgba(233, 201, 140, 0.3), rgba(233, 201, 140, 0.02));
+  }
+
+  .html-scroll-stage-kicker {
+    margin: 0;
+    padding-left: 0.92rem;
+    color: rgba(222, 193, 138, 0.8);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+  }
+
+  .html-scroll-stage-title {
+    display: block;
+    padding-left: 0.92rem;
+    color: rgba(244, 240, 232, 0.96);
+    font-family: var(--font-display);
+    font-size: clamp(1.52rem, 2vw, 1.94rem);
+    font-weight: 700;
+    line-height: 1.08;
+    text-wrap: balance;
+    max-width: 14ch;
+  }
+
+  .html-scroll-stage-file {
+    display: block;
+    padding-left: 0.92rem;
+    color: rgba(244, 240, 232, 0.68);
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  .html-scroll-stage-measure {
+    display: grid;
+    gap: 0.34rem;
+  }
+
+  .html-scroll-stage-measure span {
+    height: 1px;
+    background: linear-gradient(90deg, rgba(233, 201, 140, 0.1), rgba(233, 201, 140, 0.38), transparent);
+  }
+
+  .detail-grid--html-scroll {
+    grid-column: 1 / -1;
+    margin: 0.1rem 0 0;
+    max-width: none;
+  }
+
   .media-stage {
     margin-top: 4.2rem;
     display: grid;
@@ -3061,6 +3387,11 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
       gap: 1.5rem;
     }
 
+    .html-scroll-stage {
+      grid-template-columns: 1fr;
+      gap: 1.2rem;
+    }
+
     .detail-grid--artifact-support {
       order: 1;
     }
@@ -3168,6 +3499,15 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
     .artifact-evidence {
       margin-top: 1.9rem;
+    }
+
+    .html-scroll-stage {
+      margin-top: 1.9rem;
+      padding: 1rem;
+    }
+
+    .html-scroll-stage-copy h2 {
+      max-width: 100%;
     }
 
     .body :global(h2) {
@@ -3318,6 +3658,15 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
       gap: 1.15rem;
     }
 
+    .html-scroll-stage-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .html-scroll-stage-action {
+      width: 100%;
+    }
+
     .artifact-evidence-support {
       gap: 1.2rem;
     }
@@ -3362,6 +3711,33 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
     .object-shell.text-first-media .body {
       margin-top: 2.5rem;
+    }
+
+    .html-scroll-stage {
+      padding: 0.92rem;
+    }
+
+    .html-scroll-stage-copy h2 {
+      font-size: clamp(1.34rem, 8vw, 1.68rem);
+    }
+
+    .html-scroll-stage-copy > p:last-of-type {
+      font-size: 1rem;
+      line-height: 1.68;
+    }
+
+    .html-scroll-stage-plate {
+      min-height: 14.5rem;
+      padding: 0.82rem 0.86rem 0.9rem;
+    }
+
+    .html-scroll-stage-title {
+      font-size: clamp(1.3rem, 7vw, 1.56rem);
+    }
+
+    .html-scroll-stage-file {
+      font-size: 0.64rem;
+      letter-spacing: 0.1em;
     }
 
     .loremap-atlas-title {

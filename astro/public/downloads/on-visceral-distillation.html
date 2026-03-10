@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>On Visceral Distillation — Signal Visualization</title>
+  <meta name="description" content="A codex visualization for visceral distillation: compression, pressure, infrastructure, and elevation." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #080604;
+      --paper: #f0ead8;
+      --amber: #c8891a;
+      --ember: #8b2e0a;
+      --gold: #d4a843;
+      --ash: #7a7268;
+      --ash-soft: rgba(122, 114, 104, 0.72);
+      --shadow: 0 0 40px rgba(8, 6, 4, 0.9);
+      --page-pad: clamp(1.25rem, 3vw, 2.5rem);
+      --content-max: 860px;
+    }
+
+    html {
+      font-size: 18px;
+      scroll-behavior: smooth;
+      background: var(--ink);
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 50% 16%, rgba(212,168,67,0.06), transparent 22%),
+        linear-gradient(180deg, rgba(255,255,255,0.015), transparent 20%),
+        var(--ink);
+      color: var(--paper);
+      font-family: "Cormorant Garamond", Georgia, serif;
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+      text-rendering: optimizeLegibility;
+    }
+
+    @supports (height: 100dvh) {
+      .hero-stage { min-height: 100dvh; }
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea, select { font: inherit; }
+
+    /* ── HERO ── */
+
+    .hero-stage {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      min-height: -webkit-fill-available;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    /* inset: 0 replaced for Android WebView compat */
+    #viz {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .hero-stage::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 20vh;
+      background: linear-gradient(180deg, transparent, rgba(8,6,4,0.56));
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .stage-overlay {
+      position: relative;
+      z-index: 10;
+      width: min(100%, 980px);
+      text-align: center;
+      pointer-events: none;
+      padding: 2rem var(--page-pad);
+    }
+
+    .stage-title {
+      font-size: clamp(2.4rem, 10vw, 6.2rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--paper);
+      line-height: 1.04;
+      text-shadow: var(--shadow);
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .stage-title em { color: var(--gold); font-style: italic; }
+
+    .stage-sub {
+      font-family: "Courier Prime", "Courier New", monospace;
+      font-size: clamp(0.82rem, 2vw, 0.94rem);
+      letter-spacing: 0.18em;
+      color: var(--amber);
+      text-transform: uppercase;
+      opacity: 0.86;
+      line-height: 1.8;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: max(1.1rem, env(safe-area-inset-bottom));
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: "Courier Prime", "Courier New", monospace;
+      font-size: 0.84rem;
+      letter-spacing: 0.2em;
+      color: var(--ash);
+      text-transform: uppercase;
+      animation: pulse 2.2s ease-in-out infinite;
+      z-index: 12;
+      white-space: nowrap;
+      opacity: 0.9;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.28; transform: translateX(-50%) translateY(0); }
+      50%       { opacity: 0.85; transform: translateX(-50%) translateY(0.18rem); }
+    }
+
+    /* ── RULE ── */
+
+    .rule {
+      width: calc(100% - (var(--page-pad) * 2));
+      max-width: calc(var(--content-max) + 10rem);
+      margin: 0 auto;
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(200,137,26,0.2) 20%,
+        rgba(212,168,67,0.28) 50%,
+        rgba(200,137,26,0.2) 80%,
+        transparent
+      );
+    }
+
+    /* ── SECTIONS ── */
+
+    .section,
+    .elevation-section {
+      max-width: var(--content-max);
+      margin: 0 auto;
+      padding: clamp(4rem, 9vw, 6rem) var(--page-pad);
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .section.visible,
+    .elevation-section.visible { opacity: 1; transform: translateY(0); }
+
+    .section-id {
+      font-family: "Courier Prime", "Courier New", monospace;
+      font-size: 0.88rem;
+      letter-spacing: 0.28em;
+      color: var(--amber);
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      opacity: 0.68;
+    }
+
+    .large-text {
+      font-size: clamp(1.5rem, 4.5vw, 2.65rem);
+      font-weight: 300;
+      line-height: 1.42;
+      color: var(--paper);
+      margin-bottom: 1.35rem;
+    }
+
+    .large-text strong { font-style: italic; color: var(--gold); font-weight: 400; }
+
+    .body-text {
+      font-size: clamp(1.1rem, 2.5vw, 1.25rem);
+      line-height: 1.85;
+      color: var(--ash-soft);
+      font-style: italic;
+    }
+
+    /* ── COMPRESSION ── */
+
+    .compression-block { margin: 3rem 0 2.4rem; }
+
+    .compress-pipe {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) 50px minmax(130px, 1fr);
+      align-items: stretch;
+      min-height: 72px;
+    }
+
+    .compress-input,
+    .compress-output { display: flex; align-items: center; padding: 0.9rem 1rem; line-height: 1.35; }
+
+    .compress-input {
+      background: linear-gradient(105deg, rgba(122,114,104,0.18) 0%, rgba(90,84,76,0.1) 100%);
+      border: 1px solid rgba(160,150,136,0.38);
+      border-right: none;
+      font-size: clamp(0.88rem, 2vw, 1rem);
+      color: rgba(240, 234, 216, 0.82);
+      font-style: italic;
+      letter-spacing: 0.01em;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), inset 0 -1px 0 rgba(0,0,0,0.2);
+    }
+
+    .compress-funnel { width: 50px; height: 100%; flex-shrink: 0; }
+    .compress-funnel svg { width: 100%; height: 100%; display: block; }
+
+    .compress-output {
+      background: linear-gradient(90deg, rgba(212,168,67,0.16), rgba(212,168,67,0.05));
+      border: 1px solid rgba(212,168,67,0.3);
+      border-left: none;
+      font-size: clamp(0.88rem, 2vw, 1rem);
+      color: var(--gold);
+      font-weight: 600;
+      font-style: italic;
+    }
+
+    /* ── FLOW ── */
+
+    .signal-flow { margin: 3rem 0 0; }
+
+    .flow-canvas-wrap {
+      width: 100%;
+      height: 220px;
+      position: relative;
+      border: 1px solid rgba(200,137,26,0.12);
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent), rgba(200,137,26,0.015);
+      overflow: hidden;
+    }
+
+    .flow-canvas { display: block; width: 100%; height: 100%; }
+
+    .flow-labels {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-top: 0.78rem;
+      padding: 0 0.12rem;
+      flex-wrap: wrap;
+    }
+
+    .flow-label {
+      font-family: "Courier Prime", "Courier New", monospace;
+      font-size: clamp(0.76rem, 1.8vw, 0.88rem);
+      letter-spacing: 0.08em;
+      color: var(--ash);
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    /* ── PRESSURE ── */
+
+    .pressure-section { margin: 2.7rem 0 0; }
+
+    .pressure-title {
+      font-size: clamp(1.34rem, 4vw, 1.82rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--paper);
+      margin-bottom: 0.45rem;
+    }
+
+    .pressure-sub {
+      font-size: clamp(1.05rem, 2.5vw, 1.15rem);
+      color: var(--ash-soft);
+      font-style: italic;
+      margin-bottom: 1.8rem;
+      line-height: 1.7;
+    }
+
+    .pressure-meter {
+      position: relative;
+      height: 10px;
+      background: rgba(200,137,26,0.08);
+      border: 1px solid rgba(200,137,26,0.15);
+      margin-bottom: 0.52rem;
+      overflow: hidden;
+    }
+
+    .pressure-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--ember), var(--amber), var(--gold));
+      transition: width 2.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .pressure-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      font-family: "Courier Prime", "Courier New", monospace;
+      font-size: clamp(0.74rem, 1.8vw, 0.84rem);
+      color: var(--ash);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.58;
+      margin-bottom: 1.35rem;
+    }
+
+    /* contrast fix: paper on ember bg */
+    .pressure-break {
+      font-size: clamp(1.1rem, 2.5vw, 1.2rem);
+      font-style: italic;
+      color: var(--paper);
+      padding: 1.25rem;
+      border: 1px solid rgba(139,46,10,0.35);
+      background: linear-gradient(180deg, rgba(139,46,10,0.11), rgba(139,46,10,0.07));
+      line-height: 1.72;
+    }
+
+    /* ── INFRA ── */
+
+    .infra-layers { display: flex; flex-direction: column; gap: 2px; margin-top: 2.75rem; }
+
+    .infra-layer {
+      display: grid;
+      grid-template-columns: 100px 1fr 32px;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.2rem;
+      border: 1px solid rgba(200,137,26,0.08);
+      background: rgba(255,255,255,0.008);
+      transition: border-color 0.35s ease, background 0.35s ease, transform 0.35s ease;
+    }
+
+    .infra-layer:hover,
+    .infra-layer:focus-visible,
+    .infra-layer:active {
+      border-color: rgba(200,137,26,0.3);
+      background: rgba(200,137,26,0.04);
+      transform: translateX(2px);
+    }
+
+    .infra-layer.is-ladder:hover,
+    .infra-layer.is-ladder:focus-visible,
+    .infra-layer.is-ladder:active {
+      border-color: rgba(212,168,67,0.5);
+      background: rgba(212,168,67,0.06);
+    }
+
+    .layer-name {
+      font-family: "Courier Prime", "Courier New", monospace;
+      font-size: clamp(0.82rem, 1.8vw, 0.94rem);
+      letter-spacing: 0.1em;
+      color: var(--amber);
+      text-transform: uppercase;
+      line-height: 1.6;
+    }
+
+    .layer-desc {
+      font-size: clamp(1rem, 2.5vw, 1.1rem);
+      color: var(--ash-soft);
+      font-style: italic;
+      line-height: 1.56;
+    }
+
+    .layer-icon { font-size: 1rem; text-align: center; opacity: 0.54; color: var(--paper); }
+    .infra-layer.is-ladder .layer-icon { opacity: 1; color: var(--gold); }
+
+    /* ── ELEVATION ── */
+
+    .elevation-section {
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+      padding-top: clamp(5rem, 10vw, 8rem);
+      padding-bottom: clamp(5rem, 10vw, 8rem);
+      isolation: isolate;
+    }
+
+    /* inset: 0 replaced for Android WebView compat */
+    .elevation-canvas-wrap {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .elevation-canvas { display: block; width: 100%; height: 100%; }
+    .elevation-text { position: relative; z-index: 2; }
+
+    .elevation-primary {
+      font-size: clamp(3.2rem, 12vw, 7.1rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--gold);
+      line-height: 1.04;
+      margin-bottom: 1.35rem;
+      text-shadow: 0 0 28px rgba(212,168,67,0.06);
+    }
+
+    .elevation-secondary {
+      font-size: clamp(1.15rem, 3.5vw, 1.65rem);
+      color: var(--ash-soft);
+      font-style: italic;
+      line-height: 1.9;
+      margin-bottom: 1rem;
+    }
+
+    .elevation-final {
+      font-size: clamp(1.3rem, 3.5vw, 2rem);
+      font-style: italic;
+      color: var(--paper);
+      margin-bottom: 2.6rem;
+      font-weight: 300;
+    }
+
+    .codex-stamp {
+      display: inline-block;
+      font-family: "Courier Prime", "Courier New", monospace;
+      font-size: clamp(0.76rem, 1.5vw, 0.88rem);
+      letter-spacing: 0.2em;
+      color: var(--amber);
+      text-transform: uppercase;
+      border: 1px solid rgba(200,137,26,0.3);
+      padding: 0.72rem 1.2rem;
+      opacity: 0.72;
+      background: rgba(255,255,255,0.015);
+      -webkit-backdrop-filter: blur(3px);
+      backdrop-filter: blur(3px);
+    }
+
+    /* ── GRAIN ── */
+
+    /* inset: 0 replaced for Android WebView compat */
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.3;
+      mix-blend-mode: soft-light;
+    }
+
+    /* ── MOBILE ── */
+
+    @media (max-width: 599px) {
+      .compress-pipe { grid-template-columns: 1fr; gap: 0.75rem; }
+      .compress-input, .compress-output { border: 1px solid rgba(200,137,26,0.15); }
+      .compress-output { border-color: rgba(212,168,67,0.3); }
+      .compress-funnel { width: 100%; height: 32px; }
+      .compress-funnel svg { transform: rotate(90deg); }
+      .flow-canvas-wrap { height: 190px; }
+      .infra-layer {
+        grid-template-columns: 1fr auto;
+        grid-template-areas: "name icon" "desc desc";
+        gap: 0.65rem 1rem;
+      }
+      .layer-name { grid-area: name; }
+      .layer-desc { grid-area: desc; }
+      .layer-icon { grid-area: icon; }
+    }
+
+    @media (min-width: 600px) {
+      .flow-canvas-wrap { height: 260px; }
+      .infra-layer { grid-template-columns: 120px 1fr 40px; gap: 1.5rem; padding: 1.2rem 1.5rem; }
+    }
+
+    /* ── REDUCED MOTION ── */
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .scroll-hint { animation: none; opacity: 0.6; }
+      .section, .elevation-section { opacity: 1; transform: none; }
+      body::after { opacity: 0.18; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero-stage" id="stage">
+    <canvas id="viz" aria-hidden="true"></canvas>
+    <div class="stage-overlay">
+      <h1 class="stage-title">On <em>Visceral</em><br />Distillation</h1>
+      <p class="stage-sub">VD-001 &nbsp;·&nbsp; Signal Infrastructure &nbsp;·&nbsp; ndcodex.com</p>
+    </div>
+    <div class="scroll-hint" aria-hidden="true">Scroll ↓</div>
+  </header>
+
+  <div class="rule" aria-hidden="true"></div>
+
+  <main>
+
+    <section class="section" id="s1">
+      <div class="section-id">01 &nbsp;·&nbsp; Compression</div>
+      <div class="large-text">
+        Take large, complicated realities<br />
+        and compress them until they can be <strong>felt.</strong>
+      </div>
+      <div class="body-text">
+        Not merely understood. Felt.<br />
+        A good distillation does not remove life. It concentrates it.
+      </div>
+      <div class="compression-block">
+        <div class="compress-pipe">
+          <div class="compress-input">Large, complicated reality — noise, argument, volume, context, history, grief, pattern…</div>
+          <div class="compress-funnel" aria-hidden="true">
+            <svg viewBox="0 0 50 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="0,0 50,0 50,70 25,70" fill="rgba(200,137,26,0.08)" stroke="rgba(200,137,26,0.3)" stroke-width="1"/>
+            </svg>
+          </div>
+          <div class="compress-output">Signal.<br />Hot center.</div>
+        </div>
+      </div>
+      <div class="signal-flow">
+        <div class="flow-canvas-wrap">
+          <canvas class="flow-canvas" id="flowCanvas" aria-hidden="true"></canvas>
+        </div>
+        <div class="flow-labels" aria-hidden="true">
+          <span class="flow-label">Raw</span>
+          <span class="flow-label">Distill</span>
+          <span class="flow-label">Advocate</span>
+          <span class="flow-label">Gate</span>
+          <span class="flow-label">Elevate</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="rule" aria-hidden="true"></div>
+
+    <section class="section" id="s2">
+      <div class="section-id">02 &nbsp;·&nbsp; The System Problem</div>
+      <div class="large-text">
+        A system that won't hear you<br />
+        is a system <strong>eating itself slowly.</strong>
+      </div>
+      <div class="pressure-section">
+        <div class="pressure-title">Unprocessed signal accumulates.</div>
+        <div class="pressure-sub">The pressure the system refused to hear becomes the pressure that breaks it.</div>
+        <div class="pressure-meter" aria-hidden="true">
+          <div class="pressure-fill" id="pressureFill"></div>
+        </div>
+        <div class="pressure-label" aria-hidden="true">
+          <span>Signal ignored</span><span>Pressure builds</span><span>System breaks</span>
+        </div>
+        <div class="pressure-meter" aria-hidden="true">
+          <div class="pressure-fill" id="pressureFill2" style="transition-delay:0.4s"></div>
+        </div>
+        <div class="pressure-label" aria-hidden="true">
+          <span>Advocacy suppressed</span><span>Data lost</span><span>Failure</span>
+        </div>
+        <div class="pressure-break">
+          Advocacy isn't disruption.<br />
+          It's load-bearing maintenance the system forgot to schedule.
+        </div>
+      </div>
+    </section>
+
+    <div class="rule" aria-hidden="true"></div>
+
+    <section class="section" id="s3">
+      <div class="section-id">03 &nbsp;·&nbsp; Infrastructure Map</div>
+      <div class="large-text">The lobby, the gate, the ladder, the elevator.</div>
+      <div class="body-text" style="margin-bottom:2.5rem;">Every signal needs infrastructure. The question is which gates are ladders in disguise.</div>
+      <div class="infra-layers">
+        <div class="infra-layer" tabindex="0"><div class="layer-name">Raw Signal</div><div class="layer-desc">Large, complicated reality. Not yet legible to the system.</div><div class="layer-icon">◎</div></div>
+        <div class="infra-layer" tabindex="0"><div class="layer-name">Distillation</div><div class="layer-desc">Compression to hot center. Language reduced until it carries weight.</div><div class="layer-icon">◈</div></div>
+        <div class="infra-layer" tabindex="0"><div class="layer-name">The Lobby</div><div class="layer-desc">Where signal goes to find its floor. Advocacy needs a lobby.</div><div class="layer-icon">▭</div></div>
+        <div class="infra-layer" tabindex="0"><div class="layer-name">Security</div><div class="layer-desc">Pattern-matches on surface. Prejudges before processing. Where most signals die.</div><div class="layer-icon">⊘</div></div>
+        <div class="infra-layer" tabindex="0"><div class="layer-name">Gates</div><div class="layer-desc">Slow you down. Some are ladders in disguise.</div><div class="layer-icon">⊟</div></div>
+        <div class="infra-layer is-ladder" tabindex="0"><div class="layer-name">Ladders</div><div class="layer-desc">Skip the floor entirely. The clean signal that carries no unnecessary weight.</div><div class="layer-icon">↑</div></div>
+        <div class="infra-layer is-ladder" tabindex="0"><div class="layer-name">Elevation</div><div class="layer-desc">Altitude earned by clarity. Not argument. Not volume.</div><div class="layer-icon">✦</div></div>
+      </div>
+    </section>
+
+    <div class="rule" aria-hidden="true"></div>
+
+    <section class="elevation-section" id="s4">
+      <div class="elevation-canvas-wrap">
+        <canvas class="elevation-canvas" id="elevationCanvas" aria-hidden="true"></canvas>
+      </div>
+      <div class="elevation-text">
+        <div class="elevation-primary">Elevate.</div>
+        <div class="elevation-secondary">
+          Clarity earns altitude.<br />
+          Not argument. Not volume.<br />
+          Not completeness.
+        </div>
+        <div class="elevation-final">Clarity under pressure.</div>
+        <div class="codex-stamp">VD-001 &nbsp;·&nbsp; Nathan &nbsp;·&nbsp; March 2026 &nbsp;·&nbsp; ndcodex.com</div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    (() => {
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const isMobile = window.innerWidth < 600 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const DPR = Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2);
+
+      function safeResize(canvas, ctx) {
+        const w = canvas.offsetWidth, h = canvas.offsetHeight;
+        if (!w || !h) return false;
+        canvas.width = Math.floor(w * DPR);
+        canvas.height = Math.floor(h * DPR);
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        return true;
+      }
+
+      function rafLoop(fn) {
+        let id;
+        function frame() { fn(); id = requestAnimationFrame(frame); }
+        frame();
+        return () => cancelAnimationFrame(id);
+      }
+
+      /* ── HERO ── */
+
+      const heroCanvas = document.getElementById("viz");
+      const heroCtx = heroCanvas.getContext("2d");
+      const heroW = () => heroCanvas.offsetWidth;
+      const heroH = () => heroCanvas.offsetHeight;
+
+      safeResize(heroCanvas, heroCtx);
+      window.addEventListener("resize", () => safeResize(heroCanvas, heroCtx), { passive: true });
+
+      const HERO_P = prefersReducedMotion ? 0 : (isMobile ? 60 : 140);
+      const HERO_L = prefersReducedMotion ? 0 : (isMobile ? 14 : 34);
+
+      class HeroParticle {
+        constructor() { this.reset(); }
+        reset() {
+          const w = heroW(), h = heroH();
+          this.type = Math.random() < 0.65 ? "signal" : "noise";
+          this.x = this.type === "noise"
+            ? (Math.random() < 0.5 ? Math.random() * w * 0.3 : w * 0.7 + Math.random() * w * 0.3)
+            : w * 0.28 + Math.random() * w * 0.44;
+          this.y = h + 10;
+          this.vx = (Math.random() - 0.5) * 0.4;
+          this.vy = -(Math.random() * 0.55 + 0.1);
+          this.life = Math.random() * 0.5 + 0.5;
+          this.decay = Math.random() * 0.003 + 0.001;
+          this.size = Math.random() * 1.6 + 0.4;
+        }
+        update() {
+          this.x += this.vx; this.y += this.vy; this.life -= this.decay;
+          if (this.type === "signal") this.vx += (heroW() / 2 - this.x) * 0.0002;
+          if (this.life <= 0 || this.y < -20) this.reset();
+        }
+        draw() {
+          const a = this.life * 0.7;
+          heroCtx.fillStyle = this.type === "signal" ? `rgba(212,168,67,${a})` : `rgba(122,114,104,${a * 0.35})`;
+          heroCtx.beginPath(); heroCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2); heroCtx.fill();
+        }
+      }
+
+      class HeroFlowLine {
+        constructor() { this.reset(); }
+        reset() {
+          const w = heroW(), h = heroH();
+          this.sx = Math.random() * w; this.sy = h * 0.65 + Math.random() * h * 0.35;
+          this.tx = w / 2 + (Math.random() - 0.5) * 60; this.ty = h * 0.38;
+          this.p = 0; this.speed = Math.random() * 0.007 + 0.003; this.alpha = Math.random() * 0.12 + 0.04;
+        }
+        update() { this.p += this.speed; if (this.p >= 1) this.reset(); }
+        draw() {
+          const p = this.p;
+          const x1 = this.sx + (this.tx - this.sx) * Math.max(0, p - 0.05);
+          const y1 = this.sy + (this.ty - this.sy) * Math.max(0, p - 0.05);
+          const x2 = this.sx + (this.tx - this.sx) * p;
+          const y2 = this.sy + (this.ty - this.sy) * p;
+          const a = this.alpha * (1 - Math.abs(p - 0.5) * 2);
+          heroCtx.strokeStyle = `rgba(200,137,26,${a})`; heroCtx.lineWidth = 0.5;
+          heroCtx.beginPath(); heroCtx.moveTo(x1, y1); heroCtx.lineTo(x2, y2); heroCtx.stroke();
+        }
+      }
+
+      const heroParticles = Array.from({ length: HERO_P }, () => new HeroParticle());
+      const heroLines     = Array.from({ length: HERO_L }, () => new HeroFlowLine());
+
+      function drawHeroStatic() {
+        const w = heroW(), h = heroH(), cx = w / 2;
+        heroCtx.clearRect(0, 0, w, h);
+        const g = heroCtx.createRadialGradient(cx, h * 0.4, 0, cx, h * 0.4, 160);
+        g.addColorStop(0, "rgba(212,168,67,0.07)"); g.addColorStop(1, "transparent");
+        heroCtx.fillStyle = g; heroCtx.fillRect(0, 0, w, h);
+        const b = heroCtx.createLinearGradient(cx, h, cx, 0);
+        b.addColorStop(0, "transparent"); b.addColorStop(0.42, "rgba(212,168,67,0.05)");
+        b.addColorStop(0.62, "rgba(212,168,67,0.08)"); b.addColorStop(1, "transparent");
+        heroCtx.fillStyle = b; heroCtx.fillRect(cx - 30, 0, 60, h);
+      }
+
+      function animateHero() {
+        const w = heroW(), h = heroH(), cx = w / 2;
+        heroCtx.fillStyle = "rgba(8,6,4,0.13)"; heroCtx.fillRect(0, 0, w, h);
+        const g = heroCtx.createRadialGradient(cx, h * 0.4, 0, cx, h * 0.4, 120);
+        g.addColorStop(0, "rgba(212,168,67,0.05)"); g.addColorStop(1, "transparent");
+        heroCtx.fillStyle = g; heroCtx.fillRect(0, 0, w, h);
+        heroLines.forEach(l => { l.update(); l.draw(); });
+        heroParticles.forEach(p => { p.update(); p.draw(); });
+        const b = heroCtx.createLinearGradient(cx, h, cx, 0);
+        b.addColorStop(0, "transparent"); b.addColorStop(0.4, "rgba(212,168,67,0.05)");
+        b.addColorStop(0.6, "rgba(212,168,67,0.07)"); b.addColorStop(1, "transparent");
+        heroCtx.fillStyle = b; heroCtx.fillRect(cx - 28, 0, 56, h);
+      }
+
+      prefersReducedMotion ? drawHeroStatic() : rafLoop(animateHero);
+
+      /* ── FLOW ── */
+
+      const flowCanvas = document.getElementById("flowCanvas");
+      const flowCtx = flowCanvas.getContext("2d");
+      const flowW = () => flowCanvas.offsetWidth;
+      const flowH = () => flowCanvas.offsetHeight;
+
+      const stages = [
+        { x: 0.05, c: [122,114,104], w: 38 },
+        { x: 0.28, c: [200,137,26],  w: 16 },
+        { x: 0.50, c: [200,137,26],  w: 13 },
+        { x: 0.68, c: [139,46,10],   w: 18 },
+        { x: 0.90, c: [212,168,67],  w:  7 }
+      ];
+
+      const FLOW_P = prefersReducedMotion ? 0 : (isMobile ? 48 : 92);
+
+      class FlowParticle {
+        constructor(spread) {
+          this.si = 0; this.ts = 1;
+          this.x = spread ? Math.random() * flowW() * 0.88 : flowW() * stages[0].x;
+          this.y = flowH() / 2 + (Math.random() - 0.5) * stages[0].w * 2;
+          this.speed = Math.random() * 1.3 + 0.7;
+          this.life = 1; this.blocked = false; this.blockTime = 0;
+        }
+        update() {
+          if (this.blocked) {
+            this.blockTime--; this.y += (Math.random() - 0.5) * 1.2;
+            if (this.blockTime <= 0) { this.blocked = false; if (Math.random() < 0.4) this.life = 0; }
+            return;
+          }
+          const t = stages[this.ts];
+          const tx = flowW() * t.x, ty = flowH() / 2 + (Math.random() - 0.5) * t.w;
+          this.x += (tx - this.x) * 0.03 * this.speed;
+          this.y += (ty - this.y) * 0.03 * this.speed;
+          if (Math.abs(this.x - tx) < 5) {
+            if (this.ts === 3 && Math.random() < 0.35) { this.blocked = true; this.blockTime = 35 + Math.random() * 25; return; }
+            this.si = this.ts;
+            this.ts = Math.min(this.ts + 1, stages.length - 1);
+            if (this.si === stages.length - 1) this.life = 0;
+          }
+        }
+        draw() {
+          const c = this.blocked ? [139,46,10] : stages[this.si].c;
+          const a = this.blocked ? 0.8 : (this.si >= 4 ? 1 : 0.7);
+          flowCtx.fillStyle = `rgba(${c[0]},${c[1]},${c[2]},${a})`;
+          flowCtx.beginPath(); flowCtx.arc(this.x, this.y, this.si >= 4 ? 2 : 1.5, 0, Math.PI * 2); flowCtx.fill();
+        }
+      }
+
+      let flowParticles = [], flowActive = false;
+
+      function drawFlowFrame() {
+        const fw = flowW(), fh = flowH();
+        flowCtx.fillStyle = "rgba(8,6,4,0.16)"; flowCtx.fillRect(0, 0, fw, fh);
+        flowCtx.lineWidth = 0.5;
+        stages.forEach(s => {
+          flowCtx.strokeStyle = `rgba(${s.c[0]},${s.c[1]},${s.c[2]},0.2)`;
+          flowCtx.beginPath(); flowCtx.moveTo(fw * s.x, fh * 0.08); flowCtx.lineTo(fw * s.x, fh * 0.92); flowCtx.stroke();
+        });
+        flowCtx.fillStyle = "rgba(139,46,10,0.05)";
+        flowCtx.fillRect(fw * stages[3].x - 14, 0, 28, fh);
+      }
+
+      function animateFlow() {
+        drawFlowFrame();
+        flowParticles.forEach((p, i) => { p.update(); p.draw(); if (p.life <= 0) flowParticles[i] = new FlowParticle(false); });
+      }
+
+      function startFlow() {
+        if (flowActive || prefersReducedMotion) return;
+        if (!safeResize(flowCanvas, flowCtx)) { setTimeout(startFlow, 250); return; }
+        flowActive = true;
+        flowParticles = Array.from({ length: FLOW_P }, () => new FlowParticle(true));
+        rafLoop(animateFlow);
+      }
+
+      if (prefersReducedMotion) { safeResize(flowCanvas, flowCtx); drawFlowFrame(); }
+
+      /* ── ELEVATION ── */
+
+      const elCanvas = document.getElementById("elevationCanvas");
+      const elCtx = elCanvas.getContext("2d");
+      const elW = () => elCanvas.offsetWidth;
+      const elH = () => elCanvas.offsetHeight;
+
+      const EL_P = prefersReducedMotion ? 0 : (isMobile ? 82 : 160);
+
+      class ElevationParticle {
+        constructor() { this.reset(); }
+        reset() {
+          this.x = elW() / 2 + (Math.random() - 0.5) * 70; this.y = elH() + 10;
+          this.vx = (Math.random() - 0.5) * 0.7; this.vy = -(Math.random() * 1.8 + 0.4);
+          this.life = 1; this.decay = Math.random() * 0.006 + 0.002; this.size = Math.random() * 2.5 + 0.5;
+        }
+        update() {
+          this.x += this.vx; this.y += this.vy; this.life -= this.decay;
+          this.vx += (elW() / 2 - this.x) * 0.0003;
+          if (this.life <= 0 || this.y < -10) this.reset();
+        }
+        draw() {
+          elCtx.fillStyle = `rgba(212,168,67,${this.life * 0.75})`;
+          elCtx.beginPath(); elCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2); elCtx.fill();
+        }
+      }
+
+      let elParticles = [], elActive = false;
+
+      function drawElBase() {
+        const ew = elW(), eh = elH(), cx = ew / 2;
+        elCtx.fillStyle = "rgba(8,6,4,0.1)"; elCtx.fillRect(0, 0, ew, eh);
+        const b = elCtx.createLinearGradient(cx, eh, cx, 0);
+        b.addColorStop(0, "rgba(212,168,67,0.1)"); b.addColorStop(0.5, "rgba(212,168,67,0.05)"); b.addColorStop(1, "transparent");
+        elCtx.fillStyle = b; elCtx.fillRect(cx - 45, 0, 90, eh);
+      }
+
+      function animateElevation() {
+        drawElBase();
+        elParticles.forEach(p => { p.update(); p.draw(); });
+      }
+
+      function startElevation() {
+        if (elActive || prefersReducedMotion) return;
+        if (!safeResize(elCanvas, elCtx)) { setTimeout(startElevation, 250); return; }
+        elActive = true;
+        elParticles = Array.from({ length: EL_P }, () => new ElevationParticle());
+        rafLoop(animateElevation);
+      }
+
+      if (prefersReducedMotion) { safeResize(elCanvas, elCtx); drawElBase(); }
+
+      /* ── OBSERVER ── */
+
+      if (!prefersReducedMotion && "IntersectionObserver" in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("visible");
+            if (entry.target.id === "s1") setTimeout(startFlow, 300);
+            if (entry.target.id === "s2") {
+              setTimeout(() => {
+                document.getElementById("pressureFill").style.width = "78%";
+                document.getElementById("pressureFill2").style.width = "91%";
+              }, 300);
+            }
+            if (entry.target.id === "s4") setTimeout(startElevation, 250);
+            observer.unobserve(entry.target);
+          });
+        }, { threshold: 0.12 });
+        document.querySelectorAll(".section, .elevation-section").forEach(s => observer.observe(s));
+      } else {
+        document.querySelectorAll(".section, .elevation-section").forEach(s => s.classList.add("visible"));
+        document.getElementById("pressureFill").style.width = "78%";
+        document.getElementById("pressureFill2").style.width = "91%";
+      }
+
+      /* ── RESIZE ── */
+
+      window.addEventListener("resize", () => {
+        safeResize(heroCanvas, heroCtx); if (prefersReducedMotion) drawHeroStatic();
+        safeResize(flowCanvas, flowCtx); if (prefersReducedMotion) drawFlowFrame();
+        safeResize(elCanvas, elCtx);     if (prefersReducedMotion) drawElBase();
+      }, { passive: true });
+
+    })();
+  </script>
+</body>
+</html>
