@@ -31,6 +31,8 @@ connections:
   - ref: codex-archive-system-v3-6-reading-surface-notes
     role: previous version
     display: feature
+  - ref: codex-archive-system-v3-8-specimen-surface-notes
+    role: next update
   - ref: suwanee-ga-loremap
     role: first migrated loremap
     display: feature

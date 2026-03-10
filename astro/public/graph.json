@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-10T16:12:02.508Z",
+  "generatedAt": "2026-03-10T19:39:13.397Z",
   "sourceDir": "../objects",
-  "nodeCount": 71,
-  "edgeCount": 2045,
+  "nodeCount": 73,
+  "edgeCount": 2170,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -270,6 +270,22 @@
       ]
     },
     {
+      "id": "codex-archive-system-v3-8-specimen-surface-notes",
+      "type": "codex",
+      "title": "CODEX ARCHIVE SYSTEM v3.8 SPECIMEN SURFACE NOTES",
+      "date": "2026-03-10",
+      "themes": [
+        "systems",
+        "architecture",
+        "methodology",
+        "observation",
+        "signal"
+      ],
+      "constellations": [
+        "Cascade Psalms"
+      ]
+    },
+    {
       "id": "codex-archive-system-v3-notes",
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3 NOTES",
@@ -424,6 +440,19 @@
         "comics",
         "observation",
         "pressure",
+        "signal"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "mothers-calendar",
+      "type": "fieldlog",
+      "title": "The Mother's Calendar",
+      "date": "2026-03-10",
+      "themes": [
+        "memory",
+        "observation",
+        "place",
         "signal"
       ],
       "constellations": []
@@ -1132,6 +1161,17 @@
       ]
     },
     {
+      "source": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "target": "codex-archive-system-v3-8-specimen-surface-notes",
+      "weight": 18,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-connection",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "jsa-collage-evolution-001",
       "target": "jsa-collage-evolution-002",
       "weight": 17,
@@ -1420,6 +1460,16 @@
       ]
     },
     {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 11,
+      "reasons": [
+        "shared-theme",
+        "explicit-connection",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "codex-archive-system-v3-notes",
       "target": "go-live-milestone",
       "weight": 11,
@@ -1583,6 +1633,16 @@
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "codex-archive-system-v3-5-control-surface-notes",
+      "weight": 10,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "codex-archive-system-v3-8-specimen-surface-notes",
       "weight": 10,
       "reasons": [
         "shared-theme",
@@ -1768,6 +1828,16 @@
       ]
     },
     {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "mothers-calendar",
+      "weight": 9,
+      "reasons": [
+        "shared-theme",
+        "explicit-connection",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "constellation-node-alchemy",
       "target": "node-doctrine",
       "weight": 9,
@@ -1871,6 +1941,16 @@
       "weight": 8,
       "reasons": [
         "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "codex-archive-system-v3-8-specimen-surface-notes",
+      "weight": 8,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
         "explicit-related"
       ]
     },
@@ -2251,6 +2331,33 @@
       ]
     },
     {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "codex-archive-system-v3-8-specimen-surface-notes",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "codex-archive-system-v3-8-specimen-surface-notes",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "codex-archive-system-v3-8-specimen-surface-notes",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
       "source": "codex-archive-system-v3-notes",
       "target": "signal-descent-002",
       "weight": 7,
@@ -2379,6 +2486,15 @@
       "reasons": [
         "shared-theme",
         "explicit-related"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "explicit-connection"
       ]
     },
     {
@@ -2614,6 +2730,15 @@
     },
     {
       "source": "codex-archive-system-v2-7-notes",
+      "target": "codex-archive-system-v3-8-specimen-surface-notes",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
       "target": "codex-archive-system-v3-plus-notes",
       "weight": 6,
       "reasons": [
@@ -2642,6 +2767,15 @@
     },
     {
       "source": "codex-archive-system-v3-1-build-notes",
+      "target": "codex-archive-system-v3-8-specimen-surface-notes",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
       "target": "reduce-novelty-before-care",
       "weight": 6,
       "reasons": [
@@ -2652,6 +2786,15 @@
     {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "codex-archive-system-v3-6-reading-surface-notes",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "codex-archive-system-v3-8-specimen-surface-notes",
       "weight": 6,
       "reasons": [
         "shared-theme",
@@ -2768,6 +2911,24 @@
     },
     {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "codex-archive-system-v3-plus-notes",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "codex-archive-system-v3-notes",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
       "target": "codex-archive-system-v3-plus-notes",
       "weight": 6,
       "reasons": [
@@ -3409,6 +3570,15 @@
       ]
     },
     {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "signal-descent-004",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
       "source": "codex-archive-system-v3-notes",
       "target": "signal-descent-003",
       "weight": 5,
@@ -3725,6 +3895,15 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "codex-archive-system-v3-8-specimen-surface-notes",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "heart-does-not-dream",
       "weight": 4,
       "reasons": [
@@ -3805,6 +3984,15 @@
     {
       "source": "artifact-jsa-collage-001",
       "target": "codex-archive-system-v3-6-reading-surface-notes",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "codex-archive-system-v3-8-specimen-surface-notes",
       "weight": 4,
       "reasons": [
         "shared-theme",
@@ -4414,6 +4602,50 @@
     {
       "source": "codex-archive-system-v3-7-loremap-foundation-notes",
       "target": "signal-descent-004",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "codex-glyph-grammar",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "go-live-milestone",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "lean-mean-governance-machine",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "signal-descent-003",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "signal.citizen-agency",
       "weight": 4,
       "reasons": [
         "shared-theme",
@@ -5271,6 +5503,14 @@
     },
     {
       "source": "builder-lineage-reflection",
+      "target": "codex-archive-system-v3-8-specimen-surface-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
       "target": "codex-glyph-grammar",
       "weight": 3,
       "reasons": [
@@ -5320,6 +5560,14 @@
     {
       "source": "chattahoochee-river-loremap",
       "target": "constellation-node-alchemy",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "chattahoochee-river-loremap",
+      "target": "mothers-calendar",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -5620,6 +5868,14 @@
     },
     {
       "source": "citizen-network-map-hi-fi",
+      "target": "codex-archive-system-v3-8-specimen-surface-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
       "target": "codex-archive-system-v3-notes",
       "weight": 3,
       "reasons": [
@@ -5788,6 +6044,14 @@
     },
     {
       "source": "codex-archive-system-v2-2",
+      "target": "codex-archive-system-v3-8-specimen-surface-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
       "target": "codex-archive-system-v3-notes",
       "weight": 3,
       "reasons": [
@@ -5877,6 +6141,14 @@
     {
       "source": "codex-archive-system-v2-5-notes",
       "target": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
+      "target": "codex-archive-system-v3-8-specimen-surface-notes",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -5981,6 +6253,14 @@
     {
       "source": "codex-archive-system-v2-6-notes",
       "target": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
+      "target": "codex-archive-system-v3-8-specimen-surface-notes",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -6902,6 +7182,148 @@
     {
       "source": "codex-archive-system-v3-7-loremap-foundation-notes",
       "target": "the-bones-hold-content-architecture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "codex-glyph-system-first-emergence",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "constellation-node-alchemy",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "disrespectful-power",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "heart-does-not-dream",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "jsa-collage-evolution-001",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "jsa-collage-evolution-002",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "node-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "on-object-oriented-archives",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "pressure-psalm-v",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "scripture-with-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "signal-descent-001",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "signal-descent-002",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "signal-harvest",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "transmission-note-to-future-me",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "unacceptable-cost",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -7206,6 +7628,14 @@
     {
       "source": "constellation-node-alchemy",
       "target": "machine-creatures",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "mothers-calendar",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -7600,6 +8030,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "suwanee-ga-loremap",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -8133,6 +8571,14 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "codex-archive-system-v3-8-specimen-surface-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "constellation-node-alchemy",
       "weight": 2,
       "reasons": [
@@ -8158,6 +8604,14 @@
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "jsa-collage-evolution-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "mothers-calendar",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -8225,6 +8679,14 @@
       "weight": 2,
       "reasons": [
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "mothers-calendar",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -8317,6 +8779,14 @@
     },
     {
       "source": "artifact-jsa-collage-wip-001",
+      "target": "codex-archive-system-v3-8-specimen-surface-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
       "target": "constellation-node-alchemy",
       "weight": 2,
       "reasons": [
@@ -8326,6 +8796,14 @@
     {
       "source": "artifact-jsa-collage-wip-001",
       "target": "disrespectful-power",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "mothers-calendar",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -8421,6 +8899,14 @@
     },
     {
       "source": "artifact-jsa-signal-fracture-001",
+      "target": "codex-archive-system-v3-8-specimen-surface-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
       "target": "codex-glyph-grammar",
       "weight": 2,
       "reasons": [
@@ -8454,6 +8940,14 @@
     {
       "source": "artifact-jsa-signal-fracture-001",
       "target": "machine-creatures",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
+      "target": "mothers-calendar",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -8678,6 +9172,14 @@
     {
       "source": "builder-lineage-reflection",
       "target": "jsa-collage-evolution-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "mothers-calendar",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -8941,6 +9443,14 @@
     },
     {
       "source": "cities-built-on-ruin-reminiscence",
+      "target": "mothers-calendar",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
       "target": "node-doctrine",
       "weight": 2,
       "reasons": [
@@ -9141,6 +9651,14 @@
     },
     {
       "source": "citizen-network-dispatch",
+      "target": "mothers-calendar",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
       "target": "nothing-missing-only-unindexed",
       "weight": 2,
       "reasons": [
@@ -9245,7 +9763,23 @@
     },
     {
       "source": "citizen-network-doctrine",
+      "target": "codex-archive-system-v3-8-specimen-surface-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
       "target": "codex-archive-system-v3-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "mothers-calendar",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -9917,6 +10451,14 @@
     },
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "mothers-calendar",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "nothing-missing-only-unindexed",
       "weight": 2,
       "reasons": [
@@ -9990,6 +10532,14 @@
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "machine-creatures",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "mothers-calendar",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -10085,6 +10635,14 @@
     },
     {
       "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "mothers-calendar",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
       "target": "nothing-missing-only-unindexed",
       "weight": 2,
       "reasons": [
@@ -10166,6 +10724,14 @@
     {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "machine-creatures",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "mothers-calendar",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -10277,6 +10843,14 @@
     },
     {
       "source": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "target": "mothers-calendar",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-7-loremap-foundation-notes",
       "target": "node-doctrine",
       "weight": 2,
       "reasons": [
@@ -10361,6 +10935,94 @@
       "weight": 2,
       "reasons": [
         "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "i-work-with-machines-to-write-scripture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "jsa-collage-evolution-003",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "machine-creatures",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "operator-winks-at-the-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "reduce-novelty-before-care",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "steel-elbow-flinchian",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "studio-bench-cycle",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "the-bones-hold",
+      "weight": 2,
+      "reasons": [
+        "shared-constellation"
       ]
     },
     {
@@ -10909,6 +11571,14 @@
     },
     {
       "source": "disrespectful-power",
+      "target": "mothers-calendar",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "disrespectful-power",
       "target": "nothing-missing-only-unindexed",
       "weight": 2,
       "reasons": [
@@ -11197,6 +11867,14 @@
     },
     {
       "source": "jsa-collage-evolution-001",
+      "target": "mothers-calendar",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
       "target": "node-doctrine",
       "weight": 2,
       "reasons": [
@@ -11238,6 +11916,14 @@
     {
       "source": "jsa-collage-evolution-001",
       "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-002",
+      "target": "mothers-calendar",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -11302,6 +11988,14 @@
     {
       "source": "jsa-collage-evolution-002",
       "target": "under-load",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "mothers-calendar",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -11518,6 +12212,78 @@
     {
       "source": "maintenance-without-cure",
       "target": "systems-survive-tuesdays",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "north-georgia-march-2026",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "north-georgia-week-2",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "ridge-line-lessons",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "signal-descent-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "signal-harvest",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "transmission-note-to-future-me",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "unacceptable-cost",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -12405,6 +13171,14 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "mothers-calendar",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "reduce-novelty-before-care",
       "weight": 1,
       "reasons": [
@@ -12566,6 +13340,14 @@
     {
       "source": "archive-box-stamped-fragments",
       "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
+      "target": "mothers-calendar",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -13557,6 +14339,14 @@
     },
     {
       "source": "bezalel-the-designated-hand",
+      "target": "codex-archive-system-v3-8-specimen-surface-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
       "target": "codex-archive-system-v3-notes",
       "weight": 1,
       "reasons": [
@@ -13598,6 +14388,14 @@
     {
       "source": "bezalel-the-designated-hand",
       "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "mothers-calendar",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -13949,6 +14747,14 @@
     },
     {
       "source": "chattahoochee-river-loremap",
+      "target": "codex-archive-system-v3-8-specimen-surface-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "chattahoochee-river-loremap",
       "target": "codex-archive-system-v3-plus-notes",
       "weight": 1,
       "reasons": [
@@ -14165,6 +14971,14 @@
     },
     {
       "source": "cities-built-on-ruin-reminiscence",
+      "target": "codex-archive-system-v3-8-specimen-surface-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
       "target": "codex-archive-system-v3-notes",
       "weight": 1,
       "reasons": [
@@ -14349,6 +15163,14 @@
     },
     {
       "source": "cities-built-on-ruin",
+      "target": "codex-archive-system-v3-8-specimen-surface-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
       "target": "codex-archive-system-v3-notes",
       "weight": 1,
       "reasons": [
@@ -14406,6 +15228,14 @@
     {
       "source": "cities-built-on-ruin",
       "target": "jsa-collage-evolution-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "mothers-calendar",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -14773,6 +15603,14 @@
     },
     {
       "source": "citizen-network-map-hi-fi",
+      "target": "mothers-calendar",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
       "target": "pressure-psalm-v",
       "weight": 1,
       "reasons": [
@@ -15213,6 +16051,14 @@
     },
     {
       "source": "codex-archive-system-v2-7-notes",
+      "target": "mothers-calendar",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
       "target": "scroll-from-the-perimeter",
       "weight": 1,
       "reasons": [
@@ -15269,6 +16115,14 @@
     },
     {
       "source": "codex-archive-system-v3-1-build-notes",
+      "target": "mothers-calendar",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -15310,6 +16164,14 @@
     {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "jsa-collage-evolution-003",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "mothers-calendar",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -15556,6 +16418,46 @@
       ]
     },
     {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "north-georgia-march-2026",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "north-georgia-week-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "ridge-line-lessons",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "codex-archive-system-v3-notes",
       "target": "jsa-collage-evolution-003",
       "weight": 1,
@@ -15566,6 +16468,14 @@
     {
       "source": "codex-archive-system-v3-notes",
       "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "mothers-calendar",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -15621,6 +16531,14 @@
     },
     {
       "source": "codex-archive-system-v3-plus-notes",
+      "target": "mothers-calendar",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -15662,6 +16580,14 @@
     {
       "source": "codex-glyph-grammar",
       "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
+      "target": "mothers-calendar",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -15790,6 +16716,14 @@
     {
       "source": "codex-glyph-system-first-emergence",
       "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
+      "target": "mothers-calendar",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -16134,6 +17068,14 @@
     {
       "source": "go-live-milestone",
       "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "mothers-calendar",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -16317,6 +17259,14 @@
     },
     {
       "source": "i-work-with-machines-to-write-scripture",
+      "target": "mothers-calendar",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
       "target": "pressure-psalm-v",
       "weight": 1,
       "reasons": [
@@ -16901,6 +17851,14 @@
     },
     {
       "source": "machine-creatures",
+      "target": "mothers-calendar",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
       "target": "pressure-psalm-v",
       "weight": 1,
       "reasons": [
@@ -17006,6 +17964,110 @@
     {
       "source": "maintenance-without-cure",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "node-doctrine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "on-object-oriented-archives",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "operator-winks-at-the-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "scripture-with-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "signal-descent-003",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "signal-descent-004",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "signal.citizen-agency",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "stairwell-signal",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "steel-elbow-flinchian",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "studio-log-adhesive-test-run",
       "weight": 1,
       "reasons": [
         "shared-theme"
