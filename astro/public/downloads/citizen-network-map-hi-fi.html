@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Citizen Node Doctrine Map</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0e0e0e;
+    --paper: #f5f0e8;
+    --amber: #c8860a;
+    --amber-dim: #e8c97a;
+    --rust: #8b3a2a;
+    --slate: #2e3a47;
+    --glow: rgba(200, 134, 10, 0.15);
+    --signal: #4a7c8e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(200,134,10,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200,134,10,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 80px 40px 120px;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 80px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards;
+  }
+
+  .header-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--amber);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .header h1 {
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    color: var(--paper);
+    line-height: 1.2;
+  }
+
+  .header h1 .star { color: var(--amber); }
+
+  .header-rule {
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--amber), transparent);
+    margin: 24px auto;
+  }
+
+  .core-principle {
+    font-size: 18px;
+    font-style: italic;
+    color: var(--amber-dim);
+    line-height: 1.6;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    color: var(--amber);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(200,134,10,0.3), transparent);
+  }
+
+  .nodes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 2px;
+    margin-bottom: 80px;
+  }
+
+  .concept-node {
+    background: rgba(245, 240, 232, 0.03);
+    border: 1px solid rgba(200, 134, 10, 0.12);
+    padding: 28px 24px;
+    position: relative;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+    transition: background 0.3s, border-color 0.3s;
+    cursor: default;
+  }
+
+  .concept-node:hover {
+    background: rgba(200, 134, 10, 0.06);
+    border-color: rgba(200, 134, 10, 0.35);
+  }
+
+  .concept-node::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px;
+    width: 8px; height: 8px;
+    border-top: 2px solid var(--amber);
+    border-left: 2px solid var(--amber);
+    opacity: 0.6;
+  }
+
+  .node-name {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--amber);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .node-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--amber);
+    flex-shrink: 0;
+    box-shadow: 0 0 6px var(--amber);
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  .concept-node:nth-child(even) .node-dot { animation-delay: 1.5s; }
+
+  .node-body {
+    font-size: 15px;
+    line-height: 1.7;
+    color: rgba(245, 240, 232, 0.75);
+    font-style: italic;
+  }
+
+  .node-body em {
+    font-style: normal;
+    color: var(--paper);
+  }
+
+  .chain-section {
+    margin-bottom: 80px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.4s forwards;
+  }
+
+  .chain {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .chain-item {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .chain-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 48px;
+    flex-shrink: 0;
+  }
+
+  .chain-node-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--ink);
+    border: 2px solid var(--amber);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    transition: background 0.3s, box-shadow 0.3s;
+  }
+
+  .chain-item:hover .chain-node-dot {
+    background: var(--amber);
+    box-shadow: 0 0 12px var(--amber);
+  }
+
+  .chain-line {
+    width: 2px;
+    flex: 1;
+    background: linear-gradient(180deg, rgba(200,134,10,0.4), rgba(200,134,10,0.1));
+    min-height: 20px;
+  }
+
+  .chain-item:last-child .chain-line { display: none; }
+
+  .chain-content {
+    padding: 4px 0 24px 20px;
+    flex: 1;
+  }
+
+  .chain-from {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--amber);
+    letter-spacing: 0.1em;
+  }
+
+  .chain-arrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: rgba(200,134,10,0.4);
+    margin: 2px 0;
+    padding-left: 8px;
+  }
+
+  .chain-to {
+    font-size: 13px;
+    color: rgba(245,240,232,0.55);
+    font-style: italic;
+    padding-left: 8px;
+  }
+
+  .modes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-bottom: 80px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.6s forwards;
+  }
+
+  @media (max-width: 600px) {
+    .modes-grid { grid-template-columns: 1fr; }
+  }
+
+  .mode-card {
+    padding: 32px 28px;
+    border: 1px solid;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mode-card.failure {
+    border-color: rgba(139, 58, 42, 0.3);
+    background: rgba(139, 58, 42, 0.05);
+  }
+
+  .mode-card.recovery {
+    border-color: rgba(74, 124, 142, 0.3);
+    background: rgba(74, 124, 142, 0.05);
+  }
+
+  .mode-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .failure .mode-title { color: var(--rust); }
+  .recovery .mode-title { color: var(--signal); }
+
+  .mode-chain {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .mode-step {
+    font-size: 13px;
+    color: rgba(245,240,232,0.7);
+  }
+
+  .mode-step-arrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    opacity: 0.4;
+    margin: -4px 0;
+    padding-left: 4px;
+  }
+
+  .failure .mode-step-arrow { color: var(--rust); }
+  .recovery .mode-step-arrow { color: var(--signal); }
+
+  .doctrine-close {
+    text-align: center;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.8s forwards;
+    padding: 60px 0 0;
+    border-top: 1px solid rgba(200,134,10,0.15);
+  }
+
+  .doctrine-lines {
+    font-size: clamp(16px, 2.5vw, 22px);
+    line-height: 2;
+    font-weight: 300;
+    color: rgba(245,240,232,0.8);
+    margin-bottom: 40px;
+  }
+
+  .doctrine-lines strong {
+    font-weight: 600;
+    color: var(--paper);
+  }
+
+  .doctrine-lines em {
+    font-style: italic;
+    color: var(--amber-dim);
+  }
+
+  .colophon {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: rgba(200,134,10,0.4);
+    text-transform: uppercase;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 4px var(--amber); }
+    50% { box-shadow: 0 0 12px var(--amber), 0 0 24px rgba(200,134,10,0.3); }
+  }
+
+  .concept-node:nth-child(1) { animation-delay: 0.05s; }
+  .concept-node:nth-child(2) { animation-delay: 0.1s; }
+  .concept-node:nth-child(3) { animation-delay: 0.15s; }
+  .concept-node:nth-child(4) { animation-delay: 0.2s; }
+  .concept-node:nth-child(5) { animation-delay: 0.25s; }
+  .concept-node:nth-child(6) { animation-delay: 0.3s; }
+  .concept-node:nth-child(7) { animation-delay: 0.35s; }
+  .concept-node:nth-child(8) { animation-delay: 0.4s; }
+  .concept-node:nth-child(9) { animation-delay: 0.45s; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="header-label">Constellation Map · Node Theory · 2026-03-09</div>
+    <h1><span class="star">✦</span> Citizen Node Doctrine <span class="star">✦</span></h1>
+    <div class="header-rule"></div>
+    <p class="core-principle">Power inside a network is borrowed from citizens<br>and must be exercised with integrity.</p>
+  </div>
+
+  <div class="section-label">Concept Nodes</div>
+  <div class="nodes-grid">
+
+    <div class="concept-node">
+      <div class="node-name"><span class="node-dot"></span>Node</div>
+      <div class="node-body">A point that receives and routes signal.<br><em>Human or technical.</em></div>
+    </div>
+
+    <div class="concept-node">
+      <div class="node-name"><span class="node-dot"></span>Signal</div>
+      <div class="node-body">Meaning moving through the network.<br><em>Speech · data · emotion · truth</em></div>
+    </div>
+
+    <div class="concept-node">
+      <div class="node-name"><span class="node-dot"></span>Integrity</div>
+      <div class="node-body">Alignment between received signal and routed signal.<br><em>No distortion. No reflex. No manipulation.</em></div>
+    </div>
+
+    <div class="concept-node">
+      <div class="node-name"><span class="node-dot"></span>Agency</div>
+      <div class="node-body">Capacity to act within the system.<br><em>Agency increases responsibility.</em></div>
+    </div>
+
+    <div class="concept-node">
+      <div class="node-name"><span class="node-dot"></span>Permissions</div>
+      <div class="node-body">Operational authority granted by the network.<br><em>Always conditional.</em></div>
+    </div>
+
+    <div class="concept-node">
+      <div class="node-name"><span class="node-dot"></span>Citizen</div>
+      <div class="node-body">The origin of trust. Citizens form the living substrate of the network.<br><em>All authority ultimately derives from them.</em></div>
+    </div>
+
+    <div class="concept-node">
+      <div class="node-name"><span class="node-dot"></span>Bad Actors</div>
+      <div class="node-body">Nodes that distort signal or abuse permissions.<br><em>They weaken trust and destabilize routing.</em></div>
+    </div>
+
+    <div class="concept-node">
+      <div class="node-name"><span class="node-dot"></span>Powerless Nodes</div>
+      <div class="node-body">Witness nodes without formal authority.<br><em>They preserve memory and protect truth at the edges.</em></div>
+    </div>
+
+    <div class="concept-node">
+      <div class="node-name"><span class="node-dot"></span>Operational Order</div>
+      <div class="node-body"><em>Signal moving clearly · Authority moving carefully · Citizens remaining sovereign</em></div>
+    </div>
+
+  </div>
+
+  <div class="chain-section">
+    <div class="section-label">Structural Relationships</div>
+    <div class="chain">
+
+      <div class="chain-item">
+        <div class="chain-left"><div class="chain-node-dot"></div><div class="chain-line"></div></div>
+        <div class="chain-content">
+          <div class="chain-from">Citizen</div>
+          <div class="chain-arrow">↓ grants trust →</div>
+          <div class="chain-to">Node</div>
+        </div>
+      </div>
+
+      <div class="chain-item">
+        <div class="chain-left"><div class="chain-node-dot"></div><div class="chain-line"></div></div>
+        <div class="chain-content">
+          <div class="chain-from">Node</div>
+          <div class="chain-arrow">↓ exercises →</div>
+          <div class="chain-to">Agency</div>
+        </div>
+      </div>
+
+      <div class="chain-item">
+        <div class="chain-left"><div class="chain-node-dot"></div><div class="chain-line"></div></div>
+        <div class="chain-content">
+          <div class="chain-from">Agency</div>
+          <div class="chain-arrow">↓ operates through →</div>
+          <div class="chain-to">Permissions</div>
+        </div>
+      </div>
+
+      <div class="chain-item">
+        <div class="chain-left"><div class="chain-node-dot"></div><div class="chain-line"></div></div>
+        <div class="chain-content">
+          <div class="chain-from">Permissions</div>
+          <div class="chain-arrow">↓ require →</div>
+          <div class="chain-to">Integrity</div>
+        </div>
+      </div>
+
+      <div class="chain-item">
+        <div class="chain-left"><div class="chain-node-dot"></div><div class="chain-line"></div></div>
+        <div class="chain-content">
+          <div class="chain-from">Integrity</div>
+          <div class="chain-arrow">↓ preserves →</div>
+          <div class="chain-to">Signal</div>
+        </div>
+      </div>
+
+      <div class="chain-item">
+        <div class="chain-left"><div class="chain-node-dot"></div></div>
+        <div class="chain-content">
+          <div class="chain-from">Signal</div>
+          <div class="chain-arrow">↓ maintains →</div>
+          <div class="chain-to">Network Order</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-label">System Modes</div>
+  <div class="modes-grid">
+
+    <div class="mode-card failure">
+      <div class="mode-title">Failure Mode</div>
+      <div class="mode-chain">
+        <div class="mode-step">Bad Actor</div>
+        <div class="mode-step-arrow">↓ abuses</div>
+        <div class="mode-step">Permissions</div>
+        <div class="mode-step-arrow">↓ distorts</div>
+        <div class="mode-step">Signal</div>
+        <div class="mode-step-arrow">↓ destabilizes</div>
+        <div class="mode-step">Network</div>
+      </div>
+    </div>
+
+    <div class="mode-card recovery">
+      <div class="mode-title">Recovery Mode</div>
+      <div class="mode-chain">
+        <div class="mode-step">Powerless Nodes</div>
+        <div class="mode-step-arrow">↓ preserve</div>
+        <div class="mode-step">Memory</div>
+        <div class="mode-step-arrow">↓ restore</div>
+        <div class="mode-step">Signal</div>
+        <div class="mode-step-arrow">↓ rebuild</div>
+        <div class="mode-step">Trust</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="doctrine-close">
+    <div class="doctrine-lines">
+      The network is not a throne.<br>
+      It is a <strong>trust</strong>.<br><br>
+      And <em>integrity</em><br>
+      is the posture<br>
+      that keeps the signal alive.
+    </div>
+    <div class="colophon">Citizen Node Doctrine · Node Theory · March 2026</div>
+  </div>
+
+</div>
+</body>
+</html>

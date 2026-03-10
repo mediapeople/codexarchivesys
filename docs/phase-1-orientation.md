@@ -7,6 +7,7 @@ Date: 2026-03-07
 - `astro/src/content/config.ts` copied from `genisis_bin/config.ts`
 - Content collection dirs created:
   - `astro/src/content/scroll/`
+  - `astro/src/content/loremap/`
   - `astro/src/content/artifact/`
   - `astro/src/content/fieldlog/`
   - `astro/src/content/codex/`
@@ -27,6 +28,7 @@ Date: 2026-03-07
   - `inbox/ready/`
 - Durable content store scaffolded:
   - `objects/scroll/`
+  - `objects/loremap/`
   - `objects/artifact/`
   - `objects/fieldlog/`
   - `objects/codex/`

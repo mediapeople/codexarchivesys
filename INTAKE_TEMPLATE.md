@@ -22,7 +22,7 @@ Rules:
 ```yaml
 ---
 id: kebab-case-id
-type: scroll # scroll | artifact | fieldlog | codex | fragment | nexus | signal
+type: scroll # scroll | loremap | artifact | fieldlog | codex | fragment | nexus | signal
 title: "Exact Display Title"
 date: 2026-03-08
 status: draft
@@ -46,12 +46,26 @@ media: []
 ---
 ```
 
+## Optional Place Fields
+
+```yaml
+location: "Suwanee, GA"
+geo: "34.0515,-84.0713"
+terrain: "river corridor"
+```
+
 ## Type-Specific Fields
 
 ### Scroll
 
 ```yaml
 bodyClass: verse # verse | prose | hybrid | list
+```
+
+### Loremap
+
+```yaml
+bodyClass: hybrid # verse | prose | hybrid | list
 ```
 
 ### Artifact

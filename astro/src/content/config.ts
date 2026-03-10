@@ -14,6 +14,7 @@ import { defineCollection, z } from 'astro:content';
 
 const ObjectType = z.enum([
   'scroll',
+  'loremap',
   'artifact',
   'fieldlog',
   'codex',
@@ -77,6 +78,17 @@ const BodyClass = z.enum([
   'hybrid',
   'list',
 ]).default('verse');
+
+const LoremapAtlasPoint = z.object({
+  x: z.number(),
+  y: z.number(),
+});
+
+const LoremapAtlas = z.object({
+  route: z.array(LoremapAtlasPoint).min(2).max(12).optional(),
+  terrain: z.array(z.array(LoremapAtlasPoint).min(2).max(12)).max(4).optional(),
+  marker: LoremapAtlasPoint.optional(),
+});
 
 const LengthClass = z.enum([
   'micro',
@@ -144,6 +156,9 @@ const universalFields = {
   source:         z.string().optional(),
   visibility:     Visibility,
   media:          z.array(MediaItem).default([]),
+  location:       z.string().optional(),
+  geo:            z.string().optional(),
+  terrain:        z.string().optional(),
   author:         Contributor.optional(),
   contributors:   z.array(Contributor).default([]),
 };
@@ -167,8 +182,14 @@ const artifactFields = {
   year:         z.number().int().optional(),
   dimensions:   z.string().optional(),
   source:       z.string().optional(),
-  location:     z.string().optional(),
   condition:    z.string().optional(),
+};
+
+const loremapFields = {
+  ...universalFields,
+  classification: z.array(z.string()).default([]),
+  atlas: LoremapAtlas.optional(),
+  bodyClass: BodyClass.optional(),
 };
 
 const fieldlogFields = {
@@ -218,6 +239,11 @@ export const collections = {
   scroll: defineCollection({
     type:   'content',
     schema: z.object(scrollFields),
+  }),
+
+  loremap: defineCollection({
+    type:   'content',
+    schema: z.object(loremapFields),
   }),
 
   artifact: defineCollection({

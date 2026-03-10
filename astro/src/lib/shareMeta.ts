@@ -16,6 +16,11 @@ const SHARE_PROFILE_BY_TYPE: Record<CodexCollection, ShareProfile> = {
     prefersLargeImage: false,
     defaultDescription: 'A scroll in the Codex Archive.',
   },
+  loremap: {
+    socialType: 'article',
+    prefersLargeImage: true,
+    defaultDescription: 'A loremap in the Codex Archive.',
+  },
   artifact: {
     socialType: 'article',
     prefersLargeImage: true,

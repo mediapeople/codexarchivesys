@@ -32,6 +32,8 @@ connections:
     display: feature
   - ref: codex-archive-system-v3-4-image-experience-notes
     role: earlier version
+  - ref: codex-archive-system-v3-7-loremap-foundation-notes
+    role: next update
 
 media: []
 

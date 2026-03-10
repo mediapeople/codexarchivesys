@@ -1,6 +1,6 @@
 ---
 id: suwanee-ga-loremap
-type: scroll
+type: loremap
 title: "Loremap: Suwanee, GA"
 date: 2026-03-08
 postedAt: 2026-03-08T13:34:32-04:00
@@ -22,19 +22,65 @@ related:
 
 media: []
 
+location: "Suwanee, GA"
+terrain: "pine-crowned river corridor"
+classification:
+  - Mythic Suburbia
+  - River Oracle Zone
+  - Avian Threshold Engine
+atlas:
+  route:
+    - x: 0
+      y: 80
+    - x: 13
+      y: 67
+    - x: 25
+      y: 56
+    - x: 38
+      y: 45
+    - x: 50
+      y: 34
+    - x: 63
+      y: 24
+    - x: 75
+      y: 16
+    - x: 88
+      y: 8
+    - x: 100
+      y: 0
+  terrain:
+    - - x: 0
+        y: 24
+      - x: 20
+        y: 18
+      - x: 44
+        y: 10
+      - x: 72
+        y: 14
+      - x: 100
+        y: 22
+    - - x: 6
+        y: 92
+      - x: 26
+        y: 84
+      - x: 48
+        y: 76
+      - x: 74
+        y: 72
+      - x: 100
+        y: 74
+  marker:
+    x: 62
+    y: 27
+
 bodyClass: hybrid
 ---
-
-
-*A sacred cartography of pine, river, and flight.*
-
-Codex classification: `Mythic Suburbia` / `River Oracle Zone` / `Avian Threshold Engine`
 
 ## Phase I: Discovery (Revelatory Gathering)
 
 > "Listen until the land speaks - it begins with wings."
 
-- **Field Immersion:** Pines knit the sky into a filtered cathedral, their needles softening every step. The Chattahoochee slides dark and slow, pooling in shadowed bends where herons stand like sentinels. Kudzu still climbs at the edges, but here it shares space with oak, sweetgum, and river birch. The air is alive with wings - cardinals sparring in bursts of red, woodpeckers knocking out coded messages, hawks circling above the soccer fields at dusk. Freight trains call across the canopy, their horns crossing paths with whip-poor-will song.
+**Field Immersion:** Pines knit the sky into a filtered cathedral, their needles softening every step. The Chattahoochee slides dark and slow, pooling in shadowed bends where herons stand like sentinels. Kudzu still climbs at the edges, but here it shares space with oak, sweetgum, and river birch. The air is alive with wings - cardinals sparring in bursts of red, woodpeckers knocking out coded messages, hawks circling above the soccer fields at dusk. Freight trains call across the canopy, their horns crossing paths with whip-poor-will song.
 
 - **Mythic Echo Harvest:**
   - Pine-needle carpets that hush footsteps

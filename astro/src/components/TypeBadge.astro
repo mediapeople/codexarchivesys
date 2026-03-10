@@ -10,6 +10,7 @@ const { type, showIcon = false } = Astro.props;
 
 const classMap: Record<string, string> = {
   scroll: 'scroll',
+  loremap: 'loremap',
   artifact: 'artifact',
   fieldlog: 'fieldlog',
   codex: 'codex',
@@ -30,6 +31,15 @@ const badgeClass = classMap[type] || 'default';
             <path d="M5 7.5H19" />
             <path d="M5 12H19" />
             <path d="M5 16.5H15.5" />
+          </>
+        )}
+        {type === 'loremap' && (
+          <>
+            <path d="M6.2 16.3C8.5 12.1 10.2 10.4 12.2 9.6C14.2 8.8 16.2 8.9 18 7.4" />
+            <path d="M12.2 4.8V7.8" />
+            <path d="M12.2 12V19" />
+            <path d="M8.8 15.5H15.6" />
+            <circle cx="12.2" cy="15.5" r="1.5" />
           </>
         )}
         {type === 'artifact' && (
@@ -132,6 +142,12 @@ const badgeClass = classMap[type] || 'default';
     border-color: rgba(196, 98, 58, 0.45);
     background: rgba(196, 98, 58, 0.1);
     color: #dfab92;
+  }
+
+  .loremap {
+    border-color: rgba(112, 150, 178, 0.48);
+    background: rgba(84, 115, 140, 0.14);
+    color: #bed7e6;
   }
 
   .artifact {

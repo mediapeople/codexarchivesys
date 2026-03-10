@@ -74,6 +74,7 @@ Choose exactly one:
 
 ```
 scroll      — text-primary: poetry, prose, lyric document, essay
+loremap     — place-primary field definition: terrain grammar, symbolic zones, geo-nested archive surface
 artifact    — media-primary: physical object, collage, print, scan, constructed work
 fieldlog    — time-stamped observation: walk notes, studio notes, process evidence
 codex       — structured long document: framework, specification, methodology
@@ -85,6 +86,7 @@ signal      — concept object: reusable observation linking multiple objects
 **Decision guide:**
 
 - Does it read as poetry or sustained prose? → `scroll`
+- Does it define a place-field, terrain grammar, or symbolic map of a location? → `loremap`
 - Is it primarily about a physical object? → `artifact`
 - Is it timestamped observations? Field notes? → `fieldlog`
 - Is it a framework, spec, or methodology document? → `codex`
@@ -93,6 +95,8 @@ signal      — concept object: reusable observation linking multiple objects
 - Is it a stable concept that links multiple objects? → `signal`
 
 When uncertain between `scroll` and `fragment`, lean `fragment` only if the content is complete and self-contained in under 150 words. If it breathes and moves, it is probably a `scroll`.
+
+When a place-anchored work behaves like both a scroll and a field definition, choose `loremap` if the location itself is the governing structure rather than just the setting.
 
 When uncertain between `fragment` and `signal`, choose `signal` only if the text is concept-level and intentionally reusable across multiple objects.
 

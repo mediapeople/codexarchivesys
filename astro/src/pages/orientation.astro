@@ -24,6 +24,9 @@ const typeDefinitionMap: Record<
   scroll: {
     description: 'Extended writing that carries context, sequence, and sustained argument.',
   },
+  loremap: {
+    description: 'Place-anchored field definitions that map terrain, symbolic layers, and recurring geologic or civic signal.',
+  },
   artifact: {
     description: 'Physical or digital outputs that document what was made and how it holds up.',
   },
@@ -89,6 +92,7 @@ const orientationMapNodes: Array<{
   note: string;
 }> = [
   { type: 'codex', x: '14%', y: '16%', note: 'governance spine' },
+  { type: 'loremap', x: '28%', y: '16%', note: 'terrain field' },
   { type: 'fieldlog', x: '36%', y: '32%', note: 'runtime record' },
   { type: 'fragment', x: '21%', y: '62%', note: 'seed capture' },
   { type: 'signal', x: '50%', y: '18%', note: 'public signal' },
@@ -121,6 +125,12 @@ const fieldContractRows = [
     renders: 'Object / Nexus',
     owner: 'System + Operator',
     role: 'Maintains continuity across releases.',
+  },
+  {
+    field: 'Location / Geo',
+    renders: 'Object / Loremap / Spatial surfaces',
+    owner: 'Operator',
+    role: 'Grounds place-aware retrieval and terrain context.',
   },
 ] as const;
 ---

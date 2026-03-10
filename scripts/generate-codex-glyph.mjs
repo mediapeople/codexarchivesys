@@ -12,6 +12,7 @@ export const repoRoot = path.resolve(scriptDir, '..');
 
 export const mediaDirByType = {
   scroll: 'scrolls',
+  loremap: 'loremaps',
   artifact: 'artifacts',
   fieldlog: 'fieldlogs',
   codex: 'codex',
@@ -82,6 +83,17 @@ function buildTypeGeometry(typeValue, seed) {
   if (typeValue === 'scroll') {
     return `
   <path d="M600 600C600 600 643 595 660 566C677 537 667 497 636 478C591 451 534 472 514 522C492 579 516 651 579 681C652 716 741 681 781 605C823 521 797 410 701 355C586 289 444 330 381 451" stroke="#f4c56a" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+`;
+  }
+
+  if (typeValue === 'loremap') {
+    return `
+  <path d="M318 734C406 648 484 598 560 576C628 556 710 545 880 462" stroke="#f4c56a" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M340 812H860" stroke="#4f7aa0" stroke-width="6" opacity="0.62" stroke-linecap="round"/>
+  <path d="M600 266V470" stroke="#f4c56a" stroke-width="10" stroke-linecap="round"/>
+  <path d="M498 600H702" stroke="#f4c56a" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="600" cy="600" r="42" stroke="#f4c56a" stroke-width="10"/>
+  <path d="M600 302L632 362H568Z" fill="#de6d2f"/>
 `;
   }
 

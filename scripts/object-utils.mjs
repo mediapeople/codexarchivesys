@@ -3,6 +3,7 @@ import path from 'node:path';
 
 export const ALLOWED_TYPES = new Set([
   'scroll',
+  'loremap',
   'artifact',
   'fieldlog',
   'codex',

@@ -62,6 +62,11 @@ function buildScrollLead(entry: ArchiveEntry): string {
   return firstText(data.series, data.tone, data.cadence, data.dedication);
 }
 
+function buildLoremapLead(entry: ArchiveEntry): string {
+  const data = entry.data as Record<string, unknown>;
+  return firstText(data.terrain, data.location, data.geo, data.excerpt);
+}
+
 function buildFragmentLead(entry: ArchiveEntry): string {
   const data = entry.data as Record<string, unknown>;
   return firstText(data.voice, data.origin, data.lengthClass);
@@ -99,6 +104,7 @@ export function getPresentationMode(
 
   const map: Record<string, string> = {
     scroll: 'text lead',
+    loremap: 'terrain lead',
     artifact: 'object lead',
     fieldlog: 'field lead',
     codex: 'system lead',
@@ -112,6 +118,7 @@ export function getPresentationMode(
 export function getPresentationLead(entry: ArchiveEntry): string | null {
   const leadByType: Record<string, () => string> = {
     scroll: () => buildScrollLead(entry),
+    loremap: () => buildLoremapLead(entry),
     artifact: () => buildArtifactLead(entry),
     fieldlog: () => buildFieldLogLead(entry),
     codex: () => buildCodexLead(entry),

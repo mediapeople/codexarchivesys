@@ -67,7 +67,7 @@ id: the-bones-hold
 | **Required** | yes |
 | **Applies To** | all |
 | **Renders In** | type badge, layout selection, feed card, graph node shape |
-| **Allowed Values** | `scroll` `artifact` `fieldlog` `codex` `fragment` `nexus` `signal` |
+| **Allowed Values** | `scroll` `loremap` `artifact` `fieldlog` `codex` `fragment` `nexus` `signal` |
 
 Determines layout, card rendering, and relational behavior. Type proliferation must be avoided. Fewer than 10 total types is the hard limit.
 
@@ -247,6 +247,61 @@ Connection object shape:
 
 ---
 
+### location
+
+| Property | Value |
+|---|---|
+| **Owner** | author |
+| **Type** | string |
+| **Required** | no |
+| **Applies To** | all (primary for loremap, artifact, fieldlog) |
+| **Renders In** | object support panel, loremap atlas, future spatial surfaces |
+
+Human-readable place anchor. Use this when the work is materially or experientially tied to a real location.
+
+```yaml
+location: "Suwanee, GA"
+```
+
+---
+
+### geo
+
+| Property | Value |
+|---|---|
+| **Owner** | author / editor |
+| **Type** | string |
+| **Required** | no |
+| **Applies To** | all (primary for loremap) |
+| **Renders In** | loremap atlas, future spatial surfaces |
+| **Allowed Values** | `"lat,lon"` free-text coordinate pair |
+
+Coordinate anchor for place-aware objects.
+
+```yaml
+geo: "34.0515,-84.0713"
+```
+
+---
+
+### terrain
+
+| Property | Value |
+|---|---|
+| **Owner** | author / editor |
+| **Type** | string |
+| **Required** | no |
+| **Applies To** | all (primary for loremap) |
+| **Renders In** | object support panel, loremap atlas |
+
+Short terrain or place-form descriptor. Use this to name the field, not to summarize the body.
+
+```yaml
+terrain: "river corridor"
+```
+
+---
+
 ### visibility
 
 | Property | Value |
@@ -403,6 +458,89 @@ bodyClass: verse
 
 ---
 
+### TYPE: loremap
+
+A loremap is a place-primary object. It defines terrain, symbolic zones, and recurring field logic for a location. It can read like a scroll, but the place itself is the governing structure.
+
+---
+
+#### classification
+
+| Property | Value |
+|---|---|
+| **Owner** | author / editor |
+| **Type** | array of strings |
+| **Required** | no |
+| **Applies To** | loremap |
+| **Renders In** | loremap atlas |
+
+Quiet taxonomy for the field being named. Use short classification strings that support the atlas surface without reopening the body.
+
+```yaml
+classification:
+  - Mythic Suburbia
+  - River Oracle Zone
+  - Avian Threshold Engine
+```
+
+---
+
+#### atlas
+
+| Property | Value |
+|---|---|
+| **Owner** | author / editor |
+| **Type** | object |
+| **Required** | no |
+| **Applies To** | loremap |
+| **Renders In** | loremap atlas block, loremap feed preview |
+
+Optional geometry for the miniature atlas drawing. This is the stable handoff point for per-location map behavior. Route and terrain traces may be authored directly now and generated later from real location data during ingest or prebuild workflows.
+
+```yaml
+atlas:
+  route:
+    - x: 0
+      y: 80
+    - x: 42
+      y: 46
+    - x: 100
+      y: 8
+  terrain:
+    - - x: 0
+        y: 24
+      - x: 48
+        y: 10
+      - x: 100
+        y: 18
+  marker:
+    x: 62
+    y: 27
+```
+
+Coordinates are normalized `0-100` positions inside the loremap plotting area so the same geometry can render on the object page and the feed card.
+
+---
+
+#### bodyClass
+
+| Property | Value |
+|---|---|
+| **Owner** | author / editor |
+| **Type** | string |
+| **Required** | no |
+| **Applies To** | loremap |
+| **Renders In** | CSS class applied to loremap body container |
+| **Allowed Values** | `verse` `prose` `hybrid` `list` |
+
+Controls body rendering mode. Most loremaps will want `hybrid` because they mix phase prose, lists, and mythic subsection structure.
+
+```yaml
+bodyClass: hybrid
+```
+
+---
+
 ### TYPE: artifact
 
 An artifact is a media-primary object. Physical objects, collages, prints, scans, constructed works. The body may document materials, process, or context.
@@ -496,24 +634,6 @@ Origin or provenance of source materials.
 
 ```yaml
 source: "Comic books, 1987–2004"
-```
-
----
-
-#### location
-
-| Property | Value |
-|---|---|
-| **Owner** | author |
-| **Type** | string |
-| **Required** | no |
-| **Applies To** | artifact |
-| **Renders In** | artifact detail panel |
-
-Physical location of the object.
-
-```yaml
-location: "Studio, Gainesville GA"
 ```
 
 ---
@@ -994,6 +1114,7 @@ Used in: feed card, constellation list
 | Type | Preview source |
 |---|---|
 | scroll | excerpt |
+| loremap | terrain / excerpt / map support |
 | artifact | hero thumbnail |
 | fieldlog | first timestamped entry |
 | codex | excerpt or abstract |

@@ -3,6 +3,7 @@ import { compareByPureTimeline } from './timeline';
 
 export const COLLECTIONS = [
   'scroll',
+  'loremap',
   'artifact',
   'fieldlog',
   'codex',
@@ -15,6 +16,7 @@ export type CodexCollection = (typeof COLLECTIONS)[number];
 
 export type ArchiveEntry =
   | CollectionEntry<'scroll'>
+  | CollectionEntry<'loremap'>
   | CollectionEntry<'artifact'>
   | CollectionEntry<'fieldlog'>
   | CollectionEntry<'codex'>
@@ -31,9 +33,10 @@ function byDateDesc(a: ArchiveEntry, b: ArchiveEntry) {
 }
 
 export async function getAllEntries(): Promise<ArchiveEntry[]> {
-  const [scroll, artifact, fieldlog, codex, fragment, nexus, signal] =
+  const [scroll, loremap, artifact, fieldlog, codex, fragment, nexus, signal] =
     await Promise.all([
       getCollection('scroll'),
+      getCollection('loremap'),
       getCollection('artifact'),
       getCollection('fieldlog'),
       getCollection('codex'),
@@ -44,6 +47,7 @@ export async function getAllEntries(): Promise<ArchiveEntry[]> {
 
   return [
     ...scroll,
+    ...loremap,
     ...artifact,
     ...fieldlog,
     ...codex,
@@ -56,6 +60,7 @@ export async function getAllEntries(): Promise<ArchiveEntry[]> {
 export function getTypeLabel(type: string): string {
   const labelMap: Record<string, string> = {
     scroll: 'Scroll',
+    loremap: 'Loremap',
     artifact: 'Artifact',
     fieldlog: 'Field Log',
     codex: 'Codex',
