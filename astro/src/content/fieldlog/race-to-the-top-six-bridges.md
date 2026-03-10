@@ -56,8 +56,8 @@ specs:
     value: Race to the Top
     note: "Georgia Beer Day 2026 pour"
   - label: Brewery
-    value: Six Bridges Brewing
-    note: "Johns Creek, Georgia"
+    value: Six Bridges
+    note: "Johns Creek"
   - label: Style
     value: Hazy IPA
     note: "Bright, soft, aromatic"

@@ -1,0 +1,490 @@
+---
+interface FieldlogSpec {
+  label: string;
+  value: string;
+  note?: string;
+}
+
+interface PlateSpec extends FieldlogSpec {
+  key: string;
+}
+
+interface Props {
+  title: string;
+  specs: FieldlogSpec[];
+  excerpt?: string;
+  location?: string;
+  dateLabel?: string;
+}
+
+const { title, specs = [], excerpt = '', location = '', dateLabel = '' } = Astro.props as Props;
+
+function normalizeLabel(label: string): string {
+  return label.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-');
+}
+
+const normalizedSpecs: PlateSpec[] = specs.map((spec) => ({
+  ...spec,
+  key: normalizeLabel(spec.label),
+}));
+
+const specByKey = new Map(normalizedSpecs.map((spec) => [spec.key, spec] as const));
+const leadSpec = specByKey.get('beer') ?? normalizedSpecs[0] ?? null;
+const styleSpec = specByKey.get('style') ?? null;
+const orderedCardKeys = ['brewery', 'site', 'hops', 'milestone', 'glass'];
+const usedKeys = new Set<string>();
+
+if (leadSpec) {
+  usedKeys.add(leadSpec.key);
+}
+
+if (styleSpec) {
+  usedKeys.add(styleSpec.key);
+}
+
+const primaryCards = orderedCardKeys
+  .map((key) => specByKey.get(key))
+  .filter((spec): spec is PlateSpec => Boolean(spec))
+  .filter((spec) => !usedKeys.has(spec.key));
+
+for (const spec of primaryCards) {
+  usedKeys.add(spec.key);
+}
+
+const supportingCards = normalizedSpecs.filter((spec) => !usedKeys.has(spec.key));
+const plateCards = [...primaryCards, ...supportingCards];
+const heroSummary = styleSpec?.note || leadSpec?.note || excerpt;
+const signalRows = normalizedSpecs.filter(
+  (spec) => Boolean(spec.note) && spec.key !== leadSpec?.key && spec.key !== styleSpec?.key
+);
+
+const metaItems = [
+  location ? { label: 'Location', value: location } : null,
+  dateLabel ? { label: 'Logged', value: dateLabel } : null,
+].filter((item): item is { label: string; value: string } => Boolean(item));
+---
+
+<section class="fieldlog-plate-shell" aria-labelledby="fieldlog-plate-title">
+  <header class="fieldlog-plate-header">
+    <div class="fieldlog-plate-heading">
+      <p class="fieldlog-plate-kicker">Structured Readout</p>
+      <p class="fieldlog-plate-ruler" aria-hidden="true">Plate // calibrated tasting surface</p>
+    </div>
+    <div class="fieldlog-plate-stamp">
+      <span>Fieldlog Plate</span>
+      <strong>{styleSpec?.value || leadSpec?.label || 'Specimen'}</strong>
+    </div>
+  </header>
+
+  <div class="fieldlog-plate-grid">
+    <section class="fieldlog-plate-hero">
+      <p class="fieldlog-plate-code">{leadSpec?.label || 'Field Plate'}</p>
+      <h2 id="fieldlog-plate-title">{leadSpec?.value || title}</h2>
+      {styleSpec?.value && <p class="fieldlog-plate-style">{styleSpec.value}</p>}
+      {heroSummary && <p class="fieldlog-plate-summary">{heroSummary}</p>}
+
+      {metaItems.length > 0 && (
+        <ul class="fieldlog-plate-meta" aria-label="Plate metadata">
+          {metaItems.map((item) => (
+            <li>
+              <span>{item.label}</span>
+              <strong>{item.value}</strong>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+
+    {plateCards.length > 0 && (
+      <section class="fieldlog-plate-rack" aria-label="Structured field details">
+        {plateCards.map((spec, index) => (
+          <article class={`fieldlog-plate-card ${index === 0 ? 'fieldlog-plate-card--emphasis' : ''}`}>
+            <p class="fieldlog-plate-card-label">{spec.label}</p>
+            <strong>{spec.value}</strong>
+            {spec.note && <span>{spec.note}</span>}
+          </article>
+        ))}
+      </section>
+    )}
+  </div>
+
+  {signalRows.length > 0 && (
+    <section class="fieldlog-plate-signals" aria-label="Signal notes">
+      <p class="fieldlog-plate-signals-label">Signal Notes</p>
+      <div class="fieldlog-plate-signals-grid">
+        {signalRows.map((spec) => (
+          <article class="fieldlog-plate-signal">
+            <p>{spec.label}</p>
+            <strong>{spec.note}</strong>
+          </article>
+        ))}
+      </div>
+    </section>
+  )}
+</section>
+
+<style>
+  .fieldlog-plate-shell {
+    --plate-line: rgba(198, 146, 88, 0.32);
+    --plate-line-soft: rgba(198, 146, 88, 0.16);
+    --plate-highlight: rgba(255, 244, 228, 0.08);
+    --plate-copy: rgba(243, 238, 228, 0.94);
+    --plate-muted: rgba(225, 207, 180, 0.72);
+    --plate-label: rgba(240, 214, 174, 0.84);
+    --plate-amber: rgba(224, 163, 86, 0.92);
+    position: relative;
+    margin: 2.5rem 0 2.35rem;
+    max-width: min(1080px, 100%);
+    padding: clamp(1.05rem, 1.8vw, 1.55rem);
+    border: 1px solid var(--plate-line);
+    border-radius: 18px;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(229, 154, 69, 0.18), transparent 24%),
+      radial-gradient(circle at 0% 100%, rgba(54, 91, 142, 0.18), transparent 28%),
+      linear-gradient(135deg, rgba(28, 36, 49, 0.98), rgba(12, 16, 23, 0.98) 48%, rgba(24, 18, 12, 0.98));
+    box-shadow:
+      inset 0 1px 0 var(--plate-highlight),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.025),
+      0 22px 48px rgba(0, 0, 0, 0.24);
+    overflow: hidden;
+  }
+
+  .fieldlog-plate-shell::before,
+  .fieldlog-plate-shell::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .fieldlog-plate-shell::before {
+    background:
+      linear-gradient(90deg, rgba(255, 255, 255, 0.04), transparent 18%),
+      repeating-linear-gradient(
+        0deg,
+        transparent 0,
+        transparent 30px,
+        rgba(243, 228, 203, 0.035) 30px,
+        rgba(243, 228, 203, 0.035) 31px
+      ),
+      radial-gradient(circle at 1px 1px, rgba(255, 241, 218, 0.06) 0 1px, transparent 1.2px);
+    background-size: auto, auto, 6px 6px;
+    opacity: 0.46;
+  }
+
+  .fieldlog-plate-shell::after {
+    inset: 8px;
+    border: 1px solid rgba(236, 193, 132, 0.1);
+    border-radius: 12px;
+  }
+
+  .fieldlog-plate-header,
+  .fieldlog-plate-grid,
+  .fieldlog-plate-signals {
+    position: relative;
+    z-index: 1;
+  }
+
+  .fieldlog-plate-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.9rem 1.3rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .fieldlog-plate-kicker,
+  .fieldlog-plate-ruler,
+  .fieldlog-plate-code,
+  .fieldlog-plate-card-label,
+  .fieldlog-plate-signals-label,
+  .fieldlog-plate-signal p,
+  .fieldlog-plate-meta span,
+  .fieldlog-plate-stamp span {
+    font-family: var(--font-ui);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-ui-wide);
+  }
+
+  .fieldlog-plate-kicker {
+    margin: 0 0 0.28rem;
+    color: var(--plate-label);
+    font-size: 10px;
+  }
+
+  .fieldlog-plate-ruler {
+    margin: 0;
+    color: rgba(152, 179, 209, 0.66);
+    font-size: 0.76rem;
+    line-height: 1.4;
+  }
+
+  .fieldlog-plate-stamp {
+    min-width: 13rem;
+    padding: 0.8rem 0.92rem 0.86rem;
+    border: 1px solid rgba(204, 155, 94, 0.18);
+    border-radius: 12px;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0)),
+      rgba(13, 17, 25, 0.44);
+    text-align: right;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  }
+
+  .fieldlog-plate-stamp span {
+    display: block;
+    margin: 0 0 0.28rem;
+    color: rgba(226, 201, 164, 0.72);
+    font-size: 10px;
+  }
+
+  .fieldlog-plate-stamp strong {
+    color: var(--plate-copy);
+    font-family: var(--font-display);
+    font-size: 1rem;
+    line-height: 1.1;
+    font-weight: 600;
+  }
+
+  .fieldlog-plate-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .fieldlog-plate-hero,
+  .fieldlog-plate-card,
+  .fieldlog-plate-signal {
+    border: 1px solid var(--plate-line-soft);
+    border-radius: 14px;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.042), rgba(255, 255, 255, 0)),
+      rgba(12, 16, 24, 0.42);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.028);
+  }
+
+  .fieldlog-plate-hero {
+    padding: clamp(1.2rem, 2vw, 1.7rem);
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .fieldlog-plate-code {
+    margin: 0;
+    color: rgba(152, 179, 209, 0.82);
+    font-size: 10px;
+  }
+
+  .fieldlog-plate-hero h2 {
+    margin: 0;
+    max-width: 10ch;
+    color: var(--plate-copy);
+    font-family: var(--font-display);
+    font-size: clamp(2.35rem, 4.6vw, 3.75rem);
+    line-height: 0.94;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    text-wrap: balance;
+  }
+
+  .fieldlog-plate-style {
+    width: fit-content;
+    margin: 0;
+    padding: 0.36rem 0.7rem 0.38rem;
+    border: 1px solid rgba(224, 163, 86, 0.32);
+    border-radius: 999px;
+    background:
+      linear-gradient(180deg, rgba(245, 188, 116, 0.16), rgba(245, 188, 116, 0)),
+      rgba(59, 40, 20, 0.4);
+    color: rgba(250, 235, 210, 0.96);
+    font-family: var(--font-ui);
+    font-size: 0.74rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .fieldlog-plate-summary {
+    margin: 0;
+    max-width: 38ch;
+    color: var(--plate-muted);
+    font-size: 1.02rem;
+    line-height: 1.66;
+    text-wrap: balance;
+  }
+
+  .fieldlog-plate-meta {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+  }
+
+  .fieldlog-plate-meta li {
+    min-width: 11rem;
+    padding: 0.74rem 0.82rem 0.78rem;
+    border: 1px solid rgba(216, 177, 125, 0.16);
+    border-radius: 12px;
+    background: rgba(8, 12, 18, 0.38);
+  }
+
+  .fieldlog-plate-meta span {
+    display: block;
+    margin: 0 0 0.3rem;
+    color: rgba(165, 189, 214, 0.72);
+    font-size: 9px;
+  }
+
+  .fieldlog-plate-meta strong {
+    display: block;
+    color: rgba(247, 239, 225, 0.94);
+    font-family: var(--font-ui);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  .fieldlog-plate-rack {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.9rem;
+  }
+
+  .fieldlog-plate-card {
+    min-height: 11rem;
+    padding: 1rem 1rem 1.06rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.62rem;
+  }
+
+  .fieldlog-plate-card--emphasis {
+    background:
+      radial-gradient(circle at 90% 16%, rgba(227, 161, 79, 0.16), transparent 30%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0)),
+      rgba(16, 21, 30, 0.5);
+  }
+
+  .fieldlog-plate-card-label {
+    margin: 0;
+    color: var(--plate-label);
+    font-size: 10px;
+  }
+
+  .fieldlog-plate-card strong {
+    display: block;
+    color: var(--plate-copy);
+    font-size: clamp(1.18rem, 1.8vw, 1.5rem);
+    line-height: 1.16;
+    font-weight: 600;
+    text-wrap: balance;
+  }
+
+  .fieldlog-plate-card span {
+    display: block;
+    color: var(--plate-muted);
+    font-size: 0.94rem;
+    line-height: 1.56;
+    text-wrap: balance;
+  }
+
+  .fieldlog-plate-signals {
+    margin-top: 0.95rem;
+    padding-top: 0.95rem;
+    border-top: 1px solid rgba(213, 172, 117, 0.14);
+  }
+
+  .fieldlog-plate-signals-label {
+    margin: 0 0 0.74rem;
+    color: rgba(152, 179, 209, 0.78);
+    font-size: 10px;
+  }
+
+  .fieldlog-plate-signals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.72rem;
+  }
+
+  .fieldlog-plate-signal {
+    min-height: 7.4rem;
+    padding: 0.92rem 0.94rem 1rem;
+  }
+
+  .fieldlog-plate-signal p {
+    margin: 0 0 0.48rem;
+    color: rgba(226, 201, 164, 0.72);
+    font-size: 10px;
+  }
+
+  .fieldlog-plate-signal strong {
+    display: block;
+    color: rgba(242, 236, 225, 0.9);
+    font-size: 0.98rem;
+    line-height: 1.58;
+    font-weight: 500;
+    text-wrap: balance;
+  }
+
+  @media (max-width: 900px) {
+    .fieldlog-plate-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .fieldlog-plate-stamp {
+      text-align: left;
+      min-width: 0;
+    }
+  }
+
+  @media (max-width: 680px) {
+    .fieldlog-plate-rack {
+      grid-template-columns: 1fr;
+    }
+
+    .fieldlog-plate-card,
+    .fieldlog-plate-signal {
+      min-height: 0;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .fieldlog-plate-shell {
+      padding: 0.95rem;
+      border-radius: 16px;
+    }
+
+    .fieldlog-plate-header {
+      margin-bottom: 0.95rem;
+    }
+
+    .fieldlog-plate-hero {
+      padding: 1rem;
+    }
+
+    .fieldlog-plate-hero h2 {
+      max-width: 100%;
+      font-size: clamp(2rem, 11vw, 2.7rem);
+    }
+
+    .fieldlog-plate-summary {
+      font-size: 0.98rem;
+    }
+
+    .fieldlog-plate-meta {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .fieldlog-plate-meta li {
+      min-width: 0;
+    }
+  }
+</style>
