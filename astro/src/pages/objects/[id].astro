@@ -2262,6 +2262,59 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     max-width: 24ch;
   }
 
+  .object-shell.fieldlog .body :global(pre.astro-code[data-language='text']) {
+    position: relative;
+    margin: 1rem 0 2.8rem;
+    padding: 1.35rem clamp(1.05rem, 2vw, 1.55rem) 1.2rem !important;
+    inline-size: fit-content;
+    min-inline-size: min(100%, 34rem);
+    max-inline-size: min(100%, 72ch);
+    border: 1px solid rgba(198, 141, 79, 0.26);
+    border-radius: 4px;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.028), rgba(255, 255, 255, 0) 22%),
+      linear-gradient(135deg, rgba(31, 36, 43, 0.985), rgba(22, 27, 34, 0.992) 62%, rgba(28, 23, 18, 0.992)) !important;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 16px 34px rgba(0, 0, 0, 0.18);
+    overflow: auto;
+  }
+
+  .object-shell.fieldlog .body :global(pre.astro-code[data-language='text']::before) {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 1px;
+    background: linear-gradient(180deg, rgba(220, 170, 104, 0.42), rgba(220, 170, 104, 0.08));
+  }
+
+  .object-shell.fieldlog .body :global(pre.astro-code[data-language='text']::after) {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background:
+      linear-gradient(90deg, rgba(255, 255, 255, 0.12), rgba(212, 153, 87, 0.28), transparent 78%);
+    pointer-events: none;
+  }
+
+  .object-shell.fieldlog .body :global(pre.astro-code[data-language='text'] code) {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 0.28rem;
+    color: rgba(241, 238, 231, 0.94) !important;
+    font-family: var(--font-ui);
+    font-size: clamp(0.92rem, 1.35vw, 1rem);
+    line-height: 1.58;
+  }
+
+  .object-shell.fieldlog .body :global(pre.astro-code[data-language='text'] .line) {
+    display: block;
+    width: fit-content;
+    min-width: 100%;
+  }
+
   .body :global(ul),
   .body :global(ol) {
     margin: 0.45rem 0 2.45rem;
@@ -2502,6 +2555,19 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
   }
 
   .image-lightbox {
+    --lightbox-safe-top: max(0.9rem, env(safe-area-inset-top, 0px));
+    --lightbox-safe-right: max(1rem, env(safe-area-inset-right, 0px));
+    --lightbox-safe-bottom: max(0.95rem, env(safe-area-inset-bottom, 0px));
+    --lightbox-safe-left: max(1rem, env(safe-area-inset-left, 0px));
+    --lightbox-stage-max: 1480px;
+    --lightbox-stage-width: min(
+      calc(100vw - var(--lightbox-safe-left) - var(--lightbox-safe-right) - clamp(2.4rem, 5vw, 7rem)),
+      var(--lightbox-stage-max)
+    );
+    --lightbox-frame-height: min(
+      calc(100vh - var(--lightbox-safe-top) - var(--lightbox-safe-bottom) - 5.25rem),
+      1040px
+    );
     position: fixed;
     inset: 0;
     z-index: 1200;
@@ -2510,7 +2576,11 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     gap: 0.65rem;
     align-items: center;
     justify-items: center;
-    padding: clamp(0.9rem, 2vw, 1.7rem);
+    padding:
+      var(--lightbox-safe-top)
+      var(--lightbox-safe-right)
+      var(--lightbox-safe-bottom)
+      var(--lightbox-safe-left);
     background: rgba(7, 6, 4, 0.94);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
@@ -2528,11 +2598,12 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
   }
 
   .image-lightbox-topbar {
-    width: min(96vw, 1600px);
+    width: var(--lightbox-stage-width);
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
     gap: 0.8rem;
+    padding-inline: clamp(0.22rem, 0.8vw, 0.8rem);
   }
 
   .image-lightbox-count {
@@ -2563,16 +2634,17 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
   .image-lightbox-frame {
     margin: 0;
-    width: min(96vw, 1600px);
-    height: min(88vh, 1100px);
+    width: var(--lightbox-stage-width);
+    height: var(--lightbox-frame-height);
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-columns: minmax(4.4rem, 6vw) minmax(0, 1fr) minmax(4.4rem, 6vw);
     grid-template-rows: minmax(0, 1fr) auto;
     justify-items: center;
     align-content: center;
     align-items: center;
-    gap: 0.6rem;
+    gap: clamp(0.7rem, 1vw, 1rem);
     position: relative;
+    padding-inline: clamp(0.18rem, 0.8vw, 0.8rem);
   }
 
   .image-lightbox-frame img {
@@ -2581,7 +2653,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     width: auto;
     height: auto;
     max-width: 100%;
-    max-height: calc(min(88vh, 1100px) - 3rem);
+    max-height: calc(var(--lightbox-frame-height) - 4.25rem);
     object-fit: contain;
     border: 1px solid rgba(244, 240, 232, 0.2);
     background: rgba(12, 11, 9, 0.95);
@@ -2633,8 +2705,8 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     font-size: 0.62rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    padding: 0.7rem 0.82rem;
-    min-width: 4.2rem;
+    padding: 0.74rem 0.9rem;
+    min-width: clamp(4rem, 4.8vw, 4.8rem);
     cursor: pointer;
   }
 
@@ -2661,7 +2733,8 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     grid-column: 1 / -1;
     grid-row: 2;
     margin: 0;
-    max-width: min(96vw, 110ch);
+    max-width: min(72ch, calc(100% - clamp(1.8rem, 8vw, 11rem)));
+    padding-inline: clamp(0.2rem, 0.8vw, 0.75rem);
     color: var(--mid);
     font-size: 0.9rem;
     line-height: 1.6;
@@ -3502,16 +3575,18 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     }
 
     .image-lightbox {
-      padding:
-        max(0.8rem, env(safe-area-inset-top, 0px))
-        0.8rem
-        max(0.95rem, env(safe-area-inset-bottom, 0px))
-        0.8rem;
+      --lightbox-safe-top: max(0.8rem, env(safe-area-inset-top, 0px));
+      --lightbox-safe-right: max(0.8rem, env(safe-area-inset-right, 0px));
+      --lightbox-safe-bottom: max(0.95rem, env(safe-area-inset-bottom, 0px));
+      --lightbox-safe-left: max(0.8rem, env(safe-area-inset-left, 0px));
+      --lightbox-stage-width: calc(100vw - var(--lightbox-safe-left) - var(--lightbox-safe-right));
+      --lightbox-frame-height: calc(100vh - var(--lightbox-safe-top) - var(--lightbox-safe-bottom) - 4.6rem);
     }
 
     .image-lightbox-topbar {
-      width: 100%;
+      width: var(--lightbox-stage-width);
       gap: 0.6rem;
+      padding-inline: 0.1rem;
     }
 
     .image-lightbox-count {
@@ -3520,11 +3595,12 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     }
 
     .image-lightbox-frame {
-      width: 100%;
-      height: calc(100vh - 4.6rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+      width: var(--lightbox-stage-width);
+      height: var(--lightbox-frame-height);
       grid-template-columns: 1fr;
       grid-template-rows: minmax(0, 1fr) auto;
       gap: 0.75rem;
+      padding-inline: 0;
     }
 
     .image-lightbox.is-gallery .image-lightbox-frame::before,
@@ -3555,7 +3631,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
     .image-lightbox-frame img {
       grid-column: 1;
-      max-height: calc(100vh - 7.6rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+      max-height: calc(var(--lightbox-frame-height) - 5rem);
     }
 
     .image-lightbox-nav {
