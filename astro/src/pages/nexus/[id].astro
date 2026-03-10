@@ -7,15 +7,17 @@ import { formatDisplayTitle } from '../../lib/headline';
 import { compareByPureTimeline, formatArchiveLongDate } from '../../lib/timeline';
 
 export async function getStaticPaths() {
-  const nexusEntries = await getCollection('nexus');
+  const nexusEntries = (await getCollection('nexus')).filter(
+    (entry) => entry.data.status === 'published' && entry.data.visibility === 'public'
+  );
   return nexusEntries.map((entry) => ({
     params: { id: entry.data.id },
   }));
 }
 
-const nexusEntries = (await getCollection('nexus')).sort(
-  (a, b) => compareByPureTimeline(a, b) || b.data.id.localeCompare(a.data.id)
-);
+const nexusEntries = (await getCollection('nexus'))
+  .filter((entry) => entry.data.status === 'published' && entry.data.visibility === 'public')
+  .sort((a, b) => compareByPureTimeline(a, b) || b.data.id.localeCompare(a.data.id));
 
 const issue = nexusEntries.find((entry) => entry.data.id === Astro.params.id);
 if (!issue) {

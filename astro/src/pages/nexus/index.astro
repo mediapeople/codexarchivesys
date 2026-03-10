@@ -7,9 +7,11 @@ import { getMediaItems, pickPrimaryMedia } from '../../lib/media';
 import { formatDisplayTitle } from '../../lib/headline';
 import { compareByPureTimeline, formatArchiveDate } from '../../lib/timeline';
 
-const issues = (await getCollection('nexus')).sort(
-  (a, b) => compareByPureTimeline(a, b) || b.data.id.localeCompare(a.data.id)
-);
+const issues = (await getCollection('nexus'))
+  .filter((entry) => entry.data.status === 'published' && entry.data.visibility === 'public')
+  .sort(
+    (a, b) => compareByPureTimeline(a, b) || b.data.id.localeCompare(a.data.id)
+  );
 
 const allEntries = await getAllEntries();
 const byId = new Map(allEntries.map((entry) => [entry.data.id, entry]));

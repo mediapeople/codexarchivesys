@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-10T13:26:35.994Z",
+  "generatedAt": "2026-03-10T13:43:04.552Z",
   "sourceDir": "../objects",
-  "nodeCount": 69,
-  "edgeCount": 1917,
+  "nodeCount": 70,
+  "edgeCount": 1984,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -620,6 +620,22 @@
         "transmission"
       ],
       "constellations": []
+    },
+    {
+      "id": "citizen-network-dispatch",
+      "type": "nexus",
+      "title": "CITIZEN NETWORK DISPATCH",
+      "date": "2026-03-10",
+      "themes": [
+        "systems",
+        "signal",
+        "transmission",
+        "structure",
+        "observation"
+      ],
+      "constellations": [
+        "Cascade Psalms"
+      ]
     },
     {
       "id": "signal-descent-001",
@@ -1340,6 +1356,46 @@
       ]
     },
     {
+      "source": "citizen-network-dispatch",
+      "target": "citizen-network-doctrine",
+      "weight": 11,
+      "reasons": [
+        "shared-theme",
+        "explicit-related",
+        "nexus-inclusion"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "citizen-network-map-hi-fi",
+      "weight": 11,
+      "reasons": [
+        "shared-theme",
+        "explicit-related",
+        "nexus-inclusion"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "constellation-node-alchemy",
+      "weight": 11,
+      "reasons": [
+        "shared-theme",
+        "explicit-related",
+        "nexus-inclusion"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "disrespectful-power",
+      "weight": 11,
+      "reasons": [
+        "shared-theme",
+        "explicit-related",
+        "nexus-inclusion"
+      ]
+    },
+    {
       "source": "citizen-network-map-hi-fi",
       "target": "node-doctrine",
       "weight": 11,
@@ -1459,6 +1515,16 @@
         "shared-theme",
         "shared-constellation",
         "explicit-related"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "unacceptable-cost",
+      "weight": 10,
+      "reasons": [
+        "shared-theme",
+        "explicit-related",
+        "nexus-inclusion"
       ]
     },
     {
@@ -2871,6 +2937,15 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "citizen-network-dispatch",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "codex-archive-system-v3-2-fragment-feed-notes",
       "weight": 5,
       "reasons": [
@@ -2993,6 +3068,96 @@
       "reasons": [
         "shared-theme",
         "explicit-related"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "codex-archive-system-v3-2-fragment-feed-notes",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "codex-archive-system-v3-3-modest-table-notes",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "codex-archive-system-v3-4-image-experience-notes",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "codex-archive-system-v3-5-control-surface-notes",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "codex-archive-system-v3-6-reading-surface-notes",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "codex-archive-system-v3-plus-notes",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "go-live-milestone",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "signal-descent-003",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "signal-descent-004",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "signal.citizen-agency",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
       ]
     },
     {
@@ -3607,6 +3772,15 @@
     },
     {
       "source": "artifact-jsa-collage-001",
+      "target": "citizen-network-dispatch",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
       "target": "codex-archive-system-v3-5-control-surface-notes",
       "weight": 4,
       "reasons": [
@@ -3695,6 +3869,14 @@
     },
     {
       "source": "builder-lineage-reflection",
+      "target": "citizen-network-dispatch",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
       "target": "disrespectful-power",
       "weight": 4,
       "reasons": [
@@ -3753,6 +3935,85 @@
       "reasons": [
         "shared-theme",
         "explicit-related"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "codex-archive-system-v2-7-notes",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "codex-archive-system-v3-1-build-notes",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "codex-archive-system-v3-notes",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "machine-creatures",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "node-doctrine",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "signal-descent-001",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "signal-descent-002",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "transmission-note-to-future-me",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
       ]
     },
     {
@@ -4916,6 +5177,14 @@
     },
     {
       "source": "artifact-jsa-signal-fracture-001",
+      "target": "citizen-network-dispatch",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
       "target": "disrespectful-power",
       "weight": 3,
       "reasons": [
@@ -5040,6 +5309,107 @@
       "weight": 3,
       "reasons": [
         "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "codex-glyph-grammar",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "codex-glyph-system-first-emergence",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "heart-does-not-dream",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "i-work-with-machines-to-write-scripture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "lean-mean-governance-machine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "operator-winks-at-the-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "pressure-psalm-v",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "scripture-with-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "signal-harvest",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "steel-elbow-flinchian",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "suwanee-ga-loremap",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "the-bones-hold",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
       ]
     },
     {
@@ -7597,6 +7967,14 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "citizen-network-dispatch",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "codex-archive-system-v3-3-modest-table-notes",
       "weight": 2,
       "reasons": [
@@ -7766,6 +8144,14 @@
     {
       "source": "artifact-jsa-collage-wip-001",
       "target": "cities-built-on-ruin-reminiscence",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "citizen-network-dispatch",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -7998,6 +8384,14 @@
     {
       "source": "bezalel-the-designated-hand",
       "target": "chattahoochee-river-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "citizen-network-dispatch",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -8269,6 +8663,14 @@
     },
     {
       "source": "chattahoochee-river-loremap",
+      "target": "citizen-network-dispatch",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "chattahoochee-river-loremap",
       "target": "citizen-network-doctrine",
       "weight": 2,
       "reasons": [
@@ -8318,6 +8720,14 @@
     {
       "source": "chattahoochee-river-loremap",
       "target": "transmission-note-to-future-me",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "citizen-network-dispatch",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -8477,6 +8887,14 @@
     },
     {
       "source": "cities-built-on-ruin",
+      "target": "citizen-network-dispatch",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
       "target": "citizen-network-doctrine",
       "weight": 2,
       "reasons": [
@@ -8558,6 +8976,86 @@
     {
       "source": "cities-built-on-ruin",
       "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "jsa-collage-evolution-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "jsa-collage-evolution-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "jsa-collage-evolution-003",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "systems-survive-tuesdays",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "when-the-commit-leaves-your-hands",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -11637,6 +12135,14 @@
     },
     {
       "source": "archive-box-stamped-fragments",
+      "target": "citizen-network-dispatch",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
       "target": "citizen-network-map-hi-fi",
       "weight": 1,
       "reasons": [
@@ -13622,6 +14128,86 @@
     {
       "source": "cities-built-on-ruin",
       "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "codex-archive-system-v2-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "codex-archive-system-v2-5-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "codex-archive-system-v2-6-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "north-georgia-march-2026",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "north-georgia-week-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "reduce-novelty-before-care",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "ridge-line-lessons",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "stairwell-signal",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "studio-bench-cycle",
       "weight": 1,
       "reasons": [
         "shared-theme"
