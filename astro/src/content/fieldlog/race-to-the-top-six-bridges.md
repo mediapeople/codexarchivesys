@@ -1,13 +1,13 @@
 ---
 id: race-to-the-top-six-bridges
 type: fieldlog
-title: "FIELD LOG: RACE TO THE TOP AT SIX BRIDGES"
+title: "Race to the Top at Six Bridges Brewing"
 date: 2026-03-10
 postedAt: 2026-03-10T16:05:58.724Z
 status: published
 visibility: public
 
-excerpt: "Race to the Top landed in the Georgia Beer Day glass at Six Bridges Brewing and turned a missed event into a clean local signal."
+excerpt: "Race to the Top hit the Georgia Beer Day glass at Six Bridges Brewing and marked the brewery's 500th beer on Untappd with a hazy IPA worth slowing down for."
 
 themes:
   - place
@@ -51,6 +51,25 @@ location: "Six Bridges Brewing, Johns Creek, Georgia"
 project: "Taproom Field Notes"
 phase: "observation"
 context: "Georgia Beer Day 2026 follow-up visit documenting Race to the Top and the brewery's 500th Untappd beer."
+specs:
+  - label: Beer
+    value: Race to the Top
+    note: "Georgia Beer Day 2026 pour"
+  - label: Brewery
+    value: Six Bridges Brewing
+    note: "Johns Creek, Georgia"
+  - label: Style
+    value: Hazy IPA
+    note: "Bright, soft, aromatic"
+  - label: Hops
+    value: Riwaka / Citra / El Dorado
+    note: "Tropical fruit, citrus, soft finish"
+  - label: Milestone
+    value: 500th Untappd beer
+    note: "Public milestone pour"
+  - label: Glass
+    value: Official Georgia Beer Day glass
+    note: "2026 commemorative pour"
 signals:
   - milestone-pour
   - georgia-beer-day-glass
@@ -63,15 +82,15 @@ actions:
 ---
 
 
-Missed **Georgia Beer Day** this year.
+I missed **Georgia Beer Day** this year.
 
-Still, the signal found me anyway.
+I still got to catch a good part of its spirit.
 
 At **Six Bridges Brewing** in Johns Creek, *Race to the Top* marked the brewery's **500th beer posted on Untappd**.
 
-Five hundred beers is not nothing.
+Five hundred beers is no small thing.
 
-Five hundred batches means repetition, calibration, failed ideas, good instincts, corrected process, refined timing, and the long patience of people willing to keep making another one.
+Five hundred beers means repetition, calibration, experiments that worked, experiments that did not, and the patience to keep refining the work until the next pour is better than the last one.
 
 ## The Beer
 
@@ -81,11 +100,11 @@ Built around **Riwaka, Citra, and El Dorado**, it leans tropical and citrus-forw
 
 A milestone beer tied to the Georgia Beer Day celebration and the brewery's 500th Untappd entry.
 
-## Codex Sensory Panel
+## Tasting Snapshot
 
 ```text
-BEER SIGNAL - RACE TO THE TOP
------------------------------
+RACE TO THE TOP
+----------------
 
 STYLE       Hazy IPA
 SITE        Six Bridges Brewing / Johns Creek
@@ -101,7 +120,7 @@ BODY        ████████░░
 IMPRESSION  juicy - bright - soft - aromatic
 ```
 
-## Hop Signals
+## Hop Bill
 
 | Hop | Origin | Markers |
 |---|---|---|
@@ -115,11 +134,11 @@ The pour landed in the **official 2026 Georgia Beer Day glass**.
 
 Not just merch.
 
-A small civic artifact of Georgia's independent brewing culture.
+A small keepsake from Georgia's independent brewing culture.
 
 ## The Place
 
-The **Johns Creek taproom** offers a rare transparency.
+The **Johns Creek taproom** has one of its best qualities in plain view.
 
 From the bar you can see directly into the brewing floor:
 
@@ -127,14 +146,11 @@ stainless tanks
 lines and valves  
 brewers moving deliberately through the work.
 
-The effect is panoramic.
+The effect is simple and strong.
 
-Not theatrical.  
-Not hidden.
+You can enjoy the beer and see the work behind it at the same time.
 
-Just the craft visible behind the pour.
-
-## Georgia Nod
+## Why the Glass Matters
 
 Georgia's brewing culture took a long time to fully emerge.
 
@@ -143,13 +159,13 @@ The state carried a long temperance shadow, and statewide prohibition arrived ea
 So a Georgia Beer Day glass in 2026 represents something larger:
 
 a still-young craft ecosystem  
-finding its place in the state's longer history.
+continuing to earn its place in the state's longer history.
 
-## Operator Reflection
+## Closing Note
 
-Missed the event.
+I missed the official event.
 
-Caught the signal anyway.
+I still came away with a clear impression.
 
 A local brewery in Johns Creek.  
 A commemorative Georgia glass.  
@@ -160,5 +176,5 @@ Not a monument.
 Just one of the good rooms:
 
 where the tanks keep turning,  
-the artisans keep experimenting,  
-and the archive gains another worthy object.
+the team keeps experimenting,  
+and the work shows up in the glass.

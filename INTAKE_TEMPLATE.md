@@ -86,8 +86,18 @@ condition: ""
 project: ""
 phase: ""
 context: ""
+specs: []
 signals: []
 actions: []
+```
+
+`specs` shape:
+
+```yaml
+specs:
+  - label: Style
+    value: Hazy IPA
+    note: "Riwaka, Citra, El Dorado"
 ```
 
 ### Codex

@@ -717,6 +717,30 @@ context: "Morning walk, North Georgia, fog"
 
 ---
 
+#### specs
+
+| Property | Value |
+|---|---|
+| **Owner** | author |
+| **Type** | array of objects |
+| **Required** | no |
+| **Applies To** | fieldlog |
+| **Renders In** | field log data plate |
+
+Structured facts that should surface ahead of body prose when the observation benefits from a compact readout.
+
+```yaml
+specs:
+  - label: Style
+    value: Hazy IPA
+    note: "Riwaka, Citra, El Dorado"
+  - label: Milestone
+    value: 500th Untappd beer
+    note: "Georgia Beer Day 2026"
+```
+
+---
+
 #### signals
 
 | Property | Value |

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-10T16:05:59.167Z",
+  "generatedAt": "2026-03-10T16:12:02.508Z",
   "sourceDir": "../objects",
   "nodeCount": 71,
   "edgeCount": 2045,
@@ -461,7 +461,7 @@
     {
       "id": "race-to-the-top-six-bridges",
       "type": "fieldlog",
-      "title": "FIELD LOG: RACE TO THE TOP AT SIX BRIDGES",
+      "title": "Race to the Top at Six Bridges Brewing",
       "date": "2026-03-10",
       "themes": [
         "place",

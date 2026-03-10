@@ -137,6 +137,12 @@ const ConnectionItem = z.object({
   display: ConnectionDisplay.default('inline'),
 });
 
+const FieldlogSpec = z.object({
+  label: z.string(),
+  value: z.string(),
+  note: z.string().optional(),
+});
+
 // ─── UNIVERSAL BASE FIELDS ────────────────────────────────────────────────────
 // Present on every object type. See registry Layer 1.
 
@@ -197,6 +203,7 @@ const fieldlogFields = {
   project:  z.string().optional(),
   phase:    z.string().optional(),
   context:  z.string().optional(),
+  specs:    z.array(FieldlogSpec).default([]),
   signals:  z.array(z.string()).default([]),
   actions:  z.array(z.string()).default([]),
 };

@@ -159,7 +159,34 @@ const detailRows = optionalFieldOrder
   })
   .filter((row): row is { label: string; value: string } => Boolean(row));
 
+const fieldlogSpecsRaw = (entry.data as Record<string, unknown>).specs;
+const fieldlogSpecs = Array.isArray(fieldlogSpecsRaw)
+  ? fieldlogSpecsRaw
+      .map((item) => {
+        if (
+          item &&
+          typeof item === 'object' &&
+          'label' in item &&
+          'value' in item &&
+          typeof (item as { label: unknown }).label === 'string' &&
+          typeof (item as { value: unknown }).value === 'string'
+        ) {
+          return {
+            label: (item as { label: string }).label,
+            value: (item as { value: string }).value,
+            note:
+              'note' in item && typeof (item as { note?: unknown }).note === 'string'
+                ? String((item as { note?: string }).note)
+                : '',
+          };
+        }
+        return null;
+      })
+      .filter((item): item is { label: string; value: string; note: string } => Boolean(item))
+  : [];
+
 const isLoremapObject = entry.collection === 'loremap';
+const isFieldlogObject = entry.collection === 'fieldlog';
 const loremapFieldLabels = new Set(['Location', 'Geo', 'Terrain']);
 const loremapDetailRows = isLoremapObject
   ? detailRows.filter((row) => loremapFieldLabels.has(row.label))
@@ -521,6 +548,27 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
             ))}
           </div>
         )}
+      </section>
+    )}
+
+    {isFieldlogObject && fieldlogSpecs.length > 0 && (
+      <section class="fieldlog-dossier">
+        <header class="fieldlog-dossier-head">
+          <div>
+            <p class="fieldlog-dossier-kicker">Structured Readout</p>
+            <h2>Field Details</h2>
+          </div>
+          <p class="fieldlog-dossier-note">Key facts surfaced ahead of the longer observation.</p>
+        </header>
+        <div class="fieldlog-spec-grid">
+          {fieldlogSpecs.map((spec, index) => (
+            <article class={`fieldlog-spec ${index === 0 ? 'fieldlog-spec--primary' : ''}`}>
+              <p class="fieldlog-spec-label">{spec.label}</p>
+              <strong>{spec.value}</strong>
+              {spec.note && <span>{spec.note}</span>}
+            </article>
+          ))}
+        </div>
       </section>
     )}
 
@@ -1506,6 +1554,122 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
   .detail-grid--supporting {
     margin: 2.45rem 0 2.25rem;
+  }
+
+  .fieldlog-dossier {
+    position: relative;
+    margin: 2.4rem 0 2.2rem;
+    padding: clamp(1.05rem, 1.8vw, 1.45rem);
+    border: 1px solid rgba(189, 132, 74, 0.22);
+    background:
+      radial-gradient(circle at 88% 12%, rgba(207, 151, 82, 0.13), transparent 30%),
+      linear-gradient(145deg, rgba(86, 56, 22, 0.22), rgba(14, 11, 8, 0.95) 42%, rgba(33, 22, 13, 0.88)),
+      rgba(16, 12, 8, 0.96);
+    overflow: hidden;
+  }
+
+  .fieldlog-dossier::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05), transparent 18%),
+      repeating-linear-gradient(
+        0deg,
+        transparent 0,
+        transparent 23px,
+        rgba(235, 205, 164, 0.035) 23px,
+        rgba(235, 205, 164, 0.035) 24px
+      );
+    pointer-events: none;
+  }
+
+  .fieldlog-dossier-head,
+  .fieldlog-spec-grid {
+    position: relative;
+    z-index: 1;
+  }
+
+  .fieldlog-dossier-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 0.6rem 1.2rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .fieldlog-dossier-kicker {
+    margin: 0 0 0.32rem;
+    color: rgba(231, 177, 111, 0.78);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: var(--ls-ui-wide);
+  }
+
+  .fieldlog-dossier-head h2 {
+    margin: 0;
+    color: rgba(249, 241, 228, 0.98);
+    font-size: clamp(1.3rem, 2vw, 1.7rem);
+    line-height: 1.02;
+  }
+
+  .fieldlog-dossier-note {
+    margin: 0;
+    color: rgba(225, 208, 184, 0.72);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    max-width: 34ch;
+  }
+
+  .fieldlog-spec-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.82rem;
+  }
+
+  .fieldlog-spec {
+    min-height: 9.1rem;
+    padding: 1rem 1.02rem 1.06rem;
+    border: 1px solid rgba(233, 191, 135, 0.16);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0)),
+      rgba(32, 22, 14, 0.74);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.025);
+  }
+
+  .fieldlog-spec--primary {
+    background:
+      radial-gradient(circle at 82% 20%, rgba(236, 191, 122, 0.16), transparent 32%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0)),
+      rgba(46, 31, 18, 0.84);
+  }
+
+  .fieldlog-spec-label {
+    margin: 0 0 0.54rem;
+    color: rgba(230, 194, 148, 0.72);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: var(--ls-ui-wide);
+  }
+
+  .fieldlog-spec strong {
+    display: block;
+    color: rgba(250, 242, 229, 0.98);
+    font-size: clamp(1.12rem, 1.55vw, 1.42rem);
+    line-height: 1.16;
+    text-wrap: balance;
+  }
+
+  .fieldlog-spec span {
+    display: block;
+    margin-top: 0.65rem;
+    color: rgba(223, 206, 182, 0.78);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    text-wrap: balance;
   }
 
   .loremap-atlas {
@@ -2827,6 +2991,10 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     max-width: 90ch;
   }
 
+  .object-shell.fieldlog .fieldlog-dossier {
+    max-width: min(1040px, 100%);
+  }
+
   .object-shell.codex .detail-grid {
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 1.1rem;
@@ -3029,6 +3197,14 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     }
 
     .detail-grid--loremap-atlas article {
+      min-height: 0;
+    }
+
+    .fieldlog-dossier-head {
+      align-items: flex-start;
+    }
+
+    .fieldlog-spec {
       min-height: 0;
     }
 
