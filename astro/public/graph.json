@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-10T04:29:00.707Z",
+  "generatedAt": "2026-03-10T13:26:35.994Z",
   "sourceDir": "../objects",
-  "nodeCount": 68,
-  "edgeCount": 1855,
+  "nodeCount": 69,
+  "edgeCount": 1917,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -794,6 +794,19 @@
         "Maintenance Psalms",
         "Cascade Psalms"
       ]
+    },
+    {
+      "id": "machine-creatures",
+      "type": "scroll",
+      "title": "Machine Creatures",
+      "date": "2026-03-10",
+      "themes": [
+        "systems",
+        "signal",
+        "transmission",
+        "structure"
+      ],
+      "constellations": []
     },
     {
       "id": "maintenance-without-cure",
@@ -2765,6 +2778,15 @@
     },
     {
       "source": "i-work-with-machines-to-write-scripture",
+      "target": "machine-creatures",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
       "target": "operator-winks-at-the-machines",
       "weight": 6,
       "reasons": [
@@ -2774,6 +2796,24 @@
     },
     {
       "source": "i-work-with-machines-to-write-scripture",
+      "target": "steel-elbow-flinchian",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "scripture-with-machines",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "machine-creatures",
       "target": "steel-elbow-flinchian",
       "weight": 6,
       "reasons": [
@@ -3716,6 +3756,14 @@
       ]
     },
     {
+      "source": "citizen-network-doctrine",
+      "target": "machine-creatures",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "citizen-network-map-hi-fi",
       "target": "codex-archive-system-v3-2-fragment-feed-notes",
       "weight": 4,
@@ -3742,6 +3790,14 @@
     {
       "source": "citizen-network-map-hi-fi",
       "target": "codex-glyph-system-first-emergence",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
+      "target": "machine-creatures",
       "weight": 4,
       "reasons": [
         "shared-theme"
@@ -4303,6 +4359,23 @@
       ]
     },
     {
+      "source": "machine-creatures",
+      "target": "node-doctrine",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "signal-harvest",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "maintenance-without-cure",
       "target": "scroll-from-the-perimeter",
       "weight": 4,
@@ -4556,6 +4629,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
+      "target": "machine-creatures",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -4908,6 +4989,14 @@
     {
       "source": "builder-lineage-reflection",
       "target": "constellation-node-alchemy",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "machine-creatures",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -5694,6 +5783,14 @@
     },
     {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "machine-creatures",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "on-object-oriented-archives",
       "weight": 3,
       "reasons": [
@@ -6457,6 +6554,14 @@
     },
     {
       "source": "codex-archive-system-v3-plus-notes",
+      "target": "machine-creatures",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
       "target": "on-object-oriented-archives",
       "weight": 3,
       "reasons": [
@@ -6540,6 +6645,14 @@
     },
     {
       "source": "codex-glyph-grammar",
+      "target": "machine-creatures",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
       "target": "on-object-oriented-archives",
       "weight": 3,
       "reasons": [
@@ -6565,6 +6678,14 @@
     {
       "source": "codex-glyph-system-first-emergence",
       "target": "disrespectful-power",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
+      "target": "machine-creatures",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -6605,6 +6726,14 @@
     {
       "source": "constellation-node-alchemy",
       "target": "i-work-with-machines-to-write-scripture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "machine-creatures",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -6699,8 +6828,24 @@
       ]
     },
     {
+      "source": "disrespectful-power",
+      "target": "machine-creatures",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "go-live-milestone",
       "target": "i-work-with-machines-to-write-scripture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "machine-creatures",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -6916,6 +7061,38 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "operator-winks-at-the-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "signal-descent-003",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "signal-descent-004",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "signal.citizen-agency",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -7764,6 +7941,14 @@
     },
     {
       "source": "artifact-jsa-signal-fracture-001",
+      "target": "machine-creatures",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
       "target": "node-doctrine",
       "weight": 2,
       "reasons": [
@@ -7861,6 +8046,14 @@
     {
       "source": "bezalel-the-designated-hand",
       "target": "codex-glyph-system-first-emergence",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "machine-creatures",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -8196,6 +8389,14 @@
     },
     {
       "source": "cities-built-on-ruin-reminiscence",
+      "target": "machine-creatures",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
       "target": "node-doctrine",
       "weight": 2,
       "reasons": [
@@ -8309,6 +8510,14 @@
     {
       "source": "cities-built-on-ruin",
       "target": "disrespectful-power",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "machine-creatures",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -8772,6 +8981,14 @@
     },
     {
       "source": "codex-archive-system-v2-7-notes",
+      "target": "machine-creatures",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
       "target": "nothing-missing-only-unindexed",
       "weight": 2,
       "reasons": [
@@ -8853,6 +9070,14 @@
     {
       "source": "codex-archive-system-v3-1-build-notes",
       "target": "jsa-collage-evolution-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "machine-creatures",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -9004,6 +9229,14 @@
     },
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "machine-creatures",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "nothing-missing-only-unindexed",
       "weight": 2,
       "reasons": [
@@ -9069,6 +9302,14 @@
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "i-work-with-machines-to-write-scripture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "machine-creatures",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -9156,6 +9397,14 @@
     },
     {
       "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "machine-creatures",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
       "target": "nothing-missing-only-unindexed",
       "weight": 2,
       "reasons": [
@@ -9229,6 +9478,14 @@
     {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "jsa-collage-evolution-003",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "machine-creatures",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -9453,6 +9710,14 @@
     {
       "source": "codex-archive-system-v3-notes",
       "target": "jsa-collage-evolution-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "machine-creatures",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -10432,6 +10697,86 @@
       "weight": 2,
       "reasons": [
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "signal-descent-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "signal-descent-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "systems-survive-tuesdays",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "transmission-note-to-future-me",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "when-the-commit-leaves-your-hands",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -11348,6 +11693,14 @@
     },
     {
       "source": "archive-box-stamped-fragments",
+      "target": "machine-creatures",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
       "target": "maintenance-without-cure",
       "weight": 1,
       "reasons": [
@@ -11532,6 +11885,14 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "machine-creatures",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "maintenance-without-cure",
       "weight": 1,
       "reasons": [
@@ -11708,6 +12069,14 @@
     },
     {
       "source": "artifact-jsa-collage-001",
+      "target": "machine-creatures",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
       "target": "node-doctrine",
       "weight": 1,
       "reasons": [
@@ -11845,6 +12214,14 @@
     {
       "source": "artifact-jsa-collage-wip-001",
       "target": "i-work-with-machines-to-write-scripture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "machine-creatures",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -12732,6 +13109,14 @@
     },
     {
       "source": "chattahoochee-river-loremap",
+      "target": "machine-creatures",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "chattahoochee-river-loremap",
       "target": "node-doctrine",
       "weight": 1,
       "reasons": [
@@ -13524,6 +13909,14 @@
     },
     {
       "source": "codex-archive-system-v2-2",
+      "target": "machine-creatures",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
       "target": "nothing-missing-only-unindexed",
       "weight": 1,
       "reasons": [
@@ -13644,6 +14037,14 @@
     },
     {
       "source": "codex-archive-system-v2-5-notes",
+      "target": "machine-creatures",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
       "target": "nothing-missing-only-unindexed",
       "weight": 1,
       "reasons": [
@@ -13748,6 +14149,14 @@
     },
     {
       "source": "codex-archive-system-v2-6-notes",
+      "target": "machine-creatures",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
       "target": "nothing-missing-only-unindexed",
       "weight": 1,
       "reasons": [
@@ -14109,6 +14518,14 @@
     {
       "source": "codex-archive-system-v3-7-loremap-foundation-notes",
       "target": "jsa-collage-evolution-003",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "target": "machine-creatures",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -14805,6 +15222,14 @@
     {
       "source": "heart-does-not-dream",
       "target": "jsa-collage-evolution-003",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "heart-does-not-dream",
+      "target": "machine-creatures",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -14972,6 +15397,14 @@
     },
     {
       "source": "jsa-collage-evolution-001",
+      "target": "machine-creatures",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -15108,6 +15541,14 @@
     },
     {
       "source": "jsa-collage-evolution-002",
+      "target": "machine-creatures",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-002",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -15236,6 +15677,14 @@
     },
     {
       "source": "jsa-collage-evolution-003",
+      "target": "machine-creatures",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
       "target": "node-doctrine",
       "weight": 1,
       "reasons": [
@@ -15356,6 +15805,14 @@
     },
     {
       "source": "lean-mean-governance-machine",
+      "target": "machine-creatures",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
       "target": "maintenance-without-cure",
       "weight": 1,
       "reasons": [
@@ -15413,6 +15870,62 @@
     {
       "source": "lean-mean-governance-machine",
       "target": "stairwell-signal",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "reduce-novelty-before-care",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "scroll-from-the-perimeter",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "stairwell-signal",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "the-bones-hold",
       "weight": 1,
       "reasons": [
         "shared-theme"

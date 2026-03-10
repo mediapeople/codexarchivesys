@@ -318,7 +318,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
                 src={primaryMedia.src}
                 alt={primaryMedia.alt || `${entry.data.title} primary media`}
                 data-expandable-image
-                data-lightbox-caption={primaryMedia.caption || formatMediaLabel(primaryMedia)}
+                data-lightbox-caption={primaryMedia.caption || undefined}
                 loading="lazy"
                 decoding="async"
                 tabindex="0"
@@ -354,7 +354,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
                         src={item.src}
                         alt={item.alt || `${entry.data.title} media`}
                         data-expandable-image
-                        data-lightbox-caption={item.caption || formatMediaLabel(item)}
+                        data-lightbox-caption={item.caption || undefined}
                         loading="lazy"
                         decoding="async"
                         tabindex="0"
@@ -462,7 +462,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
               src={primaryMedia.src}
               alt={primaryMedia.alt || `${entry.data.title} primary media`}
               data-expandable-image
-              data-lightbox-caption={primaryMedia.caption || formatMediaLabel(primaryMedia)}
+              data-lightbox-caption={primaryMedia.caption || undefined}
               loading="lazy"
               decoding="async"
               tabindex="0"
@@ -495,7 +495,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
                     src={item.src}
                     alt={item.alt || `${entry.data.title} media`}
                     data-expandable-image
-                    data-lightbox-caption={item.caption || formatMediaLabel(item)}
+                    data-lightbox-caption={item.caption || undefined}
                     loading="lazy"
                     decoding="async"
                     tabindex="0"
@@ -777,7 +777,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
         lightboxImage.src = source;
         lightboxImage.alt = imageEl.alt || 'Expanded image';
 
-        const caption = imageEl.getAttribute('data-lightbox-caption') || imageEl.alt || '';
+        const caption = imageEl.getAttribute('data-lightbox-caption') || '';
         if (caption) {
           lightboxCaption.textContent = caption;
           lightboxCaption.hidden = false;

@@ -15,6 +15,7 @@ Rules:
 - For expansion, evolution, variant, or follow-on items, include explicit `related` links to predecessor objects when those ids are already known from the workspace.
 - Include only the type-specific fields that apply.
 - Omit `postedAt` until promotion/publish.
+- If a media caption is used, keep it human and simple; captions appear standalone in the lightbox, so omit them when they feel robotic, procedural, or redundant.
 - Filename format: `inbox/ready/YYYY-MM-DD-<id>.md`
 
 ## Base Template

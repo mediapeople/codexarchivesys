@@ -167,7 +167,7 @@ const showAuthorTease = !showFragmentStage;
 const hasImagePreview = !showFragmentStage && primaryMedia?.kind === 'image';
 const hasIndependentPreviewAction = hasImagePreview && (variant === 'feed' || variant === 'related');
 const useCenteredCopyStack = !showFragmentStage && (variant === 'feed' || variant === 'related');
-const primaryMediaCaption = primaryMedia ? (primaryMedia.caption || formatMediaLabel(primaryMedia)) : '';
+const primaryMediaCaption = primaryMedia?.caption || '';
 const imagePreviewItems = hasImagePreview
   ? [
       primaryMedia,
@@ -182,7 +182,7 @@ const previewGalleryPayload = hasIndependentPreviewAction
       imagePreviewItems.map((item) => ({
         src: item.src,
         alt: item.alt || `${entry.data.title} media preview`,
-        caption: item.caption || formatMediaLabel(item),
+        caption: item.caption || '',
       }))
     )
   : undefined;

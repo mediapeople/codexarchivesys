@@ -112,7 +112,8 @@ For `scroll` outputs, treat the copy as the protagonist.
 - Keep the poem/prose body primary and uninterrupted.
 - If media exists, use it as supporting context, not as the main framing narrative.
 - If metadata density would interrupt reading flow, mark it for subsequent placement (after body or in footer support block).
-- Keep media captions concise and non-explanatory (signal, not summary).
+- Keep media captions concise, human, and non-explanatory (signal, not summary).
+- Captions appear standalone in the lightbox, so omit them when they feel procedural, orphaned, or redundant with the image itself.
 - Preserve stanza/line breaks and avoid adding new headings like `Abstract` inside the body.
 - Prefer `bodyClass: verse` for line-broken poems, `prose` for paragraph-led scrolls.
 
