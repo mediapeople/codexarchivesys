@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-11T00:14:24.190Z",
+  "generatedAt": "2026-03-11T00:20:19.042Z",
   "sourceDir": "../objects",
   "nodeCount": 79,
   "edgeCount": 2539,
@@ -942,7 +942,7 @@
       "id": "one-yard-from-forever",
       "type": "scroll",
       "title": "One Yard From Forever",
-      "date": "2026-02-01",
+      "date": "2026-03-11",
       "themes": [
         "memory",
         "pressure",
@@ -969,7 +969,7 @@
       "id": "quiet-vector-doctrine",
       "type": "scroll",
       "title": "Quiet Vector Doctrine",
-      "date": "2026-02-08",
+      "date": "2026-03-11",
       "themes": [
         "signal",
         "systems",
