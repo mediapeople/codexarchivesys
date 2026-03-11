@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-11T00:27:31.800Z",
+  "generatedAt": "2026-03-11T01:04:00.745Z",
   "sourceDir": "../objects",
-  "nodeCount": 80,
-  "edgeCount": 2599,
+  "nodeCount": 83,
+  "edgeCount": 2795,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -855,6 +855,19 @@
       "constellations": []
     },
     {
+      "id": "capture-and-convert",
+      "type": "scroll",
+      "title": "Capture and Convert",
+      "date": "2026-03-10",
+      "themes": [
+        "signal",
+        "systems",
+        "transmission",
+        "observation"
+      ],
+      "constellations": []
+    },
+    {
       "id": "cities-built-on-ruin-reminiscence",
       "type": "scroll",
       "title": "Cities Built on Ruin: Reminiscence of the Third Evolution",
@@ -953,6 +966,19 @@
       ]
     },
     {
+      "id": "manic-rider-collapse",
+      "type": "scroll",
+      "title": "The Manic Rider and Collapse",
+      "date": "2026-03-10",
+      "themes": [
+        "pressure",
+        "observation",
+        "survival",
+        "structure"
+      ],
+      "constellations": []
+    },
+    {
       "id": "one-yard-from-forever",
       "type": "scroll",
       "title": "One Yard From Forever",
@@ -962,6 +988,20 @@
         "pressure",
         "observation",
         "survival"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "pocket-rock-cathedral",
+      "type": "scroll",
+      "title": "Pocket Rock Cathedral",
+      "date": "2026-03-10",
+      "themes": [
+        "pressure",
+        "structure",
+        "observation",
+        "place",
+        "memory"
       ],
       "constellations": []
     },
@@ -2773,6 +2813,24 @@
       ]
     },
     {
+      "source": "capture-and-convert",
+      "target": "machine-creatures",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "chattahoochee-river-loremap",
+      "target": "pocket-rock-cathedral",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "cities-built-on-ruin-reminiscence",
       "target": "jsa-collage-evolution-003",
       "weight": 6,
@@ -3233,6 +3291,15 @@
       ]
     },
     {
+      "source": "manic-rider-collapse",
+      "target": "unacceptable-cost",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "node-doctrine",
       "target": "signal.citizen-agency",
       "weight": 6,
@@ -3391,6 +3458,24 @@
     {
       "source": "builder-lineage-reflection",
       "target": "jsa-collage-evolution-003",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "on-visceral-distillation",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "quiet-vector-doctrine",
       "weight": 5,
       "reasons": [
         "shared-theme",
@@ -3866,6 +3951,15 @@
     },
     {
       "source": "heart-does-not-dream",
+      "target": "manic-rider-collapse",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "heart-does-not-dream",
       "target": "reduce-novelty-before-care",
       "weight": 5,
       "reasons": [
@@ -3910,6 +4004,24 @@
       ]
     },
     {
+      "source": "maintenance-without-cure",
+      "target": "manic-rider-collapse",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "north-georgia-march-2026",
+      "target": "pocket-rock-cathedral",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "north-georgia-march-2026",
       "target": "suwanee-ga-loremap",
       "weight": 5,
@@ -3939,6 +4051,15 @@
     {
       "source": "operator-winks-at-the-machines",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "pocket-rock-cathedral",
+      "target": "ridge-line-lessons",
       "weight": 5,
       "reasons": [
         "shared-theme",
@@ -4353,6 +4474,31 @@
       ]
     },
     {
+      "source": "capture-and-convert",
+      "target": "citizen-network-dispatch",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "constellation-node-alchemy",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "signal-harvest",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "chattahoochee-river-loremap",
       "target": "signal-harvest",
       "weight": 4,
@@ -5410,6 +5556,23 @@
       ]
     },
     {
+      "source": "manic-rider-collapse",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "manic-rider-collapse",
+      "target": "quiet-vector-doctrine",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "node-doctrine",
       "target": "quiet-vector-doctrine",
       "weight": 4,
@@ -5512,6 +5675,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever-scroll-surface",
+      "target": "pocket-rock-cathedral",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -5678,6 +5849,14 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "capture-and-convert",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "citizen-network-map-hi-fi",
       "weight": 3,
       "reasons": [
@@ -5831,6 +6010,14 @@
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "jsa-collage-evolution-003",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "manic-rider-collapse",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -6068,6 +6255,14 @@
     },
     {
       "source": "builder-lineage-reflection",
+      "target": "capture-and-convert",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
       "target": "citizen-network-doctrine",
       "weight": 3,
       "reasons": [
@@ -6187,6 +6382,182 @@
       ]
     },
     {
+      "source": "capture-and-convert",
+      "target": "citizen-network-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "citizen-network-map-hi-fi",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "codex-archive-system-v3-2-fragment-feed-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "codex-archive-system-v3-3-modest-table-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "codex-archive-system-v3-4-image-experience-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "codex-archive-system-v3-5-control-surface-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "codex-archive-system-v3-6-reading-surface-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "codex-archive-system-v3-8-specimen-surface-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "codex-archive-system-v3-plus-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "disrespectful-power",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "go-live-milestone",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "i-work-with-machines-to-write-scripture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "node-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "operator-winks-at-the-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "scripture-with-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "signal-descent-003",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "signal-descent-004",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "signal.citizen-agency",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "steel-elbow-flinchian",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "suwanee-ga-loremap",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "unacceptable-cost",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "chattahoochee-river-loremap",
       "target": "constellation-node-alchemy",
       "weight": 3,
@@ -6229,6 +6600,14 @@
     {
       "source": "cities-built-on-ruin-reminiscence",
       "target": "phoenix-collage-fracture-study",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "pocket-rock-cathedral",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -8600,7 +8979,23 @@
     },
     {
       "source": "distortion-atlas",
+      "target": "manic-rider-collapse",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
       "target": "one-yard-from-forever",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "pocket-rock-cathedral",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -8959,6 +9354,38 @@
       ]
     },
     {
+      "source": "manic-rider-collapse",
+      "target": "one-yard-from-forever",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "manic-rider-collapse",
+      "target": "pocket-rock-cathedral",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "manic-rider-collapse",
+      "target": "the-bones-hold",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "pocket-rock-cathedral",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "mothers-calendar",
       "target": "suwanee-ga-loremap",
       "weight": 3,
@@ -9104,6 +9531,14 @@
     {
       "source": "one-yard-from-forever-scroll-surface",
       "target": "unacceptable-cost",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever",
+      "target": "pocket-rock-cathedral",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -9545,6 +9980,14 @@
       ]
     },
     {
+      "source": "archive-box-stamped-fragments",
+      "target": "pocket-rock-cathedral",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "artifact-jsa-collage-wip-001",
       "weight": 2,
@@ -9563,6 +10006,14 @@
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "builder-lineage-reflection",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "capture-and-convert",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -9690,6 +10141,14 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "pocket-rock-cathedral",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "signal-descent-001",
       "weight": 2,
       "reasons": [
@@ -9730,6 +10189,14 @@
     },
     {
       "source": "artifact-jsa-collage-001",
+      "target": "capture-and-convert",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
       "target": "constellation-node-alchemy",
       "weight": 2,
       "reasons": [
@@ -9754,6 +10221,14 @@
     },
     {
       "source": "artifact-jsa-collage-001",
+      "target": "manic-rider-collapse",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
       "target": "mothers-calendar",
       "weight": 2,
       "reasons": [
@@ -9771,6 +10246,14 @@
     {
       "source": "artifact-jsa-collage-001",
       "target": "one-yard-from-forever-scroll-surface",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "pocket-rock-cathedral",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -9811,6 +10294,14 @@
     {
       "source": "artifact-jsa-collage-wip-001",
       "target": "builder-lineage-reflection",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "capture-and-convert",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -9923,6 +10414,14 @@
     {
       "source": "artifact-jsa-collage-wip-001",
       "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
+      "target": "capture-and-convert",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -10050,6 +10549,14 @@
     },
     {
       "source": "artifact-jsa-signal-fracture-001",
+      "target": "manic-rider-collapse",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
       "target": "mothers-calendar",
       "weight": 2,
       "reasons": [
@@ -10067,6 +10574,14 @@
     {
       "source": "artifact-jsa-signal-fracture-001",
       "target": "one-yard-from-forever-scroll-surface",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
+      "target": "pocket-rock-cathedral",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -10210,6 +10725,14 @@
     },
     {
       "source": "bezalel-the-designated-hand",
+      "target": "pocket-rock-cathedral",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
       "target": "suwanee-ga-loremap",
       "weight": 2,
       "reasons": [
@@ -10314,6 +10837,14 @@
     },
     {
       "source": "builder-lineage-reflection",
+      "target": "manic-rider-collapse",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
       "target": "mothers-calendar",
       "weight": 2,
       "reasons": [
@@ -10355,6 +10886,14 @@
     {
       "source": "builder-lineage-reflection",
       "target": "operator-winks-at-the-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "pocket-rock-cathedral",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -10443,6 +10982,174 @@
     {
       "source": "builder-lineage-reflection",
       "target": "the-bones-hold-content-architecture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "chattahoochee-river-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "codex-archive-system-v2-7-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "codex-archive-system-v3-1-build-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "codex-archive-system-v3-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "codex-glyph-grammar",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "codex-glyph-system-first-emergence",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "jsa-collage-evolution-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "jsa-collage-evolution-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "jsa-collage-evolution-003",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "mothers-calendar",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "signal-descent-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "signal-descent-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "transmission-note-to-future-me",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "when-the-commit-leaves-your-hands",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -10627,6 +11334,14 @@
     {
       "source": "cities-built-on-ruin-reminiscence",
       "target": "machine-creatures",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "manic-rider-collapse",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -10826,6 +11541,14 @@
     },
     {
       "source": "cities-built-on-ruin",
+      "target": "manic-rider-collapse",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
       "target": "node-doctrine",
       "weight": 2,
       "reasons": [
@@ -10914,6 +11637,14 @@
     },
     {
       "source": "citizen-network-dispatch",
+      "target": "manic-rider-collapse",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
       "target": "mothers-calendar",
       "weight": 2,
       "reasons": [
@@ -10939,6 +11670,14 @@
     {
       "source": "citizen-network-dispatch",
       "target": "one-yard-from-forever-scroll-surface",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "pocket-rock-cathedral",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -11083,6 +11822,14 @@
     {
       "source": "citizen-network-doctrine",
       "target": "phoenix-collage-fracture-study",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "pocket-rock-cathedral",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -12250,6 +12997,14 @@
     },
     {
       "source": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "target": "pocket-rock-cathedral",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-7-loremap-foundation-notes",
       "target": "pressure-psalm-v",
       "weight": 2,
       "reasons": [
@@ -12930,6 +13685,14 @@
     },
     {
       "source": "constellation-node-alchemy",
+      "target": "pocket-rock-cathedral",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
       "target": "quiet-vector-doctrine",
       "weight": 2,
       "reasons": [
@@ -13058,6 +13821,14 @@
     },
     {
       "source": "disrespectful-power",
+      "target": "manic-rider-collapse",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "disrespectful-power",
       "target": "mothers-calendar",
       "weight": 2,
       "reasons": [
@@ -13099,6 +13870,14 @@
     {
       "source": "disrespectful-power",
       "target": "operator-winks-at-the-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "disrespectful-power",
+      "target": "pocket-rock-cathedral",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -13714,6 +14493,14 @@
     },
     {
       "source": "jsa-collage-evolution-003",
+      "target": "manic-rider-collapse",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
       "target": "mothers-calendar",
       "weight": 2,
       "reasons": [
@@ -13731,6 +14518,14 @@
     {
       "source": "jsa-collage-evolution-003",
       "target": "one-yard-from-forever-scroll-surface",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "pocket-rock-cathedral",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -13969,6 +14764,38 @@
       ]
     },
     {
+      "source": "manic-rider-collapse",
+      "target": "on-visceral-distillation",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "manic-rider-collapse",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "manic-rider-collapse",
+      "target": "pressure-psalm-v",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "manic-rider-collapse",
+      "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "mothers-calendar",
       "target": "north-georgia-march-2026",
       "weight": 2,
@@ -14186,6 +15013,14 @@
     },
     {
       "source": "north-georgia-week-2",
+      "target": "pocket-rock-cathedral",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "north-georgia-week-2",
       "target": "race-to-the-top-six-bridges",
       "weight": 2,
       "reasons": [
@@ -14394,6 +15229,14 @@
     },
     {
       "source": "on-visceral-distillation",
+      "target": "pocket-rock-cathedral",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-visceral-distillation",
       "target": "quiet-vector-doctrine",
       "weight": 2,
       "reasons": [
@@ -14554,6 +15397,14 @@
     },
     {
       "source": "phoenix-collage-fracture-study",
+      "target": "pocket-rock-cathedral",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "phoenix-collage-fracture-study",
       "target": "quiet-vector-doctrine",
       "weight": 2,
       "reasons": [
@@ -14595,6 +15446,46 @@
     {
       "source": "phoenix-collage-fracture-study",
       "target": "under-load",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pocket-rock-cathedral",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pocket-rock-cathedral",
+      "target": "signal-descent-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pocket-rock-cathedral",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pocket-rock-cathedral",
+      "target": "the-bones-hold",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pocket-rock-cathedral",
+      "target": "unacceptable-cost",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -15202,6 +16093,14 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "mothers-calendar",
       "weight": 1,
       "reasons": [
@@ -15227,6 +16126,14 @@
     {
       "source": "apparatus-ledger",
       "target": "phoenix-collage-fracture-study",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
+      "target": "pocket-rock-cathedral",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -15403,6 +16310,14 @@
     {
       "source": "archive-box-stamped-fragments",
       "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
+      "target": "manic-rider-collapse",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -16042,6 +16957,14 @@
     },
     {
       "source": "artifact-jsa-collage-wip-001",
+      "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
       "target": "node-doctrine",
       "weight": 1,
       "reasons": [
@@ -16099,6 +17022,14 @@
     {
       "source": "artifact-jsa-collage-wip-001",
       "target": "operator-winks-at-the-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "pocket-rock-cathedral",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -16474,6 +17405,14 @@
     },
     {
       "source": "bezalel-the-designated-hand",
+      "target": "capture-and-convert",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
       "target": "codex-archive-system-v2-2",
       "weight": 1,
       "reasons": [
@@ -16587,6 +17526,14 @@
     {
       "source": "bezalel-the-designated-hand",
       "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "manic-rider-collapse",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -16921,6 +17868,174 @@
       ]
     },
     {
+      "source": "capture-and-convert",
+      "target": "cities-built-on-ruin",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "cities-built-on-ruin-reminiscence",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "codex-archive-system-v2-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "codex-archive-system-v2-5-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "codex-archive-system-v2-6-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "distortion-atlas",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "heart-does-not-dream",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "lean-mean-governance-machine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "north-georgia-march-2026",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "north-georgia-week-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "pocket-rock-cathedral",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "reduce-novelty-before-care",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "ridge-line-lessons",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "stairwell-signal",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "chattahoochee-river-loremap",
       "target": "cities-built-on-ruin-reminiscence",
       "weight": 1,
@@ -17043,6 +18158,14 @@
     {
       "source": "chattahoochee-river-loremap",
       "target": "machine-creatures",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "chattahoochee-river-loremap",
+      "target": "manic-rider-collapse",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -17530,6 +18653,14 @@
     },
     {
       "source": "cities-built-on-ruin",
+      "target": "pocket-rock-cathedral",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
       "target": "scripture-with-machines",
       "weight": 1,
       "reasons": [
@@ -17786,6 +18917,14 @@
     },
     {
       "source": "citizen-network-doctrine",
+      "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
       "target": "one-yard-from-forever",
       "weight": 1,
       "reasons": [
@@ -17890,6 +19029,14 @@
     },
     {
       "source": "citizen-network-map-hi-fi",
+      "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
       "target": "mothers-calendar",
       "weight": 1,
       "reasons": [
@@ -17899,6 +19046,14 @@
     {
       "source": "citizen-network-map-hi-fi",
       "target": "one-yard-from-forever-scroll-surface",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
+      "target": "pocket-rock-cathedral",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -18530,6 +19685,14 @@
     },
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -18555,6 +19718,14 @@
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "one-yard-from-forever-scroll-surface",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "pocket-rock-cathedral",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -18586,6 +19757,14 @@
     },
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -18611,6 +19790,14 @@
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "one-yard-from-forever-scroll-surface",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "pocket-rock-cathedral",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -18642,6 +19829,14 @@
     },
     {
       "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -18667,6 +19862,14 @@
     {
       "source": "codex-archive-system-v3-5-control-surface-notes",
       "target": "one-yard-from-forever-scroll-surface",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "pocket-rock-cathedral",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -18706,6 +19909,14 @@
     },
     {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -18731,6 +19942,14 @@
     {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "one-yard-from-forever-scroll-surface",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "pocket-rock-cathedral",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -18787,6 +20006,14 @@
     {
       "source": "codex-archive-system-v3-7-loremap-foundation-notes",
       "target": "machine-creatures",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "target": "manic-rider-collapse",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -18874,6 +20101,14 @@
     },
     {
       "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -18899,6 +20134,14 @@
     {
       "source": "codex-archive-system-v3-8-specimen-surface-notes",
       "target": "one-yard-from-forever-scroll-surface",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "pocket-rock-cathedral",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -19082,6 +20325,14 @@
     },
     {
       "source": "codex-glyph-grammar",
+      "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
       "target": "mothers-calendar",
       "weight": 1,
       "reasons": [
@@ -19091,6 +20342,14 @@
     {
       "source": "codex-glyph-grammar",
       "target": "one-yard-from-forever-scroll-surface",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
+      "target": "pocket-rock-cathedral",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -19234,6 +20493,14 @@
     },
     {
       "source": "codex-glyph-system-first-emergence",
+      "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
       "target": "mothers-calendar",
       "weight": 1,
       "reasons": [
@@ -19243,6 +20510,14 @@
     {
       "source": "codex-glyph-system-first-emergence",
       "target": "one-yard-from-forever-scroll-surface",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
+      "target": "pocket-rock-cathedral",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -19339,6 +20614,14 @@
     {
       "source": "constellation-node-alchemy",
       "target": "lean-mean-governance-machine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "manic-rider-collapse",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -19418,6 +20701,14 @@
     },
     {
       "source": "deck-under-load-ii",
+      "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "deck-under-load-ii",
       "target": "on-visceral-distillation",
       "weight": 1,
       "reasons": [
@@ -19435,6 +20726,14 @@
     {
       "source": "deck-under-load-ii",
       "target": "one-yard-from-forever-scroll-surface",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "deck-under-load-ii",
+      "target": "pocket-rock-cathedral",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -19818,6 +21117,14 @@
     },
     {
       "source": "flexible-machine-sweet-spot",
+      "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
       "target": "mothers-calendar",
       "weight": 1,
       "reasons": [
@@ -19827,6 +21134,14 @@
     {
       "source": "flexible-machine-sweet-spot",
       "target": "one-yard-from-forever-scroll-surface",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "pocket-rock-cathedral",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -20058,6 +21373,14 @@
     },
     {
       "source": "heart-does-not-dream",
+      "target": "pocket-rock-cathedral",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "heart-does-not-dream",
       "target": "quiet-vector-doctrine",
       "weight": 1,
       "reasons": [
@@ -20226,6 +21549,14 @@
     },
     {
       "source": "jsa-collage-evolution-001",
+      "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -20275,6 +21606,14 @@
     {
       "source": "jsa-collage-evolution-001",
       "target": "operator-winks-at-the-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "pocket-rock-cathedral",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -20394,6 +21733,14 @@
     },
     {
       "source": "jsa-collage-evolution-002",
+      "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-002",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -20443,6 +21790,14 @@
     {
       "source": "jsa-collage-evolution-002",
       "target": "operator-winks-at-the-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-002",
+      "target": "pocket-rock-cathedral",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -20779,6 +22134,14 @@
     {
       "source": "machine-creatures",
       "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "manic-rider-collapse",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -20802,6 +22165,14 @@
     },
     {
       "source": "machine-creatures",
+      "target": "pocket-rock-cathedral",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
       "target": "pressure-psalm-v",
       "weight": 1,
       "reasons": [
@@ -20882,6 +22253,14 @@
     },
     {
       "source": "maintenance-without-cure",
+      "target": "pocket-rock-cathedral",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "maintenance-without-cure",
       "target": "pressure-psalm-v",
       "weight": 1,
       "reasons": [
@@ -20939,6 +22318,126 @@
     {
       "source": "maintenance-without-cure",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "manic-rider-collapse",
+      "target": "mothers-calendar",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "manic-rider-collapse",
+      "target": "node-doctrine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "manic-rider-collapse",
+      "target": "north-georgia-march-2026",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "manic-rider-collapse",
+      "target": "north-georgia-week-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "manic-rider-collapse",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "manic-rider-collapse",
+      "target": "ridge-line-lessons",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "manic-rider-collapse",
+      "target": "signal-descent-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "manic-rider-collapse",
+      "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "manic-rider-collapse",
+      "target": "steel-elbow-flinchian",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "manic-rider-collapse",
+      "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "manic-rider-collapse",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "manic-rider-collapse",
+      "target": "suwanee-ga-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "manic-rider-collapse",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "manic-rider-collapse",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "manic-rider-collapse",
+      "target": "under-load",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -21066,6 +22565,14 @@
     },
     {
       "source": "node-doctrine",
+      "target": "pocket-rock-cathedral",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
       "target": "pressure-psalm-v",
       "weight": 1,
       "reasons": [
@@ -21291,6 +22798,14 @@
     {
       "source": "nothing-missing-only-unindexed",
       "target": "phoenix-collage-fracture-study",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "nothing-missing-only-unindexed",
+      "target": "pocket-rock-cathedral",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -21923,6 +23438,110 @@
     {
       "source": "phoenix-collage-fracture-study",
       "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pocket-rock-cathedral",
+      "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pocket-rock-cathedral",
+      "target": "quiet-vector-doctrine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pocket-rock-cathedral",
+      "target": "scroll-from-the-perimeter",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pocket-rock-cathedral",
+      "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pocket-rock-cathedral",
+      "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pocket-rock-cathedral",
+      "target": "stairwell-signal",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pocket-rock-cathedral",
+      "target": "steel-elbow-flinchian",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pocket-rock-cathedral",
+      "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pocket-rock-cathedral",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pocket-rock-cathedral",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pocket-rock-cathedral",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pocket-rock-cathedral",
+      "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pocket-rock-cathedral",
+      "target": "under-load",
       "weight": 1,
       "reasons": [
         "shared-theme"
