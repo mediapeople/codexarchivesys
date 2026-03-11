@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-10T21:25:24.850Z",
+  "generatedAt": "2026-03-11T00:14:24.190Z",
   "sourceDir": "../objects",
-  "nodeCount": 75,
-  "edgeCount": 2284,
+  "nodeCount": 79,
+  "edgeCount": 2539,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -106,6 +106,20 @@
       "constellations": []
     },
     {
+      "id": "flexible-machine-sweet-spot",
+      "type": "artifact",
+      "title": "The Sweet Spot of a Flexible Machine",
+      "date": "2026-03-10",
+      "themes": [
+        "signal",
+        "systems",
+        "structure",
+        "methodology",
+        "architecture"
+      ],
+      "constellations": []
+    },
+    {
       "id": "on-visceral-distillation",
       "type": "artifact",
       "title": "On Visceral Distillation",
@@ -120,6 +134,20 @@
       "constellations": [
         "Cascade Psalms"
       ]
+    },
+    {
+      "id": "phoenix-collage-fracture-study",
+      "type": "artifact",
+      "title": "Phoenix Fracture Collage",
+      "date": "2026-03-10",
+      "themes": [
+        "collage",
+        "comics",
+        "signal",
+        "structure",
+        "observation"
+      ],
+      "constellations": []
     },
     {
       "id": "under-load",
@@ -911,6 +939,19 @@
       ]
     },
     {
+      "id": "one-yard-from-forever",
+      "type": "scroll",
+      "title": "One Yard From Forever",
+      "date": "2026-02-01",
+      "themes": [
+        "memory",
+        "pressure",
+        "observation",
+        "survival"
+      ],
+      "constellations": []
+    },
+    {
       "id": "pressure-psalm-v",
       "type": "scroll",
       "title": "PRESSURE PSALM V",
@@ -923,6 +964,19 @@
       "constellations": [
         "Cascade Psalms"
       ]
+    },
+    {
+      "id": "quiet-vector-doctrine",
+      "type": "scroll",
+      "title": "Quiet Vector Doctrine",
+      "date": "2026-02-08",
+      "themes": [
+        "signal",
+        "systems",
+        "structure",
+        "methodology"
+      ],
+      "constellations": []
     },
     {
       "id": "ridge-line-lessons",
@@ -1965,6 +2019,15 @@
       ]
     },
     {
+      "source": "artifact-jsa-signal-fracture-001",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 8,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "builder-lineage-reflection",
       "target": "cities-built-on-ruin-reminiscence",
       "weight": 8,
@@ -2187,6 +2250,15 @@
     {
       "source": "artifact-jsa-collage-001",
       "target": "jsa-collage-evolution-002",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "phoenix-collage-fracture-study",
       "weight": 7,
       "reasons": [
         "shared-theme",
@@ -2452,6 +2524,24 @@
       ]
     },
     {
+      "source": "flexible-machine-sweet-spot",
+      "target": "node-doctrine",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "quiet-vector-doctrine",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "go-live-milestone",
       "target": "jsa-collage-evolution-001",
       "weight": 7,
@@ -2511,6 +2601,15 @@
     {
       "source": "jsa-collage-evolution-001",
       "target": "jsa-collage-evolution-003",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "phoenix-collage-fracture-study",
       "weight": 7,
       "reasons": [
         "shared-theme",
@@ -3691,6 +3790,14 @@
     },
     {
       "source": "codex-glyph-grammar",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 5,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
       "target": "steel-elbow-flinchian",
       "weight": 5,
       "reasons": [
@@ -3701,6 +3808,24 @@
     {
       "source": "codex-glyph-system-first-emergence",
       "target": "steel-elbow-flinchian",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "i-work-with-machines-to-write-scripture",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "lean-mean-governance-machine",
       "weight": 5,
       "reasons": [
         "shared-theme",
@@ -3728,6 +3853,15 @@
     {
       "source": "i-work-with-machines-to-write-scripture",
       "target": "transmission-note-to-future-me",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
+      "target": "quiet-vector-doctrine",
       "weight": 5,
       "reasons": [
         "shared-theme",
@@ -3782,6 +3916,15 @@
     {
       "source": "operator-winks-at-the-machines",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "quiet-vector-doctrine",
+      "target": "systems-survive-tuesdays",
       "weight": 5,
       "reasons": [
         "shared-theme",
@@ -4120,6 +4263,14 @@
       ]
     },
     {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "artifact-jsa-signal-fracture-001",
       "target": "jsa-collage-evolution-001",
       "weight": 4,
@@ -4353,6 +4504,14 @@
     },
     {
       "source": "citizen-network-map-hi-fi",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
       "target": "machine-creatures",
       "weight": 4,
       "reasons": [
@@ -4395,6 +4554,14 @@
     },
     {
       "source": "codex-archive-system-v2-7-notes",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
       "target": "on-visceral-distillation",
       "weight": 4,
       "reasons": [
@@ -4414,6 +4581,14 @@
     {
       "source": "codex-archive-system-v3-1-build-notes",
       "target": "codex-glyph-grammar",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "flexible-machine-sweet-spot",
       "weight": 4,
       "reasons": [
         "shared-theme"
@@ -4458,6 +4633,14 @@
     {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "codex-glyph-grammar",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "flexible-machine-sweet-spot",
       "weight": 4,
       "reasons": [
         "shared-theme"
@@ -4517,6 +4700,14 @@
     },
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "go-live-milestone",
       "weight": 4,
       "reasons": [
@@ -4579,6 +4770,14 @@
     },
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "go-live-milestone",
       "weight": 4,
       "reasons": [
@@ -4634,6 +4833,14 @@
     {
       "source": "codex-archive-system-v3-5-control-surface-notes",
       "target": "codex-glyph-grammar",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "flexible-machine-sweet-spot",
       "weight": 4,
       "reasons": [
         "shared-theme"
@@ -4687,6 +4894,14 @@
     {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "codex-glyph-grammar",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "flexible-machine-sweet-spot",
       "weight": 4,
       "reasons": [
         "shared-theme"
@@ -4782,6 +4997,14 @@
     },
     {
       "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
       "target": "go-live-milestone",
       "weight": 4,
       "reasons": [
@@ -4835,6 +5058,14 @@
     },
     {
       "source": "codex-archive-system-v3-notes",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
       "target": "heart-does-not-dream",
       "weight": 4,
       "reasons": [
@@ -4858,6 +5089,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -4912,6 +5151,22 @@
       ]
     },
     {
+      "source": "codex-glyph-grammar",
+      "target": "quiet-vector-doctrine",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "constellation-node-alchemy",
       "target": "heart-does-not-dream",
       "weight": 4,
@@ -4927,6 +5182,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -5021,6 +5284,14 @@
     },
     {
       "source": "jsa-collage-evolution-001",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
       "target": "studio-bench-cycle",
       "weight": 4,
       "reasons": [
@@ -5035,6 +5306,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-002",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -5097,6 +5376,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "quiet-vector-doctrine",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -5520,6 +5807,14 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "one-yard-from-forever",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "pressure-psalm-v",
       "weight": 3,
       "reasons": [
@@ -5806,6 +6101,14 @@
     },
     {
       "source": "builder-lineage-reflection",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
       "target": "machine-creatures",
       "weight": 3,
       "reasons": [
@@ -5815,6 +6118,22 @@
     {
       "source": "builder-lineage-reflection",
       "target": "node-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "quiet-vector-doctrine",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -5862,6 +6181,14 @@
     },
     {
       "source": "cities-built-on-ruin-reminiscence",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
       "target": "signal-descent-001",
       "weight": 3,
       "reasons": [
@@ -5879,6 +6206,14 @@
     {
       "source": "citizen-network-dispatch",
       "target": "codex-glyph-system-first-emergence",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "flexible-machine-sweet-spot",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -5920,11 +6255,27 @@
     },
     {
       "source": "citizen-network-dispatch",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
       "target": "pressure-psalm-v",
       "weight": 3,
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "quiet-vector-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -6011,6 +6362,14 @@
     },
     {
       "source": "citizen-network-doctrine",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
       "target": "go-live-milestone",
       "weight": 3,
       "reasons": [
@@ -6036,6 +6395,14 @@
     {
       "source": "citizen-network-doctrine",
       "target": "operator-winks-at-the-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "quiet-vector-doctrine",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -6195,6 +6562,14 @@
     },
     {
       "source": "citizen-network-map-hi-fi",
+      "target": "quiet-vector-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
       "target": "race-to-the-top-six-bridges",
       "weight": 3,
       "reasons": [
@@ -6347,6 +6722,14 @@
     },
     {
       "source": "codex-archive-system-v2-2",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
       "target": "the-bones-hold-content-architecture",
       "weight": 3,
       "reasons": [
@@ -6444,6 +6827,14 @@
     {
       "source": "codex-archive-system-v2-5-notes",
       "target": "codex-glyph-grammar",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
+      "target": "flexible-machine-sweet-spot",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -6563,6 +6954,14 @@
     },
     {
       "source": "codex-archive-system-v2-6-notes",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
       "target": "signal-descent-002",
       "weight": 3,
       "reasons": [
@@ -6609,6 +7008,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "quiet-vector-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -6685,6 +7092,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "quiet-vector-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -6791,6 +7206,14 @@
     },
     {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "quiet-vector-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "race-to-the-top-six-bridges",
       "weight": 3,
       "reasons": [
@@ -6890,6 +7313,14 @@
     },
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "quiet-vector-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "race-to-the-top-six-bridges",
       "weight": 3,
       "reasons": [
@@ -7032,6 +7463,14 @@
     },
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "quiet-vector-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "race-to-the-top-six-bridges",
       "weight": 3,
       "reasons": [
@@ -7170,6 +7609,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "quiet-vector-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -7324,6 +7771,14 @@
     },
     {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "quiet-vector-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "race-to-the-top-six-bridges",
       "weight": 3,
       "reasons": [
@@ -7401,6 +7856,14 @@
     {
       "source": "codex-archive-system-v3-7-loremap-foundation-notes",
       "target": "codex-glyph-grammar",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "target": "flexible-machine-sweet-spot",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -7534,6 +7997,14 @@
     },
     {
       "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "quiet-vector-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
       "target": "scripture-with-machines",
       "weight": 3,
       "reasons": [
@@ -7631,6 +8102,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "quiet-vector-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -7740,6 +8219,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
+      "target": "quiet-vector-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -7889,6 +8376,14 @@
       ]
     },
     {
+      "source": "codex-glyph-system-first-emergence",
+      "target": "quiet-vector-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "constellation-node-alchemy",
       "target": "disrespectful-power",
       "weight": 3,
@@ -8026,7 +8521,79 @@
     },
     {
       "source": "disrespectful-power",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "disrespectful-power",
       "target": "machine-creatures",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "disrespectful-power",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "disrespectful-power",
+      "target": "quiet-vector-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "one-yard-from-forever",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "machine-creatures",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "on-object-oriented-archives",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "on-visceral-distillation",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "scripture-with-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "signal-descent-004",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -8287,6 +8854,14 @@
     },
     {
       "source": "machine-creatures",
+      "target": "quiet-vector-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
       "target": "signal-descent-003",
       "weight": 3,
       "reasons": [
@@ -8472,6 +9047,14 @@
       ]
     },
     {
+      "source": "one-yard-from-forever",
+      "target": "unacceptable-cost",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "operator-winks-at-the-machines",
       "target": "scripture-with-machines",
       "weight": 3,
@@ -8558,6 +9141,30 @@
     {
       "source": "pressure-psalm-v",
       "target": "unacceptable-cost",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "quiet-vector-doctrine",
+      "target": "scripture-with-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "quiet-vector-doctrine",
+      "target": "signal-descent-004",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "quiet-vector-doctrine",
+      "target": "the-bones-hold-content-architecture",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -8780,6 +9387,14 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "jsa-collage-evolution-003",
       "weight": 2,
       "reasons": [
@@ -8789,6 +9404,14 @@
     {
       "source": "apparatus-ledger",
       "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
+      "target": "quiet-vector-doctrine",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -8837,6 +9460,14 @@
     {
       "source": "archive-box-stamped-fragments",
       "target": "distortion-atlas",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
+      "target": "phoenix-collage-fracture-study",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -8980,6 +9611,14 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "signal-descent-001",
       "weight": 2,
       "reasons": [
@@ -9045,6 +9684,14 @@
     {
       "source": "artifact-jsa-collage-001",
       "target": "mothers-calendar",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "one-yard-from-forever",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -9308,6 +9955,14 @@
     },
     {
       "source": "artifact-jsa-signal-fracture-001",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
       "target": "machine-creatures",
       "weight": 2,
       "reasons": [
@@ -9325,6 +9980,14 @@
     {
       "source": "artifact-jsa-signal-fracture-001",
       "target": "node-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
+      "target": "quiet-vector-doctrine",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -9429,6 +10092,14 @@
     {
       "source": "bezalel-the-designated-hand",
       "target": "codex-glyph-system-first-emergence",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "flexible-machine-sweet-spot",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -9724,6 +10395,14 @@
     },
     {
       "source": "chattahoochee-river-loremap",
+      "target": "one-yard-from-forever",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "chattahoochee-river-loremap",
       "target": "ridge-line-lessons",
       "weight": 2,
       "reasons": [
@@ -9820,6 +10499,14 @@
     },
     {
       "source": "cities-built-on-ruin-reminiscence",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
       "target": "jsa-collage-evolution-001",
       "weight": 2,
       "reasons": [
@@ -9876,7 +10563,23 @@
     },
     {
       "source": "cities-built-on-ruin-reminiscence",
+      "target": "one-yard-from-forever",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
       "target": "pressure-psalm-v",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "quiet-vector-doctrine",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -9996,6 +10699,14 @@
     },
     {
       "source": "cities-built-on-ruin",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
       "target": "machine-creatures",
       "weight": 2,
       "reasons": [
@@ -10013,6 +10724,22 @@
     {
       "source": "cities-built-on-ruin",
       "target": "node-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "quiet-vector-doctrine",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -10228,6 +10955,14 @@
     },
     {
       "source": "citizen-network-doctrine",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
       "target": "race-to-the-top-six-bridges",
       "weight": 2,
       "reasons": [
@@ -10340,6 +11075,14 @@
     },
     {
       "source": "citizen-network-map-hi-fi",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
       "target": "signal-descent-001",
       "weight": 2,
       "reasons": [
@@ -10428,6 +11171,14 @@
     },
     {
       "source": "codex-archive-system-v2-2",
+      "target": "quiet-vector-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
       "target": "race-to-the-top-six-bridges",
       "weight": 2,
       "reasons": [
@@ -10500,6 +11251,14 @@
     },
     {
       "source": "codex-archive-system-v2-5-notes",
+      "target": "quiet-vector-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
       "target": "race-to-the-top-six-bridges",
       "weight": 2,
       "reasons": [
@@ -10557,6 +11316,14 @@
     {
       "source": "codex-archive-system-v2-6-notes",
       "target": "on-visceral-distillation",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
+      "target": "quiet-vector-doctrine",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -10932,6 +11699,14 @@
     },
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "reduce-novelty-before-care",
       "weight": 2,
       "reasons": [
@@ -11013,6 +11788,14 @@
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "operator-winks-at-the-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "phoenix-collage-fracture-study",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -11116,6 +11899,14 @@
     },
     {
       "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
       "target": "reduce-novelty-before-care",
       "weight": 2,
       "reasons": [
@@ -11205,6 +11996,14 @@
     {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "operator-winks-at-the-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "phoenix-collage-fracture-study",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -11332,6 +12131,14 @@
     },
     {
       "source": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "target": "quiet-vector-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-7-loremap-foundation-notes",
       "target": "reduce-novelty-before-care",
       "weight": 2,
       "reasons": [
@@ -11429,6 +12236,14 @@
     {
       "source": "codex-archive-system-v3-8-specimen-surface-notes",
       "target": "operator-winks-at-the-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "phoenix-collage-fracture-study",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -11740,6 +12555,14 @@
     },
     {
       "source": "codex-glyph-grammar",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
       "target": "race-to-the-top-six-bridges",
       "weight": 2,
       "reasons": [
@@ -11836,6 +12659,14 @@
     },
     {
       "source": "codex-glyph-system-first-emergence",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
       "target": "race-to-the-top-six-bridges",
       "weight": 2,
       "reasons": [
@@ -11900,6 +12731,14 @@
     },
     {
       "source": "constellation-node-alchemy",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
       "target": "jsa-collage-evolution-001",
       "weight": 2,
       "reasons": [
@@ -11933,6 +12772,30 @@
     {
       "source": "constellation-node-alchemy",
       "target": "on-visceral-distillation",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "one-yard-from-forever",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "quiet-vector-doctrine",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -11989,6 +12852,14 @@
     {
       "source": "deck-under-load-ii",
       "target": "jsa-collage-evolution-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "deck-under-load-ii",
+      "target": "phoenix-collage-fracture-study",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -12196,6 +13067,14 @@
     },
     {
       "source": "distortion-atlas",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
       "target": "scroll-from-the-perimeter",
       "weight": 2,
       "reasons": [
@@ -12219,6 +13098,118 @@
       ]
     },
     {
+      "source": "flexible-machine-sweet-spot",
+      "target": "go-live-milestone",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "jsa-collage-evolution-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "jsa-collage-evolution-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "operator-winks-at-the-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "reduce-novelty-before-care",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "signal-descent-003",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "signal.citizen-agency",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "steel-elbow-flinchian",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "systems-survive-tuesdays",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "go-live-milestone",
       "target": "nothing-missing-only-unindexed",
       "weight": 2,
@@ -12229,6 +13220,14 @@
     {
       "source": "go-live-milestone",
       "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "quiet-vector-doctrine",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -12285,6 +13284,14 @@
     {
       "source": "go-live-milestone",
       "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "heart-does-not-dream",
+      "target": "one-yard-from-forever",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -12356,6 +13363,14 @@
     },
     {
       "source": "i-work-with-machines-to-write-scripture",
+      "target": "quiet-vector-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
       "target": "race-to-the-top-six-bridges",
       "weight": 2,
       "reasons": [
@@ -12420,6 +13435,14 @@
     },
     {
       "source": "jsa-collage-evolution-001",
+      "target": "quiet-vector-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
       "target": "scripture-with-machines",
       "weight": 2,
       "reasons": [
@@ -12469,6 +13492,14 @@
     {
       "source": "jsa-collage-evolution-002",
       "target": "node-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-002",
+      "target": "quiet-vector-doctrine",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -12533,6 +13564,14 @@
     {
       "source": "jsa-collage-evolution-003",
       "target": "mothers-calendar",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "one-yard-from-forever",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -12669,6 +13708,14 @@
     {
       "source": "machine-creatures",
       "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "phoenix-collage-fracture-study",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -12780,6 +13827,22 @@
     },
     {
       "source": "mothers-calendar",
+      "target": "one-yard-from-forever",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
       "target": "ridge-line-lessons",
       "weight": 2,
       "reasons": [
@@ -12837,6 +13900,14 @@
     {
       "source": "node-doctrine",
       "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "phoenix-collage-fracture-study",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -12972,6 +14043,14 @@
     },
     {
       "source": "nothing-missing-only-unindexed",
+      "target": "quiet-vector-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "nothing-missing-only-unindexed",
       "target": "scripture-with-machines",
       "weight": 2,
       "reasons": [
@@ -13060,6 +14139,14 @@
     },
     {
       "source": "on-object-oriented-archives",
+      "target": "quiet-vector-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-object-oriented-archives",
       "target": "race-to-the-top-six-bridges",
       "weight": 2,
       "reasons": [
@@ -13124,6 +14211,14 @@
     },
     {
       "source": "on-visceral-distillation",
+      "target": "quiet-vector-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-visceral-distillation",
       "target": "scripture-with-machines",
       "weight": 2,
       "reasons": [
@@ -13149,6 +14244,46 @@
     {
       "source": "on-visceral-distillation",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever",
+      "target": "pressure-psalm-v",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever",
+      "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever",
+      "target": "signal-descent-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever",
+      "target": "the-bones-hold",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "operator-winks-at-the-machines",
+      "target": "quiet-vector-doctrine",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -13203,6 +14338,54 @@
       ]
     },
     {
+      "source": "phoenix-collage-fracture-study",
+      "target": "quiet-vector-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "phoenix-collage-fracture-study",
+      "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "phoenix-collage-fracture-study",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "phoenix-collage-fracture-study",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "phoenix-collage-fracture-study",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "phoenix-collage-fracture-study",
+      "target": "under-load",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "pressure-psalm-v",
       "target": "scroll-from-the-perimeter",
       "weight": 2,
@@ -13213,6 +14396,54 @@
     {
       "source": "pressure-psalm-v",
       "target": "steel-elbow-flinchian",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "quiet-vector-doctrine",
+      "target": "reduce-novelty-before-care",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "quiet-vector-doctrine",
+      "target": "signal-descent-003",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "quiet-vector-doctrine",
+      "target": "signal.citizen-agency",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "quiet-vector-doctrine",
+      "target": "steel-elbow-flinchian",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "quiet-vector-doctrine",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "quiet-vector-doctrine",
+      "target": "unacceptable-cost",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -13764,6 +14995,22 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "reduce-novelty-before-care",
       "weight": 1,
       "reasons": [
@@ -13900,6 +15147,14 @@
     },
     {
       "source": "archive-box-stamped-fragments",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
       "target": "jsa-collage-evolution-002",
       "weight": 1,
       "reasons": [
@@ -13949,6 +15204,22 @@
     {
       "source": "archive-box-stamped-fragments",
       "target": "on-visceral-distillation",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
+      "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
+      "target": "quiet-vector-doctrine",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -14108,6 +15379,14 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "go-live-milestone",
       "weight": 1,
       "reasons": [
@@ -14189,6 +15468,14 @@
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "operator-winks-at-the-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "quiet-vector-doctrine",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -14324,6 +15611,14 @@
     },
     {
       "source": "artifact-jsa-collage-001",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
       "target": "i-work-with-machines-to-write-scripture",
       "weight": 1,
       "reasons": [
@@ -14381,6 +15676,14 @@
     {
       "source": "artifact-jsa-collage-001",
       "target": "operator-winks-at-the-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "quiet-vector-doctrine",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -14492,6 +15795,14 @@
     },
     {
       "source": "artifact-jsa-collage-wip-001",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
       "target": "i-work-with-machines-to-write-scripture",
       "weight": 1,
       "reasons": [
@@ -14548,6 +15859,14 @@
     },
     {
       "source": "artifact-jsa-collage-wip-001",
+      "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
       "target": "operator-winks-at-the-machines",
       "weight": 1,
       "reasons": [
@@ -14557,6 +15876,14 @@
     {
       "source": "artifact-jsa-collage-wip-001",
       "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "quiet-vector-doctrine",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -14765,6 +16092,14 @@
     {
       "source": "artifact-jsa-signal-fracture-001",
       "target": "on-visceral-distillation",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
+      "target": "one-yard-from-forever",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -15068,6 +16403,22 @@
     },
     {
       "source": "bezalel-the-designated-hand",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "quiet-vector-doctrine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
       "target": "ridge-line-lessons",
       "weight": 1,
       "reasons": [
@@ -15237,6 +16588,14 @@
     {
       "source": "builder-lineage-reflection",
       "target": "north-georgia-week-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "one-yard-from-forever",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -15484,6 +16843,14 @@
     },
     {
       "source": "chattahoochee-river-loremap",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "chattahoochee-river-loremap",
       "target": "scripture-with-machines",
       "weight": 1,
       "reasons": [
@@ -15908,6 +17275,14 @@
     },
     {
       "source": "cities-built-on-ruin",
+      "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
       "target": "operator-winks-at-the-machines",
       "weight": 1,
       "reasons": [
@@ -16045,6 +17420,14 @@
     {
       "source": "citizen-network-dispatch",
       "target": "north-georgia-week-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "one-yard-from-forever",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -16164,6 +17547,14 @@
     },
     {
       "source": "citizen-network-doctrine",
+      "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
       "target": "pressure-psalm-v",
       "weight": 1,
       "reasons": [
@@ -16716,6 +18107,14 @@
     },
     {
       "source": "codex-archive-system-v2-7-notes",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
       "target": "scroll-from-the-perimeter",
       "weight": 1,
       "reasons": [
@@ -16796,6 +18195,14 @@
     },
     {
       "source": "codex-archive-system-v3-1-build-notes",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
       "target": "ridge-line-lessons",
       "weight": 1,
       "reasons": [
@@ -16829,6 +18236,14 @@
     {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "mothers-calendar",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "phoenix-collage-fracture-study",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -16884,6 +18299,14 @@
     },
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "ridge-line-lessons",
       "weight": 1,
       "reasons": [
@@ -16924,6 +18347,14 @@
     },
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "ridge-line-lessons",
       "weight": 1,
       "reasons": [
@@ -16957,6 +18388,14 @@
     {
       "source": "codex-archive-system-v3-5-control-surface-notes",
       "target": "north-georgia-week-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "one-yard-from-forever",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -17005,6 +18444,14 @@
     {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "north-georgia-week-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "one-yard-from-forever",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -17076,7 +18523,23 @@
     },
     {
       "source": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-7-loremap-foundation-notes",
       "target": "operator-winks-at-the-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "target": "phoenix-collage-fracture-study",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -17133,6 +18596,14 @@
     {
       "source": "codex-archive-system-v3-8-specimen-surface-notes",
       "target": "north-georgia-week-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "one-yard-from-forever",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -17204,6 +18675,14 @@
     },
     {
       "source": "codex-archive-system-v3-notes",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
       "target": "ridge-line-lessons",
       "weight": 1,
       "reasons": [
@@ -17253,6 +18732,14 @@
     {
       "source": "codex-archive-system-v3-plus-notes",
       "target": "north-georgia-week-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
+      "target": "phoenix-collage-fracture-study",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -17628,6 +19115,14 @@
     },
     {
       "source": "deck-under-load-ii",
+      "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "deck-under-load-ii",
       "target": "signal-descent-001",
       "weight": 1,
       "reasons": [
@@ -17693,6 +19188,14 @@
     {
       "source": "disrespectful-power",
       "target": "north-georgia-week-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "disrespectful-power",
+      "target": "one-yard-from-forever",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -17773,6 +19276,14 @@
     {
       "source": "disrespectful-power",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "flexible-machine-sweet-spot",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -17861,6 +19372,14 @@
     {
       "source": "distortion-atlas",
       "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "quiet-vector-doctrine",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -17955,6 +19474,118 @@
       ]
     },
     {
+      "source": "flexible-machine-sweet-spot",
+      "target": "heart-does-not-dream",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "jsa-collage-evolution-003",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "mothers-calendar",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "scroll-from-the-perimeter",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "signal-descent-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "suwanee-ga-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "the-bones-hold",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "go-live-milestone",
       "target": "jsa-collage-evolution-002",
       "weight": 1,
@@ -17997,6 +19628,14 @@
     {
       "source": "go-live-milestone",
       "target": "north-georgia-week-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "phoenix-collage-fracture-study",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -18085,6 +19724,14 @@
     {
       "source": "heart-does-not-dream",
       "target": "operator-winks-at-the-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "heart-does-not-dream",
+      "target": "quiet-vector-doctrine",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -18172,6 +19819,14 @@
     },
     {
       "source": "i-work-with-machines-to-write-scripture",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
       "target": "pressure-psalm-v",
       "weight": 1,
       "reasons": [
@@ -18269,6 +19924,14 @@
     {
       "source": "jsa-collage-evolution-001",
       "target": "on-object-oriented-archives",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "one-yard-from-forever",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -18421,6 +20084,14 @@
     {
       "source": "jsa-collage-evolution-002",
       "target": "on-object-oriented-archives",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-002",
+      "target": "one-yard-from-forever",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -18589,6 +20260,14 @@
     {
       "source": "jsa-collage-evolution-003",
       "target": "operator-winks-at-the-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "quiet-vector-doctrine",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -18836,7 +20515,31 @@
     },
     {
       "source": "maintenance-without-cure",
+      "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "maintenance-without-cure",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "maintenance-without-cure",
       "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "maintenance-without-cure",
+      "target": "quiet-vector-doctrine",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -18917,6 +20620,14 @@
     {
       "source": "mothers-calendar",
       "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "quiet-vector-doctrine",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -19044,6 +20755,22 @@
     },
     {
       "source": "north-georgia-march-2026",
+      "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "north-georgia-march-2026",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "north-georgia-march-2026",
       "target": "reduce-novelty-before-care",
       "weight": 1,
       "reasons": [
@@ -19100,6 +20827,22 @@
     },
     {
       "source": "north-georgia-week-2",
+      "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "north-georgia-week-2",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "north-georgia-week-2",
       "target": "reduce-novelty-before-care",
       "weight": 1,
       "reasons": [
@@ -19149,6 +20892,22 @@
     {
       "source": "nothing-missing-only-unindexed",
       "target": "on-visceral-distillation",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "nothing-missing-only-unindexed",
+      "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "nothing-missing-only-unindexed",
+      "target": "phoenix-collage-fracture-study",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -19236,6 +20995,14 @@
     },
     {
       "source": "on-object-oriented-archives",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-object-oriented-archives",
       "target": "pressure-psalm-v",
       "weight": 1,
       "reasons": [
@@ -19316,6 +21083,22 @@
     },
     {
       "source": "on-visceral-distillation",
+      "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-visceral-distillation",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-visceral-distillation",
       "target": "reduce-novelty-before-care",
       "weight": 1,
       "reasons": [
@@ -19349,6 +21132,110 @@
     {
       "source": "on-visceral-distillation",
       "target": "under-load",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever",
+      "target": "ridge-line-lessons",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever",
+      "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever",
+      "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever",
+      "target": "stairwell-signal",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever",
+      "target": "steel-elbow-flinchian",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever",
+      "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever",
+      "target": "suwanee-ga-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever",
+      "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever",
+      "target": "under-load",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "operator-winks-at-the-machines",
+      "target": "phoenix-collage-fracture-study",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -19419,6 +21306,142 @@
       ]
     },
     {
+      "source": "phoenix-collage-fracture-study",
+      "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "phoenix-collage-fracture-study",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "phoenix-collage-fracture-study",
+      "target": "ridge-line-lessons",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "phoenix-collage-fracture-study",
+      "target": "scripture-with-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "phoenix-collage-fracture-study",
+      "target": "signal-descent-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "phoenix-collage-fracture-study",
+      "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "phoenix-collage-fracture-study",
+      "target": "signal-descent-003",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "phoenix-collage-fracture-study",
+      "target": "signal-descent-004",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "phoenix-collage-fracture-study",
+      "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "phoenix-collage-fracture-study",
+      "target": "signal.citizen-agency",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "phoenix-collage-fracture-study",
+      "target": "steel-elbow-flinchian",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "phoenix-collage-fracture-study",
+      "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "phoenix-collage-fracture-study",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "phoenix-collage-fracture-study",
+      "target": "the-bones-hold",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "phoenix-collage-fracture-study",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "phoenix-collage-fracture-study",
+      "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pressure-psalm-v",
+      "target": "quiet-vector-doctrine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "pressure-psalm-v",
       "target": "scripture-with-machines",
       "weight": 1,
@@ -19429,6 +21452,86 @@
     {
       "source": "pressure-psalm-v",
       "target": "suwanee-ga-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "quiet-vector-doctrine",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "quiet-vector-doctrine",
+      "target": "scroll-from-the-perimeter",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "quiet-vector-doctrine",
+      "target": "signal-descent-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "quiet-vector-doctrine",
+      "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "quiet-vector-doctrine",
+      "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "quiet-vector-doctrine",
+      "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "quiet-vector-doctrine",
+      "target": "suwanee-ga-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "quiet-vector-doctrine",
+      "target": "the-bones-hold",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "quiet-vector-doctrine",
+      "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "quiet-vector-doctrine",
+      "target": "when-the-commit-leaves-your-hands",
       "weight": 1,
       "reasons": [
         "shared-theme"

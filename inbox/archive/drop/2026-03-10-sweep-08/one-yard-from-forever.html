@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✦ One Yard From Forever ✦ — A Seahawks Scroll</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Anybody:wght@100;300;400;700;900&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --seahawk-blue: #002244;
+    --seahawk-green: #69BE28;
+    --action-green: #A5D936;
+    --wolf-grey: #A5ACAF;
+    --parchment: #F2E8D5;
+    --parchment-dark: #E8D9BF;
+    --char: #1A1A1A;
+    --blood: #8B2500;
+    --gold-dim: #C4A35A;
+    --stadium-white: #F5F5F0;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--char);
+    color: var(--parchment);
+    overflow-x: hidden;
+  }
+
+  /* === OPENING GATE === */
+  .gate {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background:
+      radial-gradient(ellipse 60% 40% at 50% 30%, rgba(0,34,68,0.6) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 50% 70%, rgba(105,190,40,0.08) 0%, transparent 60%),
+      var(--char);
+    overflow: hidden;
+  }
+
+  .gate::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='400' height='400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .gate-star {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    color: var(--gold-dim);
+    letter-spacing: 1em;
+    opacity: 0;
+    animation: fadeIn 2s ease 0.5s forwards;
+  }
+
+  .gate-title {
+    font-family: 'Anybody', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--stadium-white);
+    text-align: center;
+    margin: 1rem 0 0.5rem;
+    line-height: 1.1;
+    opacity: 0;
+    animation: fadeIn 2s ease 1s forwards;
+    text-shadow:
+      0 0 60px rgba(105,190,40,0.15),
+      0 0 120px rgba(0,34,68,0.2);
+  }
+
+  .gate-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    color: var(--wolf-grey);
+    letter-spacing: 0.3em;
+    text-transform: lowercase;
+    opacity: 0;
+    animation: fadeIn 2s ease 1.8s forwards;
+  }
+
+  .gate-line {
+    width: 1px;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, var(--seahawk-green), transparent);
+    margin-top: 3rem;
+    opacity: 0;
+    animation: fadeIn 2s ease 2.5s forwards;
+  }
+
+  .gate-prompt {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--wolf-grey);
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    margin-top: 1.5rem;
+    opacity: 0;
+    animation: fadeIn 2s ease 3s forwards, pulse 3s ease-in-out 4s infinite;
+  }
+
+  /* === SCROLL BODY === */
+  .scroll-body {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 4rem 2rem 8rem;
+    position: relative;
+  }
+
+  .scroll-body::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 20px,
+      rgba(196,163,90,0.15) 20px,
+      rgba(196,163,90,0.15) 21px
+    );
+  }
+
+  /* === STANZA SYSTEM === */
+  .stanza {
+    margin-bottom: 3.5rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .stanza.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .stanza p {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+    line-height: 1.85;
+    color: var(--parchment);
+    margin-bottom: 0;
+  }
+
+  .stanza p + p { margin-top: 0.1rem; }
+
+  /* === SPECIAL LINE TYPES === */
+  .line-break-moment {
+    font-family: 'Anybody', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--stadium-white);
+    text-align: center;
+    margin: 4rem 0;
+    padding: 2rem 0;
+    position: relative;
+  }
+
+  .line-break-moment::before,
+  .line-break-moment::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 1px;
+    background: var(--seahawk-green);
+  }
+
+  .line-break-moment::before { top: 0; }
+  .line-break-moment::after { bottom: 0; }
+
+  .line-italic { font-style: italic; color: var(--parchment-dark); }
+  .line-command {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    color: var(--wolf-grey);
+    text-transform: uppercase;
+  }
+  .line-whisper {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: rgba(242,232,213,0.5);
+  }
+  .line-green { color: var(--seahawk-green); }
+  .line-gold  { color: var(--gold-dim); }
+  .line-bold  { font-weight: 700; }
+
+  /* === THE HIT === */
+  .the-hit {
+    text-align: center;
+    margin: 4rem 0;
+    padding: 3rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .the-hit::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(0,34,68,0.4) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .the-hit .play-word {
+    font-family: 'Anybody', sans-serif;
+    font-weight: 100;
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    letter-spacing: 0.5em;
+    color: var(--wolf-grey);
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .the-hit .impact-word {
+    font-family: 'Anybody', sans-serif;
+    font-weight: 900;
+    font-size: clamp(3rem, 8vw, 6rem);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--blood);
+    display: block;
+    text-shadow: 0 0 80px rgba(139,37,0,0.3);
+  }
+
+  /* === WILSON SECTION === */
+  .wilson-block {
+    text-align: center;
+    margin: 4rem 0 3rem;
+    padding: 2rem 0;
+  }
+
+  .wilson-name {
+    font-family: 'Anybody', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--stadium-white);
+  }
+
+  .wilson-not {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 1rem;
+    color: rgba(242,232,213,0.4);
+    margin-top: 0.5rem;
+    line-height: 1.9;
+  }
+
+  .wilson-is {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 1.15rem;
+    color: var(--parchment);
+    margin-top: 0.5rem;
+  }
+
+  /* === PHRASE HIGHLIGHT === */
+  .phrase-block {
+    border-left: 2px solid var(--seahawk-green);
+    padding-left: 1.5rem;
+    margin: 3rem 0;
+  }
+
+  .phrase-block p {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: clamp(1.15rem, 2.5vw, 1.35rem);
+    line-height: 1.85;
+    color: var(--parchment);
+  }
+
+  /* === SCORE LINE === */
+  .score-line {
+    text-align: center;
+    margin: 2rem 0;
+  }
+
+  .score-line span {
+    font-family: 'Anybody', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    letter-spacing: 0.15em;
+    color: var(--seahawk-green);
+    text-shadow: 0 0 40px rgba(105,190,40,0.2);
+  }
+
+  /* === SECTION DIVIDERS === */
+  .divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 4rem 0;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+
+  .divider.visible { opacity: 1; }
+
+  .divider-line {
+    width: 40px;
+    height: 1px;
+    background: var(--gold-dim);
+    opacity: 0.4;
+  }
+
+  .divider-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--gold-dim);
+    opacity: 0.6;
+  }
+
+  /* === CLOSING === */
+  .closing {
+    margin-top: 5rem;
+    padding-top: 3rem;
+    border-top: 1px solid rgba(196,163,90,0.1);
+  }
+
+  .closing-jersey {
+    text-align: center;
+    margin: 4rem 0 3rem;
+  }
+
+  .closing-jersey .jersey-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--parchment);
+    line-height: 2;
+  }
+
+  .final-line {
+    text-align: center;
+    margin: 5rem 0 3rem;
+  }
+
+  .final-line p {
+    font-family: 'Anybody', sans-serif;
+    font-weight: 900;
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--stadium-white);
+    line-height: 1.4;
+  }
+
+  .final-wilson {
+    text-align: center;
+    margin: 4rem 0 2rem;
+  }
+
+  .final-wilson span {
+    font-family: 'Anybody', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.5rem, 3.5vw, 2rem);
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--wolf-grey);
+  }
+
+  .final-holds {
+    text-align: center;
+    margin: 2rem 0 5rem;
+  }
+
+  .final-holds p {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: rgba(242,232,213,0.6);
+  }
+
+  /* === COLOPHON === */
+  .colophon {
+    text-align: center;
+    padding: 4rem 2rem;
+    border-top: 1px solid rgba(196,163,90,0.08);
+  }
+
+  .colophon p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(165,172,175,0.3);
+    line-height: 2.5;
+  }
+
+  /* === ANIMATIONS === */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50%       { opacity: 1; }
+  }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 600px) {
+    .scroll-body { padding: 3rem 1.5rem 6rem; }
+    .stanza { margin-bottom: 2.5rem; }
+    .line-break-moment { margin: 3rem 0; padding: 1.5rem 0; }
+    .the-hit { margin: 3rem 0; padding: 2rem 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- OPENING GATE -->
+<div class="gate">
+  <div class="gate-star">✦ ✦ ✦</div>
+  <h1 class="gate-title">One Yard<br>From Forever</h1>
+  <div class="gate-subtitle">a seahawks scroll</div>
+  <div class="gate-line"></div>
+  <div class="gate-prompt">scroll to enter</div>
+</div>
+
+<!-- SCROLL BODY -->
+<div class="scroll-body">
+
+  <div class="stanza">
+    <p>Blue and green under interrogation lights.</p>
+    <p>All in the night.</p>
+  </div>
+
+  <div class="stanza">
+    <p>The jersey still folded in the drawer.</p>
+    <p>Wilson stitched across the back,</p>
+    <p>letters arched like a promise</p>
+    <p>we were ready to believe twice.</p>
+  </div>
+
+  <div class="divider">
+    <span class="divider-line"></span>
+    <span class="divider-dot"></span>
+    <span class="divider-line"></span>
+  </div>
+
+  <div class="stanza">
+    <p class="line-command">2014 season.</p>
+    <p class="line-command">Defending champions.</p>
+    <p class="line-green">Legion of Boom humming like voltage.</p>
+    <p class="line-bold">Beast Mode breathing behind the line.</p>
+  </div>
+
+  <div class="stanza">
+    <p class="line-whisper">We had already known glory.</p>
+  </div>
+
+  <div class="score-line"><span>43 – 8</span></div>
+
+  <div class="stanza">
+    <p>Broncos reduced to vapor.</p>
+    <p>Confetti like northern snow.</p>
+  </div>
+
+  <div class="divider">
+    <span class="divider-line"></span>
+    <span class="divider-dot"></span>
+    <span class="divider-line"></span>
+  </div>
+
+  <div class="stanza">
+    <p>This was supposed to be the seal.</p>
+    <p>The dynasty stamp.</p>
+    <p class="line-bold">Back to back.</p>
+    <p class="line-italic">History leaning forward.</p>
+  </div>
+
+  <div class="line-break-moment">One yard.</div>
+
+  <div class="stanza">
+    <p>The ball resting on the white.</p>
+    <p>Time compressed to a single lung.</p>
+  </div>
+
+  <div class="stanza">
+    <p class="line-italic">The listeners in every living room,</p>
+    <p class="line-italic">subsets of faith,</p>
+    <p class="line-italic">witness on witness,</p>
+    <p class="line-italic">all leaning slightly left.</p>
+  </div>
+
+  <div class="divider">
+    <span class="divider-line"></span>
+    <span class="divider-dot"></span>
+    <span class="divider-line"></span>
+  </div>
+
+  <div class="phrase-block">
+    <p>Give it to Marshawn.</p>
+    <p>The math was simple.</p>
+    <p>The pebble lift changes nothing here.</p>
+    <p class="line-green">Power wins.</p>
+    <p class="line-green">Clock bleeds.</p>
+  </div>
+
+  <div class="stanza">
+    <p class="line-italic">But the aesthetic line advanced.</p>
+    <p class="line-italic">Pageant armor polished.</p>
+    <p>Cowboy courage with a wooden gun</p>
+    <p>of precision and surprise.</p>
+  </div>
+
+  <!-- THE HIT -->
+  <div class="the-hit">
+    <span class="play-word">Slant.</span>
+    <span class="play-word">Flash of navy.</span>
+    <span class="play-word">Butler breaks.</span>
+    <span class="impact-word">Interception.</span>
+  </div>
+
+  <div class="stanza">
+    <p class="line-whisper">Silence like water filling a hull.</p>
+  </div>
+
+  <div class="divider">
+    <span class="divider-line"></span>
+    <span class="divider-dot"></span>
+    <span class="divider-line"></span>
+  </div>
+
+  <!-- WILSON BLOCK -->
+  <div class="wilson-block">
+    <div class="wilson-name">Wilson.</div>
+    <div class="wilson-not">
+      Not the island.<br>
+      Not the volleyball.
+    </div>
+    <div class="wilson-is">The quarterback with the shoreline in his hands.</div>
+  </div>
+
+  <div class="stanza">
+    <p>One decision.</p>
+    <p>One inch.</p>
+    <p>One rewrite denied.</p>
+  </div>
+
+  <div class="divider">
+    <span class="divider-line"></span>
+    <span class="divider-dot"></span>
+    <span class="divider-line"></span>
+  </div>
+
+  <div class="phrase-block">
+    <p class="line-gold">Blunder heroes.</p>
+  </div>
+
+  <div class="stanza">
+    <p>Not cowards.</p>
+    <p>Not villains.</p>
+    <p>Men in pads making choices</p>
+    <p>with the world balanced on a seam.</p>
+  </div>
+
+  <div class="stanza">
+    <p>The faculties slipped.</p>
+    <p>The steering twitched.</p>
+    <p>The linkage failed for one breath.</p>
+  </div>
+
+  <div class="stanza">
+    <p>And we made demons and mountains.</p>
+    <p>Raised the monster of <em>what if</em>.</p>
+    <p>Built an altar to that yard line</p>
+    <p>and kept returning to kneel.</p>
+  </div>
+
+  <div class="divider">
+    <span class="divider-line"></span>
+    <span class="divider-dot"></span>
+    <span class="divider-line"></span>
+  </div>
+
+  <div class="stanza">
+    <p class="line-italic">Never again, we said.</p>
+  </div>
+
+  <div class="stanza">
+    <p>But we watched again.</p>
+    <p>Wore the jersey again.</p>
+    <p class="line-gold">Half smile.</p>
+    <p class="line-gold">Salute to survivors.</p>
+  </div>
+
+  <div class="phrase-block">
+    <p>Because belief does not evaporate<br>at the goal line.</p>
+  </div>
+
+  <div class="stanza">
+    <p>It hurts.</p>
+    <p>It lists.</p>
+    <p>It takes on water.</p>
+    <p class="line-green line-bold">But it floats.</p>
+  </div>
+
+  <div class="divider">
+    <span class="divider-line"></span>
+    <span class="divider-dot"></span>
+    <span class="divider-line"></span>
+  </div>
+
+  <!-- CLOSING -->
+  <div class="closing">
+
+    <div class="closing-jersey">
+      <p class="jersey-text">
+        I still have the jersey.<br><br>
+        Not for the win.<br>
+        Not for the parade.<br>
+        <strong>For the fracture.</strong>
+      </p>
+    </div>
+
+    <div class="stanza">
+      <p>For the night when the boat cracked</p>
+      <p>and we learned</p>
+      <p>how much of ourselves</p>
+      <p>we had poured into eleven men</p>
+      <p>under bright Arizona lights.</p>
+    </div>
+
+    <div class="final-line">
+      <p>One yard from forever.</p>
+    </div>
+
+    <div class="final-wilson">
+      <span>Wilson.</span>
+    </div>
+
+    <div class="final-holds">
+      <p>The name still holds.</p>
+    </div>
+
+  </div>
+
+  <!-- COLOPHON -->
+  <div class="colophon">
+    <p>✦</p>
+    <p>Archaeological Mythology — Scroll Series</p>
+    <p>— February 2026</p>
+    <p>✦</p>
+  </div>
+
+</div>
+
+<script>
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        entry.target.classList.add('visible');
+      }
+    });
+  }, {
+    threshold: 0.15,
+    rootMargin: '0px 0px -50px 0px'
+  });
+
+  document.querySelectorAll(
+    '.stanza, .divider, .phrase-block, .the-hit, .wilson-block, ' +
+    '.score-line, .line-break-moment, .closing-jersey, .final-line, ' +
+    '.final-wilson, .final-holds, .colophon'
+  ).forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+    revealObserver.observe(el);
+  });
+</script>
+
+</body>
+</html>
