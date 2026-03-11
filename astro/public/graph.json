@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-11T01:04:00.745Z",
+  "generatedAt": "2026-03-11T01:36:23.257Z",
   "sourceDir": "../objects",
-  "nodeCount": 83,
-  "edgeCount": 2795,
+  "nodeCount": 84,
+  "edgeCount": 2872,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -814,6 +814,22 @@
       ]
     },
     {
+      "id": "signal-descent-005",
+      "type": "nexus",
+      "title": "SIGNAL DESCENT 005",
+      "date": "2026-03-11",
+      "themes": [
+        "signal",
+        "systems",
+        "transmission",
+        "structure",
+        "methodology"
+      ],
+      "constellations": [
+        "Cascade Psalms"
+      ]
+    },
+    {
       "id": "apparatus-ledger",
       "type": "scroll",
       "title": "✦ APPARATUS LEDGER ✦",
@@ -1506,6 +1522,17 @@
       ]
     },
     {
+      "source": "on-visceral-distillation",
+      "target": "signal-descent-005",
+      "weight": 12,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related",
+        "nexus-inclusion"
+      ]
+    },
+    {
       "source": "signal-descent-003",
       "target": "signal-descent-004",
       "weight": 12,
@@ -1647,6 +1674,26 @@
       ]
     },
     {
+      "source": "flexible-machine-sweet-spot",
+      "target": "signal-descent-005",
+      "weight": 11,
+      "reasons": [
+        "shared-theme",
+        "explicit-related",
+        "nexus-inclusion"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "signal-descent-005",
+      "weight": 11,
+      "reasons": [
+        "shared-theme",
+        "explicit-related",
+        "nexus-inclusion"
+      ]
+    },
+    {
       "source": "maintenance-without-cure",
       "target": "signal-descent-002",
       "weight": 11,
@@ -1673,6 +1720,16 @@
       "reasons": [
         "shared-theme",
         "shared-constellation",
+        "explicit-related",
+        "nexus-inclusion"
+      ]
+    },
+    {
+      "source": "quiet-vector-doctrine",
+      "target": "signal-descent-005",
+      "weight": 11,
+      "reasons": [
+        "shared-theme",
         "explicit-related",
         "nexus-inclusion"
       ]
@@ -1716,6 +1773,16 @@
         "shared-theme",
         "shared-constellation",
         "explicit-related"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "signal-descent-005",
+      "weight": 10,
+      "reasons": [
+        "shared-theme",
+        "explicit-related",
+        "nexus-inclusion"
       ]
     },
     {
@@ -2029,6 +2096,16 @@
         "shared-theme",
         "explicit-related",
         "nexus-inclusion"
+      ]
+    },
+    {
+      "source": "signal-descent-004",
+      "target": "signal-descent-005",
+      "weight": 9,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
       ]
     },
     {
@@ -2840,6 +2917,15 @@
       ]
     },
     {
+      "source": "citizen-network-dispatch",
+      "target": "signal-descent-005",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
       "source": "citizen-network-doctrine",
       "target": "disrespectful-power",
       "weight": 6,
@@ -3038,6 +3124,15 @@
       ]
     },
     {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "signal-descent-005",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
       "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "codex-archive-system-v3-7-loremap-foundation-notes",
       "weight": 6,
@@ -3170,6 +3265,15 @@
       "reasons": [
         "shared-theme",
         "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
+      "target": "signal-descent-005",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
       ]
     },
     {
@@ -3395,6 +3499,15 @@
     {
       "source": "apparatus-ledger",
       "target": "signal-descent-004",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
+      "target": "signal-descent-005",
       "weight": 5,
       "reasons": [
         "shared-theme",
@@ -3654,6 +3767,15 @@
       ]
     },
     {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "signal-descent-005",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
       "source": "codex-archive-system-v3-1-build-notes",
       "target": "codex-archive-system-v3-7-loremap-foundation-notes",
       "weight": 5,
@@ -3674,6 +3796,15 @@
     {
       "source": "codex-archive-system-v3-1-build-notes",
       "target": "lean-mean-governance-machine",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "signal-descent-005",
       "weight": 5,
       "reasons": [
         "shared-theme",
@@ -3762,6 +3893,15 @@
       ]
     },
     {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "signal-descent-005",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
       "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "jsa-collage-evolution-003",
       "weight": 5,
@@ -3780,6 +3920,15 @@
       ]
     },
     {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "signal-descent-005",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
       "source": "codex-archive-system-v3-5-control-surface-notes",
       "target": "signal-descent-004",
       "weight": 5,
@@ -3789,8 +3938,26 @@
       ]
     },
     {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "signal-descent-005",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "signal-descent-004",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "signal-descent-005",
       "weight": 5,
       "reasons": [
         "shared-theme",
@@ -3861,8 +4028,26 @@
       ]
     },
     {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "signal-descent-005",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
       "source": "codex-archive-system-v3-notes",
       "target": "signal-descent-003",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "signal-descent-005",
       "weight": 5,
       "reasons": [
         "shared-theme",
@@ -3942,6 +4127,15 @@
     },
     {
       "source": "go-live-milestone",
+      "target": "signal-descent-005",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
       "target": "signal.citizen-agency",
       "weight": 5,
       "reasons": [
@@ -4010,6 +4204,14 @@
       "reasons": [
         "shared-theme",
         "explicit-related"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "signal-descent-005",
+      "weight": 5,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -4140,6 +4342,15 @@
     },
     {
       "source": "signal-descent-003",
+      "target": "signal-descent-005",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "signal-descent-003",
       "target": "the-bones-hold",
       "weight": 5,
       "reasons": [
@@ -4149,6 +4360,15 @@
     },
     {
       "source": "signal-descent-004",
+      "target": "signal.citizen-agency",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "signal-descent-005",
       "target": "signal.citizen-agency",
       "weight": 5,
       "reasons": [
@@ -4640,6 +4860,14 @@
       ]
     },
     {
+      "source": "citizen-network-doctrine",
+      "target": "signal-descent-005",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "citizen-network-map-hi-fi",
       "target": "codex-archive-system-v3-2-fragment-feed-notes",
       "weight": 4,
@@ -4690,6 +4918,14 @@
     {
       "source": "citizen-network-map-hi-fi",
       "target": "on-visceral-distillation",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
+      "target": "signal-descent-005",
       "weight": 4,
       "reasons": [
         "shared-theme"
@@ -5157,6 +5393,15 @@
       ]
     },
     {
+      "source": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "target": "signal-descent-005",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
       "source": "codex-archive-system-v3-8-specimen-surface-notes",
       "target": "codex-glyph-grammar",
       "weight": 4,
@@ -5322,6 +5567,14 @@
     {
       "source": "codex-glyph-grammar",
       "target": "quiet-vector-doctrine",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
+      "target": "signal-descent-005",
       "weight": 4,
       "reasons": [
         "shared-theme"
@@ -5505,6 +5758,15 @@
     {
       "source": "lean-mean-governance-machine",
       "target": "signal-descent-003",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
+      "target": "signal-descent-005",
       "weight": 4,
       "reasons": [
         "shared-theme",
@@ -5731,6 +5993,14 @@
       ]
     },
     {
+      "source": "scripture-with-machines",
+      "target": "signal-descent-005",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "scroll-from-the-perimeter",
       "target": "signal-descent-003",
       "weight": 4,
@@ -5768,7 +6038,25 @@
     },
     {
       "source": "signal-descent-001",
+      "target": "signal-descent-005",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "signal-descent-001",
       "target": "signal.citizen-agency",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "signal-descent-002",
+      "target": "signal-descent-005",
       "weight": 4,
       "reasons": [
         "shared-theme",
@@ -5804,6 +6092,15 @@
     },
     {
       "source": "signal-descent-003",
+      "target": "transmission-note-to-future-me",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "signal-descent-005",
       "target": "transmission-note-to-future-me",
       "weight": 4,
       "reasons": [
@@ -6129,6 +6426,15 @@
     },
     {
       "source": "artifact-jsa-collage-001",
+      "target": "signal-descent-005",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
       "target": "signal-harvest",
       "weight": 3,
       "reasons": [
@@ -6368,6 +6674,14 @@
     {
       "source": "builder-lineage-reflection",
       "target": "quiet-vector-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "signal-descent-005",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -8810,6 +9124,14 @@
       ]
     },
     {
+      "source": "codex-glyph-system-first-emergence",
+      "target": "signal-descent-005",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "constellation-node-alchemy",
       "target": "disrespectful-power",
       "weight": 3,
@@ -8907,6 +9229,14 @@
     },
     {
       "source": "constellation-node-alchemy",
+      "target": "signal-descent-005",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
       "target": "steel-elbow-flinchian",
       "weight": 3,
       "reasons": [
@@ -8972,6 +9302,14 @@
     {
       "source": "disrespectful-power",
       "target": "quiet-vector-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "disrespectful-power",
+      "target": "signal-descent-005",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -9154,6 +9492,15 @@
     },
     {
       "source": "heart-does-not-dream",
+      "target": "signal-descent-005",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "heart-does-not-dream",
       "target": "signal.citizen-agency",
       "weight": 3,
       "reasons": [
@@ -9189,6 +9536,14 @@
     {
       "source": "i-work-with-machines-to-write-scripture",
       "target": "signal-descent-003",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "signal-descent-005",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -9578,6 +9933,14 @@
     },
     {
       "source": "operator-winks-at-the-machines",
+      "target": "signal-descent-005",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "operator-winks-at-the-machines",
       "target": "signal.citizen-agency",
       "weight": 3,
       "reasons": [
@@ -9604,6 +9967,15 @@
     {
       "source": "pressure-psalm-v",
       "target": "signal-descent-004",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "pressure-psalm-v",
+      "target": "signal-descent-005",
       "weight": 3,
       "reasons": [
         "shared-theme",
@@ -9805,6 +10177,40 @@
     {
       "source": "signal-descent-004",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-005",
+      "target": "signal-harvest",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "signal-descent-005",
+      "target": "steel-elbow-flinchian",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-005",
+      "target": "the-bones-hold",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "signal-descent-005",
+      "target": "the-bones-hold-content-architecture",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -10605,6 +11011,14 @@
     },
     {
       "source": "artifact-jsa-signal-fracture-001",
+      "target": "signal-descent-005",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
       "target": "studio-log-adhesive-test-run",
       "weight": 2,
       "reasons": [
@@ -10726,6 +11140,14 @@
     {
       "source": "bezalel-the-designated-hand",
       "target": "pocket-rock-cathedral",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "signal-descent-005",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -11413,6 +11835,14 @@
     },
     {
       "source": "cities-built-on-ruin-reminiscence",
+      "target": "signal-descent-005",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
       "target": "signal-harvest",
       "weight": 2,
       "reasons": [
@@ -11582,6 +12012,14 @@
     {
       "source": "cities-built-on-ruin",
       "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "signal-descent-005",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -12085,6 +12523,14 @@
     },
     {
       "source": "codex-archive-system-v2-2",
+      "target": "signal-descent-005",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
       "target": "studio-log-adhesive-test-run",
       "weight": 2,
       "reasons": [
@@ -12150,6 +12596,14 @@
     {
       "source": "codex-archive-system-v2-5-notes",
       "target": "signal-descent-004",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
+      "target": "signal-descent-005",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -12230,6 +12684,14 @@
     {
       "source": "codex-archive-system-v2-6-notes",
       "target": "signal-descent-004",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
+      "target": "signal-descent-005",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -14397,6 +14859,14 @@
     },
     {
       "source": "jsa-collage-evolution-001",
+      "target": "signal-descent-005",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
       "target": "suwanee-ga-loremap",
       "weight": 2,
       "reasons": [
@@ -14454,6 +14924,14 @@
     {
       "source": "jsa-collage-evolution-002",
       "target": "signal-descent-004",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-002",
+      "target": "signal-descent-005",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -15093,6 +15571,14 @@
     },
     {
       "source": "nothing-missing-only-unindexed",
+      "target": "signal-descent-005",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "nothing-missing-only-unindexed",
       "target": "signal-harvest",
       "weight": 2,
       "reasons": [
@@ -15182,6 +15668,14 @@
     {
       "source": "on-object-oriented-archives",
       "target": "signal-descent-004",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-object-oriented-archives",
+      "target": "signal-descent-005",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -15421,6 +15915,14 @@
     },
     {
       "source": "phoenix-collage-fracture-study",
+      "target": "signal-descent-005",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "phoenix-collage-fracture-study",
       "target": "studio-log-adhesive-test-run",
       "weight": 2,
       "reasons": [
@@ -15589,6 +16091,14 @@
     },
     {
       "source": "race-to-the-top-six-bridges",
+      "target": "signal-descent-005",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "race-to-the-top-six-bridges",
       "target": "signal.citizen-agency",
       "weight": 2,
       "reasons": [
@@ -15638,6 +16148,14 @@
     {
       "source": "reduce-novelty-before-care",
       "target": "scripture-with-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "reduce-novelty-before-care",
+      "target": "signal-descent-005",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -15886,6 +16404,46 @@
     {
       "source": "signal-descent-004",
       "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-005",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-005",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-005",
+      "target": "systems-survive-tuesdays",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-005",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-005",
+      "target": "when-the-commit-leaves-your-hands",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -16373,6 +16931,14 @@
     },
     {
       "source": "archive-box-stamped-fragments",
+      "target": "signal-descent-005",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
       "target": "signal-harvest",
       "weight": 1,
       "reasons": [
@@ -16654,6 +17220,14 @@
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "signal-descent-004",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "signal-descent-005",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -17094,6 +17668,14 @@
     {
       "source": "artifact-jsa-collage-wip-001",
       "target": "signal-descent-004",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "signal-descent-005",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -18253,6 +18835,14 @@
     },
     {
       "source": "chattahoochee-river-loremap",
+      "target": "signal-descent-005",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "chattahoochee-river-loremap",
       "target": "signal.citizen-agency",
       "weight": 1,
       "reasons": [
@@ -21029,6 +21619,14 @@
     },
     {
       "source": "distortion-atlas",
+      "target": "signal-descent-005",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
       "target": "signal-harvest",
       "weight": 1,
       "reasons": [
@@ -22013,6 +22611,14 @@
     },
     {
       "source": "jsa-collage-evolution-003",
+      "target": "signal-descent-005",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
       "target": "signal-harvest",
       "weight": 1,
       "reasons": [
@@ -22293,6 +22899,14 @@
     },
     {
       "source": "maintenance-without-cure",
+      "target": "signal-descent-005",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "maintenance-without-cure",
       "target": "studio-bench-cycle",
       "weight": 1,
       "reasons": [
@@ -22382,6 +22996,14 @@
     {
       "source": "manic-rider-collapse",
       "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "manic-rider-collapse",
+      "target": "signal-descent-005",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -22510,6 +23132,14 @@
     {
       "source": "mothers-calendar",
       "target": "signal-descent-004",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "signal-descent-005",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -23069,6 +23699,14 @@
     },
     {
       "source": "one-yard-from-forever-scroll-surface",
+      "target": "signal-descent-005",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever-scroll-surface",
       "target": "signal-harvest",
       "weight": 1,
       "reasons": [
@@ -23477,6 +24115,14 @@
     },
     {
       "source": "pocket-rock-cathedral",
+      "target": "signal-descent-005",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pocket-rock-cathedral",
       "target": "signal-harvest",
       "weight": 1,
       "reasons": [
@@ -23861,6 +24507,14 @@
     },
     {
       "source": "scroll-from-the-perimeter",
+      "target": "signal-descent-005",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "scroll-from-the-perimeter",
       "target": "signal-harvest",
       "weight": 1,
       "reasons": [
@@ -23966,6 +24620,22 @@
     {
       "source": "signal-descent-003",
       "target": "the-bones-hold-content-architecture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-005",
+      "target": "stairwell-signal",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-005",
+      "target": "studio-bench-cycle",
       "weight": 1,
       "reasons": [
         "shared-theme"
