@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-11T13:42:24.252Z",
+  "generatedAt": "2026-03-11T23:45:58.620Z",
   "sourceDir": "../objects",
-  "nodeCount": 85,
-  "edgeCount": 2946,
+  "nodeCount": 90,
+  "edgeCount": 3349,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -79,6 +79,19 @@
       "constellations": []
     },
     {
+      "id": "crane-field-illustration",
+      "type": "artifact",
+      "title": "Crane Field Illustration",
+      "date": "2026-03-11",
+      "themes": [
+        "observation",
+        "signal",
+        "systems",
+        "structure"
+      ],
+      "constellations": []
+    },
+    {
       "id": "deck-under-load-ii",
       "type": "artifact",
       "title": "DECK UNDER LOAD II",
@@ -116,6 +129,20 @@
         "structure",
         "methodology",
         "architecture"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "garage-dispatch-001",
+      "type": "artifact",
+      "title": "Dispatch from the Garage",
+      "date": "2026-03-11",
+      "themes": [
+        "collage",
+        "comics",
+        "observation",
+        "systems",
+        "signal"
       ],
       "constellations": []
     },
@@ -489,6 +516,20 @@
       ]
     },
     {
+      "id": "grand-myth-central",
+      "type": "fieldlog",
+      "title": "Field Log: Grand Myth Central",
+      "date": "2026-03-11",
+      "themes": [
+        "memory",
+        "observation",
+        "place",
+        "signal",
+        "systems"
+      ],
+      "constellations": []
+    },
+    {
       "id": "jsa-collage-evolution-001",
       "type": "fieldlog",
       "title": "JSA Collage Evolution 001",
@@ -637,6 +678,18 @@
         "signal",
         "transmission",
         "systems"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "keep-the-operator-whistling",
+      "type": "fragment",
+      "title": "Keep the Operator Whistling",
+      "date": "2026-03-11",
+      "themes": [
+        "signal",
+        "systems",
+        "transmission"
       ],
       "constellations": []
     },
@@ -897,6 +950,18 @@
         "systems",
         "transmission",
         "observation"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "characters-in-the-field",
+      "type": "scroll",
+      "title": "The Characters in the Field",
+      "date": "2026-03-11",
+      "themes": [
+        "observation",
+        "signal",
+        "systems"
       ],
       "constellations": []
     },
@@ -2437,6 +2502,15 @@
     },
     {
       "source": "artifact-jsa-collage-001",
+      "target": "garage-dispatch-001",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
       "target": "jsa-collage-evolution-002",
       "weight": 7,
       "reasons": [
@@ -2730,6 +2804,24 @@
       ]
     },
     {
+      "source": "garage-dispatch-001",
+      "target": "jsa-collage-evolution-003",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "go-live-milestone",
       "target": "jsa-collage-evolution-001",
       "weight": 7,
@@ -2940,6 +3032,15 @@
     {
       "source": "capture-and-convert",
       "target": "machine-creatures",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "crane-field-illustration",
       "weight": 6,
       "reasons": [
         "shared-theme",
@@ -3680,6 +3781,24 @@
       ]
     },
     {
+      "source": "characters-in-the-field",
+      "target": "keep-the-operator-whistling",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "machine-creatures",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "chattahoochee-river-loremap",
       "target": "north-georgia-march-2026",
       "weight": 5,
@@ -4336,6 +4455,15 @@
       ]
     },
     {
+      "source": "grand-myth-central",
+      "target": "machine-creatures",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "heart-does-not-dream",
       "target": "manic-rider-collapse",
       "weight": 5,
@@ -4829,7 +4957,23 @@
     },
     {
       "source": "artifact-jsa-collage-wip-001",
+      "target": "garage-dispatch-001",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
       "target": "phoenix-collage-fracture-study",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
+      "target": "garage-dispatch-001",
       "weight": 4,
       "reasons": [
         "shared-theme"
@@ -4893,6 +5037,14 @@
       "reasons": [
         "shared-theme",
         "explicit-related"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "crane-field-illustration",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -5025,6 +5177,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "crane-field-illustration",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -5836,11 +5996,27 @@
     },
     {
       "source": "constellation-node-alchemy",
+      "target": "grand-myth-central",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
       "target": "heart-does-not-dream",
       "weight": 4,
       "reasons": [
         "shared-theme",
         "explicit-related"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "disrespectful-power",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -5863,6 +6039,22 @@
     {
       "source": "flexible-machine-sweet-spot",
       "target": "the-bones-hold-content-architecture",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "jsa-collage-evolution-001",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "jsa-collage-evolution-002",
       "weight": 4,
       "reasons": [
         "shared-theme"
@@ -5902,6 +6094,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "mothers-calendar",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -6433,6 +6633,14 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "keep-the-operator-whistling",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "lean-mean-governance-machine",
       "weight": 3,
       "reasons": [
@@ -6775,6 +6983,14 @@
     },
     {
       "source": "artifact-jsa-signal-fracture-001",
+      "target": "crane-field-illustration",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
       "target": "disrespectful-power",
       "weight": 3,
       "reasons": [
@@ -6808,6 +7024,14 @@
     {
       "source": "builder-lineage-reflection",
       "target": "capture-and-convert",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "characters-in-the-field",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -6895,6 +7119,22 @@
     },
     {
       "source": "builder-lineage-reflection",
+      "target": "garage-dispatch-001",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "grand-myth-central",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
       "target": "machine-creatures",
       "weight": 3,
       "reasons": [
@@ -6936,6 +7176,14 @@
     {
       "source": "builder-lineage-reflection",
       "target": "unacceptable-cost",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "characters-in-the-field",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -7015,7 +7263,23 @@
     },
     {
       "source": "capture-and-convert",
+      "target": "crane-field-illustration",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
       "target": "disrespectful-power",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "garage-dispatch-001",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -7031,7 +7295,23 @@
     },
     {
       "source": "capture-and-convert",
+      "target": "grand-myth-central",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
       "target": "i-work-with-machines-to-write-scripture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "keep-the-operator-whistling",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -7118,8 +7398,104 @@
       ]
     },
     {
+      "source": "characters-in-the-field",
+      "target": "citizen-network-dispatch",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "codex-archive-system-v3-3-modest-table-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "codex-archive-system-v3-4-image-experience-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "codex-archive-system-v3-5-control-surface-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "codex-archive-system-v3-6-reading-surface-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "codex-archive-system-v3-8-specimen-surface-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "constellation-node-alchemy",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "disrespectful-power",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "garage-dispatch-001",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "grand-myth-central",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "unacceptable-cost",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "chattahoochee-river-loremap",
       "target": "constellation-node-alchemy",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "chattahoochee-river-loremap",
+      "target": "grand-myth-central",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -7207,6 +7583,22 @@
     },
     {
       "source": "citizen-network-dispatch",
+      "target": "garage-dispatch-001",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "grand-myth-central",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
       "target": "heart-does-not-dream",
       "weight": 3,
       "reasons": [
@@ -7217,6 +7609,14 @@
     {
       "source": "citizen-network-dispatch",
       "target": "i-work-with-machines-to-write-scripture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "keep-the-operator-whistling",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -7348,6 +7748,14 @@
     },
     {
       "source": "citizen-network-doctrine",
+      "target": "crane-field-illustration",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
       "target": "flexible-machine-sweet-spot",
       "weight": 3,
       "reasons": [
@@ -7364,7 +7772,23 @@
     },
     {
       "source": "citizen-network-doctrine",
+      "target": "grand-myth-central",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
       "target": "i-work-with-machines-to-write-scripture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "keep-the-operator-whistling",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -7516,6 +7940,14 @@
     },
     {
       "source": "citizen-network-map-hi-fi",
+      "target": "crane-field-illustration",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
       "target": "disrespectful-power",
       "weight": 3,
       "reasons": [
@@ -7533,6 +7965,14 @@
     {
       "source": "citizen-network-map-hi-fi",
       "target": "i-work-with-machines-to-write-scripture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
+      "target": "keep-the-operator-whistling",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -8191,6 +8631,14 @@
     },
     {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "keep-the-operator-whistling",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "machine-creatures",
       "weight": 3,
       "reasons": [
@@ -8281,7 +8729,31 @@
     },
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "crane-field-illustration",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "disrespectful-power",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "garage-dispatch-001",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "grand-myth-central",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -8431,7 +8903,31 @@
     },
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "crane-field-illustration",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "disrespectful-power",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "garage-dispatch-001",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "grand-myth-central",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -8581,7 +9077,31 @@
     },
     {
       "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "crane-field-illustration",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
       "target": "disrespectful-power",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "garage-dispatch-001",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "grand-myth-central",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -8731,7 +9251,31 @@
     },
     {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "crane-field-illustration",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "disrespectful-power",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "garage-dispatch-001",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "grand-myth-central",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -8898,6 +9442,14 @@
     },
     {
       "source": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "target": "grand-myth-central",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-7-loremap-foundation-notes",
       "target": "heart-does-not-dream",
       "weight": 3,
       "reasons": [
@@ -8957,7 +9509,31 @@
     },
     {
       "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "crane-field-illustration",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
       "target": "disrespectful-power",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "garage-dispatch-001",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "grand-myth-central",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -9319,6 +9895,14 @@
     },
     {
       "source": "codex-archive-system-v3-plus-notes",
+      "target": "keep-the-operator-whistling",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
       "target": "machine-creatures",
       "weight": 3,
       "reasons": [
@@ -9418,6 +10002,14 @@
     },
     {
       "source": "codex-glyph-grammar",
+      "target": "crane-field-illustration",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
       "target": "disrespectful-power",
       "weight": 3,
       "reasons": [
@@ -9459,6 +10051,14 @@
     {
       "source": "codex-glyph-grammar",
       "target": "signal-descent-004",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
+      "target": "crane-field-illustration",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -9522,7 +10122,23 @@
     },
     {
       "source": "constellation-node-alchemy",
+      "target": "crane-field-illustration",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
       "target": "disrespectful-power",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "garage-dispatch-001",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -9539,6 +10155,14 @@
     {
       "source": "constellation-node-alchemy",
       "target": "i-work-with-machines-to-write-scripture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "keep-the-operator-whistling",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -9657,6 +10281,78 @@
       ]
     },
     {
+      "source": "crane-field-illustration",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "garage-dispatch-001",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "grand-myth-central",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "machine-creatures",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "node-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "quiet-vector-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "signal-descent-005",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "unacceptable-cost",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "deck-under-load-ii",
       "target": "jsa-collage-evolution-003",
       "weight": 3,
@@ -9667,6 +10363,22 @@
     {
       "source": "disrespectful-power",
       "target": "flexible-machine-sweet-spot",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "disrespectful-power",
+      "target": "garage-dispatch-001",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "disrespectful-power",
+      "target": "grand-myth-central",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -9769,8 +10481,40 @@
       ]
     },
     {
+      "source": "garage-dispatch-001",
+      "target": "grand-myth-central",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "unacceptable-cost",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "go-live-milestone",
       "target": "i-work-with-machines-to-write-scripture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "keep-the-operator-whistling",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -9841,6 +10585,46 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "pocket-rock-cathedral",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "suwanee-ga-loremap",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "unacceptable-cost",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -9916,6 +10700,14 @@
     },
     {
       "source": "i-work-with-machines-to-write-scripture",
+      "target": "keep-the-operator-whistling",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
       "target": "node-doctrine",
       "weight": 3,
       "reasons": [
@@ -9973,6 +10765,78 @@
     {
       "source": "jsa-collage-evolution-003",
       "target": "under-load",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "machine-creatures",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "node-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "operator-winks-at-the-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "scripture-with-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "signal-descent-003",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "signal-descent-004",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "signal-descent-005",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "signal.citizen-agency",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "steel-elbow-flinchian",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -10648,6 +11512,14 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "characters-in-the-field",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "cities-built-on-ruin-reminiscence",
       "weight": 2,
       "reasons": [
@@ -10672,6 +11544,14 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "crane-field-illustration",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "disrespectful-power",
       "weight": 2,
       "reasons": [
@@ -10681,6 +11561,22 @@
     {
       "source": "apparatus-ledger",
       "target": "flexible-machine-sweet-spot",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
+      "target": "garage-dispatch-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
+      "target": "grand-myth-central",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -10816,6 +11712,14 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "characters-in-the-field",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "cities-built-on-ruin",
       "weight": 2,
       "reasons": [
@@ -10888,6 +11792,14 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "crane-field-illustration",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "disrespectful-power",
       "weight": 2,
       "reasons": [
@@ -10897,6 +11809,22 @@
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "distortion-atlas",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "garage-dispatch-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "grand-myth-central",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -10992,6 +11920,14 @@
     },
     {
       "source": "artifact-jsa-collage-001",
+      "target": "characters-in-the-field",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
       "target": "codex-archive-system-v3-9-orientation-clarity-notes",
       "weight": 2,
       "reasons": [
@@ -11008,7 +11944,23 @@
     },
     {
       "source": "artifact-jsa-collage-001",
+      "target": "crane-field-illustration",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
       "target": "disrespectful-power",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "grand-myth-central",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -11112,6 +12064,14 @@
     },
     {
       "source": "artifact-jsa-collage-wip-001",
+      "target": "characters-in-the-field",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
       "target": "cities-built-on-ruin-reminiscence",
       "weight": 2,
       "reasons": [
@@ -11176,7 +12136,23 @@
     },
     {
       "source": "artifact-jsa-collage-wip-001",
+      "target": "crane-field-illustration",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
       "target": "disrespectful-power",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "grand-myth-central",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -11225,6 +12201,14 @@
     {
       "source": "artifact-jsa-signal-fracture-001",
       "target": "capture-and-convert",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
+      "target": "characters-in-the-field",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -11337,6 +12321,14 @@
     {
       "source": "artifact-jsa-signal-fracture-001",
       "target": "flexible-machine-sweet-spot",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
+      "target": "grand-myth-central",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -11657,6 +12649,14 @@
     {
       "source": "builder-lineage-reflection",
       "target": "jsa-collage-evolution-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "keep-the-operator-whistling",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -11991,6 +12991,270 @@
       ]
     },
     {
+      "source": "characters-in-the-field",
+      "target": "citizen-network-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "citizen-network-map-hi-fi",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "codex-archive-system-v2-7-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "codex-archive-system-v3-1-build-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "codex-archive-system-v3-2-fragment-feed-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "codex-archive-system-v3-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "codex-archive-system-v3-plus-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "codex-glyph-grammar",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "codex-glyph-system-first-emergence",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "go-live-milestone",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "i-work-with-machines-to-write-scripture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "jsa-collage-evolution-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "jsa-collage-evolution-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "jsa-collage-evolution-003",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "mothers-calendar",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "node-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "operator-winks-at-the-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "quiet-vector-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "scripture-with-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "signal-descent-003",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "signal-descent-004",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "signal-descent-005",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "signal.citizen-agency",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "steel-elbow-flinchian",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "chattahoochee-river-loremap",
       "target": "citizen-network-dispatch",
       "weight": 2,
@@ -12120,6 +13384,14 @@
     },
     {
       "source": "cities-built-on-ruin-reminiscence",
+      "target": "crane-field-illustration",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
       "target": "deck-under-load-ii",
       "weight": 2,
       "reasons": [
@@ -12145,6 +13417,22 @@
     {
       "source": "cities-built-on-ruin-reminiscence",
       "target": "flexible-machine-sweet-spot",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "garage-dispatch-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "grand-myth-central",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -12337,6 +13625,14 @@
     {
       "source": "cities-built-on-ruin",
       "target": "codex-glyph-system-first-emergence",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "crane-field-illustration",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -12649,6 +13945,14 @@
     {
       "source": "citizen-network-doctrine",
       "target": "distortion-atlas",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "garage-dispatch-001",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -12800,6 +14104,22 @@
     },
     {
       "source": "citizen-network-map-hi-fi",
+      "target": "garage-dispatch-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
+      "target": "grand-myth-central",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
       "target": "nothing-missing-only-unindexed",
       "weight": 2,
       "reasons": [
@@ -13128,7 +14448,31 @@
     },
     {
       "source": "codex-archive-system-v2-7-notes",
+      "target": "crane-field-illustration",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
       "target": "disrespectful-power",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "garage-dispatch-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "grand-myth-central",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -13153,6 +14497,14 @@
     {
       "source": "codex-archive-system-v2-7-notes",
       "target": "jsa-collage-evolution-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "keep-the-operator-whistling",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -13240,7 +14592,31 @@
     },
     {
       "source": "codex-archive-system-v3-1-build-notes",
+      "target": "crane-field-illustration",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
       "target": "disrespectful-power",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "garage-dispatch-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "grand-myth-central",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -13257,6 +14633,14 @@
     {
       "source": "codex-archive-system-v3-1-build-notes",
       "target": "jsa-collage-evolution-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "keep-the-operator-whistling",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -13344,7 +14728,31 @@
     },
     {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "crane-field-illustration",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "disrespectful-power",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "garage-dispatch-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "grand-myth-central",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -13424,6 +14832,14 @@
     },
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "keep-the-operator-whistling",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "machine-creatures",
       "weight": 2,
       "reasons": [
@@ -13513,6 +14929,14 @@
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "i-work-with-machines-to-write-scripture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "keep-the-operator-whistling",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -13624,6 +15048,14 @@
     },
     {
       "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "keep-the-operator-whistling",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
       "target": "machine-creatures",
       "weight": 2,
       "reasons": [
@@ -13721,6 +15153,14 @@
     {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "jsa-collage-evolution-003",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "keep-the-operator-whistling",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -13832,7 +15272,23 @@
     },
     {
       "source": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "target": "crane-field-illustration",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-7-loremap-foundation-notes",
       "target": "disrespectful-power",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "target": "garage-dispatch-001",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -13984,6 +15440,14 @@
     },
     {
       "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "keep-the-operator-whistling",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
       "target": "machine-creatures",
       "weight": 2,
       "reasons": [
@@ -14081,6 +15545,14 @@
     {
       "source": "codex-archive-system-v3-9-orientation-clarity-notes",
       "target": "i-work-with-machines-to-write-scripture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-9-orientation-clarity-notes",
+      "target": "keep-the-operator-whistling",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -14192,7 +15664,31 @@
     },
     {
       "source": "codex-archive-system-v3-notes",
+      "target": "crane-field-illustration",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
       "target": "disrespectful-power",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "garage-dispatch-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "grand-myth-central",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -14209,6 +15705,14 @@
     {
       "source": "codex-archive-system-v3-notes",
       "target": "jsa-collage-evolution-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "keep-the-operator-whistling",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -14304,7 +15808,31 @@
     },
     {
       "source": "codex-archive-system-v3-plus-notes",
+      "target": "crane-field-illustration",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
       "target": "disrespectful-power",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
+      "target": "garage-dispatch-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
+      "target": "grand-myth-central",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -14384,7 +15912,23 @@
     },
     {
       "source": "codex-glyph-grammar",
+      "target": "garage-dispatch-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
       "target": "go-live-milestone",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
+      "target": "grand-myth-central",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -14409,6 +15953,14 @@
     {
       "source": "codex-glyph-grammar",
       "target": "jsa-collage-evolution-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
+      "target": "keep-the-operator-whistling",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -14512,6 +16064,14 @@
     },
     {
       "source": "codex-glyph-system-first-emergence",
+      "target": "garage-dispatch-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
       "target": "go-live-milestone",
       "weight": 2,
       "reasons": [
@@ -14520,7 +16080,23 @@
     },
     {
       "source": "codex-glyph-system-first-emergence",
+      "target": "grand-myth-central",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
       "target": "i-work-with-machines-to-write-scripture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
+      "target": "keep-the-operator-whistling",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -14751,6 +16327,222 @@
       ]
     },
     {
+      "source": "crane-field-illustration",
+      "target": "distortion-atlas",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "go-live-milestone",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "i-work-with-machines-to-write-scripture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "jsa-collage-evolution-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "jsa-collage-evolution-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "jsa-collage-evolution-003",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "keep-the-operator-whistling",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "manic-rider-collapse",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "mothers-calendar",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "on-visceral-distillation",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "operator-winks-at-the-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "pocket-rock-cathedral",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "scripture-with-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "signal-descent-003",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "signal-descent-004",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "signal.citizen-agency",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "steel-elbow-flinchian",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "systems-survive-tuesdays",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "deck-under-load-ii",
+      "target": "garage-dispatch-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "deck-under-load-ii",
       "target": "jsa-collage-evolution-002",
       "weight": 2,
@@ -14817,6 +16609,14 @@
     {
       "source": "disrespectful-power",
       "target": "jsa-collage-evolution-003",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "disrespectful-power",
+      "target": "keep-the-operator-whistling",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -14976,6 +16776,14 @@
     },
     {
       "source": "distortion-atlas",
+      "target": "grand-myth-central",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
       "target": "maintenance-without-cure",
       "weight": 2,
       "reasons": [
@@ -15024,7 +16832,23 @@
     },
     {
       "source": "flexible-machine-sweet-spot",
+      "target": "garage-dispatch-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
       "target": "go-live-milestone",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "grand-myth-central",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -15041,6 +16865,14 @@
     {
       "source": "flexible-machine-sweet-spot",
       "target": "jsa-collage-evolution-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "keep-the-operator-whistling",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -15135,6 +16967,174 @@
       ]
     },
     {
+      "source": "garage-dispatch-001",
+      "target": "go-live-milestone",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "i-work-with-machines-to-write-scripture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "keep-the-operator-whistling",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "machine-creatures",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "mothers-calendar",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "node-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "operator-winks-at-the-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "quiet-vector-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "scripture-with-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "signal-descent-003",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "signal-descent-004",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "signal-descent-005",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "signal.citizen-agency",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "steel-elbow-flinchian",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "under-load",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "grand-myth-central",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "go-live-milestone",
       "target": "nothing-missing-only-unindexed",
       "weight": 2,
@@ -15209,6 +17209,214 @@
     {
       "source": "go-live-milestone",
       "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "i-work-with-machines-to-write-scripture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "jsa-collage-evolution-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "jsa-collage-evolution-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "jsa-collage-evolution-003",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "keep-the-operator-whistling",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "node-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "north-georgia-march-2026",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "north-georgia-week-2",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "one-yard-from-forever",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "operator-winks-at-the-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "quiet-vector-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "ridge-line-lessons",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "scripture-with-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "signal-descent-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "signal-descent-003",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "signal-descent-004",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "signal-descent-005",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "signal-harvest",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "signal.citizen-agency",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "steel-elbow-flinchian",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "transmission-note-to-future-me",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -15601,6 +17809,94 @@
     {
       "source": "jsa-collage-evolution-003",
       "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "on-visceral-distillation",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "quiet-vector-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "signal-descent-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "signal-descent-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "transmission-note-to-future-me",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "when-the-commit-leaves-your-hands",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -17368,6 +19664,14 @@
     },
     {
       "source": "archive-box-stamped-fragments",
+      "target": "crane-field-illustration",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
       "target": "disrespectful-power",
       "weight": 1,
       "reasons": [
@@ -17377,6 +19681,22 @@
     {
       "source": "archive-box-stamped-fragments",
       "target": "flexible-machine-sweet-spot",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
+      "target": "garage-dispatch-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
+      "target": "grand-myth-central",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -17656,6 +19976,14 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "keep-the-operator-whistling",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "machine-creatures",
       "weight": 1,
       "reasons": [
@@ -17888,6 +20216,14 @@
     },
     {
       "source": "artifact-jsa-collage-001",
+      "target": "keep-the-operator-whistling",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
       "target": "machine-creatures",
       "weight": 1,
       "reasons": [
@@ -18065,6 +20401,14 @@
     {
       "source": "artifact-jsa-collage-wip-001",
       "target": "i-work-with-machines-to-write-scripture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "keep-the-operator-whistling",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -18337,6 +20681,14 @@
     {
       "source": "artifact-jsa-signal-fracture-001",
       "target": "i-work-with-machines-to-write-scripture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
+      "target": "keep-the-operator-whistling",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -18624,6 +20976,14 @@
     },
     {
       "source": "bezalel-the-designated-hand",
+      "target": "crane-field-illustration",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
       "target": "disrespectful-power",
       "weight": 1,
       "reasons": [
@@ -18648,7 +21008,23 @@
     },
     {
       "source": "bezalel-the-designated-hand",
+      "target": "grand-myth-central",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
       "target": "i-work-with-machines-to-write-scripture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "keep-the-operator-whistling",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -19167,6 +21543,230 @@
       ]
     },
     {
+      "source": "characters-in-the-field",
+      "target": "chattahoochee-river-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "cities-built-on-ruin",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "cities-built-on-ruin-reminiscence",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "codex-archive-system-v2-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "codex-archive-system-v2-5-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "codex-archive-system-v2-6-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "codex-archive-system-v3-9-orientation-clarity-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "distortion-atlas",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "heart-does-not-dream",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "lean-mean-governance-machine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "north-georgia-march-2026",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "north-georgia-week-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "on-visceral-distillation",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "pocket-rock-cathedral",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "reduce-novelty-before-care",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "ridge-line-lessons",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "signal-descent-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "chattahoochee-river-loremap",
       "target": "cities-built-on-ruin-reminiscence",
       "weight": 1,
@@ -19248,7 +21848,23 @@
     },
     {
       "source": "chattahoochee-river-loremap",
+      "target": "crane-field-illustration",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "chattahoochee-river-loremap",
       "target": "disrespectful-power",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "chattahoochee-river-loremap",
+      "target": "garage-dispatch-001",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -19289,6 +21905,14 @@
     {
       "source": "chattahoochee-river-loremap",
       "target": "jsa-collage-evolution-003",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "chattahoochee-river-loremap",
+      "target": "keep-the-operator-whistling",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -19536,6 +22160,14 @@
     },
     {
       "source": "cities-built-on-ruin-reminiscence",
+      "target": "keep-the-operator-whistling",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
       "target": "maintenance-without-cure",
       "weight": 1,
       "reasons": [
@@ -19720,7 +22352,23 @@
     },
     {
       "source": "cities-built-on-ruin",
+      "target": "garage-dispatch-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
       "target": "go-live-milestone",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "grand-myth-central",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -19753,6 +22401,14 @@
     {
       "source": "cities-built-on-ruin",
       "target": "jsa-collage-evolution-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "keep-the-operator-whistling",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -20280,6 +22936,14 @@
     },
     {
       "source": "codex-archive-system-v2-2",
+      "target": "crane-field-illustration",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
       "target": "disrespectful-power",
       "weight": 1,
       "reasons": [
@@ -20288,7 +22952,23 @@
     },
     {
       "source": "codex-archive-system-v2-2",
+      "target": "garage-dispatch-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
       "target": "go-live-milestone",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
+      "target": "grand-myth-central",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -20321,6 +23001,14 @@
     {
       "source": "codex-archive-system-v2-2",
       "target": "jsa-collage-evolution-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
+      "target": "keep-the-operator-whistling",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -20408,6 +23096,14 @@
     },
     {
       "source": "codex-archive-system-v2-5-notes",
+      "target": "crane-field-illustration",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
       "target": "disrespectful-power",
       "weight": 1,
       "reasons": [
@@ -20416,7 +23112,23 @@
     },
     {
       "source": "codex-archive-system-v2-5-notes",
+      "target": "garage-dispatch-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
       "target": "go-live-milestone",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
+      "target": "grand-myth-central",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -20449,6 +23161,14 @@
     {
       "source": "codex-archive-system-v2-5-notes",
       "target": "jsa-collage-evolution-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
+      "target": "keep-the-operator-whistling",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -20528,7 +23248,31 @@
     },
     {
       "source": "codex-archive-system-v2-6-notes",
+      "target": "crane-field-illustration",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
       "target": "disrespectful-power",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
+      "target": "garage-dispatch-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
+      "target": "grand-myth-central",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -20561,6 +23305,14 @@
     {
       "source": "codex-archive-system-v2-6-notes",
       "target": "jsa-collage-evolution-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
+      "target": "keep-the-operator-whistling",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -21160,6 +23912,14 @@
     },
     {
       "source": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "target": "keep-the-operator-whistling",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-7-loremap-foundation-notes",
       "target": "machine-creatures",
       "weight": 1,
       "reasons": [
@@ -21328,6 +24088,14 @@
     },
     {
       "source": "codex-archive-system-v3-9-orientation-clarity-notes",
+      "target": "crane-field-illustration",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-9-orientation-clarity-notes",
       "target": "disrespectful-power",
       "weight": 1,
       "reasons": [
@@ -21337,6 +24105,22 @@
     {
       "source": "codex-archive-system-v3-9-orientation-clarity-notes",
       "target": "distortion-atlas",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-9-orientation-clarity-notes",
+      "target": "garage-dispatch-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-9-orientation-clarity-notes",
+      "target": "grand-myth-central",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -21921,6 +24705,134 @@
     {
       "source": "constellation-node-alchemy",
       "target": "the-bones-hold-content-architecture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "heart-does-not-dream",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "lean-mean-governance-machine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "north-georgia-march-2026",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "north-georgia-week-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "reduce-novelty-before-care",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "ridge-line-lessons",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "signal-descent-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "the-bones-hold",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "when-the-commit-leaves-your-hands",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -22144,6 +25056,14 @@
     },
     {
       "source": "distortion-atlas",
+      "target": "garage-dispatch-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
       "target": "heart-does-not-dream",
       "weight": 1,
       "reasons": [
@@ -22471,6 +25391,166 @@
       ]
     },
     {
+      "source": "garage-dispatch-001",
+      "target": "heart-does-not-dream",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "lean-mean-governance-machine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "north-georgia-march-2026",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "north-georgia-week-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "on-visceral-distillation",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "pocket-rock-cathedral",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "reduce-novelty-before-care",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "ridge-line-lessons",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "signal-descent-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "go-live-milestone",
       "target": "jsa-collage-evolution-002",
       "weight": 1,
@@ -22559,6 +25639,102 @@
       ]
     },
     {
+      "source": "grand-myth-central",
+      "target": "heart-does-not-dream",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "lean-mean-governance-machine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "on-visceral-distillation",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "reduce-novelty-before-care",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "stairwell-signal",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "heart-does-not-dream",
       "target": "i-work-with-machines-to-write-scripture",
       "weight": 1,
@@ -22569,6 +25745,14 @@
     {
       "source": "heart-does-not-dream",
       "target": "jsa-collage-evolution-003",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "heart-does-not-dream",
+      "target": "keep-the-operator-whistling",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -22776,6 +25960,14 @@
     },
     {
       "source": "jsa-collage-evolution-001",
+      "target": "keep-the-operator-whistling",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
       "target": "lean-mean-governance-machine",
       "weight": 1,
       "reasons": [
@@ -22960,6 +26152,14 @@
     },
     {
       "source": "jsa-collage-evolution-002",
+      "target": "keep-the-operator-whistling",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-002",
       "target": "lean-mean-governance-machine",
       "weight": 1,
       "reasons": [
@@ -23137,6 +26337,14 @@
     {
       "source": "jsa-collage-evolution-002",
       "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "keep-the-operator-whistling",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -23297,6 +26505,94 @@
     {
       "source": "jsa-collage-evolution-003",
       "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "lean-mean-governance-machine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "mothers-calendar",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "reduce-novelty-before-care",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "scroll-from-the-perimeter",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "stairwell-signal",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "the-bones-hold-content-architecture",
       "weight": 1,
       "reasons": [
         "shared-theme"
