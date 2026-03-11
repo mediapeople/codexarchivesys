@@ -2,7 +2,7 @@
 id: quiet-vector-doctrine
 type: scroll
 title: "Quiet Vector Doctrine"
-date: 2026-02-08
+date: 2026-03-11
 postedAt: 2026-03-11T00:14:23.705Z
 status: published
 visibility: public
