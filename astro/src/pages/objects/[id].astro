@@ -2431,6 +2431,19 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     max-width: 68ch;
   }
 
+  .body :global(hr) {
+    width: min(74ch, 100%);
+    margin: 1.05rem 0 2.9rem;
+    border: 0;
+    border-top: 2px solid rgba(244, 240, 232, 0.92);
+    opacity: 0.96;
+  }
+
+  .body.verse :global(hr + p),
+  .body.hybrid :global(hr + p) {
+    margin-top: 0.3rem;
+  }
+
   .body :global(h2) {
     margin: 4.3rem 0 2.35rem;
     color: var(--accent);

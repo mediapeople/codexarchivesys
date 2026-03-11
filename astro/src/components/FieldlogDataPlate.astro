@@ -134,10 +134,10 @@ const metaItems = [
     --plate-amber: rgba(224, 163, 86, 0.92);
     position: relative;
     margin: 2.5rem 0 2.35rem;
-    max-width: min(1080px, 100%);
-    padding: clamp(1.05rem, 1.8vw, 1.55rem);
+    max-width: min(1160px, 100%);
+    padding: clamp(1.18rem, 2.05vw, 1.78rem);
     border: 1px solid var(--plate-line);
-    border-radius: 18px;
+    border-radius: 0;
     background:
       radial-gradient(circle at 100% 0%, rgba(229, 154, 69, 0.18), transparent 24%),
       radial-gradient(circle at 0% 100%, rgba(54, 91, 142, 0.18), transparent 28%),
@@ -175,7 +175,7 @@ const metaItems = [
   .fieldlog-plate-shell::after {
     inset: 8px;
     border: 1px solid rgba(236, 193, 132, 0.1);
-    border-radius: 12px;
+    border-radius: 0;
   }
 
   .fieldlog-plate-header,
@@ -190,8 +190,8 @@ const metaItems = [
     flex-wrap: wrap;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 0.9rem 1.3rem;
-    margin-bottom: 1.2rem;
+    gap: 1rem 1.5rem;
+    margin-bottom: 1.3rem;
   }
 
   .fieldlog-plate-kicker,
@@ -221,10 +221,10 @@ const metaItems = [
   }
 
   .fieldlog-plate-stamp {
-    min-width: 13rem;
-    padding: 0.8rem 0.92rem 0.86rem;
+    min-width: 14.5rem;
+    padding: 0.9rem 1.04rem 0.96rem;
     border: 1px solid rgba(204, 155, 94, 0.18);
-    border-radius: 12px;
+    border-radius: 0;
     background:
       linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0)),
       rgba(13, 17, 25, 0.44);
@@ -249,8 +249,8 @@ const metaItems = [
 
   .fieldlog-plate-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
-    gap: 1rem;
+    grid-template-columns: minmax(0, 1.06fr) minmax(360px, 0.94fr);
+    gap: 1.15rem 1.25rem;
     align-items: stretch;
   }
 
@@ -258,7 +258,7 @@ const metaItems = [
   .fieldlog-plate-card,
   .fieldlog-plate-signal {
     border: 1px solid var(--plate-line-soft);
-    border-radius: 14px;
+    border-radius: 0;
     background:
       linear-gradient(180deg, rgba(255, 255, 255, 0.042), rgba(255, 255, 255, 0)),
       rgba(12, 16, 24, 0.42);
@@ -266,12 +266,12 @@ const metaItems = [
   }
 
   .fieldlog-plate-hero {
-    padding: clamp(1.2rem, 2vw, 1.7rem);
+    padding: clamp(1.3rem, 2.2vw, 1.92rem);
     min-height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 1rem;
+    gap: 1.12rem;
   }
 
   .fieldlog-plate-code {
@@ -310,7 +310,7 @@ const metaItems = [
 
   .fieldlog-plate-summary {
     margin: 0;
-    max-width: 38ch;
+    max-width: 40ch;
     color: var(--plate-muted);
     font-size: 1.02rem;
     line-height: 1.66;
@@ -323,14 +323,14 @@ const metaItems = [
     list-style: none;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.7rem;
+    gap: 0.82rem;
   }
 
   .fieldlog-plate-meta li {
-    min-width: 11rem;
-    padding: 0.74rem 0.82rem 0.78rem;
+    min-width: 12rem;
+    padding: 0.84rem 0.94rem 0.9rem;
     border: 1px solid rgba(216, 177, 125, 0.16);
-    border-radius: 12px;
+    border-radius: 0;
     background: rgba(8, 12, 18, 0.38);
   }
 
@@ -353,16 +353,16 @@ const metaItems = [
   .fieldlog-plate-rack {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.9rem;
+    gap: 1rem;
   }
 
   .fieldlog-plate-card {
-    min-height: 11rem;
-    padding: 1rem 1rem 1.06rem;
+    min-height: 12rem;
+    padding: 1.14rem 1.14rem 1.22rem;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    gap: 0.62rem;
+    gap: 0.7rem;
   }
 
   .fieldlog-plate-card--emphasis {
@@ -396,8 +396,8 @@ const metaItems = [
   }
 
   .fieldlog-plate-signals {
-    margin-top: 0.95rem;
-    padding-top: 0.95rem;
+    margin-top: 1.08rem;
+    padding-top: 1.08rem;
     border-top: 1px solid rgba(213, 172, 117, 0.14);
   }
 
@@ -415,7 +415,28 @@ const metaItems = [
 
   .fieldlog-plate-signal {
     min-height: 7.4rem;
-    padding: 0.92rem 0.94rem 1rem;
+    padding: 1rem 1.02rem 1.08rem;
+  }
+
+  @media (min-width: 1100px) {
+    .fieldlog-plate-shell {
+      max-width: min(1200px, 100%);
+      padding: 1.48rem 1.58rem 1.66rem;
+    }
+
+    .fieldlog-plate-grid {
+      grid-template-columns: minmax(0, 1.14fr) minmax(420px, 0.86fr);
+      gap: 1.3rem 1.45rem;
+    }
+
+    .fieldlog-plate-rack {
+      gap: 1.06rem;
+    }
+
+    .fieldlog-plate-card {
+      min-height: 12.6rem;
+      padding: 1.2rem 1.22rem 1.3rem;
+    }
   }
 
   .fieldlog-plate-signal p {
@@ -458,7 +479,7 @@ const metaItems = [
   @media (max-width: 560px) {
     .fieldlog-plate-shell {
       padding: 0.95rem;
-      border-radius: 16px;
+      border-radius: 0;
     }
 
     .fieldlog-plate-header {
