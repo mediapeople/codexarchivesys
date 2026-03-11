@@ -15,7 +15,8 @@ themes:
   - observation
   - survival
 
-related: []
+related:
+  - one-yard-from-forever-scroll-surface
 
 connections: []
 

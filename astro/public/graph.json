@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-11T00:20:19.042Z",
+  "generatedAt": "2026-03-11T00:27:31.800Z",
   "sourceDir": "../objects",
-  "nodeCount": 79,
-  "edgeCount": 2539,
+  "nodeCount": 80,
+  "edgeCount": 2599,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -134,6 +134,20 @@
       "constellations": [
         "Cascade Psalms"
       ]
+    },
+    {
+      "id": "one-yard-from-forever-scroll-surface",
+      "type": "artifact",
+      "title": "One Yard From Forever Scroll Surface",
+      "date": "2026-03-11",
+      "themes": [
+        "memory",
+        "pressure",
+        "observation",
+        "survival",
+        "structure"
+      ],
+      "constellations": []
     },
     {
       "id": "phoenix-collage-fracture-study",
@@ -1763,6 +1777,15 @@
       ]
     },
     {
+      "source": "one-yard-from-forever",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 10,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "signal-descent-001",
       "target": "the-bones-hold",
       "weight": 10,
@@ -5185,6 +5208,14 @@
       ]
     },
     {
+      "source": "distortion-atlas",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "flexible-machine-sweet-spot",
       "target": "the-bones-hold-content-architecture",
       "weight": 4,
@@ -5815,6 +5846,14 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "pressure-psalm-v",
       "weight": 3,
       "reasons": [
@@ -6174,6 +6213,14 @@
     {
       "source": "cities-built-on-ruin-reminiscence",
       "target": "citizen-network-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "one-yard-from-forever-scroll-surface",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -9047,6 +9094,22 @@
       ]
     },
     {
+      "source": "one-yard-from-forever-scroll-surface",
+      "target": "the-bones-hold",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever-scroll-surface",
+      "target": "unacceptable-cost",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "one-yard-from-forever",
       "target": "unacceptable-cost",
       "weight": 3,
@@ -9467,6 +9530,14 @@
     },
     {
       "source": "archive-box-stamped-fragments",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
       "target": "phoenix-collage-fracture-study",
       "weight": 2,
       "reasons": [
@@ -9692,6 +9763,14 @@
     {
       "source": "artifact-jsa-collage-001",
       "target": "one-yard-from-forever",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "one-yard-from-forever-scroll-surface",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -9987,6 +10066,14 @@
     },
     {
       "source": "artifact-jsa-signal-fracture-001",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
       "target": "quiet-vector-doctrine",
       "weight": 2,
       "reasons": [
@@ -10259,6 +10346,14 @@
     },
     {
       "source": "builder-lineage-reflection",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
       "target": "operator-winks-at-the-machines",
       "weight": 2,
       "reasons": [
@@ -10396,6 +10491,14 @@
     {
       "source": "chattahoochee-river-loremap",
       "target": "one-yard-from-forever",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "chattahoochee-river-loremap",
+      "target": "one-yard-from-forever-scroll-surface",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -10731,6 +10834,14 @@
     },
     {
       "source": "cities-built-on-ruin",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
       "target": "phoenix-collage-fracture-study",
       "weight": 2,
       "reasons": [
@@ -10820,6 +10931,14 @@
     {
       "source": "citizen-network-dispatch",
       "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "one-yard-from-forever-scroll-surface",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -10948,6 +11067,14 @@
     {
       "source": "citizen-network-doctrine",
       "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "one-yard-from-forever-scroll-surface",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -12787,6 +12914,14 @@
     },
     {
       "source": "constellation-node-alchemy",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
       "target": "phoenix-collage-fracture-study",
       "weight": 2,
       "reasons": [
@@ -12948,6 +13083,14 @@
     {
       "source": "disrespectful-power",
       "target": "on-visceral-distillation",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "disrespectful-power",
+      "target": "one-yard-from-forever-scroll-surface",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -13299,6 +13442,14 @@
     },
     {
       "source": "heart-does-not-dream",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "heart-does-not-dream",
       "target": "signal-harvest",
       "weight": 2,
       "reasons": [
@@ -13579,6 +13730,14 @@
     },
     {
       "source": "jsa-collage-evolution-003",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
       "target": "pressure-psalm-v",
       "weight": 2,
       "reasons": [
@@ -13795,6 +13954,14 @@
     },
     {
       "source": "maintenance-without-cure",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "maintenance-without-cure",
       "target": "systems-survive-tuesdays",
       "weight": 2,
       "reasons": [
@@ -13828,6 +13995,14 @@
     {
       "source": "mothers-calendar",
       "target": "one-yard-from-forever",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "one-yard-from-forever-scroll-surface",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -14203,6 +14378,14 @@
     },
     {
       "source": "on-visceral-distillation",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-visceral-distillation",
       "target": "operator-winks-at-the-machines",
       "weight": 2,
       "reasons": [
@@ -14244,6 +14427,38 @@
     {
       "source": "on-visceral-distillation",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever-scroll-surface",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever-scroll-surface",
+      "target": "pressure-psalm-v",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever-scroll-surface",
+      "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever-scroll-surface",
+      "target": "signal-descent-001",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -15003,6 +15218,14 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "phoenix-collage-fracture-study",
       "weight": 1,
       "reasons": [
@@ -15867,6 +16090,14 @@
     },
     {
       "source": "artifact-jsa-collage-wip-001",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
       "target": "operator-winks-at-the-machines",
       "weight": 1,
       "reasons": [
@@ -16388,6 +16619,14 @@
     {
       "source": "bezalel-the-designated-hand",
       "target": "on-object-oriented-archives",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "one-yard-from-forever-scroll-surface",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -17659,6 +17898,14 @@
     },
     {
       "source": "citizen-network-map-hi-fi",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
       "target": "pressure-psalm-v",
       "weight": 1,
       "reasons": [
@@ -18307,6 +18554,14 @@
     },
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "ridge-line-lessons",
       "weight": 1,
       "reasons": [
@@ -18355,6 +18610,14 @@
     },
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "ridge-line-lessons",
       "weight": 1,
       "reasons": [
@@ -18396,6 +18659,14 @@
     {
       "source": "codex-archive-system-v3-5-control-surface-notes",
       "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "one-yard-from-forever-scroll-surface",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -18452,6 +18723,14 @@
     {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "one-yard-from-forever-scroll-surface",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -18524,6 +18803,14 @@
     {
       "source": "codex-archive-system-v3-7-loremap-foundation-notes",
       "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "target": "one-yard-from-forever-scroll-surface",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -18604,6 +18891,14 @@
     {
       "source": "codex-archive-system-v3-8-specimen-surface-notes",
       "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "one-yard-from-forever-scroll-surface",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -18795,6 +19090,14 @@
     },
     {
       "source": "codex-glyph-grammar",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
       "target": "pressure-psalm-v",
       "weight": 1,
       "reasons": [
@@ -18932,6 +19235,14 @@
     {
       "source": "codex-glyph-system-first-emergence",
       "target": "mothers-calendar",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
+      "target": "one-yard-from-forever-scroll-surface",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -19116,6 +19427,14 @@
     {
       "source": "deck-under-load-ii",
       "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "deck-under-load-ii",
+      "target": "one-yard-from-forever-scroll-surface",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -19500,6 +19819,14 @@
     {
       "source": "flexible-machine-sweet-spot",
       "target": "mothers-calendar",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "one-yard-from-forever-scroll-surface",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -19939,6 +20266,14 @@
     },
     {
       "source": "jsa-collage-evolution-001",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
       "target": "operator-winks-at-the-machines",
       "weight": 1,
       "reasons": [
@@ -20092,6 +20427,14 @@
     {
       "source": "jsa-collage-evolution-002",
       "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-002",
+      "target": "one-yard-from-forever-scroll-surface",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -20451,6 +20794,14 @@
     },
     {
       "source": "machine-creatures",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
       "target": "pressure-psalm-v",
       "weight": 1,
       "reasons": [
@@ -20707,6 +21058,14 @@
     },
     {
       "source": "node-doctrine",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
       "target": "pressure-psalm-v",
       "weight": 1,
       "reasons": [
@@ -20756,6 +21115,14 @@
     {
       "source": "north-georgia-march-2026",
       "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "north-georgia-march-2026",
+      "target": "one-yard-from-forever-scroll-surface",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -20835,6 +21202,14 @@
     },
     {
       "source": "north-georgia-week-2",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "north-georgia-week-2",
       "target": "phoenix-collage-fracture-study",
       "weight": 1,
       "reasons": [
@@ -20900,6 +21275,14 @@
     {
       "source": "nothing-missing-only-unindexed",
       "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "nothing-missing-only-unindexed",
+      "target": "one-yard-from-forever-scroll-surface",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -21131,6 +21514,118 @@
     },
     {
       "source": "on-visceral-distillation",
+      "target": "under-load",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever-scroll-surface",
+      "target": "quiet-vector-doctrine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever-scroll-surface",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever-scroll-surface",
+      "target": "ridge-line-lessons",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever-scroll-surface",
+      "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever-scroll-surface",
+      "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever-scroll-surface",
+      "target": "stairwell-signal",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever-scroll-surface",
+      "target": "steel-elbow-flinchian",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever-scroll-surface",
+      "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever-scroll-surface",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever-scroll-surface",
+      "target": "suwanee-ga-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever-scroll-surface",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever-scroll-surface",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever-scroll-surface",
+      "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever-scroll-surface",
       "target": "under-load",
       "weight": 1,
       "reasons": [
