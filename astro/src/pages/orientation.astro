@@ -8,6 +8,9 @@ import { formatArchiveDate } from '../lib/timeline';
 const entries = await getAllEntries();
 const operator = getDefaultSourceProfile();
 const operatorExpandedBio = operator.orientationBio || operator.bio || '';
+const operatorNoteTitle = operator.orientationNoteTitle || '';
+const operatorNoteParagraphs = operator.orientationNoteParagraphs || [];
+const operatorNoteSignature = operator.orientationNoteSignature || '';
 const operatorLinks = operator.links || [];
 
 const typeCounts = COLLECTIONS.map((type) => ({
@@ -200,6 +203,17 @@ const fieldContractRows = [
         <figcaption>Primary operator portrait</figcaption>
       </figure>
     </div>
+    {operatorNoteParagraphs.length > 0 && (
+      <article class="operator-note" aria-labelledby="operator-note-title">
+        {operatorNoteTitle && <p class="operator-note-kicker" id="operator-note-title">{operatorNoteTitle}</p>}
+        <div class="operator-note-body">
+          {operatorNoteParagraphs.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+        </div>
+        {operatorNoteSignature && <p class="operator-note-signoff">— {operatorNoteSignature}</p>}
+      </article>
+    )}
   </section>
 
   <section class="panel intent-panel">
@@ -541,6 +555,46 @@ const fieldContractRows = [
   .operator-links a:hover {
     border-color: rgba(201, 150, 58, 0.55);
     color: var(--star);
+  }
+
+  .operator-note {
+    margin-top: clamp(2.8rem, 5vw, 4rem);
+    padding-top: clamp(2rem, 3.7vw, 2.9rem);
+    border-top: 1px solid rgba(201, 150, 58, 0.18);
+    max-width: 76ch;
+  }
+
+  .operator-note-kicker {
+    margin: 0;
+    color: var(--accent);
+    font-family: var(--font-ui);
+    font-size: 12px;
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+
+  .operator-note-body {
+    margin-top: 1.25rem;
+    display: grid;
+    gap: 1.2rem;
+  }
+
+  .operator-note-body p {
+    margin: 0;
+    color: var(--text-body);
+    font-size: clamp(1.04rem, 0.96rem + 0.16vw, 1.14rem);
+    line-height: 1.92;
+    max-width: 68ch;
+  }
+
+  .operator-note-signoff {
+    margin: 1.9rem 0 0;
+    color: var(--star);
+    font-family: var(--font-display);
+    font-size: clamp(1.12rem, 1rem + 0.22vw, 1.26rem);
+    font-style: italic;
+    line-height: 1.35;
   }
 
   .intent-stack {
