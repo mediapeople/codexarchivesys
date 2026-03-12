@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✦ THE CIRCLE, THE NODE, AND THE OFFICE ✦</title>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=IM+Fell+English:ital@0;1&family=Inconsolata:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1410;
+    --vellum: #f0e8d5;
+    --vellum-dark: #e2d5bc;
+    --vellum-mid: #e8ddc8;
+    --rust: #8b3a1a;
+    --gold: #8a6a2e;
+    --gold-light: #b8943f;
+    --rule: #6b5235;
+    --faded: #7a6a54;
+    --margin-note: #5a4a32;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes glyphPulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+
+  html, body {
+    background: var(--vellum);
+  }
+
+  body {
+    font-family: 'IM Fell English', Georgia, 'Times New Roman', serif;
+    color: var(--ink);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Parchment texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: 
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.6;
+  }
+
+  /* Edge darkening — aged vellum */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse at center, transparent 55%, rgba(60,40,10,0.35) 100%);
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  .scroll-wrapper {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px 100px;
+    animation: fadeIn 1.2s ease forwards;
+  }
+
+  /* ── HEADER ── */
+  .scroll-header {
+    padding: 72px 0 48px;
+    text-align: center;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+
+  .scroll-header::after {
+    content: '';
+    display: block;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin-top: 16px;
+    opacity: 0.5;
+  }
+
+  .codex-meta {
+    font-family: 'Inconsolata', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--faded);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .codex-meta span {
+    margin: 0 8px;
+  }
+
+  .codex-meta span + span::before {
+    content: '·';
+    margin-right: 16px;
+    color: var(--gold);
+  }
+
+  .scroll-title {
+    font-family: 'IM Fell English SC', serif;
+    font-size: clamp(22px, 5vw, 38px);
+    letter-spacing: 0.06em;
+    line-height: 1.2;
+    color: var(--ink);
+    text-shadow: 0 1px 0 rgba(255,255,255,0.3);
+  }
+
+  .title-glyph {
+    display: inline-block;
+    color: var(--gold);
+    animation: glyphPulse 4s ease-in-out infinite;
+    font-size: 0.8em;
+  }
+
+  .scroll-excerpt {
+    font-style: italic;
+    color: var(--faded);
+    font-size: 14px;
+    margin-top: 20px;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    padding: 48px 0;
+    border-bottom: 1px solid rgba(107,82,53,0.25);
+    position: relative;
+    animation: fadeIn 0.8s ease both;
+  }
+
+  .section:last-child { border-bottom: none; }
+
+  .section-heading {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 13px;
+    letter-spacing: 0.25em;
+    color: var(--rust);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .section-heading::before {
+    content: '◆';
+    font-size: 8px;
+    color: var(--gold);
+    flex-shrink: 0;
+  }
+
+  .section-heading::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--rule), transparent);
+    opacity: 0.4;
+  }
+
+  /* ── VERSE LINES ── */
+  .verse {
+    font-size: 16.5px;
+    line-height: 2;
+    color: var(--ink);
+  }
+
+  .verse p {
+    margin-bottom: 0;
+  }
+
+  .verse .stanza {
+    margin-bottom: 28px;
+  }
+
+  .verse .stanza:last-child { margin-bottom: 0; }
+
+  .verse strong {
+    font-weight: normal;
+    font-style: italic;
+    color: var(--rust);
+  }
+
+  /* List-as-verse */
+  .verse .verse-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 28px;
+  }
+
+  .verse .verse-list li {
+    padding: 3px 0 3px 24px;
+    position: relative;
+    font-style: italic;
+    color: var(--faded);
+    font-size: 15px;
+  }
+
+  .verse .verse-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+  }
+
+  /* ── DOCTRINE BLOCK (key principle) ── */
+  .doctrine-block {
+    border-left: 3px solid var(--gold);
+    padding: 16px 24px;
+    margin: 32px 0;
+    background: rgba(138,106,46,0.06);
+  }
+
+  .doctrine-block p {
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--margin-note);
+    font-style: italic;
+  }
+
+  /* ── RULE BREAKS ── */
+  .rule-ornament {
+    text-align: center;
+    color: var(--gold);
+    font-size: 12px;
+    letter-spacing: 0.4em;
+    margin: 8px 0;
+    opacity: 0.7;
+  }
+
+  /* ── FOOTER ── */
+  .scroll-footer {
+    padding: 48px 0 24px;
+    text-align: center;
+    border-top: 1px solid var(--rule);
+    margin-top: 16px;
+  }
+
+  .scroll-footer::before {
+    content: '';
+    display: block;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin-bottom: 32px;
+    opacity: 0.4;
+  }
+
+  .footer-glyph {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--faded);
+    text-transform: uppercase;
+  }
+
+  .footer-id {
+    font-family: 'Inconsolata', monospace;
+    font-size: 10px;
+    color: rgba(107,82,53,0.5);
+    margin-top: 12px;
+    letter-spacing: 0.15em;
+  }
+
+  /* ── MARGIN NUMBERS ── */
+  .section-num {
+    font-family: 'Inconsolata', monospace;
+    font-size: 9px;
+    color: rgba(107,82,53,0.4);
+    position: absolute;
+    right: -8px;
+    top: 52px;
+    letter-spacing: 0.1em;
+  }
+
+  @media (max-width: 600px) {
+    .section-num { display: none; }
+    .scroll-wrapper { padding: 0 20px 80px; }
+  }
+
+  /* Staggered section reveal */
+  .section:nth-child(1) { animation-delay: 0.1s; }
+  .section:nth-child(2) { animation-delay: 0.2s; }
+  .section:nth-child(3) { animation-delay: 0.3s; }
+  .section:nth-child(4) { animation-delay: 0.4s; }
+  .section:nth-child(5) { animation-delay: 0.5s; }
+</style>
+</head>
+<body>
+<div class="scroll-wrapper">
+
+  <header class="scroll-header">
+    <div class="codex-meta">
+      <span>ndcodex.com</span>
+      <span>scroll</span>
+      <span>2026·III·XI</span>
+      <span>canonical</span>
+    </div>
+    <h1 class="scroll-title">
+      <span class="title-glyph">✦</span>
+      The Circle, the Node,<br>and the Office
+      <span class="title-glyph">✦</span>
+    </h1>
+    <p class="scroll-excerpt">Reality is too large to solve. The operator draws a circle.</p>
+  </header>
+
+  <main>
+
+    <section class="section">
+      <span class="section-num">I</span>
+      <h2 class="section-heading">The Field</h2>
+      <div class="verse">
+        <div class="stanza">
+          <p>Reality is not a clean web.</p>
+        </div>
+        <div class="stanza">
+          <p>It is a fog of connections,</p>
+          <p>a mesh of cause and consequence</p>
+          <p>stretching beyond the view of any single mind.</p>
+        </div>
+        <div class="stanza">
+          <p>Pressure accumulates.</p>
+          <p>Signals shift.</p>
+          <p>Systems bend before they break.</p>
+        </div>
+        <div class="stanza">
+          <p>The operator begins by <strong>reading the field</strong>.</p>
+        </div>
+        <div class="stanza">
+          <p>Not every movement matters.</p>
+        </div>
+        <div class="stanza">
+          <p>But the deltas reveal where energy gathers</p>
+          <p>and where intervention might change the course.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <span class="section-num">II</span>
+      <h2 class="section-heading">The Circle</h2>
+      <div class="verse">
+        <div class="stanza">
+          <p>The field is too large.</p>
+        </div>
+        <div class="stanza">
+          <p>No mind can operate on the whole.</p>
+        </div>
+        <div class="stanza">
+          <p>So the operator draws a circle.</p>
+        </div>
+        <div class="stanza">
+          <p>Inside the circle:</p>
+          <ul class="verse-list">
+            <li>actors</li>
+            <li>forces</li>
+            <li>constraints</li>
+            <li>consequences</li>
+          </ul>
+        </div>
+        <div class="stanza">
+          <p>Outside the circle remains real</p>
+          <p>but becomes background condition.</p>
+        </div>
+        <div class="stanza">
+          <p>Clarity appears only after the boundary is chosen.</p>
+        </div>
+        <div class="stanza">
+          <p>Skill is not seeing everything.</p>
+        </div>
+        <div class="stanza">
+          <p>Skill is <strong>choosing the circle well</strong>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <span class="section-num">III</span>
+      <h2 class="section-heading">The Size of the Circle</h2>
+      <div class="verse">
+        <div class="stanza">
+          <p>Too small a circle</p>
+          <p>and the operator solves symptoms</p>
+          <p>while damaging the wider system.</p>
+        </div>
+        <div class="stanza">
+          <p>Too large a circle</p>
+          <p>and the operator drowns in complexity.</p>
+        </div>
+        <div class="doctrine-block">
+          <p>The correct circle is large enough to contain the real problem — small enough to permit action.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <span class="section-num">IV</span>
+      <h2 class="section-heading">The Worlds a Node Touches</h2>
+      <div class="verse">
+        <div class="stanza">
+          <p>No circle is isolated.</p>
+        </div>
+        <div class="stanza">
+          <p>Every node touches multiple worlds.</p>
+          <ul class="verse-list">
+            <li>personal</li>
+            <li>technical</li>
+            <li>economic</li>
+            <li>social</li>
+            <li>institutional</li>
+            <li>creative</li>
+          </ul>
+        </div>
+        <div class="stanza">
+          <p>A move that is optimal in one world</p>
+          <p>may be destructive in another.</p>
+        </div>
+        <div class="stanza">
+          <p>Wisdom is knowing</p>
+          <p>which worlds your circle intersects</p>
+          <p>before making the move.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <span class="section-num">V</span>
+      <h2 class="section-heading">Consequence Trees</h2>
+      <div class="verse">
+        <div class="stanza">
+          <p>Every action plants a tree.</p>
+        </div>
+        <div class="stanza">
+          <p>First consequences are immediate.</p>
+          <p>Second consequences are responses.</p>
+          <p>Third consequences reshape the terrain itself.</p>
+        </div>
+        <div class="stanza">
+          <p>The inexperienced operator sees the first branch.</p>
+        </div>
+        <div class="stanza">
+          <p>The experienced operator studies the tree</p>
+          <p>before touching the trunk.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <span class="section-num">VI</span>
+      <h2 class="section-heading">From Reaction to Position</h2>
+      <div class="verse">
+        <div class="stanza">
+          <p>Reactive systems swat problems as they appear.</p>
+        </div>
+        <div class="stanza">
+          <p>They play whack-a-mole.</p>
+        </div>
+        <div class="stanza">
+          <p>Operators study the board.</p>
+        </div>
+        <div class="stanza">
+          <p>The move is not the goal.</p>
+        </div>
+        <div class="stanza">
+          <p>The position is the goal.</p>
+        </div>
+        <div class="doctrine-block">
+          <p>A good move improves the future field.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <span class="section-num">VII</span>
+      <h2 class="section-heading">The Node</h2>
+      <div class="verse">
+        <div class="stanza">
+          <p>All intelligence begins with the node.</p>
+        </div>
+        <div class="stanza">
+          <p>A single observer learning to:</p>
+          <ul class="verse-list">
+            <li>read the field</li>
+            <li>choose the circle</li>
+            <li>understand consequences</li>
+            <li>accept responsibility</li>
+          </ul>
+        </div>
+        <div class="stanza">
+          <p>Without capable nodes</p>
+          <p>any system of intelligence collapses into noise.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <span class="section-num">VIII</span>
+      <h2 class="section-heading">Cooperative Intelligence</h2>
+      <div class="verse">
+        <div class="stanza">
+          <p>When intelligence becomes cooperative</p>
+          <p>clarity becomes more important, not less.</p>
+        </div>
+        <div class="stanza">
+          <p>Multiple nodes now share the field.</p>
+        </div>
+        <div class="stanza">
+          <p>For cooperation to work:</p>
+          <ul class="verse-list">
+            <li>circles must be explicit</li>
+            <li>maps must be shared</li>
+            <li>signal must remain disciplined</li>
+            <li>responsibility must remain local</li>
+          </ul>
+        </div>
+        <div class="stanza">
+          <p>The hive may observe widely.</p>
+        </div>
+        <div class="stanza">
+          <p>But action must remain attached to nodes.</p>
+        </div>
+        <div class="stanza">
+          <p>Otherwise the network becomes confusion.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <span class="section-num">IX</span>
+      <h2 class="section-heading">Delegation and Weight</h2>
+      <div class="verse">
+        <div class="stanza">
+          <p>As systems grow, work must move.</p>
+          <p>Authority must move.</p>
+          <p>Responsibility must move.</p>
+        </div>
+        <div class="stanza">
+          <p>This movement is delegation.</p>
+        </div>
+        <div class="stanza">
+          <p>But delegation is not merely permission.</p>
+        </div>
+        <div class="stanza">
+          <p>Delegation carries <strong>weight</strong>.</p>
+        </div>
+        <div class="doctrine-block">
+          <p>Authority and responsibility must travel together — because responsibility without authority cannot function. When work moves to another node, the weight moves with it.</p>
+        </div>
+        <div class="stanza">
+          <p>Clear circles.</p>
+          <p>Clear authority.</p>
+          <p>Clear accountability.</p>
+        </div>
+        <div class="stanza">
+          <p>Without these, systems fracture.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <span class="section-num">X</span>
+      <h2 class="section-heading">The Office</h2>
+      <div class="verse">
+        <div class="stanza">
+          <p>Some roles carry more weight than others.</p>
+        </div>
+        <div class="stanza">
+          <p>These roles are offices.</p>
+        </div>
+        <div class="stanza">
+          <p>An office is not merely a task.</p>
+        </div>
+        <div class="stanza">
+          <p>It is a position of trust within the system.</p>
+        </div>
+        <div class="stanza">
+          <p>Authority flows through the office</p>
+          <p>so that the system may function.</p>
+        </div>
+        <div class="stanza">
+          <p>But the authority does not belong to the person.</p>
+        </div>
+        <div class="stanza">
+          <p>It belongs to the trust that granted it.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <span class="section-num">XI</span>
+      <h2 class="section-heading">The Code</h2>
+      <div class="verse">
+        <div class="stanza">
+          <p>Every office carries a code of conduct.</p>
+        </div>
+        <div class="stanza">
+          <p>Because power distorts easily.</p>
+        </div>
+        <div class="doctrine-block">
+          <p>Public service traditions have long held that holding office means placing duty above private gain. The operator holding office must remember: the authority is temporary, the responsibility is real, the conduct must remain disciplined.</p>
+        </div>
+        <div class="stanza">
+          <p>The office deserves respect.</p>
+        </div>
+        <div class="stanza">
+          <p>But the office is not the self.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <span class="section-num">XII</span>
+      <h2 class="section-heading">The Public Trust</h2>
+      <div class="verse">
+        <div class="stanza">
+          <p>All authority ultimately originates from the people.</p>
+        </div>
+        <div class="stanza">
+          <p>The system grants power</p>
+          <p>so that order, safety, and progress may be maintained.</p>
+        </div>
+        <div class="stanza">
+          <p>When an operator holds office,</p>
+          <p>they carry a portion of that trust.</p>
+        </div>
+        <div class="stanza">
+          <p>Power is not ownership.</p>
+        </div>
+        <div class="stanza">
+          <p>Power is stewardship.</p>
+        </div>
+        <div class="stanza">
+          <p>And stewardship always returns to the people.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <span class="section-num">XIII</span>
+      <h2 class="section-heading">The Growth Pattern</h2>
+      <div class="verse">
+        <div class="stanza">
+          <p>Healthy intelligence grows from the bottom.</p>
+        </div>
+        <div class="stanza">
+          <p>First the node learns to see.</p>
+          <p>Then two nodes coordinate.</p>
+          <p>Then a small circle shares a map.</p>
+          <p>Only then does the network emerge.</p>
+        </div>
+        <div class="stanza">
+          <p>Hive intelligence is not constructed.</p>
+        </div>
+        <div class="stanza">
+          <p>It is cultivated.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <span class="section-num">XIV</span>
+      <h2 class="section-heading">Operator Doctrine</h2>
+      <div class="verse">
+        <div class="stanza">
+          <p>Reality cannot be fully known.</p>
+        </div>
+        <div class="stanza">
+          <p>The field cannot be fully controlled.</p>
+        </div>
+        <div class="stanza">
+          <p>But within a well-chosen circle</p>
+          <p>clarity becomes possible.</p>
+        </div>
+        <div class="stanza">
+          <p>Inside that circle</p>
+          <p>the operator makes the next move.</p>
+        </div>
+        <div class="stanza">
+          <p>And the field changes.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="rule-ornament">◆ · · · ◆ · · · ◆</div>
+
+  <footer class="scroll-footer">
+    <div class="footer-glyph">Operator Field Doctrine · ndcodex.com</div>
+    <div class="footer-id">codex-operator-field-doctrine · 2026·III·XI · canonical · public</div>
+  </footer>
+
+</div>
+</body>
+</html>

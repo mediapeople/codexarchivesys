@@ -1,0 +1,1899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHOP TALK v1.8 — DIAGNOSTIC TERMINAL</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet"></noscript>
+<style>
+
+/* ── CRT PHOSPHOR SYSTEM ── */
+:root {
+  /* ground */
+  --bg:          #080600;
+  --bg-raised:   #0F0A00;
+  --bg-card:     #130D00;
+  --bg-card-hi:  #1A1100;
+  /* amber scale */
+  --amber-hi:    #FFC040;
+  --amber:       #E8A000;
+  --amber-mid:   #B87800;
+  --amber-lo:    #6A4200;
+  --amber-faint: #2E1C00;
+  --amber-ghost: #180E00;
+  /* accent */
+  --white-hi:    #FFF8F0;
+  --white-dim:   #C8B898;
+  --red-alert:   #FF4422;
+  /* typography */
+  --font-mono:  'Share Tech Mono', 'Courier New', Courier, monospace;
+  --font-vt:    'VT323', 'Courier New', monospace;
+  /* spacing */
+  --radius:     2px;
+}
+
+html { background: #080600; color: #E8A000; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  background: var(--bg);
+  color: var(--amber);
+  font-family: 'Share Tech Mono', 'Courier New', Courier, monospace;
+  font-size: 17px;
+  line-height: 1.72;
+  cursor: default;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 48px 20px 100px;
+  position: relative;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+@media (min-width: 700px) {
+  body { padding: 72px 48px 120px; }
+}
+
+/* ── CRT EFFECTS ── */
+
+/* Scan lines overlay — subtle, not aggressive */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0,0,0,0.08) 3px,
+    rgba(0,0,0,0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* Phosphor vignette */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse 120% 100% at 50% 50%,
+    transparent 55%,
+    rgba(0,0,0,0.55) 80%,
+    rgba(0,0,0,0.85) 100%
+  );
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* Ambient phosphor glow */
+.crt-glow {
+  position: fixed;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at 50% 40%,
+    rgba(255,176,0,0.04) 0%,
+    transparent 65%
+  );
+  pointer-events: none;
+  z-index: 998;
+}
+
+/* ── ANIMATIONS ── */
+
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes scanroll {
+  0%   { background-position: 0 0; }
+  100% { background-position: 0 40px; }
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes typeIn {
+  from { max-height: 0; opacity: 0; overflow: hidden; }
+  to   { max-height: 2000px; opacity: 1; overflow: visible; }
+}
+
+@keyframes flicker {
+  0%   { opacity: 1; }
+  92%  { opacity: 1; }
+  93%  { opacity: 0.7; }
+  94%  { opacity: 1; }
+  96%  { opacity: 0.85; }
+  97%  { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+@keyframes bootline {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+@keyframes pulse-border {
+  0%, 100% { border-color: var(--amber-lo); }
+  50%      { border-color: var(--amber); }
+}
+
+/* ── BOOT SEQUENCE ── */
+
+.boot-screen {
+  font-family: 'VT323', 'Courier New', monospace;
+  font-size: 1rem;
+  margin-bottom: 56px;
+  padding-bottom: 36px;
+  border-bottom: 1px solid var(--amber-faint);
+  animation: flicker 8s infinite;
+  line-height: 1.9;
+}
+
+.boot-line {
+  display: block;
+  color: var(--amber-lo);
+  white-space: pre;
+  overflow: hidden;
+  width: 0;
+  animation: bootline 0.01s forwards;
+}
+
+.boot-line.b0  { animation-delay: 0.1s; }
+.boot-line.b1  { animation-delay: 0.3s; }
+.boot-line.b2  { animation-delay: 0.5s; }
+.boot-line.b3  { animation-delay: 0.7s; }
+.boot-line.b4  { animation-delay: 0.9s; }
+.boot-line.b5  { animation-delay: 1.1s; }
+.boot-line.b6  { animation-delay: 1.4s; }
+.boot-line.b7  { animation-delay: 1.6s; }
+.boot-line.b8  { animation-delay: 1.8s; }
+.boot-line.b9  { animation-delay: 2.1s; }
+.boot-line.b10 { animation-delay: 2.3s; }
+.boot-line.b11 { animation-delay: 2.6s; }
+.boot-line.b12 { animation-delay: 2.9s; color: var(--white-hi); font-size: 1.2rem; }
+
+/* ── MASTHEAD ── */
+
+.masthead {
+  margin-bottom: 56px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--amber-faint);
+  animation: fadein 0.6s 3.2s both;
+  position: relative;
+}
+
+.masthead::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 0; width: 80px; height: 1px;
+  background: var(--amber-mid);
+}
+
+.sys-path {
+  font-size: 1rem;
+  color: var(--amber-lo);
+  letter-spacing: 0.05em;
+  margin-bottom: 14px;
+  opacity: 0.7;
+}
+
+.sys-path span { color: var(--amber-mid); }
+
+.doc-title {
+  font-family: 'VT323', 'Courier New', monospace;
+  font-size: 2.8rem;
+  color: var(--white-hi);
+  letter-spacing: 0.06em;
+  line-height: 1;
+  text-shadow:
+    0 0 10px rgba(255,255,255,0.9),
+    0 0 30px rgba(255,176,0,0.3),
+    0 0 60px rgba(232,160,0,0.08);
+  margin-bottom: 6px;
+}
+
+.doc-sub {
+  font-size: 1rem;
+  color: var(--amber-dim);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.status-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-top: 20px;
+  padding: 10px 0;
+  border-top: 1px solid var(--amber-faint);
+  border-bottom: 1px solid var(--amber-faint);
+}
+
+.status-item {
+  font-size: 1rem;
+  color: var(--amber-lo);
+  letter-spacing: 0.1em;
+}
+
+.status-item .val {
+  color: var(--white-hi);
+}
+
+.status-ok {
+  color: var(--white-hi);
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+}
+
+.status-warn {
+  color: var(--white-hi);
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  animation: blink 1.2s infinite;
+}
+
+/* ── CURSOR ── */
+
+.cursor {
+  display: inline-block;
+  width: 9px; height: 16px;
+  background: #FFFFFF;
+  margin-left: 2px;
+  vertical-align: middle;
+  animation: blink 1s infinite;
+  box-shadow: 0 0 6px rgba(255,255,255,0.9);
+}
+
+/* ── SECTION ── */
+
+.section {
+  margin-bottom: 56px;
+  animation: fadein 0.4s both;
+}
+
+.section:nth-child(1)  { animation-delay: 3.4s; }
+.section:nth-child(2)  { animation-delay: 3.6s; }
+.section:nth-child(3)  { animation-delay: 3.8s; }
+.section:nth-child(4)  { animation-delay: 4.0s; }
+.section:nth-child(5)  { animation-delay: 4.2s; }
+.section:nth-child(6)  { animation-delay: 4.4s; }
+.section:nth-child(7)  { animation-delay: 4.6s; }
+.section:nth-child(8)  { animation-delay: 4.8s; }
+.section:nth-child(9)  { animation-delay: 5.0s; }
+.section:nth-child(10) { animation-delay: 5.2s; }
+.section:nth-child(11) { animation-delay: 5.4s; }
+.section:nth-child(12) { animation-delay: 5.6s; }
+.section:nth-child(13) { animation-delay: 5.8s; }
+
+/* ── SECTION HEADER ── */
+
+.sec-header {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 22px;
+  position: relative;
+}
+
+.sec-num {
+  font-size: 1rem;
+  color: var(--amber-faint);
+  min-width: 48px;
+  letter-spacing: 0.04em;
+  opacity: 0.9;
+}
+
+.sec-bracket-l {
+  color: var(--amber-mid);
+  font-size: 1rem;
+  margin-right: 5px;
+  opacity: 0.6;
+}
+.sec-bracket-r {
+  color: var(--amber-mid);
+  font-size: 1rem;
+  margin-left: 5px;
+  opacity: 0.6;
+}
+
+h1 {
+  font-family: 'VT323', 'Courier New', monospace;
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: var(--white-hi);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-shadow: 0 0 8px rgba(255,176,0,0.5);
+}
+
+.sec-rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--amber-mid), transparent);
+  margin-left: 10px;
+  opacity: 0.4;
+}
+
+h2 {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--amber);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  margin-top: 24px;
+}
+
+h2::before {
+  content: '>> ';
+  color: var(--amber-lo);
+}
+
+p {
+  font-size: 1rem;
+  color: var(--white-dim);
+  margin-bottom: 12px;
+  line-height: 1.78;
+}
+
+.emph {
+  color: var(--white-hi);
+  font-weight: 600;
+}
+
+/* ── PROMPT LINE ── */
+
+.prompt {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  color: var(--amber-lo);
+  font-size: 1rem;
+  margin: 20px 0 8px;
+  letter-spacing: 0.06em;
+}
+
+.prompt-sym {
+  color: var(--amber);
+}
+
+/* ── DATA BLOCK ── */
+
+.data-block {
+  border: 1px solid var(--amber-faint);
+  border-left: 2px solid var(--amber-mid);
+  padding: 16px 20px;
+  margin: 18px 0;
+  background: var(--bg-card);
+  position: relative;
+  border-radius: var(--radius);
+}
+
+.data-block::before {
+  content: 'DATA';
+  position: absolute;
+  top: -8px; left: 10px;
+  background: var(--bg);
+  padding: 0 6px;
+  font-size: 1rem;
+  color: var(--amber-lo);
+  letter-spacing: 0.15em;
+}
+
+.data-block p {
+  font-size: 1rem;
+  color: var(--amber-dim);
+  margin-bottom: 4px;
+}
+
+.data-block .key {
+  color: var(--white-hi);
+}
+
+/* ── DIAGNOSTIC TABLE ── */
+
+.diag-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 1rem;
+}
+
+.diag-table th {
+  font-family: 'Share Tech Mono', monospace;
+  color: var(--amber-lo);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--amber-lo);
+  text-align: left;
+}
+
+.diag-table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--amber-faint);
+  color: var(--amber-dim);
+  vertical-align: top;
+}
+
+.diag-table td:first-child {
+  color: var(--white-hi);
+  min-width: 120px;
+  white-space: nowrap;
+}
+
+.diag-table tr:last-child td {
+  border-bottom: none;
+}
+
+.diag-table tr:hover td {
+  background: rgba(255,176,0,0.03);
+  color: var(--white-hi);
+}
+
+/* ── METER BARS ── */
+
+.meter-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 10px 0;
+  font-size: 1rem;
+}
+
+.meter-label {
+  min-width: 100px;
+  color: var(--amber-dim);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 1rem;
+}
+
+.meter-track {
+  flex: 1;
+  height: 10px;
+  background: var(--amber-ghost);
+  border: 1px solid var(--amber-faint);
+  position: relative;
+  overflow: hidden;
+}
+
+.meter-fill {
+  height: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--amber-lo) 0px,
+    var(--amber-lo) 6px,
+    transparent 6px,
+    transparent 8px
+  );
+  transition: width 0.8s ease;
+}
+
+.meter-fill.m25  { width: 25%;  }
+.meter-fill.m50  { width: 50%;  background: repeating-linear-gradient(90deg, var(--amber-dim) 0px, var(--amber-dim) 6px, transparent 6px, transparent 8px); }
+.meter-fill.m75  { width: 75%;  background: repeating-linear-gradient(90deg, var(--amber) 0px, var(--amber) 6px, transparent 6px, transparent 8px); }
+.meter-fill.m100 { width: 100%; background: repeating-linear-gradient(90deg, var(--white-hi) 0px, var(--white-hi) 6px, transparent 6px, transparent 8px); box-shadow: 0 0 8px rgba(255,176,0,0.4); }
+
+.meter-val {
+  min-width: 50px;
+  text-align: right;
+  color: var(--amber);
+  font-size: 1rem;
+}
+
+/* ── ENGINE CYCLE READOUT ── */
+
+.cycle-readout {
+  border: 1px solid var(--amber-faint);
+  margin: 24px 0;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+
+.cycle-readout:hover {
+  border-color: var(--amber-lo);
+}
+
+.cycle-readout-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--amber-lo);
+  background: rgba(255,176,0,0.04);
+}
+
+.cycle-readout-title {
+  font-size: 1rem;
+  color: var(--amber-lo);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.cycle-readout-hint {
+  font-size: 1rem;
+  color: var(--amber-faint);
+  letter-spacing: 0.1em;
+}
+
+.cycle-readout:hover .cycle-readout-hint {
+  color: var(--amber-lo);
+}
+
+.cycle-track {
+  display: flex;
+  align-items: stretch;
+  padding: 0;
+  overflow: hidden;
+}
+
+.cycle-stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 8px 12px;
+  border-right: 1px solid var(--amber-faint);
+  opacity: 0.25;
+  transition: opacity 0.2s, background 0.2s;
+  position: relative;
+}
+
+.cycle-stage:last-child { border-right: none; }
+
+.cycle-stage.lit {
+  opacity: 1;
+  background: rgba(255,176,0,0.04);
+}
+
+.cycle-stage.lit::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--amber-hi);
+  box-shadow: 0 0 10px rgba(255,192,64,0.7);
+}
+
+.c-label {
+  font-family: 'VT323', monospace;
+  font-size: 1rem;
+  color: var(--amber);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.1;
+}
+
+.cycle-stage.lit .c-label {
+  color: var(--white-hi);
+  text-shadow: 0 0 8px rgba(255,255,255,0.9);
+}
+
+.c-sub {
+  font-size: 1rem;
+  color: var(--amber-lo);
+  letter-spacing: 0.06em;
+  text-align: center;
+  margin-top: 4px;
+  text-transform: uppercase;
+}
+
+.cycle-stage.lit .c-sub { color: var(--amber-dim); }
+
+.c-led {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--amber-faint);
+  margin-top: 8px;
+  border: 1px solid var(--amber-lo);
+}
+
+.cycle-stage.lit .c-led {
+  background: var(--white-hi);
+  border-color: var(--white-hi);
+  box-shadow: 0 0 6px var(--white-hi), 0 0 12px rgba(255,176,0,0.5);
+}
+
+/* ── SPEC READOUT ── */
+
+.spec-readout {
+  border: 1px solid var(--amber-faint);
+  margin: 20px 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.spec-readout-header {
+  padding: 6px 12px;
+  background: rgba(255,176,0,0.03);
+  border-bottom: 1px solid var(--amber-faint);
+  font-size: 1rem;
+  color: var(--amber-lo);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.spec-row {
+  display: flex;
+  border-bottom: 1px solid var(--amber-ghost);
+  flex-wrap: wrap;
+}
+
+.spec-row:last-child { border-bottom: none; }
+
+.spec-key {
+  flex: 0 0 180px;
+  padding: 8px 12px;
+  font-size: 1rem;
+  color: var(--amber-lo);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-right: 1px solid var(--amber-ghost);
+  background: rgba(255,176,0,0.015);
+}
+
+.spec-val {
+  flex: 1 1 200px;
+  padding: 9px 16px;
+  font-size: 1rem;
+  color: var(--white-dim);
+  line-height: 1.6;
+}
+
+.spec-val .flag {
+  color: var(--white-hi);
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+}
+
+@media (max-width: 480px) {
+  .spec-key { flex: 1 1 100%; border-right: none; border-bottom: 1px solid var(--amber-ghost); }
+  .spec-val { flex: 1 1 100%; }
+}
+
+/* ── ODR CYCLE ── */
+
+.odr-readout {
+  border: 1px solid var(--amber-faint);
+  margin: 24px 0;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+
+.odr-readout:hover {
+  border-color: var(--amber-lo);
+}
+
+.odr-header {
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--amber-lo);
+  background: rgba(255,176,0,0.03);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.odr-track {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 16px 12px 14px;
+}
+
+.odr-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  opacity: 0.25;
+  transition: opacity 0.2s;
+}
+
+.odr-stage.lit { opacity: 1; }
+
+.odr-lbl {
+  font-family: 'VT323', monospace;
+  font-size: 1rem;
+  color: var(--amber);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-align: center;
+}
+
+.odr-stage.lit .odr-lbl {
+  color: var(--white-hi);
+  text-shadow: 0 0 8px rgba(255,255,255,0.8);
+}
+
+.odr-sub {
+  font-size: 1rem;
+  color: var(--amber-lo);
+  letter-spacing: 0.05em;
+  text-align: center;
+  text-transform: uppercase;
+  max-width: 64px;
+}
+
+.odr-stage.lit .odr-sub { color: var(--amber-dim); }
+
+.odr-led {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--amber-faint);
+  border: 1px solid var(--amber-lo);
+  margin-top: 2px;
+}
+
+.odr-stage.lit .odr-led {
+  background: var(--white-hi);
+  box-shadow: 0 0 6px var(--white-hi);
+}
+
+.odr-arrow {
+  padding: 0 6px;
+  padding-bottom: 18px;
+  opacity: 0.15;
+  transition: opacity 0.2s;
+}
+
+.odr-arrow.lit {
+  opacity: 1;
+  color: var(--white-hi);
+}
+
+.odr-arrow .arr {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1rem;
+  color: var(--amber-dim);
+}
+
+.odr-loop {
+  padding: 0 4px 18px 8px;
+  opacity: 0;
+  transition: opacity 0.4s;
+  font-size: 1rem;
+  color: var(--white-hi);
+}
+
+.odr-loop.lit { opacity: 1; }
+
+/* ── VEHICLE CLASSES ── */
+
+.vehicle-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.v-card {
+  flex: 1 1 200px;
+  border: 1px solid var(--amber-faint);
+  padding: 14px 16px;
+  background: var(--bg-card);
+  position: relative;
+  transition: border-color 0.2s, background 0.2s;
+  border-radius: var(--radius);
+}
+
+.v-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: var(--amber-lo);
+}
+
+.v-card:hover {
+  border-color: var(--amber-mid);
+  background: var(--bg-card-hi);
+}
+
+.v-card.hot {
+  border-color: var(--amber-lo);
+}
+
+.v-card.hot::before {
+  background: var(--amber);
+  box-shadow: 0 0 6px rgba(255,176,0,0.5);
+}
+
+.v-name {
+  font-family: 'VT323', monospace;
+  font-size: 1.3rem;
+  color: var(--amber-hi);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 4px;
+}
+
+.v-grade {
+  font-size: 1rem;
+  color: var(--amber-lo);
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+  opacity: 0.8;
+}
+
+.v-desc {
+  font-size: 1rem;
+  color: var(--amber-dim);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ── PASS ITEMS ── */
+
+.pass-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.pass-item {
+  flex: 1 1 160px;
+  border: 1px solid var(--amber-faint);
+  padding: 14px 16px;
+  background: var(--bg-card);
+  transition: border-color 0.2s, background 0.2s;
+  border-radius: var(--radius);
+}
+
+.pass-item:hover {
+  border-color: var(--amber-mid);
+  background: var(--bg-card-hi);
+}
+
+.pass-q {
+  font-size: 1rem;
+  color: var(--amber);
+  letter-spacing: 0.06em;
+  margin-bottom: 6px;
+}
+
+.pass-q::before { content: 'Q> '; color: var(--amber-lo); }
+
+.pass-a {
+  font-size: 1rem;
+  color: var(--white-dim);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── COMMAND LINES ── */
+
+.cmd-block {
+  margin: 14px 0;
+  padding: 16px 20px;
+  border-left: 2px solid var(--amber-mid);
+  background: var(--bg-card);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.cmd-name {
+  font-family: 'VT323', monospace;
+  font-size: 1.2rem;
+  color: var(--white-hi);
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+}
+
+.cmd-name::before { content: 'CMD> '; color: var(--amber-lo); font-size: 1rem; }
+
+.cmd-block p {
+  font-size: 1rem;
+  color: var(--amber-dim);
+  margin-bottom: 3px;
+}
+
+/* ── MYTH LIST ── */
+
+.myth-list {
+  list-style: none;
+  margin: 16px 0;
+  border: 1px solid var(--amber-faint);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.myth-list li {
+  font-size: 1rem;
+  color: var(--white-dim);
+  padding: 8px 14px 8px 30px;
+  border-bottom: 1px solid var(--amber-ghost);
+  position: relative;
+  transition: background 0.15s, color 0.15s;
+}
+
+.myth-list li:hover {
+  background: var(--bg-card);
+  color: var(--amber);
+}
+
+.myth-list li::before {
+  content: '>';
+  position: absolute;
+  left: 10px;
+  color: var(--amber-lo);
+  font-size: 1rem;
+}
+
+.myth-list li:last-child { border-bottom: none; }
+
+/* ── CREED ── */
+
+.creed {
+  border: 1px solid var(--amber-faint);
+  border-left: 2px solid var(--amber);
+  padding: 24px 28px;
+  margin: 24px 0;
+  background: var(--bg-card);
+  position: relative;
+  border-radius: var(--radius);
+}
+
+.creed::before {
+  content: 'SYSTEM.CREED';
+  position: absolute;
+  top: -8px; left: 12px;
+  background: var(--bg);
+  padding: 0 6px;
+  font-size: 1rem;
+  color: var(--amber-lo);
+  letter-spacing: 0.15em;
+}
+
+.creed p {
+  font-size: 1rem;
+  color: var(--white-dim);
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+.creed p:last-child { margin-bottom: 0; }
+
+.creed .directive {
+  font-style: normal;
+  color: var(--white-hi);
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+
+.creed .directive::before { content: '>> '; color: var(--amber-lo); }
+
+/* ── HORIZONTAL RULE ── */
+
+.rule {
+  border: none;
+  border-top: 1px solid var(--amber-faint);
+  margin: 48px 0;
+  position: relative;
+}
+
+.rule::after {
+  content: '── ── ──';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--bg);
+  padding: 0 14px;
+  font-size: 1rem;
+  color: var(--amber-faint);
+  letter-spacing: 0.2em;
+  white-space: nowrap;
+}
+
+/* ── FINAL READOUT (sticker equiv) ── */
+
+.final-readout {
+  border: 1px solid var(--amber);
+  margin-top: 48px;
+  position: relative;
+  box-shadow: 0 0 20px rgba(255,176,0,0.08), inset 0 0 20px rgba(255,176,0,0.02);
+}
+
+.final-readout::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: -1px; right: -1px; bottom: -1px;
+  border: 1px solid var(--amber-faint);
+  pointer-events: none;
+}
+
+.readout-header {
+  padding: 10px 18px;
+  border-bottom: 1px solid var(--amber-lo);
+  background: rgba(255,176,0,0.04);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.readout-title {
+  font-family: 'VT323', monospace;
+  font-size: 1.4rem;
+  color: var(--white-hi);
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 8px rgba(255,192,64,0.5);
+}
+
+.readout-ts {
+  font-size: 1rem;
+  color: var(--amber-lo);
+  letter-spacing: 0.08em;
+}
+
+.readout-body {
+  padding: 24px 22px;
+}
+
+.readout-line {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--amber-ghost);
+  font-size: 1rem;
+}
+
+.readout-line:last-of-type { border-bottom: none; }
+
+.rl-key {
+  min-width: 160px;
+  color: var(--amber-lo);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 1rem;
+}
+
+.rl-val {
+  color: var(--white-dim);
+  flex: 1;
+}
+
+.readout-status {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--amber-lo);
+  text-align: center;
+}
+
+.status-pass {
+  font-family: 'VT323', monospace;
+  font-size: 1.8rem;
+  color: var(--white-hi);
+  letter-spacing: 0.2em;
+  text-shadow: 0 0 12px rgba(255,192,64,0.8), 0 0 30px rgba(255,176,0,0.4);
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--amber-lo); }
+
+/* ── DIAGRAM PANEL ── */
+
+.diagram-panel {
+  border: 1px solid var(--amber-faint);
+  margin-bottom: 36px;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.diagram-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--amber-faint);
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s;
+}
+
+.diagram-toggle:hover { background: rgba(255,176,0,0.03); }
+
+.diag-toggle-label {
+  font-size: 1rem;
+  color: var(--amber-lo);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.diag-toggle-label::before { content: 'DIAG> '; color: var(--amber-faint); }
+
+.diag-toggle-icon {
+  font-size: 1rem;
+  color: var(--amber-lo);
+  transition: transform 0.3s;
+}
+
+.diag-toggle-icon.open { transform: rotate(180deg); }
+
+.diagram-body { display: none; padding: 20px 16px 16px; }
+.diagram-body.open { display: block; }
+
+.diagram-svg-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.diagram-svg-wrap svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ── PRINT ── */
+@media print {
+  body::before, body::after, .crt-glow { display: none; }
+  html { background: #000; color: #FFFFFF; }
+  .cursor { display: none; }
+}
+
+</style>
+</head>
+<body>
+<div class="crt-glow"></div>
+
+<!-- BOOT SEQUENCE -->
+<div class="boot-screen" aria-hidden="true">
+  <span class="boot-line b0">NDCODEX DIAGNOSTIC TERMINAL  v1.8.0</span>
+  <span class="boot-line b1">COPYRIGHT (C) ARCHAEOLOGICAL MYTHOLOGY SYSTEMS</span>
+  <span class="boot-line b2">&nbsp;</span>
+  <span class="boot-line b3">BIOS v4.2 ... OK</span>
+  <span class="boot-line b4">MEMORY CHECK: 640K ............... OK</span>
+  <span class="boot-line b5">LOADING SIGNAL ENGINE PROTOCOLS .... OK</span>
+  <span class="boot-line b6">LOADING COMPRESSION GRADE TABLE .... OK</span>
+  <span class="boot-line b7">LOADING VEHICLE CLASS REGISTRY ..... OK</span>
+  <span class="boot-line b8">LOADING TIMING SYSTEM .............. OK</span>
+  <span class="boot-line b9">MOUNTING OPERATOR FRAMEWORK ........ OK</span>
+  <span class="boot-line b10">&nbsp;</span>
+  <span class="boot-line b11">C:\NDCODEX\SHOWTALK&gt; LOAD SHOP_TALK.SYS</span>
+  <span class="boot-line b12">READY.<span class="cursor"></span></span>
+</div>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="sys-path">C:\NDCODEX\METHODS\ <span>SHOP_TALK.SYS</span></div>
+  <div class="doc-title">SHOP TALK</div>
+  <div class="doc-sub">Operator Method · Writing Diagnostic Framework</div>
+  <div class="status-bar">
+    <span class="status-item">SYS: <span class="val">NOMINAL</span></span>
+    <span class="status-item">VER: <span class="val">1.8</span></span>
+    <span class="status-item">MODULES: <span class="val">11 LOADED</span></span>
+    <span class="status-item">ENGINE: <span class="val">RUNNING</span></span>
+    <span class="status-ok">[ STATUS OK ]</span>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main>
+
+<!-- S1: ENGINE MODEL -->
+<section class="section">
+  <div class="sec-header">
+    <span class="sec-num">[01]</span>
+    <span class="sec-bracket-l">[</span>
+    <h1>The Engine Model</h1>
+    <span class="sec-bracket-r">]</span>
+    <div class="sec-rule"></div>
+  </div>
+
+  <p>The operator uses Shop Talk to inspect, repair, and tune the vehicle before it enters the world. The goal is <span class="emph">roadworthy writing</span> operating at optimal utility for the mission.</p>
+  <p>All working scrolls run on the same combustion cycle. Shop Talk does not invent this engine. It simply opens the hood and tunes it.</p>
+  <p>Because what moves through the structure is not just language. And attention is a fragment of life. Handle it like something that can carry someone somewhere.</p>
+
+  <div class="cycle-readout" id="engineCycle">
+    <div class="cycle-readout-header">
+      <span class="cycle-readout-title">SIGNAL ENGINE · COMBUSTION SEQUENCE</span>
+      <span class="cycle-readout-hint">[CLICK TO REPLAY]</span>
+    </div>
+    <div class="cycle-track">
+      <div class="cycle-stage" id="s-fuel">
+        <div class="c-label">FUEL</div>
+        <div class="c-sub">desire</div>
+        <div class="c-led"></div>
+      </div>
+      <div class="cycle-stage" id="s-ignition">
+        <div class="c-label">IGNITION</div>
+        <div class="c-sub">opening spark</div>
+        <div class="c-led"></div>
+      </div>
+      <div class="cycle-stage" id="s-combustion">
+        <div class="c-label">COMBUSTION</div>
+        <div class="c-sub">felt recognition</div>
+        <div class="c-led"></div>
+      </div>
+      <div class="cycle-stage" id="s-force">
+        <div class="c-label">FORCE</div>
+        <div class="c-sub">structure + motion</div>
+        <div class="c-led"></div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Fuel</h2>
+  <p>The desire to understand. To reveal. To remember. To repair. To celebrate. To protest. To make sense of the wreck. Without desire the chamber is empty. Language may exist. But nothing burns.</p>
+
+  <h2>Ignition</h2>
+  <p>The opening spark. The line that turns the key. The moment the reader feels the machine start. Weak ignition stalls the journey. Strong ignition wakes the engine.</p>
+
+  <h2>Combustion</h2>
+  <p>Occurs when visceral distillation ignites inside the reader. Complex reality compresses into a felt recognition. A line lands. The reader feels it in the chest. Signal becomes energy.</p>
+
+  <h2>Force</h2>
+  <p>Structure converts combustion into movement. Cadence. Timing. Repetition. Image. These mechanisms act like pistons and crankshafts. Without them the explosion dissipates. With them the machine moves.</p>
+</section>
+
+<!-- S2: VISCERAL DISTILLATION -->
+<section class="section">
+  <div class="sec-header">
+    <span class="sec-num">[02]</span>
+    <span class="sec-bracket-l">[</span>
+    <h1>Visceral Distillation</h1>
+    <span class="sec-bracket-r">]</span>
+    <div class="sec-rule"></div>
+  </div>
+
+  <p>Distillation refines the fuel. Experience compresses until the signal becomes felt truth. Not explanation. Recognition.</p>
+
+  <div class="data-block">
+    <p><span class="key">TARGET STATE:</span> The moment when a reader thinks: <em>"Yes. That is exactly it."</em></p>
+    <p><span class="key">MECHANISM:</span> Complexity compressed to signal. Signal delivered as recognition. Recognition triggers felt response.</p>
+    <p><span class="key">FAILURE MODE:</span> Over-explanation. Signposting instead of landing. Reader told rather than struck.</p>
+  </div>
+
+  <p>Combustion alone does not move the machine. It must occur at the right moment in the cycle. Poor timing disperses the energy before it can be converted to force.</p>
+</section>
+
+<!-- S3: TIMING AND CYCLES -->
+<section class="section">
+  <div class="sec-header">
+    <span class="sec-num">[03]</span>
+    <span class="sec-bracket-l">[</span>
+    <h1>Timing and Cycles</h1>
+    <span class="sec-bracket-r">]</span>
+    <div class="sec-rule"></div>
+  </div>
+
+  <p>Three-system architecture. Engine Model — what the machine is. Compression Grades — how tight the fuel runs. Timing and Cycles — when and how energy fires.</p>
+
+  <div class="odr-readout" id="odrCycle">
+    <div class="odr-header">
+      <span class="cycle-readout-title">ODR CYCLE · OBSERVATION / DISTILLATION / RELEASE</span>
+      <span class="cycle-readout-hint">[CLICK TO REPLAY]</span>
+    </div>
+    <div class="odr-track">
+      <div class="odr-stage" id="odr-obs">
+        <div class="odr-lbl">OBS</div>
+        <div class="odr-sub">gather signal</div>
+        <div class="odr-led"></div>
+      </div>
+      <div class="odr-arrow" id="odr-a1"><div class="arr">--&gt;</div></div>
+      <div class="odr-stage" id="odr-dist">
+        <div class="odr-lbl">DIST</div>
+        <div class="odr-sub">compress</div>
+        <div class="odr-led"></div>
+      </div>
+      <div class="odr-arrow" id="odr-a2"><div class="arr">--&gt;</div></div>
+      <div class="odr-stage" id="odr-rel">
+        <div class="odr-lbl">REL</div>
+        <div class="odr-sub">deliver</div>
+        <div class="odr-led"></div>
+      </div>
+      <div class="odr-loop" id="odr-loop">&#8635;</div>
+    </div>
+  </div>
+
+  <h2>Timing</h2>
+  <p>Delayed revelation. Cadence acceleration. Rhythmic repetition. Strategic pause. These are the timing operations. They control when energy fires and how the reader receives it.</p>
+
+  <h2>Momentum</h2>
+  <p>Each cycle exits with more energy than it entered. Observation expands after Release. The next pass begins with a wider aperture. This is how long-form builds signal arc — not through accumulation but through amplification.</p>
+
+  <h2>Single-Strike Timing</h2>
+  <p>The Drag discipline runs no return cycle. One pass. Maximum compression. Full throttle. Quarter mile. The work lands or it doesn't. No adjustment after the tree drops.</p>
+</section>
+
+<!-- S4: COMPRESSION GRADES -->
+<section class="section">
+  <div class="sec-header">
+    <span class="sec-num">[04]</span>
+    <span class="sec-bracket-l">[</span>
+    <h1>Compression Grades</h1>
+    <span class="sec-bracket-r">]</span>
+    <div class="sec-rule"></div>
+  </div>
+
+  <p>Fuel density determines combustion character. Grade must match vehicle and mission.</p>
+
+  <div class="meter-row"><div class="meter-label">LOW</div><div class="meter-track"><div class="meter-fill m25"></div></div><div class="meter-val">WORK TRUCK</div></div>
+  <div class="meter-row"><div class="meter-label">MEDIUM</div><div class="meter-track"><div class="meter-fill m50"></div></div><div class="meter-val">DUMP TRUCK</div></div>
+  <div class="meter-row"><div class="meter-label">HIGH</div><div class="meter-track"><div class="meter-fill m75"></div></div><div class="meter-val">HOT ROD</div></div>
+  <div class="meter-row"><div class="meter-label">MAXIMUM</div><div class="meter-track"><div class="meter-fill m100"></div></div><div class="meter-val">DRAG</div></div>
+
+  <div class="diag-table-wrap" style="overflow-x:auto;margin-top:16px">
+  <table class="diag-table">
+    <thead>
+      <tr><th>GRADE</th><th>CLASS</th><th>CHARACTER</th><th>RISK</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>LOW</td><td>Work Truck</td><td>reliable · stable · durable</td><td>invisibility</td></tr>
+      <tr><td>MEDIUM</td><td>Dump Truck</td><td>carries conceptual weight</td><td>over-loading</td></tr>
+      <tr><td>HIGH</td><td>Hot Rod</td><td>runs hot · requires care</td><td>burnout</td></tr>
+      <tr><td>MAXIMUM</td><td>Drag</td><td>single-strike · no return</td><td>misfire</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- S5: MYTH-RICH SURFACES -->
+<section class="section">
+  <div class="sec-header">
+    <span class="sec-num">[05]</span>
+    <span class="sec-bracket-l">[</span>
+    <h1>Myth-Rich Surfaces</h1>
+    <span class="sec-bracket-r">]</span>
+    <div class="sec-rule"></div>
+  </div>
+
+  <p>Recognizable terrain that carries more signal per line. Mechanics move the machine; myth makes the journey meaningful.</p>
+
+  <ul class="myth-list">
+    <li>Journeys · crossings · thresholds</li>
+    <li>Repair · restoration · return to function</li>
+    <li>Fire · forging · transformation by heat</li>
+    <li>Tools · builders · makers · craftwork</li>
+    <li>Load · weight · endurance · carrying</li>
+    <li>The guide · the threshold guardian</li>
+  </ul>
+</section>
+
+<!-- S6: VEHICLE CLASSES -->
+<section class="section">
+  <div class="sec-header">
+    <span class="sec-num">[06]</span>
+    <span class="sec-bracket-l">[</span>
+    <h1>Vehicle Classes</h1>
+    <span class="sec-bracket-r">]</span>
+    <div class="sec-rule"></div>
+  </div>
+
+  <p>Every piece of writing is a vehicle. Vehicle class determines fuel grade, chassis requirements, and operating parameters. Assign before you build.</p>
+
+  <div class="vehicle-grid">
+    <div class="v-card">
+      <div class="v-name">Work Truck</div>
+      <div class="v-grade">COMPRESSION: LOW</div>
+      <p class="v-desc">Essays, observations, documentation. Invisible chassis. Reliable delivery. That's the point.</p>
+    </div>
+    <div class="v-card">
+      <div class="v-name">Dump Truck</div>
+      <div class="v-grade">COMPRESSION: MEDIUM</div>
+      <p class="v-desc">Critique, systems analysis, long-form argument. Back up, drop the load, drive away clean.</p>
+    </div>
+    <div class="v-card">
+      <div class="v-name">Hot Rod</div>
+      <div class="v-grade">COMPRESSION: HIGH</div>
+      <p class="v-desc">Poetry, mythic scrolls, experimental language. Chassis shakes. Built for the ride, not the cargo.</p>
+    </div>
+    <div class="v-card">
+      <div class="v-name">Flat Track</div>
+      <div class="v-grade">COMPRESSION: HIGH</div>
+      <p class="v-desc">Momentum machine. Rhythm through the turn. Exits every corner faster than it entered.</p>
+    </div>
+    <div class="v-card hot">
+      <div class="v-name">Drag</div>
+      <div class="v-grade">COMPRESSION: MAXIMUM</div>
+      <p class="v-desc">Straight line. Tree drops. Full throttle. Quarter mile. One strike. No wasted motion. No return cycle.</p>
+    </div>
+  </div>
+</section>
+
+<!-- S7: MECHANICS PASS -->
+<section class="section">
+  <div class="sec-header">
+    <span class="sec-num">[07]</span>
+    <span class="sec-bracket-l">[</span>
+    <h1>Mechanics Pass</h1>
+    <span class="sec-bracket-r">]</span>
+    <div class="sec-rule"></div>
+  </div>
+
+  <p>Three diagnostic questions. All three must return TRUE before the vehicle is cleared for road.</p>
+
+  <div class="pass-grid">
+    <div class="pass-item">
+      <div class="pass-q">Does it work?</div>
+      <p class="pass-a">Can the reader travel from opening condition to intended realization?</p>
+    </div>
+    <div class="pass-item">
+      <div class="pass-q">Does it work right?</div>
+      <p class="pass-a">Is the vehicle class and compression level appropriate for the mission?</p>
+    </div>
+    <div class="pass-item">
+      <div class="pass-q">Is it safe?</div>
+      <p class="pass-a">Does the structure carry the reader through combustion without collapse?</p>
+    </div>
+  </div>
+
+  <div class="data-block">
+    <p><span class="key">PASS CONDITION:</span> All three TRUE = <span class="emph">ROADWORTHY</span></p>
+    <p><span class="key">FAIL CONDITION:</span> Any FALSE = return to shop. Identify failure point. Repair before release.</p>
+  </div>
+</section>
+
+<!-- S8: COMMANDS -->
+<section class="section">
+  <div class="sec-header">
+    <span class="sec-num">[08]</span>
+    <span class="sec-bracket-l">[</span>
+    <h1>Shop Talk Commands</h1>
+    <span class="sec-bracket-r">]</span>
+    <div class="sec-rule"></div>
+  </div>
+
+  <div class="cmd-block">
+    <div class="cmd-name">Talkshop — Review</div>
+    <p>Put vehicle on lift. Full inspection. Identify vehicle class, compression grade, timing integrity. Run Mechanics Pass. Return diagnostic report with Work Order.</p>
+  </div>
+  <div class="cmd-block">
+    <div class="cmd-name">Talkshop — Repair</div>
+    <p>Tune engine. Adjust chassis. Compress loose fuel. Strengthen ignition. Re-time combustion. Send it back out. Vehicle must clear Mechanics Pass before release.</p>
+  </div>
+</section>
+
+<!-- S9: DOCUMENT RETURN SPECIFICATIONS -->
+<section class="section">
+  <div class="sec-header">
+    <span class="sec-num">[09]</span>
+    <span class="sec-bracket-l">[</span>
+    <h1>Document Return Specs</h1>
+    <span class="sec-bracket-r">]</span>
+    <div class="sec-rule"></div>
+  </div>
+
+  <p>Structured output format for Review command. All fields required.</p>
+
+  <div class="spec-readout">
+    <div class="spec-readout-header">
+      <span>INSPECTION REPORT SCHEMA</span>
+      <span>SHOP_TALK.SYS</span>
+    </div>
+    <div class="spec-row"><div class="spec-key">Vehicle ID</div><div class="spec-val">class · compression · mission statement</div></div>
+    <div class="spec-row"><div class="spec-key">Mechanics Pass</div><div class="spec-val">works? / works right? / safe? <span class="flag">[TRUE/FALSE × 3]</span></div></div>
+    <div class="spec-row"><div class="spec-key">Diagnosis</div><div class="spec-val">ignition strength · combustion quality · energy leaks · timing anomalies</div></div>
+    <div class="spec-row"><div class="spec-key">Work Order</div><div class="spec-val">specific repairs with location and instruction</div></div>
+    <div class="spec-row"><div class="spec-key">Shop Notes</div><div class="spec-val">operator observations not covered above</div></div>
+    <div class="spec-row"><div class="spec-key">Shop Sticker</div><div class="spec-val">compressed summary — one line maximum</div></div>
+  </div>
+</section>
+
+<!-- S10: OPERATOR RESPONSIBILITY -->
+<section class="section">
+  <div class="sec-header">
+    <span class="sec-num">[10]</span>
+    <span class="sec-bracket-l">[</span>
+    <h1>Operator Responsibility</h1>
+    <span class="sec-bracket-r">]</span>
+    <div class="sec-rule"></div>
+  </div>
+
+  <div class="creed">
+    <p class="directive">Writing transports attention.</p>
+    <p>Attention is a fragment of life. What moves through the structure is not just language — it is a reader's time, focus, and cognitive presence.</p>
+    <p class="directive">Inspect it. Tune it.</p>
+    <p>Release only when the machine runs clean. A poorly tuned vehicle does not merely fail to arrive — it wastes the journey.</p>
+    <p class="directive">Handle it like something that can carry someone somewhere.</p>
+  </div>
+</section>
+
+<!-- S11: DIAGRAM -->
+<section class="section">
+  <div class="sec-header">
+    <span class="sec-num">[11]</span>
+    <span class="sec-bracket-l">[</span>
+    <h1>Shop Notes</h1>
+    <span class="sec-bracket-r">]</span>
+    <div class="sec-rule"></div>
+  </div>
+
+  <p>Signal Engine Diagram. Structural reference for all diagnostic operations.</p>
+
+  <div class="diagram-panel">
+    <div class="diagram-toggle" id="diagramToggle">
+      <span class="diag-toggle-label">Signal Engine · System Diagram</span>
+      <span class="diag-toggle-icon open" id="diagramIcon">&#9650;</span>
+    </div>
+    <div class="diagram-body open" id="diagramBody">
+      <div class="diagram-svg-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" width="660" height="480" viewBox="0 0 660 480">
+          <defs>
+            <pattern id="dosgrid" width="20" height="20" patternUnits="userSpaceOnUse">
+              <path d="M20 0L0 0 0 20" fill="none" stroke="#140C00" stroke-width="0.5"/>
+            </pattern>
+          </defs>
+          <rect width="660" height="480" fill="#0A0700"/>
+          <rect width="660" height="480" fill="url(#dosgrid)"/>
+          <rect x="1" y="1" width="658" height="478" fill="none" stroke="#2A1800" stroke-width="1"/>
+
+          <!-- Header -->
+          <text x="330" y="22" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#7A4A00" letter-spacing="2">SIGNAL ENGINE DIAGNOSTIC CHART  v1.8</text>
+          <line x1="20" y1="28" x2="640" y2="28" stroke="#140C00" stroke-width="1"/>
+
+          <!-- ENGINE NODES -->
+          <g id="dn-fuel">
+            <rect x="22" y="40" width="116" height="60" rx="1" fill="#0A0700" stroke="#2A1800" stroke-width="1.5"/>
+            <rect x="22" y="40" width="116" height="2" fill="#2A1800"/>
+          </g>
+          <text id="dl-fuel" x="80" y="62" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" font-weight="700" fill="#7A4A00" letter-spacing="1">FUEL</text>
+          <text id="ds-fuel" x="80" y="80" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#2A1800">desire</text>
+          <circle id="dd-fuel" cx="80" cy="94" r="3" fill="#2A1800"/>
+
+          <g id="da-1" opacity="0">
+            <line x1="139" y1="70" x2="178" y2="70" stroke="#FFFFFF" stroke-width="1.5"/>
+            <polygon points="174,66 186,70 174,74" fill="#FFFFFF"/>
+          </g>
+
+          <g id="dn-ignition">
+            <rect x="186" y="40" width="128" height="60" rx="1" fill="#0A0700" stroke="#2A1800" stroke-width="1.5"/>
+            <rect x="186" y="40" width="128" height="2" fill="#2A1800"/>
+          </g>
+          <text id="dl-ignition" x="250" y="62" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" font-weight="700" fill="#7A4A00" letter-spacing="1">IGNITION</text>
+          <text id="ds-ignition" x="250" y="80" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#2A1800">opening spark</text>
+          <circle id="dd-ignition" cx="250" cy="94" r="3" fill="#2A1800"/>
+
+          <g id="da-2" opacity="0">
+            <line x1="315" y1="70" x2="354" y2="70" stroke="#FFFFFF" stroke-width="1.5"/>
+            <polygon points="350,66 362,70 350,74" fill="#FFFFFF"/>
+          </g>
+
+          <g id="dn-combustion">
+            <rect x="362" y="40" width="148" height="60" rx="1" fill="#0A0700" stroke="#2A1800" stroke-width="1.5"/>
+            <rect x="362" y="40" width="148" height="2" fill="#2A1800"/>
+          </g>
+          <text id="dl-combustion" x="436" y="62" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" font-weight="700" fill="#7A4A00" letter-spacing="1">COMBUSTION</text>
+          <text id="ds-combustion" x="436" y="80" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#2A1800">felt recognition</text>
+          <circle id="dd-combustion" cx="436" cy="94" r="3" fill="#2A1800"/>
+
+          <g id="da-3" opacity="0">
+            <line x1="511" y1="70" x2="550" y2="70" stroke="#FFFFFF" stroke-width="1.5"/>
+            <polygon points="546,66 558,70 546,74" fill="#FFFFFF"/>
+          </g>
+
+          <g id="dn-force">
+            <rect x="558" y="40" width="92" height="60" rx="1" fill="#0A0700" stroke="#2A1800" stroke-width="1.5"/>
+            <rect x="558" y="40" width="92" height="2" fill="#2A1800"/>
+          </g>
+          <text id="dl-force" x="604" y="62" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" font-weight="700" fill="#7A4A00" letter-spacing="1">FORCE</text>
+          <text id="ds-force" x="604" y="80" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#2A1800">structure</text>
+          <circle id="dd-force" cx="604" cy="94" r="3" fill="#2A1800"/>
+
+          <line x1="20" y1="118" x2="640" y2="118" stroke="#140C00" stroke-width="1"/>
+
+          <!-- COMPRESSION GRADES -->
+          <text x="330" y="136" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#7A4A00" letter-spacing="2">COMPRESSION GRADE TABLE</text>
+
+          <!-- Grade bars -->
+          <rect x="22" y="148" width="140" height="58" rx="1" fill="#0A0700" stroke="#140C00" stroke-width="1"/>
+          <rect x="22" y="148" width="2" height="15" fill="#1E1200"/>
+          <text x="92" y="168" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#3A2200">LOW</text>
+          <text x="92" y="182" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#1E1200">Work Truck</text>
+          <rect x="30" y="194" width="8" height="3" rx="1" fill="#1E1200"/>
+          <rect x="42" y="194" width="8" height="3" rx="1" fill="#0E0800"/>
+          <rect x="54" y="194" width="8" height="3" rx="1" fill="#0E0800"/>
+          <rect x="66" y="194" width="8" height="3" rx="1" fill="#0E0800"/>
+
+          <rect x="178" y="148" width="140" height="58" rx="1" fill="#0A0700" stroke="#140C00" stroke-width="1"/>
+          <rect x="178" y="148" width="2" height="29" fill="#4A2A00"/>
+          <text x="248" y="168" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#6A3E00">MEDIUM</text>
+          <text x="248" y="182" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#2A1800">Dump Truck</text>
+          <rect x="186" y="194" width="8" height="3" rx="1" fill="#4A2A00"/>
+          <rect x="198" y="194" width="8" height="3" rx="1" fill="#4A2A00"/>
+          <rect x="210" y="194" width="8" height="3" rx="1" fill="#0E0800"/>
+          <rect x="222" y="194" width="8" height="3" rx="1" fill="#0E0800"/>
+
+          <rect x="334" y="148" width="140" height="58" rx="1" fill="#0A0700" stroke="#140C00" stroke-width="1"/>
+          <rect x="334" y="148" width="2" height="44" fill="#CC8800"/>
+          <text x="404" y="168" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#CC8800">HIGH</text>
+          <text x="404" y="182" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#7A4A00">Hot Rod</text>
+          <rect x="342" y="194" width="8" height="3" rx="1" fill="#CC8800"/>
+          <rect x="354" y="194" width="8" height="3" rx="1" fill="#CC8800"/>
+          <rect x="366" y="194" width="8" height="3" rx="1" fill="#CC8800"/>
+          <rect x="378" y="194" width="8" height="3" rx="1" fill="#0E0800"/>
+
+          <rect x="490" y="148" width="148" height="58" rx="1" fill="#0A0700" stroke="#FFFFFF" stroke-width="1.5"/>
+          <rect x="490" y="148" width="2" height="58" fill="#FFFFFF"/>
+          <text x="564" y="168" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#FFFFFF">MAXIMUM</text>
+          <text x="564" y="182" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#CC8800">Drag</text>
+          <rect x="498" y="194" width="8" height="3" rx="1" fill="#FFFFFF"/>
+          <rect x="510" y="194" width="8" height="3" rx="1" fill="#FFFFFF"/>
+          <rect x="522" y="194" width="8" height="3" rx="1" fill="#FFFFFF"/>
+          <rect x="534" y="194" width="8" height="3" rx="1" fill="#FFB000"/>
+
+          <line x1="20" y1="220" x2="640" y2="220" stroke="#140C00" stroke-width="1"/>
+
+          <!-- VEHICLE CLASSES -->
+          <text x="330" y="238" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#7A4A00" letter-spacing="2">VEHICLE CLASS REGISTRY</text>
+
+          <rect x="10"  y="248" width="108" height="56" rx="1" fill="#0A0700" stroke="#140C00" stroke-width="1"/>
+          <rect x="10"  y="248" width="108" height="2" fill="#1E1200"/>
+          <text x="64"  y="266" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#3A2200">Work Truck</text>
+          <text x="64"  y="280" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#1E1200">essays · docs</text>
+          <text x="64"  y="296" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#1E1200" letter-spacing="1">LOW</text>
+
+          <rect x="128" y="248" width="108" height="56" rx="1" fill="#0A0700" stroke="#140C00" stroke-width="1"/>
+          <rect x="128" y="248" width="108" height="2" fill="#4A2A00"/>
+          <text x="182" y="266" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#6A3E00">Dump Truck</text>
+          <text x="182" y="280" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#2A1800">critique · sys</text>
+          <text x="182" y="296" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#1E1200" letter-spacing="1">MEDIUM</text>
+
+          <rect x="246" y="248" width="108" height="56" rx="1" fill="#0A0700" stroke="#140C00" stroke-width="1"/>
+          <rect x="246" y="248" width="108" height="2" fill="#CC8800"/>
+          <text x="300" y="266" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#CC8800">Hot Rod</text>
+          <text x="300" y="280" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#7A4A00">poetry · scrolls</text>
+          <text x="300" y="296" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#7A4A00" letter-spacing="1">HIGH</text>
+
+          <rect x="364" y="248" width="108" height="56" rx="1" fill="#0A0700" stroke="#140C00" stroke-width="1"/>
+          <rect x="364" y="248" width="108" height="2" fill="#CC8800"/>
+          <text x="418" y="266" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#FFB000">Flat Track</text>
+          <text x="418" y="280" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#7A4A00">rhythm · corners</text>
+          <text x="418" y="296" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#7A4A00" letter-spacing="1">HIGH</text>
+
+          <rect x="482" y="248" width="168" height="56" rx="1" fill="#0A0700" stroke="#FFFFFF" stroke-width="1.5"/>
+          <rect x="482" y="248" width="168" height="2" fill="#FFFFFF"/>
+          <text x="566" y="266" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#FFFFFF">Drag</text>
+          <text x="566" y="280" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#CC8800">one strike · gone</text>
+          <text x="566" y="296" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#FFFFFF" letter-spacing="1">MAX</text>
+
+          <!-- Dashed connectors grade->vehicle -->
+          <line x1="92" y1="206" x2="64"  y2="248" stroke="#140C00" stroke-dasharray="3 3" stroke-width="1"/>
+          <line x1="248" y1="206" x2="182" y2="248" stroke="#140C00" stroke-dasharray="3 3" stroke-width="1"/>
+          <line x1="404" y1="206" x2="300" y2="248" stroke="#140C00" stroke-dasharray="3 3" stroke-width="1"/>
+          <line x1="404" y1="206" x2="418" y2="248" stroke="#140C00" stroke-dasharray="3 3" stroke-width="1"/>
+          <line x1="564" y1="206" x2="566" y2="248" stroke="#FFFFFF" stroke-dasharray="3 3" stroke-width="1" opacity="0.4"/>
+
+          <line x1="20" y1="316" x2="640" y2="316" stroke="#140C00" stroke-width="1"/>
+
+          <!-- Mechanics Pass -->
+          <rect x="190" y="330" width="280" height="48" rx="1" fill="#0A0700" stroke="#FFFFFF" stroke-width="1.5"/>
+          <rect x="190" y="330" width="280" height="2" fill="#FFFFFF"/>
+          <text x="330" y="352" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" font-weight="700" fill="#FFFFFF" letter-spacing="2">MECHANICS PASS</text>
+          <text x="330" y="368" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#7A4A00">work? · work right? · safe?</text>
+
+          <!-- connectors vehicle -> pass -->
+          <line x1="64"  y1="304" x2="230" y2="330" stroke="#140C00" stroke-dasharray="3 3" stroke-width="1"/>
+          <line x1="182" y1="304" x2="268" y2="330" stroke="#140C00" stroke-dasharray="3 3" stroke-width="1"/>
+          <line x1="300" y1="304" x2="310" y2="330" stroke="#140C00" stroke-dasharray="3 3" stroke-width="1"/>
+          <line x1="418" y1="304" x2="380" y2="330" stroke="#140C00" stroke-dasharray="3 3" stroke-width="1"/>
+          <line x1="566" y1="304" x2="442" y2="330" stroke="#FFFFFF" stroke-dasharray="3 3" stroke-width="1" opacity="0.3"/>
+
+          <text x="330" y="408" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" font-weight="700" fill="#FFFFFF" letter-spacing="3">[ ROADWORTHY ]</text>
+
+          <line x1="20" y1="424" x2="640" y2="424" stroke="#140C00" stroke-width="1"/>
+          <text x="330" y="444" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#1E1200" letter-spacing="1">SHOP TALK v1.8  ·  SIGNAL ENGINE DIAGNOSTIC  ·  NDCODEX</text>
+          <text x="330" y="460" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="11" fill="#140C00" letter-spacing="1">C:\NDCODEX\METHODS\SHOP_TALK.SYS</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- FINAL READOUT -->
+<div class="final-readout">
+  <div class="readout-header">
+    <span class="readout-title">DIAGNOSTIC COMPLETE</span>
+    <span class="readout-ts" id="ts-display">SYS: SHOP_TALK.SYS</span>
+  </div>
+  <div class="readout-body">
+    <div class="readout-line"><span class="rl-key">DOCUMENT</span><span class="rl-val">Shop Talk — Operator Method</span></div>
+    <div class="readout-line"><span class="rl-key">VERSION</span><span class="rl-val">1.8</span></div>
+    <div class="readout-line"><span class="rl-key">ENGINE</span><span class="rl-val">Fuel / Ignition / Combustion / Force</span></div>
+    <div class="readout-line"><span class="rl-key">GRADES LOADED</span><span class="rl-val">Low · Medium · High · Maximum</span></div>
+    <div class="readout-line"><span class="rl-key">VEHICLES REGISTERED</span><span class="rl-val">Work Truck · Dump Truck · Hot Rod · Flat Track · Drag</span></div>
+    <div class="readout-line"><span class="rl-key">TIMING SYSTEM</span><span class="rl-val">ODR Cycle · Momentum Arc · Single-Strike</span></div>
+    <div class="readout-line"><span class="rl-key">MECHANICS PASS</span><span class="rl-val">3/3 TRUE</span></div>
+    <div class="readout-status">
+      <div class="status-pass">&#9608;&#9608; ROADWORTHY &#9608;&#9608;</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script>
+(function() {
+  "use strict";
+
+  function el(id) { return document.getElementById(id); }
+  function addCls(id, c) { var n = el(id); if (n) n.classList.add(c); }
+  function remCls(id, c) { var n = el(id); if (n) n.classList.remove(c); }
+  function reflow(id)    { var n = el(id); if (n) { void n.offsetWidth; } }
+
+  // Engine cycle — fire in order, no arrows (stages only)
+  var ecSeq = [
+    ['s-fuel',       5800],
+    ['s-ignition',   6300],
+    ['s-combustion', 6800],
+    ['s-force',      7300]
+  ];
+
+  function fireEC(mult) {
+    var m = mult || 1, i;
+    for (i = 0; i < ecSeq.length; i++) { remCls(ecSeq[i][0], 'lit'); reflow(ecSeq[i][0]); }
+    for (i = 0; i < ecSeq.length; i++) {
+      (function(id, d) { setTimeout(function() { addCls(id, 'lit'); }, d * m); })(ecSeq[i][0], ecSeq[i][1]);
+    }
+  }
+
+  // On page load, fire after boot delay
+  fireEC(1);
+
+  var ecEl = el('engineCycle');
+  if (ecEl) {
+    ecEl.addEventListener('click', function() {
+      var i;
+      for (i = 0; i < ecSeq.length; i++) { remCls(ecSeq[i][0], 'lit'); reflow(ecSeq[i][0]); }
+      var j;
+      for (j = 0; j < ecSeq.length; j++) {
+        (function(id, idx) {
+          setTimeout(function() { addCls(id, 'lit'); }, idx * 500);
+        })(ecSeq[j][0], j);
+      }
+    });
+  }
+
+  // ODR cycle
+  var odrSeq = [
+    ['odr-obs',  5900],
+    ['odr-a1',   6300],
+    ['odr-dist', 6500],
+    ['odr-a2',   6900],
+    ['odr-rel',  7100],
+    ['odr-loop', 7600]
+  ];
+
+  function fireODR(mult) {
+    var m = mult || 1, i;
+    for (i = 0; i < odrSeq.length; i++) { remCls(odrSeq[i][0], 'lit'); reflow(odrSeq[i][0]); }
+    for (i = 0; i < odrSeq.length; i++) {
+      (function(id, d) { setTimeout(function() { addCls(id, 'lit'); }, d * m); })(odrSeq[i][0], odrSeq[i][1]);
+    }
+  }
+
+  fireODR(1);
+
+  var odrEl = el('odrCycle');
+  if (odrEl) {
+    odrEl.addEventListener('click', function() {
+      var i;
+      for (i = 0; i < odrSeq.length; i++) { remCls(odrSeq[i][0], 'lit'); reflow(odrSeq[i][0]); }
+      var j;
+      for (j = 0; j < odrSeq.length; j++) {
+        (function(id, idx) {
+          setTimeout(function() { addCls(id, 'lit'); }, idx * 400);
+        })(odrSeq[j][0], j);
+      }
+    });
+  }
+
+  // SVG diagram engine nodes
+  var pfx = ['dn-', 'dl-', 'ds-', 'dd-'];
+  var nds = ['fuel', 'ignition', 'combustion', 'force'];
+  var ars = ['da-1', 'da-2', 'da-3'];
+
+  function litNode(k) { var i; for (i = 0; i < pfx.length; i++) { addCls(pfx[i] + k, 'lit'); } }
+
+  function fireDiagram() {
+    var i, j;
+    for (i = 0; i < nds.length; i++) { for (j = 0; j < pfx.length; j++) { remCls(pfx[j] + nds[i], 'lit'); } }
+    for (i = 0; i < ars.length; i++) { remCls(ars[i], 'lit'); }
+    setTimeout(function() { litNode('fuel'); },       5600);
+    setTimeout(function() { addCls('da-1', 'lit'); }, 5900);
+    setTimeout(function() { litNode('ignition'); },   6100);
+    setTimeout(function() { addCls('da-2', 'lit'); }, 6400);
+    setTimeout(function() { litNode('combustion'); }, 6600);
+    setTimeout(function() { addCls('da-3', 'lit'); }, 6900);
+    setTimeout(function() { litNode('force'); },      7100);
+  }
+
+  // Diagram toggle
+  function setupToggle(tid, bid, iid, cb) {
+    var t = el(tid), b = el(bid), ic = el(iid);
+    if (!t || !b) return;
+    t.addEventListener('click', function() {
+      var open = b.classList.contains('open');
+      if (open) {
+        b.classList.remove('open');
+        if (ic) ic.classList.remove('open');
+      } else {
+        b.classList.add('open');
+        if (ic) ic.classList.add('open');
+        if (cb) cb();
+      }
+    });
+  }
+
+  setupToggle('diagramToggle', 'diagramBody', 'diagramIcon', function() {
+    var i, j;
+    for (i = 0; i < nds.length; i++) { for (j = 0; j < pfx.length; j++) { remCls(pfx[j] + nds[i], 'lit'); } }
+    for (i = 0; i < ars.length; i++) { remCls(ars[i], 'lit'); }
+    setTimeout(function() { litNode('fuel'); },       200);
+    setTimeout(function() { addCls('da-1', 'lit'); }, 500);
+    setTimeout(function() { litNode('ignition'); },   700);
+    setTimeout(function() { addCls('da-2', 'lit'); }, 1000);
+    setTimeout(function() { litNode('combustion'); }, 1200);
+    setTimeout(function() { addCls('da-3', 'lit'); }, 1500);
+    setTimeout(function() { litNode('force'); },      1700);
+  });
+
+  // Fire diagram on load (starts open)
+  fireDiagram();
+
+  // Timestamp
+  var tsEl = el('ts-display');
+  if (tsEl) {
+    var now = new Date();
+    var pad = function(n) { return n < 10 ? '0' + n : '' + n; };
+    tsEl.textContent = pad(now.getFullYear()) + '-' + pad(now.getMonth()+1) + '-' + pad(now.getDate()) + '  ' + pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
+  }
+
+}());
+</script>
+</body>
+</html>

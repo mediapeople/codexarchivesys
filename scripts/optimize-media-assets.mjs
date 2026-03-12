@@ -80,12 +80,14 @@ async function optimizeJpeg(file) {
   const tmpOut = `${file}.opt-tmp.jpg`;
 
   if (sharp) {
-    let pipeline = sharp(file).resize({
+    let pipeline = sharp(file)
+      .rotate()
+      .resize({
       width: mediaMaxDim,
       height: mediaMaxDim,
       fit: 'inside',
       withoutEnlargement: true,
-    });
+      });
 
     if (typeof pipeline.keepIccProfile === 'function') {
       pipeline = pipeline.keepIccProfile();
@@ -120,7 +122,7 @@ async function optimizeJpeg(file) {
   fs.renameSync(tmpOut, file);
   const after = fs.statSync(file).size;
   const normalizedBy = sharp ? 'sharp' : 'sips';
-  console.log(`[image] ${file} :: ${formatMB(before)} -> ${formatMB(after)} (${normalizedBy}, EXIF orientation cleared)`);
+  console.log(`[image] ${file} :: ${formatMB(before)} -> ${formatMB(after)} (${normalizedBy}, EXIF orientation normalized)`);
 }
 
 function transcodeVideo(inputFile) {

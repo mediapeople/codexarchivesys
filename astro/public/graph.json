@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-12T10:10:19.230Z",
+  "generatedAt": "2026-03-12T14:55:54.770Z",
   "sourceDir": "../objects",
-  "nodeCount": 90,
-  "edgeCount": 3349,
+  "nodeCount": 92,
+  "edgeCount": 3518,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -187,6 +187,20 @@
         "signal",
         "structure",
         "observation"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "the-circle-the-node-and-the-office",
+      "type": "artifact",
+      "title": "The Circle, the Node, and the Office",
+      "date": "2026-03-12",
+      "themes": [
+        "signal",
+        "systems",
+        "structure",
+        "methodology",
+        "transmission"
       ],
       "constellations": []
     },
@@ -1174,6 +1188,20 @@
       ]
     },
     {
+      "id": "shop-talk-framework",
+      "type": "scroll",
+      "title": "Shop Talk",
+      "date": "2026-03-12",
+      "themes": [
+        "signal",
+        "transmission",
+        "methodology",
+        "structure",
+        "systems"
+      ],
+      "constellations": []
+    },
+    {
       "id": "signal-harvest",
       "type": "scroll",
       "title": "SIGNAL HARVEST",
@@ -1564,6 +1592,16 @@
       ]
     },
     {
+      "source": "citizen-network-doctrine",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 12,
+      "reasons": [
+        "shared-theme",
+        "explicit-connection",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "codex-archive-system-v3-plus-notes",
       "target": "go-live-milestone",
       "weight": 12,
@@ -1582,6 +1620,16 @@
         "shared-constellation",
         "explicit-related",
         "nexus-inclusion"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 12,
+      "reasons": [
+        "shared-theme",
+        "explicit-connection",
+        "explicit-related"
       ]
     },
     {
@@ -2915,6 +2963,15 @@
       ]
     },
     {
+      "source": "quiet-vector-doctrine",
+      "target": "shop-talk-framework",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "scripture-with-machines",
       "target": "signal-harvest",
       "weight": 7,
@@ -3032,6 +3089,15 @@
     {
       "source": "capture-and-convert",
       "target": "machine-creatures",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "shop-talk-framework",
       "weight": 6,
       "reasons": [
         "shared-theme",
@@ -3480,6 +3546,15 @@
       ]
     },
     {
+      "source": "constellation-node-alchemy",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "disrespectful-power",
       "target": "node-doctrine",
       "weight": 6,
@@ -3604,6 +3679,15 @@
       "reasons": [
         "shared-theme",
         "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "on-visceral-distillation",
+      "target": "shop-talk-framework",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
         "explicit-related"
       ]
     },
@@ -4528,6 +4612,14 @@
     },
     {
       "source": "node-doctrine",
+      "target": "shop-talk-framework",
+      "weight": 5,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
       "target": "signal-descent-005",
       "weight": 5,
       "reasons": [
@@ -4634,6 +4726,22 @@
       ]
     },
     {
+      "source": "shop-talk-framework",
+      "target": "signal-descent-005",
+      "weight": 5,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "shop-talk-framework",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 5,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "signal-descent-001",
       "target": "signal-descent-002",
       "weight": 5,
@@ -4694,6 +4802,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "signal-descent-005",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 5,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -5205,6 +5321,14 @@
     },
     {
       "source": "citizen-network-dispatch",
+      "target": "shop-talk-framework",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
       "target": "signal-descent-001",
       "weight": 4,
       "reasons": [
@@ -5223,6 +5347,14 @@
     },
     {
       "source": "citizen-network-dispatch",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
       "target": "transmission-note-to-future-me",
       "weight": 4,
       "reasons": [
@@ -5233,6 +5365,14 @@
     {
       "source": "citizen-network-doctrine",
       "target": "machine-creatures",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "shop-talk-framework",
       "weight": 4,
       "reasons": [
         "shared-theme"
@@ -5304,7 +5444,23 @@
     },
     {
       "source": "citizen-network-map-hi-fi",
+      "target": "shop-talk-framework",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
       "target": "signal-descent-005",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 4,
       "reasons": [
         "shared-theme"
@@ -5440,6 +5596,14 @@
     },
     {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "shop-talk-framework",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "signal-descent-001",
       "weight": 4,
       "reasons": [
@@ -5463,6 +5627,14 @@
       "reasons": [
         "shared-theme",
         "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -5946,11 +6118,27 @@
     },
     {
       "source": "codex-archive-system-v3-plus-notes",
+      "target": "shop-talk-framework",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
       "target": "signal-descent-001",
       "weight": 4,
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -5980,7 +6168,23 @@
     },
     {
       "source": "codex-glyph-grammar",
+      "target": "shop-talk-framework",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
       "target": "signal-descent-005",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 4,
       "reasons": [
         "shared-theme"
@@ -6038,7 +6242,23 @@
     },
     {
       "source": "flexible-machine-sweet-spot",
+      "target": "shop-talk-framework",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
       "target": "the-bones-hold-content-architecture",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 4,
       "reasons": [
         "shared-theme"
@@ -6247,11 +6467,27 @@
     },
     {
       "source": "machine-creatures",
+      "target": "shop-talk-framework",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
       "target": "signal-harvest",
       "weight": 4,
       "reasons": [
         "shared-theme",
         "explicit-related"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -6421,6 +6657,14 @@
       ]
     },
     {
+      "source": "quiet-vector-doctrine",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "reduce-novelty-before-care",
       "target": "scroll-from-the-perimeter",
       "weight": 4,
@@ -6440,7 +6684,23 @@
     },
     {
       "source": "scripture-with-machines",
+      "target": "shop-talk-framework",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "scripture-with-machines",
       "target": "signal-descent-005",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "scripture-with-machines",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 4,
       "reasons": [
         "shared-theme"
@@ -6462,6 +6722,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "shop-talk-framework",
+      "target": "signal-descent-004",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -6543,6 +6811,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "signal-descent-004",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -6682,6 +6958,14 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "shop-talk-framework",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "signal-harvest",
       "weight": 3,
       "reasons": [
@@ -6696,6 +6980,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -7167,7 +7459,23 @@
     },
     {
       "source": "builder-lineage-reflection",
+      "target": "shop-talk-framework",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
       "target": "signal-descent-005",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -7384,6 +7692,14 @@
     {
       "source": "capture-and-convert",
       "target": "suwanee-ga-loremap",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -8486,6 +8802,14 @@
     },
     {
       "source": "codex-archive-system-v2-7-notes",
+      "target": "shop-talk-framework",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
       "target": "signal-descent-001",
       "weight": 3,
       "reasons": [
@@ -8505,6 +8829,14 @@
     {
       "source": "codex-archive-system-v2-7-notes",
       "target": "the-bones-hold-content-architecture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -8562,6 +8894,14 @@
     },
     {
       "source": "codex-archive-system-v3-1-build-notes",
+      "target": "shop-talk-framework",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
       "target": "signal-descent-001",
       "weight": 3,
       "reasons": [
@@ -8590,6 +8930,14 @@
     {
       "source": "codex-archive-system-v3-1-build-notes",
       "target": "the-bones-hold-content-architecture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -8827,6 +9175,14 @@
     },
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "shop-talk-framework",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "signal-descent-001",
       "weight": 3,
       "reasons": [
@@ -8863,6 +9219,14 @@
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "the-bones-hold-content-architecture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -9001,6 +9365,14 @@
     },
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "shop-talk-framework",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "signal-descent-001",
       "weight": 3,
       "reasons": [
@@ -9037,6 +9409,14 @@
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "the-bones-hold-content-architecture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -9175,6 +9555,14 @@
     },
     {
       "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "shop-talk-framework",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
       "target": "signal-descent-001",
       "weight": 3,
       "reasons": [
@@ -9211,6 +9599,14 @@
     {
       "source": "codex-archive-system-v3-5-control-surface-notes",
       "target": "the-bones-hold-content-architecture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -9357,6 +9753,14 @@
     },
     {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "shop-talk-framework",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "signal-descent-001",
       "weight": 3,
       "reasons": [
@@ -9393,6 +9797,14 @@
     {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "the-bones-hold-content-architecture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -9607,6 +10019,14 @@
     },
     {
       "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "shop-talk-framework",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
       "target": "signal-descent-001",
       "weight": 3,
       "reasons": [
@@ -9643,6 +10063,14 @@
     {
       "source": "codex-archive-system-v3-8-specimen-surface-notes",
       "target": "the-bones-hold-content-architecture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -9734,6 +10162,14 @@
     },
     {
       "source": "codex-archive-system-v3-9-orientation-clarity-notes",
+      "target": "shop-talk-framework",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-9-orientation-clarity-notes",
       "target": "signal-descent-001",
       "weight": 3,
       "reasons": [
@@ -9762,6 +10198,14 @@
     {
       "source": "codex-archive-system-v3-9-orientation-clarity-notes",
       "target": "the-bones-hold-content-architecture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-9-orientation-clarity-notes",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -9835,6 +10279,14 @@
     },
     {
       "source": "codex-archive-system-v3-notes",
+      "target": "shop-talk-framework",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
       "target": "signal-descent-001",
       "weight": 3,
       "reasons": [
@@ -9863,6 +10315,14 @@
     {
       "source": "codex-archive-system-v3-notes",
       "target": "the-bones-hold-content-architecture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -10114,7 +10574,23 @@
     },
     {
       "source": "codex-glyph-system-first-emergence",
+      "target": "shop-talk-framework",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
       "target": "signal-descent-005",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -10211,6 +10687,14 @@
     {
       "source": "constellation-node-alchemy",
       "target": "scripture-with-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "shop-talk-framework",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -10338,7 +10822,23 @@
     },
     {
       "source": "crane-field-illustration",
+      "target": "shop-talk-framework",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
       "target": "signal-descent-005",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -10410,7 +10910,23 @@
     },
     {
       "source": "disrespectful-power",
+      "target": "shop-talk-framework",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "disrespectful-power",
       "target": "signal-descent-005",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "disrespectful-power",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -10563,6 +11079,14 @@
     },
     {
       "source": "go-live-milestone",
+      "target": "shop-talk-framework",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
       "target": "signal-harvest",
       "weight": 3,
       "reasons": [
@@ -10585,6 +11109,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -10716,6 +11248,14 @@
     },
     {
       "source": "i-work-with-machines-to-write-scripture",
+      "target": "shop-talk-framework",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
       "target": "signal-descent-003",
       "weight": 3,
       "reasons": [
@@ -10733,6 +11273,14 @@
     {
       "source": "i-work-with-machines-to-write-scripture",
       "target": "signal.citizen-agency",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -10804,6 +11352,14 @@
     },
     {
       "source": "keep-the-operator-whistling",
+      "target": "shop-talk-framework",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
       "target": "signal-descent-003",
       "weight": 3,
       "reasons": [
@@ -10837,6 +11393,14 @@
     {
       "source": "keep-the-operator-whistling",
       "target": "steel-elbow-flinchian",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -11121,6 +11685,14 @@
     },
     {
       "source": "on-visceral-distillation",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-visceral-distillation",
       "target": "transmission-note-to-future-me",
       "weight": 3,
       "reasons": [
@@ -11170,6 +11742,14 @@
     },
     {
       "source": "operator-winks-at-the-machines",
+      "target": "shop-talk-framework",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "operator-winks-at-the-machines",
       "target": "signal-descent-003",
       "weight": 3,
       "reasons": [
@@ -11203,6 +11783,14 @@
     {
       "source": "operator-winks-at-the-machines",
       "target": "steel-elbow-flinchian",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "operator-winks-at-the-machines",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -11361,6 +11949,38 @@
       ]
     },
     {
+      "source": "shop-talk-framework",
+      "target": "signal-descent-003",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "shop-talk-framework",
+      "target": "signal.citizen-agency",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "shop-talk-framework",
+      "target": "steel-elbow-flinchian",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "shop-talk-framework",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "signal-descent-001",
       "target": "steel-elbow-flinchian",
       "weight": 3,
@@ -11397,6 +12017,14 @@
     {
       "source": "signal-descent-003",
       "target": "steel-elbow-flinchian",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-003",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -11478,6 +12106,14 @@
       ]
     },
     {
+      "source": "signal.citizen-agency",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "stairwell-signal",
       "target": "the-bones-hold",
       "weight": 3,
@@ -11488,7 +12124,23 @@
     },
     {
       "source": "steel-elbow-flinchian",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "steel-elbow-flinchian",
       "target": "unacceptable-cost",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "the-bones-hold-content-architecture",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -12400,6 +13052,14 @@
     },
     {
       "source": "artifact-jsa-signal-fracture-001",
+      "target": "shop-talk-framework",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
       "target": "signal-descent-005",
       "weight": 2,
       "reasons": [
@@ -12417,6 +13077,14 @@
     {
       "source": "artifact-jsa-signal-fracture-001",
       "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -12544,6 +13212,14 @@
     },
     {
       "source": "bezalel-the-designated-hand",
+      "target": "shop-talk-framework",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
       "target": "signal-descent-005",
       "weight": 2,
       "reasons": [
@@ -12561,6 +13237,14 @@
     {
       "source": "bezalel-the-designated-hand",
       "target": "the-bones-hold-content-architecture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -13200,6 +13884,14 @@
     },
     {
       "source": "characters-in-the-field",
+      "target": "shop-talk-framework",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
       "target": "signal-descent-003",
       "weight": 2,
       "reasons": [
@@ -13249,6 +13941,14 @@
     {
       "source": "characters-in-the-field",
       "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -13528,6 +14228,14 @@
     },
     {
       "source": "cities-built-on-ruin-reminiscence",
+      "target": "shop-talk-framework",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
       "target": "signal-descent-002",
       "weight": 2,
       "reasons": [
@@ -13561,6 +14269,14 @@
     {
       "source": "cities-built-on-ruin-reminiscence",
       "target": "the-bones-hold",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -13728,6 +14444,14 @@
     },
     {
       "source": "cities-built-on-ruin",
+      "target": "shop-talk-framework",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
       "target": "signal-descent-005",
       "weight": 2,
       "reasons": [
@@ -13737,6 +14461,14 @@
     {
       "source": "cities-built-on-ruin",
       "target": "the-bones-hold",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -14256,6 +14988,14 @@
     },
     {
       "source": "codex-archive-system-v2-2",
+      "target": "shop-talk-framework",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
       "target": "signal-descent-004",
       "weight": 2,
       "reasons": [
@@ -14273,6 +15013,14 @@
     {
       "source": "codex-archive-system-v2-2",
       "target": "studio-log-adhesive-test-run",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -14336,6 +15084,14 @@
     },
     {
       "source": "codex-archive-system-v2-5-notes",
+      "target": "shop-talk-framework",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
       "target": "signal-descent-004",
       "weight": 2,
       "reasons": [
@@ -14345,6 +15101,14 @@
     {
       "source": "codex-archive-system-v2-5-notes",
       "target": "signal-descent-005",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -14424,6 +15188,14 @@
     },
     {
       "source": "codex-archive-system-v2-6-notes",
+      "target": "shop-talk-framework",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
       "target": "signal-descent-004",
       "weight": 2,
       "reasons": [
@@ -14433,6 +15205,14 @@
     {
       "source": "codex-archive-system-v2-6-notes",
       "target": "signal-descent-005",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -15376,6 +16156,14 @@
     },
     {
       "source": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "target": "shop-talk-framework",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-7-loremap-foundation-notes",
       "target": "signal-descent-001",
       "weight": 2,
       "reasons": [
@@ -15404,6 +16192,14 @@
       "weight": 2,
       "reasons": [
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -17072,6 +17868,14 @@
     },
     {
       "source": "garage-dispatch-001",
+      "target": "shop-talk-framework",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
       "target": "signal-descent-003",
       "weight": 2,
       "reasons": [
@@ -17113,6 +17917,14 @@
     {
       "source": "garage-dispatch-001",
       "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -17352,6 +18164,14 @@
     },
     {
       "source": "grand-myth-central",
+      "target": "shop-talk-framework",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
       "target": "signal-descent-001",
       "weight": 2,
       "reasons": [
@@ -17409,6 +18229,14 @@
     {
       "source": "grand-myth-central",
       "target": "studio-log-adhesive-test-run",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -17600,6 +18428,14 @@
     },
     {
       "source": "jsa-collage-evolution-001",
+      "target": "shop-talk-framework",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
       "target": "signal-descent-004",
       "weight": 2,
       "reasons": [
@@ -17617,6 +18453,14 @@
     {
       "source": "jsa-collage-evolution-001",
       "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -17672,6 +18516,14 @@
     },
     {
       "source": "jsa-collage-evolution-002",
+      "target": "shop-talk-framework",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-002",
       "target": "signal-descent-004",
       "weight": 2,
       "reasons": [
@@ -17697,6 +18549,14 @@
     {
       "source": "jsa-collage-evolution-002",
       "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-002",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -17920,6 +18780,14 @@
     },
     {
       "source": "lean-mean-governance-machine",
+      "target": "shop-talk-framework",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
       "target": "signal-descent-001",
       "weight": 2,
       "reasons": [
@@ -17953,6 +18821,14 @@
     {
       "source": "lean-mean-governance-machine",
       "target": "the-bones-hold-content-architecture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -18384,6 +19260,14 @@
     },
     {
       "source": "nothing-missing-only-unindexed",
+      "target": "shop-talk-framework",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "nothing-missing-only-unindexed",
       "target": "signal-descent-001",
       "weight": 2,
       "reasons": [
@@ -18433,6 +19317,14 @@
     {
       "source": "nothing-missing-only-unindexed",
       "target": "steel-elbow-flinchian",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "nothing-missing-only-unindexed",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -18496,6 +19388,14 @@
     },
     {
       "source": "on-object-oriented-archives",
+      "target": "shop-talk-framework",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-object-oriented-archives",
       "target": "signal-descent-003",
       "weight": 2,
       "reasons": [
@@ -18529,6 +19429,14 @@
     {
       "source": "on-object-oriented-archives",
       "target": "steel-elbow-flinchian",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-object-oriented-archives",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -18752,6 +19660,14 @@
     },
     {
       "source": "phoenix-collage-fracture-study",
+      "target": "shop-talk-framework",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "phoenix-collage-fracture-study",
       "target": "signal-descent-005",
       "weight": 2,
       "reasons": [
@@ -18769,6 +19685,14 @@
     {
       "source": "phoenix-collage-fracture-study",
       "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "phoenix-collage-fracture-study",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -18912,6 +19836,14 @@
     },
     {
       "source": "race-to-the-top-six-bridges",
+      "target": "shop-talk-framework",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "race-to-the-top-six-bridges",
       "target": "signal-descent-003",
       "weight": 2,
       "reasons": [
@@ -18968,6 +19900,14 @@
     },
     {
       "source": "race-to-the-top-six-bridges",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "race-to-the-top-six-bridges",
       "target": "unacceptable-cost",
       "weight": 2,
       "reasons": [
@@ -18985,6 +19925,14 @@
     {
       "source": "reduce-novelty-before-care",
       "target": "scripture-with-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "reduce-novelty-before-care",
+      "target": "shop-talk-framework",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -19017,6 +19965,14 @@
     {
       "source": "reduce-novelty-before-care",
       "target": "the-bones-hold-content-architecture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "reduce-novelty-before-care",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -19111,6 +20067,70 @@
       ]
     },
     {
+      "source": "shop-talk-framework",
+      "target": "signal-descent-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "shop-talk-framework",
+      "target": "signal-descent-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "shop-talk-framework",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "shop-talk-framework",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "shop-talk-framework",
+      "target": "systems-survive-tuesdays",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "shop-talk-framework",
+      "target": "transmission-note-to-future-me",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "shop-talk-framework",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "shop-talk-framework",
+      "target": "when-the-commit-leaves-your-hands",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "signal-descent-001",
       "target": "stairwell-signal",
       "weight": 2,
@@ -19121,6 +20141,14 @@
     {
       "source": "signal-descent-001",
       "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-001",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -19145,6 +20173,14 @@
     {
       "source": "signal-descent-002",
       "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-002",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -19360,7 +20396,23 @@
     },
     {
       "source": "studio-log-adhesive-test-run",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "studio-log-adhesive-test-run",
       "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "suwanee-ga-loremap",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -19392,6 +20444,14 @@
     },
     {
       "source": "systems-survive-tuesdays",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "systems-survive-tuesdays",
       "target": "when-the-commit-leaves-your-hands",
       "weight": 2,
       "reasons": [
@@ -19409,6 +20469,30 @@
     {
       "source": "the-bones-hold",
       "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "the-circle-the-node-and-the-office",
+      "target": "transmission-note-to-future-me",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "the-circle-the-node-and-the-office",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "the-circle-the-node-and-the-office",
+      "target": "when-the-commit-leaves-your-hands",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -19784,6 +20868,14 @@
     },
     {
       "source": "archive-box-stamped-fragments",
+      "target": "shop-talk-framework",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
       "target": "signal-descent-001",
       "weight": 1,
       "reasons": [
@@ -19833,6 +20925,14 @@
     {
       "source": "archive-box-stamped-fragments",
       "target": "the-bones-hold-content-architecture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -20088,6 +21188,14 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "shop-talk-framework",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "signal-descent-003",
       "weight": 1,
       "reasons": [
@@ -20129,6 +21237,14 @@
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "studio-log-adhesive-test-run",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -20305,6 +21421,22 @@
     {
       "source": "artifact-jsa-collage-001",
       "target": "scripture-with-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "shop-talk-framework",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -20544,6 +21676,14 @@
     },
     {
       "source": "artifact-jsa-collage-wip-001",
+      "target": "shop-talk-framework",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
       "target": "signal-descent-001",
       "weight": 1,
       "reasons": [
@@ -20593,6 +21733,14 @@
     {
       "source": "artifact-jsa-collage-wip-001",
       "target": "steel-elbow-flinchian",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -21992,6 +23140,14 @@
     },
     {
       "source": "chattahoochee-river-loremap",
+      "target": "shop-talk-framework",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "chattahoochee-river-loremap",
       "target": "signal-descent-002",
       "weight": 1,
       "reasons": [
@@ -22049,6 +23205,14 @@
     {
       "source": "chattahoochee-river-loremap",
       "target": "studio-log-adhesive-test-run",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "chattahoochee-river-loremap",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -25176,6 +26340,14 @@
     },
     {
       "source": "distortion-atlas",
+      "target": "shop-talk-framework",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
       "target": "signal-descent-001",
       "weight": 1,
       "reasons": [
@@ -25241,6 +26413,14 @@
     {
       "source": "distortion-atlas",
       "target": "the-bones-hold-content-architecture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -25832,6 +27012,14 @@
     },
     {
       "source": "heart-does-not-dream",
+      "target": "shop-talk-framework",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "heart-does-not-dream",
       "target": "studio-bench-cycle",
       "weight": 1,
       "reasons": [
@@ -25849,6 +27037,14 @@
     {
       "source": "heart-does-not-dream",
       "target": "the-bones-hold-content-architecture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "heart-does-not-dream",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -26448,6 +27644,14 @@
     },
     {
       "source": "jsa-collage-evolution-003",
+      "target": "shop-talk-framework",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
       "target": "signal-descent-003",
       "weight": 1,
       "reasons": [
@@ -26497,6 +27701,14 @@
     {
       "source": "jsa-collage-evolution-003",
       "target": "the-bones-hold",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -26832,6 +28044,14 @@
     },
     {
       "source": "maintenance-without-cure",
+      "target": "shop-talk-framework",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "maintenance-without-cure",
       "target": "signal-descent-004",
       "weight": 1,
       "reasons": [
@@ -26857,6 +28077,14 @@
     {
       "source": "maintenance-without-cure",
       "target": "the-bones-hold-content-architecture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "maintenance-without-cure",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -26921,6 +28149,14 @@
     {
       "source": "manic-rider-collapse",
       "target": "ridge-line-lessons",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "manic-rider-collapse",
+      "target": "shop-talk-framework",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -27000,6 +28236,14 @@
     },
     {
       "source": "manic-rider-collapse",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "manic-rider-collapse",
       "target": "under-load",
       "weight": 1,
       "reasons": [
@@ -27049,6 +28293,14 @@
     {
       "source": "mothers-calendar",
       "target": "scripture-with-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "shop-talk-framework",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -27121,6 +28373,14 @@
     {
       "source": "mothers-calendar",
       "target": "studio-log-adhesive-test-run",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -27632,6 +28892,14 @@
     },
     {
       "source": "one-yard-from-forever-scroll-surface",
+      "target": "shop-talk-framework",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever-scroll-surface",
       "target": "signal-descent-002",
       "weight": 1,
       "reasons": [
@@ -27705,6 +28973,14 @@
     {
       "source": "one-yard-from-forever-scroll-surface",
       "target": "the-bones-hold-content-architecture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever-scroll-surface",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -28048,6 +29324,14 @@
     },
     {
       "source": "pocket-rock-cathedral",
+      "target": "shop-talk-framework",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pocket-rock-cathedral",
       "target": "signal-descent-002",
       "weight": 1,
       "reasons": [
@@ -28120,6 +29404,14 @@
     },
     {
       "source": "pocket-rock-cathedral",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pocket-rock-cathedral",
       "target": "transmission-note-to-future-me",
       "weight": 1,
       "reasons": [
@@ -28152,7 +29444,23 @@
     },
     {
       "source": "pressure-psalm-v",
+      "target": "shop-talk-framework",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pressure-psalm-v",
       "target": "suwanee-ga-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pressure-psalm-v",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -28440,6 +29748,14 @@
     },
     {
       "source": "scroll-from-the-perimeter",
+      "target": "shop-talk-framework",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "scroll-from-the-perimeter",
       "target": "signal-descent-001",
       "weight": 1,
       "reasons": [
@@ -28496,6 +29812,14 @@
     },
     {
       "source": "scroll-from-the-perimeter",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "scroll-from-the-perimeter",
       "target": "transmission-note-to-future-me",
       "weight": 1,
       "reasons": [
@@ -28505,6 +29829,38 @@
     {
       "source": "scroll-from-the-perimeter",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "shop-talk-framework",
+      "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "shop-talk-framework",
+      "target": "stairwell-signal",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "shop-talk-framework",
+      "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "shop-talk-framework",
+      "target": "the-bones-hold",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -28592,6 +29948,14 @@
     },
     {
       "source": "signal-harvest",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-harvest",
       "target": "unacceptable-cost",
       "weight": 1,
       "reasons": [
@@ -28649,6 +30013,14 @@
     {
       "source": "stairwell-signal",
       "target": "suwanee-ga-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "stairwell-signal",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -28721,6 +30093,14 @@
     {
       "source": "studio-bench-cycle",
       "target": "the-bones-hold-content-architecture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "studio-bench-cycle",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -28801,6 +30181,14 @@
     {
       "source": "the-bones-hold-content-architecture",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "the-bones-hold",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 1,
       "reasons": [
         "shared-theme"

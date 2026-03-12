@@ -432,20 +432,22 @@ function buildHref(
             class="media-tile"
             data-media-shape={item.primaryMediaMetadata?.shape}
           >
-            {item.primaryMedia?.kind === 'image' ? (
-              <img
-                src={withMediaVersion(item.primaryMedia.src, item.primaryMediaVersion ?? undefined)}
-                alt={item.primaryMedia.alt || `${item.entry.data.title} media`}
-                width={item.primaryMediaMetadata?.width}
-                height={item.primaryMediaMetadata?.height}
-                loading="lazy"
-                decoding="async"
-              />
-            ) : (
-              <div class="media-fallback">
-                {item.primaryMedia ? item.primaryMedia.kind : 'media'}
-              </div>
-            )}
+            <div class="media-stage">
+              {item.primaryMedia?.kind === 'image' ? (
+                <img
+                  src={withMediaVersion(item.primaryMedia.src, item.primaryMediaVersion ?? undefined)}
+                  alt={item.primaryMedia.alt || `${item.entry.data.title} media`}
+                  width={item.primaryMediaMetadata?.width}
+                  height={item.primaryMediaMetadata?.height}
+                  loading="lazy"
+                  decoding="async"
+                />
+              ) : (
+                <div class="media-fallback">
+                  {item.primaryMedia ? item.primaryMedia.kind : 'media'}
+                </div>
+              )}
+            </div>
             <div class="tile-meta">
               <strong>{formatDisplayTitle(item.entry.data.title)}</strong>
               <span>{item.mediaCount} media items</span>
@@ -1360,14 +1362,17 @@ function buildHref(
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 2.3rem;
+    align-items: start;
   }
 
   .media-tile {
     --ledger-media-ratio: 16 / 9;
+    display: grid;
+    align-content: start;
+    gap: 1.15rem;
     text-decoration: none;
     border: none;
     border-bottom: none;
-    overflow: hidden;
     background: transparent;
     transition: 0.12s;
   }
@@ -1396,20 +1401,31 @@ function buildHref(
     border-color: var(--ghost);
   }
 
-  .media-tile img {
-    display: block;
+  .media-stage {
     width: 100%;
     aspect-ratio: var(--ledger-media-ratio);
-    object-fit: contain;
+    display: grid;
+    place-items: center;
     padding: 0.7rem;
+    overflow: hidden;
+    box-sizing: border-box;
     background:
       linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0) 18%),
       linear-gradient(180deg, rgba(58, 48, 41, 0.92), rgba(34, 29, 25, 0.96));
   }
 
+  .media-stage img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    object-fit: contain;
+  }
+
   .media-fallback {
     width: 100%;
-    aspect-ratio: var(--ledger-media-ratio);
+    height: 100%;
     display: grid;
     place-items: center;
     color: var(--text-dim);
@@ -1420,7 +1436,6 @@ function buildHref(
   }
 
   .tile-meta {
-    padding: 1.15rem 0 0;
     display: grid;
     gap: 0.55rem;
   }

@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Signal Engine — Four Strokes</title>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Share+Tech+Mono&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Share+Tech+Mono&display=swap" rel="stylesheet"></noscript>
+<style>
+/* ── TOKENS ── */
+:root {
+  --bg:          #080600;
+  --bg-card:     #0F0A00;
+  --bg-card-hi:  #160E00;
+  --amber-hi:    #FFC040;
+  --amber:       #E8A000;
+  --amber-mid:   #B87800;
+  --amber-lo:    #6A4200;
+  --amber-faint: #2E1C00;
+  --amber-ghost: #180E00;
+  --white-hi:    #FFF8F0;
+  --white-dim:   #C8B898;
+  --font-mono:   'Share Tech Mono', 'Courier New', monospace;
+  --font-fell:   'IM Fell English', 'Georgia', serif;
+  --stage-c: var(--amber);
+}
+
+/* ── RESET ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--amber);
+  font-family: var(--font-mono);
+  height: 100%;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  font-size: 16px;
+}
+
+/* ── SCANLINES ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent, transparent 3px,
+    rgba(0,0,0,0.07) 3px, rgba(0,0,0,0.07) 4px
+  );
+  pointer-events: none;
+  z-index: 9000;
+}
+
+/* ── VIGNETTE ── */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background: radial-gradient(ellipse 110% 100% at 50% 50%,
+    transparent 50%, rgba(0,0,0,0.6) 85%, rgba(0,0,0,0.9) 100%
+  );
+  pointer-events: none;
+  z-index: 8999;
+}
+
+/* ══════════════════════════════
+   STAGE RUNNER
+══════════════════════════════ */
+.runner {
+  display: flex;
+  width: 400vw;
+  height: 100dvh;
+  height: 100vh;
+  transition: transform 0.55s cubic-bezier(0.77, 0, 0.18, 1);
+  will-change: transform;
+}
+
+/* ── INDIVIDUAL STAGE ── */
+.stage {
+  width: 100vw;
+  height: 100dvh;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Stage color accents */
+.stage[data-s="0"] { --stage-c: #CC8800; }
+.stage[data-s="1"] { --stage-c: #E8A000; }
+.stage[data-s="2"] { --stage-c: #FFC040; }
+.stage[data-s="3"] { --stage-c: #B87800; }
+
+/* ── STAGE HEADER ── */
+.stage-head {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px 10px;
+  border-bottom: 1px solid var(--amber-ghost);
+  position: relative;
+  z-index: 10;
+}
+
+.stage-fig {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--amber-lo);
+  letter-spacing: 0.1em;
+}
+
+.stage-pip-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.pip {
+  width: 22px; height: 3px;
+  background: var(--amber-ghost);
+  transition: background 0.3s, width 0.3s;
+  border-radius: 2px;
+}
+
+.pip.active {
+  background: var(--stage-c);
+  width: 32px;
+  box-shadow: 0 0 6px rgba(255,192,64,0.5);
+}
+
+.stage-patent {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--amber-lo);
+  letter-spacing: 0.06em;
+}
+
+/* ── SVG ILLUSTRATION AREA ── */
+.stage-diagram {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px 0;
+  min-height: 0;
+  position: relative;
+}
+
+.stage-diagram svg {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  display: block;
+}
+
+/* Stage glow behind diagram — unique per stage */
+.stage-diagram::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 50%,
+    rgba(var(--glow-rgb), 0.06) 0%, transparent 70%
+  );
+  pointer-events: none;
+}
+
+.stage[data-s="0"] .stage-diagram { --glow-rgb: 200,136,0; }
+.stage[data-s="1"] .stage-diagram { --glow-rgb: 232,160,0; }
+.stage[data-s="2"] .stage-diagram { --glow-rgb: 255,192,64; }
+.stage[data-s="3"] .stage-diagram { --glow-rgb: 184,120,0; }
+
+/* ── CONTENT PANEL ── */
+.stage-content {
+  flex: 0 0 auto;
+  padding: 12px 20px 0;
+  border-top: 1px solid var(--amber-ghost);
+  background: linear-gradient(to bottom, var(--bg-card) 0%, var(--bg) 100%);
+  position: relative;
+}
+
+.stage-content::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: 0;
+  width: 60px; height: 1px;
+  background: var(--stage-c);
+  box-shadow: 0 0 8px rgba(255,192,64,0.3);
+}
+
+.stroke-title {
+  font-family: var(--font-fell);
+  font-size: 28px;
+  color: var(--stage-c);
+  letter-spacing: 0.06em;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.stroke-sub {
+  font-family: var(--font-fell);
+  font-size: 12px;
+  font-style: italic;
+  color: var(--amber-lo);
+  margin-bottom: 10px;
+  letter-spacing: 0.03em;
+}
+
+.stroke-body {
+  font-size: 13px;
+  color: var(--white-dim);
+  line-height: 1.7;
+  margin-bottom: 6px;
+}
+
+.stroke-body em {
+  color: var(--amber);
+  font-style: italic;
+}
+
+/* ── MECHANIC NOTE ── */
+.mech-note {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 8px 10px;
+  border-left: 2px solid var(--stage-c);
+  background: var(--amber-ghost);
+  margin-bottom: 10px;
+  border-radius: 0 2px 2px 0;
+}
+
+.mech-note-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--amber-lo);
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.mech-note-text {
+  font-family: var(--font-fell);
+  font-size: 13px;
+  font-style: italic;
+  color: var(--amber-mid);
+  line-height: 1.5;
+}
+
+/* ── NAV STRIP ── */
+.stage-nav {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 20px 12px;
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
+}
+
+.nav-btn {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--amber-lo);
+  background: none;
+  border: 1px solid var(--amber-ghost);
+  padding: 7px 14px;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  -webkit-tap-highlight-color: transparent;
+  border-radius: 2px;
+  min-width: 80px;
+}
+
+.nav-btn:hover, .nav-btn:active {
+  color: var(--stage-c);
+  border-color: var(--amber-lo);
+  background: var(--amber-ghost);
+}
+
+.nav-btn:disabled {
+  opacity: 0.2;
+  cursor: default;
+}
+
+.nav-center {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--amber-lo);
+  letter-spacing: 0.12em;
+  text-align: center;
+}
+
+.nav-count {
+  font-size: 13px;
+  color: var(--amber-mid);
+  display: block;
+  line-height: 1;
+}
+
+/* ── LANDING (stage 0 special treatment — full intro) ── */
+.intro-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  background: var(--bg);
+  transition: opacity 0.6s, pointer-events 0s 0.6s;
+  padding: 40px 32px;
+  text-align: center;
+}
+
+.intro-overlay.gone {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.intro-patent-no {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--amber-lo);
+  letter-spacing: 0.15em;
+  margin-bottom: 20px;
+}
+
+.intro-title {
+  font-family: var(--font-fell);
+  font-size: 40px;
+  color: var(--amber);
+  letter-spacing: 0.05em;
+  line-height: 1;
+  margin-bottom: 8px;
+  text-shadow: 0 0 30px rgba(232,160,0,0.4);
+}
+
+.intro-sub {
+  font-family: var(--font-fell);
+  font-size: 13px;
+  font-style: italic;
+  color: var(--amber-lo);
+  letter-spacing: 0.05em;
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.intro-rule {
+  width: 60px; height: 1px;
+  background: var(--amber-lo);
+  margin: 0 auto 32px;
+}
+
+.intro-enter {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--amber-lo);
+  letter-spacing: 0.2em;
+  padding: 10px 24px;
+  border: 1px solid var(--amber-lo);
+  background: none;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  -webkit-tap-highlight-color: transparent;
+  border-radius: 2px;
+  animation: pulse-btn 2.5s infinite;
+}
+
+@keyframes pulse-btn {
+  0%, 100% { border-color: var(--amber-lo); color: var(--amber-lo); }
+  50%       { border-color: var(--amber-mid); color: var(--amber-mid); box-shadow: 0 0 10px rgba(184,120,0,0.3); }
+}
+
+.intro-enter:hover, .intro-enter:active {
+  color: var(--amber);
+  border-color: var(--amber);
+  background: var(--amber-ghost);
+  animation: none;
+}
+
+/* ── SWIPE HINT ── */
+.swipe-hint {
+  position: absolute;
+  bottom: 56px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--amber-lo);
+  letter-spacing: 0.15em;
+  animation: hint-fade 3s 2s both;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+@keyframes hint-fade {
+  0%   { opacity: 0; }
+  20%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ── PROGRESS BAR ── */
+.progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  background: var(--stage-c);
+  transition: width 0.55s cubic-bezier(0.77, 0, 0.18, 1), background 0.3s;
+  z-index: 9001;
+  box-shadow: 0 0 8px rgba(255,192,64,0.4);
+}
+
+/* ── KEYBOARD HINT ── */
+.key-hint {
+  position: fixed;
+  bottom: 20px; right: 20px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--amber-ghost);
+  letter-spacing: 0.1em;
+  z-index: 100;
+  pointer-events: none;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.stage.is-active .stroke-title { animation: rise 0.4s 0.1s both; }
+.stage.is-active .stroke-sub   { animation: rise 0.4s 0.18s both; }
+.stage.is-active .stroke-body  { animation: rise 0.4s 0.26s both; }
+.stage.is-active .mech-note    { animation: rise 0.4s 0.34s both; }
+.stage.is-active .stage-diagram { animation: fadein 0.5s 0.05s both; }
+
+/* ── DESKTOP LAYOUT ── */
+@media (min-width: 640px) {
+  .stage {
+    flex-direction: column;
+    max-width: 600px;
+    margin: 0 auto;
+    width: 100vw;
+  }
+  .stroke-title { font-size: 36px; }
+  .stroke-body  { font-size: 14px; }
+  .mech-note-text { font-size: 14px; }
+}
+
+/* Tall screens get more diagram space */
+@media (min-height: 800px) {
+  .stage-content { padding-top: 16px; }
+  .stroke-body   { margin-bottom: 10px; }
+  .mech-note     { padding: 10px 12px; margin-bottom: 14px; }
+}
+
+/* Very short screens — compress */
+@media (max-height: 580px) {
+  .stage-head    { padding: 8px 16px; }
+  .stroke-title  { font-size: 22px; }
+  .stroke-sub    { display: none; }
+  .stroke-body   { font-size: 12px; margin-bottom: 4px; }
+  .mech-note     { padding: 6px 8px; margin-bottom: 6px; }
+  .stage-nav     { padding: 6px 16px 8px; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+<div class="key-hint" id="keyHint">← → KEYS OR SWIPE</div>
+
+<!-- ══════════════════════════════════════
+     INTRO OVERLAY
+══════════════════════════════════════ -->
+<div class="intro-overlay" id="introOverlay">
+  <div class="intro-patent-no">No. N·D·1·8 &nbsp;·&nbsp; PATENT DRAWING</div>
+  <div class="intro-title">Signal Engine</div>
+  <div class="intro-sub">Four-Stroke Writing Mechanism<br>Cross-Section at the Axis of Combustion</div>
+  <div class="intro-rule"></div>
+  <button class="intro-enter" id="introEnter">OPEN HOOD</button>
+</div>
+
+<!-- ══════════════════════════════════════
+     STAGE RUNNER
+══════════════════════════════════════ -->
+<div class="runner" id="runner">
+
+  <!-- ─────── STAGE A — FUEL ─────── -->
+  <div class="stage is-active" data-s="0" id="stage-0">
+    <div class="stage-head">
+      <span class="stage-fig">Fig. A.</span>
+      <div class="stage-pip-row">
+        <div class="pip active" data-pip="0"></div>
+        <div class="pip" data-pip="1"></div>
+        <div class="pip" data-pip="2"></div>
+        <div class="pip" data-pip="3"></div>
+      </div>
+      <span class="stage-patent">SHOP TALK v1.8</span>
+    </div>
+
+    <div class="stage-diagram">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 170 415" style="font-family:'IM Fell English','Georgia',serif; overflow:visible;">
+        <defs>
+          <pattern id="hatch45" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2="5" stroke="#3A2000" stroke-width="0.8"/>
+          </pattern>
+          <pattern id="hatch45hi" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2="4" stroke="#5A3200" stroke-width="1"/>
+          </pattern>
+          <pattern id="hatch45med" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2="6" stroke="#4A2800" stroke-width="1.2"/>
+          </pattern>
+          <pattern id="hatchv" width="5" height="5" patternUnits="userSpaceOnUse">
+            <line x1="2.5" y1="0" x2="2.5" y2="5" stroke="#2E1C00" stroke-width="0.7"/>
+          </pattern>
+          <pattern id="stipple" width="4" height="4" patternUnits="userSpaceOnUse">
+            <circle cx="1" cy="1" r="0.4" fill="#3A2000"/>
+            <circle cx="3" cy="3" r="0.4" fill="#3A2000"/>
+          </pattern>
+          <pattern id="bgrid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M20 0L0 0 0 20" fill="none" stroke="#180E00" stroke-width="0.5"/>
+          </pattern>
+          <marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#B87800"/>
+          </marker>
+          <marker id="arr-hi" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#E8A000"/>
+          </marker>
+          <marker id="dot" markerWidth="4" markerHeight="4" refX="2" refY="2" orient="auto">
+            <circle cx="2" cy="2" r="1.5" fill="#B87800"/>
+          </marker>
+          <filter id="glow-subtle">
+            <feGaussianBlur stdDeviation="1.5" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <rect width="170" height="415" fill="#0F0A00"/>
+        <rect width="170" height="415" fill="url(#bgrid)" opacity="0.5"/>
+
+        <!-- Cylinder walls -->
+        <rect x="0"   y="18" width="22" height="290" fill="url(#hatch45hi)"/>
+        <rect x="0"   y="18" width="22" height="290" fill="none" stroke="#6A4200" stroke-width="1.5"/>
+        <rect x="128" y="18" width="22" height="290" fill="url(#hatch45hi)"/>
+        <rect x="128" y="18" width="22" height="290" fill="none" stroke="#6A4200" stroke-width="1.5"/>
+        <!-- Head -->
+        <rect x="0" y="0" width="150" height="22" fill="url(#hatch45med)"/>
+        <rect x="0" y="0" width="150" height="22" fill="none" stroke="#6A4200" stroke-width="1.5"/>
+        <!-- Bore -->
+        <rect x="22" y="22" width="106" height="282" fill="#0A0700"/>
+
+        <!-- Intake valve open (left) -->
+        <rect x="0" y="26" width="22" height="28" fill="#0A0700"/>
+        <rect x="0" y="26" width="22" height="2" fill="#B87800"/>
+        <rect x="0" y="52" width="22" height="2" fill="#B87800"/>
+        <line x1="11" y1="0"  x2="11" y2="28" stroke="#B87800" stroke-width="2"/>
+        <ellipse cx="11" cy="0" rx="5" ry="3" fill="none" stroke="#B87800" stroke-width="1.5"/>
+        <line x1="0" y1="51" x2="22" y2="56" stroke="#E8A000" stroke-width="2.5"/>
+        <!-- Exhaust closed (right) -->
+        <line x1="129" y1="0" x2="129" y2="26" stroke="#4A2800" stroke-width="2"/>
+        <ellipse cx="129" cy="0" rx="5" ry="3" fill="none" stroke="#4A2800" stroke-width="1.5"/>
+        <line x1="128" y1="26" x2="150" y2="26" stroke="#4A2800" stroke-width="2.5"/>
+        <!-- Spark plug -->
+        <rect x="67" y="-5" width="16" height="22" fill="url(#hatch45)" rx="2"/>
+        <rect x="67" y="-5" width="16" height="22" fill="none" stroke="#4A2800" stroke-width="1"/>
+        <line x1="75" y1="17" x2="75" y2="22" stroke="#4A2800" stroke-width="1.5"/>
+
+        <!-- Piston mid -->
+        <rect x="26" y="168" width="98" height="44" fill="url(#hatch45)" rx="1"/>
+        <rect x="26" y="168" width="98" height="44" fill="none" stroke="#B87800" stroke-width="1.5"/>
+        <rect x="26" y="168" width="98" height="6"  fill="#2E1C00"/>
+        <rect x="26" y="168" width="98" height="6"  fill="none" stroke="#B87800" stroke-width="1"/>
+        <rect x="24" y="174" width="102" height="3" fill="none" stroke="#B87800" stroke-width="1.5"/>
+        <rect x="24" y="180" width="102" height="3" fill="none" stroke="#B87800" stroke-width="1.5"/>
+        <rect x="24" y="186" width="102" height="3" fill="none" stroke="#B87800" stroke-width="1.5"/>
+        <line x1="44"  y1="192" x2="44"  y2="210" stroke="#3A2000" stroke-width="1"/>
+        <line x1="75"  y1="192" x2="75"  y2="210" stroke="#3A2000" stroke-width="1"/>
+        <line x1="106" y1="192" x2="106" y2="210" stroke="#3A2000" stroke-width="1"/>
+
+        <!-- Fuel stipple -->
+        <rect x="23" y="23" width="104" height="144" fill="url(#stipple)" opacity="0.5"/>
+        <!-- Fuel flow arrows -->
+        <line x1="18" y1="58"  x2="36"  y2="90"  stroke="#E8A000" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arr-hi)"/>
+        <line x1="36" y1="105" x2="50"  y2="140" stroke="#E8A000" stroke-width="1"   stroke-dasharray="3 3" marker-end="url(#arr)"/>
+        <line x1="100" y1="105" x2="90" y2="140" stroke="#E8A000" stroke-width="1"   stroke-dasharray="3 3" marker-end="url(#arr)"/>
+
+        <!-- Wrist pin -->
+        <circle cx="75" cy="209" r="7" fill="url(#hatch45)" stroke="#B87800" stroke-width="1.5"/>
+        <circle cx="75" cy="209" r="3" fill="#0A0700" stroke="#6A4200" stroke-width="1"/>
+
+        <!-- Con rod -->
+        <path d="M68,216 L60,308 L90,308 L82,216 Z" fill="url(#hatchv)" stroke="#B87800" stroke-width="1.2"/>
+        <ellipse cx="75" cy="216" rx="14" ry="8" fill="url(#hatch45)" stroke="#B87800" stroke-width="1.2"/>
+
+        <!-- Crankshaft -->
+        <ellipse cx="75" cy="328" rx="32" ry="22" fill="url(#hatch45hi)" stroke="#B87800" stroke-width="1.5"/>
+        <ellipse cx="75" cy="328" rx="16" ry="10" fill="#0A0700" stroke="#6A4200" stroke-width="1"/>
+        <circle  cx="75" cy="328" r="4"  fill="url(#hatch45hi)" stroke="#B87800" stroke-width="1.5"/>
+        <ellipse cx="92" cy="313" rx="8" ry="5"   fill="url(#hatch45)" stroke="#B87800" stroke-width="1.2"/>
+        <ellipse cx="75" cy="308" rx="16" ry="9"  fill="url(#hatch45)" stroke="#B87800" stroke-width="1.2"/>
+
+        <!-- Bottom plate -->
+        <rect x="0" y="308" width="150" height="14" fill="url(#hatch45hi)" stroke="#6A4200" stroke-width="1.5"/>
+
+        <!-- Callout lines -->
+        <line x1="0" y1="39"  x2="-2"  y2="39"  stroke="#6A4200" stroke-width="0.8"/>
+        <line x1="75" y1="86" x2="-2"  y2="80"  stroke="#6A4200" stroke-width="0.8" marker-end="url(#dot)"/>
+        <text x="-4" y="78" text-anchor="end" font-family="'IM Fell English','Georgia',serif" font-size="8" font-style="italic" fill="#B87800">fuel charge</text>
+        <line x1="124" y1="190" x2="154" y2="186" stroke="#6A4200" stroke-width="0.8" marker-end="url(#dot)"/>
+        <text x="156" y="184" font-family="'IM Fell English','Georgia',serif" font-size="8" font-style="italic" fill="#B87800">piston</text>
+        <line x1="107" y1="328" x2="154" y2="328" stroke="#6A4200" stroke-width="0.8" marker-end="url(#dot)"/>
+        <text x="156" y="326" font-family="'IM Fell English','Georgia',serif" font-size="8" font-style="italic" fill="#B87800">crank</text>
+
+        <!-- Fig label -->
+        <text x="2" y="12" font-family="'Share Tech Mono','Courier New',monospace" font-size="8" fill="#4A2800">Fig. A.</text>
+        <!-- Descending arrow on piston -->
+        <line x1="75" y1="30" x2="75" y2="165" stroke="#CC8800" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#arr)"/>
+
+        <!-- Bottom dimension line -->
+        <line x1="0" y1="395" x2="150" y2="395" stroke="#2E1C00" stroke-width="0.5"/>
+        <line x1="0"   y1="390" x2="0"   y2="400" stroke="#2E1C00" stroke-width="0.5"/>
+        <line x1="150" y1="390" x2="150" y2="400" stroke="#2E1C00" stroke-width="0.5"/>
+        <text x="75" y="408" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="7" fill="#2E1C00" letter-spacing="1">INTAKE STROKE</text>
+      </svg>
+    </div>
+
+    <div class="stage-content">
+      <div class="stroke-title">FUEL</div>
+      <div class="stroke-sub">desire enters the chamber</div>
+      <p class="stroke-body">
+        The desire to understand. To reveal. To remember. To repair. To celebrate. To protest.
+        <em>Without desire the chamber is empty.</em> Language may exist. But nothing burns.
+      </p>
+      <div class="mech-note">
+        <span class="mech-note-label">INTAKE VALVE</span>
+        <span class="mech-note-text">Open. Piston descends. Charge drawn in.</span>
+      </div>
+    </div>
+
+    <div class="stage-nav">
+      <button class="nav-btn" id="prev-0" disabled>&#8592; PREV</button>
+      <div class="nav-center">
+        <span class="nav-count">01 / 04</span>
+        STROKE A
+      </div>
+      <button class="nav-btn" id="next-0">NEXT &#8594;</button>
+    </div>
+
+    <div class="swipe-hint">SWIPE OR TAP &#8594;</div>
+  </div>
+
+  <!-- ─────── STAGE B — IGNITION ─────── -->
+  <div class="stage" data-s="1" id="stage-1">
+    <div class="stage-head">
+      <span class="stage-fig">Fig. B.</span>
+      <div class="stage-pip-row">
+        <div class="pip" data-pip="0"></div>
+        <div class="pip active" data-pip="1"></div>
+        <div class="pip" data-pip="2"></div>
+        <div class="pip" data-pip="3"></div>
+      </div>
+      <span class="stage-patent">SHOP TALK v1.8</span>
+    </div>
+
+    <div class="stage-diagram">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 170 415" style="font-family:'IM Fell English','Georgia',serif; overflow:visible;">
+        <defs>
+          <pattern id="hatch45b"    width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="#3A2000" stroke-width="0.8"/></pattern>
+          <pattern id="hatch45hib" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="4" stroke="#5A3200" stroke-width="1"/></pattern>
+          <pattern id="hatch45medb" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#4A2800" stroke-width="1.2"/></pattern>
+          <pattern id="hatchvb"     width="5" height="5" patternUnits="userSpaceOnUse"><line x1="2.5" y1="0" x2="2.5" y2="5" stroke="#2E1C00" stroke-width="0.7"/></pattern>
+          <pattern id="bgridb"      width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0L0 0 0 20" fill="none" stroke="#180E00" stroke-width="0.5"/></pattern>
+          <marker id="arrb"    markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#B87800"/></marker>
+          <marker id="arr-hib" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#E8A000"/></marker>
+          <marker id="dotb"    markerWidth="4" markerHeight="4" refX="2" refY="2" orient="auto"><circle cx="2" cy="2" r="1.5" fill="#B87800"/></marker>
+          <filter id="glow-subtleb"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+
+        <rect width="170" height="415" fill="#0F0A00"/>
+        <rect width="170" height="415" fill="url(#bgridb)" opacity="0.5"/>
+
+        <!-- Walls -->
+        <rect x="0"   y="18" width="22" height="290" fill="url(#hatch45hib)"/>
+        <rect x="0"   y="18" width="22" height="290" fill="none" stroke="#6A4200" stroke-width="1.5"/>
+        <rect x="128" y="18" width="22" height="290" fill="url(#hatch45hib)"/>
+        <rect x="128" y="18" width="22" height="290" fill="none" stroke="#6A4200" stroke-width="1.5"/>
+        <rect x="0" y="0" width="150" height="22" fill="url(#hatch45medb)"/>
+        <rect x="0" y="0" width="150" height="22" fill="none" stroke="#6A4200" stroke-width="1.5"/>
+        <rect x="22" y="22" width="106" height="282" fill="#0A0700"/>
+
+        <!-- Both valves CLOSED -->
+        <line x1="11"  y1="0" x2="11"  y2="26" stroke="#4A2800" stroke-width="2"/>
+        <ellipse cx="11"  cy="0" rx="5" ry="3" fill="none" stroke="#4A2800" stroke-width="1.5"/>
+        <line x1="0"  y1="26" x2="22"  y2="26" stroke="#4A2800" stroke-width="2.5"/>
+        <line x1="129" y1="0" x2="129" y2="26" stroke="#4A2800" stroke-width="2"/>
+        <ellipse cx="129" cy="0" rx="5" ry="3" fill="none" stroke="#4A2800" stroke-width="1.5"/>
+        <line x1="128" y1="26" x2="150" y2="26" stroke="#4A2800" stroke-width="2.5"/>
+
+        <!-- Spark plug — about to fire, glowing -->
+        <rect x="67" y="-5" width="16" height="22" fill="url(#hatch45medb)" rx="2"/>
+        <rect x="67" y="-5" width="16" height="22" fill="none" stroke="#B87800" stroke-width="1.2"/>
+        <line x1="75" y1="17" x2="75" y2="22" stroke="#E8A000" stroke-width="1.5"/>
+        <circle cx="75" cy="24" r="2.5" fill="#FFC040" opacity="0.6" filter="url(#glow-subtleb)"/>
+
+        <!-- Piston HIGH (near TDC) -->
+        <rect x="26" y="58" width="98" height="44" fill="url(#hatch45b)" rx="1"/>
+        <rect x="26" y="58" width="98" height="44" fill="none" stroke="#B87800" stroke-width="1.5"/>
+        <rect x="26" y="58" width="98" height="6"  fill="#2E1C00"/>
+        <rect x="26" y="58" width="98" height="6"  fill="none" stroke="#B87800" stroke-width="1"/>
+        <rect x="24" y="64" width="102" height="3" fill="none" stroke="#B87800" stroke-width="1.5"/>
+        <rect x="24" y="70" width="102" height="3" fill="none" stroke="#B87800" stroke-width="1.5"/>
+        <rect x="24" y="76" width="102" height="3" fill="none" stroke="#B87800" stroke-width="1.5"/>
+        <line x1="44"  y1="82" x2="44"  y2="100" stroke="#3A2000" stroke-width="1"/>
+        <line x1="75"  y1="82" x2="75"  y2="100" stroke="#3A2000" stroke-width="1"/>
+        <line x1="106" y1="82" x2="106" y2="100" stroke="#3A2000" stroke-width="1"/>
+
+        <!-- Dense compressed charge above piston -->
+        <rect x="23" y="23" width="104" height="34" fill="url(#hatch45medb)" opacity="0.7"/>
+        <!-- Compression arrows -->
+        <line x1="50"  y1="44" x2="50"  y2="57" stroke="#E8A000" stroke-width="1.5" marker-end="url(#arr-hib)"/>
+        <line x1="75"  y1="40" x2="75"  y2="57" stroke="#E8A000" stroke-width="1.5" marker-end="url(#arr-hib)"/>
+        <line x1="100" y1="44" x2="100" y2="57" stroke="#E8A000" stroke-width="1.5" marker-end="url(#arr-hib)"/>
+
+        <!-- Wrist pin -->
+        <circle cx="75" cy="99" r="7" fill="url(#hatch45b)" stroke="#B87800" stroke-width="1.5"/>
+        <circle cx="75" cy="99" r="3" fill="#0A0700" stroke="#6A4200" stroke-width="1"/>
+
+        <!-- Con rod — short (piston high) -->
+        <path d="M68,106 L60,248 L90,248 L82,106 Z" fill="url(#hatchvb)" stroke="#B87800" stroke-width="1.2"/>
+        <ellipse cx="75" cy="106" rx="14" ry="8" fill="url(#hatch45b)" stroke="#B87800" stroke-width="1.2"/>
+
+        <!-- Crankshaft -->
+        <ellipse cx="75" cy="278" rx="32" ry="22" fill="url(#hatch45hib)" stroke="#B87800" stroke-width="1.5"/>
+        <ellipse cx="75" cy="278" rx="16" ry="10" fill="#0A0700" stroke="#6A4200" stroke-width="1"/>
+        <circle  cx="75" cy="278" r="4"  fill="url(#hatch45hib)" stroke="#B87800" stroke-width="1.5"/>
+        <ellipse cx="57" cy="264" rx="8" ry="5"   fill="url(#hatch45b)" stroke="#B87800" stroke-width="1.2"/>
+        <ellipse cx="75" cy="248" rx="16" ry="9"  fill="url(#hatch45b)" stroke="#B87800" stroke-width="1.2"/>
+
+        <!-- Dimension arrow — stroke travel -->
+        <line x1="-8" y1="58"  x2="-8" y2="168" stroke="#4A2800" stroke-width="0.8"/>
+        <line x1="-13" y1="58"  x2="-3" y2="58"  stroke="#4A2800" stroke-width="0.8"/>
+        <line x1="-13" y1="168" x2="-3" y2="168" stroke="#4A2800" stroke-width="0.8"/>
+        <text x="-10" y="116" text-anchor="middle" font-family="'IM Fell English','Georgia',serif" font-size="7" font-style="italic" fill="#4A2800" transform="rotate(-90,-10,116)">stroke</text>
+
+        <rect x="0" y="308" width="150" height="14" fill="url(#hatch45hib)" stroke="#6A4200" stroke-width="1.5"/>
+
+        <!-- Callouts -->
+        <line x1="75" y1="30" x2="-2" y2="22" stroke="#6A4200" stroke-width="0.8" marker-end="url(#dotb)"/>
+        <text x="-4" y="20" text-anchor="end" font-family="'IM Fell English','Georgia',serif" font-size="8" font-style="italic" fill="#B87800">compressed</text>
+        <line x1="124" y1="80" x2="154" y2="72" stroke="#6A4200" stroke-width="0.8" marker-end="url(#dotb)"/>
+        <text x="156" y="70" font-family="'IM Fell English','Georgia',serif" font-size="8" font-style="italic" fill="#B87800">piston high</text>
+        <line x1="107" y1="278" x2="154" y2="278" stroke="#6A4200" stroke-width="0.8" marker-end="url(#dotb)"/>
+        <text x="156" y="276" font-family="'IM Fell English','Georgia',serif" font-size="8" font-style="italic" fill="#B87800">crank</text>
+
+        <text x="2" y="12" font-family="'Share Tech Mono','Courier New',monospace" font-size="8" fill="#4A2800">Fig. B.</text>
+
+        <line x1="0"   y1="395" x2="150" y2="395" stroke="#2E1C00" stroke-width="0.5"/>
+        <line x1="0"   y1="390" x2="0"   y2="400" stroke="#2E1C00" stroke-width="0.5"/>
+        <line x1="150" y1="390" x2="150" y2="400" stroke="#2E1C00" stroke-width="0.5"/>
+        <text x="75" y="408" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="7" fill="#2E1C00" letter-spacing="1">COMPRESSION STROKE</text>
+      </svg>
+    </div>
+
+    <div class="stage-content">
+      <div class="stroke-title">IGNITION</div>
+      <div class="stroke-sub">language compresses to signal</div>
+      <p class="stroke-body">
+        The opening spark. The line that turns the key. Both valves sealed.
+        <em>Weak ignition stalls the journey.</em> Strong ignition wakes the engine.
+        The charge waits at maximum pressure.
+      </p>
+      <div class="mech-note">
+        <span class="mech-note-label">COMPRESSION</span>
+        <span class="mech-note-text">Both valves closed. Piston rises. Spark at TDC.</span>
+      </div>
+    </div>
+
+    <div class="stage-nav">
+      <button class="nav-btn" id="prev-1">&#8592; PREV</button>
+      <div class="nav-center">
+        <span class="nav-count">02 / 04</span>
+        STROKE B
+      </div>
+      <button class="nav-btn" id="next-1">NEXT &#8594;</button>
+    </div>
+  </div>
+
+  <!-- ─────── STAGE C — COMBUSTION ─────── -->
+  <div class="stage" data-s="2" id="stage-2">
+    <div class="stage-head">
+      <span class="stage-fig">Fig. C.</span>
+      <div class="stage-pip-row">
+        <div class="pip" data-pip="0"></div>
+        <div class="pip" data-pip="1"></div>
+        <div class="pip active" data-pip="2"></div>
+        <div class="pip" data-pip="3"></div>
+      </div>
+      <span class="stage-patent">SHOP TALK v1.8</span>
+    </div>
+
+    <div class="stage-diagram">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 170 415" style="font-family:'IM Fell English','Georgia',serif; overflow:visible;">
+        <defs>
+          <pattern id="hatch45c"    width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="#3A2000" stroke-width="0.8"/></pattern>
+          <pattern id="hatch45hic" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="4" stroke="#5A3200" stroke-width="1"/></pattern>
+          <pattern id="hatch45medc" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#4A2800" stroke-width="1.2"/></pattern>
+          <pattern id="hatchvc"     width="5" height="5" patternUnits="userSpaceOnUse"><line x1="2.5" y1="0" x2="2.5" y2="5" stroke="#2E1C00" stroke-width="0.7"/></pattern>
+          <pattern id="bgridc"      width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0L0 0 0 20" fill="none" stroke="#180E00" stroke-width="0.5"/></pattern>
+          <radialGradient id="flame" cx="50%" cy="90%" r="70%">
+            <stop offset="0%"   stop-color="#FFF8F0" stop-opacity="0.9"/>
+            <stop offset="25%"  stop-color="#FFC040" stop-opacity="0.75"/>
+            <stop offset="65%"  stop-color="#E8A000" stop-opacity="0.4"/>
+            <stop offset="100%" stop-color="#3A2000" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="spark" cx="50%" cy="50%" r="50%">
+            <stop offset="0%"  stop-color="#FFF8F0" stop-opacity="1"/>
+            <stop offset="40%" stop-color="#FFC040" stop-opacity="0.8"/>
+            <stop offset="100%" stop-color="#E8A000" stop-opacity="0"/>
+          </radialGradient>
+          <marker id="arrc"    markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#B87800"/></marker>
+          <marker id="arr-hic" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#FFC040"/></marker>
+          <marker id="dotc"    markerWidth="4" markerHeight="4" refX="2" refY="2" orient="auto"><circle cx="2" cy="2" r="1.5" fill="#E8A000"/></marker>
+          <filter id="glowc"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          <filter id="glow-sc"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          <pattern id="bgridc2" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0L0 0 0 20" fill="none" stroke="#180E00" stroke-width="0.5"/></pattern>
+        </defs>
+
+        <rect width="170" height="415" fill="#0F0A00"/>
+        <rect width="170" height="415" fill="url(#bgridc2)" opacity="0.5"/>
+
+        <!-- Walls — slightly brighter (hot cylinder) -->
+        <rect x="0"   y="18" width="22" height="290" fill="url(#hatch45hic)"/>
+        <rect x="0"   y="18" width="22" height="290" fill="none" stroke="#B87800" stroke-width="1.5"/>
+        <rect x="128" y="18" width="22" height="290" fill="url(#hatch45hic)"/>
+        <rect x="128" y="18" width="22" height="290" fill="none" stroke="#B87800" stroke-width="1.5"/>
+        <rect x="0" y="0" width="150" height="22" fill="url(#hatch45medc)"/>
+        <rect x="0" y="0" width="150" height="22" fill="none" stroke="#B87800" stroke-width="2"/>
+        <rect x="22" y="22" width="106" height="282" fill="#0A0700"/>
+
+        <!-- Combustion flash -->
+        <rect x="23" y="23" width="104" height="156" fill="url(#flame)" opacity="0.9"/>
+        <!-- Flame tendrils -->
+        <path d="M55,23 C48,38 42,48 50,68 C38,53 35,63 45,83" fill="none" stroke="#FFC040" stroke-width="1.5" opacity="0.7"/>
+        <path d="M95,23 C102,38 108,48 100,68 C112,53 115,63 105,83" fill="none" stroke="#FFC040" stroke-width="1.5" opacity="0.7"/>
+        <path d="M75,22 C73,34 70,46 75,66 C68,50 65,60 70,80" fill="none" stroke="#FFF8F0" stroke-width="1" opacity="0.5"/>
+
+        <!-- Spark plug FIRING -->
+        <rect x="67" y="-5" width="16" height="22" fill="url(#hatch45medc)" rx="2"/>
+        <rect x="67" y="-5" width="16" height="22" fill="none" stroke="#E8A000" stroke-width="1.5"/>
+        <line x1="75" y1="17" x2="75" y2="22" stroke="#FFC040" stroke-width="2"/>
+        <circle cx="75" cy="22" r="6" fill="url(#spark)" filter="url(#glowc)"/>
+        <line x1="70" y1="22" x2="65" y2="28" stroke="#FFF8F0" stroke-width="1" opacity="0.9"/>
+        <line x1="80" y1="22" x2="85" y2="28" stroke="#FFF8F0" stroke-width="1" opacity="0.9"/>
+        <line x1="75" y1="17" x2="73" y2="11" stroke="#FFF8F0" stroke-width="1" opacity="0.7"/>
+
+        <!-- Valves closed -->
+        <line x1="11"  y1="0" x2="11"  y2="26" stroke="#6A4200" stroke-width="2"/>
+        <ellipse cx="11"  cy="0" rx="5" ry="3" fill="none" stroke="#6A4200" stroke-width="1.5"/>
+        <line x1="0"  y1="26" x2="22"  y2="26" stroke="#6A4200" stroke-width="2.5"/>
+        <line x1="129" y1="0" x2="129" y2="26" stroke="#6A4200" stroke-width="2"/>
+        <ellipse cx="129" cy="0" rx="5" ry="3" fill="none" stroke="#6A4200" stroke-width="1.5"/>
+        <line x1="128" y1="26" x2="150" y2="26" stroke="#6A4200" stroke-width="2.5"/>
+
+        <!-- Piston mid-stroke (being driven down) -->
+        <rect x="26" y="178" width="98" height="44" fill="url(#hatch45c)" rx="1"/>
+        <rect x="26" y="178" width="98" height="44" fill="none" stroke="#E8A000" stroke-width="2"/>
+        <rect x="26" y="178" width="98" height="6"  fill="#2E1C00"/>
+        <rect x="26" y="178" width="98" height="6"  fill="none" stroke="#E8A000" stroke-width="1.2"/>
+        <rect x="24" y="184" width="102" height="3" fill="none" stroke="#E8A000" stroke-width="1.5"/>
+        <rect x="24" y="190" width="102" height="3" fill="none" stroke="#E8A000" stroke-width="1.5"/>
+        <rect x="24" y="196" width="102" height="3" fill="none" stroke="#E8A000" stroke-width="1.5"/>
+        <line x1="44"  y1="202" x2="44"  y2="220" stroke="#4A2800" stroke-width="1"/>
+        <line x1="75"  y1="202" x2="75"  y2="220" stroke="#4A2800" stroke-width="1"/>
+        <line x1="106" y1="202" x2="106" y2="220" stroke="#4A2800" stroke-width="1"/>
+
+        <!-- Power stroke arrows — BIG -->
+        <line x1="75" y1="110" x2="75" y2="175" stroke="#FFC040" stroke-width="3.5" marker-end="url(#arr-hic)" filter="url(#glow-sc)"/>
+        <line x1="45" y1="125" x2="45" y2="175" stroke="#E8A000" stroke-width="2"   marker-end="url(#arr-hic)"/>
+        <line x1="105" y1="125" x2="105" y2="175" stroke="#E8A000" stroke-width="2" marker-end="url(#arr-hic)"/>
+
+        <!-- Wrist pin -->
+        <circle cx="75" cy="219" r="7" fill="url(#hatch45c)" stroke="#E8A000" stroke-width="1.5"/>
+        <circle cx="75" cy="219" r="3" fill="#0A0700" stroke="#B87800" stroke-width="1"/>
+
+        <!-- Con rod -->
+        <path d="M68,226 L60,318 L90,318 L82,226 Z" fill="url(#hatchvc)" stroke="#E8A000" stroke-width="1.2"/>
+        <ellipse cx="75" cy="226" rx="14" ry="8" fill="url(#hatch45c)" stroke="#E8A000" stroke-width="1.2"/>
+
+        <!-- Crankshaft with rotation -->
+        <ellipse cx="75" cy="338" rx="32" ry="22" fill="url(#hatch45hic)" stroke="#E8A000" stroke-width="2"/>
+        <ellipse cx="75" cy="338" rx="16" ry="10" fill="#0A0700" stroke="#B87800" stroke-width="1.2"/>
+        <circle  cx="75" cy="338" r="4"  fill="url(#hatch45hic)" stroke="#E8A000" stroke-width="1.5"/>
+        <ellipse cx="90" cy="322" rx="8" ry="5"   fill="url(#hatch45c)" stroke="#E8A000" stroke-width="1.2"/>
+        <ellipse cx="75" cy="318" rx="16" ry="9"  fill="url(#hatch45c)" stroke="#E8A000" stroke-width="1.2"/>
+        <!-- Rotation arc -->
+        <path d="M100,346 A28,28 0 0,0 102,321" fill="none" stroke="#FFC040" stroke-width="2.5" marker-end="url(#arr-hic)" filter="url(#glow-sc)"/>
+
+        <rect x="0" y="308" width="150" height="14" fill="url(#hatch45hic)" stroke="#B87800" stroke-width="1.5"/>
+
+        <!-- Callouts -->
+        <line x1="75" y1="28" x2="154" y2="18" stroke="#B87800" stroke-width="0.8" marker-end="url(#dotc)"/>
+        <text x="156" y="16" font-family="'IM Fell English','Georgia',serif" font-size="8" font-style="italic" fill="#FFC040">ignition</text>
+        <line x1="23" y1="182" x2="-2" y2="174" stroke="#B87800" stroke-width="0.8" marker-end="url(#dotc)"/>
+        <text x="-4" y="172" text-anchor="end" font-family="'IM Fell English','Georgia',serif" font-size="8" font-style="italic" fill="#E8A000">piston driven</text>
+        <line x1="107" y1="338" x2="154" y2="346" stroke="#B87800" stroke-width="0.8" marker-end="url(#dotc)"/>
+        <text x="156" y="344" font-family="'IM Fell English','Georgia',serif" font-size="8" font-style="italic" fill="#E8A000">rotation</text>
+
+        <text x="2" y="12" font-family="'Share Tech Mono','Courier New',monospace" font-size="8" fill="#6A4200">Fig. C.</text>
+
+        <line x1="0"   y1="395" x2="150" y2="395" stroke="#2E1C00" stroke-width="0.5"/>
+        <line x1="0"   y1="390" x2="0"   y2="400" stroke="#2E1C00" stroke-width="0.5"/>
+        <line x1="150" y1="390" x2="150" y2="400" stroke="#2E1C00" stroke-width="0.5"/>
+        <text x="75" y="408" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="7" fill="#2E1C00" letter-spacing="1">POWER STROKE</text>
+      </svg>
+    </div>
+
+    <div class="stage-content">
+      <div class="stroke-title">COMBUSTION</div>
+      <div class="stroke-sub">signal ignites in the reader</div>
+      <p class="stroke-body">
+        A line lands. The reader feels it in the chest.
+        <em>Complex reality compresses into a felt recognition.</em>
+        Signal becomes energy. The piston drives. This is the stroke that does the work.
+      </p>
+      <div class="mech-note">
+        <span class="mech-note-label">POWER STROKE</span>
+        <span class="mech-note-text">Spark fires at TDC. Expansion drives piston down.</span>
+      </div>
+    </div>
+
+    <div class="stage-nav">
+      <button class="nav-btn" id="prev-2">&#8592; PREV</button>
+      <div class="nav-center">
+        <span class="nav-count">03 / 04</span>
+        STROKE C
+      </div>
+      <button class="nav-btn" id="next-2">NEXT &#8594;</button>
+    </div>
+  </div>
+
+  <!-- ─────── STAGE D — FORCE ─────── -->
+  <div class="stage" data-s="3" id="stage-3">
+    <div class="stage-head">
+      <span class="stage-fig">Fig. D.</span>
+      <div class="stage-pip-row">
+        <div class="pip" data-pip="0"></div>
+        <div class="pip" data-pip="1"></div>
+        <div class="pip" data-pip="2"></div>
+        <div class="pip active" data-pip="3"></div>
+      </div>
+      <span class="stage-patent">SHOP TALK v1.8</span>
+    </div>
+
+    <div class="stage-diagram">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 415" style="font-family:'IM Fell English','Georgia',serif; overflow:visible;">
+        <defs>
+          <pattern id="hatch45d"    width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="#3A2000" stroke-width="0.8"/></pattern>
+          <pattern id="hatch45hid" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="4" stroke="#5A3200" stroke-width="1"/></pattern>
+          <pattern id="hatch45medd" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#4A2800" stroke-width="1.2"/></pattern>
+          <pattern id="hatchvd"     width="5" height="5" patternUnits="userSpaceOnUse"><line x1="2.5" y1="0" x2="2.5" y2="5" stroke="#2E1C00" stroke-width="0.7"/></pattern>
+          <pattern id="crosshatchd" width="5" height="5" patternUnits="userSpaceOnUse"><line x1="0" y1="0" x2="5" y2="5" stroke="#3A2000" stroke-width="0.7"/><line x1="5" y1="0" x2="0" y2="5" stroke="#3A2000" stroke-width="0.7"/></pattern>
+          <pattern id="stippled"    width="4" height="4" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.4" fill="#2E1C00"/><circle cx="3" cy="3" r="0.4" fill="#2E1C00"/></pattern>
+          <pattern id="bgridd"      width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0L0 0 0 20" fill="none" stroke="#180E00" stroke-width="0.5"/></pattern>
+          <marker id="arrd"    markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#B87800"/></marker>
+          <marker id="arr-hid" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#E8A000"/></marker>
+          <marker id="dotd"    markerWidth="4" markerHeight="4" refX="2" refY="2" orient="auto"><circle cx="2" cy="2" r="1.5" fill="#B87800"/></marker>
+          <filter id="glow-sd"><feGaussianBlur stdDeviation="1.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+
+        <rect width="200" height="415" fill="#0F0A00"/>
+        <rect width="200" height="415" fill="url(#bgridd)" opacity="0.5"/>
+
+        <!-- Walls -->
+        <rect x="0"   y="18" width="22" height="290" fill="url(#hatch45hid)"/>
+        <rect x="0"   y="18" width="22" height="290" fill="none" stroke="#6A4200" stroke-width="1.5"/>
+        <rect x="128" y="18" width="22" height="290" fill="url(#hatch45hid)"/>
+        <rect x="128" y="18" width="22" height="290" fill="none" stroke="#6A4200" stroke-width="1.5"/>
+        <rect x="0" y="0" width="150" height="22" fill="url(#hatch45medd)"/>
+        <rect x="0" y="0" width="150" height="22" fill="none" stroke="#6A4200" stroke-width="1.5"/>
+        <rect x="22" y="22" width="106" height="282" fill="#0A0700"/>
+
+        <!-- Intake closed, exhaust open -->
+        <line x1="11"  y1="0" x2="11"  y2="26" stroke="#4A2800" stroke-width="2"/>
+        <ellipse cx="11"  cy="0" rx="5" ry="3" fill="none" stroke="#4A2800" stroke-width="1.5"/>
+        <line x1="0"  y1="26" x2="22"  y2="26" stroke="#4A2800" stroke-width="2.5"/>
+        <!-- Exhaust open — valve lifted -->
+        <rect x="128" y="26" width="22" height="28" fill="#0A0700"/>
+        <rect x="128" y="26" width="22" height="2"  fill="#B87800"/>
+        <rect x="128" y="52" width="22" height="2"  fill="#B87800"/>
+        <line x1="129" y1="0" x2="129" y2="28" stroke="#B87800" stroke-width="2"/>
+        <ellipse cx="129" cy="0" rx="5" ry="3" fill="none" stroke="#B87800" stroke-width="1.5"/>
+        <line x1="128" y1="51" x2="150" y2="56" stroke="#E8A000" stroke-width="2.5"/>
+
+        <!-- Spark plug (spent) -->
+        <rect x="67" y="-5" width="16" height="22" fill="url(#hatch45d)" rx="2"/>
+        <rect x="67" y="-5" width="16" height="22" fill="none" stroke="#4A2800" stroke-width="1"/>
+        <line x1="75" y1="17" x2="75" y2="22" stroke="#4A2800" stroke-width="1.5"/>
+
+        <!-- Spent exhaust above piston — faint stipple -->
+        <rect x="23" y="23" width="104" height="112" fill="url(#stippled)" opacity="0.3"/>
+        <!-- Exhaust flow arrows out -->
+        <line x1="110" y1="60"  x2="140" y2="48"  stroke="#6A4200" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arrd)"/>
+        <line x1="120" y1="80"  x2="142" y2="60"  stroke="#6A4200" stroke-width="1"   stroke-dasharray="3 3" marker-end="url(#arrd)"/>
+
+        <!-- Piston ASCENDING -->
+        <rect x="26" y="133" width="98" height="44" fill="url(#hatch45d)" rx="1"/>
+        <rect x="26" y="133" width="98" height="44" fill="none" stroke="#B87800" stroke-width="1.5"/>
+        <rect x="26" y="133" width="98" height="6"  fill="#2E1C00"/>
+        <rect x="26" y="133" width="98" height="6"  fill="none" stroke="#B87800" stroke-width="1"/>
+        <rect x="24" y="139" width="102" height="3" fill="none" stroke="#B87800" stroke-width="1.5"/>
+        <rect x="24" y="145" width="102" height="3" fill="none" stroke="#B87800" stroke-width="1.5"/>
+        <rect x="24" y="151" width="102" height="3" fill="none" stroke="#B87800" stroke-width="1.5"/>
+        <line x1="44"  y1="157" x2="44"  y2="175" stroke="#3A2000" stroke-width="1"/>
+        <line x1="75"  y1="157" x2="75"  y2="175" stroke="#3A2000" stroke-width="1"/>
+        <line x1="106" y1="157" x2="106" y2="175" stroke="#3A2000" stroke-width="1"/>
+        <!-- Ascending arrow (momentum) -->
+        <line x1="75" y1="175" x2="75" y2="136" stroke="#B87800" stroke-width="2" stroke-dasharray="5 3" marker-end="url(#arr-hid)"/>
+
+        <!-- Wrist pin -->
+        <circle cx="75" cy="174" r="7" fill="url(#hatch45d)" stroke="#B87800" stroke-width="1.5"/>
+        <circle cx="75" cy="174" r="3" fill="#0A0700" stroke="#6A4200" stroke-width="1"/>
+
+        <!-- Con rod -->
+        <path d="M68,181 L60,298" stroke="#B87800" stroke-width="1.2" fill="none"/>
+        <path d="M82,181 L90,298" stroke="#B87800" stroke-width="1.2" fill="none"/>
+        <path d="M68,181 L60,298 L90,298 L82,181 Z" fill="url(#hatchvd)" stroke="#B87800" stroke-width="1.2"/>
+        <ellipse cx="75" cy="181" rx="14" ry="8" fill="url(#hatch45d)" stroke="#B87800" stroke-width="1.2"/>
+
+        <!-- Crankshaft -->
+        <ellipse cx="75" cy="323" rx="32" ry="22" fill="url(#hatch45hid)" stroke="#B87800" stroke-width="1.5"/>
+        <ellipse cx="75" cy="323" rx="16" ry="10" fill="#0A0700" stroke="#6A4200" stroke-width="1"/>
+        <circle  cx="75" cy="323" r="4"  fill="url(#hatch45hid)" stroke="#B87800" stroke-width="1.5"/>
+        <ellipse cx="58" cy="308" rx="8" ry="5"   fill="url(#hatch45d)" stroke="#B87800" stroke-width="1.2"/>
+        <ellipse cx="75" cy="298" rx="16" ry="9"  fill="url(#hatch45d)" stroke="#B87800" stroke-width="1.2"/>
+        <!-- Momentum arc on crank -->
+        <path d="M50,331 A28,28 0 0,1 50,306" fill="none" stroke="#B87800" stroke-width="2" marker-end="url(#arr-hid)" stroke-dasharray="5 3"/>
+
+        <!-- FLYWHEEL — right side -->
+        <ellipse cx="180" cy="323" rx="30" ry="30" fill="url(#hatch45hid)" stroke="#B87800" stroke-width="1.5"/>
+        <ellipse cx="180" cy="323" rx="21" ry="21" fill="#0A0700" stroke="#6A4200" stroke-width="1"/>
+        <ellipse cx="180" cy="323" rx="9"  ry="9"  fill="url(#crosshatchd)" stroke="#6A4200" stroke-width="1"/>
+        <circle  cx="180" cy="323" r="4"  fill="#2E1C00" stroke="#B87800" stroke-width="1.5"/>
+        <!-- Spokes -->
+        <line x1="180" y1="302" x2="180" y2="314" stroke="#6A4200" stroke-width="1.2"/>
+        <line x1="180" y1="332" x2="180" y2="344" stroke="#6A4200" stroke-width="1.2"/>
+        <line x1="159" y1="323" x2="171" y2="323" stroke="#6A4200" stroke-width="1.2"/>
+        <line x1="201" y1="323" x2="189" y2="323" stroke="#6A4200" stroke-width="1.2"/>
+        <line x1="165" y1="308" x2="173" y2="316" stroke="#6A4200" stroke-width="1.2"/>
+        <line x1="195" y1="338" x2="187" y2="330" stroke="#6A4200" stroke-width="1.2"/>
+        <!-- Shaft to flywheel -->
+        <rect x="107" y="319" width="30" height="8" fill="url(#hatch45d)" stroke="#6A4200" stroke-width="1"/>
+
+        <rect x="0" y="308" width="150" height="14" fill="url(#hatch45hid)" stroke="#6A4200" stroke-width="1.5"/>
+
+        <!-- Callouts -->
+        <line x1="150" y1="39" x2="194" y2="30" stroke="#6A4200" stroke-width="0.8" marker-end="url(#dotd)"/>
+        <text x="196" y="28" font-family="'IM Fell English','Georgia',serif" font-size="8" font-style="italic" fill="#B87800">exhaust</text>
+        <line x1="180" y1="293" x2="180" y2="278" stroke="#6A4200" stroke-width="0.8" marker-end="url(#dotd)"/>
+        <text x="180" y="274" text-anchor="middle" font-family="'IM Fell English','Georgia',serif" font-size="8" font-style="italic" fill="#B87800">flywheel</text>
+
+        <text x="2" y="12" font-family="'Share Tech Mono','Courier New',monospace" font-size="8" fill="#4A2800">Fig. D.</text>
+
+        <line x1="0"   y1="395" x2="150" y2="395" stroke="#2E1C00" stroke-width="0.5"/>
+        <line x1="0"   y1="390" x2="0"   y2="400" stroke="#2E1C00" stroke-width="0.5"/>
+        <line x1="150" y1="390" x2="150" y2="400" stroke="#2E1C00" stroke-width="0.5"/>
+        <text x="75" y="408" text-anchor="middle" font-family="'Share Tech Mono','Courier New',monospace" font-size="7" fill="#2E1C00" letter-spacing="1">EXHAUST STROKE</text>
+      </svg>
+    </div>
+
+    <div class="stage-content">
+      <div class="stroke-title">FORCE</div>
+      <div class="stroke-sub">structure converts energy to motion</div>
+      <p class="stroke-body">
+        Cadence. Timing. Repetition. Image. <em>Structure converts combustion into movement.</em>
+        The flywheel carries what the power stroke built. The machine does not stop between cycles.
+      </p>
+      <div class="mech-note">
+        <span class="mech-note-label">EXHAUST STROKE</span>
+        <span class="mech-note-text">Spent charge exits. Flywheel stores momentum. Cycle repeats.</span>
+      </div>
+    </div>
+
+    <div class="stage-nav">
+      <button class="nav-btn" id="prev-3">&#8592; PREV</button>
+      <div class="nav-center">
+        <span class="nav-count">04 / 04</span>
+        STROKE D
+      </div>
+      <button class="nav-btn" id="next-3" disabled>&#8592; CYCLE</button>
+    </div>
+  </div>
+
+</div><!-- /runner -->
+
+<script>
+(function () {
+  "use strict";
+
+  var current = 0;
+  var total = 4;
+  var runner = document.getElementById('runner');
+  var progressBar = document.getElementById('progressBar');
+  var keyHint = document.getElementById('keyHint');
+  var introOverlay = document.getElementById('introOverlay');
+  var introEnter = document.getElementById('introEnter');
+
+  // Stage color map
+  var stageColors = ['#CC8800', '#E8A000', '#FFC040', '#B87800'];
+
+  function updateProgress() {
+    var pct = ((current + 1) / total) * 100;
+    progressBar.style.width = pct + '%';
+    progressBar.style.background = stageColors[current];
+  }
+
+  function goTo(n) {
+    if (n < 0 || n >= total) return;
+    // Remove is-active from all
+    var stages = document.querySelectorAll('.stage');
+    for (var i = 0; i < stages.length; i++) {
+      stages[i].classList.remove('is-active');
+    }
+    current = n;
+    runner.style.transform = 'translateX(-' + (current * 100) + 'vw)';
+    stages[current].classList.add('is-active');
+    updateProgress();
+    // Update all pip rows to match current
+    var allPips = document.querySelectorAll('.pip');
+    for (var j = 0; j < allPips.length; j++) {
+      var pip = allPips[j];
+      var pipIdx = parseInt(pip.getAttribute('data-pip'), 10);
+      if (pipIdx === current) {
+        pip.classList.add('active');
+      } else {
+        pip.classList.remove('active');
+      }
+    }
+    // prev/next button states
+    for (var k = 0; k < total; k++) {
+      var prevBtn = document.getElementById('prev-' + k);
+      var nextBtn = document.getElementById('next-' + k);
+      if (prevBtn) prevBtn.disabled = (current === 0);
+      if (nextBtn) nextBtn.disabled = (current === total - 1);
+    }
+  }
+
+  // Button wiring
+  for (var s = 0; s < total; s++) {
+    (function (idx) {
+      var prevBtn = document.getElementById('prev-' + idx);
+      var nextBtn = document.getElementById('next-' + idx);
+      if (prevBtn) prevBtn.addEventListener('click', function () { goTo(current - 1); });
+      if (nextBtn) nextBtn.addEventListener('click', function () { goTo(current + 1); });
+    })(s);
+  }
+
+  // Keyboard
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(current + 1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goTo(current - 1);
+  });
+
+  // Touch/swipe
+  var touchStartX = 0;
+  var touchStartY = 0;
+  document.addEventListener('touchstart', function (e) {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+
+  document.addEventListener('touchend', function (e) {
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    var dy = e.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+      if (dx < 0) goTo(current + 1);
+      else         goTo(current - 1);
+    }
+  }, { passive: true });
+
+  // Intro
+  introEnter.addEventListener('click', function () {
+    introOverlay.classList.add('gone');
+    updateProgress();
+    // Fade key hint after a while
+    setTimeout(function () {
+      if (keyHint) keyHint.style.opacity = '0';
+      setTimeout(function () { if (keyHint) keyHint.style.display = 'none'; }, 600);
+    }, 5000);
+  });
+
+  // Init
+  updateProgress();
+
+}());
+</script>
+</body>
+</html>
