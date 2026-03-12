@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ObjectCard from '../components/ObjectCard.astro';
 import { COLLECTIONS, getAllEntries, getTypeLabel } from '../lib/archive';
 import { getMediaItems, pickPrimaryMedia } from '../lib/media';
+import { getImageAssetMetadata } from '../lib/mediaAsset';
 import { formatDisplayTitle } from '../lib/headline';
 import { getFeedPinnedFeatureId } from '../lib/feedConfig';
 import { compareByPureTimeline } from '../lib/timeline';
@@ -159,17 +160,24 @@ const constellationSet = new Set(
   entries.flatMap((entry) => entry.data.constellations)
 );
 
-const entriesWithMedia = entries
-  .map((entry) => {
-    const media = getMediaItems(entry);
-    return {
-      entry,
-      mediaCount: media.length,
-      primaryMedia: pickPrimaryMedia(media),
-    };
-  })
-  .filter((item) => item.mediaCount > 0)
-  .slice(0, 4);
+const entriesWithMedia = await Promise.all(
+  entries
+    .map((entry) => {
+      const media = getMediaItems(entry);
+      return {
+        entry,
+        mediaCount: media.length,
+        primaryMedia: pickPrimaryMedia(media),
+      };
+    })
+    .filter((item) => item.mediaCount > 0)
+    .slice(0, 4)
+    .map(async (item) => ({
+      ...item,
+      primaryMediaMetadata:
+        item.primaryMedia?.kind === 'image' ? await getImageAssetMetadata(item.primaryMedia.src) : null,
+    }))
+);
 
 function buildHref(
   nextType: string | null,
@@ -416,11 +424,17 @@ function buildHref(
       </header>
       <div class="media-grid">
         {entriesWithMedia.map((item) => (
-          <a href={`/objects/${item.entry.data.id}`} class="media-tile">
+          <a
+            href={`/objects/${item.entry.data.id}`}
+            class="media-tile"
+            data-media-shape={item.primaryMediaMetadata?.shape}
+          >
             {item.primaryMedia?.kind === 'image' ? (
               <img
                 src={item.primaryMedia.src}
                 alt={item.primaryMedia.alt || `${item.entry.data.title} media`}
+                width={item.primaryMediaMetadata?.width}
+                height={item.primaryMediaMetadata?.height}
                 loading="lazy"
                 decoding="async"
               />
@@ -1346,12 +1360,33 @@ function buildHref(
   }
 
   .media-tile {
+    --ledger-media-ratio: 16 / 9;
     text-decoration: none;
     border: none;
     border-bottom: none;
     overflow: hidden;
     background: transparent;
     transition: 0.12s;
+  }
+
+  .media-tile[data-media-shape='wide'] {
+    --ledger-media-ratio: 16 / 9;
+  }
+
+  .media-tile[data-media-shape='landscape'] {
+    --ledger-media-ratio: 5 / 4;
+  }
+
+  .media-tile[data-media-shape='square'] {
+    --ledger-media-ratio: 1 / 1;
+  }
+
+  .media-tile[data-media-shape='portrait'] {
+    --ledger-media-ratio: 4 / 5;
+  }
+
+  .media-tile[data-media-shape='tall'] {
+    --ledger-media-ratio: 5 / 7;
   }
 
   .media-tile:hover {
@@ -1361,13 +1396,17 @@ function buildHref(
   .media-tile img {
     display: block;
     width: 100%;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
+    aspect-ratio: var(--ledger-media-ratio);
+    object-fit: contain;
+    padding: 0.7rem;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0) 18%),
+      linear-gradient(180deg, rgba(58, 48, 41, 0.92), rgba(34, 29, 25, 0.96));
   }
 
   .media-fallback {
     width: 100%;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: var(--ledger-media-ratio);
     display: grid;
     place-items: center;
     color: var(--text-dim);

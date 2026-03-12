@@ -4,6 +4,8 @@ interface Props {
   description?: string;
   canonicalPath?: string;
   socialImage?: string;
+  socialImageWidth?: number;
+  socialImageHeight?: number;
   socialType?: 'website' | 'article';
   twitterCard?: 'summary' | 'summary_large_image';
 }
@@ -13,6 +15,8 @@ const {
   description = 'An object archive for human creative work.',
   canonicalPath,
   socialImage,
+  socialImageWidth,
+  socialImageHeight,
   socialType = 'website',
   twitterCard,
 } = Astro.props;
@@ -45,6 +49,11 @@ const rssFeedUrl = toAbsoluteUrl('/rss.xml');
 const jsonFeedUrl = toAbsoluteUrl('/feed.json');
 const siteHomeUrl = toAbsoluteUrl('/');
 const resolvedTwitterCard = twitterCard || 'summary';
+const hasSocialImageDimensions =
+  typeof socialImageWidth === 'number' &&
+  Number.isFinite(socialImageWidth) &&
+  typeof socialImageHeight === 'number' &&
+  Number.isFinite(socialImageHeight);
 const feedActive = currentPath === '/' || currentPath.startsWith('/objects/');
 const nexusActive = currentPath.startsWith('/nexus');
 const graphActive = currentPath.startsWith('/graph');
@@ -72,8 +81,12 @@ const navItems = [
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={socialImageUrl} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    {hasSocialImageDimensions && (
+      <>
+        <meta property="og:image:width" content={String(socialImageWidth)} />
+        <meta property="og:image:height" content={String(socialImageHeight)} />
+      </>
+    )}
     <meta property="og:image:alt" content="ndcodex.com" />
     <meta name="twitter:card" content={resolvedTwitterCard} />
     <meta name="twitter:title" content={title} />

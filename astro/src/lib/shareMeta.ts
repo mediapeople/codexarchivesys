@@ -1,5 +1,7 @@
 import type { CodexCollection } from './archive';
 import type { CodexMediaItem } from '../content/config';
+import type { ImageAssetMetadata } from './mediaAsset';
+import { pickPrimaryMedia } from './media';
 
 type SocialType = 'website' | 'article';
 type TwitterCard = 'summary' | 'summary_large_image';
@@ -8,6 +10,22 @@ interface ShareProfile {
   socialType: SocialType;
   prefersLargeImage: boolean;
   defaultDescription: string;
+}
+
+function withImageVersion(value: string, version?: string): string {
+  if (!version) {
+    return value;
+  }
+
+  const isAbsolute = /^https?:\/\//i.test(value);
+  const url = new URL(value, isAbsolute ? undefined : 'https://ndcodex.com');
+  url.searchParams.set('v', version);
+
+  if (isAbsolute) {
+    return url.toString();
+  }
+
+  return `${url.pathname}${url.search}${url.hash}`;
 }
 
 const SHARE_PROFILE_BY_TYPE: Record<CodexCollection, ShareProfile> = {
@@ -62,6 +80,11 @@ function trimToLength(value: string, max = 180): string {
 }
 
 function pickShareImage(mediaItems: CodexMediaItem[]): string | undefined {
+  const primaryMedia = pickPrimaryMedia(mediaItems);
+  if (primaryMedia?.kind === 'image') {
+    return primaryMedia.src;
+  }
+
   return mediaItems.find((item) => item.kind === 'image')?.src;
 }
 
@@ -71,30 +94,46 @@ export function buildObjectShareMeta({
   excerpt,
   mediaItems,
   canonicalPath,
+  imageVersion,
+  socialImageMetadata,
 }: {
   collection: CodexCollection;
   title: string;
   excerpt?: string;
   mediaItems: CodexMediaItem[];
   canonicalPath: string;
+  imageVersion?: string;
+  socialImageMetadata?: ImageAssetMetadata | null;
 }): {
   description: string;
   socialType: SocialType;
   twitterCard: TwitterCard;
   socialImage?: string;
+  socialImageWidth?: number;
+  socialImageHeight?: number;
   canonicalPath: string;
 } {
   const profile = SHARE_PROFILE_BY_TYPE[collection];
-  const socialImage = pickShareImage(mediaItems);
+  const rawSocialImage = pickShareImage(mediaItems);
+  const socialImage = rawSocialImage ? withImageVersion(rawSocialImage, imageVersion) : undefined;
   const fallbackDescription = `${title}. ${profile.defaultDescription}`;
   const description = trimToLength(excerpt || fallbackDescription);
-  const twitterCard: TwitterCard = profile.prefersLargeImage ? 'summary_large_image' : 'summary';
+  const prefersLargeSocialCard =
+    profile.prefersLargeImage &&
+    Boolean(rawSocialImage) &&
+    Boolean(
+      socialImageMetadata &&
+      (socialImageMetadata.shape === 'wide' || socialImageMetadata.shape === 'landscape')
+    );
+  const twitterCard: TwitterCard = prefersLargeSocialCard ? 'summary_large_image' : 'summary';
 
   return {
     description,
     socialType: profile.socialType,
     twitterCard,
     socialImage,
+    socialImageWidth: socialImageMetadata?.width,
+    socialImageHeight: socialImageMetadata?.height,
     canonicalPath,
   };
 }

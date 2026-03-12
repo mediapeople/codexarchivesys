@@ -5,6 +5,7 @@ import { formatMediaLabel, getMediaItems, pickPrimaryMedia } from '../lib/media'
 import { formatDisplayTitle } from '../lib/headline';
 import { getAuthorInitials, getPrimaryAuthor } from '../lib/author';
 import { getLoremapAtlasRender } from '../lib/loremap';
+import { getImageAssetMetadata } from '../lib/mediaAsset';
 import { formatArchiveDate } from '../lib/timeline';
 
 interface Props {
@@ -173,6 +174,7 @@ const showExcerpt = Boolean(summaryText) && !showFragmentStage;
 const showThemes = entry.data.themes.length > 0 && variant !== 'mosaic' && !showFragmentStage;
 const showAuthorTease = !showFragmentStage;
 const hasImagePreview = !showFragmentStage && primaryMedia?.kind === 'image';
+const primaryMediaMeta = hasImagePreview ? await getImageAssetMetadata(primaryMedia.src) : null;
 const hasIndependentPreviewAction = hasImagePreview && (variant === 'feed' || variant === 'related');
 const useCenteredCopyStack = !showFragmentStage && (variant === 'feed' || variant === 'related');
 const primaryMediaCaption = primaryMedia?.caption || '';
@@ -228,6 +230,8 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
   {!showFragmentStage && <a class="hitbox" href={href} aria-label={`Open ${entry.data.title}`}></a>}
   <div
     class={`preview-wrap ${showFragmentStage ? 'fragment-stage' : ''} ${hasImagePreview ? 'has-image-preview' : ''} ${hasIndependentPreviewAction ? 'card-image-trigger' : ''}`}
+    data-media-frame={hasImagePreview ? 'card-preview' : undefined}
+    data-media-shape={primaryMediaMeta?.shape}
     data-card-image-trigger={hasIndependentPreviewAction ? 'true' : undefined}
     data-card-lightbox-src={hasIndependentPreviewAction ? primaryMedia?.src : undefined}
     data-card-lightbox-alt={hasIndependentPreviewAction ? (primaryMedia?.alt || `${entry.data.title} media preview`) : undefined}
@@ -274,6 +278,8 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
         class="preview-image"
         src={primaryMedia.src}
         alt={primaryMedia.alt || `${entry.data.title} media preview`}
+        width={primaryMediaMeta?.width}
+        height={primaryMediaMeta?.height}
         loading="lazy"
         decoding="async"
       />
@@ -687,6 +693,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
 
   .card.feed .preview-wrap.has-image-preview,
   .card.related .preview-wrap.has-image-preview {
+    --image-preview-ratio: 14 / 15;
     aspect-ratio: 14 / 15;
     padding:
       clamp(1.05rem, 2.4vw, 1.6rem)
@@ -698,6 +705,36 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.04),
       0 12px 24px rgba(0, 0, 0, 0.14);
+  }
+
+  .card.feed .preview-wrap.has-image-preview,
+  .card.related .preview-wrap.has-image-preview {
+    aspect-ratio: var(--image-preview-ratio);
+  }
+
+  .card.feed .preview-wrap.has-image-preview[data-media-shape='wide'],
+  .card.related .preview-wrap.has-image-preview[data-media-shape='wide'] {
+    --image-preview-ratio: 16 / 10;
+  }
+
+  .card.feed .preview-wrap.has-image-preview[data-media-shape='landscape'],
+  .card.related .preview-wrap.has-image-preview[data-media-shape='landscape'] {
+    --image-preview-ratio: 6 / 5;
+  }
+
+  .card.feed .preview-wrap.has-image-preview[data-media-shape='square'],
+  .card.related .preview-wrap.has-image-preview[data-media-shape='square'] {
+    --image-preview-ratio: 1 / 1;
+  }
+
+  .card.feed .preview-wrap.has-image-preview[data-media-shape='portrait'],
+  .card.related .preview-wrap.has-image-preview[data-media-shape='portrait'] {
+    --image-preview-ratio: 14 / 15;
+  }
+
+  .card.feed .preview-wrap.has-image-preview[data-media-shape='tall'],
+  .card.related .preview-wrap.has-image-preview[data-media-shape='tall'] {
+    --image-preview-ratio: 5 / 6;
   }
 
   .card.feed .preview-wrap.has-image-preview::before,
@@ -1776,7 +1813,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
 
     .card.feed .preview-wrap.has-image-preview,
     .card.related .preview-wrap.has-image-preview {
-      aspect-ratio: 1 / 1;
+      aspect-ratio: var(--image-preview-ratio);
     }
 
     .card.feed.fragment .preview-wrap.fragment-stage {
@@ -1856,7 +1893,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
 
     .card.feed .preview-wrap.has-image-preview,
     .card.related .preview-wrap.has-image-preview {
-      aspect-ratio: 1 / 1;
+      aspect-ratio: var(--image-preview-ratio);
       padding: 1.3rem 0.82rem;
     }
 
@@ -2013,7 +2050,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
 
     .card.feed .preview-wrap.has-image-preview,
     .card.related .preview-wrap.has-image-preview {
-      aspect-ratio: 1 / 1;
+      aspect-ratio: var(--image-preview-ratio);
       padding: 1.08rem 0.7rem;
     }
 

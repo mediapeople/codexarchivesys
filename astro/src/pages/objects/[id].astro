@@ -6,6 +6,7 @@ import FieldlogDataPlate from '../../components/FieldlogDataPlate.astro';
 import { getAllEntries } from '../../lib/archive';
 import { computeRelatedEntries } from '../../lib/relations';
 import { formatMediaLabel, getMediaItems, pickPrimaryMedia } from '../../lib/media';
+import { getImageAssetMetadata } from '../../lib/mediaAsset';
 import { formatDisplayTitle } from '../../lib/headline';
 import { getAuthorInitials, getAuthorProfiles } from '../../lib/author';
 import { buildObjectShareMeta } from '../../lib/shareMeta';
@@ -72,6 +73,14 @@ const related = computeRelatedEntries(entry, allEntries, 3).filter(
 );
 const mediaItems = getMediaItems(entry);
 const primaryMedia = pickPrimaryMedia(mediaItems);
+const imageMetadataEntries = await Promise.all(
+  mediaItems
+    .filter((item) => item.kind === 'image')
+    .map(async (item) => [item.src, await getImageAssetMetadata(item.src)] as const)
+);
+const imageMetadataBySrc = new Map(imageMetadataEntries);
+const getImageMetadata = (src: string) => imageMetadataBySrc.get(src) ?? null;
+const primaryMediaMeta = primaryMedia?.kind === 'image' ? getImageMetadata(primaryMedia.src) : null;
 const secondaryMedia = primaryMedia
   ? mediaItems.filter((item) => item.src !== primaryMedia.src || item.role !== primaryMedia.role)
   : mediaItems;
@@ -237,6 +246,8 @@ const shareMeta = buildObjectShareMeta({
   excerpt: entry.data.excerpt,
   mediaItems,
   canonicalPath: `/objects/${entry.data.id}`,
+  imageVersion: (entry.data.postedAt ?? entry.data.date).toISOString(),
+  socialImageMetadata: primaryMediaMeta,
 });
 const bodyClassRaw = (entry.data as Record<string, unknown>).bodyClass;
 const bodyClass = typeof bodyClassRaw === 'string' ? bodyClassRaw : 'prose';
@@ -266,6 +277,8 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
   description={shareMeta.description}
   canonicalPath={shareMeta.canonicalPath}
   socialImage={shareMeta.socialImage}
+  socialImageWidth={shareMeta.socialImageWidth}
+  socialImageHeight={shareMeta.socialImageHeight}
   socialType={shareMeta.socialType}
   twitterCard={shareMeta.twitterCard}
 >
@@ -380,11 +393,18 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     {artifactLeadsWithMedia && primaryMedia && (
       <section class="artifact-evidence">
         <section class="media-stage media-stage--artifact-lead">
-          <article class="media-primary">
+          <article
+            class="media-primary"
+            data-media-frame={primaryMedia.kind === 'image' ? 'primary' : undefined}
+            data-media-shape={primaryMediaMeta?.shape}
+            style={primaryMediaMeta ? `--media-natural-width: ${primaryMediaMeta.width};` : undefined}
+          >
             {primaryMedia.kind === 'image' && (
               <img
                 src={primaryMedia.src}
                 alt={primaryMedia.alt || `${entry.data.title} primary media`}
+                width={primaryMediaMeta?.width}
+                height={primaryMediaMeta?.height}
                 data-expandable-image
                 data-lightbox-caption={primaryMedia.caption || undefined}
                 loading="lazy"
@@ -416,11 +436,17 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
             {secondaryMedia.length > 0 && (
               <div class="media-rail media-rail--artifact-support">
                 {secondaryMedia.map((item) => (
-                  <article class="media-item">
+                  <article
+                    class="media-item"
+                    data-media-frame={item.kind === 'image' ? 'supporting' : undefined}
+                    data-media-shape={item.kind === 'image' ? getImageMetadata(item.src)?.shape : undefined}
+                  >
                     {item.kind === 'image' && (
                       <img
                         src={item.src}
                         alt={item.alt || `${entry.data.title} media`}
+                        width={getImageMetadata(item.src)?.width}
+                        height={getImageMetadata(item.src)?.height}
                         data-expandable-image
                         data-lightbox-caption={item.caption || undefined}
                         loading="lazy"
@@ -575,11 +601,18 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
     {!artifactLeadsWithMedia && primaryMedia && (
       <section class="media-stage media-stage--supporting">
-        <article class="media-primary">
+        <article
+          class="media-primary"
+          data-media-frame={primaryMedia.kind === 'image' ? 'primary' : undefined}
+          data-media-shape={primaryMediaMeta?.shape}
+          style={primaryMediaMeta ? `--media-natural-width: ${primaryMediaMeta.width};` : undefined}
+        >
           {primaryMedia.kind === 'image' && (
             <img
               src={primaryMedia.src}
               alt={primaryMedia.alt || `${entry.data.title} primary media`}
+              width={primaryMediaMeta?.width}
+              height={primaryMediaMeta?.height}
               data-expandable-image
               data-lightbox-caption={primaryMedia.caption || undefined}
               loading="lazy"
@@ -608,11 +641,17 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
         {secondaryMedia.length > 0 && (
           <div class="media-rail">
             {secondaryMedia.map((item) => (
-              <article class="media-item">
+              <article
+                class="media-item"
+                data-media-frame={item.kind === 'image' ? 'supporting' : undefined}
+                data-media-shape={item.kind === 'image' ? getImageMetadata(item.src)?.shape : undefined}
+              >
                 {item.kind === 'image' && (
                   <img
                     src={item.src}
                     alt={item.alt || `${entry.data.title} media`}
+                    width={getImageMetadata(item.src)?.width}
+                    height={getImageMetadata(item.src)?.height}
                     data-expandable-image
                     data-lightbox-caption={item.caption || undefined}
                     loading="lazy"
@@ -2151,23 +2190,52 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     display: grid;
     gap: 2rem;
     max-width: min(1120px, 100%);
+    justify-items: start;
   }
 
   .media-primary {
+    --media-frame-width: 1120;
     padding: 0.7rem 0 0.8rem;
     background: transparent;
+    width: min(
+      100%,
+      calc(var(--media-frame-width) * 1px),
+      calc(var(--media-natural-width, 1120) * 1px)
+    );
+  }
+
+  .media-primary[data-media-shape='wide'] {
+    --media-frame-width: 1120;
+  }
+
+  .media-primary[data-media-shape='landscape'] {
+    --media-frame-width: 980;
+  }
+
+  .media-primary[data-media-shape='square'] {
+    --media-frame-width: 780;
+  }
+
+  .media-primary[data-media-shape='portrait'] {
+    --media-frame-width: 700;
+  }
+
+  .media-primary[data-media-shape='tall'] {
+    --media-frame-width: 620;
   }
 
   .media-primary img,
   .media-primary video {
-    width: auto;
+    width: 100%;
     max-width: 100%;
+    height: auto;
     max-height: min(68vh, 820px);
     border-radius: 2px;
     display: block;
-    margin-inline: auto;
+    margin-inline: 0;
     border: 1px solid rgba(255, 255, 255, 0.1);
     background: var(--void);
+    object-fit: contain;
   }
 
   .media-primary img[data-expandable-image],
