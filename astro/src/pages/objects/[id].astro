@@ -6,7 +6,7 @@ import FieldlogDataPlate from '../../components/FieldlogDataPlate.astro';
 import { getAllEntries } from '../../lib/archive';
 import { computeRelatedEntries } from '../../lib/relations';
 import { formatMediaLabel, getMediaItems, pickPrimaryMedia, withMediaVersion } from '../../lib/media';
-import { getImageAssetMetadata } from '../../lib/mediaAsset';
+import { getImageAssetMetadata, getPublicAssetVersion } from '../../lib/mediaAsset';
 import { formatDisplayTitle } from '../../lib/headline';
 import { getAuthorInitials, getAuthorProfiles } from '../../lib/author';
 import { buildObjectShareMeta } from '../../lib/shareMeta';
@@ -73,7 +73,11 @@ const related = computeRelatedEntries(entry, allEntries, 3).filter(
 );
 const mediaItems = getMediaItems(entry);
 const mediaVersion = (entry.data.postedAt ?? entry.data.date).toISOString();
-const getVersionedMediaSrc = (src: string) => withMediaVersion(src, mediaVersion);
+const mediaVersionEntries = await Promise.all(
+  mediaItems.map(async (item) => [item.src, await getPublicAssetVersion(item.src)] as const)
+);
+const mediaVersionBySrc = new Map(mediaVersionEntries);
+const getVersionedMediaSrc = (src: string) => withMediaVersion(src, mediaVersionBySrc.get(src) ?? mediaVersion);
 const primaryMedia = pickPrimaryMedia(mediaItems);
 const imageMetadataEntries = await Promise.all(
   mediaItems
@@ -248,7 +252,7 @@ const shareMeta = buildObjectShareMeta({
   excerpt: entry.data.excerpt,
   mediaItems,
   canonicalPath: `/objects/${entry.data.id}`,
-  imageVersion: mediaVersion,
+  imageVersion: primaryMediaMeta?.version ?? (primaryMedia ? mediaVersionBySrc.get(primaryMedia.src) ?? undefined : undefined) ?? mediaVersion,
   socialImageMetadata: primaryMediaMeta,
 });
 const bodyClassRaw = (entry.data as Record<string, unknown>).bodyClass;

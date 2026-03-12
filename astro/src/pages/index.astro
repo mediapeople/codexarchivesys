@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ObjectCard from '../components/ObjectCard.astro';
 import { COLLECTIONS, getAllEntries, getTypeLabel } from '../lib/archive';
 import { getMediaItems, pickPrimaryMedia, withMediaVersion } from '../lib/media';
-import { getImageAssetMetadata } from '../lib/mediaAsset';
+import { getImageAssetMetadata, getPublicAssetVersion } from '../lib/mediaAsset';
 import { formatDisplayTitle } from '../lib/headline';
 import { getFeedPinnedFeatureId } from '../lib/feedConfig';
 import { compareByPureTimeline } from '../lib/timeline';
@@ -176,6 +176,8 @@ const entriesWithMedia = await Promise.all(
       ...item,
       primaryMediaMetadata:
         item.primaryMedia?.kind === 'image' ? await getImageAssetMetadata(item.primaryMedia.src) : null,
+      primaryMediaVersion:
+        item.primaryMedia ? await getPublicAssetVersion(item.primaryMedia.src) : null,
     }))
 );
 
@@ -202,9 +204,6 @@ function buildHref(
   return qs ? `/?${qs}` : '/';
 }
 
-function getEntryMediaVersion(entry: (typeof entries)[number]): string {
-  return (entry.data.postedAt ?? entry.data.date).toISOString();
-}
 ---
 
 <BaseLayout
@@ -435,7 +434,7 @@ function getEntryMediaVersion(entry: (typeof entries)[number]): string {
           >
             {item.primaryMedia?.kind === 'image' ? (
               <img
-                src={withMediaVersion(item.primaryMedia.src, getEntryMediaVersion(item.entry))}
+                src={withMediaVersion(item.primaryMedia.src, item.primaryMediaVersion ?? undefined)}
                 alt={item.primaryMedia.alt || `${item.entry.data.title} media`}
                 width={item.primaryMediaMetadata?.width}
                 height={item.primaryMediaMetadata?.height}

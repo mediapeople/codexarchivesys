@@ -5,7 +5,7 @@ import { formatMediaLabel, getMediaItems, pickPrimaryMedia, withMediaVersion } f
 import { formatDisplayTitle } from '../lib/headline';
 import { getAuthorInitials, getPrimaryAuthor } from '../lib/author';
 import { getLoremapAtlasRender } from '../lib/loremap';
-import { getImageAssetMetadata } from '../lib/mediaAsset';
+import { getImageAssetMetadata, getPublicAssetVersion } from '../lib/mediaAsset';
 import { formatArchiveDate } from '../lib/timeline';
 
 interface Props {
@@ -35,7 +35,6 @@ const {
   variant = 'feed',
   eyebrow,
 } = Astro.props;
-const mediaVersion = (entry.data.postedAt ?? entry.data.date).toISOString();
 const mediaItems = getMediaItems(entry);
 const primaryMedia = pickPrimaryMedia(mediaItems);
 const displayTitle = formatDisplayTitle(entry.data.title);
@@ -176,10 +175,6 @@ const showThemes = entry.data.themes.length > 0 && variant !== 'mosaic' && !show
 const showAuthorTease = !showFragmentStage;
 const hasImagePreview = !showFragmentStage && primaryMedia?.kind === 'image';
 const primaryMediaMeta = hasImagePreview ? await getImageAssetMetadata(primaryMedia.src) : null;
-const hasIndependentPreviewAction = hasImagePreview && (variant === 'feed' || variant === 'related');
-const useCenteredCopyStack = !showFragmentStage && (variant === 'feed' || variant === 'related');
-const primaryMediaCaption = primaryMedia?.caption || '';
-const primaryMediaSrc = primaryMedia ? withMediaVersion(primaryMedia.src, mediaVersion) : '';
 const imagePreviewItems = hasImagePreview
   ? [
       primaryMedia,
@@ -188,11 +183,20 @@ const imagePreviewItems = hasImagePreview
       ),
     ]
   : [];
+const previewMediaVersionEntries = hasImagePreview
+  ? await Promise.all(imagePreviewItems.map(async (item) => [item.src, await getPublicAssetVersion(item.src)] as const))
+  : [];
+const previewMediaVersionBySrc = new Map(previewMediaVersionEntries);
+const getPreviewMediaSrc = (src: string) => withMediaVersion(src, previewMediaVersionBySrc.get(src) ?? undefined);
+const hasIndependentPreviewAction = hasImagePreview && (variant === 'feed' || variant === 'related');
+const useCenteredCopyStack = !showFragmentStage && (variant === 'feed' || variant === 'related');
+const primaryMediaCaption = primaryMedia?.caption || '';
+const primaryMediaSrc = primaryMedia ? getPreviewMediaSrc(primaryMedia.src) : '';
 const previewImageCount = imagePreviewItems.length;
 const previewGalleryPayload = hasIndependentPreviewAction
   ? JSON.stringify(
       imagePreviewItems.map((item) => ({
-        src: withMediaVersion(item.src, mediaVersion),
+        src: getPreviewMediaSrc(item.src),
         alt: item.alt || `${entry.data.title} media preview`,
         caption: item.caption || '',
       }))
