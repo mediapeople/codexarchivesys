@@ -1,7 +1,7 @@
 import type { CodexCollection } from './archive';
 import type { CodexMediaItem } from '../content/config';
 import type { ImageAssetMetadata } from './mediaAsset';
-import { pickPrimaryMedia } from './media';
+import { pickPrimaryMedia, withMediaVersion } from './media';
 
 type SocialType = 'website' | 'article';
 type TwitterCard = 'summary' | 'summary_large_image';
@@ -10,22 +10,6 @@ interface ShareProfile {
   socialType: SocialType;
   prefersLargeImage: boolean;
   defaultDescription: string;
-}
-
-function withImageVersion(value: string, version?: string): string {
-  if (!version) {
-    return value;
-  }
-
-  const isAbsolute = /^https?:\/\//i.test(value);
-  const url = new URL(value, isAbsolute ? undefined : 'https://ndcodex.com');
-  url.searchParams.set('v', version);
-
-  if (isAbsolute) {
-    return url.toString();
-  }
-
-  return `${url.pathname}${url.search}${url.hash}`;
 }
 
 const SHARE_PROFILE_BY_TYPE: Record<CodexCollection, ShareProfile> = {
@@ -115,7 +99,7 @@ export function buildObjectShareMeta({
 } {
   const profile = SHARE_PROFILE_BY_TYPE[collection];
   const rawSocialImage = pickShareImage(mediaItems);
-  const socialImage = rawSocialImage ? withImageVersion(rawSocialImage, imageVersion) : undefined;
+  const socialImage = rawSocialImage ? withMediaVersion(rawSocialImage, imageVersion) : undefined;
   const fallbackDescription = `${title}. ${profile.defaultDescription}`;
   const description = trimToLength(excerpt || fallbackDescription);
   const prefersLargeSocialCard =

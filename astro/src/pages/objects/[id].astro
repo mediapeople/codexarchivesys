@@ -5,7 +5,7 @@ import ObjectCard from '../../components/ObjectCard.astro';
 import FieldlogDataPlate from '../../components/FieldlogDataPlate.astro';
 import { getAllEntries } from '../../lib/archive';
 import { computeRelatedEntries } from '../../lib/relations';
-import { formatMediaLabel, getMediaItems, pickPrimaryMedia } from '../../lib/media';
+import { formatMediaLabel, getMediaItems, pickPrimaryMedia, withMediaVersion } from '../../lib/media';
 import { getImageAssetMetadata } from '../../lib/mediaAsset';
 import { formatDisplayTitle } from '../../lib/headline';
 import { getAuthorInitials, getAuthorProfiles } from '../../lib/author';
@@ -72,6 +72,8 @@ const related = computeRelatedEntries(entry, allEntries, 3).filter(
   (hit) => !connectedIds.has(hit.entry.data.id)
 );
 const mediaItems = getMediaItems(entry);
+const mediaVersion = (entry.data.postedAt ?? entry.data.date).toISOString();
+const getVersionedMediaSrc = (src: string) => withMediaVersion(src, mediaVersion);
 const primaryMedia = pickPrimaryMedia(mediaItems);
 const imageMetadataEntries = await Promise.all(
   mediaItems
@@ -246,7 +248,7 @@ const shareMeta = buildObjectShareMeta({
   excerpt: entry.data.excerpt,
   mediaItems,
   canonicalPath: `/objects/${entry.data.id}`,
-  imageVersion: (entry.data.postedAt ?? entry.data.date).toISOString(),
+  imageVersion: mediaVersion,
   socialImageMetadata: primaryMediaMeta,
 });
 const bodyClassRaw = (entry.data as Record<string, unknown>).bodyClass;
@@ -401,7 +403,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
           >
             {primaryMedia.kind === 'image' && (
               <img
-                src={primaryMedia.src}
+                src={getVersionedMediaSrc(primaryMedia.src)}
                 alt={primaryMedia.alt || `${entry.data.title} primary media`}
                 width={primaryMediaMeta?.width}
                 height={primaryMediaMeta?.height}
@@ -415,13 +417,13 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
               />
             )}
             {primaryMedia.kind === 'video' && (
-              <video controls preload="metadata" src={primaryMedia.src}>
+              <video controls preload="metadata" src={getVersionedMediaSrc(primaryMedia.src)}>
                 Your browser does not support the video element.
               </video>
             )}
             {primaryMedia.kind === 'audio' && (
               <div class="audio-shell">
-                <audio controls preload="metadata" src={primaryMedia.src}>
+                <audio controls preload="metadata" src={getVersionedMediaSrc(primaryMedia.src)}>
                   Your browser does not support the audio element.
                 </audio>
               </div>
@@ -443,7 +445,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
                   >
                     {item.kind === 'image' && (
                       <img
-                        src={item.src}
+                        src={getVersionedMediaSrc(item.src)}
                         alt={item.alt || `${entry.data.title} media`}
                         width={getImageMetadata(item.src)?.width}
                         height={getImageMetadata(item.src)?.height}
@@ -457,13 +459,13 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
                       />
                     )}
                     {item.kind === 'video' && (
-                      <video controls preload="metadata" src={item.src}>
+                      <video controls preload="metadata" src={getVersionedMediaSrc(item.src)}>
                         Your browser does not support the video element.
                       </video>
                     )}
                     {item.kind === 'audio' && (
                       <div class="audio-shell">
-                        <audio controls preload="metadata" src={item.src}>
+                        <audio controls preload="metadata" src={getVersionedMediaSrc(item.src)}>
                           Your browser does not support the audio element.
                         </audio>
                       </div>
@@ -609,7 +611,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
         >
           {primaryMedia.kind === 'image' && (
             <img
-              src={primaryMedia.src}
+              src={getVersionedMediaSrc(primaryMedia.src)}
               alt={primaryMedia.alt || `${entry.data.title} primary media`}
               width={primaryMediaMeta?.width}
               height={primaryMediaMeta?.height}
@@ -623,13 +625,13 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
             />
           )}
           {primaryMedia.kind === 'video' && (
-            <video controls preload="metadata" src={primaryMedia.src}>
+            <video controls preload="metadata" src={getVersionedMediaSrc(primaryMedia.src)}>
               Your browser does not support the video element.
             </video>
           )}
           {primaryMedia.kind === 'audio' && (
             <div class="audio-shell">
-              <audio controls preload="metadata" src={primaryMedia.src}>
+              <audio controls preload="metadata" src={getVersionedMediaSrc(primaryMedia.src)}>
                 Your browser does not support the audio element.
               </audio>
             </div>
@@ -648,7 +650,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
               >
                 {item.kind === 'image' && (
                   <img
-                    src={item.src}
+                    src={getVersionedMediaSrc(item.src)}
                     alt={item.alt || `${entry.data.title} media`}
                     width={getImageMetadata(item.src)?.width}
                     height={getImageMetadata(item.src)?.height}
@@ -662,13 +664,13 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
                   />
                 )}
                 {item.kind === 'video' && (
-                  <video controls preload="metadata" src={item.src}>
+                  <video controls preload="metadata" src={getVersionedMediaSrc(item.src)}>
                     Your browser does not support the video element.
                   </video>
                 )}
                 {item.kind === 'audio' && (
                   <div class="audio-shell">
-                    <audio controls preload="metadata" src={item.src}>
+                    <audio controls preload="metadata" src={getVersionedMediaSrc(item.src)}>
                       Your browser does not support the audio element.
                     </audio>
                   </div>

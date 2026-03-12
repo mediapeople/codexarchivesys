@@ -1,7 +1,7 @@
 ---
 import TypeBadge from './TypeBadge.astro';
 import type { ArchiveEntry } from '../lib/archive';
-import { formatMediaLabel, getMediaItems, pickPrimaryMedia } from '../lib/media';
+import { formatMediaLabel, getMediaItems, pickPrimaryMedia, withMediaVersion } from '../lib/media';
 import { formatDisplayTitle } from '../lib/headline';
 import { getAuthorInitials, getPrimaryAuthor } from '../lib/author';
 import { getLoremapAtlasRender } from '../lib/loremap';
@@ -35,6 +35,7 @@ const {
   variant = 'feed',
   eyebrow,
 } = Astro.props;
+const mediaVersion = (entry.data.postedAt ?? entry.data.date).toISOString();
 const mediaItems = getMediaItems(entry);
 const primaryMedia = pickPrimaryMedia(mediaItems);
 const displayTitle = formatDisplayTitle(entry.data.title);
@@ -178,6 +179,7 @@ const primaryMediaMeta = hasImagePreview ? await getImageAssetMetadata(primaryMe
 const hasIndependentPreviewAction = hasImagePreview && (variant === 'feed' || variant === 'related');
 const useCenteredCopyStack = !showFragmentStage && (variant === 'feed' || variant === 'related');
 const primaryMediaCaption = primaryMedia?.caption || '';
+const primaryMediaSrc = primaryMedia ? withMediaVersion(primaryMedia.src, mediaVersion) : '';
 const imagePreviewItems = hasImagePreview
   ? [
       primaryMedia,
@@ -190,7 +192,7 @@ const previewImageCount = imagePreviewItems.length;
 const previewGalleryPayload = hasIndependentPreviewAction
   ? JSON.stringify(
       imagePreviewItems.map((item) => ({
-        src: item.src,
+        src: withMediaVersion(item.src, mediaVersion),
         alt: item.alt || `${entry.data.title} media preview`,
         caption: item.caption || '',
       }))
@@ -233,7 +235,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     data-media-frame={hasImagePreview ? 'card-preview' : undefined}
     data-media-shape={primaryMediaMeta?.shape}
     data-card-image-trigger={hasIndependentPreviewAction ? 'true' : undefined}
-    data-card-lightbox-src={hasIndependentPreviewAction ? primaryMedia?.src : undefined}
+    data-card-lightbox-src={hasIndependentPreviewAction ? primaryMediaSrc : undefined}
     data-card-lightbox-alt={hasIndependentPreviewAction ? (primaryMedia?.alt || `${entry.data.title} media preview`) : undefined}
     data-card-lightbox-caption={hasIndependentPreviewAction ? primaryMediaCaption : undefined}
     data-card-lightbox-images={previewGalleryPayload}
@@ -276,7 +278,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     ) : primaryMedia?.kind === 'image' ? (
       <img
         class="preview-image"
-        src={primaryMedia.src}
+        src={primaryMediaSrc}
         alt={primaryMedia.alt || `${entry.data.title} media preview`}
         width={primaryMediaMeta?.width}
         height={primaryMediaMeta?.height}

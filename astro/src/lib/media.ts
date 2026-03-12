@@ -10,6 +10,22 @@ export interface CodexMediaItem {
   caption?: string;
 }
 
+export function withMediaVersion(src: string, version?: string): string {
+  if (!version) {
+    return src;
+  }
+
+  const isAbsolute = /^https?:\/\//i.test(src);
+  const url = new URL(src, isAbsolute ? undefined : 'https://ndcodex.com');
+  url.searchParams.set('v', version);
+
+  if (isAbsolute) {
+    return url.toString();
+  }
+
+  return `${url.pathname}${url.search}${url.hash}`;
+}
+
 const PRIMARY_ROLE_ORDER = [
   'hero',
   'scan',
