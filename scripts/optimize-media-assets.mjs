@@ -3,6 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { pathToFileURL } from 'node:url';
 
 const args = process.argv.slice(2);
 
@@ -17,14 +18,14 @@ Supported:
 
 Environment:
   MEDIA_MAX_DIM=2400         Max long edge for JPEG resize (default: 2400)
-  JPEG_QUALITY=68            JPEG quality for sips formatOptions (default: 68)
+  JPEG_QUALITY=68            JPEG quality for JPEG optimization (default: 68)
   AVCONVERT_PRESET=PresetMediumQuality   Apple transcode preset (default)
 `);
   process.exit(args.length === 0 ? 1 : 0);
 }
 
 const mediaMaxDim = Number(process.env.MEDIA_MAX_DIM || 2400);
-const jpegQuality = String(process.env.JPEG_QUALITY || '68');
+const jpegQuality = Number(process.env.JPEG_QUALITY || 68);
 const avconvertPreset = process.env.AVCONVERT_PRESET || 'PresetMediumQuality';
 
 function exists(command) {
@@ -35,6 +36,26 @@ function exists(command) {
 const hasSips = exists('sips');
 const hasFfmpeg = exists('ffmpeg');
 const hasAvconvert = exists('avconvert');
+
+async function loadSharp() {
+  const candidates = [
+    path.resolve(process.cwd(), 'astro/node_modules/sharp/lib/index.js'),
+    path.resolve(path.dirname(new URL(import.meta.url).pathname), '../astro/node_modules/sharp/lib/index.js'),
+  ];
+
+  for (const candidate of candidates) {
+    if (!fs.existsSync(candidate)) {
+      continue;
+    }
+
+    const module = await import(pathToFileURL(candidate).href);
+    return module.default ?? module;
+  }
+
+  return null;
+}
+
+const sharp = await loadSharp();
 
 function run(cmd, argv) {
   const result = spawnSync(cmd, argv, { stdio: 'pipe', encoding: 'utf8' });
@@ -54,31 +75,52 @@ function ensureFile(file) {
   }
 }
 
-function optimizeJpeg(file) {
-  if (!hasSips) {
-    throw new Error('sips is required for JPEG optimization');
-  }
-
+async function optimizeJpeg(file) {
   const before = fs.statSync(file).size;
   const tmpOut = `${file}.opt-tmp.jpg`;
 
-  run('sips', [
-    '-Z',
-    String(mediaMaxDim),
-    '-s',
-    'format',
-    'jpeg',
-    '-s',
-    'formatOptions',
-    jpegQuality,
-    file,
-    '--out',
-    tmpOut,
-  ]);
+  if (sharp) {
+    let pipeline = sharp(file).resize({
+      width: mediaMaxDim,
+      height: mediaMaxDim,
+      fit: 'inside',
+      withoutEnlargement: true,
+    });
+
+    if (typeof pipeline.keepIccProfile === 'function') {
+      pipeline = pipeline.keepIccProfile();
+    }
+
+    await pipeline
+      .jpeg({
+        quality: jpegQuality,
+        mozjpeg: true,
+      })
+      .toFile(tmpOut);
+  } else {
+    if (!hasSips) {
+      throw new Error('sharp or sips is required for JPEG optimization');
+    }
+
+    run('sips', [
+      '-Z',
+      String(mediaMaxDim),
+      '-s',
+      'format',
+      'jpeg',
+      '-s',
+      'formatOptions',
+      String(jpegQuality),
+      file,
+      '--out',
+      tmpOut,
+    ]);
+  }
 
   fs.renameSync(tmpOut, file);
   const after = fs.statSync(file).size;
-  console.log(`[image] ${file} :: ${formatMB(before)} -> ${formatMB(after)}`);
+  const normalizedBy = sharp ? 'sharp' : 'sips';
+  console.log(`[image] ${file} :: ${formatMB(before)} -> ${formatMB(after)} (${normalizedBy}, EXIF orientation cleared)`);
 }
 
 function transcodeVideo(inputFile) {
@@ -144,7 +186,7 @@ for (const file of args) {
     const ext = path.extname(file).toLowerCase();
 
     if (ext === '.jpg' || ext === '.jpeg') {
-      optimizeJpeg(file);
+      await optimizeJpeg(file);
       continue;
     }
 

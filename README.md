@@ -65,7 +65,12 @@ node scripts/optimize-media-assets.mjs <file1> <file2> ...
 
 Defaults:
 - JPEG: resize to max long edge `2400px`, recompress quality `68`
+- JPEG: normalize delivery JPGs so browser-facing EXIF orientation is cleared
 - Video: transcode to MP4 (uses `ffmpeg` if present, else macOS `avconvert`)
+
+Media prep note:
+- After `HEIC -> JPG`, run `node scripts/optimize-media-assets.mjs ...` on the JPG derivatives before publish handoff.
+- Treat EXIF orientation as untrusted on delivery JPGs. Confirm the optimized JPGs no longer carry a browser-visible orientation override.
 
 Activate the inbox pipeline:
 
