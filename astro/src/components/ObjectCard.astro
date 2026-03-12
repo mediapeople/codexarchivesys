@@ -102,6 +102,30 @@ function getSpeakerPreviewLabel(speaker: string) {
   return speaker;
 }
 
+function getImagePreviewFrameStyle(
+  metadata: { width: number; height: number } | null,
+  imageCount: number,
+  variant: 'feed' | 'related' | 'mosaic'
+): string | undefined {
+  if (!metadata?.width || !metadata?.height) {
+    return undefined;
+  }
+
+  const padInline = variant === 'related' ? 20 : 18;
+  const padTop = 18;
+  const padBottom = imageCount > 1 ? 40 : 32;
+  const frameWidth = metadata.width + padInline * 2;
+  const frameHeight = metadata.height + padTop + padBottom;
+
+  return [
+    `--image-preview-frame-ratio: ${frameWidth} / ${frameHeight}`,
+    `--image-preview-object-ratio: ${metadata.width} / ${metadata.height}`,
+    `--image-preview-pad-inline: ${padInline}px`,
+    `--image-preview-pad-top: ${padTop}px`,
+    `--image-preview-pad-bottom: ${padBottom}px`,
+  ].join('; ');
+}
+
 function getFragmentStageContent(body: string, fallback: string, maxLines: number): FragmentStageToken[] {
   const source = stripMarkdownFormatting(body || fallback);
   const normalizedLines = source
@@ -193,6 +217,9 @@ const useCenteredCopyStack = !showFragmentStage && (variant === 'feed' || varian
 const primaryMediaCaption = primaryMedia?.caption || '';
 const primaryMediaSrc = primaryMedia ? getPreviewMediaSrc(primaryMedia.src) : '';
 const previewImageCount = imagePreviewItems.length;
+const previewFrameStyle = hasImagePreview
+  ? getImagePreviewFrameStyle(primaryMediaMeta, previewImageCount, variant)
+  : undefined;
 const previewGalleryPayload = hasIndependentPreviewAction
   ? JSON.stringify(
       imagePreviewItems.map((item) => ({
@@ -248,6 +275,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     tabindex={hasIndependentPreviewAction ? 0 : undefined}
     role={hasIndependentPreviewAction ? 'button' : undefined}
     aria-label={hasIndependentPreviewAction ? `Expand ${previewImageCount > 1 ? `${previewImageCount}-image gallery` : 'image'} from ${entry.data.title}` : undefined}
+    style={previewFrameStyle}
   >
     {showFragmentStage ? (
       <>
@@ -700,10 +728,18 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
   .card.feed .preview-wrap.has-image-preview,
   .card.related .preview-wrap.has-image-preview {
     --image-preview-ratio: 14 / 15;
-    aspect-ratio: 14 / 15;
+    --image-preview-frame-ratio: var(--image-preview-ratio);
+    --image-preview-pad-inline: 18px;
+    --image-preview-pad-top: 18px;
+    --image-preview-pad-bottom: 32px;
+    aspect-ratio: var(--image-preview-frame-ratio);
+    box-sizing: border-box;
+    display: grid;
+    place-items: center;
     padding:
-      clamp(1.05rem, 2.4vw, 1.6rem)
-      clamp(0.8rem, 1.9vw, 1.25rem);
+      var(--image-preview-pad-top)
+      var(--image-preview-pad-inline)
+      var(--image-preview-pad-bottom);
     position: relative;
     background:
       linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0) 18%),
@@ -715,7 +751,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
 
   .card.feed .preview-wrap.has-image-preview,
   .card.related .preview-wrap.has-image-preview {
-    aspect-ratio: var(--image-preview-ratio);
+    aspect-ratio: var(--image-preview-frame-ratio, var(--image-preview-ratio));
   }
 
   .card.feed .preview-wrap.has-image-preview[data-media-shape='wide'],
@@ -1058,6 +1094,14 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
   }
 
   .preview-wrap.has-image-preview .preview-image {
+    width: auto;
+    height: auto;
+    min-width: 0;
+    min-height: 0;
+    max-width: 100%;
+    max-height: 100%;
+    justify-self: center;
+    align-self: center;
     position: relative;
     z-index: 1;
     object-fit: contain;
@@ -1899,8 +1943,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
 
     .card.feed .preview-wrap.has-image-preview,
     .card.related .preview-wrap.has-image-preview {
-      aspect-ratio: var(--image-preview-ratio);
-      padding: 1.3rem 0.82rem;
+      aspect-ratio: var(--image-preview-frame-ratio, var(--image-preview-ratio));
     }
 
     .card.fragment .preview-wrap.fragment-stage {
@@ -2056,8 +2099,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
 
     .card.feed .preview-wrap.has-image-preview,
     .card.related .preview-wrap.has-image-preview {
-      aspect-ratio: var(--image-preview-ratio);
-      padding: 1.08rem 0.7rem;
+      aspect-ratio: var(--image-preview-frame-ratio, var(--image-preview-ratio));
     }
 
     .card.fragment .preview-wrap.fragment-stage {
