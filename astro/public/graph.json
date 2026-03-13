@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-12T14:55:54.770Z",
+  "generatedAt": "2026-03-13T23:32:05.664Z",
   "sourceDir": "../objects",
-  "nodeCount": 92,
-  "edgeCount": 3518,
+  "nodeCount": 94,
+  "edgeCount": 3683,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -283,6 +283,23 @@
       ],
       "constellations": [
         "Cascade Psalms"
+      ]
+    },
+    {
+      "id": "codex-archive-system-v3-10-media-handoff-notes",
+      "type": "codex",
+      "title": "CODEX ARCHIVE SYSTEM v3.10 MEDIA HANDOFF NOTES",
+      "date": "2026-03-13",
+      "themes": [
+        "systems",
+        "methodology",
+        "observation",
+        "transmission",
+        "architecture"
+      ],
+      "constellations": [
+        "Cascade Psalms",
+        "Maintenance Psalms"
       ]
     },
     {
@@ -641,6 +658,19 @@
         "systems",
         "transmission",
         "architecture"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "return-of-the-joker",
+      "type": "fieldlog",
+      "title": "Field Log: Return of the Joker",
+      "date": "2026-03-13",
+      "themes": [
+        "collage",
+        "comics",
+        "observation",
+        "signal"
       ],
       "constellations": []
     },
@@ -1476,6 +1506,17 @@
       ]
     },
     {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "codex-archive-system-v3-9-orientation-clarity-notes",
+      "weight": 16,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-connection",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "jsa-collage-evolution-002",
       "target": "jsa-collage-evolution-003",
       "weight": 16,
@@ -1525,6 +1566,17 @@
         "shared-theme",
         "explicit-related",
         "explicit-connection"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "codex-archive-system-v3-8-specimen-surface-notes",
+      "weight": 13,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-connection",
+        "explicit-related"
       ]
     },
     {
@@ -2118,6 +2170,26 @@
       "weight": 9,
       "reasons": [
         "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "codex-archive-system-v3-4-image-experience-notes",
+      "weight": 9,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "return-of-the-joker",
+      "weight": 9,
+      "reasons": [
+        "shared-theme",
+        "explicit-connection",
         "explicit-related"
       ]
     },
@@ -3303,6 +3375,69 @@
       ]
     },
     {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "codex-archive-system-v3-2-fragment-feed-notes",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "codex-archive-system-v3-3-modest-table-notes",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "codex-archive-system-v3-5-control-surface-notes",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "codex-archive-system-v3-6-reading-surface-notes",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "codex-archive-system-v3-plus-notes",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "signal-descent-003",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "codex-archive-system-v3-6-reading-surface-notes",
       "weight": 6,
@@ -3911,6 +4046,15 @@
     },
     {
       "source": "citizen-network-dispatch",
+      "target": "codex-archive-system-v3-10-media-handoff-notes",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
       "target": "codex-archive-system-v3-2-fragment-feed-notes",
       "weight": 5,
       "reasons": [
@@ -4037,6 +4181,15 @@
     },
     {
       "source": "codex-archive-system-v2-7-notes",
+      "target": "codex-archive-system-v3-10-media-handoff-notes",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
       "target": "codex-archive-system-v3-7-loremap-foundation-notes",
       "weight": 5,
       "reasons": [
@@ -4065,6 +4218,15 @@
     {
       "source": "codex-archive-system-v2-7-notes",
       "target": "signal-descent-005",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "codex-archive-system-v3-10-media-handoff-notes",
       "weight": 5,
       "reasons": [
         "shared-theme",
@@ -4123,6 +4285,51 @@
       "reasons": [
         "shared-theme",
         "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "codex-archive-system-v3-notes",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "heart-does-not-dream",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "on-visceral-distillation",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "signal-descent-004",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "signal-descent-005",
+      "weight": 5,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
       ]
     },
     {
@@ -4895,6 +5102,15 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "codex-archive-system-v3-10-media-handoff-notes",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "codex-archive-system-v3-3-modest-table-notes",
       "weight": 4,
       "reasons": [
@@ -5055,6 +5271,14 @@
     },
     {
       "source": "artifact-jsa-collage-001",
+      "target": "return-of-the-joker",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
       "target": "signal-descent-001",
       "weight": 4,
       "reasons": [
@@ -5088,6 +5312,14 @@
       ]
     },
     {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "return-of-the-joker",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "artifact-jsa-signal-fracture-001",
       "target": "garage-dispatch-001",
       "weight": 4,
@@ -5106,6 +5338,14 @@
     {
       "source": "artifact-jsa-signal-fracture-001",
       "target": "jsa-collage-evolution-002",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
+      "target": "return-of-the-joker",
       "weight": 4,
       "reasons": [
         "shared-theme"
@@ -5567,6 +5807,49 @@
       "weight": 4,
       "reasons": [
         "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "go-live-milestone",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "lean-mean-governance-machine",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "signal.citizen-agency",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "the-bones-hold",
+      "weight": 4,
+      "reasons": [
         "shared-constellation"
       ]
     },
@@ -6281,6 +6564,14 @@
       ]
     },
     {
+      "source": "garage-dispatch-001",
+      "target": "return-of-the-joker",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "go-live-milestone",
       "target": "heart-does-not-dream",
       "weight": 4,
@@ -6388,6 +6679,14 @@
     },
     {
       "source": "jsa-collage-evolution-001",
+      "target": "return-of-the-joker",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
       "target": "studio-bench-cycle",
       "weight": 4,
       "reasons": [
@@ -6407,6 +6706,22 @@
     {
       "source": "jsa-collage-evolution-002",
       "target": "phoenix-collage-fracture-study",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-002",
+      "target": "return-of-the-joker",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "return-of-the-joker",
       "weight": 4,
       "reasons": [
         "shared-theme"
@@ -6624,6 +6939,14 @@
     {
       "source": "one-yard-from-forever-scroll-surface",
       "target": "pocket-rock-cathedral",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "phoenix-collage-fracture-study",
+      "target": "return-of-the-joker",
       "weight": 4,
       "reasons": [
         "shared-theme"
@@ -7109,6 +7432,15 @@
     },
     {
       "source": "artifact-jsa-collage-001",
+      "target": "codex-archive-system-v3-10-media-handoff-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
       "target": "codex-archive-system-v3-2-fragment-feed-notes",
       "weight": 3,
       "reasons": [
@@ -7508,6 +7840,14 @@
     {
       "source": "capture-and-convert",
       "target": "citizen-network-map-hi-fi",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "codex-archive-system-v3-10-media-handoff-notes",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -8200,6 +8540,14 @@
     },
     {
       "source": "citizen-network-map-hi-fi",
+      "target": "codex-archive-system-v3-10-media-handoff-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
       "target": "codex-archive-system-v3-3-modest-table-notes",
       "weight": 3,
       "reasons": [
@@ -8392,6 +8740,14 @@
     },
     {
       "source": "codex-archive-system-v2-2",
+      "target": "codex-archive-system-v3-10-media-handoff-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
       "target": "codex-archive-system-v3-2-fragment-feed-notes",
       "weight": 3,
       "reasons": [
@@ -8505,6 +8861,14 @@
     {
       "source": "codex-archive-system-v2-5-notes",
       "target": "codex-archive-system-v3-1-build-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
+      "target": "codex-archive-system-v3-10-media-handoff-notes",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -8633,6 +8997,14 @@
     {
       "source": "codex-archive-system-v2-6-notes",
       "target": "codex-archive-system-v3-1-build-notes",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
+      "target": "codex-archive-system-v3-10-media-handoff-notes",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -8945,6 +9317,150 @@
     },
     {
       "source": "codex-archive-system-v3-1-build-notes",
+      "target": "transmission-note-to-future-me",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "codex-glyph-grammar",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "constellation-node-alchemy",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "node-doctrine",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "north-georgia-march-2026",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "north-georgia-week-2",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "ridge-line-lessons",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "scripture-with-machines",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "scroll-from-the-perimeter",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "shop-talk-framework",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "signal-descent-001",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "signal-descent-002",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "stairwell-signal",
+      "weight": 3,
+      "reasons": [
+        "shared-theme",
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
       "target": "transmission-note-to-future-me",
       "weight": 3,
       "reasons": [
@@ -12524,6 +13040,14 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "return-of-the-joker",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "signal-descent-001",
       "weight": 2,
       "reasons": [
@@ -13132,6 +13656,14 @@
     },
     {
       "source": "bezalel-the-designated-hand",
+      "target": "codex-archive-system-v3-10-media-handoff-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
       "target": "codex-archive-system-v3-2-fragment-feed-notes",
       "weight": 2,
       "reasons": [
@@ -13261,6 +13793,14 @@
     {
       "source": "builder-lineage-reflection",
       "target": "codex-archive-system-v3-1-build-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "codex-archive-system-v3-10-media-handoff-notes",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -13413,6 +13953,14 @@
     {
       "source": "builder-lineage-reflection",
       "target": "race-to-the-top-six-bridges",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "return-of-the-joker",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -13628,6 +14176,14 @@
     },
     {
       "source": "capture-and-convert",
+      "target": "return-of-the-joker",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
       "target": "scroll-from-the-perimeter",
       "weight": 2,
       "reasons": [
@@ -13701,6 +14257,14 @@
     {
       "source": "characters-in-the-field",
       "target": "codex-archive-system-v3-1-build-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "codex-archive-system-v3-10-media-handoff-notes",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -13868,6 +14432,14 @@
     },
     {
       "source": "characters-in-the-field",
+      "target": "return-of-the-joker",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
       "target": "scripture-with-machines",
       "weight": 2,
       "reasons": [
@@ -13965,6 +14537,14 @@
     {
       "source": "chattahoochee-river-loremap",
       "target": "citizen-network-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "chattahoochee-river-loremap",
+      "target": "codex-archive-system-v3-10-media-handoff-notes",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -14221,6 +14801,14 @@
     {
       "source": "cities-built-on-ruin-reminiscence",
       "target": "quiet-vector-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "return-of-the-joker",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -14564,6 +15152,14 @@
     },
     {
       "source": "citizen-network-dispatch",
+      "target": "return-of-the-joker",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
       "target": "scroll-from-the-perimeter",
       "weight": 2,
       "reasons": [
@@ -14613,6 +15209,14 @@
     {
       "source": "citizen-network-doctrine",
       "target": "codex-archive-system-v3-1-build-notes",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "codex-archive-system-v3-10-media-handoff-notes",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -15507,6 +16111,182 @@
       ]
     },
     {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "codex-glyph-system-first-emergence",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "crane-field-illustration",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "disrespectful-power",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "garage-dispatch-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "grand-myth-central",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "i-work-with-machines-to-write-scripture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "jsa-collage-evolution-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "jsa-collage-evolution-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "keep-the-operator-whistling",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "machine-creatures",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "maintenance-without-cure",
+      "weight": 2,
+      "reasons": [
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "on-object-oriented-archives",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "operator-winks-at-the-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "pressure-psalm-v",
+      "weight": 2,
+      "reasons": [
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "quiet-vector-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "reduce-novelty-before-care",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "signal-harvest",
+      "weight": 2,
+      "reasons": [
+        "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "steel-elbow-flinchian",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "studio-bench-cycle",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "when-the-commit-leaves-your-hands",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "crane-field-illustration",
       "weight": 2,
@@ -15668,6 +16448,14 @@
     },
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "return-of-the-joker",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "scroll-from-the-perimeter",
       "weight": 2,
       "reasons": [
@@ -15765,6 +16553,14 @@
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "reduce-novelty-before-care",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "return-of-the-joker",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -15884,6 +16680,14 @@
     },
     {
       "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "return-of-the-joker",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
       "target": "scroll-from-the-perimeter",
       "weight": 2,
       "reasons": [
@@ -15989,6 +16793,14 @@
     {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "reduce-novelty-before-care",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "return-of-the-joker",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -16277,6 +17089,14 @@
     {
       "source": "codex-archive-system-v3-8-specimen-surface-notes",
       "target": "reduce-novelty-before-care",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "return-of-the-joker",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -17076,6 +17896,14 @@
     },
     {
       "source": "constellation-node-alchemy",
+      "target": "return-of-the-joker",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
       "target": "scroll-from-the-perimeter",
       "weight": 2,
       "reasons": [
@@ -17252,6 +18080,14 @@
     },
     {
       "source": "crane-field-illustration",
+      "target": "return-of-the-joker",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
       "target": "scripture-with-machines",
       "weight": 2,
       "reasons": [
@@ -17349,6 +18185,14 @@
     {
       "source": "deck-under-load-ii",
       "target": "phoenix-collage-fracture-study",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "deck-under-load-ii",
+      "target": "return-of-the-joker",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -17485,6 +18329,14 @@
     {
       "source": "disrespectful-power",
       "target": "race-to-the-top-six-bridges",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "disrespectful-power",
+      "target": "return-of-the-joker",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -18140,6 +18992,14 @@
     },
     {
       "source": "grand-myth-central",
+      "target": "return-of-the-joker",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
       "target": "ridge-line-lessons",
       "weight": 2,
       "reasons": [
@@ -19036,6 +19896,14 @@
     },
     {
       "source": "mothers-calendar",
+      "target": "return-of-the-joker",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
       "target": "ridge-line-lessons",
       "weight": 2,
       "reasons": [
@@ -19981,6 +20849,46 @@
     {
       "source": "reduce-novelty-before-care",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "return-of-the-joker",
+      "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "return-of-the-joker",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "return-of-the-joker",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "return-of-the-joker",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "return-of-the-joker",
+      "target": "under-load",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -20628,6 +21536,14 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "return-of-the-joker",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "scroll-from-the-perimeter",
       "weight": 1,
       "reasons": [
@@ -20868,6 +21784,14 @@
     },
     {
       "source": "archive-box-stamped-fragments",
+      "target": "return-of-the-joker",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
       "target": "shop-talk-framework",
       "weight": 1,
       "reasons": [
@@ -20981,6 +21905,14 @@
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "codex-archive-system-v3-1-build-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "codex-archive-system-v3-10-media-handoff-notes",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -21484,6 +22416,14 @@
     },
     {
       "source": "artifact-jsa-collage-wip-001",
+      "target": "codex-archive-system-v3-10-media-handoff-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
       "target": "codex-archive-system-v3-2-fragment-feed-notes",
       "weight": 1,
       "reasons": [
@@ -21781,6 +22721,14 @@
     {
       "source": "artifact-jsa-signal-fracture-001",
       "target": "codex-archive-system-v3-1-build-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
+      "target": "codex-archive-system-v3-10-media-handoff-notes",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -23124,6 +24072,14 @@
     },
     {
       "source": "chattahoochee-river-loremap",
+      "target": "return-of-the-joker",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "chattahoochee-river-loremap",
       "target": "scripture-with-machines",
       "weight": 1,
       "reasons": [
@@ -23636,6 +24592,14 @@
     },
     {
       "source": "cities-built-on-ruin",
+      "target": "return-of-the-joker",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
       "target": "scripture-with-machines",
       "weight": 1,
       "reasons": [
@@ -23924,6 +24888,14 @@
     },
     {
       "source": "citizen-network-doctrine",
+      "target": "return-of-the-joker",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
       "target": "scroll-from-the-perimeter",
       "weight": 1,
       "reasons": [
@@ -24045,6 +25017,14 @@
     {
       "source": "citizen-network-map-hi-fi",
       "target": "reduce-novelty-before-care",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
+      "target": "return-of-the-joker",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -24588,6 +25568,14 @@
     },
     {
       "source": "codex-archive-system-v2-7-notes",
+      "target": "return-of-the-joker",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
       "target": "scroll-from-the-perimeter",
       "weight": 1,
       "reasons": [
@@ -24676,6 +25664,14 @@
     },
     {
       "source": "codex-archive-system-v3-1-build-notes",
+      "target": "return-of-the-joker",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
       "target": "ridge-line-lessons",
       "weight": 1,
       "reasons": [
@@ -24693,6 +25689,86 @@
     {
       "source": "codex-archive-system-v3-1-build-notes",
       "target": "suwanee-ga-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "distortion-atlas",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "jsa-collage-evolution-003",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "mothers-calendar",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "pocket-rock-cathedral",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "systems-survive-tuesdays",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -24717,6 +25793,14 @@
     {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "phoenix-collage-fracture-study",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "return-of-the-joker",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -25140,6 +26224,14 @@
     },
     {
       "source": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "target": "return-of-the-joker",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-7-loremap-foundation-notes",
       "target": "scroll-from-the-perimeter",
       "weight": 1,
       "reasons": [
@@ -25404,6 +26496,14 @@
     },
     {
       "source": "codex-archive-system-v3-notes",
+      "target": "return-of-the-joker",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
       "target": "ridge-line-lessons",
       "weight": 1,
       "reasons": [
@@ -25461,6 +26561,14 @@
     {
       "source": "codex-archive-system-v3-plus-notes",
       "target": "phoenix-collage-fracture-study",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
+      "target": "return-of-the-joker",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -25541,6 +26649,14 @@
     {
       "source": "codex-glyph-grammar",
       "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
+      "target": "return-of-the-joker",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -25717,6 +26833,14 @@
     {
       "source": "codex-glyph-system-first-emergence",
       "target": "reduce-novelty-before-care",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
+      "target": "return-of-the-joker",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -26332,6 +27456,14 @@
     },
     {
       "source": "distortion-atlas",
+      "target": "return-of-the-joker",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
       "target": "ridge-line-lessons",
       "weight": 1,
       "reasons": [
@@ -26493,6 +27625,14 @@
     {
       "source": "flexible-machine-sweet-spot",
       "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "return-of-the-joker",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -26781,6 +27921,14 @@
     {
       "source": "go-live-milestone",
       "target": "phoenix-collage-fracture-study",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "return-of-the-joker",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -27116,6 +28264,14 @@
     },
     {
       "source": "i-work-with-machines-to-write-scripture",
+      "target": "return-of-the-joker",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
       "target": "scroll-from-the-perimeter",
       "weight": 1,
       "reasons": [
@@ -27757,6 +28913,14 @@
     {
       "source": "keep-the-operator-whistling",
       "target": "reduce-novelty-before-care",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "return-of-the-joker",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -27948,6 +29112,14 @@
     },
     {
       "source": "machine-creatures",
+      "target": "return-of-the-joker",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
       "target": "scroll-from-the-perimeter",
       "weight": 1,
       "reasons": [
@@ -28141,6 +29313,14 @@
     {
       "source": "manic-rider-collapse",
       "target": "race-to-the-top-six-bridges",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "manic-rider-collapse",
+      "target": "return-of-the-joker",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -28412,6 +29592,14 @@
     },
     {
       "source": "node-doctrine",
+      "target": "return-of-the-joker",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
       "target": "scroll-from-the-perimeter",
       "weight": 1,
       "reasons": [
@@ -28477,6 +29665,14 @@
     {
       "source": "north-georgia-march-2026",
       "target": "reduce-novelty-before-care",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "north-georgia-march-2026",
+      "target": "return-of-the-joker",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -28557,6 +29753,14 @@
     {
       "source": "north-georgia-week-2",
       "target": "reduce-novelty-before-care",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "north-georgia-week-2",
+      "target": "return-of-the-joker",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -28668,6 +29872,14 @@
     },
     {
       "source": "nothing-missing-only-unindexed",
+      "target": "return-of-the-joker",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "nothing-missing-only-unindexed",
       "target": "scroll-from-the-perimeter",
       "weight": 1,
       "reasons": [
@@ -28733,6 +29945,14 @@
     {
       "source": "on-object-oriented-archives",
       "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-object-oriented-archives",
+      "target": "return-of-the-joker",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -28884,6 +30104,14 @@
     },
     {
       "source": "one-yard-from-forever-scroll-surface",
+      "target": "return-of-the-joker",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever-scroll-surface",
       "target": "ridge-line-lessons",
       "weight": 1,
       "reasons": [
@@ -29020,6 +30248,14 @@
     },
     {
       "source": "one-yard-from-forever",
+      "target": "return-of-the-joker",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever",
       "target": "ridge-line-lessons",
       "weight": 1,
       "reasons": [
@@ -29117,6 +30353,14 @@
     {
       "source": "operator-winks-at-the-machines",
       "target": "reduce-novelty-before-care",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "operator-winks-at-the-machines",
+      "target": "return-of-the-joker",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -29316,6 +30560,14 @@
     },
     {
       "source": "pocket-rock-cathedral",
+      "target": "return-of-the-joker",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pocket-rock-cathedral",
       "target": "scroll-from-the-perimeter",
       "weight": 1,
       "reasons": [
@@ -29436,6 +30688,14 @@
     },
     {
       "source": "pressure-psalm-v",
+      "target": "return-of-the-joker",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pressure-psalm-v",
       "target": "scripture-with-machines",
       "weight": 1,
       "reasons": [
@@ -29469,6 +30729,14 @@
     {
       "source": "quiet-vector-doctrine",
       "target": "race-to-the-top-six-bridges",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "quiet-vector-doctrine",
+      "target": "return-of-the-joker",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -29549,6 +30817,14 @@
     {
       "source": "race-to-the-top-six-bridges",
       "target": "reduce-novelty-before-care",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "race-to-the-top-six-bridges",
+      "target": "return-of-the-joker",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -29661,6 +30937,118 @@
     {
       "source": "reduce-novelty-before-care",
       "target": "unacceptable-cost",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "return-of-the-joker",
+      "target": "ridge-line-lessons",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "return-of-the-joker",
+      "target": "scripture-with-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "return-of-the-joker",
+      "target": "shop-talk-framework",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "return-of-the-joker",
+      "target": "signal-descent-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "return-of-the-joker",
+      "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "return-of-the-joker",
+      "target": "signal-descent-003",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "return-of-the-joker",
+      "target": "signal-descent-004",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "return-of-the-joker",
+      "target": "signal-descent-005",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "return-of-the-joker",
+      "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "return-of-the-joker",
+      "target": "signal.citizen-agency",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "return-of-the-joker",
+      "target": "steel-elbow-flinchian",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "return-of-the-joker",
+      "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "return-of-the-joker",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "return-of-the-joker",
+      "target": "transmission-note-to-future-me",
       "weight": 1,
       "reasons": [
         "shared-theme"

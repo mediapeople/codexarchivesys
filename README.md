@@ -69,7 +69,8 @@ Defaults:
 - Video: transcode to MP4 (uses `ffmpeg` if present, else macOS `avconvert`)
 
 Media prep note:
-- After `HEIC -> JPG`, run `node scripts/optimize-media-assets.mjs ...` on the JPG derivatives before publish handoff.
+- `scripts/finalize-approved-ready.mjs` now runs publish-time media prep automatically for mapped ready drafts, including `HEIC/HEIF -> JPG` normalization.
+- `node scripts/publish-ready-media.mjs --source inbox/ready/<file>.md` remains available when you want to stage media before full promotion.
 - Treat EXIF orientation as untrusted on delivery JPGs. Confirm the optimized JPGs no longer carry a browser-visible orientation override.
 
 Activate the inbox pipeline:
@@ -87,6 +88,9 @@ Operator note:
 # inspect fresh source material
 find inbox/drop -maxdepth 2 -type f | sort
 
+# fast fieldlog lane from one drop markdown into inbox/ready
+node scripts/intake-fieldlog.mjs --source "inbox/drop/<item>/<file>.md"
+
 # draft the object in inbox/ready/<file>.md
 
 # optional prep step for scrolls/codex entries that should ship with a glyph
@@ -99,12 +103,14 @@ node scripts/finalize-approved-ready.mjs --source inbox/ready/2026-03-08-art-is-
 Notes:
 - `inbox/drop/` is raw source detection.
 - `inbox/ready/` is human review territory.
+- `scripts/intake-fieldlog.mjs` is the fastest path when a drop item clearly wants to become a `fieldlog`; it generates a review draft and planned media map but does not publish.
+- `scripts/publish-ready-media.mjs` is the handoff bridge from ready-draft media mappings into `astro/public`; it converts HEIC-heavy capture sets to browser-safe delivery assets before promotion.
 - `scripts/prepare-ready.mjs --glyph` is the operator-facing prep step when a draft should carry a glyph; it generates the SVG and writes the glyph media entry into the draft.
 - `scripts/generate-codex-glyph.mjs` remains available as the low-level glyph tool when you want the SVG without modifying draft frontmatter.
 - `objects/` + `astro/src/content/` are canonical publish state.
 - Human interaction should stay narrow: review drafts, confirm approval, then let the system run the rest.
 - After a correct local result and successful push, let it breathe before treating remote lag as a feed-order bug.
-- `scripts/finalize-approved-ready.mjs` wraps promotion, inbox reconciliation, cleanup, validation, and build.
+- `scripts/finalize-approved-ready.mjs` wraps media prep, promotion, inbox reconciliation, cleanup, validation, and build.
 - Approval records append to `logs/promotion-log.ndjson`.
 
 Low-level scripts still exist when needed:

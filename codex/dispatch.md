@@ -19,6 +19,7 @@ Goal: move source from `inbox/drop` to a clean draft in `inbox/ready`.
 
 Do:
 - inspect `inbox/drop`
+- use `scripts/intake-fieldlog.mjs` when the source is clearly a field/process log
 - draft metadata and body in `inbox/ready`
 - use `INTAKE_TEMPLATE.md`
 - flag unclear material in `inbox/needs-info`
@@ -32,11 +33,13 @@ Do not:
 Useful files:
 - `INTAKE_TEMPLATE.md`
 - `codex/pipeline.md`
+- `scripts/intake-fieldlog.mjs`
 - `scripts/prepare-ready.mjs`
 
 Command:
 ```bash
 find inbox/drop -maxdepth 2 -type f | sort
+node scripts/intake-fieldlog.mjs --source "inbox/drop/<item>/<file>.md"
 ```
 
 ## Publishing
@@ -45,7 +48,7 @@ Goal: move approved ready drafts into canonical publish state and verify the sit
 Do:
 - confirm explicit operator approval
 - run finalize on approved drafts
-- let the pipeline promote, reconcile, clean up, validate, and build
+- let the pipeline prep mapped media, promote, reconcile, clean up, validate, and build
 
 Do not:
 - publish unapproved drafts
@@ -55,12 +58,17 @@ Useful files:
 - `README.md`
 - `codex/pipeline.md`
 - `scripts/finalize-approved-ready.mjs`
+- `scripts/publish-ready-media.mjs`
 - `scripts/promote-ready.mjs`
 
 Command:
 ```bash
 node scripts/finalize-approved-ready.mjs --source inbox/ready/<file>.md --note "Operator approved for publish"
 ```
+
+Publishing note:
+- The finalize handoff now stages mapped media before promotion.
+- HEIC and HEIF sources are normalized to browser-safe JPG delivery during that handoff.
 
 ## Dev
 Goal: work on the Astro app, presentation layer, archive logic, or supporting scripts.

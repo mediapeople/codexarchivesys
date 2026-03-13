@@ -16,16 +16,18 @@ Options:
   --all               Finalize all drafts currently in inbox/ready
   --note <text>       Approval note recorded in promotion/cleanup logs
   --status <value>    Target canonical status (default: published)
+  --skip-media        Skip publish-time media prep
   --skip-validate     Skip object validation
   --skip-build        Skip Astro build
   -h, --help          Show help
 
 What it does:
-  1. promote approved ready drafts into canonical objects + Astro content
-  2. reconcile inbox/ready so promoted drafts leave the active queue
-  3. archive any matching drop payloads discovered from ready provenance
-  4. purge inbox/drop/.DS_Store if present
-  5. validate objects and build Astro unless skipped
+  1. prepare mapped media into astro/public for the selected ready drafts
+  2. promote approved ready drafts into canonical objects + Astro content
+  3. reconcile inbox/ready so promoted drafts leave the active queue
+  4. archive any matching drop payloads discovered from ready provenance
+  5. purge inbox/drop/.DS_Store if present
+  6. validate objects and build Astro unless skipped
 
 Examples:
   node scripts/finalize-approved-ready.mjs --source inbox/ready/2026-03-08-art-is-for-people-who-want-to-feel-alive.md --note "Operator approved for publish"
@@ -43,6 +45,7 @@ const options = {
   all: false,
   note: '',
   status: 'published',
+  skipMedia: false,
   skipValidate: false,
   skipBuild: false,
 };
@@ -93,6 +96,11 @@ for (let i = 0; i < args.length; i += 1) {
     continue;
   }
 
+  if (arg === '--skip-media') {
+    options.skipMedia = true;
+    continue;
+  }
+
   if (arg === '--skip-build') {
     options.skipBuild = true;
     continue;
@@ -124,13 +132,22 @@ function runNodeScript(scriptName, scriptArgs, cwd = repoRoot) {
 }
 
 const promoteArgs = [];
+const mediaArgs = [];
 if (options.all) {
   promoteArgs.push('--all', '--approve-all');
+  mediaArgs.push('--all');
 }
 for (const source of options.sources) {
   promoteArgs.push('--source', source);
+  mediaArgs.push('--source', source);
 }
 promoteArgs.push('--approve', '--note', options.note, '--status', options.status);
+
+runNodeScript('promote-ready.mjs', [...promoteArgs, '--dry-run']);
+
+if (!options.skipMedia) {
+  runNodeScript('publish-ready-media.mjs', mediaArgs);
+}
 
 runNodeScript('promote-ready.mjs', promoteArgs);
 runNodeScript('reconcile-inbox.mjs', ['--note', options.note]);
