@@ -1364,6 +1364,13 @@ const graphViewModelJson = JSON.stringify({
     --graph-inline-space: clamp(1.25rem, 3vw, 3.1rem);
     --graph-block-space: clamp(1.25rem, 2.7vw, 2.9rem);
     --graph-column-gap: clamp(1.1rem, 2.35vw, 2.35rem);
+    --graph-plate-border: rgba(214, 190, 156, 0.28);
+    --graph-plate-shadow: 0 26px 62px rgba(0, 0, 0, 0.28);
+    --graph-plate-surface: linear-gradient(180deg, rgba(34, 28, 23, 0.985), rgba(15, 12, 10, 0.995));
+    --graph-plate-tint: rgba(212, 138, 83, 0.07);
+    --graph-plate-tint-secondary: rgba(201, 150, 58, 0.05);
+    --graph-plate-frame: rgba(223, 199, 163, 0.1);
+    --graph-plate-inset: 6px;
     display: grid;
     gap: 2.25rem;
     padding-bottom: 4rem;
@@ -1438,13 +1445,13 @@ const graphViewModelJson = JSON.stringify({
   .graph-map-surface,
   .graph-error,
   .graph-summary-strip {
-    --plate-border: rgba(222, 192, 146, 0.25);
-    --plate-shadow: 0 24px 60px rgba(0, 0, 0, 0.24);
-    --plate-surface: linear-gradient(180deg, rgba(37, 25, 18, 0.97), rgba(16, 12, 10, 0.995));
-    --plate-tint: rgba(212, 138, 83, 0.12);
-    --plate-tint-secondary: rgba(120, 160, 168, 0.09);
-    --plate-frame: rgba(212, 138, 83, 0.14);
-    --plate-inset: 5px;
+    --plate-border: var(--graph-plate-border);
+    --plate-shadow: var(--graph-plate-shadow);
+    --plate-surface: var(--graph-plate-surface);
+    --plate-tint: var(--graph-plate-tint);
+    --plate-tint-secondary: var(--graph-plate-tint-secondary);
+    --plate-frame: var(--graph-plate-frame);
+    --plate-inset: var(--graph-plate-inset);
   }
 
   .graph-kpi {
@@ -1492,8 +1499,7 @@ const graphViewModelJson = JSON.stringify({
   }
 
   .graph-summary-strip {
-    --plate-shadow: 0 18px 42px rgba(0, 0, 0, 0.18);
-    --plate-frame: rgba(120, 160, 168, 0.13);
+    --plate-shadow: 0 20px 48px rgba(0, 0, 0, 0.24);
     padding: calc(var(--graph-block-space) - 0.2rem) var(--graph-inline-space) var(--graph-block-space);
   }
 
@@ -1830,13 +1836,13 @@ const graphViewModelJson = JSON.stringify({
   }
 
   .graph-stage-frame {
-    --plate-border: rgba(218, 184, 132, 0.28);
-    --plate-shadow: 0 18px 44px rgba(0, 0, 0, 0.18);
-    --plate-surface: linear-gradient(180deg, rgba(24, 17, 13, 0.97), rgba(10, 8, 7, 0.99));
-    --plate-tint: rgba(212, 138, 83, 0.11);
-    --plate-tint-secondary: rgba(120, 160, 168, 0.09);
-    --plate-frame: rgba(212, 138, 83, 0.16);
-    --plate-inset: 6px;
+    --plate-border: var(--graph-plate-border);
+    --plate-shadow: 0 22px 52px rgba(0, 0, 0, 0.24);
+    --plate-surface: var(--graph-plate-surface);
+    --plate-tint: var(--graph-plate-tint);
+    --plate-tint-secondary: var(--graph-plate-tint-secondary);
+    --plate-frame: var(--graph-plate-frame);
+    --plate-inset: var(--graph-plate-inset);
     --plate-overlay:
       repeating-linear-gradient(
         90deg,
@@ -1856,10 +1862,21 @@ const graphViewModelJson = JSON.stringify({
   }
 
   .graph-stage-frame[data-layout='chronicle'] {
-    --plate-surface: linear-gradient(180deg, rgba(16, 17, 20, 0.96), rgba(9, 10, 13, 0.99));
-    --plate-tint: rgba(120, 160, 168, 0.1);
-    --plate-tint-secondary: rgba(212, 138, 83, 0.08);
-    --plate-frame: rgba(120, 160, 168, 0.16);
+    --plate-overlay:
+      repeating-linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.02) 0,
+        rgba(255, 255, 255, 0.02) 1px,
+        transparent 1px,
+        transparent 38px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.015) 0,
+        rgba(255, 255, 255, 0.015) 1px,
+        transparent 1px,
+        transparent 38px
+      );
   }
 
   .graph-canvas {

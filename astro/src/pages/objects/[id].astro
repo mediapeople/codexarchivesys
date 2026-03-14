@@ -1141,22 +1141,15 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     --object-chip-border: rgba(164, 134, 97, 0.42);
     --object-chip-bg: rgba(164, 134, 97, 0.1);
     --object-chip-fg: rgba(226, 201, 164, 0.9);
-    --object-plate-line: rgba(164, 134, 97, 0.28);
-    --object-plate-line-soft: rgba(164, 134, 97, 0.18);
-    --object-plate-label: rgba(226, 201, 164, 0.82);
-    --object-plate-muted: rgba(214, 205, 190, 0.76);
-    --object-plate-surface: linear-gradient(180deg, rgba(31, 25, 20, 0.96), rgba(13, 11, 10, 0.99));
-    --object-plate-tint: rgba(196, 98, 58, 0.08);
-    --object-plate-tint-secondary: rgba(201, 150, 58, 0.06);
-    --plate-frame: color-mix(in srgb, var(--object-plate-line-soft) 92%, transparent);
+    --object-plate-line: rgba(214, 190, 156, 0.28);
+    --object-plate-line-soft: rgba(214, 190, 156, 0.16);
+    --object-plate-label: rgba(220, 202, 173, 0.8);
+    --object-plate-muted: rgba(218, 208, 194, 0.74);
+    --object-plate-surface: linear-gradient(180deg, rgba(33, 27, 22, 0.985), rgba(15, 12, 10, 0.995));
+    --object-plate-tint: rgba(212, 138, 83, 0.07);
+    --object-plate-tint-secondary: rgba(201, 150, 58, 0.05);
+    --plate-frame: rgba(223, 199, 163, 0.1);
     --plate-inset: 6px;
-    --plate-backdrop:
-      radial-gradient(
-        circle at 82% 14%,
-        color-mix(in srgb, var(--object-plate-tint-secondary) 84%, transparent),
-        transparent 30%
-      ),
-      linear-gradient(180deg, rgba(255, 255, 255, 0.018), transparent 36%);
     --table-line: var(--object-plate-line);
     --table-line-soft: var(--object-plate-line-soft);
     --table-fill: rgba(255, 255, 255, 0.01);
@@ -1167,13 +1160,6 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     --object-chip-border: rgba(112, 150, 178, 0.46);
     --object-chip-bg: rgba(84, 115, 140, 0.14);
     --object-chip-fg: #bed7e6;
-    --object-plate-line: rgba(112, 150, 178, 0.34);
-    --object-plate-line-soft: rgba(112, 150, 178, 0.18);
-    --object-plate-label: rgba(166, 196, 221, 0.82);
-    --object-plate-muted: rgba(213, 223, 232, 0.76);
-    --object-plate-surface: linear-gradient(180deg, rgba(14, 18, 25, 0.98), rgba(10, 13, 19, 0.99));
-    --object-plate-tint: rgba(98, 132, 160, 0.14);
-    --object-plate-tint-secondary: rgba(73, 108, 138, 0.08);
   }
 
   .object-shell.artifact,
@@ -1181,13 +1167,6 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     --object-chip-border: rgba(201, 150, 58, 0.45);
     --object-chip-bg: rgba(201, 150, 58, 0.1);
     --object-chip-fg: #e6c27d;
-    --object-plate-line: rgba(201, 150, 58, 0.3);
-    --object-plate-line-soft: rgba(201, 150, 58, 0.18);
-    --object-plate-label: rgba(222, 193, 138, 0.82);
-    --object-plate-muted: rgba(224, 210, 184, 0.76);
-    --object-plate-surface: linear-gradient(180deg, rgba(33, 26, 19, 0.96), rgba(11, 9, 8, 0.99));
-    --object-plate-tint: rgba(201, 150, 58, 0.12);
-    --object-plate-tint-secondary: rgba(233, 201, 140, 0.05);
   }
 
   .object-shell.artifact {
