@@ -492,9 +492,9 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
       linear-gradient(150deg, rgba(60, 53, 46, 0.24), rgba(18, 16, 14, 0.9));
     --placeholder-motif: radial-gradient(circle at center, rgba(255, 255, 255, 0.04), transparent 62%);
     --placeholder-label: rgba(231, 222, 209, 0.76);
-    --preview-border: color-mix(in srgb, var(--type-accent) 28%, rgba(255, 255, 255, 0.14));
-    --preview-frame: color-mix(in srgb, var(--type-accent) 16%, rgba(244, 240, 232, 0.09));
-    --preview-frame-strong: color-mix(in srgb, var(--type-accent) 34%, rgba(244, 240, 232, 0.24));
+    --preview-border: color-mix(in srgb, var(--type-accent) 42%, rgba(244, 240, 232, 0.18));
+    --preview-frame: color-mix(in srgb, var(--type-accent) 26%, rgba(244, 240, 232, 0.12));
+    --preview-frame-strong: color-mix(in srgb, var(--type-accent) 52%, rgba(244, 240, 232, 0.3));
     --preview-glow: color-mix(in srgb, var(--type-accent) 16%, transparent);
     --preview-surface:
       linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0) 22%),
@@ -651,6 +651,8 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     border-radius: 2px;
     overflow: hidden;
     border: 1px solid var(--preview-border);
+    outline: 1px solid color-mix(in srgb, var(--preview-frame-strong) 52%, transparent);
+    outline-offset: -7px;
     margin-bottom: 0;
     aspect-ratio: 5 / 4;
     isolation: isolate;
@@ -660,7 +662,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     align-self: start;
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.04),
-      inset 0 0 0 1px rgba(255, 255, 255, 0.025),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.22),
       0 0 0 1px rgba(0, 0, 0, 0.22),
       0 12px 24px rgba(0, 0, 0, 0.14);
   }
@@ -671,7 +673,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
   }
 
   .preview-wrap.card-image-trigger:focus-visible {
-    outline: 1px solid rgba(233, 201, 140, 0.76);
+    outline: 1px solid color-mix(in srgb, var(--preview-frame-strong) 74%, rgba(244, 240, 232, 0.36));
     outline-offset: 4px;
   }
 
@@ -1129,6 +1131,9 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     object-fit: contain;
     object-position: center center;
     border: 1px solid var(--preview-frame-strong);
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--preview-frame) 82%, rgba(0, 0, 0, 0.18)),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
     background: rgba(14, 12, 10, 0.82);
     transform: translateY(0.08rem) rotate(var(--specimen-tilt, -0.85deg));
     transform-origin: center 56%;

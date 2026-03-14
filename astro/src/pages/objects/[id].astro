@@ -1138,18 +1138,27 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     border-bottom: none;
     padding: 4rem 0 5.2rem;
     background: transparent;
-    --object-chip-border: rgba(164, 134, 97, 0.42);
+    --object-chip-border: rgba(164, 134, 97, 0.46);
     --object-chip-bg: rgba(164, 134, 97, 0.1);
     --object-chip-fg: rgba(226, 201, 164, 0.9);
-    --object-plate-line: rgba(214, 190, 156, 0.28);
-    --object-plate-line-soft: rgba(214, 190, 156, 0.16);
-    --object-plate-label: rgba(220, 202, 173, 0.8);
-    --object-plate-muted: rgba(218, 208, 194, 0.74);
-    --object-plate-surface: linear-gradient(180deg, rgba(33, 27, 22, 0.985), rgba(15, 12, 10, 0.995));
-    --object-plate-tint: rgba(212, 138, 83, 0.07);
-    --object-plate-tint-secondary: rgba(201, 150, 58, 0.05);
-    --plate-frame: rgba(223, 199, 163, 0.1);
+    --object-plate-line: rgba(164, 134, 97, 0.34);
+    --object-plate-line-soft: rgba(164, 134, 97, 0.22);
+    --object-plate-label: rgba(226, 201, 164, 0.86);
+    --object-plate-muted: rgba(214, 205, 190, 0.76);
+    --object-plate-surface: linear-gradient(180deg, rgba(31, 25, 20, 0.96), rgba(13, 11, 10, 0.99));
+    --object-plate-tint: rgba(196, 98, 58, 0.08);
+    --object-plate-tint-secondary: rgba(201, 150, 58, 0.06);
+    --object-meta-label: color-mix(in srgb, var(--object-plate-label) 90%, rgba(244, 240, 232, 0.08));
+    --object-meta-accent: color-mix(in srgb, var(--object-plate-line) 82%, rgba(244, 240, 232, 0.12));
+    --plate-frame: color-mix(in srgb, var(--object-plate-line) 60%, rgba(255, 255, 255, 0.05));
     --plate-inset: 6px;
+    --plate-backdrop:
+      radial-gradient(
+        circle at 82% 14%,
+        color-mix(in srgb, var(--object-plate-tint-secondary) 84%, transparent),
+        transparent 30%
+      ),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.018), transparent 36%);
     --table-line: var(--object-plate-line);
     --table-line-soft: var(--object-plate-line-soft);
     --table-fill: rgba(255, 255, 255, 0.01);
@@ -1157,16 +1166,30 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
   .object-shell.loremap,
   .object-shell.fieldlog {
-    --object-chip-border: rgba(112, 150, 178, 0.46);
+    --object-chip-border: rgba(112, 150, 178, 0.48);
     --object-chip-bg: rgba(84, 115, 140, 0.14);
     --object-chip-fg: #bed7e6;
+    --object-plate-line: rgba(112, 150, 178, 0.4);
+    --object-plate-line-soft: rgba(112, 150, 178, 0.24);
+    --object-plate-label: rgba(177, 206, 229, 0.88);
+    --object-plate-muted: rgba(213, 223, 232, 0.78);
+    --object-plate-surface: linear-gradient(180deg, rgba(14, 18, 25, 0.98), rgba(10, 13, 19, 0.99));
+    --object-plate-tint: rgba(98, 132, 160, 0.14);
+    --object-plate-tint-secondary: rgba(73, 108, 138, 0.08);
   }
 
   .object-shell.artifact,
   .object-shell.codex {
-    --object-chip-border: rgba(201, 150, 58, 0.45);
+    --object-chip-border: rgba(201, 150, 58, 0.46);
     --object-chip-bg: rgba(201, 150, 58, 0.1);
     --object-chip-fg: #e6c27d;
+    --object-plate-line: rgba(201, 150, 58, 0.34);
+    --object-plate-line-soft: rgba(201, 150, 58, 0.22);
+    --object-plate-label: rgba(228, 201, 145, 0.86);
+    --object-plate-muted: rgba(224, 210, 184, 0.76);
+    --object-plate-surface: linear-gradient(180deg, rgba(33, 26, 19, 0.96), rgba(11, 9, 8, 0.99));
+    --object-plate-tint: rgba(201, 150, 58, 0.12);
+    --object-plate-tint-secondary: rgba(231, 171, 130, 0.08);
   }
 
   .object-shell.artifact {
@@ -1270,7 +1293,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
   .core-meta dt {
     margin: 0 0 0.4rem;
-    color: var(--mid);
+    color: var(--object-meta-label);
     font-family: var(--font-ui);
     font-size: 11px;
     text-transform: uppercase;
@@ -1298,7 +1321,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
   .meta-tags-label {
     margin: 0 0 0.24rem;
-    color: rgba(164, 134, 97, 0.9);
+    color: var(--object-meta-label);
     font-family: var(--font-ui);
     font-size: 10px;
     letter-spacing: var(--ls-ui-wide);
@@ -1328,7 +1351,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
   .pills li::before {
     content: '#';
-    color: rgba(164, 134, 97, 0.82);
+    color: color-mix(in srgb, var(--object-meta-label) 88%, transparent);
     margin-right: 0.24rem;
   }
 
@@ -1339,7 +1362,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
   .constellation li::before {
     content: '↳';
-    color: rgba(201, 150, 58, 0.82);
+    color: var(--object-meta-accent);
     margin-right: 0.34rem;
   }
 
@@ -1417,7 +1440,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
   .footer-unit-label {
     margin: 0 0 0.58rem;
-    color: var(--mid);
+    color: var(--object-meta-label);
     font-family: var(--font-ui);
     font-size: 10px;
     letter-spacing: var(--ls-ui-wide);
@@ -1440,7 +1463,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
   .footer-core-meta dt {
     margin: 0;
-    color: rgba(164, 134, 97, 0.88);
+    color: var(--object-meta-label);
     font-family: var(--font-ui);
     font-size: 10px;
     letter-spacing: var(--ls-ui-wide);
@@ -1464,7 +1487,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
   .footer-tag-label {
     margin: 0 0 0.2rem;
-    color: rgba(164, 134, 97, 0.88);
+    color: var(--object-meta-label);
     font-family: var(--font-ui);
     font-size: 10px;
     letter-spacing: var(--ls-ui-wide);
@@ -1544,7 +1567,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
   .source-label {
     margin: 0;
-    color: var(--mid);
+    color: var(--object-meta-label);
     font-family: var(--font-ui);
     font-size: 10px;
     letter-spacing: var(--ls-ui-wide);
@@ -1561,7 +1584,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
   }
 
   .source-name span {
-    color: var(--mid);
+    color: color-mix(in srgb, var(--object-meta-label) 88%, rgba(244, 240, 232, 0.08));
     font-family: var(--font-ui);
     font-size: 11px;
     letter-spacing: var(--ls-ui-wide);
@@ -1596,7 +1619,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     position: absolute;
     left: 0;
     top: -0.46rem;
-    color: rgba(201, 150, 58, 0.62);
+    color: var(--object-meta-accent);
     font-family: var(--font-display);
     font-size: 1.6rem;
     line-height: 1;
@@ -1615,7 +1638,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
   .co-authors-label {
     margin: 0 0 0.45rem;
-    color: var(--mid);
+    color: var(--object-meta-label);
     font-family: var(--font-ui);
     font-size: 10px;
     letter-spacing: var(--ls-ui-wide);
@@ -1645,7 +1668,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
   .co-authors li::before {
     content: '•';
-    color: rgba(164, 134, 97, 0.72);
+    color: color-mix(in srgb, var(--object-meta-label) 82%, transparent);
     margin-right: 0.16rem;
   }
 
@@ -1674,7 +1697,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
   .detail-grid p {
     margin: 0 0 0.34rem;
-    color: var(--mid);
+    color: var(--object-meta-label);
     font-family: var(--font-ui);
     font-size: 11px;
     text-transform: uppercase;
@@ -2260,9 +2283,12 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     border-radius: 2px;
     display: block;
     margin-inline: 0;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--object-plate-line);
     background: var(--void);
     object-fit: contain;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 0 0 1px rgba(0, 0, 0, 0.18);
   }
 
   .media-primary img[data-expandable-image],
@@ -2274,13 +2300,13 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
   .media-primary img[data-expandable-image]:focus-visible,
   .media-item img[data-expandable-image]:focus-visible,
   .body :global(img.expandable-image:focus-visible) {
-    outline: 2px solid rgba(201, 150, 58, 0.85);
+    outline: 2px solid color-mix(in srgb, var(--object-plate-line) 78%, rgba(244, 240, 232, 0.32));
     outline-offset: 3px;
   }
 
   .media-meta {
     margin: 0.72rem 0 0;
-    color: var(--accent);
+    color: var(--object-meta-label);
     font-family: var(--font-ui);
     font-size: 11px;
     letter-spacing: var(--ls-label);
@@ -2313,15 +2339,21 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     border-radius: 2px;
     display: block;
     background: var(--void);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--object-plate-line);
     object-fit: contain;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 0 0 1px rgba(0, 0, 0, 0.18);
   }
 
   .audio-shell {
-    border: 1px solid var(--line);
+    border: 1px solid var(--object-plate-line);
     border-radius: 2px;
     background: var(--void);
     padding: 0.5rem;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 0 0 1px rgba(0, 0, 0, 0.18);
   }
 
   .audio-shell audio {
@@ -2330,7 +2362,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
   .media-item p {
     margin: 0.5rem 0 0;
-    color: var(--accent);
+    color: var(--object-meta-label);
     font-family: var(--font-ui);
     font-size: 11px;
     text-transform: uppercase;
