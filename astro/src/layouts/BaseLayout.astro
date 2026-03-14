@@ -678,12 +678,13 @@ const navItems = [
   }
 
   :global(.page-plate) {
-    --plate-border: rgba(255, 255, 255, 0.12);
+    --plate-border: rgba(226, 205, 170, 0.18);
     --plate-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
-    --plate-surface: linear-gradient(180deg, rgba(31, 23, 17, 0.94), rgba(15, 12, 10, 0.97));
-    --plate-tint: rgba(212, 138, 83, 0.08);
-    --plate-tint-secondary: rgba(201, 150, 58, 0.05);
-    --plate-sheen: rgba(255, 255, 255, 0.045);
+    --plate-surface: linear-gradient(180deg, rgba(34, 26, 20, 0.95), rgba(17, 13, 11, 0.98));
+    --plate-tint: rgba(212, 138, 83, 0.1);
+    --plate-tint-secondary: rgba(201, 150, 58, 0.07);
+    --plate-sheen: rgba(255, 255, 255, 0.055);
+    --plate-frame: rgba(255, 255, 255, 0.05);
     --plate-overlay: none;
     position: relative;
     border: 1px solid var(--plate-border);
@@ -697,8 +698,19 @@ const navItems = [
       var(--plate-overlay),
       var(--plate-surface);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.035),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.02),
+      0 0 0 1px rgba(0, 0, 0, 0.18),
       var(--plate-shadow);
+  }
+
+  :global(.page-plate)::after {
+    content: '';
+    position: absolute;
+    inset: 7px;
+    border: 1px solid var(--plate-frame);
+    border-radius: 1px;
+    pointer-events: none;
   }
 
   :global(.feed-thesis),
