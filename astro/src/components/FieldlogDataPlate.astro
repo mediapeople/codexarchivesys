@@ -131,24 +131,33 @@ const metaItems = [
     --plate-copy: rgba(243, 238, 228, 0.94);
     --plate-muted: var(--object-plate-muted, rgba(213, 223, 232, 0.74));
     --plate-label: var(--object-plate-label, rgba(166, 196, 221, 0.84));
-    --plate-border: color-mix(in srgb, var(--plate-line-soft) 94%, rgba(255, 255, 255, 0.04));
-    --plate-frame: color-mix(in srgb, var(--plate-line) 60%, rgba(255, 255, 255, 0.04));
+    --plate-shell-rule: color-mix(in srgb, var(--plate-line) 82%, rgba(255, 255, 255, 0.08));
+    --plate-shell-rule-soft: color-mix(in srgb, var(--plate-line-soft) 72%, rgba(255, 255, 255, 0.03));
+    --plate-border: color-mix(in srgb, var(--plate-line) 88%, rgba(255, 255, 255, 0.06));
+    --plate-frame: color-mix(in srgb, var(--plate-line) 74%, rgba(255, 255, 255, 0.08));
     --plate-inset: 6px;
-    --plate-shadow: 0 22px 48px rgba(0, 0, 0, 0.24);
-    --plate-surface: var(--object-plate-surface, linear-gradient(180deg, rgba(14, 18, 25, 0.98), rgba(10, 13, 19, 0.99)));
+    --plate-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+    --plate-surface:
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--object-plate-surface, rgba(14, 18, 25, 0.96)) 82%, transparent),
+        color-mix(in srgb, rgba(10, 13, 19, 0.92) 86%, transparent)
+      );
     --plate-tint: var(--object-plate-tint, rgba(98, 132, 160, 0.14));
     --plate-tint-secondary: var(--object-plate-tint-secondary, rgba(73, 108, 138, 0.08));
     --plate-backdrop:
       radial-gradient(
         circle at 78% 14%,
-        color-mix(in srgb, var(--plate-tint-secondary) 88%, transparent),
-        transparent 28%
+        color-mix(in srgb, var(--plate-tint-secondary) 56%, transparent),
+        transparent 24%
       ),
-      linear-gradient(180deg, rgba(220, 233, 243, 0.028), transparent 38%);
+      linear-gradient(180deg, rgba(220, 233, 243, 0.014), transparent 34%);
     position: relative;
     margin: 2.5rem 0 2.35rem;
     max-width: min(1160px, 100%);
     padding: clamp(1.18rem, 2.05vw, 1.78rem);
+    border-color: transparent;
+    outline: none;
   }
 
   .fieldlog-plate-shell::before {
@@ -160,9 +169,19 @@ const metaItems = [
 
   .fieldlog-plate-shell::before {
     background:
-      linear-gradient(90deg, rgba(255, 255, 255, 0.04), transparent 18%),
-      linear-gradient(180deg, rgba(220, 233, 243, 0.03), transparent 42%);
-    opacity: 0.42;
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02), transparent 18%),
+      linear-gradient(180deg, rgba(220, 233, 243, 0.014), transparent 42%);
+    opacity: 0.24;
+  }
+
+  .fieldlog-plate-shell::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border: 1px solid var(--plate-shell-rule);
+    box-shadow: inset 0 0 0 1px var(--plate-shell-rule-soft);
+    pointer-events: none;
   }
 
   .fieldlog-plate-header,

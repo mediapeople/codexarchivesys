@@ -1726,6 +1726,8 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     --plate-surface: var(--object-plate-surface);
     --plate-tint: var(--object-plate-tint);
     --plate-tint-secondary: var(--object-plate-tint-secondary);
+    --object-shell-rule: color-mix(in srgb, var(--object-rule) 82%, rgba(255, 255, 255, 0.08));
+    --object-shell-rule-soft: color-mix(in srgb, var(--object-rule-soft) 70%, rgba(255, 255, 255, 0.03));
     position: relative;
     margin-top: 1.7rem;
     display: grid;
@@ -1738,6 +1740,8 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     align-items: start;
     max-width: min(1160px, 100%);
     padding: clamp(1.25rem, 2vw, 1.8rem);
+    border-color: transparent;
+    outline: none;
   }
 
   .loremap-atlas::before {
@@ -1756,9 +1760,11 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
   .loremap-atlas::after {
     content: '';
     position: absolute;
-    inset: auto 0 0 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--object-rule-soft), transparent);
+    inset: 0;
+    background:
+      linear-gradient(90deg, transparent, var(--object-rule-soft), transparent) bottom / 100% 1px no-repeat;
+    border: 1px solid var(--object-shell-rule);
+    box-shadow: inset 0 0 0 1px var(--object-shell-rule-soft);
     pointer-events: none;
   }
 
@@ -2002,6 +2008,8 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     --plate-surface: var(--object-plate-surface);
     --plate-tint: var(--object-plate-tint);
     --plate-tint-secondary: var(--object-plate-tint-secondary);
+    --object-shell-rule: color-mix(in srgb, var(--object-rule) 86%, rgba(255, 255, 255, 0.08));
+    --object-shell-rule-soft: color-mix(in srgb, var(--object-rule-soft) 72%, rgba(255, 255, 255, 0.03));
     margin-top: 2.2rem;
     display: grid;
     grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
@@ -2011,6 +2019,8 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     padding: clamp(1.1rem, 1.8vw, 1.45rem);
     position: relative;
     overflow: hidden;
+    border-color: transparent;
+    outline: none;
   }
 
   .html-scroll-stage::before {
@@ -2018,6 +2028,16 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     position: absolute;
     inset: 0;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 24%);
+    pointer-events: none;
+  }
+
+  .html-scroll-stage::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border: 1px solid var(--object-shell-rule);
+    box-shadow: inset 0 0 0 1px var(--object-shell-rule-soft);
     pointer-events: none;
   }
 

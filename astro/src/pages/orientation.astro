@@ -386,7 +386,24 @@ const fieldContractRows = [
     --plate-tint-secondary: rgba(196, 98, 58, 0.08);
     --plate-frame: rgba(201, 150, 58, 0.22);
     --plate-inset: 6px;
+    --orientation-shell-rule: color-mix(in srgb, var(--plate-border) 88%, rgba(255, 255, 255, 0.08));
+    --orientation-shell-rule-soft: color-mix(in srgb, var(--plate-border) 62%, rgba(255, 255, 255, 0.03));
+    position: relative;
     padding: 1.3rem 1.35rem 1.24rem;
+    border: 1px solid var(--orientation-shell-rule);
+    outline: none;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.022), transparent 22%),
+      radial-gradient(circle at 14% 0%, var(--plate-tint), transparent 46%),
+      radial-gradient(circle at 100% 100%, var(--plate-tint-secondary), transparent 58%),
+      var(--plate-surface);
+    box-shadow:
+      inset 0 0 0 1px var(--orientation-shell-rule-soft),
+      0 16px 34px rgba(0, 0, 0, 0.14);
+  }
+
+  .hero-stats article::after {
+    content: none;
   }
 
   .hero-stats strong {
@@ -654,12 +671,23 @@ const fieldContractRows = [
     --plate-surface: linear-gradient(180deg, rgba(22, 17, 14, 0.9), rgba(10, 9, 8, 0.92));
     --plate-tint: rgba(196, 98, 58, 0.08);
     --plate-tint-secondary: rgba(201, 150, 58, 0.05);
+    --orientation-shell-rule: color-mix(in srgb, var(--plate-border) 90%, rgba(255, 255, 255, 0.06));
+    --orientation-shell-rule-soft: color-mix(in srgb, var(--plate-border) 58%, rgba(255, 255, 255, 0.025));
     position: relative;
     min-width: 0;
     width: 100%;
     max-width: none;
     min-height: 100%;
     padding: 1.45rem 1.4rem 1.52rem;
+    border: 1px solid var(--orientation-shell-rule);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.018), transparent 24%),
+      radial-gradient(circle at 14% 0%, var(--plate-tint), transparent 46%),
+      radial-gradient(circle at 100% 100%, var(--plate-tint-secondary), transparent 58%),
+      var(--plate-surface);
+    box-shadow:
+      inset 0 0 0 1px var(--orientation-shell-rule-soft),
+      0 14px 30px rgba(0, 0, 0, 0.12);
   }
 
   .type-definition-head {
@@ -736,10 +764,21 @@ const fieldContractRows = [
     --plate-surface: linear-gradient(180deg, rgba(17, 14, 12, 0.94), rgba(10, 9, 8, 0.98));
     --plate-tint: rgba(196, 98, 58, 0.1);
     --plate-tint-secondary: rgba(78, 107, 150, 0.08);
+    --orientation-shell-rule: color-mix(in srgb, var(--plate-border) 92%, rgba(255, 255, 255, 0.07));
+    --orientation-shell-rule-soft: color-mix(in srgb, var(--plate-border) 60%, rgba(255, 255, 255, 0.025));
     margin: 0;
     position: relative;
     min-height: 360px;
     overflow: hidden;
+    border: 1px solid var(--orientation-shell-rule);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.016), transparent 24%),
+      radial-gradient(circle at 14% 0%, var(--plate-tint), transparent 46%),
+      radial-gradient(circle at 100% 100%, var(--plate-tint-secondary), transparent 58%),
+      var(--plate-surface);
+    box-shadow:
+      inset 0 0 0 1px var(--orientation-shell-rule-soft),
+      0 16px 34px rgba(0, 0, 0, 0.14);
   }
 
   .fieldmap-lines {
@@ -790,8 +829,19 @@ const fieldContractRows = [
     --plate-surface: linear-gradient(180deg, rgba(14, 12, 10, 0.92), rgba(9, 9, 8, 0.96));
     --plate-tint: rgba(201, 150, 58, 0.06);
     --plate-tint-secondary: rgba(120, 160, 168, 0.04);
+    --orientation-shell-rule: color-mix(in srgb, var(--plate-border) 92%, rgba(255, 255, 255, 0.07));
+    --orientation-shell-rule-soft: color-mix(in srgb, var(--plate-border) 60%, rgba(255, 255, 255, 0.025));
     margin-left: 0.2rem;
     overflow: hidden;
+    border: 1px solid var(--orientation-shell-rule);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.014), transparent 24%),
+      radial-gradient(circle at 14% 0%, var(--plate-tint), transparent 46%),
+      radial-gradient(circle at 100% 100%, var(--plate-tint-secondary), transparent 58%),
+      var(--plate-surface);
+    box-shadow:
+      inset 0 0 0 1px var(--orientation-shell-rule-soft),
+      0 16px 34px rgba(0, 0, 0, 0.12);
   }
 
   .field-contract h3 {
