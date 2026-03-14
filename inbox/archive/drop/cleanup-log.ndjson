@@ -55,3 +55,5 @@
 {"timestamp":"2026-03-12T14:46:04.506Z","action":"archive","note":"Operator approved for publish","source":"inbox/drop/codex-operator-field-doctrine.html","destination":"inbox/archive/drop/2026-03-12-sweep-01/codex-operator-field-doctrine.html","sweep":"2026-03-12-sweep-01"}
 {"timestamp":"2026-03-12T14:46:04.654Z","action":"purge","note":"Operator approved for publish","source":"inbox/drop/.DS_Store","destination":null,"sweep":null}
 {"timestamp":"2026-03-12T14:48:48.766Z","action":"archive","note":"Operator approved for publish","source":"inbox/drop/Shop Talk","destination":"inbox/archive/drop/2026-03-12-sweep-02/Shop Talk","sweep":"2026-03-12-sweep-02"}
+{"timestamp":"2026-03-13T18:43:28.971Z","action":"archive","note":"Operator approved for local publish on 2026-03-13","source":"inbox/drop/return of the joker","destination":"inbox/archive/drop/2026-03-13-sweep-01/return of the joker","sweep":"2026-03-13-sweep-01"}
+{"timestamp":"2026-03-13T18:43:29.080Z","action":"purge","note":"Operator approved for local publish on 2026-03-13","source":"inbox/drop/.DS_Store","destination":null,"sweep":null}
