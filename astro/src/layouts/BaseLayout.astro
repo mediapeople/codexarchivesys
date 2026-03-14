@@ -678,39 +678,37 @@ const navItems = [
   }
 
   :global(.page-plate) {
-    --plate-border: rgba(226, 205, 170, 0.18);
+    --plate-border: rgba(226, 205, 170, 0.24);
     --plate-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
-    --plate-surface: linear-gradient(180deg, rgba(34, 26, 20, 0.95), rgba(17, 13, 11, 0.98));
-    --plate-tint: rgba(212, 138, 83, 0.1);
-    --plate-tint-secondary: rgba(201, 150, 58, 0.07);
-    --plate-sheen: rgba(255, 255, 255, 0.055);
-    --plate-frame: rgba(255, 255, 255, 0.05);
+    --plate-surface: linear-gradient(180deg, rgba(36, 28, 21, 0.97), rgba(18, 14, 11, 0.99));
+    --plate-tint: rgba(212, 138, 83, 0.11);
+    --plate-tint-secondary: rgba(201, 150, 58, 0.08);
+    --plate-sheen: rgba(255, 255, 255, 0.065);
+    --plate-ridge: rgba(255, 255, 255, 0.05);
+    --plate-frame: rgba(255, 255, 255, 0.1);
+    --plate-inset: 5px;
     --plate-overlay: none;
     position: relative;
     border: 1px solid var(--plate-border);
     border-radius: 2px;
+    outline: 1px solid var(--plate-frame);
+    outline-offset: calc(var(--plate-inset) * -1);
     overflow: hidden;
     isolation: isolate;
     background:
-      linear-gradient(180deg, var(--plate-sheen), transparent 24%),
+      linear-gradient(180deg, var(--plate-sheen), transparent 22%),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02), transparent 16%, transparent 84%, rgba(0, 0, 0, 0.08)),
+      linear-gradient(0deg, rgba(0, 0, 0, 0.14), transparent 30%),
       radial-gradient(circle at 14% 0%, var(--plate-tint), transparent 46%),
       radial-gradient(circle at 100% 100%, var(--plate-tint-secondary), transparent 58%),
       var(--plate-overlay),
       var(--plate-surface);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.05),
-      inset 0 0 0 1px rgba(255, 255, 255, 0.02),
-      0 0 0 1px rgba(0, 0, 0, 0.18),
+      inset 0 1px 0 var(--plate-ridge),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.035),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.18),
+      0 0 0 1px rgba(0, 0, 0, 0.24),
       var(--plate-shadow);
-  }
-
-  :global(.page-plate)::after {
-    content: '';
-    position: absolute;
-    inset: 7px;
-    border: 1px solid var(--plate-frame);
-    border-radius: 1px;
-    pointer-events: none;
   }
 
   :global(.feed-thesis),

@@ -1438,12 +1438,13 @@ const graphViewModelJson = JSON.stringify({
   .graph-map-surface,
   .graph-error,
   .graph-summary-strip {
-    --plate-border: rgba(255, 255, 255, 0.12);
+    --plate-border: rgba(222, 192, 146, 0.25);
     --plate-shadow: 0 24px 60px rgba(0, 0, 0, 0.24);
-    --plate-surface: linear-gradient(180deg, rgba(34, 23, 17, 0.93), rgba(16, 12, 10, 0.97));
-    --plate-tint: rgba(212, 138, 83, 0.08);
-    --plate-tint-secondary: rgba(120, 160, 168, 0.06);
-    --plate-frame: rgba(212, 138, 83, 0.07);
+    --plate-surface: linear-gradient(180deg, rgba(37, 25, 18, 0.97), rgba(16, 12, 10, 0.995));
+    --plate-tint: rgba(212, 138, 83, 0.12);
+    --plate-tint-secondary: rgba(120, 160, 168, 0.09);
+    --plate-frame: rgba(212, 138, 83, 0.14);
+    --plate-inset: 5px;
   }
 
   .graph-kpi {
@@ -1492,6 +1493,7 @@ const graphViewModelJson = JSON.stringify({
 
   .graph-summary-strip {
     --plate-shadow: 0 18px 42px rgba(0, 0, 0, 0.18);
+    --plate-frame: rgba(120, 160, 168, 0.13);
     padding: calc(var(--graph-block-space) - 0.2rem) var(--graph-inline-space) var(--graph-block-space);
   }
 
@@ -1828,12 +1830,28 @@ const graphViewModelJson = JSON.stringify({
   }
 
   .graph-stage-frame {
-    --plate-border: rgba(255, 255, 255, 0.12);
+    --plate-border: rgba(218, 184, 132, 0.28);
     --plate-shadow: 0 18px 44px rgba(0, 0, 0, 0.18);
     --plate-surface: linear-gradient(180deg, rgba(24, 17, 13, 0.97), rgba(10, 8, 7, 0.99));
-    --plate-tint: rgba(212, 138, 83, 0.1);
-    --plate-tint-secondary: rgba(120, 160, 168, 0.08);
-    --plate-frame: rgba(212, 138, 83, 0.08);
+    --plate-tint: rgba(212, 138, 83, 0.11);
+    --plate-tint-secondary: rgba(120, 160, 168, 0.09);
+    --plate-frame: rgba(212, 138, 83, 0.16);
+    --plate-inset: 6px;
+    --plate-overlay:
+      repeating-linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.02) 0,
+        rgba(255, 255, 255, 0.02) 1px,
+        transparent 1px,
+        transparent 38px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.015) 0,
+        rgba(255, 255, 255, 0.015) 1px,
+        transparent 1px,
+        transparent 38px
+      );
     padding: 1rem;
   }
 
@@ -1841,6 +1859,7 @@ const graphViewModelJson = JSON.stringify({
     --plate-surface: linear-gradient(180deg, rgba(16, 17, 20, 0.96), rgba(9, 10, 13, 0.99));
     --plate-tint: rgba(120, 160, 168, 0.1);
     --plate-tint-secondary: rgba(212, 138, 83, 0.08);
+    --plate-frame: rgba(120, 160, 168, 0.16);
   }
 
   .graph-canvas {

@@ -492,6 +492,14 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
       linear-gradient(150deg, rgba(60, 53, 46, 0.24), rgba(18, 16, 14, 0.9));
     --placeholder-motif: radial-gradient(circle at center, rgba(255, 255, 255, 0.04), transparent 62%);
     --placeholder-label: rgba(231, 222, 209, 0.76);
+    --preview-border: color-mix(in srgb, var(--type-accent) 28%, rgba(255, 255, 255, 0.14));
+    --preview-frame: color-mix(in srgb, var(--type-accent) 16%, rgba(244, 240, 232, 0.09));
+    --preview-frame-strong: color-mix(in srgb, var(--type-accent) 34%, rgba(244, 240, 232, 0.24));
+    --preview-glow: color-mix(in srgb, var(--type-accent) 16%, transparent);
+    --preview-surface:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0) 22%),
+      linear-gradient(180deg, rgba(32, 28, 24, 0.95), rgba(14, 12, 10, 0.98));
+    --preview-inset: 6px;
     position: relative;
     display: grid;
     column-gap: 3.2rem;
@@ -640,13 +648,24 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
   .preview-wrap {
     grid-column: 2;
     grid-row: 1 / span 5;
+    position: relative;
     border-radius: 2px;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.16);
+    border: 1px solid var(--preview-border);
+    outline: 1px solid var(--preview-frame);
+    outline-offset: calc(var(--preview-inset) * -1);
     margin-bottom: 0;
     aspect-ratio: 5 / 4;
-    background: rgba(14, 12, 10, 0.75);
+    isolation: isolate;
+    background:
+      radial-gradient(circle at 84% 0%, var(--preview-glow), transparent 38%),
+      var(--preview-surface);
     align-self: start;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.025),
+      0 0 0 1px rgba(0, 0, 0, 0.22),
+      0 12px 24px rgba(0, 0, 0, 0.14);
   }
 
   .preview-wrap.card-image-trigger {
@@ -674,6 +693,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
   }
 
   .card.mosaic .preview-wrap {
+    --preview-inset: 4px;
     grid-column: 1;
     grid-row: auto;
     order: 1;
@@ -742,10 +762,13 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
       var(--image-preview-pad-bottom);
     position: relative;
     background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0) 18%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0) 18%),
+      radial-gradient(circle at 84% 0%, color-mix(in srgb, var(--type-accent) 14%, transparent), transparent 38%),
       linear-gradient(180deg, rgba(58, 48, 41, 0.92), rgba(34, 29, 25, 0.96));
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.025),
+      0 0 0 1px rgba(0, 0, 0, 0.24),
       0 12px 24px rgba(0, 0, 0, 0.14);
   }
 
@@ -783,10 +806,14 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
   .card.related .preview-wrap.has-image-preview::before {
     content: '';
     position: absolute;
-    inset: 0;
+    inset: 7px;
+    z-index: 0;
+    border: 1px solid var(--preview-frame);
+    border-radius: 1px;
     background:
       linear-gradient(90deg, rgba(255, 255, 255, 0.018), transparent 14%, transparent 86%, rgba(0, 0, 0, 0.05)),
       repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.012) 0 1px, transparent 1px 22px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
     pointer-events: none;
   }
 
@@ -868,6 +895,8 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     position: relative;
     overflow: visible;
     border: none;
+    outline: none;
+    outline-offset: 0;
     border-radius: 0;
     background: transparent;
     box-shadow: none;
@@ -1106,6 +1135,8 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     z-index: 1;
     object-fit: contain;
     object-position: center center;
+    border: 1px solid var(--preview-frame-strong);
+    background: rgba(14, 12, 10, 0.82);
     transform: translateY(0.08rem) rotate(var(--specimen-tilt, -0.85deg));
     transform-origin: center 56%;
     transition:
@@ -1147,6 +1178,9 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     position: relative;
     overflow: hidden;
     isolation: isolate;
+    box-shadow:
+      inset 0 0 0 1px var(--preview-frame),
+      inset 0 1px 0 rgba(255, 255, 255, 0.035);
   }
 
   .preview-fallback::before,
@@ -1184,6 +1218,9 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
       radial-gradient(circle at 82% 18%, rgba(54, 84, 126, 0.18), transparent 28%),
       linear-gradient(150deg, rgba(19, 31, 46, 0.96), rgba(8, 10, 13, 0.98));
     isolation: isolate;
+    box-shadow:
+      inset 0 0 0 1px rgba(194, 223, 237, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.03);
   }
 
   .preview-loremap--minimal {
@@ -1291,6 +1328,9 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
       radial-gradient(circle at 82% 18%, rgba(201, 150, 58, 0.18), transparent 28%),
       linear-gradient(145deg, rgba(44, 34, 24, 0.96), rgba(11, 9, 8, 0.99));
     isolation: isolate;
+    box-shadow:
+      inset 0 0 0 1px var(--preview-frame),
+      inset 0 1px 0 rgba(255, 255, 255, 0.03);
   }
 
   .preview-html-surface::before {
@@ -1358,7 +1398,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     gap: 0.38rem;
     min-height: 0;
     padding: clamp(1rem, 1.4vw, 1.18rem);
-    border: 1px solid rgba(201, 150, 58, 0.18);
+    border: 1px solid color-mix(in srgb, var(--type-accent) 24%, rgba(201, 150, 58, 0.18));
     background:
       linear-gradient(180deg, rgba(201, 150, 58, 0.08), rgba(201, 150, 58, 0.02) 22%, rgba(12, 10, 9, 0.18) 100%);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
