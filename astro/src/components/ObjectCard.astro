@@ -781,9 +781,13 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     outline: none;
     outline-offset: 0;
     background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.038), rgba(255, 255, 255, 0) 18%),
-      radial-gradient(circle at 84% 0%, color-mix(in srgb, var(--type-accent) 12%, transparent), transparent 38%),
-      linear-gradient(180deg, rgba(62, 52, 45, 0.92), rgba(35, 30, 26, 0.96));
+      linear-gradient(180deg, rgba(255, 255, 255, 0.026), rgba(255, 255, 255, 0) 18%),
+      radial-gradient(circle at 84% 0%, color-mix(in srgb, var(--type-accent) 8%, transparent), transparent 42%),
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, rgba(70, 60, 52, 0.72) 88%, transparent),
+        color-mix(in srgb, rgba(36, 31, 27, 0.8) 92%, transparent)
+      );
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.14);
   }
 
@@ -824,18 +828,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
 
   .card.feed .preview-wrap.has-image-preview::before,
   .card.related .preview-wrap.has-image-preview::before {
-    content: '';
-    position: absolute;
-    inset:
-      var(--table-tray-inset-top)
-      var(--table-tray-inset-inline)
-      var(--table-tray-inset-bottom);
-    z-index: 0;
-    border: 1px solid var(--table-tray-rule);
-    background:
-      linear-gradient(90deg, rgba(255, 255, 255, 0.016), transparent 14%, transparent 86%, rgba(0, 0, 0, 0.05)),
-      var(--table-tray-fill);
-    pointer-events: none;
+    content: none;
   }
 
   .card.feed .preview-wrap.has-image-preview::after,
