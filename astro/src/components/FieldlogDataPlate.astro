@@ -125,18 +125,17 @@ const metaItems = [
 
 <style>
   .fieldlog-plate-shell {
-    --plate-line: rgba(198, 146, 88, 0.32);
-    --plate-line-soft: rgba(198, 146, 88, 0.16);
-    --plate-highlight: rgba(255, 244, 228, 0.08);
+    --plate-line: rgba(112, 150, 178, 0.34);
+    --plate-line-soft: rgba(112, 150, 178, 0.18);
+    --plate-highlight: rgba(232, 240, 246, 0.08);
     --plate-copy: rgba(243, 238, 228, 0.94);
-    --plate-muted: rgba(225, 207, 180, 0.72);
-    --plate-label: rgba(240, 214, 174, 0.84);
-    --plate-amber: rgba(224, 163, 86, 0.92);
-    --plate-border: rgba(198, 146, 88, 0.28);
+    --plate-muted: rgba(213, 223, 232, 0.74);
+    --plate-label: rgba(166, 196, 221, 0.84);
+    --plate-border: rgba(112, 150, 178, 0.32);
     --plate-shadow: 0 22px 48px rgba(0, 0, 0, 0.24);
-    --plate-surface: linear-gradient(180deg, rgba(15, 18, 24, 0.98), rgba(11, 14, 20, 0.99));
-    --plate-tint: rgba(229, 154, 69, 0.12);
-    --plate-tint-secondary: rgba(54, 91, 142, 0.1);
+    --plate-surface: linear-gradient(180deg, rgba(14, 18, 25, 0.98), rgba(10, 13, 19, 0.99));
+    --plate-tint: rgba(98, 132, 160, 0.14);
+    --plate-tint-secondary: rgba(73, 108, 138, 0.08);
     position: relative;
     margin: 2.5rem 0 2.35rem;
     max-width: min(1160px, 100%);
@@ -154,13 +153,13 @@ const metaItems = [
   .fieldlog-plate-shell::before {
     background:
       linear-gradient(90deg, rgba(255, 255, 255, 0.04), transparent 18%),
-      linear-gradient(180deg, rgba(243, 228, 203, 0.03), transparent 42%);
+      linear-gradient(180deg, rgba(220, 233, 243, 0.03), transparent 42%);
     opacity: 0.52;
   }
 
   .fieldlog-plate-shell::after {
     inset: 8px;
-    border: 1px solid rgba(236, 193, 132, 0.1);
+    border: 1px solid rgba(166, 196, 221, 0.16);
     border-radius: 0;
   }
 
@@ -201,17 +200,17 @@ const metaItems = [
 
   .fieldlog-plate-ruler {
     margin: 0;
-    color: rgba(152, 179, 209, 0.66);
+    color: rgba(166, 196, 221, 0.72);
     font-size: 0.76rem;
     line-height: 1.4;
   }
 
   .fieldlog-plate-stamp {
-    --plate-border: rgba(204, 155, 94, 0.18);
+    --plate-border: rgba(112, 150, 178, 0.2);
     --plate-shadow: 0 14px 28px rgba(0, 0, 0, 0.16);
-    --plate-surface: linear-gradient(180deg, rgba(13, 17, 25, 0.76), rgba(10, 12, 18, 0.82));
-    --plate-tint: rgba(224, 163, 86, 0.08);
-    --plate-tint-secondary: rgba(152, 179, 209, 0.05);
+    --plate-surface: linear-gradient(180deg, rgba(12, 16, 22, 0.78), rgba(9, 12, 18, 0.84));
+    --plate-tint: rgba(98, 132, 160, 0.08);
+    --plate-tint-secondary: rgba(112, 150, 178, 0.05);
     min-width: 14.5rem;
     padding: 0.9rem 1.04rem 0.96rem;
     text-align: right;
@@ -220,7 +219,7 @@ const metaItems = [
   .fieldlog-plate-stamp span {
     display: block;
     margin: 0 0 0.28rem;
-    color: rgba(226, 201, 164, 0.72);
+    color: rgba(166, 196, 221, 0.76);
     font-size: 10px;
   }
 
@@ -244,9 +243,9 @@ const metaItems = [
   .fieldlog-plate-signal {
     --plate-border: var(--plate-line-soft);
     --plate-shadow: 0 14px 30px rgba(0, 0, 0, 0.14);
-    --plate-surface: linear-gradient(180deg, rgba(12, 16, 24, 0.54), rgba(9, 12, 18, 0.62));
-    --plate-tint: rgba(224, 163, 86, 0.05);
-    --plate-tint-secondary: rgba(152, 179, 209, 0.04);
+    --plate-surface: linear-gradient(180deg, rgba(12, 16, 24, 0.62), rgba(9, 12, 18, 0.72));
+    --plate-tint: rgba(98, 132, 160, 0.07);
+    --plate-tint-secondary: rgba(112, 150, 178, 0.04);
   }
 
   .fieldlog-plate-hero {
@@ -260,7 +259,7 @@ const metaItems = [
 
   .fieldlog-plate-code {
     margin: 0;
-    color: rgba(152, 179, 209, 0.82);
+    color: rgba(166, 196, 221, 0.82);
     font-size: 10px;
   }
 
@@ -280,12 +279,12 @@ const metaItems = [
     width: fit-content;
     margin: 0;
     padding: 0.36rem 0.7rem 0.38rem;
-    border: 1px solid rgba(224, 163, 86, 0.32);
+    border: 1px solid rgba(112, 150, 178, 0.32);
     border-radius: 999px;
     background:
-      linear-gradient(180deg, rgba(245, 188, 116, 0.16), rgba(245, 188, 116, 0)),
-      rgba(59, 40, 20, 0.4);
-    color: rgba(250, 235, 210, 0.96);
+      linear-gradient(180deg, rgba(166, 196, 221, 0.16), rgba(166, 196, 221, 0)),
+      rgba(23, 31, 41, 0.52);
+    color: rgba(234, 240, 246, 0.96);
     font-family: var(--font-ui);
     font-size: 0.74rem;
     letter-spacing: 0.12em;
@@ -311,11 +310,11 @@ const metaItems = [
   }
 
   .fieldlog-plate-meta li {
-    --plate-border: rgba(216, 177, 125, 0.16);
+    --plate-border: rgba(112, 150, 178, 0.18);
     --plate-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
     --plate-surface: linear-gradient(180deg, rgba(9, 13, 19, 0.68), rgba(8, 12, 18, 0.76));
-    --plate-tint: rgba(224, 163, 86, 0.04);
-    --plate-tint-secondary: rgba(152, 179, 209, 0.03);
+    --plate-tint: rgba(98, 132, 160, 0.04);
+    --plate-tint-secondary: rgba(112, 150, 178, 0.03);
     min-width: 12rem;
     padding: 0.84rem 0.94rem 0.9rem;
   }
@@ -323,7 +322,7 @@ const metaItems = [
   .fieldlog-plate-meta span {
     display: block;
     margin: 0 0 0.3rem;
-    color: rgba(165, 189, 214, 0.72);
+    color: rgba(166, 196, 221, 0.74);
     font-size: 9px;
   }
 
@@ -352,8 +351,8 @@ const metaItems = [
   }
 
   .fieldlog-plate-card--emphasis {
-    --plate-tint: rgba(227, 161, 79, 0.1);
-    --plate-tint-secondary: rgba(152, 179, 209, 0.05);
+    --plate-tint: rgba(112, 150, 178, 0.1);
+    --plate-tint-secondary: rgba(142, 176, 203, 0.05);
   }
 
   .fieldlog-plate-card-label {
@@ -382,12 +381,12 @@ const metaItems = [
   .fieldlog-plate-signals {
     margin-top: 1.08rem;
     padding-top: 1.08rem;
-    border-top: 1px solid rgba(213, 172, 117, 0.14);
+    border-top: 1px solid rgba(112, 150, 178, 0.18);
   }
 
   .fieldlog-plate-signals-label {
     margin: 0 0 0.74rem;
-    color: rgba(152, 179, 209, 0.78);
+    color: rgba(166, 196, 221, 0.78);
     font-size: 10px;
   }
 
@@ -425,7 +424,7 @@ const metaItems = [
 
   .fieldlog-plate-signal p {
     margin: 0 0 0.48rem;
-    color: rgba(226, 201, 164, 0.72);
+    color: rgba(166, 196, 221, 0.72);
     font-size: 10px;
   }
 

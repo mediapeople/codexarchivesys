@@ -499,7 +499,6 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     --preview-surface:
       linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0) 22%),
       linear-gradient(180deg, rgba(32, 28, 24, 0.95), rgba(14, 12, 10, 0.98));
-    --preview-inset: 6px;
     position: relative;
     display: grid;
     column-gap: 3.2rem;
@@ -595,12 +594,12 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
   }
 
   .card.fieldlog {
-    --type-accent: rgba(138, 132, 128, 0.8);
+    --type-accent: rgba(112, 150, 178, 0.84);
     --placeholder-surface:
-      linear-gradient(150deg, rgba(138, 132, 128, 0.18), rgba(20, 18, 16, 0.9));
+      linear-gradient(150deg, rgba(96, 132, 160, 0.18), rgba(16, 20, 26, 0.92));
     --placeholder-motif:
-      repeating-linear-gradient(0deg, rgba(232, 226, 212, 0.045) 0 1px, transparent 1px 16px),
-      repeating-linear-gradient(90deg, rgba(232, 226, 212, 0.04) 0 1px, transparent 1px 16px);
+      repeating-linear-gradient(0deg, rgba(194, 223, 237, 0.045) 0 1px, transparent 1px 16px),
+      repeating-linear-gradient(90deg, rgba(194, 223, 237, 0.04) 0 1px, transparent 1px 16px);
   }
 
   .card.codex {
@@ -652,8 +651,6 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     border-radius: 2px;
     overflow: hidden;
     border: 1px solid var(--preview-border);
-    outline: 1px solid var(--preview-frame);
-    outline-offset: calc(var(--preview-inset) * -1);
     margin-bottom: 0;
     aspect-ratio: 5 / 4;
     isolation: isolate;
@@ -693,7 +690,6 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
   }
 
   .card.mosaic .preview-wrap {
-    --preview-inset: 4px;
     grid-column: 1;
     grid-row: auto;
     order: 1;
@@ -806,14 +802,11 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
   .card.related .preview-wrap.has-image-preview::before {
     content: '';
     position: absolute;
-    inset: 7px;
+    inset: 0;
     z-index: 0;
-    border: 1px solid var(--preview-frame);
-    border-radius: 1px;
     background:
       linear-gradient(90deg, rgba(255, 255, 255, 0.018), transparent 14%, transparent 86%, rgba(0, 0, 0, 0.05)),
       repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.012) 0 1px, transparent 1px 22px);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
     pointer-events: none;
   }
 
