@@ -686,15 +686,19 @@ const navItems = [
     --plate-sheen: rgba(255, 255, 255, 0.06);
     --plate-ridge: rgba(255, 255, 255, 0.05);
     --plate-frame: color-mix(in srgb, var(--plate-border) 76%, rgba(255, 255, 255, 0.05));
+    --plate-rule-strong: color-mix(in srgb, var(--plate-frame) 92%, rgba(255, 255, 255, 0.05));
+    --plate-rule: color-mix(in srgb, var(--plate-border) 94%, rgba(255, 255, 255, 0.04));
+    --plate-rule-soft: color-mix(in srgb, var(--plate-border) 68%, transparent);
+    --plate-focus: color-mix(in srgb, var(--plate-rule-strong) 82%, rgba(244, 240, 232, 0.28));
     --plate-inset: 6px;
     --plate-backdrop:
       radial-gradient(circle at 72% 18%, rgba(255, 255, 255, 0.028), transparent 28%),
       linear-gradient(180deg, rgba(255, 255, 255, 0.018), transparent 36%);
     --plate-overlay: none;
     position: relative;
-    border: 1px solid var(--plate-border);
+    border: 1px solid var(--plate-rule);
     border-radius: 2px;
-    outline: 1px solid var(--plate-frame);
+    outline: 1px solid var(--plate-rule-strong);
     outline-offset: calc(var(--plate-inset) * -1);
     overflow: hidden;
     isolation: isolate;

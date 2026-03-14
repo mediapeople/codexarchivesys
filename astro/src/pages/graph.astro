@@ -1371,6 +1371,16 @@ const graphViewModelJson = JSON.stringify({
     --graph-plate-tint-secondary: rgba(201, 150, 58, 0.05);
     --graph-plate-frame: rgba(223, 199, 163, 0.14);
     --graph-plate-inset: 6px;
+    --graph-rule-strong: color-mix(in srgb, var(--graph-plate-frame) 92%, rgba(255, 255, 255, 0.05));
+    --graph-rule: color-mix(in srgb, var(--graph-plate-border) 94%, rgba(255, 255, 255, 0.04));
+    --graph-rule-soft: color-mix(in srgb, var(--graph-plate-border) 68%, transparent);
+    --graph-control-fill: rgba(12, 9, 7, 0.56);
+    --graph-control-fill-active:
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--graph-plate-tint) 88%, rgba(12, 9, 7, 0.18)),
+        color-mix(in srgb, var(--graph-plate-tint-secondary) 54%, rgba(12, 9, 7, 0.08))
+      );
     display: grid;
     gap: 2.25rem;
     padding-bottom: 4rem;
@@ -1411,7 +1421,7 @@ const graphViewModelJson = JSON.stringify({
     align-items: center;
     gap: 0.4rem;
     padding: 0.4rem 0.75rem;
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    border: 1px solid var(--graph-rule);
     border-radius: 0;
     color: var(--bone);
     text-decoration: none;
@@ -1422,7 +1432,7 @@ const graphViewModelJson = JSON.stringify({
   }
 
   .graph-source-link:hover {
-    border-color: rgba(212, 138, 83, 0.5);
+    border-color: var(--graph-rule-strong);
     color: var(--star);
   }
 
@@ -1507,7 +1517,7 @@ const graphViewModelJson = JSON.stringify({
     display: grid;
     gap: 0.85rem;
     padding-bottom: 1.15rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid var(--graph-rule-soft);
   }
 
   .graph-filter-bar {
@@ -1535,9 +1545,9 @@ const graphViewModelJson = JSON.stringify({
   .graph-filter-toggle {
     appearance: none;
     -webkit-appearance: none;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid var(--graph-rule);
     border-radius: 0;
-    background: rgba(12, 9, 7, 0.56);
+    background: var(--graph-control-fill);
     color: rgba(232, 226, 212, 0.82);
     font-family: var(--font-ui);
     font-size: 10px;
@@ -1551,9 +1561,9 @@ const graphViewModelJson = JSON.stringify({
 
   .graph-filter-toggle:hover,
   .graph-filter-tray[data-open='true'] .graph-filter-toggle {
-    border-color: rgba(212, 138, 83, 0.46);
+    border-color: var(--graph-rule-strong);
     color: var(--star);
-    background: rgba(212, 138, 83, 0.08);
+    background: var(--graph-control-fill-active);
   }
 
   .graph-filter-stack {
@@ -1650,7 +1660,7 @@ const graphViewModelJson = JSON.stringify({
 
   .graph-search input {
     width: 100%;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid var(--graph-rule);
     border-radius: 0;
     padding: 0.78rem 0.9rem;
     background: rgba(12, 9, 7, 0.62);
@@ -1718,9 +1728,9 @@ const graphViewModelJson = JSON.stringify({
   .graph-spotlight,
   .graph-type-pill,
   .graph-type-reset {
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid var(--graph-rule);
     border-radius: 0;
-    background: rgba(12, 9, 7, 0.56);
+    background: var(--graph-control-fill);
     color: rgba(232, 226, 212, 0.8);
     font-family: var(--font-ui);
     font-size: 11px;
@@ -1744,14 +1754,14 @@ const graphViewModelJson = JSON.stringify({
   .graph-spotlight.is-active,
   .graph-type-pill.is-active,
   .graph-type-reset.is-active {
-    border-color: rgba(212, 138, 83, 0.46);
+    border-color: var(--graph-rule-strong);
     color: var(--star);
     transform: translateY(-1px);
   }
 
   .graph-toggle.is-active,
   .graph-spotlight.is-active {
-    background: linear-gradient(180deg, rgba(212, 138, 83, 0.24), rgba(212, 138, 83, 0.11));
+    background: var(--graph-control-fill-active);
   }
 
   .graph-panel-header .graph-type-reset {
@@ -1901,7 +1911,7 @@ const graphViewModelJson = JSON.stringify({
     inset: 50% auto auto 50%;
     transform: translate(-50%, -50%);
     padding: 1rem 1.2rem;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid var(--graph-rule);
     border-radius: 0;
     background: rgba(9, 8, 7, 0.86);
     color: var(--bone);
@@ -1925,7 +1935,7 @@ const graphViewModelJson = JSON.stringify({
     gap: 0.4rem;
     padding: 0.4rem 0.7rem;
     border-radius: 0;
-    border: 1px solid color-mix(in srgb, var(--type-color) 48%, rgba(255, 255, 255, 0.14));
+    border: 1px solid color-mix(in srgb, var(--type-color) 48%, var(--graph-rule));
     background: color-mix(in srgb, var(--type-color) 16%, rgba(9, 8, 7, 0.56));
     color: var(--bone);
     font-family: var(--font-ui);
@@ -1966,7 +1976,7 @@ const graphViewModelJson = JSON.stringify({
     grid-template-columns: repeat(auto-fit, minmax(136px, 1fr));
     gap: 0.65rem 1.2rem;
     padding-top: 0.35rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid var(--graph-rule-soft);
   }
 
   .graph-selected-metrics div {
@@ -1998,7 +2008,7 @@ const graphViewModelJson = JSON.stringify({
     display: grid;
     gap: 0.55rem;
     padding-top: 0.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid var(--graph-rule-soft);
   }
 
   .graph-tag-cloud {
@@ -2027,7 +2037,7 @@ const graphViewModelJson = JSON.stringify({
     display: grid;
     gap: 0.7rem;
     padding-top: 0.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid var(--graph-rule-soft);
   }
 
   .graph-selected-links ul,
@@ -2048,7 +2058,7 @@ const graphViewModelJson = JSON.stringify({
     padding: 0.78rem 0;
     border-radius: 0;
     border: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid var(--graph-rule-soft);
     background: transparent;
   }
 
@@ -2153,7 +2163,7 @@ const graphViewModelJson = JSON.stringify({
     padding: 0.85rem 0;
     border-radius: 0;
     border: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid var(--graph-rule-soft);
     background: transparent;
   }
 
@@ -2175,7 +2185,7 @@ const graphViewModelJson = JSON.stringify({
   }
 
   .graph-summary-list code {
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid var(--graph-rule);
     border-radius: 0;
     padding: 0.2rem 0.55rem;
   }
@@ -2195,7 +2205,7 @@ const graphViewModelJson = JSON.stringify({
     gap: 0.8rem;
     align-items: baseline;
     padding: 0.7rem 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid var(--graph-rule-soft);
   }
 
   .graph-reason-strip span,
