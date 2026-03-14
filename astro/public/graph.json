@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-13T23:32:05.664Z",
+  "generatedAt": "2026-03-14T23:54:26.059Z",
   "sourceDir": "../objects",
-  "nodeCount": 94,
-  "edgeCount": 3683,
+  "nodeCount": 95,
+  "edgeCount": 3762,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -187,6 +187,19 @@
         "signal",
         "structure",
         "observation"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "rodimus-prime-field-acquisition",
+      "type": "artifact",
+      "title": "Rodimus Prime Field Acquisition",
+      "date": "2026-03-11",
+      "themes": [
+        "memory",
+        "observation",
+        "place",
+        "signal"
       ],
       "constellations": []
     },
@@ -2961,6 +2974,15 @@
       ]
     },
     {
+      "source": "grand-myth-central",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "heart-does-not-dream",
       "target": "maintenance-without-cure",
       "weight": 7,
@@ -6782,6 +6804,15 @@
     },
     {
       "source": "machine-creatures",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "machine-creatures",
       "target": "shop-talk-framework",
       "weight": 4,
       "reasons": [
@@ -6829,6 +6860,14 @@
       "reasons": [
         "shared-theme",
         "explicit-related"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -8174,6 +8213,14 @@
       ]
     },
     {
+      "source": "chattahoochee-river-loremap",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "cities-built-on-ruin-reminiscence",
       "target": "citizen-network-doctrine",
       "weight": 3,
@@ -11195,6 +11242,14 @@
     {
       "source": "constellation-node-alchemy",
       "target": "race-to-the-top-six-bridges",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "rodimus-prime-field-acquisition",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -12313,6 +12368,14 @@
       ]
     },
     {
+      "source": "pocket-rock-cathedral",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "pressure-psalm-v",
       "target": "signal-descent-003",
       "weight": 3,
@@ -12438,6 +12501,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "rodimus-prime-field-acquisition",
+      "target": "suwanee-ga-loremap",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -13048,6 +13119,14 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "signal-descent-001",
       "weight": 2,
       "reasons": [
@@ -13185,6 +13264,14 @@
     {
       "source": "artifact-jsa-collage-001",
       "target": "pocket-rock-cathedral",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "rodimus-prime-field-acquisition",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -13337,6 +13424,14 @@
     {
       "source": "artifact-jsa-collage-wip-001",
       "target": "mothers-calendar",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "rodimus-prime-field-acquisition",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -13561,6 +13656,14 @@
     {
       "source": "artifact-jsa-signal-fracture-001",
       "target": "quiet-vector-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
+      "target": "rodimus-prime-field-acquisition",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -13968,6 +14071,14 @@
     },
     {
       "source": "builder-lineage-reflection",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
       "target": "scripture-with-machines",
       "weight": 2,
       "reasons": [
@@ -14177,6 +14288,14 @@
     {
       "source": "capture-and-convert",
       "target": "return-of-the-joker",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "rodimus-prime-field-acquisition",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -14433,6 +14552,14 @@
     {
       "source": "characters-in-the-field",
       "target": "return-of-the-joker",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "rodimus-prime-field-acquisition",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -14816,6 +14943,14 @@
     },
     {
       "source": "cities-built-on-ruin-reminiscence",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
       "target": "shop-talk-framework",
       "weight": 2,
       "reasons": [
@@ -15160,6 +15295,14 @@
     },
     {
       "source": "citizen-network-dispatch",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
       "target": "scroll-from-the-perimeter",
       "weight": 2,
       "reasons": [
@@ -15337,6 +15480,14 @@
     {
       "source": "citizen-network-doctrine",
       "target": "race-to-the-top-six-bridges",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "rodimus-prime-field-acquisition",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -16456,6 +16607,14 @@
     },
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "scroll-from-the-perimeter",
       "weight": 2,
       "reasons": [
@@ -16561,6 +16720,14 @@
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "return-of-the-joker",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "rodimus-prime-field-acquisition",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -16688,6 +16855,14 @@
     },
     {
       "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
       "target": "scroll-from-the-perimeter",
       "weight": 2,
       "reasons": [
@@ -16801,6 +16976,14 @@
     {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "return-of-the-joker",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "rodimus-prime-field-acquisition",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -16960,6 +17143,14 @@
     },
     {
       "source": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-7-loremap-foundation-notes",
       "target": "scripture-with-machines",
       "weight": 2,
       "reasons": [
@@ -17097,6 +17288,14 @@
     {
       "source": "codex-archive-system-v3-8-specimen-surface-notes",
       "target": "return-of-the-joker",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "rodimus-prime-field-acquisition",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -18088,6 +18287,14 @@
     },
     {
       "source": "crane-field-illustration",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
       "target": "scripture-with-machines",
       "weight": 2,
       "reasons": [
@@ -18344,6 +18551,14 @@
     },
     {
       "source": "disrespectful-power",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "disrespectful-power",
       "target": "scripture-with-machines",
       "weight": 2,
       "reasons": [
@@ -18449,6 +18664,14 @@
     {
       "source": "distortion-atlas",
       "target": "phoenix-collage-fracture-study",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "rodimus-prime-field-acquisition",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -18697,6 +18920,14 @@
     {
       "source": "garage-dispatch-001",
       "target": "race-to-the-top-six-bridges",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "rodimus-prime-field-acquisition",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -19272,6 +19503,14 @@
     },
     {
       "source": "jsa-collage-evolution-001",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
       "target": "scripture-with-machines",
       "weight": 2,
       "reasons": [
@@ -19353,6 +19592,14 @@
     {
       "source": "jsa-collage-evolution-002",
       "target": "quiet-vector-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-002",
+      "target": "rodimus-prime-field-acquisition",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -19481,6 +19728,14 @@
     {
       "source": "jsa-collage-evolution-003",
       "target": "pressure-psalm-v",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "rodimus-prime-field-acquisition",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -20064,6 +20319,14 @@
     },
     {
       "source": "north-georgia-march-2026",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "north-georgia-march-2026",
       "target": "studio-bench-cycle",
       "weight": 2,
       "reasons": [
@@ -20081,6 +20344,14 @@
     {
       "source": "north-georgia-week-2",
       "target": "race-to-the-top-six-bridges",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "north-georgia-week-2",
+      "target": "rodimus-prime-field-acquisition",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -20113,6 +20384,14 @@
     {
       "source": "nothing-missing-only-unindexed",
       "target": "quiet-vector-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "nothing-missing-only-unindexed",
+      "target": "rodimus-prime-field-acquisition",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -20400,6 +20679,14 @@
     },
     {
       "source": "one-yard-from-forever-scroll-surface",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever-scroll-surface",
       "target": "scroll-from-the-perimeter",
       "weight": 2,
       "reasons": [
@@ -20417,6 +20704,14 @@
     {
       "source": "one-yard-from-forever",
       "target": "pressure-psalm-v",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever",
+      "target": "rodimus-prime-field-acquisition",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -20513,6 +20808,14 @@
     {
       "source": "phoenix-collage-fracture-study",
       "target": "quiet-vector-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "phoenix-collage-fracture-study",
+      "target": "rodimus-prime-field-acquisition",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -20696,6 +20999,14 @@
     },
     {
       "source": "race-to-the-top-six-bridges",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "race-to-the-top-six-bridges",
       "target": "scripture-with-machines",
       "weight": 2,
       "reasons": [
@@ -20856,6 +21167,14 @@
     },
     {
       "source": "return-of-the-joker",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "return-of-the-joker",
       "target": "scroll-from-the-perimeter",
       "weight": 2,
       "reasons": [
@@ -20896,7 +21215,55 @@
     },
     {
       "source": "ridge-line-lessons",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ridge-line-lessons",
       "target": "studio-bench-cycle",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "rodimus-prime-field-acquisition",
+      "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "rodimus-prime-field-acquisition",
+      "target": "signal-descent-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "rodimus-prime-field-acquisition",
+      "target": "signal-harvest",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "rodimus-prime-field-acquisition",
+      "target": "transmission-note-to-future-me",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "rodimus-prime-field-acquisition",
+      "target": "unacceptable-cost",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -21544,6 +21911,14 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "scroll-from-the-perimeter",
       "weight": 1,
       "reasons": [
@@ -21785,6 +22160,14 @@
     {
       "source": "archive-box-stamped-fragments",
       "target": "return-of-the-joker",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
+      "target": "rodimus-prime-field-acquisition",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -23216,6 +23599,14 @@
     },
     {
       "source": "bezalel-the-designated-hand",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
       "target": "scripture-with-machines",
       "weight": 1,
       "reasons": [
@@ -24600,6 +24991,14 @@
     },
     {
       "source": "cities-built-on-ruin",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
       "target": "scripture-with-machines",
       "weight": 1,
       "reasons": [
@@ -25032,6 +25431,14 @@
     },
     {
       "source": "citizen-network-map-hi-fi",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
       "target": "scroll-from-the-perimeter",
       "weight": 1,
       "reasons": [
@@ -25576,6 +25983,14 @@
     },
     {
       "source": "codex-archive-system-v2-7-notes",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
       "target": "scroll-from-the-perimeter",
       "weight": 1,
       "reasons": [
@@ -25680,6 +26095,14 @@
     },
     {
       "source": "codex-archive-system-v3-1-build-notes",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
       "target": "stairwell-signal",
       "weight": 1,
       "reasons": [
@@ -25768,6 +26191,14 @@
     },
     {
       "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
       "target": "systems-survive-tuesdays",
       "weight": 1,
       "reasons": [
@@ -25801,6 +26232,14 @@
     {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "return-of-the-joker",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "rodimus-prime-field-acquisition",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -26512,6 +26951,14 @@
     },
     {
       "source": "codex-archive-system-v3-notes",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
       "target": "stairwell-signal",
       "weight": 1,
       "reasons": [
@@ -26577,6 +27024,14 @@
     {
       "source": "codex-archive-system-v3-plus-notes",
       "target": "ridge-line-lessons",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
+      "target": "rodimus-prime-field-acquisition",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -26657,6 +27112,14 @@
     {
       "source": "codex-glyph-grammar",
       "target": "return-of-the-joker",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
+      "target": "rodimus-prime-field-acquisition",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -26841,6 +27304,14 @@
     {
       "source": "codex-glyph-system-first-emergence",
       "target": "return-of-the-joker",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
+      "target": "rodimus-prime-field-acquisition",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -27640,6 +28111,14 @@
     },
     {
       "source": "flexible-machine-sweet-spot",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
       "target": "scroll-from-the-perimeter",
       "weight": 1,
       "reasons": [
@@ -27937,6 +28416,14 @@
     {
       "source": "go-live-milestone",
       "target": "ridge-line-lessons",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "rodimus-prime-field-acquisition",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -28272,6 +28759,14 @@
     },
     {
       "source": "i-work-with-machines-to-write-scripture",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
       "target": "scroll-from-the-perimeter",
       "weight": 1,
       "reasons": [
@@ -28921,6 +29416,14 @@
     {
       "source": "keep-the-operator-whistling",
       "target": "return-of-the-joker",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "rodimus-prime-field-acquisition",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -29336,6 +29839,14 @@
     },
     {
       "source": "manic-rider-collapse",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "manic-rider-collapse",
       "target": "shop-talk-framework",
       "weight": 1,
       "reasons": [
@@ -29593,6 +30104,14 @@
     {
       "source": "node-doctrine",
       "target": "return-of-the-joker",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "rodimus-prime-field-acquisition",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -29960,6 +30479,14 @@
     },
     {
       "source": "on-object-oriented-archives",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-object-oriented-archives",
       "target": "scroll-from-the-perimeter",
       "weight": 1,
       "reasons": [
@@ -30368,6 +30895,14 @@
     },
     {
       "source": "operator-winks-at-the-machines",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "operator-winks-at-the-machines",
       "target": "scroll-from-the-perimeter",
       "weight": 1,
       "reasons": [
@@ -30696,6 +31231,14 @@
     },
     {
       "source": "pressure-psalm-v",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pressure-psalm-v",
       "target": "scripture-with-machines",
       "weight": 1,
       "reasons": [
@@ -30737,6 +31280,14 @@
     {
       "source": "quiet-vector-doctrine",
       "target": "return-of-the-joker",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "quiet-vector-doctrine",
+      "target": "rodimus-prime-field-acquisition",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -31097,6 +31648,102 @@
     {
       "source": "ridge-line-lessons",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "rodimus-prime-field-acquisition",
+      "target": "scripture-with-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "rodimus-prime-field-acquisition",
+      "target": "shop-talk-framework",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "rodimus-prime-field-acquisition",
+      "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "rodimus-prime-field-acquisition",
+      "target": "signal-descent-003",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "rodimus-prime-field-acquisition",
+      "target": "signal-descent-004",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "rodimus-prime-field-acquisition",
+      "target": "signal-descent-005",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "rodimus-prime-field-acquisition",
+      "target": "signal.citizen-agency",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "rodimus-prime-field-acquisition",
+      "target": "stairwell-signal",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "rodimus-prime-field-acquisition",
+      "target": "steel-elbow-flinchian",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "rodimus-prime-field-acquisition",
+      "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "rodimus-prime-field-acquisition",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "rodimus-prime-field-acquisition",
+      "target": "the-circle-the-node-and-the-office",
       "weight": 1,
       "reasons": [
         "shared-theme"
