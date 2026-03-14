@@ -1138,14 +1138,61 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     border-bottom: none;
     padding: 4rem 0 5.2rem;
     background: transparent;
-    --table-line: rgba(164, 134, 97, 0.28);
-    --table-line-soft: rgba(164, 134, 97, 0.2);
+    --object-chip-border: rgba(164, 134, 97, 0.42);
+    --object-chip-bg: rgba(164, 134, 97, 0.1);
+    --object-chip-fg: rgba(226, 201, 164, 0.9);
+    --object-plate-line: rgba(164, 134, 97, 0.28);
+    --object-plate-line-soft: rgba(164, 134, 97, 0.18);
+    --object-plate-label: rgba(226, 201, 164, 0.82);
+    --object-plate-muted: rgba(214, 205, 190, 0.76);
+    --object-plate-surface: linear-gradient(180deg, rgba(31, 25, 20, 0.96), rgba(13, 11, 10, 0.99));
+    --object-plate-tint: rgba(196, 98, 58, 0.08);
+    --object-plate-tint-secondary: rgba(201, 150, 58, 0.06);
+    --plate-frame: color-mix(in srgb, var(--object-plate-line-soft) 92%, transparent);
+    --plate-inset: 6px;
+    --plate-backdrop:
+      radial-gradient(
+        circle at 82% 14%,
+        color-mix(in srgb, var(--object-plate-tint-secondary) 84%, transparent),
+        transparent 30%
+      ),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.018), transparent 36%);
+    --table-line: var(--object-plate-line);
+    --table-line-soft: var(--object-plate-line-soft);
     --table-fill: rgba(255, 255, 255, 0.01);
   }
 
+  .object-shell.loremap,
+  .object-shell.fieldlog {
+    --object-chip-border: rgba(112, 150, 178, 0.46);
+    --object-chip-bg: rgba(84, 115, 140, 0.14);
+    --object-chip-fg: #bed7e6;
+    --object-plate-line: rgba(112, 150, 178, 0.34);
+    --object-plate-line-soft: rgba(112, 150, 178, 0.18);
+    --object-plate-label: rgba(166, 196, 221, 0.82);
+    --object-plate-muted: rgba(213, 223, 232, 0.76);
+    --object-plate-surface: linear-gradient(180deg, rgba(14, 18, 25, 0.98), rgba(10, 13, 19, 0.99));
+    --object-plate-tint: rgba(98, 132, 160, 0.14);
+    --object-plate-tint-secondary: rgba(73, 108, 138, 0.08);
+  }
+
+  .object-shell.artifact,
+  .object-shell.codex {
+    --object-chip-border: rgba(201, 150, 58, 0.45);
+    --object-chip-bg: rgba(201, 150, 58, 0.1);
+    --object-chip-fg: #e6c27d;
+    --object-plate-line: rgba(201, 150, 58, 0.3);
+    --object-plate-line-soft: rgba(201, 150, 58, 0.18);
+    --object-plate-label: rgba(222, 193, 138, 0.82);
+    --object-plate-muted: rgba(224, 210, 184, 0.76);
+    --object-plate-surface: linear-gradient(180deg, rgba(33, 26, 19, 0.96), rgba(11, 9, 8, 0.99));
+    --object-plate-tint: rgba(201, 150, 58, 0.12);
+    --object-plate-tint-secondary: rgba(233, 201, 140, 0.05);
+  }
+
   .object-shell.artifact {
-    --artifact-frame-line: rgba(164, 134, 97, 0.28);
-    --artifact-frame-line-soft: rgba(164, 134, 97, 0.2);
+    --artifact-frame-line: var(--object-plate-line);
+    --artifact-frame-line-soft: var(--object-plate-line-soft);
   }
 
   .back {
@@ -1176,15 +1223,9 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
   }
 
   .object-type-callout :global(.type-badge) {
-    background: rgba(196, 98, 58, 0.06);
-    border-color: rgba(196, 98, 58, 0.36);
-    color: rgba(223, 171, 146, 0.92);
-  }
-
-  .object-type-callout :global(.type-badge.loremap) {
-    background: rgba(84, 115, 140, 0.16);
-    border-color: rgba(112, 150, 178, 0.42);
-    color: #bed7e6;
+    background: var(--object-chip-bg);
+    border-color: var(--object-chip-border);
+    color: var(--object-chip-fg);
   }
 
   .object-shell.loremap .object-type-callout {
@@ -1673,11 +1714,11 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
   }
 
   .loremap-atlas {
-    --plate-border: rgba(112, 150, 178, 0.16);
+    --plate-border: var(--object-plate-line-soft);
     --plate-shadow: 0 22px 52px rgba(0, 0, 0, 0.2);
-    --plate-surface: linear-gradient(180deg, rgba(11, 15, 20, 0.96), rgba(8, 10, 13, 0.99));
-    --plate-tint: rgba(74, 118, 170, 0.12);
-    --plate-tint-secondary: rgba(112, 150, 178, 0.06);
+    --plate-surface: var(--object-plate-surface);
+    --plate-tint: var(--object-plate-tint);
+    --plate-tint-secondary: var(--object-plate-tint-secondary);
     position: relative;
     margin-top: 1.7rem;
     display: grid;
@@ -1710,7 +1751,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     position: absolute;
     inset: auto 0 0 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(112, 150, 178, 0.18), transparent);
+    background: linear-gradient(90deg, transparent, var(--object-plate-line-soft), transparent);
     pointer-events: none;
   }
 
@@ -1728,6 +1769,8 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     justify-content: space-between;
     align-items: flex-start;
     gap: 0.9rem 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--object-plate-line-soft);
   }
 
   .loremap-atlas-ident {
@@ -1740,9 +1783,9 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
   .loremap-atlas-head :global(.type-badge.loremap) {
     padding: 2px 10px 3px;
-    border-color: rgba(112, 150, 178, 0.38);
-    background: rgba(84, 115, 140, 0.12);
-    color: rgba(190, 215, 230, 0.92);
+    border-color: var(--object-chip-border);
+    background: var(--object-chip-bg);
+    color: var(--object-chip-fg);
     font-size: 11px;
     letter-spacing: 0.12em;
     box-shadow: inset 0 0 0 1px rgba(112, 150, 178, 0.06);
@@ -1750,7 +1793,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
   .loremap-atlas-kicker {
     margin: 0;
-    color: #90b1c7;
+    color: var(--object-plate-label);
     font-family: var(--font-ui);
     font-size: 10px;
     letter-spacing: var(--ls-ui-wide);
@@ -1759,7 +1802,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
   .loremap-atlas-readout {
     margin: 0;
-    color: rgba(144, 177, 199, 0.72);
+    color: var(--object-plate-label);
     font-family: var(--font-ui);
     font-size: 10px;
     letter-spacing: 0.12em;
@@ -1769,11 +1812,11 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
   }
 
   .loremap-atlas-visual {
-    --plate-border: rgba(112, 150, 178, 0.22);
+    --plate-border: var(--object-plate-line-soft);
     --plate-shadow: 0 16px 36px rgba(0, 0, 0, 0.16);
     --plate-surface: linear-gradient(180deg, rgba(13, 17, 21, 0.96), rgba(8, 10, 14, 0.99));
-    --plate-tint: rgba(112, 150, 178, 0.1);
-    --plate-tint-secondary: rgba(74, 118, 170, 0.05);
+    --plate-tint: var(--object-plate-tint);
+    --plate-tint-secondary: var(--object-plate-tint-secondary);
     grid-area: visual;
     margin: 0;
     padding: 0.82rem;
@@ -1794,7 +1837,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
   .loremap-atlas-label {
     margin: 0 0 0.78rem;
-    color: #90b1c7;
+    color: var(--object-plate-label);
     font-family: var(--font-ui);
     font-size: 10px;
     letter-spacing: var(--ls-ui-wide);
@@ -1827,7 +1870,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
   .loremap-atlas-classification-label {
     margin: 0 0 0.44rem;
-    color: rgba(144, 177, 199, 0.76);
+    color: var(--object-plate-label);
     font-family: var(--font-ui);
     font-size: 10px;
     letter-spacing: var(--ls-ui-wide);
@@ -1862,11 +1905,11 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
   }
 
   .detail-grid--loremap-atlas article {
-    --plate-border: rgba(112, 150, 178, 0.18);
+    --plate-border: var(--object-plate-line-soft);
     --plate-shadow: 0 16px 34px rgba(0, 0, 0, 0.14);
     --plate-surface: linear-gradient(180deg, rgba(11, 14, 19, 0.92), rgba(8, 10, 14, 0.96));
-    --plate-tint: rgba(112, 150, 178, 0.08);
-    --plate-tint-secondary: rgba(38, 66, 102, 0.05);
+    --plate-tint: var(--object-plate-tint);
+    --plate-tint-secondary: var(--object-plate-tint-secondary);
     margin-right: 0;
     margin-bottom: 0;
     min-height: 8.9rem;
@@ -1878,7 +1921,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
   .detail-grid--loremap-atlas p {
     margin: 0 0 0.52rem;
-    color: #90b1c7;
+    color: var(--object-plate-label);
   }
 
   .detail-grid--loremap-atlas strong {
@@ -1947,11 +1990,11 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
   }
 
   .html-scroll-stage {
-    --plate-border: rgba(201, 150, 58, 0.16);
+    --plate-border: var(--object-plate-line-soft);
     --plate-shadow: 0 22px 48px rgba(0, 0, 0, 0.2);
-    --plate-surface: linear-gradient(180deg, rgba(26, 22, 18, 0.95), rgba(10, 9, 8, 0.98));
-    --plate-tint: rgba(201, 150, 58, 0.1);
-    --plate-tint-secondary: rgba(112, 150, 178, 0.05);
+    --plate-surface: var(--object-plate-surface);
+    --plate-tint: var(--object-plate-tint);
+    --plate-tint-secondary: var(--object-plate-tint-secondary);
     margin-top: 2.2rem;
     display: grid;
     grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
@@ -1989,7 +2032,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
   .html-scroll-stage-label {
     margin: 0 0 0.82rem;
-    color: rgba(222, 193, 138, 0.82);
+    color: var(--object-plate-label);
     font-family: var(--font-ui);
     font-size: 10px;
     letter-spacing: var(--ls-ui-wide);
@@ -2027,7 +2070,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     justify-content: center;
     min-height: 2.55rem;
     padding: 0.72rem 1.05rem;
-    border: 1px solid rgba(201, 150, 58, 0.32);
+    border: 1px solid var(--object-plate-line);
     background: rgba(201, 150, 58, 0.08);
     color: rgba(244, 240, 232, 0.94);
     font-family: var(--font-ui);
@@ -2044,7 +2087,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
   }
 
   .html-scroll-stage-action:hover {
-    border-color: rgba(233, 201, 140, 0.48);
+    border-color: color-mix(in srgb, var(--object-plate-line) 70%, rgba(255, 255, 255, 0.22));
     background: rgba(201, 150, 58, 0.12);
     transform: translateY(-1px);
   }
@@ -2060,11 +2103,11 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
   }
 
   .html-scroll-stage-plate {
-    --plate-border: rgba(201, 150, 58, 0.14);
+    --plate-border: var(--object-plate-line-soft);
     --plate-shadow: 0 16px 36px rgba(0, 0, 0, 0.16);
     --plate-surface: linear-gradient(180deg, rgba(41, 32, 23, 0.95), rgba(11, 9, 8, 0.99));
-    --plate-tint: rgba(201, 150, 58, 0.12);
-    --plate-tint-secondary: rgba(233, 201, 140, 0.05);
+    --plate-tint: var(--object-plate-tint);
+    --plate-tint-secondary: var(--object-plate-tint-secondary);
     display: grid;
     grid-template-rows: auto 1fr auto;
     gap: 0.9rem;
@@ -2098,7 +2141,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    color: rgba(222, 193, 138, 0.72);
+    color: var(--object-plate-label);
     font-family: var(--font-ui);
     font-size: 0.54rem;
     letter-spacing: 0.16em;
@@ -2109,7 +2152,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     width: 0.46rem;
     height: 0.46rem;
     border-radius: 50%;
-    border: 1px solid rgba(222, 193, 138, 0.34);
+    border: 1px solid var(--object-plate-line);
     background: rgba(222, 193, 138, 0.08);
   }
 
@@ -2123,7 +2166,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     justify-content: flex-end;
     gap: 0.44rem;
     padding: clamp(1.05rem, 1.6vw, 1.25rem);
-    border: 1px solid rgba(201, 150, 58, 0.18);
+    border: 1px solid var(--object-plate-line-soft);
     background:
       linear-gradient(180deg, rgba(201, 150, 58, 0.08), rgba(201, 150, 58, 0.02) 22%, rgba(12, 10, 9, 0.18) 100%);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
@@ -2138,13 +2181,13 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     bottom: 0.92rem;
     left: 1rem;
     width: 1px;
-    background: linear-gradient(180deg, rgba(233, 201, 140, 0.3), rgba(233, 201, 140, 0.02));
+    background: linear-gradient(180deg, var(--object-plate-line), rgba(233, 201, 140, 0.02));
   }
 
   .html-scroll-stage-kicker {
     margin: 0;
     padding-left: 0.92rem;
-    color: rgba(222, 193, 138, 0.8);
+    color: var(--object-plate-label);
     font-family: var(--font-ui);
     font-size: 10px;
     letter-spacing: var(--ls-ui-wide);

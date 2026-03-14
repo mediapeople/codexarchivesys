@@ -70,14 +70,14 @@ const metaItems = [
       <p class="fieldlog-plate-kicker">Structured Readout</p>
       <p class="fieldlog-plate-ruler" aria-hidden="true">Plate // calibrated tasting surface</p>
     </div>
-    <div class="fieldlog-plate-stamp page-plate">
+    <div class="fieldlog-plate-stamp">
       <span>Fieldlog Plate</span>
       <strong>{styleSpec?.value || leadSpec?.label || 'Specimen'}</strong>
     </div>
   </header>
 
   <div class="fieldlog-plate-grid">
-    <section class="fieldlog-plate-hero page-plate">
+    <section class="fieldlog-plate-hero">
       <p class="fieldlog-plate-code">{leadSpec?.label || 'Field Plate'}</p>
       <h2 id="fieldlog-plate-title">{leadSpec?.value || title}</h2>
       {styleSpec?.value && <p class="fieldlog-plate-style">{styleSpec.value}</p>}
@@ -86,7 +86,7 @@ const metaItems = [
       {metaItems.length > 0 && (
         <ul class="fieldlog-plate-meta" aria-label="Plate metadata">
           {metaItems.map((item) => (
-            <li class="page-plate">
+            <li>
               <span>{item.label}</span>
               <strong>{item.value}</strong>
             </li>
@@ -97,8 +97,8 @@ const metaItems = [
 
     {plateCards.length > 0 && (
       <section class="fieldlog-plate-rack" aria-label="Structured field details">
-        {plateCards.map((spec, index) => (
-          <article class={`fieldlog-plate-card page-plate ${index === 0 ? 'fieldlog-plate-card--emphasis' : ''}`}>
+        {plateCards.map((spec) => (
+          <article class="fieldlog-plate-card">
             <p class="fieldlog-plate-card-label">{spec.label}</p>
             <strong>{spec.value}</strong>
             {spec.note && <span>{spec.note}</span>}
@@ -113,7 +113,7 @@ const metaItems = [
       <p class="fieldlog-plate-signals-label">Signal Notes</p>
       <div class="fieldlog-plate-signals-grid">
         {signalRows.map((spec) => (
-          <article class="fieldlog-plate-signal page-plate">
+          <article class="fieldlog-plate-signal">
             <p>{spec.label}</p>
             <strong>{spec.note}</strong>
           </article>
@@ -125,25 +125,26 @@ const metaItems = [
 
 <style>
   .fieldlog-plate-shell {
-    --plate-line: rgba(112, 150, 178, 0.34);
-    --plate-line-soft: rgba(112, 150, 178, 0.18);
+    --plate-line: var(--object-plate-line, rgba(112, 150, 178, 0.34));
+    --plate-line-soft: var(--object-plate-line-soft, rgba(112, 150, 178, 0.18));
     --plate-highlight: rgba(232, 240, 246, 0.08);
     --plate-copy: rgba(243, 238, 228, 0.94);
-    --plate-muted: rgba(213, 223, 232, 0.74);
-    --plate-label: rgba(166, 196, 221, 0.84);
-    --plate-border: rgba(112, 150, 178, 0.32);
+    --plate-muted: var(--object-plate-muted, rgba(213, 223, 232, 0.74));
+    --plate-label: var(--object-plate-label, rgba(166, 196, 221, 0.84));
+    --plate-border: var(--object-plate-line-soft, rgba(112, 150, 178, 0.2));
+    --plate-frame: color-mix(in srgb, var(--plate-line-soft) 92%, transparent);
+    --plate-inset: 8px;
     --plate-shadow: 0 22px 48px rgba(0, 0, 0, 0.24);
-    --plate-surface: linear-gradient(180deg, rgba(14, 18, 25, 0.98), rgba(10, 13, 19, 0.99));
-    --plate-tint: rgba(98, 132, 160, 0.14);
-    --plate-tint-secondary: rgba(73, 108, 138, 0.08);
+    --plate-surface: var(--object-plate-surface, linear-gradient(180deg, rgba(14, 18, 25, 0.98), rgba(10, 13, 19, 0.99)));
+    --plate-tint: var(--object-plate-tint, rgba(98, 132, 160, 0.14));
+    --plate-tint-secondary: var(--object-plate-tint-secondary, rgba(73, 108, 138, 0.08));
     position: relative;
     margin: 2.5rem 0 2.35rem;
     max-width: min(1160px, 100%);
     padding: clamp(1.18rem, 2.05vw, 1.78rem);
   }
 
-  .fieldlog-plate-shell::before,
-  .fieldlog-plate-shell::after {
+  .fieldlog-plate-shell::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -155,12 +156,6 @@ const metaItems = [
       linear-gradient(90deg, rgba(255, 255, 255, 0.04), transparent 18%),
       linear-gradient(180deg, rgba(220, 233, 243, 0.03), transparent 42%);
     opacity: 0.52;
-  }
-
-  .fieldlog-plate-shell::after {
-    inset: 8px;
-    border: 1px solid rgba(166, 196, 221, 0.16);
-    border-radius: 0;
   }
 
   .fieldlog-plate-header,
@@ -176,7 +171,9 @@ const metaItems = [
     align-items: flex-start;
     justify-content: space-between;
     gap: 1rem 1.5rem;
-    margin-bottom: 1.3rem;
+    margin-bottom: 1.12rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--plate-line-soft);
   }
 
   .fieldlog-plate-kicker,
@@ -200,26 +197,22 @@ const metaItems = [
 
   .fieldlog-plate-ruler {
     margin: 0;
-    color: rgba(166, 196, 221, 0.72);
+    color: color-mix(in srgb, var(--plate-label) 76%, transparent);
     font-size: 0.76rem;
     line-height: 1.4;
   }
 
   .fieldlog-plate-stamp {
-    --plate-border: rgba(112, 150, 178, 0.2);
-    --plate-shadow: 0 14px 28px rgba(0, 0, 0, 0.16);
-    --plate-surface: linear-gradient(180deg, rgba(12, 16, 22, 0.78), rgba(9, 12, 18, 0.84));
-    --plate-tint: rgba(98, 132, 160, 0.08);
-    --plate-tint-secondary: rgba(112, 150, 178, 0.05);
     min-width: 14.5rem;
-    padding: 0.9rem 1.04rem 0.96rem;
+    padding: 0.06rem 0 0.06rem 1.18rem;
     text-align: right;
+    border-left: 1px solid var(--plate-line-soft);
   }
 
   .fieldlog-plate-stamp span {
     display: block;
     margin: 0 0 0.28rem;
-    color: rgba(166, 196, 221, 0.76);
+    color: color-mix(in srgb, var(--plate-label) 80%, transparent);
     font-size: 10px;
   }
 
@@ -234,32 +227,32 @@ const metaItems = [
   .fieldlog-plate-grid {
     display: grid;
     grid-template-columns: minmax(0, 1.06fr) minmax(360px, 0.94fr);
-    gap: 1.15rem 1.25rem;
+    gap: 0;
     align-items: stretch;
   }
 
   .fieldlog-plate-hero,
   .fieldlog-plate-card,
   .fieldlog-plate-signal {
-    --plate-border: var(--plate-line-soft);
-    --plate-shadow: 0 14px 30px rgba(0, 0, 0, 0.14);
-    --plate-surface: linear-gradient(180deg, rgba(12, 16, 24, 0.62), rgba(9, 12, 18, 0.72));
-    --plate-tint: rgba(98, 132, 160, 0.07);
-    --plate-tint-secondary: rgba(112, 150, 178, 0.04);
+    background: none;
+    border: 0;
+    box-shadow: none;
+    border-radius: 0;
   }
 
   .fieldlog-plate-hero {
-    padding: clamp(1.3rem, 2.2vw, 1.92rem);
+    padding: clamp(1.28rem, 2.2vw, 1.92rem) 1.6rem clamp(1.3rem, 2.2vw, 1.92rem) 0.38rem;
     min-height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 1.12rem;
+    border-right: 1px solid var(--plate-line-soft);
   }
 
   .fieldlog-plate-code {
     margin: 0;
-    color: rgba(166, 196, 221, 0.82);
+    color: var(--plate-label);
     font-size: 10px;
   }
 
@@ -279,12 +272,16 @@ const metaItems = [
     width: fit-content;
     margin: 0;
     padding: 0.36rem 0.7rem 0.38rem;
-    border: 1px solid rgba(112, 150, 178, 0.32);
+    border: 1px solid color-mix(in srgb, var(--plate-line) 88%, transparent);
     border-radius: 999px;
     background:
-      linear-gradient(180deg, rgba(166, 196, 221, 0.16), rgba(166, 196, 221, 0)),
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--plate-label) 16%, transparent),
+        transparent
+      ),
       rgba(23, 31, 41, 0.52);
-    color: rgba(234, 240, 246, 0.96);
+    color: color-mix(in srgb, var(--plate-copy) 94%, var(--plate-label) 6%);
     font-family: var(--font-ui);
     font-size: 0.74rem;
     letter-spacing: 0.12em;
@@ -306,23 +303,26 @@ const metaItems = [
     list-style: none;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.82rem;
+    gap: 0;
+    padding-top: 1.02rem;
+    border-top: 1px solid var(--plate-line-soft);
   }
 
   .fieldlog-plate-meta li {
-    --plate-border: rgba(112, 150, 178, 0.18);
-    --plate-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-    --plate-surface: linear-gradient(180deg, rgba(9, 13, 19, 0.68), rgba(8, 12, 18, 0.76));
-    --plate-tint: rgba(98, 132, 160, 0.04);
-    --plate-tint-secondary: rgba(112, 150, 178, 0.03);
+    flex: 1 1 12rem;
     min-width: 12rem;
-    padding: 0.84rem 0.94rem 0.9rem;
+    padding: 0 1.08rem 0 0;
+  }
+
+  .fieldlog-plate-meta li + li {
+    padding-left: 1.08rem;
+    border-left: 1px solid var(--plate-line-soft);
   }
 
   .fieldlog-plate-meta span {
     display: block;
     margin: 0 0 0.3rem;
-    color: rgba(166, 196, 221, 0.74);
+    color: color-mix(in srgb, var(--plate-label) 78%, transparent);
     font-size: 9px;
   }
 
@@ -338,21 +338,27 @@ const metaItems = [
   .fieldlog-plate-rack {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
+    gap: 0;
+    padding-left: 1.28rem;
   }
 
   .fieldlog-plate-card {
     min-height: 12rem;
-    padding: 1.14rem 1.14rem 1.22rem;
+    padding: 1.16rem 0 1.22rem 1.16rem;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     gap: 0.7rem;
+    border-top: 1px solid transparent;
+    border-left: 1px solid transparent;
   }
 
-  .fieldlog-plate-card--emphasis {
-    --plate-tint: rgba(112, 150, 178, 0.1);
-    --plate-tint-secondary: rgba(142, 176, 203, 0.05);
+  .fieldlog-plate-card:nth-child(2n) {
+    border-left-color: var(--plate-line-soft);
+  }
+
+  .fieldlog-plate-card:nth-child(n + 3) {
+    border-top-color: var(--plate-line-soft);
   }
 
   .fieldlog-plate-card-label {
@@ -381,24 +387,25 @@ const metaItems = [
   .fieldlog-plate-signals {
     margin-top: 1.08rem;
     padding-top: 1.08rem;
-    border-top: 1px solid rgba(112, 150, 178, 0.18);
+    border-top: 1px solid var(--plate-line-soft);
   }
 
   .fieldlog-plate-signals-label {
     margin: 0 0 0.74rem;
-    color: rgba(166, 196, 221, 0.78);
+    color: color-mix(in srgb, var(--plate-label) 82%, transparent);
     font-size: 10px;
   }
 
   .fieldlog-plate-signals-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 0.72rem;
+    gap: 0.85rem 1.05rem;
   }
 
   .fieldlog-plate-signal {
-    min-height: 7.4rem;
-    padding: 1rem 1.02rem 1.08rem;
+    min-height: 0;
+    padding-top: 0.92rem;
+    border-top: 1px solid var(--plate-line-soft);
   }
 
   @media (min-width: 1100px) {
@@ -409,22 +416,17 @@ const metaItems = [
 
     .fieldlog-plate-grid {
       grid-template-columns: minmax(0, 1.14fr) minmax(420px, 0.86fr);
-      gap: 1.3rem 1.45rem;
-    }
-
-    .fieldlog-plate-rack {
-      gap: 1.06rem;
     }
 
     .fieldlog-plate-card {
       min-height: 12.6rem;
-      padding: 1.2rem 1.22rem 1.3rem;
+      padding: 1.2rem 0 1.3rem 1.22rem;
     }
   }
 
   .fieldlog-plate-signal p {
     margin: 0 0 0.48rem;
-    color: rgba(166, 196, 221, 0.72);
+    color: color-mix(in srgb, var(--plate-label) 76%, transparent);
     font-size: 10px;
   }
 
@@ -445,6 +447,23 @@ const metaItems = [
     .fieldlog-plate-stamp {
       text-align: left;
       min-width: 0;
+      padding-left: 0;
+      border-left: 0;
+      border-top: 1px solid var(--plate-line-soft);
+      padding-top: 0.88rem;
+    }
+
+    .fieldlog-plate-hero {
+      padding-right: 0;
+      padding-left: 0;
+      border-right: 0;
+      border-bottom: 1px solid var(--plate-line-soft);
+      padding-bottom: 1.28rem;
+    }
+
+    .fieldlog-plate-rack {
+      padding-left: 0;
+      padding-top: 1.02rem;
     }
   }
 
@@ -456,6 +475,17 @@ const metaItems = [
     .fieldlog-plate-card,
     .fieldlog-plate-signal {
       min-height: 0;
+    }
+
+    .fieldlog-plate-card {
+      padding-left: 0;
+      border-left: 0;
+      border-top-color: var(--plate-line-soft);
+    }
+
+    .fieldlog-plate-card:first-child {
+      border-top-color: transparent;
+      padding-top: 0;
     }
   }
 
@@ -489,6 +519,15 @@ const metaItems = [
 
     .fieldlog-plate-meta li {
       min-width: 0;
+      padding-right: 0;
+    }
+
+    .fieldlog-plate-meta li + li {
+      padding-left: 0;
+      margin-top: 0.82rem;
+      padding-top: 0.82rem;
+      border-left: 0;
+      border-top: 1px solid var(--plate-line-soft);
     }
   }
 </style>
