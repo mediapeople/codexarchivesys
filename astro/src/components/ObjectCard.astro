@@ -262,7 +262,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
 >
   {!showFragmentStage && <a class="hitbox" href={href} aria-label={`Open ${entry.data.title}`}></a>}
   <div
-    class={`preview-wrap ${showFragmentStage ? 'fragment-stage' : ''} ${hasImagePreview ? 'has-image-preview' : ''} ${hasIndependentPreviewAction ? 'card-image-trigger' : ''}`}
+    class={`preview-wrap page-plate ${showFragmentStage ? 'fragment-stage' : ''} ${hasImagePreview ? 'has-image-preview' : ''} ${hasIndependentPreviewAction ? 'card-image-trigger' : ''}`}
     data-media-frame={hasImagePreview ? 'card-preview' : undefined}
     data-media-shape={primaryMediaMeta?.shape}
     data-card-image-trigger={hasIndependentPreviewAction ? 'true' : undefined}
@@ -488,6 +488,8 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
 <style>
   .card {
     --type-accent: var(--ghost);
+    --card-plate-shadow: 0 16px 38px rgba(0, 0, 0, 0.16);
+    --card-plate-surface: linear-gradient(180deg, rgba(31, 24, 18, 0.94), rgba(15, 12, 10, 0.97));
     --placeholder-surface:
       linear-gradient(150deg, rgba(60, 53, 46, 0.24), rgba(18, 16, 14, 0.9));
     --placeholder-motif: radial-gradient(circle at center, rgba(255, 255, 255, 0.04), transparent 62%);
@@ -638,14 +640,15 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
   }
 
   .preview-wrap {
+    --plate-border: rgba(255, 255, 255, 0.16);
+    --plate-shadow: var(--card-plate-shadow);
+    --plate-surface: var(--card-plate-surface);
+    --plate-tint: color-mix(in srgb, var(--type-accent) 22%, transparent);
+    --plate-tint-secondary: color-mix(in srgb, var(--type-accent) 8%, transparent);
     grid-column: 2;
     grid-row: 1 / span 5;
-    border-radius: 2px;
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.16);
     margin-bottom: 0;
     aspect-ratio: 5 / 4;
-    background: rgba(14, 12, 10, 0.75);
     align-self: start;
   }
 
@@ -741,12 +744,8 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
       var(--image-preview-pad-inline)
       var(--image-preview-pad-bottom);
     position: relative;
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0) 18%),
-      linear-gradient(180deg, rgba(58, 48, 41, 0.92), rgba(34, 29, 25, 0.96));
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.04),
-      0 12px 24px rgba(0, 0, 0, 0.14);
+    background: none;
+    box-shadow: none;
   }
 
   .card.feed .preview-wrap.has-image-preview,
@@ -784,9 +783,13 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     content: '';
     position: absolute;
     inset: 0;
-    background:
-      linear-gradient(90deg, rgba(255, 255, 255, 0.018), transparent 14%, transparent 86%, rgba(0, 0, 0, 0.05)),
-      repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.012) 0 1px, transparent 1px 22px);
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.018),
+      transparent 14%,
+      transparent 86%,
+      rgba(0, 0, 0, 0.05)
+    );
     pointer-events: none;
   }
 
@@ -1287,9 +1290,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     position: relative;
     overflow: hidden;
     color: rgba(244, 240, 232, 0.94);
-    background:
-      radial-gradient(circle at 82% 18%, rgba(201, 150, 58, 0.18), transparent 28%),
-      linear-gradient(145deg, rgba(44, 34, 24, 0.96), rgba(11, 9, 8, 0.99));
+    background: linear-gradient(180deg, rgba(40, 31, 23, 0.95), rgba(11, 9, 8, 0.99));
     isolation: isolate;
   }
 
@@ -1297,10 +1298,8 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     content: '';
     position: absolute;
     inset: 0;
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.045), transparent 22%),
-      repeating-linear-gradient(180deg, rgba(244, 240, 232, 0.028) 0 1px, transparent 1px 18px);
-    opacity: 0.84;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), transparent 22%);
+    opacity: 0.88;
     pointer-events: none;
     z-index: 0;
   }

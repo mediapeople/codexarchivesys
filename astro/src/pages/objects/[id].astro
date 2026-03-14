@@ -320,7 +320,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     )}
 
     {isLoremapObject && (
-      <section class="loremap-atlas">
+      <section class="loremap-atlas page-plate">
         <header class="loremap-atlas-head">
           <div class="loremap-atlas-ident">
             <TypeBadge type={entry.collection} />
@@ -328,7 +328,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
           </div>
           <p class="loremap-atlas-readout">{loremapAtlas.hudLocation} / {loremapAtlas.hudTerrain}</p>
         </header>
-        <figure class="loremap-atlas-visual" aria-hidden="true">
+        <figure class="loremap-atlas-visual page-plate" aria-hidden="true">
           <svg viewBox="0 0 320 180" width="320" height="180" role="presentation">
             <rect width="320" height="180" fill="#0b0d10"></rect>
             <rect x="1" y="1" width="318" height="178" fill="none" stroke="rgba(218,232,242,0.78)" stroke-width="1"></rect>
@@ -386,7 +386,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
         {loremapDetailRows.length > 0 && (
           <section class="detail-grid detail-grid--loremap-atlas">
             {loremapDetailRows.map((row) => (
-              <article>
+              <article class="page-plate">
                 <p>{row.label}</p>
                 <strong>{row.value}</strong>
               </article>
@@ -497,7 +497,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     )}
 
     {isHtmlArtifact && (
-      <section class={`html-scroll-stage ${primaryMedia ? 'html-scroll-stage--with-media' : ''}`}>
+      <section class={`html-scroll-stage page-plate ${primaryMedia ? 'html-scroll-stage--with-media' : ''}`}>
         <div class="html-scroll-stage-copy">
           <p class="html-scroll-stage-label">Browser-native reading surface</p>
           <h2>Open the preserved HTML surface.</h2>
@@ -515,7 +515,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
           </div>
         </div>
 
-        <div class="html-scroll-stage-plate" aria-hidden="true">
+        <div class="html-scroll-stage-plate page-plate" aria-hidden="true">
           <div class="html-scroll-stage-chrome">
             <span></span>
             <span></span>
@@ -1673,6 +1673,11 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
   }
 
   .loremap-atlas {
+    --plate-border: rgba(112, 150, 178, 0.16);
+    --plate-shadow: 0 22px 52px rgba(0, 0, 0, 0.2);
+    --plate-surface: linear-gradient(180deg, rgba(11, 15, 20, 0.96), rgba(8, 10, 13, 0.99));
+    --plate-tint: rgba(74, 118, 170, 0.12);
+    --plate-tint-secondary: rgba(112, 150, 178, 0.06);
     position: relative;
     margin-top: 1.7rem;
     display: grid;
@@ -1685,12 +1690,6 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     align-items: start;
     max-width: min(1160px, 100%);
     padding: clamp(1.25rem, 2vw, 1.8rem);
-    border: 1px solid rgba(112, 150, 178, 0.16);
-    background:
-      radial-gradient(circle at 82% 20%, rgba(38, 66, 102, 0.14), transparent 34%),
-      linear-gradient(145deg, rgba(36, 56, 82, 0.1), rgba(8, 10, 13, 0.92) 46%, rgba(15, 24, 38, 0.72)),
-      rgba(8, 10, 13, 0.92);
-    overflow: hidden;
   }
 
   .loremap-atlas::before {
@@ -1770,14 +1769,14 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
   }
 
   .loremap-atlas-visual {
+    --plate-border: rgba(112, 150, 178, 0.22);
+    --plate-shadow: 0 16px 36px rgba(0, 0, 0, 0.16);
+    --plate-surface: linear-gradient(180deg, rgba(13, 17, 21, 0.96), rgba(8, 10, 14, 0.99));
+    --plate-tint: rgba(112, 150, 178, 0.1);
+    --plate-tint-secondary: rgba(74, 118, 170, 0.05);
     grid-area: visual;
     margin: 0;
-    border: 1px solid rgba(112, 150, 178, 0.24);
-    background:
-      linear-gradient(150deg, rgba(78, 101, 121, 0.16), rgba(8, 10, 14, 0.94)),
-      rgba(9, 11, 14, 0.92);
     padding: 0.82rem;
-    box-shadow: inset 0 0 0 1px rgba(112, 150, 178, 0.08);
   }
 
   .loremap-atlas-visual svg {
@@ -1863,14 +1862,15 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
   }
 
   .detail-grid--loremap-atlas article {
+    --plate-border: rgba(112, 150, 178, 0.18);
+    --plate-shadow: 0 16px 34px rgba(0, 0, 0, 0.14);
+    --plate-surface: linear-gradient(180deg, rgba(11, 14, 19, 0.92), rgba(8, 10, 14, 0.96));
+    --plate-tint: rgba(112, 150, 178, 0.08);
+    --plate-tint-secondary: rgba(38, 66, 102, 0.05);
     margin-right: 0;
     margin-bottom: 0;
     min-height: 8.9rem;
     padding: 1.38rem 1.46rem 1.48rem;
-    border: 1px solid rgba(112, 150, 178, 0.22);
-    background:
-      linear-gradient(180deg, rgba(46, 72, 110, 0.12), rgba(7, 9, 12, 0.04)),
-      rgba(10, 11, 14, 0.74);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -1947,6 +1947,11 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
   }
 
   .html-scroll-stage {
+    --plate-border: rgba(201, 150, 58, 0.16);
+    --plate-shadow: 0 22px 48px rgba(0, 0, 0, 0.2);
+    --plate-surface: linear-gradient(180deg, rgba(26, 22, 18, 0.95), rgba(10, 9, 8, 0.98));
+    --plate-tint: rgba(201, 150, 58, 0.1);
+    --plate-tint-secondary: rgba(112, 150, 178, 0.05);
     margin-top: 2.2rem;
     display: grid;
     grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
@@ -1954,10 +1959,6 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     align-items: stretch;
     max-width: min(1120px, 100%);
     padding: clamp(1.1rem, 1.8vw, 1.45rem);
-    border: 1px solid rgba(201, 150, 58, 0.16);
-    background:
-      radial-gradient(circle at 86% 18%, rgba(201, 150, 58, 0.12), transparent 26%),
-      linear-gradient(145deg, rgba(38, 31, 25, 0.9), rgba(10, 9, 8, 0.96));
     position: relative;
     overflow: hidden;
   }
@@ -1966,9 +1967,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     content: '';
     position: absolute;
     inset: 0;
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 24%),
-      repeating-linear-gradient(180deg, rgba(244, 240, 232, 0.022) 0 1px, transparent 1px 19px);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 24%);
     pointer-events: none;
   }
 
@@ -2061,17 +2060,17 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
   }
 
   .html-scroll-stage-plate {
+    --plate-border: rgba(201, 150, 58, 0.14);
+    --plate-shadow: 0 16px 36px rgba(0, 0, 0, 0.16);
+    --plate-surface: linear-gradient(180deg, rgba(41, 32, 23, 0.95), rgba(11, 9, 8, 0.99));
+    --plate-tint: rgba(201, 150, 58, 0.12);
+    --plate-tint-secondary: rgba(233, 201, 140, 0.05);
     display: grid;
     grid-template-rows: auto 1fr auto;
     gap: 0.9rem;
     min-height: clamp(16rem, 30vw, 22rem);
     padding: 0.9rem 0.94rem 0.98rem;
-    border: 1px solid rgba(201, 150, 58, 0.14);
-    background:
-      radial-gradient(circle at 82% 18%, rgba(201, 150, 58, 0.16), transparent 30%),
-      linear-gradient(145deg, rgba(44, 34, 24, 0.96), rgba(11, 9, 8, 0.99));
     overflow: hidden;
-    isolation: isolate;
   }
 
   .html-scroll-stage-plate::before {

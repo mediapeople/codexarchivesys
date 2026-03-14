@@ -143,28 +143,28 @@ const fieldContractRows = [
   description="Archaeological mythology in practice: a living archive of scrolls, collages, codices, and field logs."
   canonicalPath="/orientation"
 >
-  <section class="orientation-hero">
-    <p class="label">Orientation</p>
-    <h1>Archaeological Mythology in Practice</h1>
-    <p class="lead">
+  <section class="orientation-hero page-hero">
+    <p class="page-hero-eyebrow">Orientation</p>
+    <h1 class="page-hero-title">Archaeological Mythology in Practice</h1>
+    <p class="page-hero-sub">
       A living archive of scrolls, collages, codices, and field logs — excavating transmissible wisdom
       from lived experience, cultural artifacts, and creative ordeal.
     </p>
     <div class="hero-stats">
-      <article>
+      <article class="page-plate">
         <strong>{entries.length}</strong>
         <span>Objects indexed</span>
       </article>
-      <article>
+      <article class="page-plate">
         <strong>{typeCounts.length}</strong>
         <span>Types active</span>
       </article>
-      <article>
+      <article class="page-plate">
         <strong>{activeConstellations.length}</strong>
         <span>Constellations active</span>
       </article>
       {latestDate && (
-        <article>
+        <article class="page-plate">
           <strong>{latestDate}</strong>
           <span>Latest object date</span>
         </article>
@@ -172,7 +172,7 @@ const fieldContractRows = [
     </div>
   </section>
 
-  <section class="panel operator-panel">
+  <section class="panel operator-panel page-plate">
     <p class="kicker">Operator</p>
     <div class="operator-grid">
       <div>
@@ -215,7 +215,7 @@ const fieldContractRows = [
     )}
   </section>
 
-  <section class="panel intent-panel">
+  <section class="panel intent-panel page-plate">
     <p class="kicker">Intent</p>
     <h2>Core operating rule</h2>
     <p class="rule">{coreOperatingRule}</p>
@@ -238,7 +238,7 @@ const fieldContractRows = [
         </p>
         <ul class="type-catalog">
           {typeCounts.map((item) => (
-            <li class={`type-definition ${item.type}`}>
+            <li class={`type-definition page-plate ${item.type}`}>
               <div class="type-definition-head">
                 <TypeBadge type={item.type} showIcon={true} />
                 <span class="type-definition-count">{item.count} objects</span>
@@ -251,7 +251,7 @@ const fieldContractRows = [
     </div>
   </section>
 
-  <section class="panel fieldmap-panel">
+  <section class="panel fieldmap-panel page-plate">
     <p class="kicker">System field map</p>
     <h2>Schema routes into reading surfaces.</h2>
     <p class="body-copy">
@@ -259,7 +259,7 @@ const fieldContractRows = [
       hold the contract between operator input and reader-facing output.
     </p>
     <div class="fieldmap-layout">
-      <figure class="fieldmap-canvas" aria-label="Object type field map">
+      <figure class="fieldmap-canvas page-plate" aria-label="Object type field map">
         <svg class="fieldmap-lines" viewBox="0 0 900 520" preserveAspectRatio="none" aria-hidden="true">
           <path d="M22 468 C205 378 318 242 504 250 C665 258 786 162 876 52" />
           <path d="M82 72 C268 122 316 286 488 302 C668 318 770 390 886 472" />
@@ -276,7 +276,7 @@ const fieldContractRows = [
           ))}
         </ul>
       </figure>
-      <article class="field-contract">
+      <article class="field-contract page-plate">
         <h3>Field contract</h3>
         <div class="field-contract-grid">
           <div class="field-contract-row header">
@@ -298,7 +298,7 @@ const fieldContractRows = [
     </div>
   </section>
 
-  <section class="panel constellation-panel">
+  <section class="panel constellation-panel page-plate">
     <p class="kicker">Basic constellation</p>
     <h2>Active constellation map</h2>
     <p class="body-copy">
@@ -307,7 +307,7 @@ const fieldContractRows = [
     </p>
     <div class="constellation-grid">
       {constellationCards.map((item) => (
-        <article class={`constellation-card ${item.tone}`}>
+        <article class={`constellation-card page-plate ${item.tone}`}>
           <h3>{item.name}</h3>
           <p>{item.description}</p>
           <div class="constellation-meta">
@@ -320,7 +320,7 @@ const fieldContractRows = [
     <p class="capacity">{activeConstellations.length} active of 100 capacity.</p>
   </section>
 
-  <section class="panel path-panel">
+  <section class="panel path-panel page-plate">
     <p class="kicker">Read path</p>
     <h2>How to move through the archive</h2>
     <ol>
@@ -332,11 +332,6 @@ const fieldContractRows = [
 </BaseLayout>
 
 <style>
-  .orientation-hero {
-    padding: 6rem 0 4.8rem;
-  }
-
-  .label,
   .kicker {
     margin: 0 0 0.5rem;
     color: var(--accent);
@@ -347,18 +342,8 @@ const fieldContractRows = [
     font-weight: 400;
   }
 
-  .orientation-hero h1 {
-    margin: 0;
+  .orientation-hero .page-hero-title {
     max-width: 17ch;
-    line-height: 1.3;
-  }
-
-  .lead {
-    margin: 1.45rem 0 0;
-    max-width: 52ch;
-    color: var(--text-body);
-    font-size: 1.18rem;
-    line-height: 1.86;
   }
 
   .orientation-statement {
@@ -394,10 +379,12 @@ const fieldContractRows = [
   }
 
   .hero-stats article {
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    border-radius: 2px;
+    --plate-border: rgba(255, 255, 255, 0.14);
+    --plate-shadow: 0 18px 40px rgba(0, 0, 0, 0.16);
+    --plate-surface: linear-gradient(180deg, rgba(27, 20, 15, 0.88), rgba(14, 11, 9, 0.92));
+    --plate-tint: rgba(201, 150, 58, 0.08);
+    --plate-tint-secondary: rgba(196, 98, 58, 0.05);
     padding: 1.3rem 1.35rem 1.24rem;
-    background: rgba(18, 14, 11, 0.56);
   }
 
   .hero-stats strong {
@@ -419,11 +406,13 @@ const fieldContractRows = [
   }
 
   .panel {
+    --plate-border: rgba(255, 255, 255, 0.12);
+    --plate-shadow: 0 24px 56px rgba(0, 0, 0, 0.18);
+    --plate-surface: linear-gradient(180deg, rgba(20, 16, 13, 0.9), rgba(11, 10, 9, 0.94));
+    --plate-tint: rgba(196, 98, 58, 0.08);
+    --plate-tint-secondary: rgba(201, 150, 58, 0.05);
     margin-top: clamp(3.4rem, 6vw, 5rem);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 2px;
     padding: 2.9rem 3.1rem 3.2rem;
-    background: rgba(14, 12, 10, 0.44);
   }
 
   .panel h2 {
@@ -656,18 +645,17 @@ const fieldContractRows = [
   }
 
   .type-definition {
+    --plate-border: rgba(255, 255, 255, 0.1);
+    --plate-shadow: 0 16px 34px rgba(0, 0, 0, 0.14);
+    --plate-surface: linear-gradient(180deg, rgba(22, 17, 14, 0.9), rgba(10, 9, 8, 0.92));
+    --plate-tint: rgba(196, 98, 58, 0.08);
+    --plate-tint-secondary: rgba(201, 150, 58, 0.05);
     position: relative;
     min-width: 0;
     width: 100%;
     max-width: none;
     min-height: 100%;
     padding: 1.45rem 1.4rem 1.52rem;
-    border-radius: 2px;
-    background:
-      linear-gradient(145deg, rgba(18, 15, 12, 0.82), rgba(9, 9, 9, 0.36));
-    box-shadow:
-      inset 0 0 0 1px rgba(255, 255, 255, 0.08),
-      0 0 0 1px rgba(196, 98, 58, 0.04);
   }
 
   .type-definition-head {
@@ -739,13 +727,14 @@ const fieldContractRows = [
   }
 
   .fieldmap-canvas {
+    --plate-border: rgba(255, 255, 255, 0.14);
+    --plate-shadow: 0 18px 42px rgba(0, 0, 0, 0.16);
+    --plate-surface: linear-gradient(180deg, rgba(17, 14, 12, 0.94), rgba(10, 9, 8, 0.98));
+    --plate-tint: rgba(196, 98, 58, 0.1);
+    --plate-tint-secondary: rgba(78, 107, 150, 0.08);
     margin: 0;
     position: relative;
     min-height: 360px;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    border-radius: 2px;
-    background:
-      linear-gradient(145deg, rgba(196, 98, 58, 0.16), rgba(44, 58, 82, 0.11));
     overflow: hidden;
   }
 
@@ -792,10 +781,12 @@ const fieldContractRows = [
   }
 
   .field-contract {
+    --plate-border: rgba(255, 255, 255, 0.14);
+    --plate-shadow: 0 16px 36px rgba(0, 0, 0, 0.14);
+    --plate-surface: linear-gradient(180deg, rgba(14, 12, 10, 0.92), rgba(9, 9, 8, 0.96));
+    --plate-tint: rgba(201, 150, 58, 0.06);
+    --plate-tint-secondary: rgba(120, 160, 168, 0.04);
     margin-left: 0.2rem;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    border-radius: 2px;
-    background: rgba(9, 9, 9, 0.44);
     overflow: hidden;
   }
 
@@ -862,10 +853,12 @@ const fieldContractRows = [
   }
 
   .constellation-card {
+    --plate-border: rgba(255, 255, 255, 0.14);
+    --plate-shadow: 0 16px 34px rgba(0, 0, 0, 0.14);
+    --plate-surface: linear-gradient(180deg, rgba(16, 14, 12, 0.92), rgba(9, 9, 8, 0.96));
+    --plate-tint: rgba(201, 150, 58, 0.06);
+    --plate-tint-secondary: rgba(120, 160, 168, 0.04);
     padding: 1.35rem 1.32rem 1.28rem;
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    border-radius: 2px;
-    background: rgba(10, 9, 8, 0.46);
   }
 
   .constellation-card h3 {
@@ -901,18 +894,18 @@ const fieldContractRows = [
   }
 
   .constellation-card.cascade {
-    background:
-      linear-gradient(150deg, rgba(82, 34, 23, 0.38), rgba(10, 12, 22, 0.44));
+    --plate-tint: rgba(196, 98, 58, 0.12);
+    --plate-tint-secondary: rgba(92, 116, 154, 0.08);
   }
 
   .constellation-card.maintenance {
-    background:
-      linear-gradient(150deg, rgba(44, 48, 30, 0.34), rgba(15, 16, 19, 0.48));
+    --plate-tint: rgba(122, 134, 82, 0.1);
+    --plate-tint-secondary: rgba(84, 112, 104, 0.05);
   }
 
   .constellation-card.archaeology {
-    background:
-      linear-gradient(150deg, rgba(78, 56, 26, 0.36), rgba(15, 14, 10, 0.46));
+    --plate-tint: rgba(201, 150, 58, 0.12);
+    --plate-tint-secondary: rgba(142, 104, 54, 0.06);
   }
 
   .capacity {
@@ -945,15 +938,18 @@ const fieldContractRows = [
   }
 
   @media (max-width: 760px) {
-    .orientation-hero {
-      padding-top: 3.9rem;
-      padding-bottom: 2.4rem;
+    .hero-stats {
+      margin-top: 2rem;
+      gap: 0.8rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .lead {
-      font-size: 1rem;
-      line-height: 1.72;
-      max-width: 100%;
+    .hero-stats article {
+      padding: 1rem 0.95rem 0.92rem;
+    }
+
+    .hero-stats strong {
+      font-size: 1.32rem;
     }
 
     .orientation-statement {
@@ -1030,6 +1026,12 @@ const fieldContractRows = [
       grid-column: span 2;
       border-right: 0;
       border-top: 1px solid rgba(255, 255, 255, 0.09);
+    }
+  }
+
+  @media (max-width: 520px) {
+    .hero-stats {
+      grid-template-columns: 1fr;
     }
   }
 </style>

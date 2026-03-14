@@ -13,9 +13,10 @@ const issues = (await getCollection('nexus'))
 ---
 
 <BaseLayout title="Nexus Issues">
-  <section class="stream-meta">
-    <p class="label">Nexus stream</p>
-    <p class="intro">
+  <section class="stream-meta page-hero">
+    <p class="page-hero-eyebrow">Nexus stream</p>
+    <h1 class="page-hero-title">Guided readings</h1>
+    <p class="page-hero-sub">
       Nexus issues are guided reading sequences built from archive objects.
       They carry editorial ordering and transmission intent.
     </p>
@@ -38,7 +39,7 @@ const issues = (await getCollection('nexus'))
             {issue.data.releaseType && <span>{issue.data.releaseType}</span>}
           </div>
         </div>
-        <aside class="visual is-fallback">
+        <aside class="visual is-fallback page-plate">
           <div class="visual-fallback">
             <span>Nexus</span>
           </div>
@@ -51,26 +52,15 @@ const issues = (await getCollection('nexus'))
 <style>
   .stream-meta {
     margin: 0 auto 2.8rem;
-    padding: 6rem clamp(0.45rem, 0.95vw, 1rem) 3rem;
     background: transparent;
   }
 
-  .label {
-    margin: 0 0 0.45rem;
-    color: var(--accent);
-    font-family: var(--font-ui);
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: var(--ls-label);
-    font-weight: 400;
+  .stream-meta .page-hero-title {
+    max-width: 11ch;
   }
 
-  .intro {
-    margin: 0;
-    color: var(--text-body);
-    line-height: 1.78;
-    font-size: 1.15rem;
-    max-width: 42ch;
+  .stream-meta .page-hero-sub {
+    max-width: 40ch;
   }
 
   .issues {
@@ -158,28 +148,20 @@ const issues = (await getCollection('nexus'))
   }
 
   .visual {
+    --plate-border: rgba(255, 255, 255, 0.16);
+    --plate-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+    --plate-surface: linear-gradient(180deg, rgba(28, 21, 17, 0.95), rgba(14, 11, 10, 0.97));
+    --plate-tint: rgba(196, 98, 58, 0.14);
+    --plate-tint-secondary: rgba(231, 171, 130, 0.05);
     position: relative;
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    border-radius: 2px;
-    overflow: hidden;
-    background: rgba(14, 12, 10, 0.64);
     aspect-ratio: 4 / 3;
-    isolation: isolate;
   }
 
-  .visual::before,
   .visual::after {
     content: '';
     position: absolute;
     inset: 0;
     pointer-events: none;
-  }
-
-  .visual::before {
-    z-index: 1;
-    background:
-      linear-gradient(150deg, rgba(196, 98, 58, 0.2), rgba(24, 18, 16, 0.94));
-    opacity: 1;
   }
 
   .visual::after {
@@ -194,7 +176,7 @@ const issues = (await getCollection('nexus'))
         transparent 34% 100%
       ),
       linear-gradient(0deg, rgba(196, 98, 58, 0.07), transparent 58%);
-    opacity: 1;
+    opacity: 0.92;
   }
 
   .visual-fallback {
@@ -234,11 +216,6 @@ const issues = (await getCollection('nexus'))
   }
 
   @media (max-width: 700px) {
-    .stream-meta {
-      padding-top: 3.8rem;
-      padding-bottom: 2.2rem;
-    }
-
     .issues {
       gap: 3.6rem;
     }

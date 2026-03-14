@@ -64,20 +64,20 @@ const metaItems = [
 ].filter((item): item is { label: string; value: string } => Boolean(item));
 ---
 
-<section class="fieldlog-plate-shell" aria-labelledby="fieldlog-plate-title">
+<section class="fieldlog-plate-shell page-plate" aria-labelledby="fieldlog-plate-title">
   <header class="fieldlog-plate-header">
     <div class="fieldlog-plate-heading">
       <p class="fieldlog-plate-kicker">Structured Readout</p>
       <p class="fieldlog-plate-ruler" aria-hidden="true">Plate // calibrated tasting surface</p>
     </div>
-    <div class="fieldlog-plate-stamp">
+    <div class="fieldlog-plate-stamp page-plate">
       <span>Fieldlog Plate</span>
       <strong>{styleSpec?.value || leadSpec?.label || 'Specimen'}</strong>
     </div>
   </header>
 
   <div class="fieldlog-plate-grid">
-    <section class="fieldlog-plate-hero">
+    <section class="fieldlog-plate-hero page-plate">
       <p class="fieldlog-plate-code">{leadSpec?.label || 'Field Plate'}</p>
       <h2 id="fieldlog-plate-title">{leadSpec?.value || title}</h2>
       {styleSpec?.value && <p class="fieldlog-plate-style">{styleSpec.value}</p>}
@@ -86,7 +86,7 @@ const metaItems = [
       {metaItems.length > 0 && (
         <ul class="fieldlog-plate-meta" aria-label="Plate metadata">
           {metaItems.map((item) => (
-            <li>
+            <li class="page-plate">
               <span>{item.label}</span>
               <strong>{item.value}</strong>
             </li>
@@ -98,7 +98,7 @@ const metaItems = [
     {plateCards.length > 0 && (
       <section class="fieldlog-plate-rack" aria-label="Structured field details">
         {plateCards.map((spec, index) => (
-          <article class={`fieldlog-plate-card ${index === 0 ? 'fieldlog-plate-card--emphasis' : ''}`}>
+          <article class={`fieldlog-plate-card page-plate ${index === 0 ? 'fieldlog-plate-card--emphasis' : ''}`}>
             <p class="fieldlog-plate-card-label">{spec.label}</p>
             <strong>{spec.value}</strong>
             {spec.note && <span>{spec.note}</span>}
@@ -113,7 +113,7 @@ const metaItems = [
       <p class="fieldlog-plate-signals-label">Signal Notes</p>
       <div class="fieldlog-plate-signals-grid">
         {signalRows.map((spec) => (
-          <article class="fieldlog-plate-signal">
+          <article class="fieldlog-plate-signal page-plate">
             <p>{spec.label}</p>
             <strong>{spec.note}</strong>
           </article>
@@ -132,21 +132,15 @@ const metaItems = [
     --plate-muted: rgba(225, 207, 180, 0.72);
     --plate-label: rgba(240, 214, 174, 0.84);
     --plate-amber: rgba(224, 163, 86, 0.92);
+    --plate-border: rgba(198, 146, 88, 0.28);
+    --plate-shadow: 0 22px 48px rgba(0, 0, 0, 0.24);
+    --plate-surface: linear-gradient(180deg, rgba(15, 18, 24, 0.98), rgba(11, 14, 20, 0.99));
+    --plate-tint: rgba(229, 154, 69, 0.12);
+    --plate-tint-secondary: rgba(54, 91, 142, 0.1);
     position: relative;
     margin: 2.5rem 0 2.35rem;
     max-width: min(1160px, 100%);
     padding: clamp(1.18rem, 2.05vw, 1.78rem);
-    border: 1px solid var(--plate-line);
-    border-radius: 0;
-    background:
-      radial-gradient(circle at 100% 0%, rgba(229, 154, 69, 0.18), transparent 24%),
-      radial-gradient(circle at 0% 100%, rgba(54, 91, 142, 0.18), transparent 28%),
-      linear-gradient(135deg, rgba(28, 36, 49, 0.98), rgba(12, 16, 23, 0.98) 48%, rgba(24, 18, 12, 0.98));
-    box-shadow:
-      inset 0 1px 0 var(--plate-highlight),
-      inset 0 0 0 1px rgba(255, 255, 255, 0.025),
-      0 22px 48px rgba(0, 0, 0, 0.24);
-    overflow: hidden;
   }
 
   .fieldlog-plate-shell::before,
@@ -160,16 +154,8 @@ const metaItems = [
   .fieldlog-plate-shell::before {
     background:
       linear-gradient(90deg, rgba(255, 255, 255, 0.04), transparent 18%),
-      repeating-linear-gradient(
-        0deg,
-        transparent 0,
-        transparent 30px,
-        rgba(243, 228, 203, 0.035) 30px,
-        rgba(243, 228, 203, 0.035) 31px
-      ),
-      radial-gradient(circle at 1px 1px, rgba(255, 241, 218, 0.06) 0 1px, transparent 1.2px);
-    background-size: auto, auto, 6px 6px;
-    opacity: 0.46;
+      linear-gradient(180deg, rgba(243, 228, 203, 0.03), transparent 42%);
+    opacity: 0.52;
   }
 
   .fieldlog-plate-shell::after {
@@ -221,15 +207,14 @@ const metaItems = [
   }
 
   .fieldlog-plate-stamp {
+    --plate-border: rgba(204, 155, 94, 0.18);
+    --plate-shadow: 0 14px 28px rgba(0, 0, 0, 0.16);
+    --plate-surface: linear-gradient(180deg, rgba(13, 17, 25, 0.76), rgba(10, 12, 18, 0.82));
+    --plate-tint: rgba(224, 163, 86, 0.08);
+    --plate-tint-secondary: rgba(152, 179, 209, 0.05);
     min-width: 14.5rem;
     padding: 0.9rem 1.04rem 0.96rem;
-    border: 1px solid rgba(204, 155, 94, 0.18);
-    border-radius: 0;
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0)),
-      rgba(13, 17, 25, 0.44);
     text-align: right;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
   }
 
   .fieldlog-plate-stamp span {
@@ -257,12 +242,11 @@ const metaItems = [
   .fieldlog-plate-hero,
   .fieldlog-plate-card,
   .fieldlog-plate-signal {
-    border: 1px solid var(--plate-line-soft);
-    border-radius: 0;
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.042), rgba(255, 255, 255, 0)),
-      rgba(12, 16, 24, 0.42);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.028);
+    --plate-border: var(--plate-line-soft);
+    --plate-shadow: 0 14px 30px rgba(0, 0, 0, 0.14);
+    --plate-surface: linear-gradient(180deg, rgba(12, 16, 24, 0.54), rgba(9, 12, 18, 0.62));
+    --plate-tint: rgba(224, 163, 86, 0.05);
+    --plate-tint-secondary: rgba(152, 179, 209, 0.04);
   }
 
   .fieldlog-plate-hero {
@@ -327,11 +311,13 @@ const metaItems = [
   }
 
   .fieldlog-plate-meta li {
+    --plate-border: rgba(216, 177, 125, 0.16);
+    --plate-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+    --plate-surface: linear-gradient(180deg, rgba(9, 13, 19, 0.68), rgba(8, 12, 18, 0.76));
+    --plate-tint: rgba(224, 163, 86, 0.04);
+    --plate-tint-secondary: rgba(152, 179, 209, 0.03);
     min-width: 12rem;
     padding: 0.84rem 0.94rem 0.9rem;
-    border: 1px solid rgba(216, 177, 125, 0.16);
-    border-radius: 0;
-    background: rgba(8, 12, 18, 0.38);
   }
 
   .fieldlog-plate-meta span {
@@ -366,10 +352,8 @@ const metaItems = [
   }
 
   .fieldlog-plate-card--emphasis {
-    background:
-      radial-gradient(circle at 90% 16%, rgba(227, 161, 79, 0.16), transparent 30%),
-      linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0)),
-      rgba(16, 21, 30, 0.5);
+    --plate-tint: rgba(227, 161, 79, 0.1);
+    --plate-tint-secondary: rgba(152, 179, 209, 0.05);
   }
 
   .fieldlog-plate-card-label {

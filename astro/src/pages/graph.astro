@@ -7,6 +7,10 @@ type GraphNode = {
   id: string;
   title: string;
   type: string;
+  date: string;
+  themes: string[];
+  constellations: string[];
+  displayTitle?: string;
 };
 
 type GraphEdge = {
@@ -22,6 +26,24 @@ type GraphPayload = {
   edgeCount: number;
   nodes: GraphNode[];
   edges: GraphEdge[];
+};
+
+type NodeMetric = {
+  degree: number;
+  totalWeight: number;
+};
+
+const DEFAULT_THRESHOLD = 6;
+const TYPE_ORDER = ['scroll', 'artifact', 'fieldlog', 'codex', 'fragment', 'nexus', 'loremap', 'signal'];
+const TYPE_META: Record<string, { label: string; color: string; glow: string }> = {
+  scroll: { label: 'Scroll', color: '#d48a53', glow: 'rgba(212, 138, 83, 0.24)' },
+  artifact: { label: 'Artifact', color: '#d7a25f', glow: 'rgba(215, 162, 95, 0.22)' },
+  fieldlog: { label: 'Field Log', color: '#cb6c45', glow: 'rgba(203, 108, 69, 0.22)' },
+  codex: { label: 'Codex', color: '#d8c8a4', glow: 'rgba(216, 200, 164, 0.22)' },
+  fragment: { label: 'Fragment', color: '#9aa58f', glow: 'rgba(154, 165, 143, 0.22)' },
+  nexus: { label: 'Nexus', color: '#78a0a8', glow: 'rgba(120, 160, 168, 0.24)' },
+  loremap: { label: 'Loremap', color: '#7b8db8', glow: 'rgba(123, 141, 184, 0.24)' },
+  signal: { label: 'Signal', color: '#b16f98', glow: 'rgba(177, 111, 152, 0.24)' },
 };
 
 const defaultGraph: GraphPayload = {
@@ -43,223 +65,1992 @@ try {
   loadError = error instanceof Error ? error.message : 'Unable to load graph.json';
 }
 
-const topEdges = [...graph.edges].sort((a, b) => b.weight - a.weight).slice(0, 12);
+function formatTypeLabel(type: string) {
+  return TYPE_META[type]?.label || type.charAt(0).toUpperCase() + type.slice(1);
+}
 
-const topNodes = [...graph.nodes]
-  .map((node) => {
-    const totalWeight = graph.edges
-      .filter((edge) => edge.source === node.id || edge.target === node.id)
-      .reduce((sum, edge) => sum + edge.weight, 0);
-    return { ...node, totalWeight };
+function formatReasonLabel(reason: string) {
+  return reason
+    .split('-')
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
+}
+
+function formatGraphDate(value: string) {
+  if (!value) {
+    return 'Date pending';
+  }
+
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) {
+    return value;
+  }
+
+  return parsed.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}
+
+const graphClientData: GraphPayload = {
+  ...graph,
+  nodes: graph.nodes.map((node) => ({
+    ...node,
+    displayTitle: formatDisplayTitle(node.title),
+    themes: Array.isArray(node.themes) ? node.themes : [],
+    constellations: Array.isArray(node.constellations) ? node.constellations : [],
+  })),
+};
+
+const nodeById = new Map(graphClientData.nodes.map((node) => [node.id, node]));
+const nodeMetrics = new Map<string, NodeMetric>(
+  graphClientData.nodes.map((node) => [
+    node.id,
+    {
+      degree: 0,
+      totalWeight: 0,
+    },
+  ])
+);
+const adjacency = new Map<string, GraphEdge[]>(graphClientData.nodes.map((node) => [node.id, []]));
+
+for (const edge of graphClientData.edges) {
+  const sourceMetrics = nodeMetrics.get(edge.source);
+  const targetMetrics = nodeMetrics.get(edge.target);
+
+  if (sourceMetrics) {
+    sourceMetrics.degree += 1;
+    sourceMetrics.totalWeight += edge.weight;
+  }
+
+  if (targetMetrics) {
+    targetMetrics.degree += 1;
+    targetMetrics.totalWeight += edge.weight;
+  }
+
+  adjacency.get(edge.source)?.push(edge);
+  adjacency.get(edge.target)?.push(edge);
+}
+
+const topNodes = graphClientData.nodes
+  .map((node) => ({
+    ...node,
+    degree: nodeMetrics.get(node.id)?.degree ?? 0,
+    totalWeight: nodeMetrics.get(node.id)?.totalWeight ?? 0,
+  }))
+  .sort((a, b) => {
+    if (a.totalWeight === b.totalWeight) {
+      return a.displayTitle!.localeCompare(b.displayTitle!);
+    }
+    return b.totalWeight - a.totalWeight;
   })
-  .sort((a, b) => b.totalWeight - a.totalWeight)
-  .slice(0, 12);
+  .slice(0, 10);
+
+const topEdges = [...graphClientData.edges]
+  .sort((a, b) => {
+    if (a.weight === b.weight) {
+      return `${a.source}:${a.target}`.localeCompare(`${b.source}:${b.target}`);
+    }
+    return b.weight - a.weight;
+  })
+  .slice(0, 10)
+  .map((edge) => ({
+    ...edge,
+    sourceNode: nodeById.get(edge.source),
+    targetNode: nodeById.get(edge.target),
+  }));
+
+const typeCounts = TYPE_ORDER
+  .map((type) => ({
+    type,
+    count: graphClientData.nodes.filter((node) => node.type === type).length,
+    ...TYPE_META[type],
+  }))
+  .filter((entry) => entry.count > 0);
+
+const reasonCounts = [...graphClientData.edges.reduce((counts, edge) => {
+  for (const reason of edge.reasons) {
+    counts.set(reason, (counts.get(reason) || 0) + 1);
+  }
+  return counts;
+}, new Map<string, number>()).entries()]
+  .sort((a, b) => b[1] - a[1]);
+
+const strongestNode = topNodes[0] ?? null;
+const maxEdgeWeight = graphClientData.edges.reduce((max, edge) => Math.max(max, edge.weight), 0);
+const defaultVisibleEdges = graphClientData.edges.filter((edge) => edge.weight >= DEFAULT_THRESHOLD);
+const defaultVisibleNodeIds = new Set<string>();
+for (const edge of defaultVisibleEdges) {
+  defaultVisibleNodeIds.add(edge.source);
+  defaultVisibleNodeIds.add(edge.target);
+}
+const initialSelected = strongestNode;
+const initialSelectedLinks = initialSelected
+  ? (adjacency.get(initialSelected.id) || [])
+      .map((edge) => {
+        const otherId = edge.source === initialSelected.id ? edge.target : edge.source;
+        return {
+          ...edge,
+          otherId,
+          otherNode: nodeById.get(otherId),
+        };
+      })
+      .sort((a, b) => {
+        if (a.weight === b.weight) {
+          return (a.otherNode?.displayTitle || a.otherId).localeCompare(
+            b.otherNode?.displayTitle || b.otherId
+          );
+        }
+        return b.weight - a.weight;
+      })
+      .slice(0, 6)
+  : [];
+
+const graphViewModelJson = JSON.stringify({
+  defaultThreshold: DEFAULT_THRESHOLD,
+  maxEdgeWeight,
+  typeLegend: typeCounts,
+  graph: graphClientData,
+}).replace(/</g, '\\u003c');
 ---
 
 <BaseLayout title="Codex Graph">
-  <section class="graph-meta">
-    <p class="label">Graph export</p>
-    <h1>Archive relation snapshot.</h1>
-    <p class="intro">
-      Read the structure layer directly: how objects connect, where weight accumulates, and what links carry the most signal.
-    </p>
-    <div class="meta-row">
-      <a class="source-link" href="/graph.json" target="_blank" rel="noreferrer">Open source JSON</a>
-      {graph.generatedAt && (
-        <span class="generated">Generated {new Date(graph.generatedAt).toLocaleString('en-US')}</span>
-      )}
-    </div>
-  </section>
-
-  {loadError ? (
-    <section class="error">
-      <h2>Graph Not Loaded</h2>
-      <p>{loadError}</p>
-      <p>Run <code>node scripts/generate-graph-json.mjs objects astro/public/graph.json</code>.</p>
+  <div class="graph-page">
+    <section class="graph-hero page-hero">
+      <p class="graph-eyebrow page-hero-eyebrow">Graph surface</p>
+      <h1 class="page-hero-title">Archive relation field.</h1>
+      <p class="graph-intro page-hero-sub">
+        This is the archive read as a living system instead of a list. Filter the background noise,
+        switch the layout, and inspect how scrolls, codex notes, field logs, and nexus issues braid
+        into one shared structure.
+      </p>
+      <div class="graph-meta-row">
+        <a class="graph-source-link" href="/graph.json" target="_blank" rel="noreferrer">Open source JSON</a>
+        {graph.generatedAt && (
+          <span class="graph-generated">Generated {new Date(graph.generatedAt).toLocaleString('en-US')}</span>
+        )}
+      </div>
     </section>
-  ) : (
-    <>
-      <section class="stats">
-        <article><strong>{graph.nodeCount}</strong><span>Nodes</span></article>
-        <article><strong>{graph.edgeCount}</strong><span>Edges</span></article>
-        <article><strong>{topEdges[0]?.weight ?? 0}</strong><span>Strongest Link</span></article>
-      </section>
 
-      <section class="grid">
-        <article>
-          <h2>Top Connected Objects</h2>
-          <ul>
-            {topNodes.map((node) => (
-              <li>
-                <a href={`/objects/${node.id}`}>{formatDisplayTitle(node.title)}</a>
-                <span>{node.type} · {node.totalWeight}</span>
-              </li>
-            ))}
-          </ul>
-        </article>
-
-        <article>
-          <h2>Top Edges</h2>
-          <ul>
-            {topEdges.map((edge) => (
-              <li>
-                <a href={`/objects/${edge.source}`}>{edge.source}</a>
-                <span>↔</span>
-                <a href={`/objects/${edge.target}`}>{edge.target}</a>
-                <code>{edge.weight}</code>
-              </li>
-            ))}
-          </ul>
-        </article>
+    {loadError ? (
+      <section class="graph-error page-plate">
+        <h2>Graph Not Loaded</h2>
+        <p>{loadError}</p>
+        <p>Run <code>node scripts/generate-graph-json.mjs objects astro/public/graph.json</code>.</p>
       </section>
-    </>
-  )}
+    ) : (
+      <>
+        <section class="graph-kpis">
+          <article class="graph-kpi page-plate">
+            <span class="graph-kpi-value">{graphClientData.nodeCount}</span>
+            <span class="graph-kpi-label">Objects in the field</span>
+          </article>
+          <article class="graph-kpi page-plate">
+            <span class="graph-kpi-value">{graphClientData.edgeCount}</span>
+            <span class="graph-kpi-label">Relation beams</span>
+          </article>
+          <article class="graph-kpi page-plate">
+            <span class="graph-kpi-value">{defaultVisibleNodeIds.size}</span>
+            <span class="graph-kpi-label">Active at threshold {DEFAULT_THRESHOLD}</span>
+          </article>
+          <article class="graph-kpi graph-kpi--hub page-plate">
+            <span class="graph-kpi-value graph-kpi-value--hub">{strongestNode?.displayTitle || 'Pending'}</span>
+            <span class="graph-kpi-label">Current hub signal</span>
+          </article>
+        </section>
+
+        <section class="graph-explorer" data-graph-explorer>
+          <script
+            id="graph-view-model"
+            type="application/json"
+            set:html={graphViewModelJson}
+          ></script>
+
+          <section class="graph-map-surface page-plate">
+            <section class="graph-filter-tray" data-graph-filter-tray data-open="false">
+              <div class="graph-filter-bar">
+                <div class="graph-filter-copy">
+                  <p class="graph-panel-label">Filter stack</p>
+                  <p class="graph-filter-summary" data-graph-filter-summary>
+                    All types · threshold {DEFAULT_THRESHOLD} · field view
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  class="graph-filter-toggle"
+                  data-graph-filter-toggle
+                  aria-expanded="false"
+                  aria-controls="graph-filter-stack"
+                >
+                  Open filters
+                </button>
+              </div>
+
+              <div class="graph-filter-stack" id="graph-filter-stack" data-graph-filter-stack hidden>
+                <div class="graph-filter-grid">
+                  <div class="graph-panel-section">
+                    <p class="graph-panel-label">Search</p>
+                    <label class="graph-search">
+                      <span>Search the archive</span>
+                      <input
+                        type="search"
+                        placeholder="Title, type, theme, constellation"
+                        data-graph-search
+                      />
+                    </label>
+                  </div>
+
+                  <div class="graph-panel-section">
+                    <div class="graph-panel-header">
+                      <p class="graph-panel-label">Signal threshold</p>
+                      <output class="graph-threshold-value" data-graph-threshold-value>{DEFAULT_THRESHOLD}</output>
+                    </div>
+                    <input
+                      class="graph-threshold-slider"
+                      type="range"
+                      min="1"
+                      max={String(maxEdgeWeight)}
+                      step="1"
+                      value={String(DEFAULT_THRESHOLD)}
+                      data-graph-threshold
+                    />
+                    <p class="graph-panel-note">
+                      Raise the threshold to quiet shared-theme background links and let the stronger structural ties come forward.
+                    </p>
+                  </div>
+
+                  <div class="graph-panel-section graph-panel-section--modes">
+                    <div class="graph-filter-compact-group">
+                      <p class="graph-panel-label">Layout mode</p>
+                      <div class="graph-layout-switch">
+                        <button type="button" class="graph-toggle is-active" data-graph-layout="field">Field</button>
+                        <button type="button" class="graph-toggle" data-graph-layout="chronicle">Chronicle</button>
+                      </div>
+                    </div>
+
+                    <div class="graph-filter-compact-group">
+                      <p class="graph-panel-label">Spotlight</p>
+                      <button type="button" class="graph-spotlight" data-graph-spotlight="false">
+                        Focus selected neighborhood
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="graph-panel-section graph-panel-section--types">
+                    <div class="graph-panel-header">
+                      <p class="graph-panel-label">Type field</p>
+                      <button type="button" class="graph-type-reset is-active" data-graph-type="all">All</button>
+                    </div>
+                    <div class="graph-type-grid">
+                      {typeCounts.map((entry) => (
+                        <button
+                          type="button"
+                          class="graph-type-pill"
+                          data-graph-type={entry.type}
+                          style={`--type-color:${entry.color};--type-glow:${entry.glow};`}
+                        >
+                          <span class="graph-type-swatch"></span>
+                          <span>{entry.label}</span>
+                          <strong>{entry.count}</strong>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="graph-stage-rail">
+              <div class="graph-stage-head">
+                <div>
+                  <p class="graph-panel-label">Live map</p>
+                  <h2>Relation theater</h2>
+                </div>
+                <div class="graph-stage-stats">
+                  <span><strong data-graph-visible-nodes>{defaultVisibleNodeIds.size}</strong> visible nodes</span>
+                  <span><strong data-graph-visible-edges>{defaultVisibleEdges.length}</strong> visible edges</span>
+                </div>
+              </div>
+              <p class="graph-stage-note" data-graph-stage-note>
+                Type-clustered field. Low-weight affinity is filtered by default so the more structural links stay readable.
+              </p>
+
+              <div class="graph-stage-frame page-plate" data-graph-stage>
+                <svg
+                  class="graph-canvas"
+                  data-graph-canvas
+                  viewBox="0 0 1120 760"
+                  preserveAspectRatio="xMidYMid meet"
+                  aria-label="Interactive archive relation graph"
+                ></svg>
+                <div class="graph-stage-empty" data-graph-empty hidden>
+                  No nodes match the current filter lane.
+                </div>
+              </div>
+            </section>
+          </section>
+
+          <aside class="graph-panel graph-panel--inspector page-plate" data-graph-inspector>
+            {initialSelected ? (
+              <>
+                <div class="graph-selected-head">
+                  <div class="graph-selected-heading">
+                    <p class="graph-panel-label">Selected object</p>
+                    <h2 data-graph-selected-title>{initialSelected.displayTitle}</h2>
+                  </div>
+                  <a class="graph-selected-open" href={`/objects/${initialSelected.id}`} data-graph-selected-href>
+                    Open object
+                  </a>
+                </div>
+                <div class="graph-selected-meta">
+                  <span
+                    class="graph-selected-type"
+                    data-graph-selected-type
+                    style={`--type-color:${TYPE_META[initialSelected.type]?.color || '#d48a53'};`}
+                  >
+                    {formatTypeLabel(initialSelected.type)}
+                  </span>
+                  <span data-graph-selected-date>{formatGraphDate(initialSelected.date)}</span>
+                </div>
+                <p class="graph-selected-summary" data-graph-selected-summary>
+                  Weighted degree {initialSelected.totalWeight}. Degree {initialSelected.degree}. Themes and constellations are staged below.
+                </p>
+                <p class="graph-selected-hint">
+                  Click any node in the graph or a linked object below to switch the selection.
+                </p>
+
+                <dl class="graph-selected-metrics">
+                  <div>
+                    <dt>Weighted degree</dt>
+                    <dd data-graph-selected-weight>{initialSelected.totalWeight}</dd>
+                  </div>
+                  <div>
+                    <dt>Direct links</dt>
+                    <dd data-graph-selected-degree>{initialSelected.degree}</dd>
+                  </div>
+                  <div>
+                    <dt>Themes</dt>
+                    <dd data-graph-selected-theme-count>{initialSelected.themes.length}</dd>
+                  </div>
+                  <div>
+                    <dt>Constellations</dt>
+                    <dd data-graph-selected-constellation-count>{initialSelected.constellations.length}</dd>
+                  </div>
+                </dl>
+
+                <div class="graph-selected-tag-group">
+                  <p class="graph-panel-label">Themes</p>
+                  <div class="graph-tag-cloud" data-graph-selected-themes>
+                    {initialSelected.themes.length > 0 ? (
+                      initialSelected.themes.map((theme) => <span>{theme}</span>)
+                    ) : (
+                      <span class="is-empty">None recorded</span>
+                    )}
+                  </div>
+                </div>
+
+                <div class="graph-selected-tag-group">
+                  <p class="graph-panel-label">Constellations</p>
+                  <div class="graph-tag-cloud" data-graph-selected-constellations>
+                    {initialSelected.constellations.length > 0 ? (
+                      initialSelected.constellations.map((constellation) => <span>{constellation}</span>)
+                    ) : (
+                      <span class="is-empty">None recorded</span>
+                    )}
+                  </div>
+                </div>
+
+                <div class="graph-selected-links">
+                  <div class="graph-selected-links-head">
+                    <p class="graph-panel-label">Connected objects</p>
+                  </div>
+                  <ul data-graph-selected-links>
+                    {initialSelectedLinks.map((link) => (
+                      <li>
+                        <button type="button" data-link-node-id={link.otherId}>
+                          {link.otherNode?.displayTitle || link.otherId}
+                        </button>
+                        <span>{link.weight}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </>
+            ) : (
+              <p class="graph-panel-note">No selected node yet.</p>
+            )}
+          </aside>
+        </section>
+
+        <section class="graph-secondary">
+          <article class="graph-summary-strip page-plate">
+            <div class="graph-summary-head">
+              <p class="graph-panel-label">Hub stack</p>
+              <h3>Most connected objects</h3>
+            </div>
+            <ul class="graph-summary-list graph-summary-list--simple">
+              {topNodes.map((node) => (
+                <li>
+                  <a href={`/objects/${node.id}`}>{node.displayTitle}</a>
+                  <span>{formatTypeLabel(node.type)} · {node.totalWeight}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+
+          <article class="graph-summary-strip page-plate">
+            <div class="graph-summary-head">
+              <p class="graph-panel-label">Bridge cables</p>
+              <h3>Strongest relation beams</h3>
+            </div>
+            <ul class="graph-summary-list graph-summary-list--simple">
+              {topEdges.map((edge) => (
+                <li>
+                  <div class="graph-edge-copy">
+                    <a href={`/objects/${edge.source}`}>{edge.sourceNode?.displayTitle || edge.source}</a>
+                    <span>↔</span>
+                    <a href={`/objects/${edge.target}`}>{edge.targetNode?.displayTitle || edge.target}</a>
+                  </div>
+                  <code>{edge.weight}</code>
+                </li>
+              ))}
+            </ul>
+          </article>
+
+          <article class="graph-summary-strip graph-summary-strip--reasons page-plate">
+            <div class="graph-summary-head">
+              <p class="graph-panel-label">Reason mix</p>
+              <h3>How links are made</h3>
+            </div>
+            <ul class="graph-reason-strip">
+              {reasonCounts.map(([reason, count]) => (
+                <li>
+                  <span>{formatReasonLabel(reason)}</span>
+                  <code>{count}</code>
+                </li>
+              ))}
+            </ul>
+          </article>
+        </section>
+      </>
+    )}
+  </div>
 </BaseLayout>
 
-<style>
-  .graph-meta {
-    padding: 6rem 0 3.2rem;
-    background: transparent;
-    margin-bottom: 2.4rem;
+<script is:inline>
+  (() => {
+    const root = document.querySelector('[data-graph-explorer]');
+    if (!(root instanceof HTMLElement)) return;
+
+    const modelNode = root.querySelector('#graph-view-model');
+    if (!(modelNode instanceof HTMLScriptElement)) return;
+
+    const model = JSON.parse(modelNode.textContent || '{}');
+    const graph = model.graph;
+    const typeLegend = Array.isArray(model.typeLegend) ? model.typeLegend : [];
+    const defaultThreshold = Number(model.defaultThreshold || 6);
+
+    if (!graph || !Array.isArray(graph.nodes) || !Array.isArray(graph.edges)) return;
+
+    const width = 1120;
+    const height = 760;
+    const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5));
+    const formatter = new Intl.NumberFormat('en-US');
+    const typeOrder = typeLegend.map((entry) => entry.type);
+    const typeMeta = new Map(typeLegend.map((entry) => [entry.type, entry]));
+
+    const searchInput = root.querySelector('[data-graph-search]');
+    const thresholdInput = root.querySelector('[data-graph-threshold]');
+    const thresholdValue = root.querySelector('[data-graph-threshold-value]');
+    const filterTray = root.querySelector('[data-graph-filter-tray]');
+    const filterToggle = root.querySelector('[data-graph-filter-toggle]');
+    const filterStack = root.querySelector('[data-graph-filter-stack]');
+    const filterSummary = root.querySelector('[data-graph-filter-summary]');
+    const visibleNodesValue = root.querySelector('[data-graph-visible-nodes]');
+    const visibleEdgesValue = root.querySelector('[data-graph-visible-edges]');
+    const stageNote = root.querySelector('[data-graph-stage-note]');
+    const emptyState = root.querySelector('[data-graph-empty]');
+    const stage = root.querySelector('[data-graph-stage]');
+    const svg = root.querySelector('[data-graph-canvas]');
+    const spotlightToggle = root.querySelector('[data-graph-spotlight]');
+    const layoutButtons = Array.from(root.querySelectorAll('[data-graph-layout]'));
+    const typeButtons = Array.from(root.querySelectorAll('[data-graph-type]'));
+
+    const selectedTitle = root.querySelector('[data-graph-selected-title]');
+    const selectedType = root.querySelector('[data-graph-selected-type]');
+    const selectedDate = root.querySelector('[data-graph-selected-date]');
+    const selectedSummary = root.querySelector('[data-graph-selected-summary]');
+    const selectedWeight = root.querySelector('[data-graph-selected-weight]');
+    const selectedDegree = root.querySelector('[data-graph-selected-degree]');
+    const selectedThemeCount = root.querySelector('[data-graph-selected-theme-count]');
+    const selectedConstellationCount = root.querySelector('[data-graph-selected-constellation-count]');
+    const selectedThemes = root.querySelector('[data-graph-selected-themes]');
+    const selectedConstellations = root.querySelector('[data-graph-selected-constellations]');
+    const selectedLinks = root.querySelector('[data-graph-selected-links]');
+    const selectedHref = root.querySelector('[data-graph-selected-href]');
+
+    if (!(searchInput instanceof HTMLInputElement)) return;
+    if (!(thresholdInput instanceof HTMLInputElement)) return;
+    if (!(svg instanceof SVGSVGElement)) return;
+
+    const nodes = graph.nodes.map((node) => ({
+      ...node,
+      displayTitle: node.displayTitle || node.title || node.id,
+      dateValue: parseDateValue(node.date),
+      degree: 0,
+      totalWeight: 0,
+      searchCorpus: [
+        node.displayTitle || node.title || node.id,
+        node.id,
+        node.type,
+        ...(Array.isArray(node.themes) ? node.themes : []),
+        ...(Array.isArray(node.constellations) ? node.constellations : []),
+      ]
+        .join(' ')
+        .toLowerCase(),
+    }));
+
+    const nodeById = new Map(nodes.map((node) => [node.id, node]));
+    const adjacency = new Map(nodes.map((node) => [node.id, []]));
+
+    for (const edge of graph.edges) {
+      const source = nodeById.get(edge.source);
+      const target = nodeById.get(edge.target);
+      if (!source || !target) continue;
+
+      source.degree += 1;
+      source.totalWeight += edge.weight;
+      target.degree += 1;
+      target.totalWeight += edge.weight;
+      adjacency.get(edge.source)?.push(edge);
+      adjacency.get(edge.target)?.push(edge);
+    }
+
+    const sortedByWeight = [...nodes].sort((a, b) => {
+      if (a.totalWeight === b.totalWeight) {
+        return a.displayTitle.localeCompare(b.displayTitle);
+      }
+      return b.totalWeight - a.totalWeight;
+    });
+
+    const state = {
+      search: '',
+      type: 'all',
+      threshold: defaultThreshold,
+      layout: 'field',
+      spotlight: false,
+      filtersOpen: false,
+      selectedId: sortedByWeight[0]?.id || '',
+      hoveredId: '',
+    };
+
+    function parseDateValue(value) {
+      if (typeof value !== 'string' || !value.trim()) {
+        return Number.NaN;
+      }
+
+      const parsed = new Date(value);
+      return Number.isNaN(parsed.getTime()) ? Number.NaN : parsed.getTime();
+    }
+
+    function clamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
+
+    function hashValue(value) {
+      let hash = 2166136261;
+
+      for (let index = 0; index < value.length; index += 1) {
+        hash ^= value.charCodeAt(index);
+        hash = Math.imul(hash, 16777619);
+      }
+
+      return hash >>> 0;
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function formatType(type) {
+      return typeMeta.get(type)?.label || `${type.charAt(0).toUpperCase()}${type.slice(1)}`;
+    }
+
+    function formatDate(value) {
+      if (!value) {
+        return 'Date pending';
+      }
+
+      const parsed = new Date(value);
+      if (Number.isNaN(parsed.getTime())) {
+        return value;
+      }
+
+      return parsed.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+      });
+    }
+
+    function formatReason(reason) {
+      return reason
+        .split('-')
+        .map((part) => `${part.charAt(0).toUpperCase()}${part.slice(1)}`)
+        .join(' ');
+    }
+
+    function edgeMatches(edge, matchIds) {
+      return edge.weight >= state.threshold && matchIds.has(edge.source) && matchIds.has(edge.target);
+    }
+
+    function nodeMatches(node) {
+      if (state.type !== 'all' && node.type !== state.type) {
+        return false;
+      }
+
+      const query = state.search.trim().toLowerCase();
+      if (!query) {
+        return true;
+      }
+
+      return node.searchCorpus.includes(query);
+    }
+
+    function computeFilteredGraph() {
+      const matchedNodes = nodes.filter(nodeMatches);
+      const matchIds = new Set(matchedNodes.map((node) => node.id));
+      const thresholdEdges = graph.edges.filter((edge) => edgeMatches(edge, matchIds));
+      let visibleEdges = thresholdEdges;
+      let visibleNodeIds = new Set();
+
+      for (const edge of thresholdEdges) {
+        visibleNodeIds.add(edge.source);
+        visibleNodeIds.add(edge.target);
+      }
+
+      if (state.type !== 'all' || state.search.trim()) {
+        for (const node of matchedNodes) {
+          visibleNodeIds.add(node.id);
+        }
+      }
+
+      let selectedNeighborIds = new Set();
+      if (state.spotlight && state.selectedId) {
+        selectedNeighborIds = new Set([state.selectedId]);
+
+        for (const edge of thresholdEdges) {
+          if (edge.source === state.selectedId || edge.target === state.selectedId) {
+            selectedNeighborIds.add(edge.source);
+            selectedNeighborIds.add(edge.target);
+          }
+        }
+
+        if (selectedNeighborIds.size > 0) {
+          visibleEdges = thresholdEdges.filter(
+            (edge) => selectedNeighborIds.has(edge.source) && selectedNeighborIds.has(edge.target)
+          );
+          visibleNodeIds = new Set([...selectedNeighborIds].filter((id) => matchIds.has(id) || state.type === 'all'));
+        }
+      }
+
+      if (visibleNodeIds.size === 0) {
+        matchedNodes.slice(0, 24).forEach((node) => visibleNodeIds.add(node.id));
+      }
+
+      const visibleNodes = nodes
+        .filter((node) => visibleNodeIds.has(node.id))
+        .sort((a, b) => {
+          if (a.totalWeight === b.totalWeight) {
+            return a.displayTitle.localeCompare(b.displayTitle);
+          }
+          return b.totalWeight - a.totalWeight;
+        });
+
+      return {
+        matchedNodes,
+        matchIds,
+        visibleNodes,
+        visibleEdges,
+        selectedNeighborIds,
+      };
+    }
+
+    function ensureSelection(filtered) {
+      if (filtered.visibleNodes.some((node) => node.id === state.selectedId)) {
+        return false;
+      }
+
+      const next =
+        filtered.visibleNodes[0]?.id ||
+        filtered.matchedNodes[0]?.id ||
+        sortedByWeight[0]?.id ||
+        '';
+
+      if (next && next !== state.selectedId) {
+        state.selectedId = next;
+        return true;
+      }
+
+      return false;
+    }
+
+    function computeFieldLayout(visibleNodes) {
+      const positions = new Map();
+      const center = { x: width / 2, y: height / 2 };
+      const activeTypes = typeOrder.filter((type) => visibleNodes.some((node) => node.type === type));
+      const anchors = new Map();
+      const totalTypes = activeTypes.length || 1;
+      const radiusX = width * 0.31;
+      const radiusY = height * 0.28;
+      const maxWeight = Math.max(...visibleNodes.map((node) => node.totalWeight), 1);
+
+      if (activeTypes.length === 1) {
+        anchors.set(activeTypes[0], { x: center.x, y: center.y, angle: -Math.PI / 2 });
+      } else {
+        activeTypes.forEach((type, index) => {
+          const angle = -Math.PI / 2 + (index / totalTypes) * Math.PI * 2;
+          anchors.set(type, {
+            x: center.x + Math.cos(angle) * radiusX,
+            y: center.y + Math.sin(angle) * radiusY,
+            angle,
+          });
+        });
+      }
+
+      activeTypes.forEach((type) => {
+        const anchor = anchors.get(type);
+        const cluster = visibleNodes.filter((node) => node.type === type);
+        cluster.forEach((node, index) => {
+          const ring = Math.floor(Math.sqrt(index + 1));
+          const orbit = 36 + ring * 28 + (hashValue(node.id) % 8);
+          const angle = (hashValue(type) % 360) * (Math.PI / 180) + index * GOLDEN_ANGLE;
+          const weightPull = 0.72 + (1 - node.totalWeight / maxWeight) * 0.34;
+          const x = clamp(anchor.x + Math.cos(angle) * orbit * weightPull, 70, width - 70);
+          const y = clamp(anchor.y + Math.sin(angle) * orbit * (0.9 + (hashValue(node.id) % 5) * 0.03), 70, height - 70);
+
+          positions.set(node.id, { x, y });
+        });
+      });
+
+      return {
+        positions,
+        anchors,
+      };
+    }
+
+    function computeChronicleLayout(visibleNodes) {
+      const positions = new Map();
+      const finiteDates = visibleNodes.map((node) => node.dateValue).filter(Number.isFinite);
+      const minDate = finiteDates.length > 0 ? Math.min(...finiteDates) : Date.now();
+      const maxDate = finiteDates.length > 0 ? Math.max(...finiteDates) : minDate + 1;
+      const span = Math.max(1, maxDate - minDate);
+      const laneTop = 110;
+      const laneBottom = height - 110;
+      const laneGap = typeOrder.length > 1 ? (laneBottom - laneTop) / (typeOrder.length - 1) : 0;
+      const laneCounts = new Map();
+
+      visibleNodes.forEach((node) => {
+        const laneIndex = Math.max(0, typeOrder.indexOf(node.type));
+        const ratio = Number.isFinite(node.dateValue) ? (node.dateValue - minDate) / span : 0.5;
+        const laneSeen = laneCounts.get(node.type) || 0;
+        laneCounts.set(node.type, laneSeen + 1);
+
+        const x = clamp(112 + ratio * (width - 224) + ((hashValue(node.id) % 11) - 5) * 4, 70, width - 70);
+        const y = clamp(
+          laneTop + laneIndex * laneGap + ((laneSeen % 5) - 2) * 12 + ((hashValue(node.id) % 7) - 3),
+          70,
+          height - 70
+        );
+
+        positions.set(node.id, { x, y });
+      });
+
+      return {
+        positions,
+        dateRange: { minDate, maxDate },
+      };
+    }
+
+    function edgePath(sourcePoint, targetPoint, mode, edge) {
+      const dx = targetPoint.x - sourcePoint.x;
+      const dy = targetPoint.y - sourcePoint.y;
+      const distance = Math.hypot(dx, dy) || 1;
+      const midpoint = {
+        x: (sourcePoint.x + targetPoint.x) / 2,
+        y: (sourcePoint.y + targetPoint.y) / 2,
+      };
+      const normal = {
+        x: -dy / distance,
+        y: dx / distance,
+      };
+      const direction = hashValue(`${edge.source}:${edge.target}`) % 2 === 0 ? 1 : -1;
+      const bend = mode === 'field' ? Math.min(34, distance * 0.08) : Math.min(18, distance * 0.05);
+      const control = {
+        x: midpoint.x + normal.x * bend * direction,
+        y: midpoint.y + normal.y * bend * direction,
+      };
+
+      return `M ${sourcePoint.x.toFixed(2)} ${sourcePoint.y.toFixed(2)} Q ${control.x.toFixed(2)} ${control.y.toFixed(2)} ${targetPoint.x.toFixed(2)} ${targetPoint.y.toFixed(2)}`;
+    }
+
+    function backgroundMarkup(filtered, layoutResult) {
+      if (state.layout === 'chronicle') {
+        const lines = [];
+        const dateRange = layoutResult.dateRange;
+        const laneTop = 110;
+        const laneBottom = height - 110;
+        const laneGap = typeOrder.length > 1 ? (laneBottom - laneTop) / (typeOrder.length - 1) : 0;
+
+        typeOrder.forEach((type, index) => {
+          if (!filtered.visibleNodes.some((node) => node.type === type)) {
+            return;
+          }
+
+          const y = laneTop + index * laneGap;
+          const meta = typeMeta.get(type);
+          lines.push(
+            `<line class="graph-lane" x1="92" y1="${y.toFixed(2)}" x2="${(width - 92).toFixed(2)}" y2="${y.toFixed(2)}" />`,
+            `<text class="graph-lane-label" x="44" y="${(y + 4).toFixed(2)}">${escapeHtml(meta?.label || type)}</text>`
+          );
+        });
+
+        const ticks = 5;
+        for (let index = 0; index < ticks; index += 1) {
+          const ratio = ticks === 1 ? 0 : index / (ticks - 1);
+          const x = 112 + ratio * (width - 224);
+          const dateValue = dateRange.minDate + ratio * (dateRange.maxDate - dateRange.minDate);
+          const label = new Date(dateValue).toLocaleDateString('en-US', {
+            month: 'short',
+            year: 'numeric',
+          });
+
+          lines.push(
+            `<line class="graph-time-tick" x1="${x.toFixed(2)}" y1="74" x2="${x.toFixed(2)}" y2="${(height - 74).toFixed(2)}" />`,
+            `<text class="graph-time-label" x="${x.toFixed(2)}" y="52">${escapeHtml(label)}</text>`
+          );
+        }
+
+        return lines.join('');
+      }
+
+      const clusters = [];
+      layoutResult.anchors.forEach((anchor, type) => {
+        const meta = typeMeta.get(type);
+        const count = filtered.visibleNodes.filter((node) => node.type === type).length;
+        const radius = 88 + Math.sqrt(count) * 16;
+        const labelX = anchor.x + Math.cos(anchor.angle) * (radius + 28);
+        const labelY = anchor.y + Math.sin(anchor.angle) * (radius + 28);
+
+        clusters.push(
+          `<circle class="graph-cluster-ring" cx="${anchor.x.toFixed(2)}" cy="${anchor.y.toFixed(2)}" r="${radius.toFixed(2)}" />`,
+          `<circle class="graph-cluster-core" cx="${anchor.x.toFixed(2)}" cy="${anchor.y.toFixed(2)}" r="6.5" style="fill:${meta?.color || '#d48a53'}" />`,
+          `<text class="graph-cluster-label" x="${labelX.toFixed(2)}" y="${labelY.toFixed(2)}">${escapeHtml(meta?.label || type)} · ${count}</text>`
+        );
+      });
+
+      clusters.push(
+        `<circle class="graph-center-halo" cx="${(width / 2).toFixed(2)}" cy="${(height / 2).toFixed(2)}" r="150" />`
+      );
+
+      return clusters.join('');
+    }
+
+    function renderGraph(filtered) {
+      const layoutResult = state.layout === 'chronicle'
+        ? computeChronicleLayout(filtered.visibleNodes)
+        : computeFieldLayout(filtered.visibleNodes);
+      const positions = layoutResult.positions;
+      const selectedNeighborIds = filtered.selectedNeighborIds;
+      const selectedId = state.selectedId;
+
+      const edgeMarkup = filtered.visibleEdges
+        .map((edge) => {
+          const sourcePoint = positions.get(edge.source);
+          const targetPoint = positions.get(edge.target);
+          if (!sourcePoint || !targetPoint) {
+            return '';
+          }
+
+          const selected = selectedId && (edge.source === selectedId || edge.target === selectedId);
+          const hovered = state.hoveredId && (edge.source === state.hoveredId || edge.target === state.hoveredId);
+          const weightScale = clamp((edge.weight - state.threshold + 1) / 10, 0.08, 0.9);
+          const spotlightDim =
+            state.spotlight &&
+            selectedNeighborIds.size > 0 &&
+            !(selectedNeighborIds.has(edge.source) && selectedNeighborIds.has(edge.target));
+          const strokeWidth = selected ? 2.3 : 0.75 + edge.weight * 0.08;
+          const strokeOpacity = spotlightDim
+            ? 0.06
+            : hovered
+              ? 0.48
+              : selected
+                ? 0.72
+                : 0.07 + weightScale * 0.18;
+
+          return `<path class="graph-edge ${selected ? 'is-selected' : ''} ${hovered ? 'is-hovered' : ''}" d="${edgePath(sourcePoint, targetPoint, state.layout, edge)}" style="stroke-width:${strokeWidth.toFixed(2)};opacity:${strokeOpacity.toFixed(2)}" />`;
+        })
+        .join('');
+
+      const labelCutoff = filtered.visibleNodes.length > 30 ? 14 : 10;
+      const labelIds = new Set(
+        filtered.visibleNodes
+          .slice(0, labelCutoff)
+          .filter((node) => node.totalWeight >= filtered.visibleNodes[Math.min(labelCutoff - 1, filtered.visibleNodes.length - 1)]?.totalWeight)
+          .map((node) => node.id)
+      );
+      if (selectedId) {
+        labelIds.add(selectedId);
+      }
+      if (state.hoveredId) {
+        labelIds.add(state.hoveredId);
+      }
+
+      const nodeMarkup = filtered.visibleNodes
+        .map((node) => {
+          const point = positions.get(node.id);
+          if (!point) {
+            return '';
+          }
+
+          const meta = typeMeta.get(node.type);
+          const selected = node.id === selectedId;
+          const hovered = node.id === state.hoveredId;
+          const neighbor = selectedNeighborIds.has(node.id);
+          const dimmed = state.spotlight && selectedNeighborIds.size > 0 && !neighbor;
+          const size = clamp(4.4 + node.totalWeight / 46, 4.4, 12.25);
+          const opacity = dimmed ? 0.28 : hovered ? 1 : selected ? 1 : 0.82;
+          const label = labelIds.has(node.id)
+            ? `<text class="graph-node-label ${selected ? 'is-selected' : ''}" x="${(point.x + size + 7).toFixed(2)}" y="${(point.y + 4).toFixed(2)}">${escapeHtml(node.displayTitle)}</text>`
+            : '';
+
+          return `
+            <g
+              class="graph-node ${selected ? 'is-selected' : ''} ${hovered ? 'is-hovered' : ''}"
+              data-node-id="${escapeHtml(node.id)}"
+              tabindex="0"
+              role="button"
+              aria-label="Inspect ${escapeHtml(node.displayTitle)}"
+              style="opacity:${opacity.toFixed(2)}"
+            >
+              <circle
+                class="graph-node-halo"
+                cx="${point.x.toFixed(2)}"
+                cy="${point.y.toFixed(2)}"
+                r="${(size + 8).toFixed(2)}"
+                style="fill:${meta?.glow || 'rgba(212, 138, 83, 0.22)'}"
+              />
+              <circle
+                class="graph-node-dot"
+                cx="${point.x.toFixed(2)}"
+                cy="${point.y.toFixed(2)}"
+                r="${size.toFixed(2)}"
+                style="fill:${meta?.color || '#d48a53'}"
+              />
+              ${label}
+            </g>
+          `;
+        })
+        .join('');
+
+      svg.innerHTML = `
+        <g class="graph-background-layer">${backgroundMarkup(filtered, layoutResult)}</g>
+        <g class="graph-edge-layer">${edgeMarkup}</g>
+        <g class="graph-node-layer">${nodeMarkup}</g>
+      `;
+    }
+
+    function linkItemsForNode(node, filtered) {
+      const relevantEdges = (adjacency.get(node.id) || []).filter((edge) => {
+        const otherId = edge.source === node.id ? edge.target : edge.source;
+        const otherNodeVisible = filtered.visibleNodes.some((item) => item.id === otherId);
+        return edge.weight >= state.threshold && (otherNodeVisible || !state.search.trim());
+      });
+
+      const source = relevantEdges.length > 0 ? relevantEdges : adjacency.get(node.id) || [];
+
+      return source
+        .map((edge) => {
+          const otherId = edge.source === node.id ? edge.target : edge.source;
+          const otherNode = nodeById.get(otherId);
+          return {
+            edge,
+            otherId,
+            otherNode,
+          };
+        })
+        .sort((a, b) => {
+          if (a.edge.weight === b.edge.weight) {
+            return (a.otherNode?.displayTitle || a.otherId).localeCompare(
+              b.otherNode?.displayTitle || b.otherId
+            );
+          }
+          return b.edge.weight - a.edge.weight;
+        })
+        .slice(0, 6);
+    }
+
+    function renderInspector(filtered) {
+      const selectedNode = nodeById.get(state.selectedId) || filtered.visibleNodes[0];
+      if (!selectedNode) {
+        return;
+      }
+
+      if (selectedTitle) {
+        selectedTitle.textContent = selectedNode.displayTitle;
+      }
+
+      if (selectedType instanceof HTMLElement) {
+        selectedType.textContent = formatType(selectedNode.type);
+        selectedType.style.setProperty('--type-color', typeMeta.get(selectedNode.type)?.color || '#d48a53');
+      }
+
+      if (selectedDate) {
+        selectedDate.textContent = formatDate(selectedNode.date);
+      }
+
+      if (selectedSummary) {
+        const visibleNeighborCount = filtered.visibleEdges.filter(
+          (edge) => edge.source === selectedNode.id || edge.target === selectedNode.id
+        ).length;
+        selectedSummary.textContent = `Weighted degree ${formatter.format(selectedNode.totalWeight)}. Direct links ${formatter.format(selectedNode.degree)}. ${formatter.format(visibleNeighborCount)} links currently visible at this threshold.`;
+      }
+
+      if (selectedWeight) {
+        selectedWeight.textContent = formatter.format(selectedNode.totalWeight);
+      }
+      if (selectedDegree) {
+        selectedDegree.textContent = formatter.format(selectedNode.degree);
+      }
+      if (selectedThemeCount) {
+        selectedThemeCount.textContent = formatter.format(selectedNode.themes.length);
+      }
+      if (selectedConstellationCount) {
+        selectedConstellationCount.textContent = formatter.format(selectedNode.constellations.length);
+      }
+
+      if (selectedThemes) {
+        selectedThemes.innerHTML = selectedNode.themes.length > 0
+          ? selectedNode.themes.map((theme) => `<span>${escapeHtml(theme)}</span>`).join('')
+          : '<span class="is-empty">None recorded</span>';
+      }
+
+      if (selectedConstellations) {
+        selectedConstellations.innerHTML = selectedNode.constellations.length > 0
+          ? selectedNode.constellations.map((constellation) => `<span>${escapeHtml(constellation)}</span>`).join('')
+          : '<span class="is-empty">None recorded</span>';
+      }
+
+      if (selectedLinks) {
+        selectedLinks.innerHTML = linkItemsForNode(selectedNode, filtered)
+          .map(({ edge, otherId, otherNode }) => `
+            <li>
+              <button type="button" data-link-node-id="${escapeHtml(otherId)}">
+                ${escapeHtml(otherNode?.displayTitle || otherId)}
+                <small>${edge.reasons.slice(0, 2).map((reason) => formatReason(reason)).join(' · ')}</small>
+              </button>
+              <span>${formatter.format(edge.weight)}</span>
+            </li>
+          `)
+          .join('');
+      }
+
+      if (selectedHref instanceof HTMLAnchorElement) {
+        selectedHref.href = `/objects/${selectedNode.id}`;
+      }
+    }
+
+    function renderStatus(filtered) {
+      if (visibleNodesValue) {
+        visibleNodesValue.textContent = formatter.format(filtered.visibleNodes.length);
+      }
+      if (visibleEdgesValue) {
+        visibleEdgesValue.textContent = formatter.format(filtered.visibleEdges.length);
+      }
+      if (thresholdValue) {
+        thresholdValue.textContent = String(state.threshold);
+      }
+      if (stageNote) {
+        const searchText = state.search.trim()
+          ? ` Search is narrowing the field to "${state.search.trim()}".`
+          : '';
+        const spotlightText = state.spotlight
+          ? ' Spotlight mode keeps only the selected object and its immediate neighborhood in play.'
+          : '';
+        stageNote.textContent = state.layout === 'chronicle'
+          ? `Date-lane chronicle. Objects stay in their type lanes while the x-axis drifts across archive time.${searchText}${spotlightText}`
+          : `Type-clustered field. Shared affinity gathers by object kind so cross-type beams can read as bridges instead of noise.${searchText}${spotlightText}`;
+      }
+      if (emptyState instanceof HTMLElement) {
+        emptyState.hidden = filtered.visibleNodes.length > 0;
+      }
+      if (stage instanceof HTMLElement) {
+        stage.dataset.layout = state.layout;
+      }
+    }
+
+    function renderFilterSummary() {
+      if (!filterSummary) {
+        return;
+      }
+
+      const parts = [
+        state.type === 'all' ? 'All types' : formatType(state.type),
+        `Threshold ${state.threshold}`,
+        state.layout === 'chronicle' ? 'Chronicle view' : 'Field view',
+      ];
+
+      if (state.spotlight) {
+        parts.push('Neighborhood focus');
+      }
+
+      if (state.search.trim()) {
+        parts.push(`Search: "${state.search.trim()}"`);
+      }
+
+      filterSummary.textContent = parts.join(' · ');
+    }
+
+    function syncControls() {
+      layoutButtons.forEach((button) => {
+        if (!(button instanceof HTMLButtonElement)) return;
+        const active = button.dataset.graphLayout === state.layout;
+        button.classList.toggle('is-active', active);
+      });
+
+      typeButtons.forEach((button) => {
+        if (!(button instanceof HTMLButtonElement)) return;
+        const active = button.dataset.graphType === state.type;
+        button.classList.toggle('is-active', active);
+      });
+
+      if (spotlightToggle instanceof HTMLButtonElement) {
+        spotlightToggle.dataset.graphSpotlight = String(state.spotlight);
+        spotlightToggle.classList.toggle('is-active', state.spotlight);
+        spotlightToggle.textContent = state.spotlight
+          ? 'Show full field again'
+          : 'Focus selected neighborhood';
+      }
+
+      if (filterStack instanceof HTMLElement) {
+        filterStack.hidden = !state.filtersOpen;
+      }
+
+      if (filterTray instanceof HTMLElement) {
+        filterTray.dataset.open = String(state.filtersOpen);
+      }
+
+      if (filterToggle instanceof HTMLButtonElement) {
+        filterToggle.textContent = state.filtersOpen ? 'Close filters' : 'Open filters';
+        filterToggle.setAttribute('aria-expanded', String(state.filtersOpen));
+      }
+
+      renderFilterSummary();
+    }
+
+    function render() {
+      let filtered = computeFilteredGraph();
+      if (ensureSelection(filtered)) {
+        filtered = computeFilteredGraph();
+      }
+
+      renderGraph(filtered);
+      renderInspector(filtered);
+      renderStatus(filtered);
+      syncControls();
+    }
+
+    searchInput.addEventListener('input', () => {
+      state.search = searchInput.value;
+      render();
+    });
+
+    thresholdInput.addEventListener('input', () => {
+      state.threshold = Number(thresholdInput.value || defaultThreshold);
+      render();
+    });
+
+    root.addEventListener('click', (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+
+      const typeButton = target.closest('[data-graph-type]');
+      if (typeButton instanceof HTMLButtonElement) {
+        state.type = typeButton.dataset.graphType || 'all';
+        render();
+        return;
+      }
+
+      const layoutButton = target.closest('[data-graph-layout]');
+      if (layoutButton instanceof HTMLButtonElement) {
+        state.layout = layoutButton.dataset.graphLayout || 'field';
+        render();
+        return;
+      }
+
+      const spotlightButton = target.closest('[data-graph-spotlight]');
+      if (spotlightButton instanceof HTMLButtonElement) {
+        state.spotlight = !state.spotlight;
+        render();
+        return;
+      }
+
+      const filterButton = target.closest('[data-graph-filter-toggle]');
+      if (filterButton instanceof HTMLButtonElement) {
+        state.filtersOpen = !state.filtersOpen;
+        syncControls();
+        return;
+      }
+
+      const nodeButton = target.closest('[data-node-id], [data-link-node-id]');
+      if (nodeButton instanceof Element) {
+        const nextId = nodeButton.getAttribute('data-node-id') || nodeButton.getAttribute('data-link-node-id');
+        if (nextId) {
+          state.selectedId = nextId;
+          render();
+        }
+      }
+    });
+
+    root.addEventListener('keydown', (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+
+      if (event.key !== 'Enter' && event.key !== ' ') {
+        return;
+      }
+
+      const nodeButton = target.closest('[data-node-id], [data-link-node-id]');
+      if (!(nodeButton instanceof Element)) return;
+
+      const nextId = nodeButton.getAttribute('data-node-id') || nodeButton.getAttribute('data-link-node-id');
+      if (!nextId) return;
+
+      event.preventDefault();
+      state.selectedId = nextId;
+      render();
+    });
+
+    svg.addEventListener('pointerover', (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const node = target.closest('[data-node-id]');
+      const nextId = node?.getAttribute('data-node-id') || '';
+      if (nextId !== state.hoveredId) {
+        state.hoveredId = nextId;
+        render();
+      }
+    });
+
+    svg.addEventListener('pointerleave', () => {
+      if (state.hoveredId) {
+        state.hoveredId = '';
+        render();
+      }
+    });
+
+    render();
+  })();
+</script>
+
+<style is:global>
+  .graph-page {
+    --graph-inline-space: clamp(1.25rem, 3vw, 3.1rem);
+    --graph-block-space: clamp(1.25rem, 2.7vw, 2.9rem);
+    --graph-column-gap: clamp(1.1rem, 2.35vw, 2.35rem);
+    display: grid;
+    gap: 2.25rem;
+    padding-bottom: 4rem;
   }
 
-  .label {
+  .graph-hero {
+    position: relative;
+  }
+
+  .graph-hero .page-hero-title {
+    max-width: 11ch;
+  }
+
+  .graph-panel-label {
     margin: 0 0 0.45rem;
     color: var(--accent);
     font-family: var(--font-ui);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: var(--ls-ui-wide);
     text-transform: uppercase;
-    letter-spacing: var(--ls-label);
-    font-size: 12px;
-    font-weight: 400;
   }
 
-  .graph-meta h1 {
-    margin: 0;
-    max-width: 20ch;
-    line-height: 1.3;
+  .graph-intro {
+    color: rgba(232, 226, 212, 0.84);
   }
 
-  .intro {
-    margin: 1rem 0 0;
-    color: var(--text-body);
-    font-size: 1.08rem;
-    line-height: 1.78;
-    max-width: 58ch;
-  }
-
-  .meta-row {
+  .graph-meta-row {
     margin-top: 1rem;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.6rem 0.9rem;
+    gap: 0.7rem 0.9rem;
     align-items: center;
   }
 
-  .source-link {
-    text-decoration: none;
+  .graph-source-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.75rem;
     border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 2px;
-    padding: 4px 8px;
+    border-radius: 0;
     color: var(--bone);
+    text-decoration: none;
     font-family: var(--font-ui);
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: var(--ls-ui-wide);
   }
 
-  .source-link:hover {
-    border-color: rgba(196, 98, 58, 0.55);
+  .graph-source-link:hover {
+    border-color: rgba(212, 138, 83, 0.5);
     color: var(--star);
   }
 
-  .generated {
-    color: var(--mid);
+  .graph-generated {
+    color: rgba(232, 226, 212, 0.62);
     font-family: var(--font-ui);
     font-size: 10px;
-    letter-spacing: var(--ls-ui);
+    letter-spacing: var(--ls-ui-wide);
     text-transform: uppercase;
   }
 
-  .stats {
+  .graph-kpis {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 2.8rem;
-    margin-bottom: 5.2rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.35rem;
   }
 
-  .stats article {
-    padding: 0;
-    background: transparent;
+  .graph-kpi,
+  .graph-panel,
+  .graph-map-surface,
+  .graph-error,
+  .graph-summary-strip {
+    --plate-border: rgba(255, 255, 255, 0.12);
+    --plate-shadow: 0 24px 60px rgba(0, 0, 0, 0.24);
+    --plate-surface: linear-gradient(180deg, rgba(34, 23, 17, 0.93), rgba(16, 12, 10, 0.97));
+    --plate-tint: rgba(212, 138, 83, 0.08);
+    --plate-tint-secondary: rgba(120, 160, 168, 0.06);
   }
 
-  .stats strong {
-    display: block;
-    font-family: var(--font-display);
-    font-size: clamp(2.35rem, 4.1vw, 3.45rem);
+  .graph-kpi {
+    padding: 1.3rem 1.35rem 1.24rem;
+    min-height: 108px;
+    display: grid;
+    align-content: end;
+    gap: 0.35rem;
+  }
+
+  .graph-kpi-value {
     color: var(--star);
-    line-height: 1;
-    letter-spacing: var(--ls-display);
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 2.3vw, 1.95rem);
+    line-height: 1.04;
+    text-wrap: balance;
   }
 
-  .stats span {
+  .graph-kpi-label {
     color: rgba(232, 226, 212, 0.7);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+  }
+
+  .graph-explorer {
+    display: grid;
+    grid-template-columns: minmax(0, 1.16fr) minmax(320px, 0.9fr);
+    gap: var(--graph-column-gap);
+    align-items: start;
+  }
+
+  .graph-panel {
+    padding: var(--graph-block-space) var(--graph-inline-space);
+  }
+
+  .graph-map-surface {
+    min-width: 0;
+    display: grid;
+    gap: 1.15rem;
+    overflow: visible;
+    padding: var(--graph-block-space) var(--graph-inline-space);
+  }
+
+  .graph-summary-strip {
+    --plate-shadow: 0 18px 42px rgba(0, 0, 0, 0.18);
+    padding: calc(var(--graph-block-space) - 0.2rem) var(--graph-inline-space) var(--graph-block-space);
+  }
+
+  .graph-filter-tray {
+    display: grid;
+    gap: 0.85rem;
+    padding-bottom: 1.15rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .graph-filter-bar {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .graph-filter-copy {
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .graph-filter-summary {
+    margin: 0;
+    color: rgba(232, 226, 212, 0.7);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui-wide);
+    line-height: 1.5;
+    text-transform: uppercase;
+  }
+
+  .graph-filter-toggle {
+    appearance: none;
+    -webkit-appearance: none;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0;
+    background: rgba(12, 9, 7, 0.56);
+    color: rgba(232, 226, 212, 0.82);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 0.6rem 0.8rem;
+    transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+  }
+
+  .graph-filter-toggle:hover,
+  .graph-filter-tray[data-open='true'] .graph-filter-toggle {
+    border-color: rgba(212, 138, 83, 0.46);
+    color: var(--star);
+    background: rgba(212, 138, 83, 0.08);
+  }
+
+  .graph-filter-stack {
+    padding-top: 0.15rem;
+  }
+
+  .graph-filter-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: 0.9rem 1rem;
+    align-items: start;
+  }
+
+  .graph-panel--inspector {
+    display: grid;
+    gap: 1rem;
+    position: sticky;
+    top: 5.5rem;
+  }
+
+  .graph-selected-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .graph-selected-heading {
+    min-width: 0;
+    display: grid;
+    gap: 0.1rem;
+  }
+
+  .graph-selected-open {
+    flex: 0 0 auto;
+    color: var(--star);
+    text-decoration: none;
+    font-family: var(--font-ui);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+  }
+
+  .graph-selected-open:hover {
+    color: var(--gold);
+  }
+
+  .graph-panel-section {
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  .graph-panel-section--modes {
+    gap: 0.85rem;
+  }
+
+  .graph-panel-section--types {
+    grid-column: 1 / -1;
+  }
+
+  .graph-filter-compact-group {
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .graph-panel-header,
+  .graph-selected-links-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.8rem;
+    align-items: center;
+  }
+
+  .graph-search {
+    display: grid;
+    gap: 0.45rem;
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+    color: rgba(232, 226, 212, 0.72);
+  }
+
+  .graph-search input,
+  .graph-threshold-slider,
+  .graph-toggle,
+  .graph-spotlight,
+  .graph-type-pill,
+  .graph-type-reset {
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  .graph-search input {
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0;
+    padding: 0.78rem 0.9rem;
+    background: rgba(12, 9, 7, 0.62);
+    color: var(--bone);
+    font-family: var(--font-ui);
+    font-size: 12.5px;
+    letter-spacing: 0.02em;
+  }
+
+  .graph-search input::placeholder {
+    color: rgba(232, 226, 212, 0.38);
+  }
+
+  .graph-threshold-value {
+    color: var(--star);
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: var(--ls-ui-wide);
+  }
+
+  .graph-threshold-slider {
+    width: 100%;
+    height: 6px;
+    border-radius: 0;
+    background: linear-gradient(90deg, rgba(212, 138, 83, 0.72), rgba(120, 160, 168, 0.42));
+    outline: none;
+  }
+
+  .graph-threshold-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.82);
+    background: var(--star);
+    box-shadow: 0 0 0 4px rgba(232, 226, 212, 0.08);
+    cursor: pointer;
+  }
+
+  .graph-threshold-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.82);
+    background: var(--star);
+    box-shadow: 0 0 0 4px rgba(232, 226, 212, 0.08);
+    cursor: pointer;
+  }
+
+  .graph-panel-note {
+    margin: 0;
+    color: rgba(232, 226, 212, 0.62);
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+
+  .graph-layout-switch {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+  }
+
+  .graph-toggle,
+  .graph-spotlight,
+  .graph-type-pill,
+  .graph-type-reset {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0;
+    background: rgba(12, 9, 7, 0.56);
+    color: rgba(232, 226, 212, 0.8);
     font-family: var(--font-ui);
     font-size: 11px;
     font-weight: 700;
-    text-transform: uppercase;
     letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: border-color 160ms ease, background 160ms ease, color 160ms ease, transform 160ms ease;
   }
 
-  .grid {
+  .graph-toggle,
+  .graph-spotlight {
+    padding: 0.85rem 0.9rem;
+  }
+
+  .graph-toggle:hover,
+  .graph-spotlight:hover,
+  .graph-type-pill:hover,
+  .graph-type-reset:hover,
+  .graph-toggle.is-active,
+  .graph-spotlight.is-active,
+  .graph-type-pill.is-active,
+  .graph-type-reset.is-active {
+    border-color: rgba(212, 138, 83, 0.46);
+    color: var(--star);
+    transform: translateY(-1px);
+  }
+
+  .graph-toggle.is-active,
+  .graph-spotlight.is-active {
+    background: linear-gradient(180deg, rgba(212, 138, 83, 0.24), rgba(212, 138, 83, 0.11));
+  }
+
+  .graph-panel-header .graph-type-reset {
+    padding: 0.45rem 0.7rem;
+  }
+
+  .graph-type-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .graph-type-pill {
+    display: inline-grid;
+    grid-template-columns: auto auto auto;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.58rem 0.75rem;
+    text-align: left;
+  }
+
+  .graph-type-pill strong {
+    color: var(--bone);
+    font-size: 12px;
+  }
+
+  .graph-type-pill.is-active {
+    background: linear-gradient(180deg, var(--type-glow), rgba(255, 255, 255, 0.03));
+  }
+
+  .graph-type-swatch {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--type-color);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--type-color) 24%, transparent);
+  }
+
+  .graph-stage-rail {
+    min-width: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-    gap: 4rem;
+    gap: 0.9rem;
+    padding: 0;
   }
 
-  .grid article {
-    padding: 0;
+  .graph-stage-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: end;
+  }
+
+  .graph-stage-head h2,
+  .graph-panel--inspector h2,
+  .graph-summary-head h3 {
+    margin: 0;
+  }
+
+  .graph-stage-head h2 {
+    font-size: clamp(1.55rem, 2.4vw, 2.15rem);
+  }
+
+  .graph-stage-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+    justify-content: flex-end;
+  }
+
+  .graph-stage-stats span {
+    color: rgba(232, 226, 212, 0.72);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+  }
+
+  .graph-stage-stats strong {
+    color: var(--star);
+    margin-right: 0.35rem;
+  }
+
+  .graph-stage-frame {
+    --plate-border: rgba(255, 255, 255, 0.12);
+    --plate-shadow: 0 18px 44px rgba(0, 0, 0, 0.18);
+    --plate-surface: linear-gradient(180deg, rgba(24, 17, 13, 0.97), rgba(10, 8, 7, 0.99));
+    --plate-tint: rgba(212, 138, 83, 0.1);
+    --plate-tint-secondary: rgba(120, 160, 168, 0.08);
+    padding: 1rem;
+  }
+
+  .graph-stage-frame[data-layout='chronicle'] {
+    --plate-surface: linear-gradient(180deg, rgba(16, 17, 20, 0.96), rgba(9, 10, 13, 0.99));
+    --plate-tint: rgba(120, 160, 168, 0.1);
+    --plate-tint-secondary: rgba(212, 138, 83, 0.08);
+  }
+
+  .graph-canvas {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1120 / 760;
+  }
+
+  .graph-stage-note {
+    margin: 0;
+    max-width: 64ch;
+    color: rgba(232, 226, 212, 0.62);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui-wide);
+    line-height: 1.55;
+    text-transform: uppercase;
+  }
+
+  .graph-stage-empty {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+    padding: 1rem 1.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0;
+    background: rgba(9, 8, 7, 0.86);
+    color: var(--bone);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+  }
+
+  .graph-selected-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem 0.8rem;
+    margin-top: 0.1rem;
+    align-items: center;
+  }
+
+  .graph-selected-type {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.7rem;
+    border-radius: 0;
+    border: 1px solid color-mix(in srgb, var(--type-color) 48%, rgba(255, 255, 255, 0.14));
+    background: color-mix(in srgb, var(--type-color) 16%, rgba(9, 8, 7, 0.56));
+    color: var(--bone);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+  }
+
+  .graph-selected-meta span:last-child {
+    color: rgba(232, 226, 212, 0.68);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+  }
+
+  .graph-selected-summary {
+    margin: 0.55rem 0 0;
+    color: rgba(232, 226, 212, 0.74);
+    font-size: 0.92rem;
+    line-height: 1.58;
+  }
+
+  .graph-selected-hint {
+    margin: -0.1rem 0 0;
+    color: rgba(232, 226, 212, 0.56);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui-wide);
+    line-height: 1.55;
+    text-transform: uppercase;
+  }
+
+  .graph-selected-metrics {
+    margin: 0.85rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(136px, 1fr));
+    gap: 0.65rem 1.2rem;
+    padding-top: 0.35rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .graph-selected-metrics div {
+    padding: 0.55rem 0 0.7rem;
+    border: 0;
+    border-radius: 0;
     background: transparent;
   }
 
-  .grid h2 {
-    margin: 0 0 2rem;
-    color: var(--accent);
+  .graph-selected-metrics dt {
+    margin: 0;
+    color: rgba(232, 226, 212, 0.58);
     font-family: var(--font-ui);
     font-size: 10px;
-    letter-spacing: var(--ls-label);
+    font-weight: 700;
+    letter-spacing: var(--ls-ui-wide);
     text-transform: uppercase;
   }
 
-  .grid ul {
+  .graph-selected-metrics dd {
+    margin: 0.35rem 0 0;
+    color: var(--star);
+    font-family: var(--font-display);
+    font-size: 1.02rem;
+    line-height: 1;
+  }
+
+  .graph-selected-tag-group {
+    display: grid;
+    gap: 0.55rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .graph-tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.9rem;
+  }
+
+  .graph-tag-cloud span {
+    padding: 0;
+    border-radius: 0;
+    border: 0;
+    background: transparent;
+    color: rgba(232, 226, 212, 0.8);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+  }
+
+  .graph-tag-cloud .is-empty {
+    color: rgba(232, 226, 212, 0.52);
+  }
+
+  .graph-selected-links {
+    display: grid;
+    gap: 0.7rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .graph-selected-links ul,
+  .graph-summary-list {
     list-style: none;
     padding: 0;
     margin: 0;
     display: grid;
-    gap: 1.9rem;
+    gap: 0.55rem;
   }
 
-  .grid li {
+  .graph-selected-links li,
+  .graph-summary-list li {
     display: flex;
-    gap: 0.45rem;
-    align-items: baseline;
-    flex-wrap: wrap;
-    font-size: 1.2rem;
-    line-height: 1.42;
+    justify-content: space-between;
+    gap: 0.8rem;
+    align-items: start;
+    padding: 0.78rem 0;
+    border-radius: 0;
+    border: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: transparent;
   }
 
-  .grid a {
+  .graph-selected-links li button,
+  .graph-summary-list a {
     color: var(--star);
     text-decoration: none;
-    font-style: italic;
-    font-weight: 700;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
   }
 
-  .grid a:hover {
-    color: var(--gold);
+  .graph-selected-links li button {
+    display: grid;
+    gap: 0.2rem;
+    color: var(--star);
+    font-size: 0.94rem;
   }
 
-  .grid span {
-    color: rgba(232, 226, 212, 0.68);
+  .graph-selected-links li:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .graph-selected-links li button small {
+    color: rgba(232, 226, 212, 0.52);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+  }
+
+  .graph-selected-links li span,
+  .graph-summary-list span,
+  .graph-summary-list code {
+    color: rgba(232, 226, 212, 0.74);
     font-family: var(--font-ui);
     font-size: 11px;
     font-weight: 700;
@@ -267,52 +2058,368 @@ const topNodes = [...graph.nodes]
     text-transform: uppercase;
   }
 
-  .grid code {
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 2px;
-    padding: 1px 6px;
-    color: var(--bone);
+  .graph-secondary {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem var(--graph-column-gap);
+    padding-top: 0.65rem;
+  }
+
+  .graph-summary-strip {
+    display: grid;
+    gap: 0.85rem;
+    min-width: 0;
+  }
+
+  .graph-summary-strip--reasons {
+    grid-column: 1 / -1;
+  }
+
+  .graph-summary-head {
+    display: grid;
+    gap: 0.15rem;
+  }
+
+  .graph-summary-strip .graph-summary-head {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .graph-summary-list li a {
+    font-style: italic;
+    font-weight: 700;
+  }
+
+  .graph-summary-list li a:hover,
+  .graph-selected-links li button:hover,
+  .graph-source-link:hover {
+    color: var(--gold);
+  }
+
+  .graph-summary-list li span {
+    max-width: 16ch;
+    text-align: right;
+  }
+
+  .graph-summary-list--compact li span {
+    color: rgba(232, 226, 212, 0.82);
+    text-align: left;
+    max-width: none;
+  }
+
+  .graph-summary-list--simple {
+    gap: 0;
+  }
+
+  .graph-summary-list--simple li {
+    padding: 0.85rem 0;
+    border-radius: 0;
+    border: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: transparent;
+  }
+
+  .graph-summary-list--simple li:first-child {
+    padding-top: 0.25rem;
+  }
+
+  .graph-summary-list--simple li:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .graph-summary-list--simple li a {
+    font-style: normal;
+  }
+
+  .graph-summary-list--simple li span {
+    max-width: 18ch;
+  }
+
+  .graph-summary-list code {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0;
+    padding: 0.2rem 0.55rem;
+  }
+
+  .graph-reason-strip {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.75rem 1rem;
+  }
+
+  .graph-reason-strip li {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.8rem;
+    align-items: baseline;
+    padding: 0.7rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .graph-reason-strip span,
+  .graph-reason-strip code {
+    color: rgba(232, 226, 212, 0.82);
     font-family: var(--font-ui);
     font-size: 11px;
+    font-weight: 700;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
   }
 
-  .error {
-    border: 1px solid rgba(224, 96, 48, 0.5);
-    border-radius: 2px;
-    padding: 1.8rem;
-    background: rgba(58, 22, 12, 0.5);
+  .graph-reason-strip code {
+    color: var(--star);
+    border: 0;
+    padding: 0;
   }
 
-  .error h2 {
-    margin: 0 0 0.4rem;
+  .graph-edge-copy {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    align-items: baseline;
+  }
+
+  .graph-error {
+    padding: 1.5rem;
+  }
+
+  .graph-error h2 {
+    margin: 0 0 0.45rem;
     color: var(--ember);
-    font-size: 16px;
-    font-style: italic;
-    font-weight: 500;
+    font-size: 1.05rem;
   }
 
-  .error p {
+  .graph-error p {
     margin: 0 0 0.45rem;
     color: var(--bone);
-    font-size: 0.92rem;
     line-height: 1.7;
   }
 
-  @media (max-width: 760px) {
-    .grid {
+  .graph-background-layer,
+  .graph-edge-layer,
+  .graph-node-layer {
+    pointer-events: none;
+  }
+
+  .graph-node-layer .graph-node {
+    pointer-events: auto;
+    cursor: pointer;
+  }
+
+  .graph-cluster-ring,
+  .graph-lane,
+  .graph-time-tick,
+  .graph-center-halo {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.08);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .graph-cluster-core {
+    stroke: rgba(17, 12, 10, 0.75);
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .graph-center-halo {
+    stroke: rgba(212, 138, 83, 0.08);
+  }
+
+  .graph-cluster-label,
+  .graph-node-label,
+  .graph-lane-label,
+  .graph-time-label {
+    fill: rgba(232, 226, 212, 0.82);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    paint-order: stroke;
+    stroke: rgba(12, 9, 7, 0.86);
+    stroke-width: 3px;
+    stroke-linejoin: round;
+  }
+
+  .graph-time-label {
+    text-anchor: middle;
+  }
+
+  .graph-edge {
+    fill: none;
+    stroke: rgba(232, 226, 212, 0.12);
+    vector-effect: non-scaling-stroke;
+  }
+
+  .graph-edge.is-selected {
+    stroke: rgba(212, 138, 83, 0.7);
+  }
+
+  .graph-edge.is-hovered {
+    stroke: rgba(120, 160, 168, 0.66);
+  }
+
+  .graph-node-halo {
+    opacity: 0;
+    transition: opacity 160ms ease;
+  }
+
+  .graph-node-dot {
+    stroke: rgba(12, 9, 7, 0.9);
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+    transition: transform 160ms ease;
+  }
+
+  .graph-node.is-selected .graph-node-halo,
+  .graph-node.is-hovered .graph-node-halo {
+    opacity: 1;
+  }
+
+  .graph-node.is-selected .graph-node-label {
+    fill: var(--star);
+  }
+
+  .graph-node:focus-visible .graph-node-dot,
+  .graph-node.is-selected .graph-node-dot {
+    stroke: rgba(255, 255, 255, 0.9);
+  }
+
+  @media (max-width: 1100px) {
+    .graph-explorer {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .graph-panel--inspector {
+      position: relative;
+      top: auto;
+    }
+
+    .graph-filter-grid {
       grid-template-columns: 1fr;
-      gap: 2.6rem;
     }
   }
 
-  @media (max-width: 700px) {
-    .stats {
+  @media (max-width: 1040px) {
+    .graph-kpis {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .graph-kpi {
+      min-height: 96px;
+      padding: 1.05rem 1.05rem 1rem;
+    }
+
+    .graph-kpi-value--hub {
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      line-height: 1.08;
+    }
+
+    .graph-secondary {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .graph-page {
+      gap: 1.45rem;
+    }
+
+    .graph-kpis,
+    .graph-selected-metrics {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.85rem;
+    }
+
+    .graph-secondary {
       grid-template-columns: 1fr;
     }
 
-    .graph-meta {
-      padding-top: 3.8rem;
-      padding-bottom: 2.2rem;
+    .graph-kpi {
+      min-height: 88px;
+      padding: 0.95rem 0.95rem 0.9rem;
+      gap: 0.24rem;
+    }
+
+    .graph-kpi-value {
+      font-size: clamp(1.02rem, 5.4vw, 1.5rem);
+    }
+
+    .graph-kpi-value--hub {
+      font-size: clamp(0.95rem, 4.4vw, 1.22rem);
+    }
+
+    .graph-stage-head,
+    .graph-selected-links-head,
+    .graph-filter-bar,
+    .graph-selected-head {
+      align-items: start;
+      flex-direction: column;
+    }
+
+    .graph-panel,
+    .graph-map-surface {
+      padding: 0.88rem;
+      border-radius: 0;
+    }
+
+    .graph-filter-tray,
+    .graph-stage-rail {
+      padding: 0;
+      border: 0;
+    }
+
+    .graph-filter-stack {
+      padding-top: 0.55rem;
+    }
+
+    .graph-stage-head h2 {
+      font-size: clamp(1.34rem, 6.8vw, 1.72rem);
+    }
+
+    .graph-stage-stats {
+      gap: 0.35rem 0.75rem;
+    }
+
+    .graph-stage-stats span {
+      font-size: 10px;
+    }
+
+    .graph-stage-frame {
+      padding: 0.72rem;
+    }
+
+    .graph-selected-metrics {
+      margin-top: 0.7rem;
+      gap: 0.55rem 0.7rem;
+    }
+
+    .graph-selected-metrics div {
+      padding: 0.42rem 0 0.5rem;
+    }
+
+    .graph-selected-links {
+      gap: 0.55rem;
+    }
+
+    .graph-reason-strip {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .graph-kpis,
+    .graph-selected-metrics {
+      grid-template-columns: 1fr;
+    }
+
+    .graph-kpi--hub .graph-kpi-value {
+      font-size: 1.18rem;
     }
   }
 </style>
