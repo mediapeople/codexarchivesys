@@ -10,6 +10,52 @@ export interface CodexMediaItem {
   caption?: string;
 }
 
+function stripFencedCodeBlocks(value: string): string {
+  const lines = value.split('\n');
+  const kept: string[] = [];
+  let activeFence: '```' | '~~~' | null = null;
+
+  for (const line of lines) {
+    const trimmed = line.trimStart();
+
+    if (!activeFence) {
+      if (trimmed.startsWith('```')) {
+        activeFence = '```';
+        continue;
+      }
+
+      if (trimmed.startsWith('~~~')) {
+        activeFence = '~~~';
+        continue;
+      }
+
+      kept.push(line);
+      continue;
+    }
+
+    if (trimmed.startsWith(activeFence)) {
+      activeFence = null;
+    }
+  }
+
+  return kept.join('\n');
+}
+
+function cleanPreviewTarget(value: string): string {
+  return value
+    .trim()
+    .replace(/^<|>$/g, '')
+    .replace(/\s+["'][^"']*["']\s*$/, '')
+    .split(/[?#]/, 1)[0]
+    .replace(/\\/g, '/');
+}
+
+function fallbackAltFromTarget(value: string): string {
+  const cleanTarget = cleanPreviewTarget(value);
+  const filename = cleanTarget.split('/').filter(Boolean).pop() || cleanTarget;
+  return filename.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ').trim();
+}
+
 export function withMediaVersion(src: string, version?: string): string {
   if (!version) {
     return src;
@@ -79,6 +125,42 @@ export function getMediaItems(entry: ArchiveEntry): CodexMediaItem[] {
       };
     })
     .filter((item): item is CodexMediaItem => Boolean(item));
+}
+
+export function getBodyImagePreviewItems(body: string): CodexMediaItem[] {
+  const items: CodexMediaItem[] = [];
+  const seen = new Set<string>();
+  const source = stripFencedCodeBlocks(body);
+
+  const pushItem = (rawTarget: string, rawAlt = '') => {
+    const src = cleanPreviewTarget(rawTarget);
+    if (!src || seen.has(src)) {
+      return;
+    }
+
+    seen.add(src);
+    items.push({
+      kind: 'image',
+      src,
+      role: items.length === 0 ? 'hero' : 'gallery',
+      alt: rawAlt.trim() || fallbackAltFromTarget(src),
+    });
+  };
+
+  for (const match of source.matchAll(/!\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g)) {
+    pushItem(match[1], match[2] || '');
+  }
+
+  for (const match of source.matchAll(/!\[([^\]]*)\]\(([^)]+)\)/g)) {
+    pushItem(match[2], match[1]);
+  }
+
+  return items;
+}
+
+export function getPreviewMediaItems(entry: ArchiveEntry): CodexMediaItem[] {
+  const explicitMediaItems = getMediaItems(entry);
+  return explicitMediaItems.length > 0 ? explicitMediaItems : getBodyImagePreviewItems(entry.body);
 }
 
 export function pickPrimaryMedia(items: CodexMediaItem[]): CodexMediaItem | null {

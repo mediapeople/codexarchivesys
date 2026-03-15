@@ -1,7 +1,12 @@
 ---
 import TypeBadge from './TypeBadge.astro';
 import type { ArchiveEntry } from '../lib/archive';
-import { formatMediaLabel, getMediaItems, pickPrimaryMedia, withMediaVersion, type CodexMediaItem } from '../lib/media';
+import {
+  formatMediaLabel,
+  getPreviewMediaItems,
+  pickPrimaryMedia,
+  withMediaVersion,
+} from '../lib/media';
 import { formatDisplayTitle } from '../lib/headline';
 import { getAuthorInitials, getPrimaryAuthor } from '../lib/author';
 import { getLoremapAtlasRender } from '../lib/loremap';
@@ -124,51 +129,6 @@ function getImagePreviewFrameStyle(
   ].join('; ');
 }
 
-function cleanPreviewTarget(value: string): string {
-  return value
-    .trim()
-    .replace(/^<|>$/g, '')
-    .replace(/\s+["'][^"']*["']\s*$/, '')
-    .split(/[?#]/, 1)[0]
-    .replace(/\\/g, '/');
-}
-
-function fallbackAltFromTarget(value: string): string {
-  const cleanTarget = cleanPreviewTarget(value);
-  const filename = cleanTarget.split('/').filter(Boolean).pop() || cleanTarget;
-  return filename.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ').trim();
-}
-
-function getBodyImagePreviewItems(body: string): CodexMediaItem[] {
-  const items: CodexMediaItem[] = [];
-  const seen = new Set<string>();
-
-  const pushItem = (rawTarget: string, rawAlt = '') => {
-    const src = cleanPreviewTarget(rawTarget);
-    if (!src || seen.has(src)) {
-      return;
-    }
-
-    seen.add(src);
-    items.push({
-      kind: 'image',
-      src,
-      role: items.length === 0 ? 'hero' : 'gallery',
-      alt: rawAlt.trim() || fallbackAltFromTarget(src),
-    });
-  };
-
-  for (const match of body.matchAll(/!\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g)) {
-    pushItem(match[1], match[2] || '');
-  }
-
-  for (const match of body.matchAll(/!\[([^\]]*)\]\(([^)]+)\)/g)) {
-    pushItem(match[2], match[1]);
-  }
-
-  return items;
-}
-
 function summarizeCardExcerpt(value: string, variant: 'feed' | 'related' | 'mosaic'): string {
   const normalized = value.replace(/\s+/g, ' ').trim();
   if (!normalized) {
@@ -244,8 +204,7 @@ function getFragmentStageContent(body: string, fallback: string, maxLines: numbe
 }
 
 const fallbackSummary = (entry.data as Record<string, unknown>).themeStatement;
-const explicitMediaItems = getMediaItems(entry);
-const mediaItems = explicitMediaItems.length > 0 ? explicitMediaItems : getBodyImagePreviewItems(entry.body);
+const mediaItems = getPreviewMediaItems(entry);
 const primaryMedia = pickPrimaryMedia(mediaItems);
 const rawSummary =
   entry.data.excerpt ||
