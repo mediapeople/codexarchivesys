@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import { timingSafeEqual } from 'node:crypto';
 import { mkdir, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import sharp from 'sharp';
 
 export const prerender = false;
 
@@ -25,6 +26,19 @@ type PigeonPayload = {
   tags: string[];
   body: string;
   images: string[];
+};
+
+type ParsedPigeonRequest = {
+  payload: PigeonPayload;
+  uploadedImages: File[];
+};
+
+type PreparedImageAsset = {
+  originalName: string;
+  publicSrc: string;
+  repoPath: string;
+  buffer: Buffer;
+  contentType: string;
 };
 
 type GitHubConfig = {
@@ -73,6 +87,25 @@ function excerptFromBody(value: string): string | null {
 
 function normalizeNewlines(value: string): string {
   return value.replace(/\r\n?/g, '\n');
+}
+
+function normalizeFilename(value: string): string {
+  return value.trim().toLowerCase();
+}
+
+function basenameFromReference(value: string): string {
+  const cleanValue = value
+    .trim()
+    .replace(/^<|>$/g, '')
+    .split(/[?#]/, 1)[0]
+    .replace(/\\/g, '/');
+
+  if (!cleanValue) {
+    return '';
+  }
+
+  const segments = cleanValue.split('/').filter(Boolean);
+  return normalizeFilename(segments[segments.length - 1] || '');
 }
 
 function parseFrontmatterValue(value: string): string[] {
@@ -292,6 +325,45 @@ function parseMarkdownNote(note: string, fallbackObjectType?: PigeonObjectType):
   };
 }
 
+function rewriteBodyImageReferences(
+  body: string,
+  uploadedImagesByName: Map<string, PreparedImageAsset>
+): { body: string; consumedPublicSrcs: Set<string> } {
+  const consumedPublicSrcs = new Set<string>();
+  let rewritten = body;
+
+  rewritten = rewritten.replace(/!\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/g, (fullMatch, rawTarget: string) => {
+    const asset = uploadedImagesByName.get(basenameFromReference(rawTarget));
+    if (!asset) {
+      return fullMatch;
+    }
+
+    consumedPublicSrcs.add(asset.publicSrc);
+    const alt = path.basename(asset.originalName, path.extname(asset.originalName)).replace(/[-_]+/g, ' ');
+    return `![${alt}](${asset.publicSrc})`;
+  });
+
+  rewritten = rewritten.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (fullMatch, altText: string, rawTarget: string) => {
+    const target = rawTarget.trim();
+    if (/^(https?:)?\/\//i.test(target) || target.startsWith('/')) {
+      return fullMatch;
+    }
+
+    const asset = uploadedImagesByName.get(basenameFromReference(target));
+    if (!asset) {
+      return fullMatch;
+    }
+
+    consumedPublicSrcs.add(asset.publicSrc);
+    return `![${altText}](${asset.publicSrc})`;
+  });
+
+  return {
+    body: rewritten,
+    consumedPublicSrcs,
+  };
+}
+
 function yamlString(value: string): string {
   return JSON.stringify(value);
 }
@@ -353,6 +425,11 @@ function getRelativeContentPath(objectType: PigeonObjectType, slug: string, cont
   return `${normalizedRoot}/${objectType}/${slug}.md`;
 }
 
+function getRelativePublicImagePath(objectType: PigeonObjectType, slug: string, index: number, extension: string): string {
+  const safeExtension = extension.replace(/^\.+/, '') || 'jpg';
+  return `/media/pigeon/${objectType}/${slug}-${String(index + 1).padStart(2, '0')}.${safeExtension}`;
+}
+
 function getContentDirCandidates(objectType: PigeonObjectType): string[] {
   return [
     path.resolve(process.cwd(), `src/content/${objectType}`),
@@ -375,6 +452,28 @@ async function resolveContentDir(objectType: PigeonObjectType): Promise<string> 
   throw new Error(`Unable to locate astro/src/content/${objectType} for Carrier Pigeon ingest.`);
 }
 
+function getPublicDirCandidates(): string[] {
+  return [
+    path.resolve(process.cwd(), 'public'),
+    path.resolve(process.cwd(), 'astro/public'),
+  ];
+}
+
+async function resolvePublicDir(): Promise<string> {
+  for (const candidate of getPublicDirCandidates()) {
+    try {
+      const info = await stat(candidate);
+      if (info.isDirectory()) {
+        return candidate;
+      }
+    } catch {
+      // Keep trying candidates.
+    }
+  }
+
+  throw new Error('Unable to locate astro/public for Carrier Pigeon image ingest.');
+}
+
 function buildConflictResponse(objectType: PigeonObjectType, slug: string, filePath: string): Response {
   return Response.json(
     {
@@ -384,6 +483,48 @@ function buildConflictResponse(objectType: PigeonObjectType, slug: string, fileP
       path: filePath,
     },
     { status: 409 }
+  );
+}
+
+async function prepareUploadedImages(
+  files: File[],
+  objectType: PigeonObjectType,
+  slug: string
+): Promise<PreparedImageAsset[]> {
+  return Promise.all(
+    files.map(async (file, index) => {
+      if (!file.type.startsWith('image/')) {
+        throw new Error(`Unsupported uploaded file type for ${file.name}. Only image files are allowed.`);
+      }
+
+      const inputBuffer = Buffer.from(await file.arrayBuffer());
+      const pipeline = sharp(inputBuffer, { failOn: 'none' }).rotate();
+      const metadata = await pipeline.metadata();
+
+      const resized = pipeline.resize({
+        width: 2400,
+        height: 2400,
+        fit: 'inside',
+        withoutEnlargement: true,
+      });
+
+      const keepPng = file.type === 'image/png' || metadata.hasAlpha === true;
+      const outputFormat = keepPng ? 'png' : 'jpeg';
+      const buffer =
+        outputFormat === 'png'
+          ? await resized.png({ compressionLevel: 9 }).toBuffer()
+          : await resized.jpeg({ quality: 82, mozjpeg: true }).toBuffer();
+      const extension = outputFormat === 'png' ? 'png' : 'jpg';
+      const publicSrc = getRelativePublicImagePath(objectType, slug, index, extension);
+
+      return {
+        originalName: file.name,
+        publicSrc,
+        repoPath: `astro/public${publicSrc}`,
+        buffer,
+        contentType: outputFormat === 'png' ? 'image/png' : 'image/jpeg',
+      };
+    })
   );
 }
 
@@ -434,8 +575,14 @@ async function describeGitHubFailure(response: Response): Promise<string> {
   return raw.trim();
 }
 
-async function writeLocalEntry(payload: PigeonPayload, slug: string, markdown: string): Promise<Response> {
+async function writeLocalEntry(
+  payload: PigeonPayload,
+  slug: string,
+  markdown: string,
+  uploadedAssets: PreparedImageAsset[]
+): Promise<Response> {
   const contentDir = await resolveContentDir(payload.objectType);
+  const publicDir = await resolvePublicDir();
   const filePath = path.join(contentDir, `${slug}.md`);
 
   try {
@@ -444,6 +591,14 @@ async function writeLocalEntry(payload: PigeonPayload, slug: string, markdown: s
   } catch {
     // File does not exist yet.
   }
+
+  await Promise.all(
+    uploadedAssets.map(async (asset) => {
+      const assetPath = path.join(publicDir, asset.publicSrc.replace(/^\/+/, ''));
+      await mkdir(path.dirname(assetPath), { recursive: true });
+      await writeFile(assetPath, asset.buffer);
+    })
+  );
 
   await mkdir(contentDir, { recursive: true });
   await writeFile(filePath, markdown, 'utf8');
@@ -455,6 +610,7 @@ async function writeLocalEntry(payload: PigeonPayload, slug: string, markdown: s
       slug,
       objectType: payload.objectType,
       path: filePath,
+      images: payload.images,
       url: getPublishedUrl(payload.objectType, slug),
       note: 'Entry written to source content. Rebuild or redeploy to publish outside local dev.',
     },
@@ -462,11 +618,235 @@ async function writeLocalEntry(payload: PigeonPayload, slug: string, markdown: s
   );
 }
 
+function getGitHubRepoApiUrl(config: GitHubConfig, relativePath: string): URL {
+  const encodedPath = relativePath
+    .split('/')
+    .map((segment) => encodeURIComponent(segment))
+    .join('/');
+  return new URL(`https://api.github.com/repos/${config.owner}/${config.repo}/${encodedPath}`);
+}
+
+async function getGitHubBranchState(
+  config: GitHubConfig
+): Promise<{ headSha: string; treeSha: string } | Response> {
+  const encodedBranch = config.branch.split('/').map((segment) => encodeURIComponent(segment)).join('/');
+  const refResponse = await fetch(getGitHubRepoApiUrl(config, `git/ref/heads/${encodedBranch}`), {
+    headers: getGitHubHeaders(config.token),
+  });
+
+  if (!refResponse.ok) {
+    return Response.json(
+      {
+        error: 'GitHub could not resolve the Carrier Pigeon branch reference.',
+        detail: await describeGitHubFailure(refResponse),
+      },
+      { status: 502 }
+    );
+  }
+
+  const refData = (await refResponse.json()) as { object?: { sha?: string } };
+  const headSha = refData.object?.sha || '';
+  if (!headSha) {
+    return Response.json(
+      {
+        error: 'GitHub did not return a commit SHA for the Carrier Pigeon branch reference.',
+      },
+      { status: 502 }
+    );
+  }
+
+  const commitResponse = await fetch(getGitHubRepoApiUrl(config, `git/commits/${headSha}`), {
+    headers: getGitHubHeaders(config.token),
+  });
+
+  if (!commitResponse.ok) {
+    return Response.json(
+      {
+        error: 'GitHub could not read the base commit for Carrier Pigeon.',
+        detail: await describeGitHubFailure(commitResponse),
+      },
+      { status: 502 }
+    );
+  }
+
+  const commitData = (await commitResponse.json()) as { tree?: { sha?: string } };
+  const treeSha = commitData.tree?.sha || '';
+  if (!treeSha) {
+    return Response.json(
+      {
+        error: 'GitHub did not return a tree SHA for the Carrier Pigeon base commit.',
+      },
+      { status: 502 }
+    );
+  }
+
+  return {
+    headSha,
+    treeSha,
+  };
+}
+
+async function createGitHubBlob(config: GitHubConfig, content: Buffer): Promise<string | Response> {
+  const blobResponse = await fetch(getGitHubRepoApiUrl(config, 'git/blobs'), {
+    method: 'POST',
+    headers: {
+      ...getGitHubHeaders(config.token),
+      'Content-Type': 'application/json; charset=utf-8',
+    },
+    body: JSON.stringify({
+      content: content.toString('base64'),
+      encoding: 'base64',
+    }),
+  });
+
+  if (!blobResponse.ok) {
+    return Response.json(
+      {
+        error: 'GitHub could not create a Carrier Pigeon blob.',
+        detail: await describeGitHubFailure(blobResponse),
+      },
+      { status: 502 }
+    );
+  }
+
+  const blobData = (await blobResponse.json()) as { sha?: string };
+  if (!blobData.sha) {
+    return Response.json(
+      {
+        error: 'GitHub did not return a blob SHA for Carrier Pigeon.',
+      },
+      { status: 502 }
+    );
+  }
+
+  return blobData.sha;
+}
+
+async function commitGitHubFiles(
+  config: GitHubConfig,
+  message: string,
+  files: Array<{ path: string; content: Buffer }>
+): Promise<{ commitSha: string; commitUrl: string } | Response> {
+  const branchState = await getGitHubBranchState(config);
+  if (branchState instanceof Response) {
+    return branchState;
+  }
+
+  const treeEntries = [];
+  for (const file of files) {
+    const blobSha = await createGitHubBlob(config, file.content);
+    if (blobSha instanceof Response) {
+      return blobSha;
+    }
+
+    treeEntries.push({
+      path: file.path,
+      mode: '100644',
+      type: 'blob',
+      sha: blobSha,
+    });
+  }
+
+  const treeResponse = await fetch(getGitHubRepoApiUrl(config, 'git/trees'), {
+    method: 'POST',
+    headers: {
+      ...getGitHubHeaders(config.token),
+      'Content-Type': 'application/json; charset=utf-8',
+    },
+    body: JSON.stringify({
+      base_tree: branchState.treeSha,
+      tree: treeEntries,
+    }),
+  });
+
+  if (!treeResponse.ok) {
+    return Response.json(
+      {
+        error: 'GitHub could not create the Carrier Pigeon tree.',
+        detail: await describeGitHubFailure(treeResponse),
+      },
+      { status: 502 }
+    );
+  }
+
+  const treeData = (await treeResponse.json()) as { sha?: string };
+  if (!treeData.sha) {
+    return Response.json(
+      {
+        error: 'GitHub did not return a tree SHA for Carrier Pigeon.',
+      },
+      { status: 502 }
+    );
+  }
+
+  const commitResponse = await fetch(getGitHubRepoApiUrl(config, 'git/commits'), {
+    method: 'POST',
+    headers: {
+      ...getGitHubHeaders(config.token),
+      'Content-Type': 'application/json; charset=utf-8',
+    },
+    body: JSON.stringify({
+      message,
+      tree: treeData.sha,
+      parents: [branchState.headSha],
+    }),
+  });
+
+  if (!commitResponse.ok) {
+    return Response.json(
+      {
+        error: 'GitHub could not create the Carrier Pigeon commit.',
+        detail: await describeGitHubFailure(commitResponse),
+      },
+      { status: 502 }
+    );
+  }
+
+  const commitData = (await commitResponse.json()) as { sha?: string };
+  if (!commitData.sha) {
+    return Response.json(
+      {
+        error: 'GitHub did not return a commit SHA for Carrier Pigeon.',
+      },
+      { status: 502 }
+    );
+  }
+
+  const encodedBranch = config.branch.split('/').map((segment) => encodeURIComponent(segment)).join('/');
+  const refUpdateResponse = await fetch(getGitHubRepoApiUrl(config, `git/refs/heads/${encodedBranch}`), {
+    method: 'PATCH',
+    headers: {
+      ...getGitHubHeaders(config.token),
+      'Content-Type': 'application/json; charset=utf-8',
+    },
+    body: JSON.stringify({
+      sha: commitData.sha,
+      force: false,
+    }),
+  });
+
+  if (!refUpdateResponse.ok) {
+    return Response.json(
+      {
+        error: 'GitHub could not advance the Carrier Pigeon branch reference.',
+        detail: await describeGitHubFailure(refUpdateResponse),
+      },
+      { status: 502 }
+    );
+  }
+
+  return {
+    commitSha: commitData.sha,
+    commitUrl: `https://github.com/${config.owner}/${config.repo}/commit/${commitData.sha}`,
+  };
+}
+
 async function writeGitHubEntry(
   config: GitHubConfig,
   payload: PigeonPayload,
   slug: string,
-  markdown: string
+  markdown: string,
+  uploadedAssets: PreparedImageAsset[]
 ): Promise<Response> {
   const relativePath = getRelativeContentPath(payload.objectType, slug, config.contentRoot);
   const lookupResponse = await fetch(getGitHubApiUrl(config, relativePath, config.branch), {
@@ -490,38 +870,24 @@ async function writeGitHubEntry(
     );
   }
 
-  const createResponse = await fetch(getGitHubApiUrl(config, relativePath), {
-    method: 'PUT',
-    headers: {
-      ...getGitHubHeaders(config.token),
-      'Content-Type': 'application/json; charset=utf-8',
-    },
-    body: JSON.stringify({
-      message: `Carrier Pigeon publish ${payload.objectType}: ${slug}`,
-      content: Buffer.from(markdown, 'utf8').toString('base64'),
-      branch: config.branch,
-    }),
-  });
-
-  if (!createResponse.ok) {
-    return Response.json(
+  const commitResult = await commitGitHubFiles(
+    config,
+    `Carrier Pigeon publish ${payload.objectType}: ${slug}`,
+    [
+      ...uploadedAssets.map((asset) => ({
+        path: asset.repoPath,
+        content: asset.buffer,
+      })),
       {
-        error: 'GitHub could not create this Carrier Pigeon entry.',
-        detail: await describeGitHubFailure(createResponse),
-        slug,
-        objectType: payload.objectType,
         path: relativePath,
+        content: Buffer.from(markdown, 'utf8'),
       },
-      { status: 502 }
-    );
-  }
+    ]
+  );
 
-  const created = (await createResponse.json()) as {
-    commit?: {
-      sha?: string;
-      html_url?: string;
-    };
-  };
+  if (commitResult instanceof Response) {
+    return commitResult;
+  }
 
   return Response.json(
     {
@@ -530,9 +896,10 @@ async function writeGitHubEntry(
       slug,
       objectType: payload.objectType,
       path: relativePath,
+      images: payload.images,
       url: getPublishedUrl(payload.objectType, slug),
-      commitSha: created.commit?.sha || null,
-      commitUrl: created.commit?.html_url || null,
+      commitSha: commitResult.commitSha,
+      commitUrl: commitResult.commitUrl,
       note: 'Entry committed to GitHub. Netlify will publish it after the next deploy completes.',
     },
     { status: 201 }
@@ -543,15 +910,67 @@ function getPublishedUrl(objectType: PigeonObjectType, slug: string): string {
   return objectType === 'codex' ? `/codex/${slug}` : `/objects/${slug}`;
 }
 
-async function parsePayload(request: Request): Promise<PigeonPayload | Response> {
+function coerceFormObjectType(formData: FormData): PigeonObjectType | undefined {
+  const candidate =
+    formData.get('object_type') ||
+    formData.get('objectType') ||
+    formData.get('type');
+
+  if (typeof candidate !== 'string') {
+    return undefined;
+  }
+
+  return normalizeObjectType(candidate) || undefined;
+}
+
+async function parseMultipartPayload(request: Request): Promise<ParsedPigeonRequest | Response> {
+  const formData = await request.formData();
+  const noteValue = formData.get('note');
+  const note = typeof noteValue === 'string' ? noteValue.trim() : '';
+
+  if (!note) {
+    return Response.json({ error: 'Multipart Carrier Pigeon requests must include a note field.' }, { status: 400 });
+  }
+
+  const parsed = parseMarkdownNote(note, coerceFormObjectType(formData));
+  if (parsed instanceof Response) {
+    return parsed;
+  }
+
+  const imageEntries = formData.getAll('images');
+  const uploadedImages = imageEntries.filter((entry): entry is File => entry instanceof File && entry.size > 0);
+  const invalidEntry = imageEntries.find((entry) => !(entry instanceof File));
+  if (invalidEntry) {
+    return Response.json({ error: 'Image uploads must be sent as file fields named images.' }, { status: 400 });
+  }
+
+  return {
+    payload: parsed,
+    uploadedImages,
+  };
+}
+
+async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Response> {
   const contentType = request.headers.get('content-type') || '';
+
+  if (contentType.includes('multipart/form-data')) {
+    return parseMultipartPayload(request);
+  }
 
   if (!contentType.includes('application/json')) {
     const note = (await request.text()).trim();
     if (!note) {
       return Response.json({ error: 'Request body is empty.' }, { status: 400 });
     }
-    return parseMarkdownNote(note);
+    const parsed = parseMarkdownNote(note);
+    if (parsed instanceof Response) {
+      return parsed;
+    }
+
+    return {
+      payload: parsed,
+      uploadedImages: [],
+    };
   }
 
   let payload: unknown;
@@ -574,7 +993,15 @@ async function parsePayload(request: Request): Promise<PigeonPayload | Response>
     'codex';
 
   if (typeof candidate.note === 'string') {
-    return parseMarkdownNote(candidate.note, objectType);
+    const parsed = parseMarkdownNote(candidate.note, objectType);
+    if (parsed instanceof Response) {
+      return parsed;
+    }
+
+    return {
+      payload: parsed,
+      uploadedImages: [],
+    };
   }
 
   const title = typeof candidate.title === 'string' ? candidate.title.trim() : '';
@@ -604,12 +1031,15 @@ async function parsePayload(request: Request): Promise<PigeonPayload | Response>
   }
 
   return {
-    objectType,
-    title,
-    date,
-    tags,
-    body,
-    images,
+    payload: {
+      objectType,
+      title,
+      date,
+      tags,
+      body,
+      images,
+    },
+    uploadedImages: [],
   };
 }
 
@@ -624,17 +1054,30 @@ export const POST: APIRoute = async ({ request }) => {
     return parsed;
   }
 
-  const slug = slugify(parsed.title);
+  const slug = slugify(parsed.payload.title);
   if (!slug) {
     return Response.json({ error: 'Unable to derive a slug from title.' }, { status: 400 });
   }
 
   try {
-    const markdown = buildMarkdownEntry(parsed, slug);
+    const preparedImages = await prepareUploadedImages(parsed.uploadedImages, parsed.payload.objectType, slug);
+    const uploadedImagesByName = new Map(
+      preparedImages.map((asset) => [normalizeFilename(asset.originalName), asset] as const)
+    );
+    const rewrittenBody = rewriteBodyImageReferences(parsed.payload.body, uploadedImagesByName);
+    const galleryImages = preparedImages
+      .filter((asset) => !rewrittenBody.consumedPublicSrcs.has(asset.publicSrc))
+      .map((asset) => asset.publicSrc);
+    const finalPayload: PigeonPayload = {
+      ...parsed.payload,
+      body: rewrittenBody.body,
+      images: [...new Set([...parsed.payload.images, ...galleryImages])],
+    };
+    const markdown = buildMarkdownEntry(finalPayload, slug);
     const githubConfig = getGitHubConfig();
 
     if (githubConfig) {
-      return await writeGitHubEntry(githubConfig, parsed, slug, markdown);
+      return await writeGitHubEntry(githubConfig, finalPayload, slug, markdown, preparedImages);
     }
 
     if (isHostedRuntime()) {
@@ -647,7 +1090,7 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    return await writeLocalEntry(parsed, slug, markdown);
+    return await writeLocalEntry(finalPayload, slug, markdown, preparedImages);
   } catch (error) {
     return Response.json(
       {

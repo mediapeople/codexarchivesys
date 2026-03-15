@@ -31,7 +31,7 @@ export const prerender = true;
         --accent-strong: #efb258;
         --success: #9fd1a7;
         --danger: #e38b76;
-        --radius-soft: 2px;
+        --radius-soft: 0;
         --radius-hard: 0;
         --shadow: 0 26px 60px rgba(0, 0, 0, 0.32);
       }
@@ -406,7 +406,8 @@ export const prerender = true;
             <h2 class="panel-title">Publish Note</h2>
             <p class="panel-copy">
               Use <code>object_type</code> in frontmatter to route notes into
-              <code>signal</code>, <code>codex</code>, and the other archive collections.
+              <code>signal</code>, <code>codex</code>, and the other archive collections. Attach
+              matching image files if your note references local Obsidian images.
             </p>
           </div>
 
@@ -438,6 +439,16 @@ export const prerender = true;
             <span class="file-name" id="file-name">No file selected yet</span>
           </div>
           <input id="file" type="file" accept=".md,.markdown,text/markdown,text/plain" />
+
+          <div class="file-row">
+            <label class="file-label" for="images">Attach Images</label>
+            <span class="file-name" id="image-name">No images selected yet</span>
+          </div>
+          <input id="images" type="file" accept="image/*" multiple />
+          <p class="helper">
+            If the note body contains <code>![[image.jpg]]</code> or markdown image links, Carrier
+            Pigeon will rewrite matching file names to the uploaded public image paths.
+          </p>
 
           <textarea id="note" spellcheck="false" placeholder="Paste a markdown note or load one from Files."></textarea>
 
@@ -507,6 +518,8 @@ export const prerender = true;
       const forgetKeyButton = document.getElementById('forget-key');
       const fileInput = document.getElementById('file');
       const fileName = document.getElementById('file-name');
+      const imageInput = document.getElementById('images');
+      const imageName = document.getElementById('image-name');
       const noteField = document.getElementById('note');
       const result = document.getElementById('result');
       const publishButton = document.getElementById('publish');
@@ -559,6 +572,88 @@ export const prerender = true;
         }
       }
 
+      function describeImageSelection(files) {
+        if (!files.length) {
+          return 'No images selected yet';
+        }
+
+        if (files.length === 1) {
+          return files[0].name;
+        }
+
+        return files.length + ' images selected';
+      }
+
+      async function readImageElement(file) {
+        if (typeof createImageBitmap === 'function') {
+          try {
+            return await createImageBitmap(file);
+          } catch {
+            // Fall through to HTML image loading below.
+          }
+        }
+
+        return await new Promise((resolve, reject) => {
+          const objectUrl = URL.createObjectURL(file);
+          const image = new Image();
+          image.onload = () => {
+            URL.revokeObjectURL(objectUrl);
+            resolve(image);
+          };
+          image.onerror = (error) => {
+            URL.revokeObjectURL(objectUrl);
+            reject(error);
+          };
+          image.src = objectUrl;
+        });
+      }
+
+      async function compressImageForUpload(file) {
+        if (!file.type.startsWith('image/')) {
+          return file;
+        }
+
+        if (file.size <= 1_800_000) {
+          return file;
+        }
+
+        try {
+          const image = await readImageElement(file);
+          const width = image.width || image.naturalWidth || 0;
+          const height = image.height || image.naturalHeight || 0;
+          if (!width || !height) {
+            return file;
+          }
+
+          const maxDimension = 2000;
+          const scale = Math.min(1, maxDimension / Math.max(width, height));
+          const canvas = document.createElement('canvas');
+          canvas.width = Math.max(1, Math.round(width * scale));
+          canvas.height = Math.max(1, Math.round(height * scale));
+          const context = canvas.getContext('2d');
+          if (!context) {
+            return file;
+          }
+
+          context.drawImage(image, 0, 0, canvas.width, canvas.height);
+          const outputType = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+          const blob = await new Promise((resolve) => {
+            canvas.toBlob(resolve, outputType, outputType === 'image/png' ? undefined : 0.86);
+          });
+
+          if (!(blob instanceof Blob) || blob.size === 0 || blob.size >= file.size) {
+            return file;
+          }
+
+          return new File([blob], file.name, {
+            type: outputType,
+            lastModified: Date.now(),
+          });
+        } catch {
+          return file;
+        }
+      }
+
       keyField.addEventListener('input', () => {
         const key = keyField.value.trim();
         if (key) {
@@ -589,6 +684,16 @@ export const prerender = true;
         resetResultMeta();
       });
 
+      imageInput.addEventListener('change', () => {
+        const files = Array.from(imageInput.files || []);
+        imageName.textContent = describeImageSelection(files);
+        if (files.length > 0) {
+          setStatus('idle', 'Images ready', 'Carrier Pigeon will upload and attach the selected images.');
+          result.textContent = 'Queued ' + describeImageSelection(files) + ' for upload.';
+          resetResultMeta();
+        }
+      });
+
       document.querySelectorAll('[data-template]').forEach((button) => {
         button.addEventListener('click', () => {
           const template = sampleTemplates[button.dataset.template];
@@ -604,7 +709,9 @@ export const prerender = true;
       clearNoteButton.addEventListener('click', () => {
         noteField.value = '';
         fileInput.value = '';
+        imageInput.value = '';
         fileName.textContent = 'No file selected yet';
+        imageName.textContent = 'No images selected yet';
         localStorage.removeItem(draftKey);
         setStatus('idle', 'Cleared', 'Paste a note or choose a file.');
         result.textContent = 'Editor cleared.';
@@ -640,17 +747,29 @@ export const prerender = true;
 
         publishButton.disabled = true;
         publishButton.textContent = 'Publishing...';
-        setStatus('idle', 'Publishing', 'Sending note into the archive.');
+        setStatus('idle', 'Publishing', 'Preparing note and media for the archive.');
         result.textContent = 'Publishing...';
 
         try {
+          const formData = new FormData();
+          formData.append('note', note);
+
+          const selectedImages = Array.from(imageInput.files || []);
+          if (selectedImages.length > 0) {
+            setStatus('idle', 'Preparing media', 'Compressing images for upload from your phone.');
+          }
+
+          const preparedImages = await Promise.all(selectedImages.map((file) => compressImageForUpload(file)));
+          preparedImages.forEach((file) => {
+            formData.append('images', file, file.name);
+          });
+
           const response = await fetch(endpoint, {
             method: 'POST',
             headers: {
-              'Content-Type': 'text/plain; charset=utf-8',
               Authorization: 'Bearer ' + key,
             },
-            body: note,
+            body: formData,
           });
 
           const text = await response.text();

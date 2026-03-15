@@ -276,6 +276,7 @@ const nexusObjectContextQuery = isNexusObject
   : '';
 const defaultBackHref = isNexusObject ? '/nexus' : '/';
 const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
+const showExcerptLead = Boolean(entry.data.excerpt) && entry.collection !== 'signal';
 ---
 
 <BaseLayout
@@ -301,7 +302,7 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 
     <header class="object-head">
       <h1>{displayTitle}</h1>
-      {entry.data.excerpt && <p class="excerpt">{entry.data.excerpt}</p>}
+      {showExcerptLead && <p class="excerpt">{entry.data.excerpt}</p>}
       {!isLoremapObject && (
         <div class="object-type-callout">
           <TypeBadge type={entry.collection} />
@@ -2581,6 +2582,23 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
     font-size: 1.16rem;
     line-height: 1.95;
     max-width: 68ch;
+  }
+
+  .body :global(img) {
+    display: block;
+    width: auto;
+    max-width: min(100%, 72rem);
+    height: auto;
+    margin: 0;
+    border: 1px solid var(--object-rule);
+    background: var(--void);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 0 0 1px rgba(0, 0, 0, 0.18);
+  }
+
+  .body :global(p > img:only-child) {
+    max-width: min(72rem, 100%);
   }
 
   .body :global(hr) {

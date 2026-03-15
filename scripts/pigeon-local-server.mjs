@@ -16,13 +16,11 @@ if (!Number.isFinite(port) || port <= 0) {
 
 function readRequestBody(req) {
   return new Promise((resolve, reject) => {
-    let data = '';
-
-    req.setEncoding('utf8');
+    const chunks = [];
     req.on('data', (chunk) => {
-      data += chunk;
+      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
     });
-    req.on('end', () => resolve(data));
+    req.on('end', () => resolve(Buffer.concat(chunks)));
     req.on('error', reject);
   });
 }
@@ -131,7 +129,7 @@ function renderUploadPage(host) {
         --success: #9fd1a7;
         --danger: #e38b76;
         --shadow: 0 26px 60px rgba(0, 0, 0, 0.32);
-        --radius-soft: 2px;
+        --radius-soft: 0;
         --radius-hard: 0;
       }
 
@@ -495,6 +493,14 @@ function renderUploadPage(host) {
           </div>
           <input id="file" type="file" accept=".md,.markdown,text/markdown,text/plain" />
 
+          <div class="file-row">
+            <label class="file-label" for="images">Attach Images</label>
+            <span class="file-name" id="image-name">No images selected yet</span>
+          </div>
+          <input id="images" type="file" accept="image/*" multiple />
+
+          <p class="panel-copy">Attach matching image files if the note uses local Obsidian image references.</p>
+
           <textarea id="note" spellcheck="false" placeholder="Paste a markdown note or load one from Files."></textarea>
 
           <div class="toolbar">
@@ -551,6 +557,8 @@ function renderUploadPage(host) {
 
       const fileInput = document.getElementById('file');
       const fileName = document.getElementById('file-name');
+      const imageInput = document.getElementById('images');
+      const imageName = document.getElementById('image-name');
       const noteField = document.getElementById('note');
       const result = document.getElementById('result');
       const publishButton = document.getElementById('publish');
@@ -586,6 +594,18 @@ function renderUploadPage(host) {
         resultUrl.href = hostBase + data.url;
       }
 
+      function describeImageSelection(files) {
+        if (!files.length) {
+          return 'No images selected yet';
+        }
+
+        if (files.length === 1) {
+          return files[0].name;
+        }
+
+        return files.length + ' images selected';
+      }
+
       fileInput.addEventListener('change', async () => {
         const file = fileInput.files?.[0];
         if (!file) return;
@@ -594,6 +614,16 @@ function renderUploadPage(host) {
         setStatus('idle', 'Loaded', 'Review the note and publish when ready.');
         result.textContent = 'Loaded file: ' + file.name;
         showResultMeta(null);
+      });
+
+      imageInput.addEventListener('change', () => {
+        const files = Array.from(imageInput.files || []);
+        imageName.textContent = describeImageSelection(files);
+        if (files.length > 0) {
+          setStatus('idle', 'Images ready', 'Carrier Pigeon will upload and attach the selected images.');
+          result.textContent = 'Queued ' + describeImageSelection(files) + ' for upload.';
+          showResultMeta(null);
+        }
       });
 
       document.querySelectorAll('[data-template]').forEach((button) => {
@@ -619,7 +649,9 @@ function renderUploadPage(host) {
       clearNoteButton.addEventListener('click', () => {
         noteField.value = '';
         fileInput.value = '';
+        imageInput.value = '';
         fileName.textContent = 'No file selected yet';
+        imageName.textContent = 'No images selected yet';
         setStatus('idle', 'Cleared', 'Paste a note or choose a file.');
         result.textContent = 'Editor cleared.';
         showResultMeta(null);
@@ -640,10 +672,15 @@ function renderUploadPage(host) {
         result.textContent = 'Publishing...';
 
         try {
+          const formData = new FormData();
+          formData.append('note', note);
+          Array.from(imageInput.files || []).forEach((file) => {
+            formData.append('images', file, file.name);
+          });
+
           const response = await fetch(endpoint, {
             method: 'POST',
-            headers: { 'Content-Type': 'text/plain' },
-            body: note,
+            body: formData,
           });
 
           const text = await response.text();
