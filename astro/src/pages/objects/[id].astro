@@ -277,6 +277,8 @@ const nexusObjectContextQuery = isNexusObject
 const defaultBackHref = isNexusObject ? '/nexus' : '/';
 const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 const showExcerptLead = Boolean(entry.data.excerpt) && entry.collection !== 'signal';
+const hasSignalLeadImage =
+  entry.collection === 'signal' && /^!(?:\[[^\]]*\]\([^)]+\)|\[\[[^\]]+\]\])/.test(entry.body.trimStart());
 ---
 
 <BaseLayout
@@ -548,7 +550,7 @@ const showExcerptLead = Boolean(entry.data.excerpt) && entry.collection !== 'sig
       </section>
     )}
 
-    <section class={`body ${bodyClass}`}>
+    <section class={`body ${bodyClass} ${hasSignalLeadImage ? 'body--signal-lead-image' : ''}`}>
       <Content />
     </section>
 
@@ -2604,7 +2606,7 @@ const showExcerptLead = Boolean(entry.data.excerpt) && entry.collection !== 'sig
   }
 
   @media (min-width: 1100px) {
-    .object-shell.signal .body:has(> p:first-child > img:only-child) {
+    .object-shell.signal .body.body--signal-lead-image {
       display: grid;
       grid-template-columns: minmax(280px, 30rem) minmax(0, 1fr);
       column-gap: clamp(2.4rem, 5vw, 5.2rem);
@@ -2613,25 +2615,25 @@ const showExcerptLead = Boolean(entry.data.excerpt) && entry.collection !== 'sig
       max-width: min(1180px, 100%);
     }
 
-    .object-shell.signal .body:has(> p:first-child > img:only-child) > * {
+    .object-shell.signal .body.body--signal-lead-image > * {
       grid-column: 2;
       max-width: 44ch;
     }
 
-    .object-shell.signal .body:has(> p:first-child > img:only-child) > p:first-child {
+    .object-shell.signal .body.body--signal-lead-image > p:first-child {
       grid-column: 1;
       grid-row: 1 / span 24;
       margin: 0;
       max-width: none;
     }
 
-    .object-shell.signal .body:has(> p:first-child > img:only-child) > p:first-child img {
+    .object-shell.signal .body.body--signal-lead-image > p:first-child img {
       width: 100%;
       max-width: 100%;
       max-height: min(72vh, 860px);
     }
 
-    .object-shell.signal .body:has(> p:first-child > img:only-child) > :nth-child(2) {
+    .object-shell.signal .body.body--signal-lead-image > :nth-child(2) {
       margin-top: 0.1rem;
     }
   }
