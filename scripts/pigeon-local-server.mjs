@@ -95,8 +95,8 @@ function buildManifest(host) {
 function renderUploadPage(host) {
   const base = `http://${host}`;
   const endpoint = `${base}/api/pigeon`;
-  const sampleSignal = `---\ntitle: Signal Phone Test\nobject_type: signal\ndate: 2026-03-14\ntags:\n  - signal\nimages:\n---\nSignals are epiphanies prepared for transmission.\n\nSmall enough to move quickly.\nClear enough to travel alone.`;
-  const sampleCodex = `---\ntitle: Carrier Pigeon Notes\nobject_type: codex\ndate: 2026-03-14\ntags:\n  - codex\n  - dispatch\nimages:\n---\nCarrier Pigeon is now routing notes by object type.`;
+  const sampleSignal = `---\ntitle: Signal Phone Test\nobject_type: signal\ndate: 2026-03-14\ntags:\n  - signal\n---\nSignals are epiphanies prepared for transmission.\n\nSmall enough to move quickly.\nClear enough to travel alone.`;
+  const sampleCodex = `---\ntitle: Carrier Pigeon Notes\nobject_type: codex\ndate: 2026-03-14\ntags:\n  - codex\n  - dispatch\n---\nCarrier Pigeon is now routing notes by object type.`;
 
   return `<!doctype html>
 <html lang="en">
@@ -588,7 +588,7 @@ function renderUploadPage(host) {
         }
 
         resultMeta.classList.add('is-visible');
-        resultType.textContent = data.objectType || data.object_type || 'codex';
+        resultType.textContent = data.objectType || data.object_type || 'fragment';
         resultSlug.textContent = data.slug;
         resultUrl.textContent = data.url;
         resultUrl.href = hostBase + data.url;

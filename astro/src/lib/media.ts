@@ -63,17 +63,19 @@ export function getMediaItems(entry: ArchiveEntry): CodexMediaItem[] {
       const role = candidate.role;
       const alt = candidate.alt;
       const caption = candidate.caption;
+      const normalizedSrc = typeof src === 'string' ? src.trim() : '';
+      const normalizedRole = typeof role === 'string' ? role.trim() : '';
 
-      if (!isMediaKind(kind) || typeof src !== 'string' || typeof role !== 'string') {
+      if (!isMediaKind(kind) || !normalizedSrc || !normalizedRole) {
         return null;
       }
 
       return {
         kind,
-        src,
-        role,
-        alt: typeof alt === 'string' ? alt : undefined,
-        caption: typeof caption === 'string' ? caption : undefined,
+        src: normalizedSrc,
+        role: normalizedRole,
+        alt: typeof alt === 'string' && alt.trim() ? alt.trim() : undefined,
+        caption: typeof caption === 'string' && caption.trim() ? caption.trim() : undefined,
       };
     })
     .filter((item): item is CodexMediaItem => Boolean(item));

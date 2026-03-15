@@ -67,6 +67,10 @@ function normalizeStringArray(value: unknown): string[] | null {
   return [...new Set(value.map((item) => item.trim()).filter(Boolean))];
 }
 
+function normalizeNonEmptyStrings(values: string[]): string[] {
+  return [...new Set(values.map((value) => value.trim()).filter(Boolean))];
+}
+
 function stripMarkdown(value: string): string {
   return value
     .replace(/!\[\[[^\]]+\]\]/g, ' ')
@@ -125,9 +129,26 @@ function basenameFromReference(value: string): string {
 }
 
 function parseFrontmatterValue(value: string): string[] {
-  return value
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return [];
+  }
+
+  if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+    const inner = trimmed.slice(1, -1).trim();
+    if (!inner) {
+      return [];
+    }
+
+    return inner
+      .split(',')
+      .map((item) => item.trim().replace(/^['"]|['"]$/g, ''))
+      .filter(Boolean);
+  }
+
+  return trimmed
     .split(',')
-    .map((item) => item.trim())
+    .map((item) => item.trim().replace(/^['"]|['"]$/g, ''))
     .filter(Boolean);
 }
 
@@ -137,27 +158,49 @@ function normalizeObjectType(value: unknown): PigeonObjectType | null {
   }
 
   const normalized = value.trim().toLowerCase();
-  return OBJECT_TYPES.includes(normalized as PigeonObjectType)
-    ? (normalized as PigeonObjectType)
+  const aliased =
+    normalized === 'field-log' || normalized === 'field_log' || normalized === 'field log'
+      ? 'fieldlog'
+      : normalized;
+
+  return OBJECT_TYPES.includes(aliased as PigeonObjectType)
+    ? (aliased as PigeonObjectType)
     : null;
 }
 
-function resolveObjectType(fields: Map<string, string[]>, fallback?: PigeonObjectType): PigeonObjectType {
+function logObjectTypeFallback(candidate: unknown, source: string): void {
+  if (typeof candidate === 'string' && candidate.trim()) {
+    console.warn(
+      `[Carrier Pigeon] Invalid object_type "${candidate.trim()}" from ${source}; defaulting to fragment.`
+    );
+    return;
+  }
+
+  console.warn(`[Carrier Pigeon] Missing object_type in ${source}; defaulting to fragment.`);
+}
+
+function resolveObjectType(fields: Map<string, string[]>, source: string, fallback?: unknown): PigeonObjectType {
   const candidates = [
     fields.get('object_type')?.[0],
     fields.get('objecttype')?.[0],
     fields.get('type')?.[0],
     fallback,
   ];
+  let invalidCandidate: unknown;
 
   for (const candidate of candidates) {
     const objectType = normalizeObjectType(candidate);
     if (objectType) {
       return objectType;
     }
+
+    if (typeof candidate === 'string' && candidate.trim() && invalidCandidate === undefined) {
+      invalidCandidate = candidate;
+    }
   }
 
-  return 'codex';
+  logObjectTypeFallback(invalidCandidate, source);
+  return 'fragment';
 }
 
 function getEnvValue(name: string): string {
@@ -263,7 +306,7 @@ function isHostedRuntime(): boolean {
   );
 }
 
-function parseMarkdownNote(note: string, fallbackObjectType?: PigeonObjectType): PigeonPayload | Response {
+function parseMarkdownNote(note: string, fallbackObjectType?: unknown): PigeonPayload | Response {
   const normalized = normalizeNewlines(note).trim();
   const match = normalized.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
 
@@ -312,7 +355,7 @@ function parseMarkdownNote(note: string, fallbackObjectType?: PigeonObjectType):
     fields.set(currentKey, [value]);
   }
 
-  const objectType = resolveObjectType(fields, fallbackObjectType);
+  const objectType = resolveObjectType(fields, 'markdown note frontmatter', fallbackObjectType);
   const title = (fields.get('title')?.[0] || '').trim();
   const date = (fields.get('date')?.[0] || '').trim();
   const tags = (fields.get('tags') || []).flatMap(parseFrontmatterValue);
@@ -335,9 +378,9 @@ function parseMarkdownNote(note: string, fallbackObjectType?: PigeonObjectType):
     objectType,
     title,
     date,
-    tags: [...new Set(tags)],
+    tags: normalizeNonEmptyStrings(tags),
     body,
-    images: [...new Set(images)],
+    images: normalizeNonEmptyStrings(images),
   };
 }
 
@@ -427,7 +470,7 @@ function buildMarkdownEntry(payload: PigeonPayload, slug: string): string {
       8,
       0,
       yamlStringArrayField('tags', payload.tags),
-      yamlStringArrayField('images', payload.images),
+      payload.images.length > 0 ? yamlStringArrayField('images', payload.images) : null,
       'state: published',
       'dependencies: []'
     );
@@ -444,6 +487,10 @@ function getRelativeContentPath(objectType: PigeonObjectType, slug: string, cont
 function getRelativePublicImagePath(objectType: PigeonObjectType, slug: string, index: number, extension: string): string {
   const safeExtension = extension.replace(/^\.+/, '') || 'jpg';
   return `/media/pigeon/${objectType}/${slug}-${String(index + 1).padStart(2, '0')}.${safeExtension}`;
+}
+
+function getContentFileCandidates(objectType: PigeonObjectType, slug: string): string[] {
+  return getContentDirCandidates(objectType).map((candidate) => path.join(candidate, `${slug}.md`));
 }
 
 function getContentDirCandidates(objectType: PigeonObjectType): string[] {
@@ -500,6 +547,23 @@ function buildConflictResponse(objectType: PigeonObjectType, slug: string, fileP
     },
     { status: 409 }
   );
+}
+
+async function localSlugExists(slug: string): Promise<boolean> {
+  for (const objectType of OBJECT_TYPES) {
+    for (const candidate of getContentFileCandidates(objectType, slug)) {
+      try {
+        const info = await stat(candidate);
+        if (info.isFile()) {
+          return true;
+        }
+      } catch {
+        // Keep checking candidate content paths.
+      }
+    }
+  }
+
+  return false;
 }
 
 async function prepareUploadedImages(
@@ -631,6 +695,56 @@ async function writeLocalEntry(
       note: 'Entry written to source content. Rebuild or redeploy to publish outside local dev.',
     },
     { status: 201 }
+  );
+}
+
+async function gitHubSlugExists(config: GitHubConfig, slug: string): Promise<boolean | Response> {
+  for (const objectType of OBJECT_TYPES) {
+    const relativePath = getRelativeContentPath(objectType, slug, config.contentRoot);
+    const lookupResponse = await fetch(getGitHubApiUrl(config, relativePath, config.branch), {
+      headers: getGitHubHeaders(config.token),
+    });
+
+    if (lookupResponse.status === 200) {
+      return true;
+    }
+
+    if (lookupResponse.status !== 404) {
+      return Response.json(
+        {
+          error: 'GitHub could not check whether this Carrier Pigeon slug already exists.',
+          detail: await describeGitHubFailure(lookupResponse),
+          slug,
+          path: relativePath,
+        },
+        { status: 502 }
+      );
+    }
+  }
+
+  return false;
+}
+
+async function resolveAvailableSlug(baseSlug: string, config: GitHubConfig | null): Promise<string | Response> {
+  for (let suffix = 1; suffix < 10_000; suffix += 1) {
+    const candidate = suffix === 1 ? baseSlug : `${baseSlug}-${suffix}`;
+    const exists = config ? await gitHubSlugExists(config, candidate) : await localSlugExists(candidate);
+
+    if (exists instanceof Response) {
+      return exists;
+    }
+
+    if (!exists) {
+      return candidate;
+    }
+  }
+
+  return Response.json(
+    {
+      error: 'Unable to derive a unique slug for this Carrier Pigeon entry.',
+      slug: baseSlug,
+    },
+    { status: 409 }
   );
 }
 
@@ -926,7 +1040,7 @@ function getPublishedUrl(objectType: PigeonObjectType, slug: string): string {
   return objectType === 'codex' ? `/codex/${slug}` : `/objects/${slug}`;
 }
 
-function coerceFormObjectType(formData: FormData): PigeonObjectType | undefined {
+function getFormObjectTypeCandidate(formData: FormData): string | undefined {
   const candidate =
     formData.get('object_type') ||
     formData.get('objectType') ||
@@ -936,7 +1050,7 @@ function coerceFormObjectType(formData: FormData): PigeonObjectType | undefined 
     return undefined;
   }
 
-  return normalizeObjectType(candidate) || undefined;
+  return candidate;
 }
 
 async function parseMultipartPayload(request: Request): Promise<ParsedPigeonRequest | Response> {
@@ -948,7 +1062,7 @@ async function parseMultipartPayload(request: Request): Promise<ParsedPigeonRequ
     return Response.json({ error: 'Multipart Carrier Pigeon requests must include a note field.' }, { status: 400 });
   }
 
-  const parsed = parseMarkdownNote(note, coerceFormObjectType(formData));
+  const parsed = parseMarkdownNote(note, getFormObjectTypeCandidate(formData));
   if (parsed instanceof Response) {
     return parsed;
   }
@@ -1002,14 +1116,14 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
   }
 
   const candidate = payload as Record<string, unknown>;
-  const objectType =
-    normalizeObjectType(candidate.object_type) ||
-    normalizeObjectType(candidate.objectType) ||
-    normalizeObjectType(candidate.type) ||
-    'codex';
 
   if (typeof candidate.note === 'string') {
-    const parsed = parseMarkdownNote(candidate.note, objectType);
+    const fallbackObjectType =
+      (typeof candidate.object_type === 'string' && candidate.object_type) ||
+      (typeof candidate.objectType === 'string' && candidate.objectType) ||
+      (typeof candidate.type === 'string' && candidate.type) ||
+      undefined;
+    const parsed = parseMarkdownNote(candidate.note, fallbackObjectType);
     if (parsed instanceof Response) {
       return parsed;
     }
@@ -1024,7 +1138,15 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
   const date = typeof candidate.date === 'string' ? candidate.date.trim() : '';
   const body = typeof candidate.body === 'string' ? candidate.body.trim() : '';
   const tags = normalizeStringArray(candidate.tags);
-  const images = normalizeStringArray(candidate.images);
+  const images = candidate.images === undefined ? [] : normalizeStringArray(candidate.images);
+  const objectType = resolveObjectType(
+    new Map([
+      ['object_type', [typeof candidate.object_type === 'string' ? candidate.object_type : '']],
+      ['objecttype', [typeof candidate.objectType === 'string' ? candidate.objectType : '']],
+      ['type', [typeof candidate.type === 'string' ? candidate.type : '']],
+    ]),
+    'json payload'
+  );
 
   if (!title) {
     return Response.json({ error: 'title is required.' }, { status: 400 });
@@ -1053,7 +1175,7 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
       date,
       tags,
       body,
-      images,
+      images: normalizeNonEmptyStrings(images),
     },
     uploadedImages: [],
   };
@@ -1070,12 +1192,19 @@ export const POST: APIRoute = async ({ request }) => {
     return parsed;
   }
 
-  const slug = slugify(parsed.payload.title);
-  if (!slug) {
+  const baseSlug = slugify(parsed.payload.title);
+  if (!baseSlug) {
     return Response.json({ error: 'Unable to derive a slug from title.' }, { status: 400 });
   }
 
   try {
+    const githubConfig = getGitHubConfig();
+    const resolvedSlug = await resolveAvailableSlug(baseSlug, githubConfig);
+    if (resolvedSlug instanceof Response) {
+      return resolvedSlug;
+    }
+
+    const slug = resolvedSlug;
     const preparedImages = await prepareUploadedImages(parsed.uploadedImages, parsed.payload.objectType, slug);
     const uploadedImagesByName = new Map(
       preparedImages.map((asset) => [normalizeFilename(asset.originalName), asset] as const)
@@ -1087,10 +1216,9 @@ export const POST: APIRoute = async ({ request }) => {
     const finalPayload: PigeonPayload = {
       ...parsed.payload,
       body: rewrittenBody.body,
-      images: [...new Set([...parsed.payload.images, ...galleryImages])],
+      images: normalizeNonEmptyStrings([...parsed.payload.images, ...galleryImages]),
     };
     const markdown = buildMarkdownEntry(finalPayload, slug);
-    const githubConfig = getGitHubConfig();
 
     if (githubConfig) {
       return await writeGitHubEntry(githubConfig, finalPayload, slug, markdown, preparedImages);

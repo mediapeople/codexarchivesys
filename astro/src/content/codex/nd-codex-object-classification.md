@@ -7,24 +7,18 @@ postedAt: "2026-03-15T04:51:09.923Z"
 status: published
 visibility: public
 tags:
-  - "[taxonomy"
+  - "taxonomy"
   - "archive"
   - "structure"
-  - "methodology]"
-images:
-  - "[]"
+  - "methodology"
 state: published
 dependencies: []
 excerpt: "ND Codex Object Classification The ND Codex archive organizes all entries into eight object classes. Each class describes the role an object plays in the archive , not the topic…"
 themes:
-  - "[taxonomy"
+  - "taxonomy"
   - "archive"
   - "structure"
-  - "methodology]"
-media:
-  - kind: image
-    src: "[]"
-    role: gallery
+  - "methodology"
 ---
 # ND Codex Object Classification
 

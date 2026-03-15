@@ -510,8 +510,8 @@ export const prerender = true;
       const storageKey = 'carrier-pigeon.shared-key';
       const draftKey = 'carrier-pigeon.note-draft';
       const sampleTemplates = {
-        signal: `---\ntitle: Signal Dispatch\ntype: signal\ndate: 2026-03-14\ntags:\n  - signal\nimages:\n---\nSignals are epiphanies prepared for transmission.\n\nSmall enough to move quickly.\nClear enough to travel alone.`,
-        codex: `---\ntitle: Carrier Pigeon Notes\ntype: codex\ndate: 2026-03-14\ntags:\n  - codex\n  - dispatch\nimages:\n---\nCarrier Pigeon is now routing notes by object type.`,
+        signal: `---\ntitle: Signal Dispatch\ntype: signal\ndate: 2026-03-14\ntags:\n  - signal\n---\nSignals are epiphanies prepared for transmission.\n\nSmall enough to move quickly.\nClear enough to travel alone.`,
+        codex: `---\ntitle: Carrier Pigeon Notes\ntype: codex\ndate: 2026-03-14\ntags:\n  - codex\n  - dispatch\n---\nCarrier Pigeon is now routing notes by object type.`,
       };
 
       const keyField = document.getElementById('pigeon-key');
@@ -559,7 +559,7 @@ export const prerender = true;
         }
 
         resultMeta.classList.add('is-visible');
-        resultType.textContent = data.objectType || data.object_type || 'codex';
+        resultType.textContent = data.objectType || data.object_type || 'fragment';
         resultSlug.textContent = data.slug;
         resultUrl.textContent = data.url;
         resultUrl.href = data.url;

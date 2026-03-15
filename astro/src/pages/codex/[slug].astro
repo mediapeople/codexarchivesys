@@ -38,10 +38,12 @@ function stripMarkdown(value: string): string {
 const displayTitle = formatDisplayTitle(entry.data.title);
 const readableDate = formatArchiveLongDate(entry.data.date);
 const tags = entry.data.tags.length > 0 ? entry.data.tags : entry.data.themes;
-const images =
-  entry.data.images.length > 0
-    ? entry.data.images
-    : entry.data.media.filter((item) => item.kind === 'image').map((item) => item.src);
+const directImages = entry.data.images.map((image) => image.trim()).filter(Boolean);
+const mediaImages = entry.data.media
+  .filter((item) => item.kind === 'image')
+  .map((item) => item.src.trim())
+  .filter(Boolean);
+const images = [...new Set(directImages.length > 0 ? directImages : mediaImages)];
 const state = entry.data.state ?? entry.data.status;
 const summary = entry.data.excerpt || stripMarkdown(entry.body).slice(0, 180);
 const socialImage = images[0];
