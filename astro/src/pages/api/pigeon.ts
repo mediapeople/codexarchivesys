@@ -19,6 +19,14 @@ const OBJECT_TYPES = [
 
 type PigeonObjectType = (typeof OBJECT_TYPES)[number];
 
+type PigeonMediaItem = {
+  kind: 'image';
+  src: string;
+  role: 'hero' | 'gallery';
+  alt?: string;
+  caption?: string;
+};
+
 type PigeonPayload = {
   objectType: PigeonObjectType;
   title: string;
@@ -26,6 +34,7 @@ type PigeonPayload = {
   tags: string[];
   body: string;
   images: string[];
+  media: PigeonMediaItem[];
 };
 
 type ParsedPigeonRequest = {
@@ -72,7 +81,9 @@ function normalizeNonEmptyStrings(values: string[]): string[] {
 }
 
 function stripMarkdown(value: string): string {
-  return value
+  const source = stripFencedCodeBlocks(value);
+
+  return source
     .replace(/!\[\[[^\]]+\]\]/g, ' ')
     .replace(/!\[[^\]]*\]\([^)]+\)/g, ' ')
     .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
@@ -126,6 +137,82 @@ function basenameFromReference(value: string): string {
 
   const segments = cleanValue.split('/').filter(Boolean);
   return normalizeFilename(segments[segments.length - 1] || '');
+}
+
+function stripFencedCodeBlocks(value: string): string {
+  const lines = value.split('\n');
+  const kept: string[] = [];
+  let activeFence: '```' | '~~~' | null = null;
+
+  for (const line of lines) {
+    const trimmed = line.trimStart();
+
+    if (!activeFence) {
+      if (trimmed.startsWith('```')) {
+        activeFence = '```';
+        continue;
+      }
+
+      if (trimmed.startsWith('~~~')) {
+        activeFence = '~~~';
+        continue;
+      }
+
+      kept.push(line);
+      continue;
+    }
+
+    if (trimmed.startsWith(activeFence)) {
+      activeFence = null;
+    }
+  }
+
+  return kept.join('\n');
+}
+
+function cleanImageReferenceTarget(value: string): string {
+  return value
+    .trim()
+    .replace(/^<|>$/g, '')
+    .replace(/\s+["'][^"']*["']\s*$/, '')
+    .split(/[?#]/, 1)[0]
+    .replace(/\\/g, '/');
+}
+
+function isPublishableImageTarget(value: string): boolean {
+  return value.startsWith('/') || /^(https?:)?\/\//i.test(value);
+}
+
+function fallbackAltFromImageTarget(value: string): string {
+  const cleanTarget = cleanImageReferenceTarget(value);
+  const filename = cleanTarget.split('/').filter(Boolean).pop() || cleanTarget;
+  return filename.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ').trim();
+}
+
+function normalizeOptionalString(value: string | undefined): string | undefined {
+  const normalized = value?.trim();
+  return normalized ? normalized : undefined;
+}
+
+function normalizeImageReference(
+  value: string,
+  uploadedImagesByName: Map<string, PreparedImageAsset>
+): string | null {
+  const cleanTarget = cleanImageReferenceTarget(value);
+  if (!cleanTarget) {
+    return null;
+  }
+
+  const uploadedAsset = uploadedImagesByName.get(basenameFromReference(cleanTarget));
+  if (uploadedAsset) {
+    return uploadedAsset.publicSrc;
+  }
+
+  if (isPublishableImageTarget(cleanTarget)) {
+    return cleanTarget;
+  }
+
+  return null;
 }
 
 function parseFrontmatterValue(value: string): string[] {
@@ -381,6 +468,7 @@ function parseMarkdownNote(note: string, fallbackObjectType?: unknown): PigeonPa
     tags: normalizeNonEmptyStrings(tags),
     body,
     images: normalizeNonEmptyStrings(images),
+    media: [],
   };
 }
 
@@ -423,6 +511,108 @@ function rewriteBodyImageReferences(
   };
 }
 
+function collectBodyImageMediaItems(
+  body: string,
+  uploadedImagesByName: Map<string, PreparedImageAsset>
+): PigeonMediaItem[] {
+  const items: PigeonMediaItem[] = [];
+  const seen = new Set<string>();
+  const source = stripFencedCodeBlocks(body);
+
+  const pushItem = (rawTarget: string, rawAlt = '') => {
+    const src = normalizeImageReference(rawTarget, uploadedImagesByName);
+    if (!src || seen.has(src)) {
+      return;
+    }
+
+    seen.add(src);
+    items.push({
+      kind: 'image',
+      src,
+      role: items.length === 0 ? 'hero' : 'gallery',
+      alt: normalizeOptionalString(rawAlt) || fallbackAltFromImageTarget(src),
+    });
+  };
+
+  for (const match of source.matchAll(/!\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g)) {
+    pushItem(match[1], match[2] || '');
+  }
+
+  for (const match of source.matchAll(/!\[([^\]]*)\]\(([^)]+)\)/g)) {
+    pushItem(match[2], match[1]);
+  }
+
+  return items;
+}
+
+function buildNormalizedImageFields(
+  declaredImages: string[],
+  body: string,
+  uploadedImagesByName: Map<string, PreparedImageAsset>,
+  uploadedAssets: PreparedImageAsset[]
+): { images: string[]; media: PigeonMediaItem[] } {
+  const ordered: Array<{ src: string; alt?: string; caption?: string }> = [];
+  const bySrc = new Map<string, { src: string; alt?: string; caption?: string }>();
+
+  const upsert = (src: string, alt?: string, caption?: string) => {
+    const normalizedSrc = src.trim();
+    if (!normalizedSrc) {
+      return;
+    }
+
+    const normalizedAlt = normalizeOptionalString(alt);
+    const normalizedCaption = normalizeOptionalString(caption);
+    const existing = bySrc.get(normalizedSrc);
+    if (existing) {
+      if (!existing.alt && normalizedAlt) {
+        existing.alt = normalizedAlt;
+      }
+      if (!existing.caption && normalizedCaption) {
+        existing.caption = normalizedCaption;
+      }
+      return;
+    }
+
+    const item = {
+      src: normalizedSrc,
+      alt: normalizedAlt,
+      caption: normalizedCaption,
+    };
+    bySrc.set(normalizedSrc, item);
+    ordered.push(item);
+  };
+
+  for (const image of declaredImages) {
+    const normalizedSrc = normalizeImageReference(image, uploadedImagesByName);
+    if (!normalizedSrc) {
+      continue;
+    }
+
+    upsert(normalizedSrc);
+  }
+
+  for (const item of collectBodyImageMediaItems(body, uploadedImagesByName)) {
+    upsert(item.src, item.alt, item.caption);
+  }
+
+  for (const asset of uploadedAssets) {
+    upsert(asset.publicSrc, fallbackAltFromImageTarget(asset.originalName));
+  }
+
+  const media = ordered.map((item, index) => ({
+    kind: 'image' as const,
+    src: item.src,
+    role: index === 0 ? ('hero' as const) : ('gallery' as const),
+    alt: item.alt,
+    caption: item.caption,
+  }));
+
+  return {
+    images: media.map((item) => item.src),
+    media,
+  };
+}
+
 function yamlString(value: string): string {
   return JSON.stringify(value);
 }
@@ -435,13 +625,29 @@ function yamlStringArrayField(name: string, values: string[]): string {
   return `${name}:\n${values.map((value) => `  - ${yamlString(value)}`).join('\n')}`;
 }
 
-function yamlImageMediaField(images: string[]): string {
-  if (images.length === 0) {
+function yamlImageMediaField(media: PigeonMediaItem[]): string {
+  if (media.length === 0) {
     return 'media: []';
   }
 
-  return `media:\n${images
-    .map((image) => `  - kind: image\n    src: ${yamlString(image)}\n    role: gallery`)
+  return `media:\n${media
+    .map((item) => {
+      const lines = [
+        '  - kind: image',
+        `    src: ${yamlString(item.src)}`,
+        `    role: ${item.role}`,
+      ];
+
+      if (item.alt) {
+        lines.push(`    alt: ${yamlString(item.alt)}`);
+      }
+
+      if (item.caption) {
+        lines.push(`    caption: ${yamlString(item.caption)}`);
+      }
+
+      return lines.join('\n');
+    })
     .join('\n')}`;
 }
 
@@ -458,7 +664,7 @@ function buildMarkdownEntry(payload: PigeonPayload, slug: string): string {
     'visibility: public',
     excerpt ? `excerpt: ${yamlString(excerpt)}` : null,
     yamlStringArrayField('themes', payload.tags),
-    yamlImageMediaField(payload.images),
+    yamlImageMediaField(payload.media),
     '---',
     '',
     payload.body.trim(),
@@ -1176,6 +1382,7 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
       tags,
       body,
       images: normalizeNonEmptyStrings(images),
+      media: [],
     },
     uploadedImages: [],
   };
@@ -1210,13 +1417,17 @@ export const POST: APIRoute = async ({ request }) => {
       preparedImages.map((asset) => [normalizeFilename(asset.originalName), asset] as const)
     );
     const rewrittenBody = rewriteBodyImageReferences(parsed.payload.body, uploadedImagesByName);
-    const galleryImages = preparedImages
-      .filter((asset) => !rewrittenBody.consumedPublicSrcs.has(asset.publicSrc))
-      .map((asset) => asset.publicSrc);
+    const normalizedImageFields = buildNormalizedImageFields(
+      parsed.payload.images,
+      rewrittenBody.body,
+      uploadedImagesByName,
+      preparedImages
+    );
     const finalPayload: PigeonPayload = {
       ...parsed.payload,
       body: rewrittenBody.body,
-      images: normalizeNonEmptyStrings([...parsed.payload.images, ...galleryImages]),
+      images: normalizedImageFields.images,
+      media: normalizedImageFields.media,
     };
     const markdown = buildMarkdownEntry(finalPayload, slug);
 

@@ -50,6 +50,10 @@ function cleanPreviewTarget(value: string): string {
     .replace(/\\/g, '/');
 }
 
+function isPublishablePreviewTarget(value: string): boolean {
+  return value.startsWith('/') || /^(https?:)?\/\//i.test(value);
+}
+
 function fallbackAltFromTarget(value: string): string {
   const cleanTarget = cleanPreviewTarget(value);
   const filename = cleanTarget.split('/').filter(Boolean).pop() || cleanTarget;
@@ -134,7 +138,7 @@ export function getBodyImagePreviewItems(body: string): CodexMediaItem[] {
 
   const pushItem = (rawTarget: string, rawAlt = '') => {
     const src = cleanPreviewTarget(rawTarget);
-    if (!src || seen.has(src)) {
+    if (!src || !isPublishablePreviewTarget(src) || seen.has(src)) {
       return;
     }
 

@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import TypeBadge from '../../components/TypeBadge.astro';
 import { formatDisplayTitle } from '../../lib/headline';
+import { getBodyImagePreviewItems } from '../../lib/media';
 import { formatArchiveLongDate } from '../../lib/timeline';
 
 export async function getStaticPaths() {
@@ -43,10 +44,13 @@ const mediaImages = entry.data.media
   .filter((item) => item.kind === 'image')
   .map((item) => item.src.trim())
   .filter(Boolean);
-const images = [...new Set(directImages.length > 0 ? directImages : mediaImages)];
+const inlineBodyImages = getBodyImagePreviewItems(entry.body).map((item) => item.src.trim()).filter(Boolean);
+const images = [...new Set(directImages.length > 0 ? directImages : mediaImages.length > 0 ? mediaImages : inlineBodyImages)];
+const inlineImageSrcs = new Set(inlineBodyImages);
+const galleryImages = images.filter((image) => !inlineImageSrcs.has(image));
 const state = entry.data.state ?? entry.data.status;
 const summary = entry.data.excerpt || stripMarkdown(entry.body).slice(0, 180);
-const socialImage = images[0];
+const socialImage = mediaImages[0] || directImages[0] || inlineBodyImages[0];
 ---
 
 <BaseLayout
@@ -79,9 +83,9 @@ const socialImage = images[0];
       )}
     </header>
 
-    {images.length > 0 && (
+    {galleryImages.length > 0 && (
       <section class="gallery" aria-label="Attached images">
-        {images.map((image, index) => (
+        {galleryImages.map((image, index) => (
           <a href={image} target="_blank" rel="noreferrer">
             <img src={image} alt={`${displayTitle} image ${index + 1}`} loading="lazy" />
           </a>

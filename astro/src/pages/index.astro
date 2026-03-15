@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ObjectCard from '../components/ObjectCard.astro';
 import { COLLECTIONS, getAllEntries, getTypeLabel } from '../lib/archive';
-import { getMediaItems, pickPrimaryMedia, withMediaVersion } from '../lib/media';
+import { getPreviewMediaItems, pickPrimaryMedia, withMediaVersion } from '../lib/media';
 import { getImageAssetMetadata, getPublicAssetVersion } from '../lib/mediaAsset';
 import { formatDisplayTitle } from '../lib/headline';
 import { getFeedPinnedFeatureId } from '../lib/feedConfig';
@@ -163,7 +163,7 @@ const constellationSet = new Set(
 const entriesWithMedia = await Promise.all(
   entries
     .map((entry) => {
-      const media = getMediaItems(entry);
+      const media = getPreviewMediaItems(entry);
       return {
         entry,
         mediaCount: media.length,

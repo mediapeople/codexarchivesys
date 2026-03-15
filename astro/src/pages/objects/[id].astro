@@ -5,7 +5,14 @@ import ObjectCard from '../../components/ObjectCard.astro';
 import FieldlogDataPlate from '../../components/FieldlogDataPlate.astro';
 import { getAllEntries } from '../../lib/archive';
 import { computeRelatedEntries } from '../../lib/relations';
-import { formatMediaLabel, getMediaItems, pickPrimaryMedia, withMediaVersion } from '../../lib/media';
+import {
+  formatMediaLabel,
+  getBodyImagePreviewItems,
+  getMediaItems,
+  getPreviewMediaItems,
+  pickPrimaryMedia,
+  withMediaVersion,
+} from '../../lib/media';
 import { getImageAssetMetadata, getPublicAssetVersion } from '../../lib/mediaAsset';
 import { formatDisplayTitle } from '../../lib/headline';
 import { getAuthorInitials, getAuthorProfiles } from '../../lib/author';
@@ -71,14 +78,17 @@ const inlineConnections = connections.filter((item) => item.display !== 'feature
 const related = computeRelatedEntries(entry, allEntries, 3).filter(
   (hit) => !connectedIds.has(hit.entry.data.id)
 );
-const mediaItems = getMediaItems(entry);
+const mediaItems = getPreviewMediaItems(entry);
+const inlineBodyImageSrcs = new Set(getBodyImagePreviewItems(entry.body).map((item) => item.src));
+const pageMediaItems = getMediaItems(entry).filter((item) => item.kind !== 'image' || !inlineBodyImageSrcs.has(item.src));
 const mediaVersion = (entry.data.postedAt ?? entry.data.date).toISOString();
 const mediaVersionEntries = await Promise.all(
   mediaItems.map(async (item) => [item.src, await getPublicAssetVersion(item.src)] as const)
 );
 const mediaVersionBySrc = new Map(mediaVersionEntries);
 const getVersionedMediaSrc = (src: string) => withMediaVersion(src, mediaVersionBySrc.get(src) ?? mediaVersion);
-const primaryMedia = pickPrimaryMedia(mediaItems);
+const primaryMedia = pickPrimaryMedia(pageMediaItems);
+const sharePrimaryMedia = pickPrimaryMedia(mediaItems);
 const imageMetadataEntries = await Promise.all(
   mediaItems
     .filter((item) => item.kind === 'image')
@@ -87,9 +97,10 @@ const imageMetadataEntries = await Promise.all(
 const imageMetadataBySrc = new Map(imageMetadataEntries);
 const getImageMetadata = (src: string) => imageMetadataBySrc.get(src) ?? null;
 const primaryMediaMeta = primaryMedia?.kind === 'image' ? getImageMetadata(primaryMedia.src) : null;
+const sharePrimaryMediaMeta = sharePrimaryMedia?.kind === 'image' ? getImageMetadata(sharePrimaryMedia.src) : null;
 const secondaryMedia = primaryMedia
-  ? mediaItems.filter((item) => item.src !== primaryMedia.src || item.role !== primaryMedia.role)
-  : mediaItems;
+  ? pageMediaItems.filter((item) => item.src !== primaryMedia.src || item.role !== primaryMedia.role)
+  : pageMediaItems;
 
 const includedObjectsRaw = (entry.data as Record<string, unknown>).includedObjects;
 const includedObjects = Array.isArray(includedObjectsRaw)
@@ -252,8 +263,11 @@ const shareMeta = buildObjectShareMeta({
   excerpt: entry.data.excerpt,
   mediaItems,
   canonicalPath: `/objects/${entry.data.id}`,
-  imageVersion: primaryMediaMeta?.version ?? (primaryMedia ? mediaVersionBySrc.get(primaryMedia.src) ?? undefined : undefined) ?? mediaVersion,
-  socialImageMetadata: primaryMediaMeta,
+  imageVersion:
+    sharePrimaryMediaMeta?.version ??
+    (sharePrimaryMedia ? mediaVersionBySrc.get(sharePrimaryMedia.src) ?? undefined : undefined) ??
+    mediaVersion,
+  socialImageMetadata: sharePrimaryMediaMeta,
 });
 const bodyClassRaw = (entry.data as Record<string, unknown>).bodyClass;
 const bodyClass = typeof bodyClassRaw === 'string' ? bodyClassRaw : 'prose';
