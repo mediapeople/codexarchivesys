@@ -554,6 +554,13 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
 <style>
   .card {
     --type-accent: var(--ghost);
+    --modest-table-shell-rule: color-mix(in srgb, var(--line) 84%, rgba(201, 150, 58, 0.34));
+    --modest-table-shell-rule-strong: color-mix(in srgb, var(--gold) 52%, rgba(244, 240, 232, 0.14));
+    --modest-table-tray-rule: color-mix(in srgb, var(--gold) 44%, rgba(244, 240, 232, 0.1));
+    --modest-table-tray-rule-soft: color-mix(in srgb, var(--line) 80%, rgba(201, 150, 58, 0.2));
+    --modest-table-bay-rule: color-mix(in srgb, var(--gold) 28%, rgba(244, 240, 232, 0.08));
+    --preview-control-border: var(--card-rule);
+    --preview-control-focus: var(--card-focus);
     --placeholder-surface:
       linear-gradient(150deg, rgba(60, 53, 46, 0.24), rgba(18, 16, 14, 0.9));
     --placeholder-motif: radial-gradient(circle at center, rgba(255, 255, 255, 0.04), transparent 62%);
@@ -823,17 +830,20 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     --image-preview-pad-inline: 18px;
     --image-preview-pad-top: 18px;
     --image-preview-pad-bottom: 32px;
-    --table-shell-rule: var(--card-rule);
-    --table-tray-rule: color-mix(in srgb, var(--card-rule-strong) 88%, rgba(255, 255, 255, 0.06));
+    --table-shell-rule: var(--modest-table-shell-rule);
+    --table-tray-rule: var(--modest-table-tray-rule);
+    --table-tray-rule-soft: var(--modest-table-tray-rule-soft);
     --table-tray-fill:
       linear-gradient(180deg, rgba(255, 255, 255, 0.026), rgba(255, 255, 255, 0) 16%),
       linear-gradient(180deg, rgba(42, 35, 30, 0.9), rgba(25, 21, 18, 0.94));
     --table-tray-inset-inline: max(10px, calc(var(--image-preview-pad-inline) - 8px));
     --table-tray-inset-top: max(10px, calc(var(--image-preview-pad-top) - 8px));
     --table-tray-inset-bottom: max(16px, calc(var(--image-preview-pad-bottom) - 14px));
-    --table-bay-rule: color-mix(in srgb, var(--table-tray-rule-soft) 88%, rgba(0, 0, 0, 0.22));
+    --table-bay-rule: var(--modest-table-bay-rule);
     --specimen-rule: color-mix(in srgb, var(--card-rule-strong) 92%, rgba(255, 255, 255, 0.08));
     --table-specimen-tilt: -0.4deg;
+    --preview-control-border: var(--modest-table-shell-rule-strong);
+    --preview-control-focus: var(--modest-table-tray-rule);
     aspect-ratio: var(--image-preview-frame-ratio);
     box-sizing: border-box;
     display: grid;
@@ -899,14 +909,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
 
   .card.feed .preview-wrap.has-image-preview::after,
   .card.related .preview-wrap.has-image-preview::after {
-    content: '';
-    position: absolute;
-    left: calc(var(--table-tray-inset-inline) + 2px);
-    right: calc(var(--table-tray-inset-inline) + 2px);
-    bottom: calc(var(--table-tray-inset-bottom) - 8px);
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--table-bay-rule) 14%, var(--table-tray-rule) 50%, transparent 86%);
-    pointer-events: none;
+    content: none;
   }
 
   .preview-expand-mark {
@@ -918,7 +921,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     height: 1.15rem;
     display: grid;
     place-items: center;
-    border: 1px solid var(--card-rule);
+    border: 1px solid var(--preview-control-border);
     background: rgba(14, 12, 10, 0.58);
     color: rgba(244, 240, 232, 0.72);
     font-family: var(--font-ui);
@@ -943,7 +946,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     justify-content: center;
     min-height: 1.2rem;
     padding: 0.18rem 0.42rem 0.16rem;
-    border: 1px solid var(--card-rule-soft);
+    border: 1px solid var(--preview-control-border);
     background: rgba(14, 12, 10, 0.64);
     color: rgba(244, 240, 232, 0.72);
     font-family: var(--font-ui);
@@ -1264,7 +1267,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
   .preview-wrap.card-image-trigger:focus-visible .preview-expand-mark,
   .preview-wrap.card-image-trigger:hover .preview-gallery-count,
   .preview-wrap.card-image-trigger:focus-visible .preview-gallery-count {
-    border-color: var(--card-focus);
+    border-color: var(--preview-control-focus);
     color: rgba(244, 240, 232, 0.92);
     background: rgba(14, 12, 10, 0.74);
     transform: translateY(-1px);
