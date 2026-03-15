@@ -1,5 +1,6 @@
 ---
 import fs from 'node:fs';
+import path from 'node:path';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { formatDisplayTitle } from '../lib/headline';
 
@@ -54,13 +55,28 @@ const defaultGraph: GraphPayload = {
   edges: [],
 };
 
-const graphPath = new URL('../../public/graph.json', import.meta.url);
+function getGraphPathCandidates(): string[] {
+  return [
+    path.resolve(process.cwd(), 'public/graph.json'),
+    path.resolve(process.cwd(), 'astro/public/graph.json'),
+  ];
+}
+
+function resolveGraphPath(): string {
+  for (const candidate of getGraphPathCandidates()) {
+    if (fs.existsSync(candidate)) {
+      return candidate;
+    }
+  }
+
+  return getGraphPathCandidates()[0];
+}
 
 let graph = defaultGraph;
 let loadError = '';
 
 try {
-  graph = JSON.parse(fs.readFileSync(graphPath, 'utf8')) as GraphPayload;
+  graph = JSON.parse(fs.readFileSync(resolveGraphPath(), 'utf8')) as GraphPayload;
 } catch (error) {
   loadError = error instanceof Error ? error.message : 'Unable to load graph.json';
 }
