@@ -69,11 +69,27 @@ function normalizeStringArray(value: unknown): string[] | null {
 
 function stripMarkdown(value: string): string {
   return value
+    .replace(/!\[\[[^\]]+\]\]/g, ' ')
     .replace(/!\[[^\]]*\]\([^)]+\)/g, ' ')
     .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
     .replace(/[`*_>#~-]/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
+}
+
+function trimExcerpt(value: string, max = 180): string {
+  const normalized = value.replace(/\s+/g, ' ').trim();
+  if (normalized.length <= max) {
+    return normalized;
+  }
+
+  const clipped = normalized
+    .slice(0, max)
+    .replace(/\s+\S*$/, '')
+    .replace(/[.?!,:;]+$/, '')
+    .trim();
+
+  return `${clipped}…`;
 }
 
 function excerptFromBody(value: string): string | null {
@@ -82,7 +98,7 @@ function excerptFromBody(value: string): string | null {
     return null;
   }
 
-  return stripped.slice(0, 180);
+  return trimExcerpt(stripped, 180);
 }
 
 function normalizeNewlines(value: string): string {

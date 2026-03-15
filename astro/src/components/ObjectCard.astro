@@ -1,7 +1,7 @@
 ---
 import TypeBadge from './TypeBadge.astro';
 import type { ArchiveEntry } from '../lib/archive';
-import { formatMediaLabel, getMediaItems, pickPrimaryMedia, withMediaVersion } from '../lib/media';
+import { formatMediaLabel, getMediaItems, pickPrimaryMedia, withMediaVersion, type CodexMediaItem } from '../lib/media';
 import { formatDisplayTitle } from '../lib/headline';
 import { getAuthorInitials, getPrimaryAuthor } from '../lib/author';
 import { getLoremapAtlasRender } from '../lib/loremap';
@@ -35,8 +35,6 @@ const {
   variant = 'feed',
   eyebrow,
 } = Astro.props;
-const mediaItems = getMediaItems(entry);
-const primaryMedia = pickPrimaryMedia(mediaItems);
 const displayTitle = formatDisplayTitle(entry.data.title);
 const primaryAuthor = getPrimaryAuthor(entry);
 const authorInitials = getAuthorInitials(primaryAuthor.name);
@@ -126,6 +124,71 @@ function getImagePreviewFrameStyle(
   ].join('; ');
 }
 
+function cleanPreviewTarget(value: string): string {
+  return value
+    .trim()
+    .replace(/^<|>$/g, '')
+    .replace(/\s+["'][^"']*["']\s*$/, '')
+    .split(/[?#]/, 1)[0]
+    .replace(/\\/g, '/');
+}
+
+function fallbackAltFromTarget(value: string): string {
+  const cleanTarget = cleanPreviewTarget(value);
+  const filename = cleanTarget.split('/').filter(Boolean).pop() || cleanTarget;
+  return filename.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ').trim();
+}
+
+function getBodyImagePreviewItems(body: string): CodexMediaItem[] {
+  const items: CodexMediaItem[] = [];
+  const seen = new Set<string>();
+
+  const pushItem = (rawTarget: string, rawAlt = '') => {
+    const src = cleanPreviewTarget(rawTarget);
+    if (!src || seen.has(src)) {
+      return;
+    }
+
+    seen.add(src);
+    items.push({
+      kind: 'image',
+      src,
+      role: items.length === 0 ? 'hero' : 'gallery',
+      alt: rawAlt.trim() || fallbackAltFromTarget(src),
+    });
+  };
+
+  for (const match of body.matchAll(/!\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g)) {
+    pushItem(match[1], match[2] || '');
+  }
+
+  for (const match of body.matchAll(/!\[([^\]]*)\]\(([^)]+)\)/g)) {
+    pushItem(match[2], match[1]);
+  }
+
+  return items;
+}
+
+function summarizeCardExcerpt(value: string, variant: 'feed' | 'related' | 'mosaic'): string {
+  const normalized = value.replace(/\s+/g, ' ').trim();
+  if (!normalized) {
+    return '';
+  }
+
+  const maxLength = variant === 'mosaic' ? 110 : variant === 'related' ? 156 : 168;
+  if (normalized.length <= maxLength) {
+    return normalized;
+  }
+
+  const clipped = normalized
+    .slice(0, maxLength)
+    .replace(/\s+\S*$/, '')
+    .replace(/[.?!,:;]+$/, '')
+    .trim();
+
+  return `${clipped}…`;
+}
+
 function getFragmentStageContent(body: string, fallback: string, maxLines: number): FragmentStageToken[] {
   const source = stripMarkdownFormatting(body || fallback);
   const normalizedLines = source
@@ -181,10 +244,13 @@ function getFragmentStageContent(body: string, fallback: string, maxLines: numbe
 }
 
 const fallbackSummary = (entry.data as Record<string, unknown>).themeStatement;
+const explicitMediaItems = getMediaItems(entry);
+const mediaItems = explicitMediaItems.length > 0 ? explicitMediaItems : getBodyImagePreviewItems(entry.body);
+const primaryMedia = pickPrimaryMedia(mediaItems);
 const rawSummary =
   entry.data.excerpt ||
   (typeof fallbackSummary === 'string' ? fallbackSummary : '');
-const summaryText = normalizeForCompare(rawSummary) ? rawSummary : '';
+const summaryText = normalizeForCompare(rawSummary) ? summarizeCardExcerpt(rawSummary, variant) : '';
 const fragmentStageLines = isFragment && variant !== 'related'
   ? getFragmentStageContent(entry.body, summaryText, variant === 'mosaic' ? 4 : 6)
   : [];
@@ -229,7 +295,7 @@ const previewGalleryPayload = hasIndependentPreviewAction
       }))
     )
   : undefined;
-const searchCorpus = [displayTitle, summaryText, ...entry.data.themes, ...entry.data.constellations]
+const searchCorpus = [displayTitle, rawSummary, ...entry.data.themes, ...entry.data.constellations]
   .join(' ')
   .toLowerCase();
 
@@ -1733,12 +1799,22 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     max-width: 38ch;
     font-size: 1.16rem;
     line-height: 1.86;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .card.feed .excerpt {
     margin: 1.14rem 0 1.02rem;
     max-width: 38ch;
     line-height: 1.78;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .card.feed.fragment .meta {
@@ -2086,6 +2162,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
       margin: 0.84rem 0 1rem;
       font-size: 1.08rem;
       line-height: 1.7;
+      -webkit-line-clamp: 4;
     }
 
     .card.feed.fragment .title,
