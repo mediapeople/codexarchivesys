@@ -215,6 +215,9 @@ const codexFields = {
   systemArea:   z.string().optional(),
   changeType:   ChangeType.optional(),
   dependencies: z.array(z.string()).default([]),
+  tags:         z.array(z.string()).default([]),
+  images:       z.array(z.string()).default([]),
+  state:        Status.optional(),
 };
 
 const fragmentFields = {

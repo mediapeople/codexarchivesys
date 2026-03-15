@@ -28,3 +28,6 @@ astro/.astro/
 
 # Temporary CLI scaffold left by Astro init
 astro/blue-bar/
+
+# Local Netlify folder
+.netlify

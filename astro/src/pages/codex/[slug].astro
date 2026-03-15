@@ -1,0 +1,251 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TypeBadge from '../../components/TypeBadge.astro';
+import { formatDisplayTitle } from '../../lib/headline';
+import { formatArchiveLongDate } from '../../lib/timeline';
+
+export async function getStaticPaths() {
+  const entries = (await getCollection('codex')).filter(
+    (entry) => entry.data.status === 'published' && entry.data.visibility === 'public'
+  );
+
+  return entries.map((entry) => ({
+    params: { slug: entry.slug },
+  }));
+}
+
+const entries = (await getCollection('codex')).filter(
+  (entry) => entry.data.status === 'published' && entry.data.visibility === 'public'
+);
+const entry = entries.find((candidate) => candidate.slug === Astro.params.slug);
+
+if (!entry) {
+  throw new Error(`Missing public codex entry for slug: ${Astro.params.slug}`);
+}
+
+const { Content } = await entry.render();
+
+function stripMarkdown(value: string): string {
+  return value
+    .replace(/!\[[^\]]*\]\([^)]+\)/g, ' ')
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/[`*_>#~-]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+const displayTitle = formatDisplayTitle(entry.data.title);
+const readableDate = formatArchiveLongDate(entry.data.date);
+const tags = entry.data.tags.length > 0 ? entry.data.tags : entry.data.themes;
+const images =
+  entry.data.images.length > 0
+    ? entry.data.images
+    : entry.data.media.filter((item) => item.kind === 'image').map((item) => item.src);
+const state = entry.data.state ?? entry.data.status;
+const summary = entry.data.excerpt || stripMarkdown(entry.body).slice(0, 180);
+const socialImage = images[0];
+---
+
+<BaseLayout
+  title={`${displayTitle} | Codex`}
+  description={summary || 'Carrier Pigeon codex entry'}
+  canonicalPath={`/codex/${entry.slug}`}
+  socialType="article"
+  socialImage={socialImage}
+  twitterCard={socialImage ? 'summary_large_image' : 'summary'}
+>
+  <article class="codex-shell">
+    <a class="back" href="/">← Back to archive</a>
+
+    <header class="head">
+      <div class="eyebrow">
+        <TypeBadge type="codex" showIcon={true} />
+        <span>{state}</span>
+      </div>
+      <h1>{displayTitle}</h1>
+      <div class="meta">
+        <span>{readableDate}</span>
+        {tags.length > 0 && <span>{tags.length} tags</span>}
+      </div>
+      {tags.length > 0 && (
+        <ul class="tag-list" aria-label="Tags">
+          {tags.map((tag) => (
+            <li>{tag}</li>
+          ))}
+        </ul>
+      )}
+    </header>
+
+    {images.length > 0 && (
+      <section class="gallery" aria-label="Attached images">
+        {images.map((image, index) => (
+          <a href={image} target="_blank" rel="noreferrer">
+            <img src={image} alt={`${displayTitle} image ${index + 1}`} loading="lazy" />
+          </a>
+        ))}
+      </section>
+    )}
+
+    <section class="body">
+      <Content />
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .codex-shell {
+    padding: 4.4rem 0 5.8rem;
+  }
+
+  .back {
+    display: inline-block;
+    color: var(--mid);
+    text-decoration: none;
+    font-family: var(--font-ui);
+    font-size: 12px;
+    letter-spacing: var(--ls-ui);
+    transition: 0.12s;
+  }
+
+  .back:hover {
+    color: var(--star);
+  }
+
+  .head {
+    margin-top: 1.3rem;
+    max-width: 46rem;
+  }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: var(--ls-ui);
+    text-transform: uppercase;
+  }
+
+  .head h1 {
+    margin: 1rem 0 0;
+    line-height: 1.18;
+  }
+
+  .meta {
+    margin-top: 1.15rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem 0.7rem;
+  }
+
+  .meta span {
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: var(--ls-ui);
+  }
+
+  .meta span + span {
+    position: relative;
+    padding-left: 0.72rem;
+  }
+
+  .meta span + span::before {
+    content: '·';
+    position: absolute;
+    left: 0.12rem;
+    color: var(--ghost);
+  }
+
+  .tag-list {
+    margin: 1.35rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    list-style: none;
+  }
+
+  .tag-list li {
+    padding: 0.28rem 0.7rem;
+    border: 1px solid rgba(201, 150, 58, 0.28);
+    border-radius: 999px;
+    color: var(--gold);
+    background: rgba(201, 150, 58, 0.1);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: var(--ls-ui);
+    text-transform: uppercase;
+  }
+
+  .gallery {
+    margin-top: 2.6rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1rem;
+  }
+
+  .gallery a {
+    display: block;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    background: rgba(255, 255, 255, 0.03);
+    overflow: hidden;
+  }
+
+  .gallery img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 13rem;
+    object-fit: cover;
+  }
+
+  .body {
+    margin-top: 3rem;
+    max-width: 46rem;
+    line-height: 1.95;
+  }
+
+  .body :global(h2),
+  .body :global(h3) {
+    margin: 2.8rem 0 1rem;
+    color: var(--star);
+    line-height: 1.25;
+  }
+
+  .body :global(p),
+  .body :global(li),
+  .body :global(blockquote) {
+    color: var(--text-body);
+    font-size: 1.12rem;
+  }
+
+  .body :global(p),
+  .body :global(ul),
+  .body :global(ol),
+  .body :global(blockquote) {
+    margin: 0 0 1.6rem;
+  }
+
+  .body :global(a) {
+    color: var(--gold);
+  }
+
+  .body :global(img) {
+    max-width: 100%;
+    height: auto;
+  }
+
+  @media (max-width: 720px) {
+    .codex-shell {
+      padding-top: 3.5rem;
+    }
+
+    .gallery {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

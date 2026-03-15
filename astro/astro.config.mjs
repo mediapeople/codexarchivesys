@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import netlify from '@astrojs/netlify';
 
 const localNoStoreHeaders = {
   'Cache-Control': 'no-store, max-age=0',
@@ -10,6 +11,7 @@ const localNoStoreHeaders = {
 // https://astro.build/config
 export default defineConfig({
   site: 'https://ndcodex.com',
+  adapter: netlify(),
   vite: {
     server: {
       headers: localNoStoreHeaders,
