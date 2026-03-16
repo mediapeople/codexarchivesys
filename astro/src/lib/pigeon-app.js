@@ -831,17 +831,16 @@ textarea {
   border-bottom: 1px solid currentColor;
 }
 
-.transmit-bar {
-  margin-top: 32px;
+.transmit-shell {
   background: var(--field);
   transition: box-shadow 0.3s, background 0.3s;
 }
 
-.transmit-bar.ready {
+.transmit-shell.ready {
   box-shadow: inset 0 1px 0 var(--copper-dim), 0 8px 24px rgba(184, 115, 51, 0.08);
 }
 
-.transmit-bar.delivered {
+.transmit-shell.delivered {
   box-shadow: inset 0 1px 0 var(--success-text), 0 8px 24px rgba(109, 184, 138, 0.1);
 }
 
@@ -1214,14 +1213,20 @@ export function renderPigeonAppMarkup(options = {}) {
     </div>
   </section>
 
-  <div class="transmit-bar" id="transmitBar">
-    <button class="btn-transmit" id="transmitButton" type="button" disabled>
-      <svg class="btn-transmit-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M20 8C20 8 17 6 14 7C12 7.5 10.5 9 9 9C7 9 5.5 8 4 9C2.5 10 2 12 3 13.5C4 15 6 15.5 8 15C9.5 14.6 11 13.5 12 14C13.5 14.7 13 17 14 18C15 19 17 18.5 18 17C19.5 15 19.5 12 18 11" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
-      </svg>
-      <span class="transmit-text" id="transmitLabel">Send Pigeon</span>
-    </button>
-  </div>
+  <section class="section">
+    <div class="section-coord">
+      <span class="coord-num">06</span>
+      <span class="coord-label">Transmit</span>
+    </div>
+    <div class="transmit-shell" id="transmitBar">
+      <button class="btn-transmit" id="transmitButton" type="button" disabled>
+        <svg class="btn-transmit-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M20 8C20 8 17 6 14 7C12 7.5 10.5 9 9 9C7 9 5.5 8 4 9C2.5 10 2 12 3 13.5C4 15 6 15.5 8 15C9.5 14.6 11 13.5 12 14C13.5 14.7 13 17 14 18C15 19 17 18.5 18 17C19.5 15 19.5 12 18 11" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+        </svg>
+        <span class="transmit-text" id="transmitLabel">Send Pigeon</span>
+      </button>
+    </div>
+  </section>
 
   <a class="archive-link" href="${escapeHtml(archiveHref)}">${escapeHtml(archiveLabel)}</a>
 </div>`;
@@ -1378,7 +1383,6 @@ export const PIGEON_APP_SCRIPT = String.raw`
   function parseFrontmatter(raw) {
     const normalized = String(raw || '').replace(/^\\uFEFF/, '').replace(/\\r\\n?/g, '\\n');
     const normalizedForMatch = normalized.replace(/^\\s+/, '');
-    const match = normalizedForMatch.match(/^---\\s*\\n([\\s\\S]*?)\\n---\\s*\\n?([\\s\\S]*)$/);
     const result = {
       title: '',
       date: '',
@@ -1391,42 +1395,13 @@ export const PIGEON_APP_SCRIPT = String.raw`
       hasDateField: false,
     };
 
-    if (!match) {
+    const parsedFrontmatter = parseLooseFrontmatter(normalizedForMatch);
+    if (!parsedFrontmatter) {
       return result;
     }
 
     result.hasFrontmatter = true;
-
-    const frontmatterBlock = match[1];
-    const bodyBlock = match[2] || '';
-    const fields = new Map();
-    let currentKey = '';
-
-    frontmatterBlock.split('\\n').forEach((line) => {
-      const trimmedLine = line.trimEnd();
-      if (!trimmedLine.trim()) {
-        return;
-      }
-
-      const listMatch = trimmedLine.match(/^\\s*-\\s*(.+)$/);
-      if (listMatch && currentKey) {
-        const existing = fields.get(currentKey) || [];
-        existing.push(listMatch[1].trim());
-        fields.set(currentKey, existing);
-        return;
-      }
-
-      const fieldMatch = trimmedLine.match(/^([A-Za-z0-9_-]+):\\s*(.*)$/);
-      if (!fieldMatch) {
-        return;
-      }
-
-      const key = fieldMatch[1].toLowerCase();
-      const value = fieldMatch[2].trim();
-      currentKey = key;
-      fields.set(key, value ? [value] : []);
-    });
-
+    const fields = parsedFrontmatter.fields;
     const objectType =
       normalizeObjectType(fields.get('object_type') && fields.get('object_type')[0]) ||
       normalizeObjectType(fields.get('objecttype') && fields.get('objecttype')[0]) ||
@@ -1439,8 +1414,75 @@ export const PIGEON_APP_SCRIPT = String.raw`
     result.state = ((fields.get('state') && fields.get('state')[0]) || '').trim();
     result.objectType = objectType;
     result.tags = (fields.get('tags') || []).flatMap(parseFrontmatterArray);
-    result.body = bodyBlock.trim();
+    result.body = parsedFrontmatter.body.trim();
     return result;
+  }
+
+  function parseLooseFrontmatter(source) {
+    const lines = source.split('\\n');
+    if (!lines.length || lines[0].trim() !== '---') {
+      return null;
+    }
+
+    const fields = new Map();
+    let currentKey = '';
+    let bodyStartIndex = -1;
+
+    for (let index = 1; index < lines.length; index += 1) {
+      const line = lines[index];
+      const trimmedLine = line.trimEnd();
+      const fullyTrimmed = trimmedLine.trim();
+
+      if (fullyTrimmed === '---') {
+        bodyStartIndex = index + 1;
+        break;
+      }
+
+      if (!fullyTrimmed) {
+        continue;
+      }
+
+      const listMatch = trimmedLine.match(/^\\s*-\\s*(.+)$/);
+      if (listMatch && currentKey) {
+        const existing = fields.get(currentKey) || [];
+        existing.push(listMatch[1].trim());
+        fields.set(currentKey, existing);
+        continue;
+      }
+
+      const fieldMatch = trimmedLine.match(/^([A-Za-z0-9_-]+):\\s*(.*)$/);
+      if (fieldMatch) {
+        currentKey = fieldMatch[1].toLowerCase();
+        const value = fieldMatch[2].trim();
+        fields.set(currentKey, value ? [value] : []);
+        continue;
+      }
+
+      if (/^\\s+/.test(line) && currentKey) {
+        const existing = fields.get(currentKey) || [];
+        if (existing.length === 0) {
+          existing.push(trimmedLine.trim());
+        } else {
+          existing[existing.length - 1] = (existing[existing.length - 1] + ' ' + trimmedLine.trim()).trim();
+        }
+        fields.set(currentKey, existing);
+        continue;
+      }
+
+      if (fields.size > 0) {
+        bodyStartIndex = index;
+        break;
+      }
+    }
+
+    if (fields.size === 0) {
+      return null;
+    }
+
+    return {
+      fields,
+      body: bodyStartIndex >= 0 ? lines.slice(bodyStartIndex).join('\\n') : '',
+    };
   }
 
   function slugify(value) {

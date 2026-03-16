@@ -394,10 +394,10 @@ function isHostedRuntime(): boolean {
 }
 
 function parseMarkdownNote(note: string, fallbackObjectType?: unknown): PigeonPayload | Response {
-  const normalized = normalizeNewlines(note).trim();
-  const match = normalized.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
+  const normalized = normalizeNewlines(note).replace(/^\uFEFF/, '').trimStart();
+  const parsedFrontmatter = extractMarkdownFrontmatter(normalized);
 
-  if (!match) {
+  if (!parsedFrontmatter) {
     return Response.json(
       {
         error: 'Markdown note must start with frontmatter delimited by --- lines.',
@@ -406,48 +406,13 @@ function parseMarkdownNote(note: string, fallbackObjectType?: unknown): PigeonPa
     );
   }
 
-  const [, frontmatterBlock, bodyBlock] = match;
-  const lines = frontmatterBlock.split('\n');
-  const fields = new Map<string, string[]>();
-  let currentKey = '';
-
-  for (const rawLine of lines) {
-    const line = rawLine.trimEnd();
-    if (!line.trim()) {
-      continue;
-    }
-
-    const listMatch = line.match(/^\s*-\s*(.+)$/);
-    if (listMatch && currentKey) {
-      const existing = fields.get(currentKey) ?? [];
-      existing.push(listMatch[1].trim());
-      fields.set(currentKey, existing);
-      continue;
-    }
-
-    const fieldMatch = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
-    if (!fieldMatch) {
-      continue;
-    }
-
-    const [, key, rawValue] = fieldMatch;
-    currentKey = key.toLowerCase();
-    const value = rawValue.trim();
-
-    if (!value) {
-      fields.set(currentKey, []);
-      continue;
-    }
-
-    fields.set(currentKey, [value]);
-  }
-
+  const fields = parsedFrontmatter.fields;
   const objectType = resolveObjectType(fields, 'markdown note frontmatter', fallbackObjectType);
   const title = (fields.get('title')?.[0] || '').trim();
   const date = (fields.get('date')?.[0] || '').trim();
   const tags = (fields.get('tags') || []).flatMap(parseFrontmatterValue);
   const images = (fields.get('images') || []).flatMap(parseFrontmatterValue);
-  const body = bodyBlock.trim();
+  const body = parsedFrontmatter.body.trim();
 
   if (!title) {
     return Response.json({ error: 'Markdown note is missing title frontmatter.' }, { status: 400 });
@@ -469,6 +434,74 @@ function parseMarkdownNote(note: string, fallbackObjectType?: unknown): PigeonPa
     body,
     images: normalizeNonEmptyStrings(images),
     media: [],
+  };
+}
+
+function extractMarkdownFrontmatter(source: string): { fields: Map<string, string[]>; body: string } | null {
+  const lines = source.split('\n');
+  if (!lines.length || lines[0].trim() !== '---') {
+    return null;
+  }
+
+  const fields = new Map<string, string[]>();
+  let currentKey = '';
+  let bodyStartIndex = -1;
+
+  for (let index = 1; index < lines.length; index += 1) {
+    const rawLine = lines[index];
+    const line = rawLine.trimEnd();
+    const trimmed = line.trim();
+
+    if (trimmed === '---') {
+      bodyStartIndex = index + 1;
+      break;
+    }
+
+    if (!trimmed) {
+      continue;
+    }
+
+    const listMatch = line.match(/^\s*-\s*(.+)$/);
+    if (listMatch && currentKey) {
+      const existing = fields.get(currentKey) ?? [];
+      existing.push(listMatch[1].trim());
+      fields.set(currentKey, existing);
+      continue;
+    }
+
+    const fieldMatch = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
+    if (fieldMatch) {
+      const [, key, rawValue] = fieldMatch;
+      currentKey = key.toLowerCase();
+      const value = rawValue.trim();
+      fields.set(currentKey, value ? [value] : []);
+      continue;
+    }
+
+    if (/^\s+/.test(rawLine) && currentKey) {
+      const existing = fields.get(currentKey) ?? [];
+      if (existing.length === 0) {
+        existing.push(line.trim());
+      } else {
+        existing[existing.length - 1] = `${existing[existing.length - 1]} ${line.trim()}`.trim();
+      }
+      fields.set(currentKey, existing);
+      continue;
+    }
+
+    if (fields.size > 0) {
+      bodyStartIndex = index;
+      break;
+    }
+  }
+
+  if (fields.size === 0) {
+    return null;
+  }
+
+  return {
+    fields,
+    body: bodyStartIndex >= 0 ? lines.slice(bodyStartIndex).join('\n') : '',
   };
 }
 
