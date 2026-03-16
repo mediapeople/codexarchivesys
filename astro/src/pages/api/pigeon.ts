@@ -400,7 +400,7 @@ function parseMarkdownNote(note: string, fallbackObjectType?: unknown): PigeonPa
   if (!parsedFrontmatter) {
     return Response.json(
       {
-        error: 'Markdown note must start with frontmatter delimited by --- lines.',
+        error: 'Markdown note must start with frontmatter fields like title: and date:.',
       },
       { status: 400 }
     );
@@ -439,25 +439,51 @@ function parseMarkdownNote(note: string, fallbackObjectType?: unknown): PigeonPa
 
 function extractMarkdownFrontmatter(source: string): { fields: Map<string, string[]>; body: string } | null {
   const lines = source.split('\n');
-  if (!lines.length || lines[0].trim() !== '---') {
+  if (!lines.length) {
     return null;
+  }
+
+  let startIndex = 0;
+  while (startIndex < lines.length && !lines[startIndex]?.trim()) {
+    startIndex += 1;
+  }
+
+  if (startIndex >= lines.length) {
+    return null;
+  }
+
+  const hasFence = lines[startIndex].trim() === '---';
+  if (!hasFence) {
+    const firstFieldMatch = lines[startIndex].trimEnd().match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
+    if (!firstFieldMatch) {
+      return null;
+    }
+
+    const firstKey = firstFieldMatch[1].toLowerCase();
+    if (!/^(title|date|object_type|objecttype|type|state|tags|images|summary|id|status|visibility|themes|media)$/.test(firstKey)) {
+      return null;
+    }
   }
 
   const fields = new Map<string, string[]>();
   let currentKey = '';
   let bodyStartIndex = -1;
 
-  for (let index = 1; index < lines.length; index += 1) {
+  for (let index = hasFence ? startIndex + 1 : startIndex; index < lines.length; index += 1) {
     const rawLine = lines[index];
     const line = rawLine.trimEnd();
     const trimmed = line.trim();
 
-    if (trimmed === '---') {
+    if (hasFence && trimmed === '---') {
       bodyStartIndex = index + 1;
       break;
     }
 
     if (!trimmed) {
+      if (!hasFence && fields.size > 0) {
+        bodyStartIndex = index + 1;
+        break;
+      }
       continue;
     }
 

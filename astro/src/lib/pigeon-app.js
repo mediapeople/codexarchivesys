@@ -1319,23 +1319,23 @@ export const PIGEON_APP_SCRIPT = String.raw`
 
     switch (type) {
       case 'signal':
-        return '---\\ntitle:\\ndate: ' + date + '\\nobject_type: signal\\ntags: []\\n---\\n\\nSignals are epiphanies prepared for transmission.\\n';
+        return '---\ntitle:\ndate: ' + date + '\nobject_type: signal\ntags: []\n---\n\nSignals are epiphanies prepared for transmission.\n';
       case 'fragment':
-        return '---\\ntitle:\\ndate: ' + date + '\\nobject_type: fragment\\ntags: []\\n---\\n\\nA fragment worth carrying forward.\\n';
+        return '---\ntitle:\ndate: ' + date + '\nobject_type: fragment\ntags: []\n---\n\nA fragment worth carrying forward.\n';
       case 'fieldlog':
-        return '---\\ntitle:\\ndate: ' + date + '\\nobject_type: fieldlog\\ntags: []\\n---\\n\\n## Context\\n\\n## Observation\\n\\n## Notes\\n';
+        return '---\ntitle:\ndate: ' + date + '\nobject_type: fieldlog\ntags: []\n---\n\n## Context\n\n## Observation\n\n## Notes\n';
       case 'artifact':
-        return '---\\ntitle:\\ndate: ' + date + '\\nobject_type: artifact\\ntags: []\\n---\\n\\nArtifact description.\\n';
+        return '---\ntitle:\ndate: ' + date + '\nobject_type: artifact\ntags: []\n---\n\nArtifact description.\n';
       case 'scroll':
-        return '---\\ntitle:\\ndate: ' + date + '\\nobject_type: scroll\\ntags: []\\n---\\n\\nLongform draft.\\n';
+        return '---\ntitle:\ndate: ' + date + '\nobject_type: scroll\ntags: []\n---\n\nLongform draft.\n';
       case 'codex':
-        return '---\\ntitle:\\ndate: ' + date + '\\nobject_type: codex\\ntags: []\\n---\\n\\nSystem note.\\n';
+        return '---\ntitle:\ndate: ' + date + '\nobject_type: codex\ntags: []\n---\n\nSystem note.\n';
       case 'loremap':
-        return '---\\ntitle:\\ndate: ' + date + '\\nobject_type: loremap\\ntags: []\\n---\\n\\nLocation note.\\n';
+        return '---\ntitle:\ndate: ' + date + '\nobject_type: loremap\ntags: []\n---\n\nLocation note.\n';
       case 'nexus':
-        return '---\\ntitle:\\ndate: ' + date + '\\nobject_type: nexus\\ntags: []\\n---\\n\\nConnection note.\\n';
+        return '---\ntitle:\ndate: ' + date + '\nobject_type: nexus\ntags: []\n---\n\nConnection note.\n';
       default:
-        return '---\\ntitle:\\ndate: ' + date + '\\nobject_type: fragment\\ntags: []\\n---\\n\\n';
+        return '---\ntitle:\ndate: ' + date + '\nobject_type: fragment\ntags: []\n---\n\n';
     }
   }
 
@@ -1381,8 +1381,8 @@ export const PIGEON_APP_SCRIPT = String.raw`
   }
 
   function parseFrontmatter(raw) {
-    const normalized = String(raw || '').replace(/^\\uFEFF/, '').replace(/\\r\\n?/g, '\\n');
-    const normalizedForMatch = normalized.replace(/^\\s+/, '');
+    const normalized = String(raw || '').replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n');
+    const normalizedForMatch = normalized.replace(/^\s+/, '');
     const result = {
       title: '',
       date: '',
@@ -1419,30 +1419,56 @@ export const PIGEON_APP_SCRIPT = String.raw`
   }
 
   function parseLooseFrontmatter(source) {
-    const lines = source.split('\\n');
-    if (!lines.length || lines[0].trim() !== '---') {
+    const lines = source.split('\n');
+    if (!lines.length) {
       return null;
+    }
+
+    let startIndex = 0;
+    while (startIndex < lines.length && !lines[startIndex].trim()) {
+      startIndex += 1;
+    }
+
+    if (startIndex >= lines.length) {
+      return null;
+    }
+
+    const hasFence = lines[startIndex].trim() === '---';
+    if (!hasFence) {
+      const firstFieldMatch = lines[startIndex].trimEnd().match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
+      if (!firstFieldMatch) {
+        return null;
+      }
+
+      const firstKey = firstFieldMatch[1].toLowerCase();
+      if (!/^(title|date|object_type|objecttype|type|state|tags|images|summary|id|status|visibility|themes|media)$/.test(firstKey)) {
+        return null;
+      }
     }
 
     const fields = new Map();
     let currentKey = '';
     let bodyStartIndex = -1;
 
-    for (let index = 1; index < lines.length; index += 1) {
-      const line = lines[index];
-      const trimmedLine = line.trimEnd();
+    for (let index = hasFence ? startIndex + 1 : startIndex; index < lines.length; index += 1) {
+      const rawLine = lines[index];
+      const trimmedLine = rawLine.trimEnd();
       const fullyTrimmed = trimmedLine.trim();
 
-      if (fullyTrimmed === '---') {
+      if (hasFence && fullyTrimmed === '---') {
         bodyStartIndex = index + 1;
         break;
       }
 
       if (!fullyTrimmed) {
+        if (!hasFence && fields.size > 0) {
+          bodyStartIndex = index + 1;
+          break;
+        }
         continue;
       }
 
-      const listMatch = trimmedLine.match(/^\\s*-\\s*(.+)$/);
+      const listMatch = trimmedLine.match(/^\s*-\s*(.+)$/);
       if (listMatch && currentKey) {
         const existing = fields.get(currentKey) || [];
         existing.push(listMatch[1].trim());
@@ -1450,7 +1476,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
         continue;
       }
 
-      const fieldMatch = trimmedLine.match(/^([A-Za-z0-9_-]+):\\s*(.*)$/);
+      const fieldMatch = trimmedLine.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
       if (fieldMatch) {
         currentKey = fieldMatch[1].toLowerCase();
         const value = fieldMatch[2].trim();
@@ -1458,7 +1484,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
         continue;
       }
 
-      if (/^\\s+/.test(line) && currentKey) {
+      if (/^\s+/.test(rawLine) && currentKey) {
         const existing = fields.get(currentKey) || [];
         if (existing.length === 0) {
           existing.push(trimmedLine.trim());
@@ -1481,14 +1507,14 @@ export const PIGEON_APP_SCRIPT = String.raw`
 
     return {
       fields,
-      body: bodyStartIndex >= 0 ? lines.slice(bodyStartIndex).join('\\n') : '',
+      body: bodyStartIndex >= 0 ? lines.slice(bodyStartIndex).join('\n') : '',
     };
   }
 
   function slugify(value) {
     return String(value || '')
       .normalize('NFKD')
-      .replace(/[\\u0300-\\u036f]/g, '')
+      .replace(/[\u0300-\u036f]/g, '')
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/^-+|-+$/g, '')
