@@ -2,7 +2,6 @@ import type { APIRoute } from 'astro';
 import { timingSafeEqual } from 'node:crypto';
 import { mkdir, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import sharp from 'sharp';
 
 export const prerender = false;
 
@@ -16,6 +15,32 @@ const OBJECT_TYPES = [
   'nexus',
   'signal',
 ] as const;
+
+const STATUS_VALUES = ['draft', 'review', 'published', 'archived'] as const;
+const VISIBILITY_VALUES = ['public', 'private', 'internal', 'unlisted'] as const;
+
+const UNIVERSAL_PASSTHROUGH_KEYS = new Set([
+  'constellations',
+  'related',
+  'connections',
+  'source',
+  'location',
+  'geo',
+  'terrain',
+  'author',
+  'contributors',
+]);
+
+const OBJECT_TYPE_PASSTHROUGH_KEYS: Record<PigeonObjectType, Set<string>> = {
+  scroll: new Set(['series', 'cadence', 'tone', 'dedication', 'bodyclass']),
+  loremap: new Set(['classification', 'atlas', 'bodyclass']),
+  artifact: new Set(['artifacttype', 'materials', 'year', 'dimensions', 'condition']),
+  fieldlog: new Set(['project', 'phase', 'context', 'specs', 'signals', 'actions']),
+  codex: new Set(['version', 'scope', 'systemarea', 'changetype']),
+  fragment: new Set(['lengthclass', 'origin', 'voice']),
+  nexus: new Set(['lead', 'featured', 'includedobjects', 'themestatement', 'releasetype']),
+  signal: new Set(['origin', 'markers']),
+};
 
 type PigeonObjectType = (typeof OBJECT_TYPES)[number];
 
@@ -32,9 +57,31 @@ type PigeonPayload = {
   title: string;
   date: string;
   tags: string[];
+  themes: string[];
   body: string;
   images: string[];
   media: PigeonMediaItem[];
+  status: PigeonStatus;
+  visibility: PigeonVisibility;
+  excerpt?: string;
+  codexState?: PigeonStatus;
+  codexDependencies: string[];
+  passthroughFrontmatter: string[];
+};
+
+type PigeonStatus = 'draft' | 'review' | 'published' | 'archived';
+type PigeonVisibility = 'public' | 'private' | 'internal' | 'unlisted';
+
+type FrontmatterEntry = {
+  key: string;
+  rawLines: string[];
+  values: string[];
+};
+
+type ParsedFrontmatter = {
+  fields: Map<string, string[]>;
+  entries: FrontmatterEntry[];
+  body: string;
 };
 
 type ParsedPigeonRequest = {
@@ -239,6 +286,26 @@ function parseFrontmatterValue(value: string): string[] {
     .filter(Boolean);
 }
 
+function normalizeStatus(value: unknown): PigeonStatus | null {
+  if (typeof value !== 'string') {
+    return null;
+  }
+
+  const normalized = value.trim().toLowerCase();
+  return STATUS_VALUES.includes(normalized as PigeonStatus) ? (normalized as PigeonStatus) : null;
+}
+
+function normalizeVisibility(value: unknown): PigeonVisibility | null {
+  if (typeof value !== 'string') {
+    return null;
+  }
+
+  const normalized = value.trim().toLowerCase();
+  return VISIBILITY_VALUES.includes(normalized as PigeonVisibility)
+    ? (normalized as PigeonVisibility)
+    : null;
+}
+
 function normalizeObjectType(value: unknown): PigeonObjectType | null {
   if (typeof value !== 'string') {
     return null;
@@ -393,6 +460,20 @@ function isHostedRuntime(): boolean {
   );
 }
 
+function shouldPassThroughFrontmatterKey(objectType: PigeonObjectType, key: string): boolean {
+  if (UNIVERSAL_PASSTHROUGH_KEYS.has(key)) {
+    return true;
+  }
+
+  return OBJECT_TYPE_PASSTHROUGH_KEYS[objectType]?.has(key) ?? false;
+}
+
+function buildPassthroughFrontmatter(entries: FrontmatterEntry[], objectType: PigeonObjectType): string[] {
+  return entries
+    .filter((entry) => shouldPassThroughFrontmatterKey(objectType, entry.key))
+    .flatMap((entry) => entry.rawLines);
+}
+
 function parseMarkdownNote(note: string, fallbackObjectType?: unknown): PigeonPayload | Response {
   const normalized = normalizeNewlines(note).replace(/^\uFEFF/, '').trimStart();
   const parsedFrontmatter = extractMarkdownFrontmatter(normalized);
@@ -411,8 +492,19 @@ function parseMarkdownNote(note: string, fallbackObjectType?: unknown): PigeonPa
   const title = (fields.get('title')?.[0] || '').trim();
   const date = (fields.get('date')?.[0] || '').trim();
   const tags = (fields.get('tags') || []).flatMap(parseFrontmatterValue);
+  const themes = (fields.get('themes') || []).flatMap(parseFrontmatterValue);
   const images = (fields.get('images') || []).flatMap(parseFrontmatterValue);
   const body = parsedFrontmatter.body.trim();
+  const status =
+    normalizeStatus(fields.get('status')?.[0]) ||
+    normalizeStatus(fields.get('state')?.[0]) ||
+    'published';
+  const visibility = normalizeVisibility(fields.get('visibility')?.[0]) || 'public';
+  const excerpt =
+    normalizeOptionalString(fields.get('excerpt')?.[0]) ||
+    normalizeOptionalString(fields.get('summary')?.[0]) ||
+    excerptFromBody(body) ||
+    undefined;
 
   if (!title) {
     return Response.json({ error: 'Markdown note is missing title frontmatter.' }, { status: 400 });
@@ -431,13 +523,22 @@ function parseMarkdownNote(note: string, fallbackObjectType?: unknown): PigeonPa
     title,
     date,
     tags: normalizeNonEmptyStrings(tags),
+    themes: normalizeNonEmptyStrings(themes.length > 0 ? themes : tags),
     body,
     images: normalizeNonEmptyStrings(images),
     media: [],
+    status,
+    visibility,
+    excerpt,
+    codexState: normalizeStatus(fields.get('state')?.[0]) || undefined,
+    codexDependencies: normalizeNonEmptyStrings(
+      (fields.get('dependencies') || []).flatMap(parseFrontmatterValue)
+    ),
+    passthroughFrontmatter: buildPassthroughFrontmatter(parsedFrontmatter.entries, objectType),
   };
 }
 
-function extractMarkdownFrontmatter(source: string): { fields: Map<string, string[]>; body: string } | null {
+function extractMarkdownFrontmatter(source: string): ParsedFrontmatter | null {
   const lines = source.split('\n');
   if (!lines.length) {
     return null;
@@ -466,8 +567,10 @@ function extractMarkdownFrontmatter(source: string): { fields: Map<string, strin
   }
 
   const fields = new Map<string, string[]>();
+  const entries: FrontmatterEntry[] = [];
   let currentKey = '';
   let bodyStartIndex = -1;
+  let currentEntry: FrontmatterEntry | null = null;
 
   for (let index = hasFence ? startIndex + 1 : startIndex; index < lines.length; index += 1) {
     const rawLine = lines[index];
@@ -492,6 +595,8 @@ function extractMarkdownFrontmatter(source: string): { fields: Map<string, strin
       const existing = fields.get(currentKey) ?? [];
       existing.push(listMatch[1].trim());
       fields.set(currentKey, existing);
+      currentEntry?.rawLines.push(line);
+      currentEntry && (currentEntry.values = existing);
       continue;
     }
 
@@ -500,7 +605,14 @@ function extractMarkdownFrontmatter(source: string): { fields: Map<string, strin
       const [, key, rawValue] = fieldMatch;
       currentKey = key.toLowerCase();
       const value = rawValue.trim();
-      fields.set(currentKey, value ? [value] : []);
+      const values = value ? [value] : [];
+      fields.set(currentKey, values);
+      currentEntry = {
+        key: currentKey,
+        rawLines: [line],
+        values,
+      };
+      entries.push(currentEntry);
       continue;
     }
 
@@ -512,6 +624,8 @@ function extractMarkdownFrontmatter(source: string): { fields: Map<string, strin
         existing[existing.length - 1] = `${existing[existing.length - 1]} ${line.trim()}`.trim();
       }
       fields.set(currentKey, existing);
+      currentEntry?.rawLines.push(rawLine);
+      currentEntry && (currentEntry.values = existing);
       continue;
     }
 
@@ -527,6 +641,7 @@ function extractMarkdownFrontmatter(source: string): { fields: Map<string, strin
 
   return {
     fields,
+    entries,
     body: bodyStartIndex >= 0 ? lines.slice(bodyStartIndex).join('\n') : '',
   };
 }
@@ -711,7 +826,6 @@ function yamlImageMediaField(media: PigeonMediaItem[]): string {
 }
 
 function buildMarkdownEntry(payload: PigeonPayload, slug: string): string {
-  const excerpt = excerptFromBody(payload.body);
   const lines: Array<string | null> = [
     '---',
     `id: ${slug}`,
@@ -719,11 +833,12 @@ function buildMarkdownEntry(payload: PigeonPayload, slug: string): string {
     `title: ${yamlString(payload.title)}`,
     `date: ${yamlString(payload.date)}`,
     `postedAt: ${yamlString(new Date().toISOString())}`,
-    'status: published',
-    'visibility: public',
-    excerpt ? `excerpt: ${yamlString(excerpt)}` : null,
-    yamlStringArrayField('themes', payload.tags),
+    `status: ${payload.status}`,
+    `visibility: ${payload.visibility}`,
+    payload.excerpt ? `excerpt: ${yamlString(payload.excerpt)}` : null,
+    yamlStringArrayField('themes', payload.themes),
     yamlImageMediaField(payload.media),
+    payload.passthroughFrontmatter.join('\n'),
     '---',
     '',
     payload.body.trim(),
@@ -736,8 +851,8 @@ function buildMarkdownEntry(payload: PigeonPayload, slug: string): string {
       0,
       yamlStringArrayField('tags', payload.tags),
       payload.images.length > 0 ? yamlStringArrayField('images', payload.images) : null,
-      'state: published',
-      'dependencies: []'
+      `state: ${payload.codexState || payload.status}`,
+      yamlStringArrayField('dependencies', payload.codexDependencies)
     );
   }
 
@@ -842,24 +957,14 @@ async function prepareUploadedImages(
         throw new Error(`Unsupported uploaded file type for ${file.name}. Only image files are allowed.`);
       }
 
-      const inputBuffer = Buffer.from(await file.arrayBuffer());
-      const pipeline = sharp(inputBuffer, { failOn: 'none' }).rotate();
-      const metadata = await pipeline.metadata();
-
-      const resized = pipeline.resize({
-        width: 2400,
-        height: 2400,
-        fit: 'inside',
-        withoutEnlargement: true,
-      });
-
-      const keepPng = file.type === 'image/png' || metadata.hasAlpha === true;
-      const outputFormat = keepPng ? 'png' : 'jpeg';
-      const buffer =
-        outputFormat === 'png'
-          ? await resized.png({ compressionLevel: 9 }).toBuffer()
-          : await resized.jpeg({ quality: 82, mozjpeg: true }).toBuffer();
-      const extension = outputFormat === 'png' ? 'png' : 'jpg';
+      const buffer = Buffer.from(await file.arrayBuffer());
+      const mimeSubtype = file.type.split('/')[1] || '';
+      const normalizedSubtype = mimeSubtype.toLowerCase();
+      const extensionFromName = path.extname(file.name).replace(/^\./, '').toLowerCase();
+      const extension =
+        extensionFromName ||
+        (normalizedSubtype === 'jpeg' ? 'jpg' : normalizedSubtype === 'svg+xml' ? 'svg' : normalizedSubtype) ||
+        'jpg';
       const publicSrc = getRelativePublicImagePath(objectType, slug, index, extension);
 
       return {
@@ -867,7 +972,7 @@ async function prepareUploadedImages(
         publicSrc,
         repoPath: `astro/public${publicSrc}`,
         buffer,
-        contentType: outputFormat === 'png' ? 'image/png' : 'image/jpeg',
+        contentType: file.type || `image/${extension === 'jpg' ? 'jpeg' : extension}`,
       };
     })
   );
@@ -1403,7 +1508,10 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
   const date = typeof candidate.date === 'string' ? candidate.date.trim() : '';
   const body = typeof candidate.body === 'string' ? candidate.body.trim() : '';
   const tags = normalizeStringArray(candidate.tags);
+  const themes = candidate.themes === undefined ? [] : normalizeStringArray(candidate.themes);
   const images = candidate.images === undefined ? [] : normalizeStringArray(candidate.images);
+  const dependencies =
+    candidate.dependencies === undefined ? [] : normalizeStringArray(candidate.dependencies);
   const objectType = resolveObjectType(
     new Map([
       ['object_type', [typeof candidate.object_type === 'string' ? candidate.object_type : '']],
@@ -1429,8 +1537,16 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
     return Response.json({ error: 'tags must be an array of strings.' }, { status: 400 });
   }
 
+  if (!themes) {
+    return Response.json({ error: 'themes must be an array of strings.' }, { status: 400 });
+  }
+
   if (!images) {
     return Response.json({ error: 'images must be an array of strings.' }, { status: 400 });
+  }
+
+  if (!dependencies) {
+    return Response.json({ error: 'dependencies must be an array of strings.' }, { status: 400 });
   }
 
   return {
@@ -1439,9 +1555,19 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
       title,
       date,
       tags,
+      themes: normalizeNonEmptyStrings(themes.length > 0 ? themes : tags),
       body,
       images: normalizeNonEmptyStrings(images),
       media: [],
+      status: normalizeStatus(candidate.status) || 'published',
+      visibility: normalizeVisibility(candidate.visibility) || 'public',
+      excerpt:
+        (typeof candidate.excerpt === 'string' && candidate.excerpt.trim()) ||
+        excerptFromBody(body) ||
+        undefined,
+      codexState: normalizeStatus(candidate.state) || undefined,
+      codexDependencies: normalizeNonEmptyStrings(dependencies),
+      passthroughFrontmatter: [],
     },
     uploadedImages: [],
   };

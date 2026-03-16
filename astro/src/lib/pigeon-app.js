@@ -1319,21 +1319,21 @@ export const PIGEON_APP_SCRIPT = String.raw`
 
     switch (type) {
       case 'signal':
-        return '---\ntitle:\ndate: ' + date + '\nobject_type: signal\ntags: []\n---\n\nSignals are epiphanies prepared for transmission.\n';
+        return '---\ntitle:\ndate: ' + date + '\nobject_type: signal\ntags: []\norigin:\nmarkers: []\n---\n\nSignals are epiphanies prepared for transmission.\n';
       case 'fragment':
-        return '---\ntitle:\ndate: ' + date + '\nobject_type: fragment\ntags: []\n---\n\nA fragment worth carrying forward.\n';
+        return '---\ntitle:\ndate: ' + date + '\nobject_type: fragment\ntags: []\norigin:\nvoice:\n---\n\nA fragment worth carrying forward.\n';
       case 'fieldlog':
-        return '---\ntitle:\ndate: ' + date + '\nobject_type: fieldlog\ntags: []\n---\n\n## Context\n\n## Observation\n\n## Notes\n';
+        return '---\ntitle:\ndate: ' + date + '\nobject_type: fieldlog\ntags: []\nproject:\nphase:\ncontext:\nactions: []\n---\n\n## Context\n\n## Observation\n\n## Notes\n';
       case 'artifact':
-        return '---\ntitle:\ndate: ' + date + '\nobject_type: artifact\ntags: []\n---\n\nArtifact description.\n';
+        return '---\ntitle:\ndate: ' + date + '\nobject_type: artifact\ntags: []\nartifactType:\nmaterials:\ncondition:\n---\n\nArtifact description.\n';
       case 'scroll':
-        return '---\ntitle:\ndate: ' + date + '\nobject_type: scroll\ntags: []\n---\n\nLongform draft.\n';
+        return '---\ntitle:\ndate: ' + date + '\nobject_type: scroll\ntags: []\nsummary:\nbodyClass: prose\n---\n\nLongform draft.\n';
       case 'codex':
-        return '---\ntitle:\ndate: ' + date + '\nobject_type: codex\ntags: []\n---\n\nSystem note.\n';
+        return '---\ntitle:\ndate: ' + date + '\nobject_type: codex\ntags: []\nversion:\nscope:\nstate: published\n---\n\nSystem note.\n';
       case 'loremap':
-        return '---\ntitle:\ndate: ' + date + '\nobject_type: loremap\ntags: []\n---\n\nLocation note.\n';
+        return '---\ntitle:\ndate: ' + date + '\nobject_type: loremap\ntags: []\nlocation:\nterrain:\nclassification: []\n---\n\nLocation note.\n';
       case 'nexus':
-        return '---\ntitle:\ndate: ' + date + '\nobject_type: nexus\ntags: []\n---\n\nConnection note.\n';
+        return '---\ntitle:\ndate: ' + date + '\nobject_type: nexus\ntags: []\nlead:\nfeatured: []\nreleaseType:\n---\n\nConnection note.\n';
       default:
         return '---\ntitle:\ndate: ' + date + '\nobject_type: fragment\ntags: []\n---\n\n';
     }
