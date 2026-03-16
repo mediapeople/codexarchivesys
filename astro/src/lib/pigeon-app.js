@@ -1204,15 +1204,6 @@ export function renderPigeonAppMarkup(options = {}) {
     </div>
   </section>
 
-  <section class="workflow">
-    <div class="workflow-title">${escapeHtml(workflowTitle)}</div>
-    <div class="workflow-steps">${renderedWorkflowSteps}
-    </div>
-    <div class="workflow-actions">
-      <button class="btn-ghost" id="copyUrlButton" type="button">${escapeHtml(copyButtonLabel)}</button>
-    </div>
-  </section>
-
   <section class="section">
     <div class="section-coord">
       <span class="coord-num">06</span>
@@ -1225,6 +1216,15 @@ export function renderPigeonAppMarkup(options = {}) {
         </svg>
         <span class="transmit-text" id="transmitLabel">Send Pigeon</span>
       </button>
+    </div>
+  </section>
+
+  <section class="workflow">
+    <div class="workflow-title">${escapeHtml(workflowTitle)}</div>
+    <div class="workflow-steps">${renderedWorkflowSteps}
+    </div>
+    <div class="workflow-actions">
+      <button class="btn-ghost" id="copyUrlButton" type="button">${escapeHtml(copyButtonLabel)}</button>
     </div>
   </section>
 
