@@ -139,7 +139,7 @@ function renderUploadPage(host) {
     preparingImagesMessage: 'Compressing images for local upload.',
     restoredDraftMessage: 'Recovered the last local draft stored on this device.',
     keyClearedMessage: 'The saved key has been removed from this device.',
-    templateLoadedMessage: 'Edit the template, then publish.',
+    templateLoadedMessage: 'Fill in title and date, then publish.',
     fileLoadedMessage: 'Review the note and publish when ready.',
     editorClearedMessage: 'Editor cleared.',
   };

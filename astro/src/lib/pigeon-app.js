@@ -158,7 +158,7 @@ body {
   font-family: 'Courier Prime', 'Courier New', monospace;
   font-size: 15px;
   line-height: 1.5;
-  padding-bottom: calc(var(--transmit-h) + env(safe-area-inset-bottom));
+  padding-bottom: max(32px, env(safe-area-inset-bottom));
 }
 
 body::before {
@@ -832,24 +832,17 @@ textarea {
 }
 
 .transmit-bar {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 200;
-  background: var(--paper);
-  border-top: 1px solid var(--rule);
-  transition: border-color 0.3s, box-shadow 0.3s;
+  margin-top: 32px;
+  background: var(--field);
+  transition: box-shadow 0.3s, background 0.3s;
 }
 
 .transmit-bar.ready {
-  border-top-color: var(--copper-dim);
-  box-shadow: 0 -8px 32px rgba(184, 115, 51, 0.08);
+  box-shadow: inset 0 1px 0 var(--copper-dim), 0 8px 24px rgba(184, 115, 51, 0.08);
 }
 
 .transmit-bar.delivered {
-  border-top-color: var(--success-text);
-  box-shadow: 0 -8px 32px rgba(109, 184, 138, 0.1);
+  box-shadow: inset 0 1px 0 var(--success-text), 0 8px 24px rgba(109, 184, 138, 0.1);
 }
 
 .btn-transmit {
@@ -859,8 +852,8 @@ textarea {
   justify-content: center;
   gap: 14px;
   width: 100%;
-  height: calc(var(--transmit-h) + env(safe-area-inset-bottom));
-  padding: 0 24px env(safe-area-inset-bottom);
+  height: var(--transmit-h);
+  padding: 0 24px;
   border: 0;
   background: transparent;
   color: var(--muted);
@@ -1221,16 +1214,16 @@ export function renderPigeonAppMarkup(options = {}) {
     </div>
   </section>
 
-  <a class="archive-link" href="${escapeHtml(archiveHref)}">${escapeHtml(archiveLabel)}</a>
-</div>
+  <div class="transmit-bar" id="transmitBar">
+    <button class="btn-transmit" id="transmitButton" type="button" disabled>
+      <svg class="btn-transmit-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M20 8C20 8 17 6 14 7C12 7.5 10.5 9 9 9C7 9 5.5 8 4 9C2.5 10 2 12 3 13.5C4 15 6 15.5 8 15C9.5 14.6 11 13.5 12 14C13.5 14.7 13 17 14 18C15 19 17 18.5 18 17C19.5 15 19.5 12 18 11" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+      </svg>
+      <span class="transmit-text" id="transmitLabel">Send Pigeon</span>
+    </button>
+  </div>
 
-<div class="transmit-bar" id="transmitBar">
-  <button class="btn-transmit" id="transmitButton" type="button" disabled>
-    <svg class="btn-transmit-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M20 8C20 8 17 6 14 7C12 7.5 10.5 9 9 9C7 9 5.5 8 4 9C2.5 10 2 12 3 13.5C4 15 6 15.5 8 15C9.5 14.6 11 13.5 12 14C13.5 14.7 13 17 14 18C15 19 17 18.5 18 17C19.5 15 19.5 12 18 11" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
-    </svg>
-    <span class="transmit-text" id="transmitLabel">Send Pigeon</span>
-  </button>
+  <a class="archive-link" href="${escapeHtml(archiveHref)}">${escapeHtml(archiveLabel)}</a>
 </div>`;
 }
 
@@ -1383,8 +1376,9 @@ export const PIGEON_APP_SCRIPT = String.raw`
   }
 
   function parseFrontmatter(raw) {
-    const normalized = String(raw || '').replace(/\\r\\n?/g, '\\n');
-    const match = normalized.match(/^---\\n([\\s\\S]*?)\\n---\\n?([\\s\\S]*)$/);
+    const normalized = String(raw || '').replace(/^\\uFEFF/, '').replace(/\\r\\n?/g, '\\n');
+    const normalizedForMatch = normalized.replace(/^\\s+/, '');
+    const match = normalizedForMatch.match(/^---\\s*\\n([\\s\\S]*?)\\n---\\s*\\n?([\\s\\S]*)$/);
     const result = {
       title: '',
       date: '',
@@ -1392,11 +1386,16 @@ export const PIGEON_APP_SCRIPT = String.raw`
       objectType: null,
       tags: [],
       body: normalized.trim(),
+      hasFrontmatter: false,
+      hasTitleField: false,
+      hasDateField: false,
     };
 
     if (!match) {
       return result;
     }
+
+    result.hasFrontmatter = true;
 
     const frontmatterBlock = match[1];
     const bodyBlock = match[2] || '';
@@ -1433,6 +1432,8 @@ export const PIGEON_APP_SCRIPT = String.raw`
       normalizeObjectType(fields.get('objecttype') && fields.get('objecttype')[0]) ||
       normalizeObjectType(fields.get('type') && fields.get('type')[0]);
 
+    result.hasTitleField = fields.has('title');
+    result.hasDateField = fields.has('date');
     result.title = ((fields.get('title') && fields.get('title')[0]) || '').trim();
     result.date = ((fields.get('date') && fields.get('date')[0]) || '').trim();
     result.state = ((fields.get('state') && fields.get('state')[0]) || '').trim();
@@ -1585,11 +1586,19 @@ export const PIGEON_APP_SCRIPT = String.raw`
     }
 
     if (!parsed.title) {
-      return 'Add a title in the frontmatter first.';
+      if (!parsed.hasFrontmatter) {
+        return 'Start the note with frontmatter and add a title.';
+      }
+
+      return parsed.hasTitleField
+        ? 'Fill in the title after title: in the frontmatter.'
+        : 'Add a title: line in the frontmatter first.';
     }
 
     if (!parsed.date) {
-      return 'Add a date in the frontmatter first.';
+      return parsed.hasDateField
+        ? 'Fill in the date after date: in the frontmatter.'
+        : 'Add a date: line in the frontmatter first.';
     }
 
     if (Number.isNaN(Date.parse(parsed.date))) {
