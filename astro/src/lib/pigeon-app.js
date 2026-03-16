@@ -1568,7 +1568,43 @@ export const PIGEON_APP_SCRIPT = String.raw`
     const type = parsed.objectType || selectedType;
     const hasNote = noteField.value.trim().length > 0;
     const hasRequiredKey = authRequired ? keyField.value.trim().length > 0 : true;
-    return Boolean(hasNote && parsed.title && parsed.date && type && parsed.body && hasRequiredKey);
+    const hasValidDate = parsed.date && !Number.isNaN(Date.parse(parsed.date));
+    return Boolean(hasNote && parsed.title && hasValidDate && type && parsed.body && hasRequiredKey);
+  }
+
+  function getTransmitBlocker(parsed, key) {
+    const trimmedNote = noteField.value.trim();
+    const type = parsed.objectType || selectedType;
+
+    if (!trimmedNote) {
+      return noNoteMessage;
+    }
+
+    if (authRequired && !key) {
+      return noKeyMessage;
+    }
+
+    if (!parsed.title) {
+      return 'Add a title in the frontmatter first.';
+    }
+
+    if (!parsed.date) {
+      return 'Add a date in the frontmatter first.';
+    }
+
+    if (Number.isNaN(Date.parse(parsed.date))) {
+      return 'Use a valid date in the frontmatter first.';
+    }
+
+    if (!type) {
+      return 'Choose a type first.';
+    }
+
+    if (!parsed.body) {
+      return 'Add some body text below the frontmatter first.';
+    }
+
+    return '';
   }
 
   function setTransmitVisualState(state, armed) {
@@ -1582,6 +1618,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
 
     if (state === 'sending') {
       transmitButton.disabled = true;
+      transmitButton.setAttribute('aria-disabled', 'true');
       transmitButton.classList.add('sending');
       transmitLabel.textContent = 'Transmitting...';
       setMastheadStatus('transmitting');
@@ -1590,6 +1627,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
 
     if (state === 'delivered') {
       transmitButton.disabled = true;
+      transmitButton.setAttribute('aria-disabled', 'true');
       transmitBar.classList.add('delivered');
       transmitLabel.textContent = 'Delivered';
       setMastheadStatus('delivered');
@@ -1600,13 +1638,15 @@ export const PIGEON_APP_SCRIPT = String.raw`
 
     if (armed) {
       transmitButton.disabled = false;
+      transmitButton.setAttribute('aria-disabled', 'false');
       transmitButton.classList.add('armed');
       transmitBar.classList.add('ready');
       setMastheadStatus(state === 'error' ? 'error' : 'ready');
       return;
     }
 
-    transmitButton.disabled = true;
+    transmitButton.disabled = false;
+    transmitButton.setAttribute('aria-disabled', 'true');
     setMastheadStatus(state === 'error' ? 'error' : 'idle');
   }
 
@@ -1884,16 +1924,11 @@ export const PIGEON_APP_SCRIPT = String.raw`
     const parsed = parseFrontmatter(noteField.value);
     const resolvedType = parsed.objectType || selectedType;
     const key = keyField.value.trim();
+    const blocker = getTransmitBlocker(parsed, key);
 
-    if (authRequired && !key) {
+    if (blocker) {
       updateInterface({ forceError: true });
-      logLine('err', noKeyMessage);
-      return;
-    }
-
-    if (!noteField.value.trim() || !parsed.title || !parsed.date || !resolvedType || !parsed.body) {
-      updateInterface({ forceError: true });
-      logLine('err', noNoteMessage);
+      logLine('err', blocker);
       return;
     }
 
