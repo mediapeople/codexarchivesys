@@ -2,15 +2,12 @@ import { getPrimaryAuthor } from './author';
 import { getAllEntries, getTypeLabel, type ArchiveEntry } from './archive';
 import { formatDisplayTitle } from './headline';
 import { getPresentationLead } from './presentation';
+import { resolveExcerpt } from './excerpt';
 
 export const SITE_ORIGIN = 'https://ndcodex.com';
 export const SITE_TITLE = 'Codex Archive';
 export const SITE_DESCRIPTION =
   'An object archive for human creative work.';
-
-function asOptionalText(value: unknown): string {
-  return typeof value === 'string' ? value.trim() : '';
-}
 
 export function withTrailingSlash(path: string): string {
   if (path === '/' || /\.[a-z0-9]+$/i.test(path) || path.endsWith('/')) {
@@ -48,7 +45,12 @@ export async function getFollowEntries(): Promise<ArchiveEntry[]> {
 }
 
 export function getFeedSummary(entry: ArchiveEntry): string {
-  const excerpt = asOptionalText(entry.data.excerpt);
+  const excerpt = resolveExcerpt({
+    title: entry.data.title,
+    excerpt: entry.data.excerpt,
+    body: entry.body,
+    max: 220,
+  });
   if (excerpt) {
     return excerpt;
   }

@@ -5,6 +5,7 @@ import TypeBadge from '../../components/TypeBadge.astro';
 import { getAllEntries } from '../../lib/archive';
 import { formatDisplayTitle } from '../../lib/headline';
 import { compareByPureTimeline, formatArchiveLongDate } from '../../lib/timeline';
+import { resolveExcerpt } from '../../lib/excerpt';
 
 export async function getStaticPaths() {
   const nexusEntries = (await getCollection('nexus')).filter(
@@ -41,6 +42,12 @@ const issueIndex = nexusEntries.findIndex((entry) => entry.data.id === issue.dat
 const newerIssue = issueIndex > 0 ? nexusEntries[issueIndex - 1] : null;
 const olderIssue = issueIndex < nexusEntries.length - 1 ? nexusEntries[issueIndex + 1] : null;
 const displayIssueTitle = formatDisplayTitle(issue.data.title);
+const issueExcerpt = resolveExcerpt({
+  title: issue.data.title,
+  excerpt: issue.data.excerpt,
+  body: issue.body,
+  max: 220,
+});
 const nexusContextQuery = `?from=nexus&nexus=${encodeURIComponent(issue.data.id)}`;
 ---
 
@@ -50,7 +57,7 @@ const nexusContextQuery = `?from=nexus&nexus=${encodeURIComponent(issue.data.id)
     <header class="head">
       <TypeBadge type="nexus" />
       <h1>{displayIssueTitle}</h1>
-      {issue.data.excerpt && <p class="excerpt">{issue.data.excerpt}</p>}
+      {issueExcerpt && <p class="excerpt">{issueExcerpt}</p>}
       {issue.data.themeStatement && <p class="statement">{issue.data.themeStatement}</p>}
       <div class="meta">
         <span>{formatArchiveLongDate(issue.data.date)}</span>
@@ -70,7 +77,17 @@ const nexusContextQuery = `?from=nexus&nexus=${encodeURIComponent(issue.data.id)
               <a href={`/objects/${item.ref}${nexusContextQuery}`}>
                 {item.entry?.data.title ? formatDisplayTitle(item.entry.data.title) : item.ref}
               </a>
-              {item.entry?.data.excerpt && <p class="preview">{item.entry.data.excerpt}</p>}
+              {item.entry && (
+                (() => {
+                  const preview = resolveExcerpt({
+                    title: item.entry.data.title,
+                    excerpt: item.entry.data.excerpt,
+                    body: item.entry.body,
+                    max: 220,
+                  });
+                  return preview ? <p class="preview">{preview}</p> : null;
+                })()
+              )}
             </div>
           </li>
         ))}

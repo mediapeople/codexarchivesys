@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import TypeBadge from '../../components/TypeBadge.astro';
 import { formatDisplayTitle } from '../../lib/headline';
 import { compareByPureTimeline, formatArchiveDate } from '../../lib/timeline';
+import { resolveExcerpt } from '../../lib/excerpt';
 
 const issues = (await getCollection('nexus'))
   .filter((entry) => entry.data.status === 'published' && entry.data.visibility === 'public')
@@ -32,7 +33,15 @@ const issues = (await getCollection('nexus'))
             <span>{formatArchiveDate(issue.data.date)}</span>
           </header>
           <h2>{formatDisplayTitle(issue.data.title)}</h2>
-          {issue.data.excerpt && <p class="excerpt">{issue.data.excerpt}</p>}
+          {(() => {
+            const issueExcerpt = resolveExcerpt({
+              title: issue.data.title,
+              excerpt: issue.data.excerpt,
+              body: issue.body,
+              max: 220,
+            });
+            return issueExcerpt ? <p class="excerpt">{issueExcerpt}</p> : null;
+          })()}
           {issue.data.themeStatement && <p class="statement">{issue.data.themeStatement}</p>}
           <div class="meta">
             <span>{issue.data.includedObjects.length} sequence items</span>

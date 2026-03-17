@@ -5,6 +5,7 @@ import TypeBadge from '../../components/TypeBadge.astro';
 import { formatDisplayTitle } from '../../lib/headline';
 import { getBodyImagePreviewItems } from '../../lib/media';
 import { formatArchiveLongDate } from '../../lib/timeline';
+import { bodyStartsWithDuplicateTitleHeading, resolveExcerpt } from '../../lib/excerpt';
 
 export async function getStaticPaths() {
   const entries = (await getCollection('codex')).filter(
@@ -27,15 +28,6 @@ if (!entry) {
 
 const { Content } = await entry.render();
 
-function stripMarkdown(value: string): string {
-  return value
-    .replace(/!\[[^\]]*\]\([^)]+\)/g, ' ')
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
-    .replace(/[`*_>#~-]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-}
-
 const displayTitle = formatDisplayTitle(entry.data.title);
 const readableDate = formatArchiveLongDate(entry.data.date);
 const tags = entry.data.tags.length > 0 ? entry.data.tags : entry.data.themes;
@@ -49,7 +41,13 @@ const images = [...new Set(directImages.length > 0 ? directImages : mediaImages.
 const inlineImageSrcs = new Set(inlineBodyImages);
 const galleryImages = images.filter((image) => !inlineImageSrcs.has(image));
 const state = entry.data.state ?? entry.data.status;
-const summary = entry.data.excerpt || stripMarkdown(entry.body).slice(0, 180);
+const summary = resolveExcerpt({
+  title: entry.data.title,
+  excerpt: entry.data.excerpt,
+  body: entry.body,
+  max: 220,
+});
+const hideLeadHeading = bodyStartsWithDuplicateTitleHeading(entry.data.title, entry.body);
 const socialImage = mediaImages[0] || directImages[0] || inlineBodyImages[0];
 ---
 
@@ -93,7 +91,7 @@ const socialImage = mediaImages[0] || directImages[0] || inlineBodyImages[0];
       </section>
     )}
 
-    <section class="body">
+    <section class={`body ${hideLeadHeading ? 'body--hide-lead-heading' : ''}`}>
       <Content />
     </section>
   </article>
@@ -213,6 +211,10 @@ const socialImage = mediaImages[0] || directImages[0] || inlineBodyImages[0];
     margin-top: 3rem;
     max-width: 46rem;
     line-height: 1.95;
+  }
+
+  .body--hide-lead-heading > :global(h1:first-child) {
+    display: none;
   }
 
   .body :global(h2),

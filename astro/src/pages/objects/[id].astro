@@ -19,6 +19,7 @@ import { getAuthorInitials, getAuthorProfiles } from '../../lib/author';
 import { buildObjectShareMeta } from '../../lib/shareMeta';
 import { getLoremapAtlasRender } from '../../lib/loremap';
 import { formatArchiveLongDate } from '../../lib/timeline';
+import { bodyStartsWithDuplicateTitleHeading, resolveExcerpt } from '../../lib/excerpt';
 
 export async function getStaticPaths() {
   const entries = await getAllEntries();
@@ -128,7 +129,14 @@ const sequenceItems = includedObjects.map((item, index) => {
     role: item.role,
     ref: item.ref,
     label: target?.data.title ? formatDisplayTitle(target.data.title) : item.ref,
-    preview: target?.data.excerpt || '',
+    preview: target
+      ? resolveExcerpt({
+          title: target.data.title,
+          excerpt: target.data.excerpt,
+          body: target.body,
+          max: 220,
+        })
+      : '',
   };
 });
 
@@ -256,11 +264,18 @@ const loremapClassificationRaw = (entry.data as Record<string, unknown>).classif
 const loremapClassification = Array.isArray(loremapClassificationRaw)
   ? loremapClassificationRaw.map((item) => String(item).trim()).filter(Boolean)
   : [];
+const resolvedExcerpt = resolveExcerpt({
+  title: entry.data.title,
+  excerpt: entry.data.excerpt,
+  body: entry.body,
+  max: 220,
+});
+const hideLeadHeading = bodyStartsWithDuplicateTitleHeading(entry.data.title, entry.body);
 
 const shareMeta = buildObjectShareMeta({
   collection: entry.collection,
   title: displayTitle,
-  excerpt: entry.data.excerpt,
+  excerpt: resolvedExcerpt || undefined,
   mediaItems,
   canonicalPath: `/objects/${entry.data.id}`,
   imageVersion:
@@ -290,7 +305,7 @@ const nexusObjectContextQuery = isNexusObject
   : '';
 const defaultBackHref = isNexusObject ? '/nexus' : '/';
 const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
-const showExcerptLead = Boolean(entry.data.excerpt) && entry.collection !== 'signal';
+const showExcerptLead = Boolean(resolvedExcerpt) && entry.collection !== 'signal';
 const hasSignalLeadImage =
   entry.collection === 'signal' && /^!(?:\[[^\]]*\]\([^)]+\)|\[\[[^\]]+\]\])/.test(entry.body.trimStart());
 ---
@@ -318,7 +333,7 @@ const hasSignalLeadImage =
 
     <header class="object-head">
       <h1>{displayTitle}</h1>
-      {showExcerptLead && <p class="excerpt">{entry.data.excerpt}</p>}
+      {showExcerptLead && <p class="excerpt">{resolvedExcerpt}</p>}
       {!isLoremapObject && (
         <div class="object-type-callout">
           <TypeBadge type={entry.collection} />
@@ -330,7 +345,7 @@ const hasSignalLeadImage =
       <FieldlogDataPlate
         title={displayTitle}
         specs={fieldlogSpecs}
-        excerpt={entry.data.excerpt}
+        excerpt={resolvedExcerpt || undefined}
         location={formatValue((entry.data as Record<string, unknown>).location) || undefined}
         dateLabel={readableDate}
       />
@@ -564,7 +579,9 @@ const hasSignalLeadImage =
       </section>
     )}
 
-    <section class={`body ${bodyClass} ${hasSignalLeadImage ? 'body--signal-lead-image' : ''}`}>
+    <section
+      class={`body ${bodyClass} ${hasSignalLeadImage ? 'body--signal-lead-image' : ''} ${hideLeadHeading ? 'body--hide-lead-heading' : ''}`}
+    >
       <Content />
     </section>
 
@@ -2589,6 +2606,10 @@ const hasSignalLeadImage =
     --list-bullet-core: var(--object-meta-accent);
     --list-bullet-ring: color-mix(in srgb, var(--object-meta-accent) 34%, transparent);
     --table-head: rgba(255, 255, 255, 0.02);
+  }
+
+  .body--hide-lead-heading > :global(h1:first-child) {
+    display: none;
   }
 
   .body :global(p) {

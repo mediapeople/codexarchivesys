@@ -575,6 +575,7 @@ textarea {
 .editor-bar-left {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .editor-action,
@@ -591,6 +592,10 @@ textarea {
   padding: 4px 8px;
   background: none;
   font-size: 14px;
+}
+
+.editor-action.smart {
+  color: var(--amber);
 }
 
 .editor-action:hover,
@@ -1039,8 +1044,8 @@ export function renderPigeonAppMarkup(options = {}) {
   const {
     eyebrow = 'Remote archive ingest',
     deck = 'Publish a markdown note from your phone, authenticate with your Carrier Pigeon key, and commit it straight into the ndcodex repository from anywhere.',
-    notePlaceholder = `Paste or write markdown here. Frontmatter required.\n---\ntitle:\ndate:\nobject_type:\ntags: []\n---`,
-    templateNote = 'Select type above -> Load Template to prefill frontmatter.',
+    notePlaceholder = `Paste anything here, then use Smart Draft to infer title, type, date, and starter frontmatter.\n\nOr load a template if you already know the object type.`,
+    templateNote = 'Paste raw text -> Smart Draft infers frontmatter. Load Template still gives you the manual shell.',
     attachNote = 'If the note body contains ![[image.jpg]] or markdown image links, Carrier Pigeon will rewrite matching file names to the uploaded public image paths.',
     keyNote = 'Stored only in this browser on this device so you do not have to re-enter it every time.',
     workflowTitle = 'Phone workflow',
@@ -1120,6 +1125,7 @@ export function renderPigeonAppMarkup(options = {}) {
     <div class="editor-surface">
       <div class="editor-bar">
         <div class="editor-bar-left">
+          <button class="editor-action smart" id="smartDraftButton" type="button">Smart Draft</button>
           <button class="editor-action" id="loadTemplateButton" type="button">Load Template</button>
           <button class="editor-action" id="clearNoteButton" type="button">Clear</button>
         </div>
@@ -1259,6 +1265,10 @@ export const PIGEON_APP_SCRIPT = String.raw`
   const templateLoadedMessage = config.templateLoadedMessage || 'Edit the template, then publish.';
   const fileLoadedMessage = config.fileLoadedMessage || 'Review the note and publish when ready.';
   const editorClearedMessage = config.editorClearedMessage || 'Editor cleared.';
+  const smartDraftReadyMessage =
+    config.smartDraftReadyMessage || 'Smart Draft inferred frontmatter. Review it, then send again.';
+  const smartDraftButtonMessage =
+    config.smartDraftButtonMessage || 'Review the inferred frontmatter, then send when ready.';
   const localContentRoot = config.contentRoot || 'astro/src/content';
   const typeMeta = ${SCRIPT_TYPE_META};
 
@@ -1279,6 +1289,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
   const keyField = document.getElementById('keyField');
   const keySavedTag = document.getElementById('keySavedTag');
   const forgetKeyButton = document.getElementById('forgetKeyButton');
+  const smartDraftButton = document.getElementById('smartDraftButton');
   const loadTemplateButton = document.getElementById('loadTemplateButton');
   const clearNoteButton = document.getElementById('clearNoteButton');
   const copyUrlButton = document.getElementById('copyUrlButton');
@@ -1309,9 +1320,189 @@ export const PIGEON_APP_SCRIPT = String.raw`
   let selectedType = 'signal';
   let typePanelOpen = false;
   let transmitState = 'idle';
+  let typeWasManuallyChosen = false;
+
+  const ARRAY_FIELDS = new Set([
+    'actions',
+    'classification',
+    'dependencies',
+    'featured',
+    'images',
+    'markers',
+    'media',
+    'tags',
+    'themes',
+  ]);
+
+  const SMART_STOPWORDS = new Set([
+    'a',
+    'an',
+    'about',
+    'all',
+    'also',
+    'and',
+    'after',
+    'against',
+    'almost',
+    'among',
+    'any',
+    'around',
+    'archive',
+    'artifact',
+    'are',
+    'as',
+    'at',
+    'because',
+    'before',
+    'being',
+    'between',
+    'by',
+    'carrier',
+    'codex',
+    'could',
+    'date',
+    'each',
+    'entry',
+    'field',
+    'fieldlog',
+    'first',
+    'for',
+    'fragment',
+    'frontmatter',
+    'from',
+    'have',
+    'into',
+    'its',
+    'just',
+    'like',
+    'many',
+    'more',
+    'note',
+    'object',
+    'object-type',
+    'object_type',
+    'objecttype',
+    'of',
+    'on',
+    'or',
+    'our',
+    'pigeon',
+    'published',
+    'ready',
+    'review',
+    'send',
+    'signal',
+    'should',
+    'some',
+    'state',
+    'starter',
+    'scroll',
+    'than',
+    'that',
+    'their',
+    'them',
+    'there',
+    'these',
+    'they',
+    'this',
+    'those',
+    'throughout',
+    'to',
+    'through',
+    'use',
+    'using',
+    'loremap',
+    'nexus',
+    'title',
+    'type',
+    'with',
+    'would',
+    'your',
+  ]);
+
+  const TYPE_KEYWORDS = {
+    signal: [
+      ['signal', 3],
+      ['dispatch', 2.4],
+      ['announcement', 2],
+      ['broadcast', 1.8],
+      ['alert', 1.8],
+      ['transmission', 1.8],
+    ],
+    fragment: [
+      ['fragment', 3],
+      ['poem', 2.4],
+      ['verse', 2.2],
+      ['stanza', 2.2],
+      ['aphorism', 2],
+      ['excerpt', 1.8],
+    ],
+    fieldlog: [
+      ['fieldlog', 3],
+      ['field log', 3],
+      ['observation', 2.2],
+      ['project', 2],
+      ['phase', 2],
+      ['context', 1.8],
+      ['actions', 1.8],
+      ['findings', 1.8],
+    ],
+    artifact: [
+      ['artifact', 3],
+      ['relic', 2.2],
+      ['specimen', 2],
+      ['materials', 2],
+      ['condition', 2],
+      ['dimensions', 1.8],
+    ],
+    scroll: [
+      ['scroll', 3],
+      ['essay', 2.2],
+      ['longform', 2],
+      ['chapter', 1.8],
+      ['invocation', 1.8],
+      ['liturgical', 1.8],
+      ['sermon', 1.6],
+    ],
+    codex: [
+      ['codex', 3],
+      ['protocol', 2.4],
+      ['guide', 2],
+      ['reference', 2],
+      ['schema', 2],
+      ['system', 1.8],
+      ['version', 1.8],
+      ['standard', 1.6],
+    ],
+    loremap: [
+      ['loremap', 3],
+      ['location', 2.2],
+      ['terrain', 2.2],
+      ['coordinates', 2],
+      ['region', 1.8],
+      ['district', 1.6],
+      ['river', 1.4],
+      ['mount', 1.4],
+      ['map', 1.8],
+    ],
+    nexus: [
+      ['nexus', 3],
+      ['release', 2.2],
+      ['launch', 2],
+      ['featured', 1.8],
+      ['lead', 1.6],
+      ['roadmap', 1.6],
+      ['sequence', 1.6],
+      ['update', 1.4],
+    ],
+  };
 
   function today() {
     return new Date().toISOString().split('T')[0];
+  }
+
+  function normalizeRawNote(raw) {
+    return String(raw || '').replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n');
   }
 
   function buildTemplate(type) {
@@ -1381,7 +1572,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
   }
 
   function parseFrontmatter(raw) {
-    const normalized = String(raw || '').replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n');
+    const normalized = normalizeRawNote(raw);
     const normalizedForMatch = normalized.replace(/^\s+/, '');
     const result = {
       title: '',
@@ -1511,6 +1702,471 @@ export const PIGEON_APP_SCRIPT = String.raw`
     };
   }
 
+  function hasMeaningfulValue(value) {
+    if (Array.isArray(value)) {
+      return value.some((item) => String(item || '').trim().length > 0);
+    }
+
+    return typeof value === 'string' ? value.trim().length > 0 : value != null;
+  }
+
+  function cloneFieldValue(value) {
+    return Array.isArray(value) ? value.slice() : value;
+  }
+
+  function fillMissingField(fields, key, value) {
+    if (!hasMeaningfulValue(value) || hasMeaningfulValue(fields[key])) {
+      return false;
+    }
+
+    fields[key] = cloneFieldValue(value);
+    return true;
+  }
+
+  function readLooseFrontmatter(raw) {
+    const normalized = normalizeRawNote(raw);
+    const parsedFrontmatter = parseLooseFrontmatter(normalized.replace(/^\s+/, ''));
+    const fields = {};
+    const order = [];
+
+    if (!parsedFrontmatter) {
+      return {
+        fields,
+        order,
+        body: normalized.trim(),
+      };
+    }
+
+    parsedFrontmatter.fields.forEach((values, key) => {
+      order.push(key);
+      if (ARRAY_FIELDS.has(key)) {
+        fields[key] = values.flatMap(parseFrontmatterArray).filter(Boolean);
+      } else if (values.length > 1) {
+        fields[key] = values.map((value) => value.trim()).filter(Boolean);
+      } else {
+        fields[key] = ((values[0] || '') + '').trim();
+      }
+    });
+
+    return {
+      fields,
+      order,
+      body: parsedFrontmatter.body.trim(),
+    };
+  }
+
+  function stripMarkdownLinks(value) {
+    return String(value || '')
+      .replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, '$2')
+      .replace(/\[\[([^\]]+)\]\]/g, '$1')
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
+  }
+
+  function cleanTitleCandidate(value) {
+    const cleaned = stripMarkdownLinks(value)
+      .replace(/^\s{0,3}#{1,6}\s+/, '')
+      .replace(/^\s*>+\s*/, '')
+      .replace(/^\s*[-*+]\s+/, '')
+      .replace(/^\s*\d+[.)]\s+/, '')
+      .replace(/[*_\u0060~]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .replace(/^['"“”‘’]+|['"“”‘’]+$/g, '')
+      .replace(/[.?!:;,\-]+$/g, '')
+      .trim();
+
+    if (!cleaned) {
+      return '';
+    }
+
+    if (cleaned.length <= 96) {
+      return cleaned;
+    }
+
+    return cleaned.split(/\s+/).slice(0, 12).join(' ');
+  }
+
+  function plainTextFromMarkdown(value) {
+    return stripMarkdownLinks(value)
+      .replace(/\u0060\u0060\u0060[\s\S]*?\u0060\u0060\u0060/g, ' ')
+      .replace(/\u0060[^\u0060]*\u0060/g, ' ')
+      .replace(/!\[[^\]]*\]\([^)]+\)/g, ' ')
+      .replace(/[>*_~]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  function inferTitleFromText(body) {
+    const normalized = normalizeRawNote(body).trim();
+    if (!normalized) {
+      return '';
+    }
+
+    const headingMatch = normalized.match(/^\s{0,3}#{1,6}\s+(.+)$/m);
+    if (headingMatch) {
+      const headingTitle = cleanTitleCandidate(headingMatch[1]);
+      if (headingTitle) {
+        return headingTitle;
+      }
+    }
+
+    const lines = normalized.split('\n');
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (!trimmed || /^\u0060\u0060\u0060/.test(trimmed) || /^([A-Za-z0-9_-]+):\s*/.test(trimmed)) {
+        continue;
+      }
+
+      const candidate = cleanTitleCandidate(trimmed);
+      if (candidate.length >= 4) {
+        return candidate;
+      }
+    }
+
+    const plain = plainTextFromMarkdown(normalized);
+    if (!plain) {
+      return '';
+    }
+
+    const sentenceMatch = plain.match(/^(.{8,120}?[.?!])(?:\s|$)/);
+    if (sentenceMatch) {
+      return cleanTitleCandidate(sentenceMatch[1]);
+    }
+
+    return cleanTitleCandidate(plain.split(/\s+/).slice(0, 12).join(' '));
+  }
+
+  function inferDateFromText(body) {
+    const normalized = normalizeRawNote(body);
+    const isoMatch = normalized.match(/\b(20\d{2}-\d{2}-\d{2})\b/);
+    if (isoMatch) {
+      return isoMatch[1];
+    }
+
+    const namedMonthMatch = normalized.match(
+      /\b(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2}),\s*(20\d{2})\b/i
+    );
+    if (namedMonthMatch) {
+      const monthIndex =
+        [
+          'january',
+          'february',
+          'march',
+          'april',
+          'may',
+          'june',
+          'july',
+          'august',
+          'september',
+          'october',
+          'november',
+          'december',
+        ].indexOf(namedMonthMatch[1].toLowerCase()) + 1;
+
+      if (monthIndex > 0) {
+        return (
+          namedMonthMatch[3] +
+          '-' +
+          String(monthIndex).padStart(2, '0') +
+          '-' +
+          String(Number.parseInt(namedMonthMatch[2], 10)).padStart(2, '0')
+        );
+      }
+    }
+
+    return today();
+  }
+
+  function normalizeTagCandidate(value) {
+    const slug = slugify(String(value || '').replace(/^#/, ''));
+    return slug && !SMART_STOPWORDS.has(slug) ? slug : '';
+  }
+
+  function inferTagsFromText(title, body) {
+    const tagSet = new Set();
+    const hashtagMatches = normalizeRawNote(body).match(/(^|\s)#([a-z0-9][a-z0-9-]{1,31})\b/gi) || [];
+
+    hashtagMatches.forEach((match) => {
+      const normalizedTag = normalizeTagCandidate(match.replace(/(^|\s)#/, ''));
+      if (normalizedTag) {
+        tagSet.add(normalizedTag);
+      }
+    });
+
+    if (tagSet.size >= 5) {
+      return Array.from(tagSet).slice(0, 5);
+    }
+
+    const scores = new Map();
+    const pushWordScore = (word, weight) => {
+      const normalizedWord = normalizeTagCandidate(word);
+      if (!normalizedWord || normalizedWord.length < 4) {
+        return;
+      }
+      scores.set(normalizedWord, (scores.get(normalizedWord) || 0) + weight);
+    };
+
+    const titleWords = plainTextFromMarkdown(title).toLowerCase().match(/[a-z][a-z0-9-]{2,}/g) || [];
+    titleWords.forEach((word) => pushWordScore(word, 3));
+
+    const bodyWords = plainTextFromMarkdown(body).toLowerCase().match(/[a-z][a-z0-9-]{2,}/g) || [];
+    bodyWords.forEach((word) => pushWordScore(word, 1));
+
+    Array.from(scores.entries())
+      .sort((left, right) => right[1] - left[1] || left[0].localeCompare(right[0]))
+      .forEach(([word]) => {
+        if (tagSet.size < 5) {
+          tagSet.add(word);
+        }
+      });
+
+    return Array.from(tagSet).slice(0, 5);
+  }
+
+  function inferSummaryFromText(body) {
+    const plain = plainTextFromMarkdown(body);
+    if (!plain) {
+      return '';
+    }
+
+    const sentenceMatch = plain.match(/^(.{40,220}?[.?!])(?:\s|$)/);
+    if (sentenceMatch) {
+      return sentenceMatch[1].trim();
+    }
+
+    if (plain.length <= 180) {
+      return plain;
+    }
+
+    return plain.slice(0, 177).trim() + '...';
+  }
+
+  function inferObjectTypeFromText(title, body) {
+    const source = (title + '\n' + body).toLowerCase();
+    const scores = Object.fromEntries(
+      Object.keys(typeMeta).map((type) => [type, 0])
+    );
+
+    Object.entries(TYPE_KEYWORDS).forEach(([type, entries]) => {
+      entries.forEach(([term, weight]) => {
+        if (source.includes(term)) {
+          scores[type] += weight;
+        }
+      });
+    });
+
+    const wordCount = plainTextFromMarkdown(body).split(/\s+/).filter(Boolean).length;
+    const headingCount = (normalizeRawNote(body).match(/^\s{0,3}#{1,6}\s+/gm) || []).length;
+
+    if (/^##\s+(context|observation|notes?|actions?)\b/im.test(body)) {
+      scores.fieldlog += 2.8;
+    }
+
+    if (/\b(materials?|condition|artifact|relic|specimen|dimensions?)\b/i.test(body)) {
+      scores.artifact += 2.4;
+    }
+
+    if (/\b(latitude|longitude|coordinates?|terrain|region|district|river|mount|location)\b/i.test(body)) {
+      scores.loremap += 2.4;
+    }
+
+    if (/^\s*[-*]\s+/m.test(body) && /\b(release|featured|lead|links?|sequence|roadmap)\b/i.test(body)) {
+      scores.nexus += 2.6;
+    }
+
+    if (/\b(protocol|schema|reference|guide|handbook|standard|version|scope)\b/i.test(body)) {
+      scores.codex += 2.4;
+    }
+
+    if (/\b(signal|dispatch|announcement|broadcast|alert)\b/i.test(body)) {
+      scores.signal += 2.2;
+    }
+
+    if (/\b(fragment|poem|verse|stanza|aphorism|excerpt)\b/i.test(body) || /^\s*>\s+/m.test(body)) {
+      scores.fragment += 2.3;
+    }
+
+    if (wordCount > 350 || headingCount > 2) {
+      scores.scroll += 2.6;
+      scores.codex += 0.8;
+    }
+
+    if (wordCount < 120 && headingCount === 0) {
+      scores.signal += 0.6;
+      scores.fragment += 0.8;
+    }
+
+    if (typeWasManuallyChosen) {
+      scores[selectedType] += 1.2;
+    }
+
+    const ranked = Object.entries(scores).sort((left, right) => right[1] - left[1]);
+    if (!ranked.length || ranked[0][1] < 1.25) {
+      return typeWasManuallyChosen ? selectedType : 'codex';
+    }
+
+    return ranked[0][0];
+  }
+
+  function getTypeSpecificDefaults(type, body) {
+    switch (type) {
+      case 'signal':
+        return { origin: '', markers: [] };
+      case 'fragment':
+        return { origin: '', voice: '' };
+      case 'fieldlog':
+        return { project: '', phase: '', context: '', actions: [] };
+      case 'artifact':
+        return { artifactType: '', materials: '', condition: '' };
+      case 'scroll':
+        return { summary: inferSummaryFromText(body), bodyClass: 'prose' };
+      case 'codex':
+        return { version: '', scope: '', state: 'published' };
+      case 'loremap':
+        return { location: '', terrain: '', classification: [] };
+      case 'nexus':
+        return { lead: '', featured: [], releaseType: '' };
+      default:
+        return {};
+    }
+  }
+
+  function formatInlineYamlValue(value) {
+    const stringValue = String(value || '').trim();
+    if (!stringValue) {
+      return '""';
+    }
+
+    if (/^(true|false|null)$/i.test(stringValue) || /^-?\d+(\.\d+)?$/.test(stringValue)) {
+      return stringValue;
+    }
+
+    if (/^[A-Za-z0-9._/-]+$/.test(stringValue)) {
+      return stringValue;
+    }
+
+    return JSON.stringify(stringValue);
+  }
+
+  function renderFrontmatterNote(fields, originalOrder, typeKey, inferredType, body) {
+    const renderedFields = { ...fields };
+    const orderedKeys = [];
+    const pushKey = (key) => {
+      if (!Object.prototype.hasOwnProperty.call(renderedFields, key) || orderedKeys.includes(key)) {
+        return;
+      }
+      orderedKeys.push(key);
+    };
+
+    pushKey('title');
+    pushKey('date');
+    pushKey(typeKey);
+    if (typeKey === 'type') {
+      pushKey('object_type');
+    }
+    pushKey('tags');
+    Object.keys(getTypeSpecificDefaults(inferredType, body)).forEach(pushKey);
+    originalOrder.forEach(pushKey);
+    Object.keys(renderedFields).forEach(pushKey);
+
+    const lines = orderedKeys.map((key) => {
+      const value = renderedFields[key];
+      if (Array.isArray(value)) {
+        const items = value.map((item) => String(item || '').trim()).filter(Boolean);
+        return key + ': ' + (items.length ? '[' + items.map(formatInlineYamlValue).join(', ') + ']' : '[]');
+      }
+
+      const normalizedValue = String(value || '').trim();
+      return key + ': ' + (normalizedValue ? formatInlineYamlValue(normalizedValue) : '');
+    });
+
+    const normalizedBody = normalizeRawNote(body).trim();
+    return ['---', ...lines, '---', normalizedBody].filter(Boolean).join('\n');
+  }
+
+  function smartDraft(options) {
+    const settings = options || {};
+    const rawNote = normalizeRawNote(noteField.value);
+    if (!rawNote.trim()) {
+      updateInterface({ forceError: true });
+      logLine('err', noNoteMessage);
+      return null;
+    }
+
+    const parsed = parseFrontmatter(rawNote);
+    const loose = readLooseFrontmatter(rawNote);
+    const fields = { ...loose.fields };
+    const originalTypeKey = Object.prototype.hasOwnProperty.call(fields, 'object_type')
+      ? 'object_type'
+      : Object.prototype.hasOwnProperty.call(fields, 'type')
+        ? 'type'
+        : 'object_type';
+    const existingType =
+      normalizeObjectType(
+        originalTypeKey === 'object_type' ? fields.object_type : fields.type
+      ) ||
+      normalizeObjectType(fields.object_type) ||
+      normalizeObjectType(fields.type);
+    const body = loose.body || parsed.body || rawNote.trim();
+    const inferredTitle = parsed.title || inferTitleFromText(body);
+    const inferredDate =
+      parsed.date && !Number.isNaN(Date.parse(parsed.date)) ? parsed.date : inferDateFromText(body);
+    const inferredType = existingType || inferObjectTypeFromText(inferredTitle, body);
+    const inferredTags = parsed.tags.length ? parsed.tags : inferTagsFromText(inferredTitle, body);
+
+    const appliedFields = [];
+
+    if (fillMissingField(fields, 'title', inferredTitle)) {
+      appliedFields.push('title');
+    }
+
+    if (fillMissingField(fields, 'date', inferredDate)) {
+      appliedFields.push('date');
+    }
+
+    if (!hasMeaningfulValue(fields[originalTypeKey])) {
+      fields[originalTypeKey] = inferredType;
+      appliedFields.push('type');
+    }
+
+    if (fillMissingField(fields, 'tags', inferredTags)) {
+      appliedFields.push('tags');
+    }
+
+    const typeDefaults = getTypeSpecificDefaults(inferredType, body);
+    Object.entries(typeDefaults).forEach(([key, value]) => {
+      if (fillMissingField(fields, key, value)) {
+        appliedFields.push(key);
+      }
+    });
+
+    const nextNote = renderFrontmatterNote(fields, loose.order, originalTypeKey, inferredType, body);
+    const changed = nextNote.trim() !== rawNote.trim();
+    noteField.value = nextNote;
+    persistDraft();
+    const updatedParsed = updateInterface();
+    noteField.focus();
+
+    if (!changed) {
+      if (!settings.silent) {
+        logLine('info', 'Smart Draft left the current frontmatter as-is.');
+      }
+      return { parsed: updatedParsed, changed, inferredType };
+    }
+
+    if (!settings.silent) {
+      logLine('ok', 'Smart Draft -> ' + describeType(inferredType));
+      logLine('', smartDraftButtonMessage);
+    }
+
+    return {
+      parsed: updatedParsed,
+      changed,
+      inferredType,
+      appliedFields,
+    };
+  }
+
   function slugify(value) {
     return String(value || '')
       .normalize('NFKD')
@@ -1609,6 +2265,12 @@ export const PIGEON_APP_SCRIPT = String.raw`
     if (!settings.silent) {
       logLine('info', 'Type -> ' + describeType(normalizedType));
     }
+
+    if (settings.source === 'user') {
+      typeWasManuallyChosen = true;
+    } else if (settings.source === 'default') {
+      typeWasManuallyChosen = false;
+    }
   }
 
   function updateReadoutFromParsed(parsed) {
@@ -1655,7 +2317,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
 
     if (!parsed.title) {
       if (!parsed.hasFrontmatter) {
-        return 'Start the note with frontmatter and add a title.';
+        return 'Run Smart Draft or start the note with frontmatter and add a title.';
       }
 
       return parsed.hasTitleField
@@ -1666,7 +2328,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
     if (!parsed.date) {
       return parsed.hasDateField
         ? 'Fill in the date after date: in the frontmatter.'
-        : 'Add a date: line in the frontmatter first.';
+        : 'Run Smart Draft or add a date: line in the frontmatter first.';
     }
 
     if (Number.isNaN(Date.parse(parsed.date))) {
@@ -1998,9 +2660,18 @@ export const PIGEON_APP_SCRIPT = String.raw`
   }
 
   async function transmit() {
-    const parsed = parseFrontmatter(noteField.value);
-    const resolvedType = parsed.objectType || selectedType;
+    let parsed = parseFrontmatter(noteField.value);
     const key = keyField.value.trim();
+
+    if (noteField.value.trim() && (!parsed.hasFrontmatter || !parsed.title || !parsed.date)) {
+      const drafted = smartDraft({ silent: true, fromTransmit: true });
+      parsed = drafted && drafted.parsed ? drafted.parsed : parseFrontmatter(noteField.value);
+      updateInterface();
+      logLine('info', smartDraftReadyMessage);
+      return;
+    }
+
+    const resolvedType = parsed.objectType || selectedType;
     const blocker = getTransmitBlocker(parsed, key);
 
     if (blocker) {
@@ -2085,7 +2756,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
 
   typeGrid.querySelectorAll('.type-btn').forEach((button) => {
     button.addEventListener('click', () => {
-      syncSelectedType(button.dataset.type, { silent: false, closePanel: true });
+      syncSelectedType(button.dataset.type, { silent: false, closePanel: true, source: 'user' });
       updateInterface();
     });
   });
@@ -2100,6 +2771,9 @@ export const PIGEON_APP_SCRIPT = String.raw`
   keyField.addEventListener('input', handleKeyInput);
   forgetKeyButton.addEventListener('click', forgetKey);
   clearNoteButton.addEventListener('click', clearNote);
+  smartDraftButton.addEventListener('click', () => {
+    smartDraft();
+  });
   loadTemplateButton.addEventListener('click', loadTemplate);
   copyUrlButton.addEventListener('click', copyUrl);
   transmitButton.addEventListener('click', transmit);
@@ -2116,7 +2790,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
   updateClock();
   window.setInterval(updateClock, 30000);
 
-  syncSelectedType('signal', { silent: true, closePanel: false });
+  syncSelectedType('signal', { silent: true, closePanel: false, source: 'default' });
   updateInterface();
 
   if (noteField.value.trim()) {

@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import { timingSafeEqual } from 'node:crypto';
 import { mkdir, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { resolveExcerpt } from '../../lib/excerpt';
 
 export const prerender = false;
 
@@ -125,42 +126,6 @@ function normalizeStringArray(value: unknown): string[] | null {
 
 function normalizeNonEmptyStrings(values: string[]): string[] {
   return [...new Set(values.map((value) => value.trim()).filter(Boolean))];
-}
-
-function stripMarkdown(value: string): string {
-  const source = stripFencedCodeBlocks(value);
-
-  return source
-    .replace(/!\[\[[^\]]+\]\]/g, ' ')
-    .replace(/!\[[^\]]*\]\([^)]+\)/g, ' ')
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
-    .replace(/[`*_>#~-]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-}
-
-function trimExcerpt(value: string, max = 180): string {
-  const normalized = value.replace(/\s+/g, ' ').trim();
-  if (normalized.length <= max) {
-    return normalized;
-  }
-
-  const clipped = normalized
-    .slice(0, max)
-    .replace(/\s+\S*$/, '')
-    .replace(/[.?!,:;]+$/, '')
-    .trim();
-
-  return `${clipped}…`;
-}
-
-function excerptFromBody(value: string): string | null {
-  const stripped = stripMarkdown(value);
-  if (!stripped) {
-    return null;
-  }
-
-  return trimExcerpt(stripped, 180);
 }
 
 function normalizeNewlines(value: string): string {
@@ -500,11 +465,15 @@ function parseMarkdownNote(note: string, fallbackObjectType?: unknown): PigeonPa
     normalizeStatus(fields.get('state')?.[0]) ||
     'published';
   const visibility = normalizeVisibility(fields.get('visibility')?.[0]) || 'public';
-  const excerpt =
+  const requestedExcerpt =
     normalizeOptionalString(fields.get('excerpt')?.[0]) ||
-    normalizeOptionalString(fields.get('summary')?.[0]) ||
-    excerptFromBody(body) ||
-    undefined;
+    normalizeOptionalString(fields.get('summary')?.[0]);
+  const excerpt = resolveExcerpt({
+    title,
+    excerpt: requestedExcerpt,
+    body,
+    max: 220,
+  }) || undefined;
 
   if (!title) {
     return Response.json({ error: 'Markdown note is missing title frontmatter.' }, { status: 400 });
@@ -1561,10 +1530,12 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
       media: [],
       status: normalizeStatus(candidate.status) || 'published',
       visibility: normalizeVisibility(candidate.visibility) || 'public',
-      excerpt:
-        (typeof candidate.excerpt === 'string' && candidate.excerpt.trim()) ||
-        excerptFromBody(body) ||
-        undefined,
+      excerpt: resolveExcerpt({
+        title,
+        excerpt: typeof candidate.excerpt === 'string' ? candidate.excerpt : undefined,
+        body,
+        max: 220,
+      }) || undefined,
       codexState: normalizeStatus(candidate.state) || undefined,
       codexDependencies: normalizeNonEmptyStrings(dependencies),
       passthroughFrontmatter: [],

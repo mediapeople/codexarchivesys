@@ -12,6 +12,7 @@ import { getAuthorInitials, getPrimaryAuthor } from '../lib/author';
 import { getLoremapAtlasRender } from '../lib/loremap';
 import { getImageAssetMetadata, getPublicAssetVersion } from '../lib/mediaAsset';
 import { formatArchiveDate } from '../lib/timeline';
+import { resolveExcerpt } from '../lib/excerpt';
 
 interface Props {
   entry: ArchiveEntry;
@@ -135,7 +136,7 @@ function summarizeCardExcerpt(value: string, variant: 'feed' | 'related' | 'mosa
     return '';
   }
 
-  const maxLength = variant === 'mosaic' ? 110 : variant === 'related' ? 156 : 168;
+  const maxLength = variant === 'mosaic' ? 110 : variant === 'related' ? 176 : 192;
   if (normalized.length <= maxLength) {
     return normalized;
   }
@@ -204,10 +205,16 @@ function getFragmentStageContent(body: string, fallback: string, maxLines: numbe
 }
 
 const fallbackSummary = (entry.data as Record<string, unknown>).themeStatement;
+const resolvedExcerpt = resolveExcerpt({
+  title: entry.data.title,
+  excerpt: entry.data.excerpt,
+  body: entry.body,
+  max: 220,
+});
 const mediaItems = getPreviewMediaItems(entry);
 const primaryMedia = pickPrimaryMedia(mediaItems);
 const rawSummary =
-  entry.data.excerpt ||
+  resolvedExcerpt ||
   (typeof fallbackSummary === 'string' ? fallbackSummary : '');
 const summaryText = normalizeForCompare(rawSummary) ? summarizeCardExcerpt(rawSummary, variant) : '';
 const fragmentStageLines = isFragment && variant !== 'related'
@@ -254,7 +261,7 @@ const previewGalleryPayload = hasIndependentPreviewAction
       }))
     )
   : undefined;
-const searchCorpus = [displayTitle, rawSummary, ...entry.data.themes, ...entry.data.constellations]
+const searchCorpus = [displayTitle, resolvedExcerpt, rawSummary, ...entry.data.themes, ...entry.data.constellations]
   .join(' ')
   .toLowerCase();
 

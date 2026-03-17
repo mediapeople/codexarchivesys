@@ -111,7 +111,7 @@ function renderUploadPage(host) {
     workflowTitle: 'Phone workflow',
     workflowSteps: [
       'Open this page from your phone or add it to the home screen',
-      'Select type, load template, fill frontmatter and body',
+      'Paste raw text and run Smart Draft, or select type and load a template shell',
       'Or load an existing .md file - images attach separately',
       'Confirm telemetry shows correct type, slug, and path',
       'Send Pigeon - local mode writes directly into source content',
@@ -142,6 +142,8 @@ function renderUploadPage(host) {
     templateLoadedMessage: 'Fill in title and date, then publish.',
     fileLoadedMessage: 'Review the note and publish when ready.',
     editorClearedMessage: 'Editor cleared.',
+    smartDraftReadyMessage: 'Smart Draft inferred frontmatter. Review it, then send again.',
+    smartDraftButtonMessage: 'Review the inferred frontmatter, then send when ready.',
   };
 
   return `<!doctype html>

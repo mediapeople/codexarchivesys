@@ -6,7 +6,7 @@ date: "2026-03-16"
 postedAt: "2026-03-16T23:17:32.547Z"
 status: published
 visibility: public
-excerpt: "✦ THE SUGAR EARTH SCROLL ✦ ➤ Invocation of the Sweet Foundation Let the glucose sing. Let the soil remember. Let the ancient chemistry unfold. This scroll begins in sweetness. ✦…"
+excerpt: "Invocation of the Sweet Foundation. Let the glucose sing. Let the soil remember. Let the ancient chemistry unfold. This scroll begins in sweetness. Before questions. Before mirrors. There was sugar."
 themes:
   - "earth"
   - "glucose"
