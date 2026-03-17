@@ -4,6 +4,7 @@ import ObjectCard from '../components/ObjectCard.astro';
 import { COLLECTIONS, getAllEntries, getTypeLabel } from '../lib/archive';
 import { getPreviewMediaItems, pickPrimaryMedia, withMediaVersion } from '../lib/media';
 import { getImageAssetMetadata, getPublicAssetVersion } from '../lib/mediaAsset';
+import { isPrimarySurfaceEntry } from '../lib/marginalia';
 import { formatDisplayTitle } from '../lib/headline';
 import { getFeedPinnedFeatureId } from '../lib/feedConfig';
 import { compareByPureTimeline } from '../lib/timeline';
@@ -11,7 +12,7 @@ import { execSync } from 'node:child_process';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 
-const entries = await getAllEntries();
+const entries = (await getAllEntries()).filter(isPrimarySurfaceEntry);
 const searchParams = Astro.url.searchParams;
 
 const typeParam = searchParams.get('type');

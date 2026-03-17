@@ -1,6 +1,7 @@
 import { getPrimaryAuthor } from './author';
 import { getAllEntries, getTypeLabel, type ArchiveEntry } from './archive';
 import { formatDisplayTitle } from './headline';
+import { isPrimarySurfaceEntry } from './marginalia';
 import { getPresentationLead } from './presentation';
 import { resolveExcerpt } from './excerpt';
 
@@ -26,7 +27,7 @@ function getPublishedAt(entry: ArchiveEntry): Date {
 }
 
 export function isFollowableEntry(entry: ArchiveEntry): boolean {
-  return entry.data.status === 'published' && entry.data.visibility === 'public';
+  return isPrimarySurfaceEntry(entry);
 }
 
 function byPublishedAtDesc(a: ArchiveEntry, b: ArchiveEntry): number {

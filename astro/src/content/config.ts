@@ -104,6 +104,32 @@ const Voice = z.enum([
   'mythological',
 ]);
 
+const AxisScale = z.enum([
+  'micro',
+  'meso',
+  'macro',
+]);
+
+const AxisDepth = z.enum([
+  'surface',
+  'structural',
+  'recursive',
+]);
+
+const AxisFocus = z.enum([
+  'moment',
+  'character',
+  'system',
+  'witness',
+]);
+
+const AxisFunction = z.enum([
+  'diagnostic',
+  'therapeutic',
+  'revelatory',
+  'comparative',
+]);
+
 const Contributor = z.object({
   id: z.string().optional(),
   name: z.string(),
@@ -155,6 +181,10 @@ const universalFields = {
   status:         Status,
 
   excerpt:        z.string().optional(),
+  scale:          AxisScale.optional(),
+  depth:          AxisDepth.optional(),
+  focus:          AxisFocus.optional(),
+  function:       AxisFunction.optional(),
   themes:         z.array(z.string()).default([]),
   constellations: z.array(z.string()).default([]),
   related:        z.array(z.string()).default([]),
@@ -301,6 +331,10 @@ export type CodexReleaseType   = z.infer<typeof ReleaseType>;
 export type CodexBodyClass     = z.infer<typeof BodyClass>;
 export type CodexContributor   = z.infer<typeof Contributor>;
 export type CodexConnection    = z.infer<typeof ConnectionItem>;
+export type CodexAxisScale     = z.infer<typeof AxisScale>;
+export type CodexAxisDepth     = z.infer<typeof AxisDepth>;
+export type CodexAxisFocus     = z.infer<typeof AxisFocus>;
+export type CodexAxisFunction  = z.infer<typeof AxisFunction>;
 
 export type ScrollData   = z.infer<z.ZodObject<typeof scrollFields>>;
 export type ArtifactData = z.infer<z.ZodObject<typeof artifactFields>>;

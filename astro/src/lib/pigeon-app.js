@@ -82,6 +82,31 @@ const TYPE_META = Object.fromEntries(
 );
 
 const SCRIPT_TYPE_META = JSON.stringify(TYPE_META).replace(/</g, '\\u003c');
+const AXIS_LABELS = {
+  scale: {
+    micro: 'Micro',
+    meso: 'Meso',
+    macro: 'Macro',
+  },
+  depth: {
+    surface: 'Surface',
+    structural: 'Structural',
+    recursive: 'Recursive',
+  },
+  focus: {
+    moment: 'Moment',
+    character: 'Character',
+    system: 'System',
+    witness: 'Witness',
+  },
+  function: {
+    diagnostic: 'Diagnostic',
+    therapeutic: 'Therapeutic',
+    revelatory: 'Revelatory',
+    comparative: 'Comparative',
+  },
+};
+const SCRIPT_AXIS_LABELS = JSON.stringify(AXIS_LABELS).replace(/</g, '\\u003c');
 
 function escapeHtml(value = '') {
   return String(value)
@@ -114,6 +139,18 @@ function renderTypeGroups() {
             </div>
           </div>`;
   }).join('');
+}
+
+function renderAxisOptions(kind) {
+  const labels = AXIS_LABELS[kind] || {};
+  const options = Object.entries(labels)
+    .map(
+      ([value, label]) =>
+        `<option value="${escapeHtml(value)}">${escapeHtml(label)}</option>`
+    )
+    .join('');
+
+  return `<option value="">Auto</option>${options}`;
 }
 
 export const PIGEON_APP_STYLES = String.raw`
@@ -647,6 +684,74 @@ textarea {
   line-height: 1.4;
 }
 
+.axis-panel {
+  margin-top: 12px;
+  padding: 14px 16px 16px;
+  border-top: 1px solid var(--rule);
+  background: rgba(184, 115, 51, 0.03);
+}
+
+.axis-panel-head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.axis-title {
+  color: var(--light);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.axis-copy {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.axis-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 8px;
+  margin-top: 14px;
+}
+
+.axis-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.axis-label {
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.axis-select {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  outline: none;
+  background: var(--paper);
+  color: var(--white);
+  transition: border-color 0.15s, box-shadow 0.15s, opacity 0.15s;
+}
+
+.axis-select:focus {
+  border-color: var(--copper-dim);
+  box-shadow: 0 0 0 1px var(--copper-dim);
+}
+
+.axis-select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .file-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1037,6 +1142,10 @@ textarea {
   .workflow-step {
     gap: 12px;
   }
+
+  .axis-grid {
+    grid-template-columns: 1fr;
+  }
 }
 `;
 
@@ -1132,6 +1241,30 @@ export function renderPigeonAppMarkup(options = {}) {
         <span class="char-count" id="charCount">0</span>
       </div>
       <textarea class="note-field" id="noteField" spellcheck="false" placeholder="${escapeHtml(notePlaceholder)}"></textarea>
+      <div class="axis-panel">
+        <div class="axis-panel-head">
+          <span class="axis-title">Axis Review</span>
+          <span class="axis-copy">Auto-filled from the note. Choose a value to pin an override before publish.</span>
+        </div>
+        <div class="axis-grid">
+          <label class="axis-field">
+            <span class="axis-label">Scale</span>
+            <select class="axis-select" id="axisScaleSelect">${renderAxisOptions('scale')}</select>
+          </label>
+          <label class="axis-field">
+            <span class="axis-label">Depth</span>
+            <select class="axis-select" id="axisDepthSelect">${renderAxisOptions('depth')}</select>
+          </label>
+          <label class="axis-field">
+            <span class="axis-label">Focus</span>
+            <select class="axis-select" id="axisFocusSelect">${renderAxisOptions('focus')}</select>
+          </label>
+          <label class="axis-field">
+            <span class="axis-label">Function</span>
+            <select class="axis-select" id="axisFunctionSelect">${renderAxisOptions('function')}</select>
+          </label>
+        </div>
+      </div>
     </div>
     <p class="template-note">${escapeHtml(templateNote)}</p>
   </section>
@@ -1187,6 +1320,22 @@ export function renderPigeonAppMarkup(options = {}) {
         <div class="telem-row">
           <span class="telem-key">Type</span>
           <span class="telem-val" id="roType">-</span>
+        </div>
+        <div class="telem-row">
+          <span class="telem-key">Scale</span>
+          <span class="telem-val" id="roScale">-</span>
+        </div>
+        <div class="telem-row">
+          <span class="telem-key">Depth</span>
+          <span class="telem-val" id="roDepth">-</span>
+        </div>
+        <div class="telem-row">
+          <span class="telem-key">Focus</span>
+          <span class="telem-val" id="roFocus">-</span>
+        </div>
+        <div class="telem-row">
+          <span class="telem-key">Function</span>
+          <span class="telem-val" id="roFunction">-</span>
         </div>
         <div class="telem-row">
           <span class="telem-key">Slug</span>
@@ -1271,6 +1420,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
     config.smartDraftButtonMessage || 'Review the inferred frontmatter, then send when ready.';
   const localContentRoot = config.contentRoot || 'astro/src/content';
   const typeMeta = ${SCRIPT_TYPE_META};
+  const axisLabels = ${SCRIPT_AXIS_LABELS};
 
   const typeToggle = document.getElementById('typeToggle');
   const typeCollapsible = document.getElementById('typeCollapsible');
@@ -1279,6 +1429,10 @@ export const PIGEON_APP_SCRIPT = String.raw`
   const typeSelectedIcon = document.getElementById('typeSelectedIcon');
   const typeSelectedLabel = document.getElementById('typeSelectedLabel');
   const noteField = document.getElementById('noteField');
+  const axisScaleSelect = document.getElementById('axisScaleSelect');
+  const axisDepthSelect = document.getElementById('axisDepthSelect');
+  const axisFocusSelect = document.getElementById('axisFocusSelect');
+  const axisFunctionSelect = document.getElementById('axisFunctionSelect');
   const charCount = document.getElementById('charCount');
   const mdFileInput = document.getElementById('mdFile');
   const mdFileName = document.getElementById('mdFileName');
@@ -1301,10 +1455,20 @@ export const PIGEON_APP_SCRIPT = String.raw`
   const dispatchClock = document.getElementById('dispatchClock');
   const logArea = document.getElementById('logArea');
   const roType = document.getElementById('roType');
+  const roScale = document.getElementById('roScale');
+  const roDepth = document.getElementById('roDepth');
+  const roFocus = document.getElementById('roFocus');
+  const roFunction = document.getElementById('roFunction');
   const roSlug = document.getElementById('roSlug');
   const roPath = document.getElementById('roPath');
   const roState = document.getElementById('roState');
   const pigeonMark = document.getElementById('pigeonMark');
+  const axisSelects = {
+    scale: axisScaleSelect,
+    depth: axisDepthSelect,
+    focus: axisFocusSelect,
+    function: axisFunctionSelect,
+  };
 
   const COLLECTION_MAP = {
     signal: localContentRoot + '/signal',
@@ -1497,6 +1661,129 @@ export const PIGEON_APP_SCRIPT = String.raw`
     ],
   };
 
+  const AXIS_SCALE_VALUES = ['micro', 'meso', 'macro'];
+  const AXIS_DEPTH_VALUES = ['surface', 'structural', 'recursive'];
+  const AXIS_FOCUS_VALUES = ['moment', 'character', 'system', 'witness'];
+  const AXIS_FUNCTION_VALUES = ['diagnostic', 'therapeutic', 'revelatory', 'comparative'];
+
+  const AXIS_KEYWORDS = {
+    scale: [
+      {
+        pattern: /\b(moment|breath|glance|touch|gesture|elevator|room|bench|table|hand|line|sentence|today|tonight|morning|afternoon|evening)\b/g,
+        weights: { micro: 0.55 },
+      },
+      {
+        pattern: /\b(pattern|practice|project|routine|cycle|phase|week|month|relationship|terrain|field|studio|archive|workflow|process)\b/g,
+        weights: { meso: 0.55 },
+      },
+      {
+        pattern: /\b(society|culture|history|civilization|collective|nation|economy|institution|governance|public|world|cosmos)\b/g,
+        weights: { macro: 0.7 },
+      },
+    ],
+    depth: [
+      {
+        pattern: /\b(saw|heard|noticed|looked|felt|found|observed|recorded|captured|status|condition|today|report)\b/g,
+        weights: { surface: 0.55 },
+      },
+      {
+        pattern: /\b(structure|system|pattern|framework|mechanism|model|schema|architecture|rule|doctrine|infrastructure|workflow|network|classification|contract)\b/g,
+        weights: { structural: 0.65 },
+      },
+      {
+        pattern: /\b(recursive|recursion|witness|observer|awareness|mirror|loop|feedback|reflection|threshold|consciousness|meta)\b/g,
+        weights: { recursive: 0.75 },
+      },
+    ],
+    focus: [
+      {
+        pattern: /\b(scene|moment|when|during|while|suddenly|room|elevator|street|bench|table|bridge|morning|night)\b/g,
+        weights: { moment: 0.6 },
+      },
+      {
+        pattern: /\b(mother|father|child|friend|operator|citizen|worker|guide|listener|parent|person|people|character)\b/g,
+        weights: { character: 0.6 },
+      },
+      {
+        pattern: /\b(system|archive|network|process|institution|workflow|schema|infrastructure|machine|publishing|protocol|classification|governance|interface)\b/g,
+        weights: { system: 0.7 },
+      },
+      {
+        pattern: /\b(witness|awareness|observer|breath|attention|presence|seeing|perception|consciousness)\b/g,
+        weights: { witness: 0.75 },
+      },
+    ],
+    function: [
+      {
+        pattern: /\b(issue|constraint|condition|status|problem|bug|failure|diagnos|pressure|signal|observation|report)\b/g,
+        weights: { diagnostic: 0.7 },
+      },
+      {
+        pattern: /\b(heal|healing|repair|steady|steadiness|calm|comfort|care|maintain|maintenance|continue|survive|soothe|integrat)\b/g,
+        weights: { therapeutic: 0.75 },
+      },
+      {
+        pattern: /\b(reveal|revealed|realize|realized|learned|discovered|showed|showing|unlocked|clarified|became clear)\b/g,
+        weights: { revelatory: 0.8 },
+      },
+      {
+        pattern: /\b(vs\.?|versus|unlike|compare|comparison|contrast|between|alongside)\b/g,
+        weights: { comparative: 0.8 },
+      },
+    ],
+  };
+
+  const OBJECT_TYPE_AXIS_PRIORS = {
+    signal: {
+      scale: { micro: 2.1, meso: 0.3 },
+      depth: { surface: 0.9, recursive: 0.4 },
+      focus: { moment: 1.0, system: 0.5 },
+      function: { revelatory: 1.2, diagnostic: 1.0 },
+    },
+    fragment: {
+      scale: { micro: 2.2 },
+      depth: { recursive: 1.1, surface: 0.4 },
+      focus: { witness: 1.0, moment: 0.8 },
+      function: { revelatory: 1.0, therapeutic: 0.4 },
+    },
+    fieldlog: {
+      scale: { meso: 1.8, micro: 0.5 },
+      depth: { surface: 1.5, structural: 1.2 },
+      focus: { system: 1.4, moment: 0.8 },
+      function: { diagnostic: 2.0 },
+    },
+    artifact: {
+      scale: { meso: 1.2, micro: 0.8 },
+      depth: { surface: 1.2, structural: 1.0 },
+      focus: { system: 0.9, moment: 0.8 },
+      function: { revelatory: 0.8, diagnostic: 0.8, comparative: 0.5 },
+    },
+    scroll: {
+      scale: { meso: 1.3, micro: 0.6, macro: 0.4 },
+      depth: { structural: 1.0, recursive: 0.8 },
+      focus: { system: 0.8, moment: 0.8, character: 0.7, witness: 0.4 },
+      function: { revelatory: 1.2, therapeutic: 0.8, diagnostic: 0.6 },
+    },
+    codex: {
+      scale: { meso: 1.2, macro: 1.0 },
+      depth: { structural: 2.1, recursive: 0.4 },
+      focus: { system: 2.1 },
+      function: { diagnostic: 1.2, revelatory: 1.0, comparative: 0.4 },
+    },
+    loremap: {
+      scale: { meso: 1.7, macro: 0.6 },
+      depth: { structural: 1.3, surface: 1.0 },
+      focus: { system: 1.2, moment: 0.4 },
+      function: { diagnostic: 1.0, revelatory: 0.8, comparative: 0.4 },
+    },
+    nexus: {
+      scale: { meso: 1.5, macro: 0.7 },
+      depth: { structural: 1.5 },
+      focus: { system: 1.9 },
+      function: { comparative: 1.5, revelatory: 0.8, diagnostic: 0.5 },
+    },
+  };
+
   function today() {
     return new Date().toISOString().split('T')[0];
   }
@@ -1547,6 +1834,219 @@ export const PIGEON_APP_SCRIPT = String.raw`
     return typeMeta[normalized] ? normalized : null;
   }
 
+  function normalizeAxisValue(value, allowedValues) {
+    if (typeof value !== 'string') {
+      return '';
+    }
+
+    const normalized = value.trim().toLowerCase();
+    return allowedValues.includes(normalized) ? normalized : '';
+  }
+
+  function normalizeAxisScale(value) {
+    return normalizeAxisValue(value, AXIS_SCALE_VALUES);
+  }
+
+  function normalizeAxisDepth(value) {
+    return normalizeAxisValue(value, AXIS_DEPTH_VALUES);
+  }
+
+  function normalizeAxisFocus(value) {
+    return normalizeAxisValue(value, AXIS_FOCUS_VALUES);
+  }
+
+  function normalizeAxisFunction(value) {
+    return normalizeAxisValue(value, AXIS_FUNCTION_VALUES);
+  }
+
+  function normalizeAxisByKind(kind, value) {
+    switch (kind) {
+      case 'scale':
+        return normalizeAxisScale(value);
+      case 'depth':
+        return normalizeAxisDepth(value);
+      case 'focus':
+        return normalizeAxisFocus(value);
+      case 'function':
+        return normalizeAxisFunction(value);
+      default:
+        return '';
+    }
+  }
+
+  function axisFieldLabel(kind) {
+    return kind ? kind.charAt(0).toUpperCase() + kind.slice(1) : '';
+  }
+
+  function readAxisOverridesFromFrontmatterFields(fields) {
+    return {
+      scale: normalizeAxisScale(fields.get('scale') && fields.get('scale')[0]),
+      depth: normalizeAxisDepth(fields.get('depth') && fields.get('depth')[0]),
+      focus: normalizeAxisFocus(fields.get('focus') && fields.get('focus')[0]),
+      function: normalizeAxisFunction(fields.get('function') && fields.get('function')[0]),
+    };
+  }
+
+  function createAxisScores(values) {
+    const scores = {};
+    values.forEach((value) => {
+      scores[value] = 0;
+    });
+    return scores;
+  }
+
+  function bumpAxisScores(scores, weights, multiplier) {
+    Object.entries(weights || {}).forEach(([value, weight]) => {
+      scores[value] = (scores[value] || 0) + weight * (multiplier || 1);
+    });
+  }
+
+  function countMatches(pattern, source) {
+    const matches = source.match(pattern);
+    return matches ? matches.length : 0;
+  }
+
+  function scoreAxisFromKeywords(scores, cues, source) {
+    cues.forEach((cue) => {
+      const matches = countMatches(cue.pattern, source);
+      if (matches > 0) {
+        bumpAxisScores(scores, cue.weights, matches);
+      }
+    });
+  }
+
+  function pickTopAxisValue(scores, fallback, tieBreak) {
+    const ranked = Object.entries(scores).sort((left, right) => {
+      if (left[1] === right[1]) {
+        return tieBreak.indexOf(left[0]) - tieBreak.indexOf(right[0]);
+      }
+      return right[1] - left[1];
+    });
+
+    return ranked.length && ranked[0][1] > 0 ? ranked[0][0] : fallback;
+  }
+
+  function formatAxisValue(kind, value) {
+    if (!value) {
+      return '';
+    }
+
+    return axisLabels[kind] && axisLabels[kind][value] ? axisLabels[kind][value] : value;
+  }
+
+  function inferAxesFromText(input) {
+    const sourceObject = input || {};
+    const objectType = normalizeObjectType(sourceObject.objectType) || normalizeObjectType(selectedType);
+    const title = String(sourceObject.title || '');
+    const body = String(sourceObject.body || '');
+    const existing = sourceObject.existing || {};
+    const source = (title + '\n' + body).toLowerCase();
+    const plain = plainTextFromMarkdown(source);
+    const wordCount = plain ? plain.split(/\s+/).filter(Boolean).length : 0;
+    const headingCount = (normalizeRawNote(body).match(/^\s{0,3}#{1,6}\s+/gm) || []).length;
+    const firstPersonCount = countMatches(/\b(i|me|my|mine)\b/g, plain);
+
+    const scaleScores = createAxisScores(AXIS_SCALE_VALUES);
+    const depthScores = createAxisScores(AXIS_DEPTH_VALUES);
+    const focusScores = createAxisScores(AXIS_FOCUS_VALUES);
+    const functionScores = createAxisScores(AXIS_FUNCTION_VALUES);
+
+    const priors = objectType ? OBJECT_TYPE_AXIS_PRIORS[objectType] : null;
+    if (priors && priors.scale) {
+      bumpAxisScores(scaleScores, priors.scale);
+    }
+    if (priors && priors.depth) {
+      bumpAxisScores(depthScores, priors.depth);
+    }
+    if (priors && priors.focus) {
+      bumpAxisScores(focusScores, priors.focus);
+    }
+    if (priors && priors.function) {
+      bumpAxisScores(functionScores, priors.function);
+    }
+
+    scoreAxisFromKeywords(scaleScores, AXIS_KEYWORDS.scale, plain);
+    scoreAxisFromKeywords(depthScores, AXIS_KEYWORDS.depth, plain);
+    scoreAxisFromKeywords(focusScores, AXIS_KEYWORDS.focus, plain);
+    scoreAxisFromKeywords(functionScores, AXIS_KEYWORDS.function, plain);
+
+    if (wordCount > 420 || headingCount > 2) {
+      bumpAxisScores(scaleScores, { meso: 0.5, macro: 0.25 });
+      bumpAxisScores(depthScores, { structural: 0.3 });
+    }
+
+    if (wordCount < 120 && headingCount === 0) {
+      bumpAxisScores(scaleScores, { micro: 0.35 });
+    }
+
+    if (/\b(what this revealed|it became clear|this revealed|i realized)\b/.test(source)) {
+      bumpAxisScores(functionScores, { revelatory: 1.2 });
+    }
+
+    if (/\b(versus|vs\.?|compare|comparison|contrast|between|alongside)\b/.test(source)) {
+      bumpAxisScores(functionScores, { comparative: 1.0 });
+    }
+
+    if (/\b(maintenance|care|repair|steady|steadiness|survive|keep going)\b/.test(source)) {
+      bumpAxisScores(functionScores, { therapeutic: 0.9 });
+    }
+
+    if (/\b(issue|constraint|bug|condition|status|report)\b/.test(source)) {
+      bumpAxisScores(functionScores, { diagnostic: 0.9 });
+    }
+
+    if (firstPersonCount >= 4) {
+      bumpAxisScores(depthScores, { recursive: 0.4 });
+      bumpAxisScores(focusScores, { witness: 0.4 });
+    }
+
+    const inferred = {
+      scale: pickTopAxisValue(
+        scaleScores,
+        objectType === 'signal' || objectType === 'fragment' ? 'micro' : 'meso',
+        AXIS_SCALE_VALUES
+      ),
+      depth: pickTopAxisValue(
+        depthScores,
+        objectType === 'fieldlog' || objectType === 'artifact' || objectType === 'signal'
+          ? 'surface'
+          : objectType === 'fragment'
+            ? 'recursive'
+            : 'structural',
+        AXIS_DEPTH_VALUES
+      ),
+      focus: pickTopAxisValue(
+        focusScores,
+        objectType === 'codex' || objectType === 'nexus' || objectType === 'loremap'
+          ? 'system'
+          : objectType === 'fragment'
+            ? 'witness'
+            : 'moment',
+        AXIS_FOCUS_VALUES
+      ),
+      function: pickTopAxisValue(
+        functionScores,
+        objectType === 'fieldlog' || objectType === 'codex' || objectType === 'loremap'
+          ? 'diagnostic'
+          : objectType === 'nexus'
+            ? 'comparative'
+            : 'revelatory',
+        AXIS_FUNCTION_VALUES
+      ),
+    };
+
+    return {
+      scale: existing.scale || inferred.scale,
+      depth: existing.depth || inferred.depth,
+      focus: existing.focus || inferred.focus,
+      function: existing.function || inferred.function,
+    };
+  }
+
+  function hasAxes(axes) {
+    return Boolean(axes && (axes.scale || axes.depth || axes.focus || axes.function));
+  }
+
   function parseFrontmatterArray(value) {
     const trimmed = value.trim();
     if (!trimmed) {
@@ -1579,6 +2079,18 @@ export const PIGEON_APP_SCRIPT = String.raw`
       date: '',
       state: '',
       objectType: null,
+      axes: {
+        scale: '',
+        depth: '',
+        focus: '',
+        function: '',
+      },
+      axisOverrides: {
+        scale: '',
+        depth: '',
+        focus: '',
+        function: '',
+      },
       tags: [],
       body: normalized.trim(),
       hasFrontmatter: false,
@@ -1588,6 +2100,12 @@ export const PIGEON_APP_SCRIPT = String.raw`
 
     const parsedFrontmatter = parseLooseFrontmatter(normalizedForMatch);
     if (!parsedFrontmatter) {
+      result.axes = inferAxesFromText({
+        objectType: selectedType,
+        title: result.title,
+        body: result.body,
+        existing: result.axes,
+      });
       return result;
     }
 
@@ -1604,6 +2122,13 @@ export const PIGEON_APP_SCRIPT = String.raw`
     result.date = ((fields.get('date') && fields.get('date')[0]) || '').trim();
     result.state = ((fields.get('state') && fields.get('state')[0]) || '').trim();
     result.objectType = objectType;
+    result.axisOverrides = readAxisOverridesFromFrontmatterFields(fields);
+    result.axes = inferAxesFromText({
+      objectType: objectType || selectedType,
+      title: result.title,
+      body: parsedFrontmatter.body.trim(),
+      existing: result.axisOverrides,
+    });
     result.tags = (fields.get('tags') || []).flatMap(parseFrontmatterArray);
     result.body = parsedFrontmatter.body.trim();
     return result;
@@ -1632,7 +2157,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
       }
 
       const firstKey = firstFieldMatch[1].toLowerCase();
-      if (!/^(title|date|object_type|objecttype|type|state|tags|images|summary|id|status|visibility|themes|media)$/.test(firstKey)) {
+      if (!/^(title|date|object_type|objecttype|type|state|tags|images|summary|id|status|visibility|themes|media|scale|depth|focus|function)$/.test(firstKey)) {
         return null;
       }
     }
@@ -2065,6 +2590,10 @@ export const PIGEON_APP_SCRIPT = String.raw`
       pushKey('object_type');
     }
     pushKey('tags');
+    pushKey('scale');
+    pushKey('depth');
+    pushKey('focus');
+    pushKey('function');
     Object.keys(getTypeSpecificDefaults(inferredType, body)).forEach(pushKey);
     originalOrder.forEach(pushKey);
     Object.keys(renderedFields).forEach(pushKey);
@@ -2113,6 +2642,17 @@ export const PIGEON_APP_SCRIPT = String.raw`
       parsed.date && !Number.isNaN(Date.parse(parsed.date)) ? parsed.date : inferDateFromText(body);
     const inferredType = existingType || inferObjectTypeFromText(inferredTitle, body);
     const inferredTags = parsed.tags.length ? parsed.tags : inferTagsFromText(inferredTitle, body);
+    const inferredAxes = inferAxesFromText({
+      objectType: inferredType,
+      title: inferredTitle,
+      body,
+      existing: {
+        scale: normalizeAxisScale(fields.scale),
+        depth: normalizeAxisDepth(fields.depth),
+        focus: normalizeAxisFocus(fields.focus),
+        function: normalizeAxisFunction(fields.function),
+      },
+    });
 
     const appliedFields = [];
 
@@ -2132,6 +2672,12 @@ export const PIGEON_APP_SCRIPT = String.raw`
     if (fillMissingField(fields, 'tags', inferredTags)) {
       appliedFields.push('tags');
     }
+
+    ['scale', 'depth', 'focus', 'function'].forEach((key) => {
+      if (fillMissingField(fields, key, inferredAxes[key])) {
+        appliedFields.push(key);
+      }
+    });
 
     const typeDefaults = getTypeSpecificDefaults(inferredType, body);
     Object.entries(typeDefaults).forEach(([key, value]) => {
@@ -2278,8 +2824,18 @@ export const PIGEON_APP_SCRIPT = String.raw`
     const slug = parsed.title ? slugify(parsed.title) : '';
     const path = type && slug ? collectionPath(type, slug) : '';
     const state = parsed.state || (parsed.title && type ? 'ready' : '');
+    const axes = parsed.axes || {
+      scale: '',
+      depth: '',
+      focus: '',
+      function: '',
+    };
 
     setTelem(roType, type ? describeType(type) : '', false);
+    setTelem(roScale, formatAxisValue('scale', axes.scale), false);
+    setTelem(roDepth, formatAxisValue('depth', axes.depth), false);
+    setTelem(roFocus, formatAxisValue('focus', axes.focus), false);
+    setTelem(roFunction, formatAxisValue('function', axes.function), false);
     setTelem(roSlug, slug, false);
     setTelem(roPath, path, false);
     setTelem(roState, state, true);
@@ -2289,10 +2845,41 @@ export const PIGEON_APP_SCRIPT = String.raw`
     const type = normalizeObjectType(data.objectType || data.object_type) || selectedType;
     const slug = typeof data.slug === 'string' ? data.slug : '';
     const path = type && slug ? collectionPath(type, slug) : '';
+    const axes = data && typeof data.axes === 'object' && data.axes
+      ? data.axes
+      : {};
     setTelem(roType, type ? describeType(type) : '', false);
+    setTelem(roScale, formatAxisValue('scale', normalizeAxisScale(axes.scale)), false);
+    setTelem(roDepth, formatAxisValue('depth', normalizeAxisDepth(axes.depth)), false);
+    setTelem(roFocus, formatAxisValue('focus', normalizeAxisFocus(axes.focus)), false);
+    setTelem(roFunction, formatAxisValue('function', normalizeAxisFunction(axes.function)), false);
     setTelem(roSlug, slug, false);
     setTelem(roPath, path, false);
     setTelem(roState, 'published', true);
+  }
+
+  function syncAxisControlsFromParsed(parsed) {
+    const hasNote = noteField.value.trim().length > 0;
+    const resolvedAxes = parsed.axes || {};
+    const overrides = parsed.axisOverrides || {};
+
+    Object.entries(axisSelects).forEach(([kind, select]) => {
+      if (!select) {
+        return;
+      }
+
+      const resolvedValue = normalizeAxisByKind(kind, resolvedAxes[kind]);
+      const overrideValue = normalizeAxisByKind(kind, overrides[kind]);
+      const autoOption = select.querySelector('option[value=""]');
+      if (autoOption) {
+        autoOption.textContent = resolvedValue
+          ? 'Auto (' + formatAxisValue(kind, resolvedValue) + ')'
+          : 'Auto';
+      }
+
+      select.disabled = !hasNote;
+      select.value = overrideValue || '';
+    });
   }
 
   function isArmed(parsed) {
@@ -2401,6 +2988,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
     }
 
     updateReadoutFromParsed(parsed);
+    syncAxisControlsFromParsed(parsed);
 
     if (settings.preserveDelivered && transmitState === 'delivered') {
       return parsed;
@@ -2650,6 +3238,91 @@ export const PIGEON_APP_SCRIPT = String.raw`
     logLine('', templateLoadedMessage);
   }
 
+  function setAxisOverride(kind, rawValue) {
+    if (!noteField.value.trim()) {
+      updateInterface();
+      return;
+    }
+
+    let parsed = parseFrontmatter(noteField.value);
+    if (!parsed.hasFrontmatter) {
+      const drafted = smartDraft({ silent: true });
+      parsed = drafted && drafted.parsed ? drafted.parsed : parseFrontmatter(noteField.value);
+      logLine('info', 'Smart Draft added frontmatter so the axis override can be pinned.');
+    }
+
+    const loose = readLooseFrontmatter(noteField.value);
+    const fields = { ...loose.fields };
+    const order = loose.order.slice();
+    const typeKey = Object.prototype.hasOwnProperty.call(fields, 'object_type')
+      ? 'object_type'
+      : Object.prototype.hasOwnProperty.call(fields, 'type')
+        ? 'type'
+        : 'object_type';
+    const resolvedType = parsed.objectType || selectedType;
+    const normalizedValue = normalizeAxisByKind(kind, rawValue);
+
+    if (normalizedValue) {
+      fields[kind] = normalizedValue;
+    } else {
+      delete fields[kind];
+    }
+
+    noteField.value = renderFrontmatterNote(fields, order, typeKey, resolvedType, loose.body || parsed.body || '');
+    persistDraft();
+    const updatedParsed = updateInterface();
+    const resolvedAxes = updatedParsed.axes || {};
+    const resolvedValue = normalizeAxisByKind(kind, resolvedAxes[kind]);
+
+    if (normalizedValue) {
+      logLine('info', axisFieldLabel(kind) + ' pinned -> ' + formatAxisValue(kind, normalizedValue));
+      return;
+    }
+
+    logLine(
+      'info',
+      axisFieldLabel(kind) +
+        ' -> auto' +
+        (resolvedValue ? ' (' + formatAxisValue(kind, resolvedValue) + ')' : '')
+    );
+  }
+
+  function applySelectedTypeToNote(nextType) {
+    const normalizedType = normalizeObjectType(nextType);
+    if (!normalizedType || !noteField.value.trim()) {
+      return false;
+    }
+
+    const parsed = parseFrontmatter(noteField.value);
+    const loose = readLooseFrontmatter(noteField.value);
+    const hasTypeKey =
+      Object.prototype.hasOwnProperty.call(loose.fields, 'object_type') ||
+      Object.prototype.hasOwnProperty.call(loose.fields, 'type');
+
+    if (!parsed.hasFrontmatter && !hasTypeKey) {
+      return false;
+    }
+
+    const fields = { ...loose.fields };
+    const order = loose.order.slice();
+    const typeKey = Object.prototype.hasOwnProperty.call(fields, 'object_type')
+      ? 'object_type'
+      : Object.prototype.hasOwnProperty.call(fields, 'type')
+        ? 'type'
+        : 'object_type';
+
+    if (fields[typeKey] === normalizedType) {
+      return false;
+    }
+
+    fields[typeKey] = normalizedType;
+    noteField.value = renderFrontmatterNote(fields, order, typeKey, normalizedType, loose.body || parsed.body || '');
+    persistDraft();
+    updateInterface();
+    logLine('info', 'Type pinned -> ' + describeType(normalizedType));
+    return true;
+  }
+
   async function copyUrl() {
     try {
       await navigator.clipboard.writeText(resolvedCopyUrl());
@@ -2757,13 +3430,25 @@ export const PIGEON_APP_SCRIPT = String.raw`
   typeGrid.querySelectorAll('.type-btn').forEach((button) => {
     button.addEventListener('click', () => {
       syncSelectedType(button.dataset.type, { silent: false, closePanel: true, source: 'user' });
-      updateInterface();
+      if (!applySelectedTypeToNote(button.dataset.type)) {
+        updateInterface();
+      }
     });
   });
 
   noteField.addEventListener('input', () => {
     persistDraft();
     updateInterface();
+  });
+
+  Object.entries(axisSelects).forEach(([kind, select]) => {
+    if (!select) {
+      return;
+    }
+
+    select.addEventListener('change', () => {
+      setAxisOverride(kind, select.value);
+    });
   });
 
   mdFileInput.addEventListener('change', handleMarkdownFile);

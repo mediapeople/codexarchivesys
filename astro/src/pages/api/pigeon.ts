@@ -2,6 +2,14 @@ import type { APIRoute } from 'astro';
 import { timingSafeEqual } from 'node:crypto';
 import { mkdir, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import {
+  inferAxes,
+  normalizeAxisDepth,
+  normalizeAxisFocus,
+  normalizeAxisFunction,
+  normalizeAxisScale,
+  type ArchiveAxes,
+} from '../../lib/axes';
 import { resolveExcerpt } from '../../lib/excerpt';
 
 export const prerender = false;
@@ -57,6 +65,7 @@ type PigeonPayload = {
   objectType: PigeonObjectType;
   title: string;
   date: string;
+  axes: Required<ArchiveAxes>;
   tags: string[];
   themes: string[];
   body: string;
@@ -126,6 +135,114 @@ function normalizeStringArray(value: unknown): string[] | null {
 
 function normalizeNonEmptyStrings(values: string[]): string[] {
   return [...new Set(values.map((value) => value.trim()).filter(Boolean))];
+}
+
+function readAxisField(
+  key: keyof ArchiveAxes,
+  value: unknown,
+  sourceLabel: string
+): ArchiveAxes[keyof ArchiveAxes] | Response | undefined {
+  if (typeof value !== 'string') {
+    return undefined;
+  }
+
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return undefined;
+  }
+
+  switch (key) {
+    case 'scale': {
+      const normalized = normalizeAxisScale(trimmed);
+      if (!normalized) {
+        return Response.json(
+          { error: `Invalid scale axis value "${trimmed}" in ${sourceLabel}.` },
+          { status: 400 }
+        );
+      }
+      return normalized;
+    }
+    case 'depth': {
+      const normalized = normalizeAxisDepth(trimmed);
+      if (!normalized) {
+        return Response.json(
+          { error: `Invalid depth axis value "${trimmed}" in ${sourceLabel}.` },
+          { status: 400 }
+        );
+      }
+      return normalized;
+    }
+    case 'focus': {
+      const normalized = normalizeAxisFocus(trimmed);
+      if (!normalized) {
+        return Response.json(
+          { error: `Invalid focus axis value "${trimmed}" in ${sourceLabel}.` },
+          { status: 400 }
+        );
+      }
+      return normalized;
+    }
+    case 'function': {
+      const normalized = normalizeAxisFunction(trimmed);
+      if (!normalized) {
+        return Response.json(
+          { error: `Invalid function axis value "${trimmed}" in ${sourceLabel}.` },
+          { status: 400 }
+        );
+      }
+      return normalized;
+    }
+    default:
+      return undefined;
+  }
+}
+
+function resolveAxisOverridesFromMap(
+  fields: Map<string, string[]>,
+  sourceLabel: string
+): ArchiveAxes | Response {
+  const axes: ArchiveAxes = {};
+
+  for (const key of ['scale', 'depth', 'focus', 'function'] as const) {
+    const result = readAxisField(key, fields.get(key)?.[0], sourceLabel);
+    if (result instanceof Response) {
+      return result;
+    }
+    if (result) {
+      axes[key] = result;
+    }
+  }
+
+  return axes;
+}
+
+function resolveAxisOverridesFromRecord(
+  candidate: Record<string, unknown>,
+  sourceLabel: string
+): ArchiveAxes | Response {
+  const axes: ArchiveAxes = {};
+  const nestedAxes =
+    candidate.axes && typeof candidate.axes === 'object'
+      ? (candidate.axes as Record<string, unknown>)
+      : null;
+
+  for (const key of ['scale', 'depth', 'focus', 'function'] as const) {
+    const value =
+      typeof candidate[key] === 'string'
+        ? candidate[key]
+        : nestedAxes && typeof nestedAxes[key] === 'string'
+          ? nestedAxes[key]
+          : undefined;
+    const result = readAxisField(key, value, sourceLabel);
+    if (result instanceof Response) {
+      return result;
+    }
+    if (result) {
+      axes[key] = result;
+    }
+  }
+
+  return axes;
 }
 
 function normalizeNewlines(value: string): string {
@@ -468,12 +585,17 @@ function parseMarkdownNote(note: string, fallbackObjectType?: unknown): PigeonPa
   const requestedExcerpt =
     normalizeOptionalString(fields.get('excerpt')?.[0]) ||
     normalizeOptionalString(fields.get('summary')?.[0]);
+  const axisOverrides = resolveAxisOverridesFromMap(fields, 'markdown note frontmatter');
   const excerpt = resolveExcerpt({
     title,
     excerpt: requestedExcerpt,
     body,
     max: 220,
   }) || undefined;
+
+  if (axisOverrides instanceof Response) {
+    return axisOverrides;
+  }
 
   if (!title) {
     return Response.json({ error: 'Markdown note is missing title frontmatter.' }, { status: 400 });
@@ -491,6 +613,12 @@ function parseMarkdownNote(note: string, fallbackObjectType?: unknown): PigeonPa
     objectType,
     title,
     date,
+    axes: inferAxes({
+      objectType,
+      title,
+      body,
+      existing: axisOverrides,
+    }),
     tags: normalizeNonEmptyStrings(tags),
     themes: normalizeNonEmptyStrings(themes.length > 0 ? themes : tags),
     body,
@@ -530,7 +658,7 @@ function extractMarkdownFrontmatter(source: string): ParsedFrontmatter | null {
     }
 
     const firstKey = firstFieldMatch[1].toLowerCase();
-    if (!/^(title|date|object_type|objecttype|type|state|tags|images|summary|id|status|visibility|themes|media)$/.test(firstKey)) {
+    if (!/^(title|date|object_type|objecttype|type|state|tags|images|summary|id|status|visibility|themes|media|scale|depth|focus|function)$/.test(firstKey)) {
       return null;
     }
   }
@@ -805,6 +933,10 @@ function buildMarkdownEntry(payload: PigeonPayload, slug: string): string {
     `status: ${payload.status}`,
     `visibility: ${payload.visibility}`,
     payload.excerpt ? `excerpt: ${yamlString(payload.excerpt)}` : null,
+    `scale: ${payload.axes.scale}`,
+    `depth: ${payload.axes.depth}`,
+    `focus: ${payload.axes.focus}`,
+    `function: ${payload.axes.function}`,
     yamlStringArrayField('themes', payload.themes),
     yamlImageMediaField(payload.media),
     payload.passthroughFrontmatter.join('\n'),
@@ -1030,6 +1162,7 @@ async function writeLocalEntry(
       objectType: payload.objectType,
       path: filePath,
       images: payload.images,
+      axes: payload.axes,
       url: getPublishedUrl(payload.objectType, slug),
       note: 'Entry written to source content. Rebuild or redeploy to publish outside local dev.',
     },
@@ -1366,6 +1499,7 @@ async function writeGitHubEntry(
       objectType: payload.objectType,
       path: relativePath,
       images: payload.images,
+      axes: payload.axes,
       url: getPublishedUrl(payload.objectType, slug),
       commitSha: commitResult.commitSha,
       commitUrl: commitResult.commitUrl,
@@ -1481,6 +1615,7 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
   const images = candidate.images === undefined ? [] : normalizeStringArray(candidate.images);
   const dependencies =
     candidate.dependencies === undefined ? [] : normalizeStringArray(candidate.dependencies);
+  const axisOverrides = resolveAxisOverridesFromRecord(candidate, 'json payload');
   const objectType = resolveObjectType(
     new Map([
       ['object_type', [typeof candidate.object_type === 'string' ? candidate.object_type : '']],
@@ -1518,11 +1653,21 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
     return Response.json({ error: 'dependencies must be an array of strings.' }, { status: 400 });
   }
 
+  if (axisOverrides instanceof Response) {
+    return axisOverrides;
+  }
+
   return {
     payload: {
       objectType,
       title,
       date,
+      axes: inferAxes({
+        objectType,
+        title,
+        body,
+        existing: axisOverrides,
+      }),
       tags,
       themes: normalizeNonEmptyStrings(themes.length > 0 ? themes : tags),
       body,

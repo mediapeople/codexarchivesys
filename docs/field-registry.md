@@ -151,6 +151,82 @@ excerpt: "Crystal does not rush."
 
 ---
 
+### scale
+
+| Property | Value |
+|---|---|
+| **Owner** | llm-suggested |
+| **Type** | enum |
+| **Required** | no |
+| **Applies To** | all |
+| **Renders In** | object review surface, codex page review surface, future lattice navigation |
+| **Allowed Values** | `micro` `meso` `macro` |
+
+The dominant size of reality the object is working on. `micro` stays with a moment, gesture, or small scene. `meso` tracks a pattern, project, relationship, or field. `macro` addresses large systems, histories, publics, or civilizational structure. Carrier Pigeon may infer this when it is omitted; author may override.
+
+```yaml
+scale: micro
+```
+
+---
+
+### depth
+
+| Property | Value |
+|---|---|
+| **Owner** | llm-suggested |
+| **Type** | enum |
+| **Required** | no |
+| **Applies To** | all |
+| **Renders In** | object review surface, codex page review surface, future lattice navigation |
+| **Allowed Values** | `surface` `structural` `recursive` |
+
+The dominant interpretive layer of the object. `surface` records what happened or appeared. `structural` names the pattern, mechanism, or arrangement underneath. `recursive` turns back on observer, language, or system loop. Carrier Pigeon may infer this when it is omitted; author may override.
+
+```yaml
+depth: structural
+```
+
+---
+
+### focus
+
+| Property | Value |
+|---|---|
+| **Owner** | llm-suggested |
+| **Type** | enum |
+| **Required** | no |
+| **Applies To** | all |
+| **Renders In** | object review surface, codex page review surface, future lattice navigation |
+| **Allowed Values** | `moment` `character` `system` `witness` |
+
+The center of attention the object is actually about. `moment` centers an event or slice of time. `character` centers a person, role, or agent. `system` centers a process, institution, or network. `witness` centers the observing stance itself. Carrier Pigeon may infer this when it is omitted; author may override.
+
+```yaml
+focus: system
+```
+
+---
+
+### function
+
+| Property | Value |
+|---|---|
+| **Owner** | llm-suggested |
+| **Type** | enum |
+| **Required** | no |
+| **Applies To** | all |
+| **Renders In** | object review surface, codex page review surface, future lattice navigation |
+| **Allowed Values** | `diagnostic` `therapeutic` `revelatory` `comparative` |
+
+The dominant job the object performs for the reader. `diagnostic` identifies a condition. `therapeutic` steadies, repairs, or metabolizes. `revelatory` makes something newly visible. `comparative` clarifies through contrast or adjacency. Carrier Pigeon may infer this when it is omitted; author may override.
+
+```yaml
+function: revelatory
+```
+
+---
+
 ### themes
 
 | Property | Value |

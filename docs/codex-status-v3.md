@@ -1,17 +1,17 @@
 # CODEX ARCHIVE SYSTEM
 ## Project Status Document
-### v3.7.0 - March 9, 2026
+### v3.12.0 - March 17, 2026
 
 ---
 
 ## CURRENT VERSION
 
-**v3.7.0**
+**v3.12.0**
 
 This document supersedes `docs/codex-status-v2.7.md` as the active status reference.
 
 Spine remains stable.
-Operations now include explicit connection surfacing and place-aware object modeling through `loremap`.
+Operations now include coordinate-aware ingest, place-aware modeling, and object-local marginalia that can publish without becoming a second feed.
 
 ---
 
@@ -20,10 +20,10 @@ Operations now include explicit connection surfacing and place-aware object mode
 ```
 SPEC            complete        v2.2 Master Specification
 FIELD REGISTRY  complete        docs/field-registry.md
-SCHEMA          complete        astro/src/content/config.ts + loremap + universal place fields
+SCHEMA          complete        astro/src/content/config.ts + stable fragment/origin/connection contract for marginalia
 INTAKE PROMPT   active          docs/llm-intake-prompt.md + docs/fragment-optimal-ingest-form.md
-ASTRO BUILD     active          feed, object pages, nexus, graph, orientation
-OBJECT ARCHIVE  active          canonical objects + codex release chain through v3.7 loremap foundation
+ASTRO BUILD     active          feed, object pages, codex marginalia, nexus, graph, orientation
+OBJECT ARCHIVE  active          canonical objects + codex release chain through v3.12 marginalia notes
 INBOX SYSTEM    active          drop/processing/needs-info/ready
 RELATION ENGINE complete        astro/src/lib/relations.ts + build graph pipeline
 RESPAWN CHAIN   complete        docs/respawn-system-files-v3.md + quickstart
@@ -49,6 +49,7 @@ v3+ extends the v3 ingest discipline with presentation-runtime hardening.
 10. Object-page images are now clickable and expandable for fullscreen inspection.
 11. Explicit `connections` now support authored lineage and inline connected-context rendering.
 12. Place-aware work now has a first-class lane via `loremap`, plus universal `location`, `geo`, and `terrain`.
+13. Object-local marginalia can now publish inline while staying off the main feed and follow surfaces.
 
 ---
 
@@ -157,6 +158,22 @@ v3+ extends the v3 ingest discipline with presentation-runtime hardening.
 
 ---
 
+## MARGINALIA ADDENDUM (March 17, 2026 — v3.12.0)
+
+1. Canonical release object added:
+   - `codex-archive-system-v3-12-marginalia-notes`
+2. Marginalia now publishes as `fragment` plus `origin: marginalia` plus a `connections` role `note` link back to the parent object.
+3. Object pages now render a dedicated marginalia stack below the body, oldest first.
+4. The dedicated codex reading page now renders the same marginalia layer.
+5. Operator-only inline publishing now reuses the existing Carrier Pigeon browser key and `/api/pigeon` path.
+6. Primary archive surfaces now filter marginalia out of:
+   - the main home feed
+   - JSON/RSS follow feeds
+   - generic related-object recommendations
+7. No new object class, reply model, notification loop, or public comment system was introduced.
+
+---
+
 ## EXPANDED LEARNINGS (v3+)
 
 1. Ingest quality is relation quality; a clean object with weak links is still under-indexed.
@@ -169,6 +186,9 @@ v3+ extends the v3 ingest discipline with presentation-runtime hardening.
 8. Media-rich objects require inspectability as a first-class reading behavior.
 9. When object lineage is explicit, it should surface as explicit context rather than getting buried in generic relation stacks.
 10. Place-primary work becomes cleaner when terrain is modeled as structure, not implied inside prose alone.
+11. A post-publication layer can remain archival if it is attached to the object and denied its own global timeline.
+12. Reusing an existing ingest/auth path is safer than inventing a second publish channel for a modest new surface.
+13. Fragment-backed exceptions need explicit feed filtering or they will inherit primary-surface behavior by accident.
 
 ---
 

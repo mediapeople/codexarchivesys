@@ -1,4 +1,5 @@
 import type { ArchiveEntry } from './archive';
+import { isMarginaliaEntry } from './marginalia';
 
 export interface RelatedHit {
   entry: ArchiveEntry;
@@ -63,12 +64,18 @@ export function computeRelatedEntries(
   allEntries: ArchiveEntry[],
   limit = 3
 ): RelatedHit[] {
+  if (isMarginaliaEntry(source)) {
+    return [];
+  }
+
   const sourceRelated = source.data.related || [];
   const sourceConnections = getConnectionRefs(source);
   const sourceIncluded = getIncludedRefs(source);
 
   const scored = allEntries
-    .filter((candidate) => candidate.data.id !== source.data.id)
+    .filter(
+      (candidate) => candidate.data.id !== source.data.id && !isMarginaliaEntry(candidate)
+    )
     .map((candidate) => {
       let score = 0;
       const reasons: string[] = [];

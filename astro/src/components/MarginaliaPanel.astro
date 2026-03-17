@@ -1,0 +1,923 @@
+---
+import type { ArchiveEntry } from '../lib/archive';
+import { getAuthorInitials } from '../lib/author';
+import {
+  formatMarginaliaDate,
+  getMarginaliaAuthorProfile,
+  getMarginaliaAuthorTone,
+  getMarginaliaBody,
+  inferMarginaliaKind,
+  parseMarginaliaLink,
+} from '../lib/marginalia';
+
+interface Props {
+  objectId: string;
+  objectTitle: string;
+  items: ArchiveEntry[];
+  allowOperatorPublishing?: boolean;
+}
+
+const {
+  objectId,
+  objectTitle,
+  items,
+  allowOperatorPublishing = true,
+} = Astro.props;
+
+const itemViews = items.map((entry) => {
+  const author = getMarginaliaAuthorProfile(entry);
+  return {
+    id: entry.data.id,
+    body: getMarginaliaBody(entry),
+    kind: inferMarginaliaKind(getMarginaliaBody(entry)),
+    link: parseMarginaliaLink(getMarginaliaBody(entry)),
+    dateLabel: formatMarginaliaDate(entry.data.postedAt ?? entry.data.date),
+    initials: getAuthorInitials(author.name),
+    authorTone: getMarginaliaAuthorTone(author),
+  };
+});
+
+const countLabel = `${itemViews.length} ${itemViews.length === 1 ? 'mark' : 'marks'}`;
+const serializedConfig = JSON.stringify({
+  objectId,
+  objectTitle,
+  keyStorageKey: 'carrier-pigeon.shared-key',
+  operatorSource: 'nathan-davis',
+  operatorInitials: 'ND',
+  visibility: 'unlisted',
+  endpoint: '/api/pigeon',
+}).replace(/</g, '\\u003c');
+---
+
+<section
+  class={`marginalia-panel ${allowOperatorPublishing ? 'marginalia-panel--operator-enabled' : ''}`}
+  data-marginalia-root
+>
+  <div class="marginalia-head">
+    <span class="marginalia-label">Marginalia</span>
+    <span class="marginalia-count" data-marginalia-count>{countLabel}</span>
+    <span class="marginalia-rule" aria-hidden="true"></span>
+  </div>
+
+  {allowOperatorPublishing && (
+    <div class="marginalia-operator">
+      <div class="marginalia-operator-topline">
+        <button type="button" class="marginalia-operator-toggle" data-marginalia-operator-toggle>
+          Operator publish
+        </button>
+        <span class="marginalia-operator-copy" data-marginalia-operator-copy>
+          Uses the Carrier Pigeon key saved on this device.
+        </span>
+      </div>
+
+      <div class="marginalia-auth" data-marginalia-auth hidden>
+        <label class="marginalia-auth-label" for={`marginalia-key-${objectId}`}>Operator key</label>
+        <div class="marginalia-auth-row">
+          <input
+            id={`marginalia-key-${objectId}`}
+            class="marginalia-key-input"
+            type="password"
+            placeholder="Paste Carrier Pigeon key"
+            autocomplete="off"
+            data-marginalia-key-input
+          />
+          <button type="button" class="marginalia-auth-action" data-marginalia-save-key>Save</button>
+          <button type="button" class="marginalia-auth-action marginalia-auth-action--ghost" data-marginalia-clear-key>
+            Clear
+          </button>
+        </div>
+      </div>
+
+      <form class="marginalia-composer" data-marginalia-composer hidden>
+        <textarea
+          class="marginalia-field"
+          rows="3"
+          placeholder="leave something…"
+          aria-label="Add marginalia"
+          data-marginalia-field
+        ></textarea>
+        <div class="marginalia-composer-foot">
+          <div class="marginalia-composer-meta">
+            <span class="marginalia-composer-author">ND</span>
+            <span>object-only</span>
+          </div>
+          <button type="submit" class="marginalia-submit" data-marginalia-submit>· add</button>
+        </div>
+      </form>
+
+      <p class="marginalia-status" data-marginalia-status hidden></p>
+    </div>
+  )}
+
+  <p class="marginalia-empty" data-marginalia-empty hidden={itemViews.length > 0}>
+    No marks yet.
+  </p>
+
+  <div class="marginalia-stack" data-marginalia-stack>
+    {itemViews.map((item) => (
+      <article class="marginalia-item" data-marginalia-item data-kind={item.kind} data-entry-id={item.id}>
+        {item.kind === 'link' && item.link ? (
+          <p class="marginalia-text marginalia-text--link">
+            <span aria-hidden="true">→ </span>
+            {item.link.href ? (
+              <a href={item.link.href} target={item.link.href.startsWith('/') ? undefined : '_blank'} rel={item.link.href.startsWith('/') ? undefined : 'noreferrer'}>
+                {item.link.label}
+              </a>
+            ) : (
+              <span>{item.link.label}</span>
+            )}
+            {item.link.suffix && <span class="marginalia-link-suffix"> — {item.link.suffix}</span>}
+          </p>
+        ) : (
+          <p class={`marginalia-text ${item.kind === 'quote' ? 'marginalia-text--quote' : ''}`}>{item.body}</p>
+        )}
+        <div class="marginalia-meta">
+          <span class={`marginalia-author marginalia-author--${item.authorTone}`}>{item.initials}</span>
+          <span>{item.dateLabel}</span>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <script type="application/json" data-marginalia-config set:html={serializedConfig}></script>
+</section>
+
+<script is:inline>
+  (() => {
+    const roots = Array.from(document.querySelectorAll('[data-marginalia-root]'));
+    if (!roots.length) {
+      return;
+    }
+
+    const escapeHtml = (value) =>
+      String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+
+    const formatDate = (value) => {
+      const year = value.getFullYear();
+      const month = String(value.getMonth() + 1).padStart(2, '0');
+      const day = String(value.getDate()).padStart(2, '0');
+      return `${year}.${month}.${day}`;
+    };
+
+    const pluralizeMarks = (count) => `${count} ${count === 1 ? 'mark' : 'marks'}`;
+
+    const inferKind = (body) => {
+      const normalized = String(body || '').trim();
+      if (!normalized) {
+        return 'note';
+      }
+
+      if (/^(?:→\s*)?(?:\/\S+|https?:\/\/\S+|www\.\S+)/i.test(normalized)) {
+        return 'link';
+      }
+
+      if (
+        /^["'“”‘’]/.test(normalized) ||
+        /^—\s*/.test(normalized) ||
+        /\s(?:—|--|-)\s*[A-Z][A-Za-z .'-]{1,48}$/.test(normalized)
+      ) {
+        return 'quote';
+      }
+
+      return 'note';
+    };
+
+    const parseLink = (body) => {
+      const normalized = String(body || '').replace(/\s+/g, ' ').trim();
+      if (!normalized) {
+        return null;
+      }
+
+      const withoutArrow = normalized.replace(/^→\s*/, '').trim();
+      if (!withoutArrow) {
+        return null;
+      }
+
+      const separatorMatch = withoutArrow.match(/\s(?:—|--)\s/);
+      const separatorIndex = separatorMatch ? separatorMatch.index : -1;
+      const labelPart =
+        separatorIndex >= 0 ? withoutArrow.slice(0, separatorIndex).trim() : withoutArrow;
+      const suffix =
+        separatorIndex >= 0
+          ? withoutArrow.slice(separatorIndex + separatorMatch[0].length).trim()
+          : '';
+      const hrefMatch = labelPart.match(/^(\/\S+|https?:\/\/\S+|www\.\S+)/i);
+      const hrefCandidate = hrefMatch ? hrefMatch[1] : '';
+
+      return {
+        href: hrefCandidate
+          ? hrefCandidate.startsWith('www.')
+            ? `https://${hrefCandidate}`
+            : hrefCandidate
+          : '',
+        label: labelPart,
+        suffix,
+      };
+    };
+
+    const appendTextWithBreaks = (container, value) => {
+      String(value)
+        .split('\n')
+        .forEach((line, index) => {
+          if (index > 0) {
+            container.append(document.createElement('br'));
+          }
+          container.append(document.createTextNode(line));
+        });
+    };
+
+    const buildMarginaliaTitle = (objectTitle, timestamp) => {
+      const stamp = [
+        timestamp.getFullYear(),
+        String(timestamp.getMonth() + 1).padStart(2, '0'),
+        String(timestamp.getDate()).padStart(2, '0'),
+        String(timestamp.getHours()).padStart(2, '0'),
+        String(timestamp.getMinutes()).padStart(2, '0'),
+        String(timestamp.getSeconds()).padStart(2, '0'),
+      ].join('-');
+      return `Marginalia on ${objectTitle} ${stamp}`;
+    };
+
+    const yamlString = (value) => JSON.stringify(String(value));
+
+    const buildNote = ({ body, objectId, objectTitle, operatorSource, visibility }) => {
+      const timestamp = new Date();
+      const frontmatter = [
+        '---',
+        `title: ${yamlString(buildMarginaliaTitle(objectTitle, timestamp))}`,
+        `date: ${yamlString(timestamp.toISOString())}`,
+        'object_type: fragment',
+        'status: published',
+        `visibility: ${visibility}`,
+        'origin: marginalia',
+        'lengthClass: micro',
+        'themes: []',
+        `source: ${operatorSource}`,
+        'connections:',
+        `  - ref: ${objectId}`,
+        '    role: note',
+        '    display: inline',
+        '---',
+        '',
+        body.trim(),
+        '',
+      ];
+
+      return {
+        note: frontmatter.join('\n'),
+        createdAt: timestamp,
+      };
+    };
+
+    const createMarginaliaItem = ({ body, createdAt, initials, authorTone }) => {
+      const article = document.createElement('article');
+      article.className = 'marginalia-item';
+      article.setAttribute('data-marginalia-item', '');
+
+      const kind = inferKind(body);
+      article.dataset.kind = kind;
+
+      const text = document.createElement('p');
+      text.className = 'marginalia-text';
+
+      if (kind === 'quote') {
+        text.classList.add('marginalia-text--quote');
+        appendTextWithBreaks(text, body);
+      } else if (kind === 'link') {
+        text.classList.add('marginalia-text--link');
+        const parsed = parseLink(body);
+        if (parsed) {
+          text.append(document.createTextNode('→ '));
+          if (parsed.href) {
+            const link = document.createElement('a');
+            link.href = parsed.href;
+            link.textContent = parsed.label;
+            if (!parsed.href.startsWith('/')) {
+              link.target = '_blank';
+              link.rel = 'noreferrer';
+            }
+            text.append(link);
+          } else {
+            text.append(document.createTextNode(parsed.label));
+          }
+
+          if (parsed.suffix) {
+            const suffix = document.createElement('span');
+            suffix.className = 'marginalia-link-suffix';
+            suffix.textContent = ` — ${parsed.suffix}`;
+            text.append(suffix);
+          }
+        } else {
+          appendTextWithBreaks(text, body);
+        }
+      } else {
+        appendTextWithBreaks(text, body);
+      }
+
+      const meta = document.createElement('div');
+      meta.className = 'marginalia-meta';
+
+      const author = document.createElement('span');
+      author.className = `marginalia-author marginalia-author--${authorTone || 'default'}`;
+      author.textContent = initials;
+      meta.append(author);
+
+      const date = document.createElement('span');
+      date.textContent = formatDate(createdAt);
+      meta.append(date);
+
+      article.append(text, meta);
+      return article;
+    };
+
+    roots.forEach((root) => {
+      if (!(root instanceof HTMLElement)) {
+        return;
+      }
+
+      const configEl = root.querySelector('[data-marginalia-config]');
+      const countEl = root.querySelector('[data-marginalia-count]');
+      const emptyEl = root.querySelector('[data-marginalia-empty]');
+      const stackEl = root.querySelector('[data-marginalia-stack]');
+      const toggleEl = root.querySelector('[data-marginalia-operator-toggle]');
+      const authEl = root.querySelector('[data-marginalia-auth]');
+      const composerEl = root.querySelector('[data-marginalia-composer]');
+      const fieldEl = root.querySelector('[data-marginalia-field]');
+      const saveKeyEl = root.querySelector('[data-marginalia-save-key]');
+      const clearKeyEl = root.querySelector('[data-marginalia-clear-key]');
+      const keyInputEl = root.querySelector('[data-marginalia-key-input]');
+      const statusEl = root.querySelector('[data-marginalia-status]');
+      const operatorCopyEl = root.querySelector('[data-marginalia-operator-copy]');
+      const submitEl = root.querySelector('[data-marginalia-submit]');
+
+      if (!(configEl instanceof HTMLScriptElement)) {
+        return;
+      }
+
+      if (!(countEl instanceof HTMLElement) || !(emptyEl instanceof HTMLElement) || !(stackEl instanceof HTMLElement)) {
+        return;
+      }
+
+      const config = JSON.parse(configEl.textContent || '{}');
+      const keyStorageKey = String(config.keyStorageKey || 'carrier-pigeon.shared-key');
+      const endpoint = String(config.endpoint || '/api/pigeon');
+      const operatorSource = String(config.operatorSource || 'nathan-davis');
+      const operatorInitials = String(config.operatorInitials || 'ND');
+      const objectId = String(config.objectId || '');
+      const objectTitle = String(config.objectTitle || 'Untitled object');
+      const visibility = String(config.visibility || 'unlisted');
+
+      let isSubmitting = false;
+
+      const readStoredKey = () => {
+        try {
+          return window.localStorage.getItem(keyStorageKey) || '';
+        } catch {
+          return '';
+        }
+      };
+
+      const writeStoredKey = (value) => {
+        try {
+          if (value) {
+            window.localStorage.setItem(keyStorageKey, value);
+          } else {
+            window.localStorage.removeItem(keyStorageKey);
+          }
+        } catch {
+          return;
+        }
+      };
+
+      const setStatus = (message, tone = 'info') => {
+        if (!(statusEl instanceof HTMLElement)) {
+          return;
+        }
+
+        if (!message) {
+          statusEl.hidden = true;
+          statusEl.textContent = '';
+          statusEl.dataset.tone = '';
+          return;
+        }
+
+        statusEl.hidden = false;
+        statusEl.textContent = message;
+        statusEl.dataset.tone = tone;
+      };
+
+      const resizeField = () => {
+        if (!(fieldEl instanceof HTMLTextAreaElement)) {
+          return;
+        }
+
+        fieldEl.style.height = '0px';
+        fieldEl.style.height = `${Math.max(fieldEl.scrollHeight, 88)}px`;
+      };
+
+      const updateEmptyState = () => {
+        emptyEl.hidden = stackEl.children.length > 0;
+      };
+
+      const updateCount = () => {
+        const nextCount = stackEl.querySelectorAll('[data-marginalia-item]').length;
+        countEl.textContent = pluralizeMarks(nextCount);
+        updateEmptyState();
+      };
+
+      const syncOperatorUi = () => {
+        const key = readStoredKey();
+        const hasKey = Boolean(key);
+
+        if (keyInputEl instanceof HTMLInputElement && !keyInputEl.value) {
+          keyInputEl.value = key;
+        }
+
+        if (composerEl instanceof HTMLElement) {
+          composerEl.hidden = !hasKey;
+        }
+
+        if (toggleEl instanceof HTMLButtonElement) {
+          toggleEl.textContent = hasKey ? 'Operator ready' : 'Operator publish';
+        }
+
+        if (operatorCopyEl instanceof HTMLElement) {
+          operatorCopyEl.textContent = hasKey
+            ? 'Key loaded from this browser. Cmd+Enter submits on desktop.'
+            : 'Uses the Carrier Pigeon key saved on this device.';
+        }
+      };
+
+      if (fieldEl instanceof HTMLTextAreaElement) {
+        resizeField();
+        fieldEl.addEventListener('input', resizeField);
+        fieldEl.addEventListener('keydown', (event) => {
+          if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') {
+            if (composerEl instanceof HTMLFormElement) {
+              composerEl.requestSubmit();
+            }
+          }
+        });
+      }
+
+      if (toggleEl instanceof HTMLButtonElement && authEl instanceof HTMLElement) {
+        toggleEl.addEventListener('click', () => {
+          const hasKey = Boolean(readStoredKey());
+          if (hasKey && composerEl instanceof HTMLElement) {
+            composerEl.hidden = false;
+            if (fieldEl instanceof HTMLTextAreaElement) {
+              fieldEl.focus();
+            }
+            setStatus('', 'info');
+            return;
+          }
+
+          authEl.hidden = !authEl.hidden;
+          if (!authEl.hidden && keyInputEl instanceof HTMLInputElement) {
+            keyInputEl.focus();
+          }
+        });
+      }
+
+      if (saveKeyEl instanceof HTMLButtonElement && keyInputEl instanceof HTMLInputElement) {
+        saveKeyEl.addEventListener('click', () => {
+          const nextKey = keyInputEl.value.trim();
+          if (!nextKey) {
+            setStatus('Paste the Carrier Pigeon key first.', 'error');
+            keyInputEl.focus();
+            return;
+          }
+
+          writeStoredKey(nextKey);
+          if (authEl instanceof HTMLElement) {
+            authEl.hidden = true;
+          }
+          syncOperatorUi();
+          setStatus('Operator key saved for this browser.', 'success');
+          if (fieldEl instanceof HTMLTextAreaElement) {
+            fieldEl.focus();
+          }
+        });
+
+        keyInputEl.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter') {
+            event.preventDefault();
+            saveKeyEl.click();
+          }
+        });
+      }
+
+      if (clearKeyEl instanceof HTMLButtonElement && keyInputEl instanceof HTMLInputElement) {
+        clearKeyEl.addEventListener('click', () => {
+          writeStoredKey('');
+          keyInputEl.value = '';
+          if (composerEl instanceof HTMLElement) {
+            composerEl.hidden = true;
+          }
+          syncOperatorUi();
+          setStatus('Saved operator key cleared from this browser.', 'info');
+        });
+      }
+
+      if (composerEl instanceof HTMLFormElement && fieldEl instanceof HTMLTextAreaElement) {
+        composerEl.addEventListener('submit', async (event) => {
+          event.preventDefault();
+
+          if (isSubmitting) {
+            return;
+          }
+
+          const key = readStoredKey().trim();
+          if (!key) {
+            if (authEl instanceof HTMLElement) {
+              authEl.hidden = false;
+            }
+            setStatus('Enter the Carrier Pigeon key first.', 'error');
+            if (keyInputEl instanceof HTMLInputElement) {
+              keyInputEl.focus();
+            }
+            return;
+          }
+
+          const body = fieldEl.value.trim();
+          if (!body) {
+            return;
+          }
+
+          const prepared = buildNote({
+            body,
+            objectId,
+            objectTitle,
+            operatorSource,
+            visibility,
+          });
+
+          isSubmitting = true;
+          if (submitEl instanceof HTMLButtonElement) {
+            submitEl.disabled = true;
+          }
+          setStatus('Publishing marginalia…', 'info');
+
+          try {
+            const response = await fetch(endpoint, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'text/plain; charset=utf-8',
+                Authorization: `Bearer ${key}`,
+              },
+              body: prepared.note,
+            });
+
+            const payload = await response.json().catch(() => ({}));
+            if (!response.ok) {
+              if (response.status === 401 && authEl instanceof HTMLElement) {
+                authEl.hidden = false;
+              }
+              const message =
+                typeof payload?.error === 'string'
+                  ? payload.error
+                  : `Marginalia publish failed with status ${response.status}.`;
+              setStatus(message, 'error');
+              return;
+            }
+
+            const itemEl = createMarginaliaItem({
+              body,
+              createdAt: prepared.createdAt,
+              initials: operatorInitials,
+              authorTone: 'nd',
+            });
+            if (typeof payload?.slug === 'string' && payload.slug) {
+              itemEl.dataset.entryId = payload.slug;
+            }
+            stackEl.append(itemEl);
+            fieldEl.value = '';
+            resizeField();
+            updateCount();
+
+            const successNote =
+              typeof payload?.note === 'string' && payload.note
+                ? payload.note
+                : 'Marginalia published.';
+            setStatus(successNote, 'success');
+          } catch (error) {
+            const message =
+              error instanceof Error ? error.message : 'Could not reach Carrier Pigeon.';
+            setStatus(message, 'error');
+          } finally {
+            isSubmitting = false;
+            if (submitEl instanceof HTMLButtonElement) {
+              submitEl.disabled = false;
+            }
+          }
+        });
+      }
+
+      syncOperatorUi();
+      updateCount();
+    });
+  })();
+</script>
+
+<style>
+  .marginalia-panel {
+    margin-top: 4rem;
+    padding-top: 2.1rem;
+    border-top: 1px solid rgba(244, 240, 232, 0.12);
+  }
+
+  .marginalia-head {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .marginalia-label,
+  .marginalia-count,
+  .marginalia-operator-toggle,
+  .marginalia-operator-copy,
+  .marginalia-auth-label,
+  .marginalia-auth-action,
+  .marginalia-composer-meta,
+  .marginalia-submit,
+  .marginalia-meta,
+  .marginalia-status {
+    font-family: var(--font-ui);
+    letter-spacing: var(--ls-ui);
+  }
+
+  .marginalia-label {
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+
+  .marginalia-count {
+    font-size: 0.58rem;
+    color: var(--ghost);
+    white-space: nowrap;
+  }
+
+  .marginalia-rule {
+    flex: 1;
+    height: 1px;
+    background: rgba(244, 240, 232, 0.1);
+  }
+
+  .marginalia-operator {
+    margin-top: 1.35rem;
+  }
+
+  .marginalia-operator-topline {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  .marginalia-operator-toggle,
+  .marginalia-auth-action,
+  .marginalia-submit {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--gold);
+    cursor: pointer;
+    font-size: 0.62rem;
+    text-transform: uppercase;
+  }
+
+  .marginalia-operator-toggle:hover,
+  .marginalia-auth-action:hover,
+  .marginalia-submit:hover {
+    color: var(--star);
+  }
+
+  .marginalia-operator-copy {
+    font-size: 0.55rem;
+    color: var(--ghost);
+  }
+
+  .marginalia-auth {
+    margin-top: 0.95rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(244, 240, 232, 0.08);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .marginalia-auth-label {
+    display: block;
+    margin-bottom: 0.55rem;
+    font-size: 0.55rem;
+    color: var(--mid);
+    text-transform: uppercase;
+  }
+
+  .marginalia-auth-row {
+    display: flex;
+    gap: 0.65rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .marginalia-key-input {
+    min-width: min(26rem, 100%);
+    flex: 1 1 16rem;
+    border: 1px solid rgba(244, 240, 232, 0.12);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-body);
+    padding: 0.72rem 0.82rem;
+    font: inherit;
+  }
+
+  .marginalia-key-input:focus,
+  .marginalia-field:focus {
+    outline: none;
+    border-color: rgba(201, 150, 58, 0.6);
+  }
+
+  .marginalia-auth-action--ghost {
+    color: var(--mid);
+  }
+
+  .marginalia-composer {
+    margin-top: 1.05rem;
+    padding: 0.92rem 1rem 0.78rem;
+    border: 1px solid rgba(244, 240, 232, 0.1);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015)),
+      rgba(23, 19, 15, 0.98);
+    transition: border-color 0.16s ease;
+  }
+
+  .marginalia-composer:focus-within {
+    border-color: rgba(201, 150, 58, 0.45);
+  }
+
+  .marginalia-field {
+    width: 100%;
+    min-height: 5.5rem;
+    resize: none;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: var(--text-body);
+    font: inherit;
+    line-height: 1.75;
+  }
+
+  .marginalia-field::placeholder {
+    color: var(--ghost);
+    font-style: italic;
+  }
+
+  .marginalia-composer-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    margin-top: 0.7rem;
+  }
+
+  .marginalia-composer-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: 0.54rem;
+    color: var(--ghost);
+    text-transform: uppercase;
+  }
+
+  .marginalia-composer-author {
+    color: rgba(201, 150, 58, 0.88);
+  }
+
+  .marginalia-submit:disabled {
+    opacity: 0.5;
+    cursor: wait;
+  }
+
+  .marginalia-status {
+    margin: 0.8rem 0 0;
+    font-size: 0.55rem;
+    color: var(--mid);
+    line-height: 1.5;
+  }
+
+  .marginalia-status[data-tone='success'] {
+    color: #adc59f;
+  }
+
+  .marginalia-status[data-tone='error'] {
+    color: #da8f7d;
+  }
+
+  .marginalia-empty {
+    margin: 1.3rem 0 0;
+    color: var(--ghost);
+    font-size: 0.98rem;
+    line-height: 1.7;
+  }
+
+  .marginalia-stack {
+    margin-top: 1.3rem;
+  }
+
+  .marginalia-item {
+    padding: 1rem 0 1.05rem;
+    border-bottom: 1px solid rgba(244, 240, 232, 0.08);
+  }
+
+  .marginalia-item:first-child {
+    border-top: 1px solid rgba(244, 240, 232, 0.08);
+  }
+
+  .marginalia-text {
+    margin: 0;
+    color: rgba(232, 226, 212, 0.9);
+    font-size: 1.02rem;
+    line-height: 1.8;
+    white-space: pre-wrap;
+  }
+
+  .marginalia-text--quote {
+    font-style: italic;
+  }
+
+  .marginalia-text--link {
+    white-space: normal;
+  }
+
+  .marginalia-text--link a {
+    color: rgba(232, 226, 212, 0.9);
+    text-decoration-color: rgba(244, 240, 232, 0.2);
+    text-underline-offset: 0.15em;
+  }
+
+  .marginalia-text--link a:hover {
+    color: var(--gold);
+    text-decoration-color: rgba(201, 150, 58, 0.45);
+  }
+
+  .marginalia-link-suffix {
+    color: rgba(232, 226, 212, 0.84);
+  }
+
+  .marginalia-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+    margin-top: 0.55rem;
+    font-size: 0.57rem;
+    color: var(--ghost);
+    text-transform: uppercase;
+  }
+
+  .marginalia-meta span + span::before {
+    content: '·';
+    margin-right: 0.55rem;
+    color: rgba(244, 240, 232, 0.2);
+  }
+
+  .marginalia-author {
+    color: var(--mid);
+  }
+
+  .marginalia-author--nd {
+    color: rgba(201, 150, 58, 0.86);
+  }
+
+  .marginalia-author--rw {
+    color: rgba(120, 155, 180, 0.82);
+  }
+
+  .marginalia-author--km {
+    color: rgba(184, 160, 128, 0.82);
+  }
+
+  @media (max-width: 720px) {
+    .marginalia-panel {
+      margin-top: 3rem;
+    }
+
+    .marginalia-text {
+      font-size: 0.98rem;
+      line-height: 1.75;
+    }
+
+    .marginalia-auth-row,
+    .marginalia-composer-foot {
+      align-items: flex-start;
+    }
+
+    .marginalia-submit {
+      padding-top: 0.2rem;
+    }
+  }
+</style>

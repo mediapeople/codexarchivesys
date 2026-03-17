@@ -1,35 +1,34 @@
 # Codex Archive System - Current State
-Version: 3.3
-Date: 2026-03-08
+Version: 3.12
+Date: 2026-03-17
 
 ## Focus
-fragment-first feed communication, object-aware card-image staging, and publish-safe runtime continuity
+axis-aware object publishing, object-local marginalia, and archive-safe continuity without social sprawl
 
-## Key Changes in v3.3
-- canonical v3.3 release note published as `codex-archive-system-v3-3-modest-table-notes`
-- image-backed feed and related cards now present objects on a contained modest-table stage instead of hard crops
-- the table/image surface now has its own inspection path while the rest of the card remains the canonical post link
-- a lightweight card-image lightbox now includes a direct `Open attached post` handoff
-- mobile lightbox controls now resolve as a cleaner touch tray
-- mobile table staging now gives raw camera-native objects more top/bottom breathing room
+## Key Changes in v3.12
+- canonical v3.12 release note published as `codex-archive-system-v3-12-marginalia-notes`
+- marginalia now exists as a real archive layer using `fragment` plus `origin: marginalia`
+- object pages now render a dedicated marginalia stack below the main body
+- codex reading pages now render the same marginalia surface
+- inline operator publishing now reuses the stored Carrier Pigeon key and `/api/pigeon`
+- home/follow/related surfaces now exclude marginalia so the layer stays attached to the object instead of becoming a second feed
 
 ## Schema State
-No schema expansion occurred in v3.3.
-Object model remains stable while the presentation layer becomes more type-specific.
+No new object type was introduced in v3.12.
+Object model remains stable. Marginalia is implemented as a fragment convention plus connection semantics, not as a taxonomy fork.
 
 ## Primary Surfaces
 - /feed -> exploration
-- /objects -> canonical reading
+- /objects -> canonical reading + marginalia
+- /codex -> codex-native reading + marginalia
 - /graph -> relationship discovery
 - /nexus -> thematic clustering
+- /pigeon -> phone ingest and shared-key bootstrap
 
-## Session Close Updates (March 8, 2026)
-- fragment feed handling was split out from the generic object-card path
-- feed fragments now float as quote/interlude surfaces rather than media-placeholder cards
-- fragment header chrome was reduced so the line itself carries the communication
-- fragment identifiers moved to a quiet footer treatment for archival context without title-weight competition
-- prompt/return previews were added for operator/system style fragments
-- feed fragment layout no longer inherits the generic preview aspect ratio or reserved card height
-- image-backed cards now treat the object like a specimen on a modest table rather than a cropped teaser slice
-- image inspection now splits from card navigation: table click enlarges the image, card click still opens the object
-- mobile lightbox chrome was tightened into a more deliberate touch tray with clearer CTA behavior
+## Session Close Updates (March 17, 2026)
+- marginalia helper logic now defines what counts as a margin note and where it may surface
+- object pages and codex pages now mount the same marginalia panel and operator composer
+- inline publish reuses the Carrier Pigeon shared-key flow instead of introducing account logic
+- marginalia remains fragment-backed so the archive retains one object model
+- primary feed/follow/related surfaces now explicitly filter marginalia out
+- release chain advanced through v3.12 with status + respawn + current-state alignment
