@@ -146,7 +146,7 @@ function readAxisField(
     return undefined;
   }
 
-  const trimmed = value.trim();
+  const trimmed = parseFrontmatterScalar(value)?.trim();
   if (!trimmed) {
     return undefined;
   }
@@ -318,8 +318,32 @@ function fallbackAltFromImageTarget(value: string): string {
   return filename.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ').trim();
 }
 
+function parseFrontmatterScalar(value: string | undefined): string | undefined {
+  const trimmed = value?.trim();
+  if (!trimmed) {
+    return undefined;
+  }
+
+  if (trimmed.startsWith('"') && trimmed.endsWith('"')) {
+    try {
+      const parsed = JSON.parse(trimmed);
+      if (typeof parsed === 'string') {
+        return parsed;
+      }
+    } catch {
+      return trimmed.slice(1, -1);
+    }
+  }
+
+  if (trimmed.startsWith("'") && trimmed.endsWith("'")) {
+    return trimmed.slice(1, -1).replace(/''/g, "'");
+  }
+
+  return trimmed;
+}
+
 function normalizeOptionalString(value: string | undefined): string | undefined {
-  const normalized = value?.trim();
+  const normalized = parseFrontmatterScalar(value)?.trim();
   return normalized ? normalized : undefined;
 }
 
@@ -373,7 +397,10 @@ function normalizeStatus(value: unknown): PigeonStatus | null {
     return null;
   }
 
-  const normalized = value.trim().toLowerCase();
+  const normalized = parseFrontmatterScalar(value)?.trim().toLowerCase();
+  if (!normalized) {
+    return null;
+  }
   return STATUS_VALUES.includes(normalized as PigeonStatus) ? (normalized as PigeonStatus) : null;
 }
 
@@ -382,7 +409,10 @@ function normalizeVisibility(value: unknown): PigeonVisibility | null {
     return null;
   }
 
-  const normalized = value.trim().toLowerCase();
+  const normalized = parseFrontmatterScalar(value)?.trim().toLowerCase();
+  if (!normalized) {
+    return null;
+  }
   return VISIBILITY_VALUES.includes(normalized as PigeonVisibility)
     ? (normalized as PigeonVisibility)
     : null;
@@ -393,7 +423,10 @@ function normalizeObjectType(value: unknown): PigeonObjectType | null {
     return null;
   }
 
-  const normalized = value.trim().toLowerCase();
+  const normalized = parseFrontmatterScalar(value)?.trim().toLowerCase();
+  if (!normalized) {
+    return null;
+  }
   const aliased =
     normalized === 'field-log' || normalized === 'field_log' || normalized === 'field log'
       ? 'fieldlog'
@@ -571,8 +604,8 @@ function parseMarkdownNote(note: string, fallbackObjectType?: unknown): PigeonPa
 
   const fields = parsedFrontmatter.fields;
   const objectType = resolveObjectType(fields, 'markdown note frontmatter', fallbackObjectType);
-  const title = (fields.get('title')?.[0] || '').trim();
-  const date = (fields.get('date')?.[0] || '').trim();
+  const title = normalizeOptionalString(fields.get('title')?.[0]) || '';
+  const date = normalizeOptionalString(fields.get('date')?.[0]) || '';
   const tags = (fields.get('tags') || []).flatMap(parseFrontmatterValue);
   const themes = (fields.get('themes') || []).flatMap(parseFrontmatterValue);
   const images = (fields.get('images') || []).flatMap(parseFrontmatterValue);

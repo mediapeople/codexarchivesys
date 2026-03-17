@@ -24,6 +24,7 @@ constellations:
   - Maintenance Psalms
 
 related:
+  - codex-archive-system-v3-12-marginalia-live-publish-notes
   - codex-archive-system-v3-11-lattice-groundwork-notes
   - carrier-pigeon-publishing-system
   - codex-archive-system-v3-2-fragment-feed-notes
@@ -33,6 +34,8 @@ connections:
   - ref: codex-archive-system-v3-11-lattice-groundwork-notes
     role: previous version
     display: feature
+  - ref: codex-archive-system-v3-12-marginalia-live-publish-notes
+    role: next update
   - ref: carrier-pigeon-publishing-system
     role: operator auth path
   - ref: codex-archive-system-v3-2-fragment-feed-notes
@@ -54,7 +57,8 @@ dependencies:
 ---
 
 v3.12 extends [Codex Archive System v3.11 Lattice Groundwork Notes](/objects/codex-archive-system-v3-11-lattice-groundwork-notes).
-Use v3.11 for coordinate-aware ingest and v3.12 for a post-publication marginalia layer that stays attached to the object instead of leaking into the archive feed.
+These notes are now extended by [Codex Archive System v3.12.1 Marginalia Live Publish Notes](/objects/codex-archive-system-v3-12-marginalia-live-publish-notes).
+Use v3.11 for coordinate-aware ingest, v3.12 for the first marginalia layer, and v3.12.1 for the live publish hardening pass that made the inline composer survive production submit.
 
 v3.12 is the marginalia release.
 

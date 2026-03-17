@@ -1,17 +1,17 @@
 # CODEX ARCHIVE SYSTEM
 ## Project Status Document
-### v3.12.0 - March 17, 2026
+### v3.12.1 - March 17, 2026
 
 ---
 
 ## CURRENT VERSION
 
-**v3.12.0**
+**v3.12.1**
 
 This document supersedes `docs/codex-status-v2.7.md` as the active status reference.
 
 Spine remains stable.
-Operations now include coordinate-aware ingest, place-aware modeling, and object-local marginalia that can publish without becoming a second feed.
+Operations now include coordinate-aware ingest, place-aware modeling, object-local marginalia, and live-safe quoted-scalar markdown ingest for operator publishing.
 
 ---
 
@@ -23,7 +23,7 @@ FIELD REGISTRY  complete        docs/field-registry.md
 SCHEMA          complete        astro/src/content/config.ts + stable fragment/origin/connection contract for marginalia
 INTAKE PROMPT   active          docs/llm-intake-prompt.md + docs/fragment-optimal-ingest-form.md
 ASTRO BUILD     active          feed, object pages, codex marginalia, nexus, graph, orientation
-OBJECT ARCHIVE  active          canonical objects + codex release chain through v3.12 marginalia notes
+OBJECT ARCHIVE  active          canonical objects + codex release chain through v3.12.1 marginalia live publish notes
 INBOX SYSTEM    active          drop/processing/needs-info/ready
 RELATION ENGINE complete        astro/src/lib/relations.ts + build graph pipeline
 RESPAWN CHAIN   complete        docs/respawn-system-files-v3.md + quickstart
@@ -50,6 +50,7 @@ v3+ extends the v3 ingest discipline with presentation-runtime hardening.
 11. Explicit `connections` now support authored lineage and inline connected-context rendering.
 12. Place-aware work now has a first-class lane via `loremap`, plus universal `location`, `geo`, and `terrain`.
 13. Object-local marginalia can now publish inline while staying off the main feed and follow surfaces.
+14. Raw markdown ingest now accepts quoted scalar frontmatter from operator surfaces instead of only bare-token values.
 
 ---
 
@@ -174,6 +175,22 @@ v3+ extends the v3 ingest discipline with presentation-runtime hardening.
 
 ---
 
+## MARGINALIA LIVE PUBLISH PATCH (March 17, 2026 — v3.12.1)
+
+1. Canonical patch release object added:
+   - `codex-archive-system-v3-12-marginalia-live-publish-notes`
+2. Carrier Pigeon markdown ingest now unwraps quoted scalar frontmatter before validation.
+3. This closes the live marginalia submit failure where the inline composer sent a quoted ISO `date` through `/api/pigeon` and the parser rejected it.
+4. The hardening also covers quoted scalar fields such as:
+   - `title`
+   - `status`
+   - `visibility`
+   - `object_type`
+   - axis values
+5. No auth model, object model, or primary-surface behavior changed in the patch.
+
+---
+
 ## EXPANDED LEARNINGS (v3+)
 
 1. Ingest quality is relation quality; a clean object with weak links is still under-indexed.
@@ -189,6 +206,7 @@ v3+ extends the v3 ingest discipline with presentation-runtime hardening.
 11. A post-publication layer can remain archival if it is attached to the object and denied its own global timeline.
 12. Reusing an existing ingest/auth path is safer than inventing a second publish channel for a modest new surface.
 13. Fragment-backed exceptions need explicit feed filtering or they will inherit primary-surface behavior by accident.
+14. If an operator surface emits YAML-style quoted scalars, the ingest boundary has to honor them as first-class input rather than rejecting them as malformed literals.
 
 ---
 
