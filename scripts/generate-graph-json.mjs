@@ -60,8 +60,28 @@ function extractFrontmatter(raw) {
   return lines.slice(1, end + 1).join('\n');
 }
 
-const sourceDir = process.argv[2] || 'objects';
-const outFile = process.argv[3] || 'astro/public/graph.json';
+function resolveDefaultSourceDir() {
+  const candidates = ['src/content', 'astro/src/content', 'objects'];
+  for (const candidate of candidates) {
+    if (fs.existsSync(path.resolve(candidate))) {
+      return candidate;
+    }
+  }
+  return 'astro/src/content';
+}
+
+function resolveDefaultOutFile() {
+  const candidates = ['public/graph.json', 'astro/public/graph.json'];
+  for (const candidate of candidates) {
+    if (fs.existsSync(path.resolve(path.dirname(candidate)))) {
+      return candidate;
+    }
+  }
+  return 'astro/public/graph.json';
+}
+
+const sourceDir = process.argv[2] || resolveDefaultSourceDir();
+const outFile = process.argv[3] || resolveDefaultOutFile();
 
 const objects = loadObjects(sourceDir);
 const byId = new Map(

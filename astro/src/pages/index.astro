@@ -12,7 +12,8 @@ import { execSync } from 'node:child_process';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 
-const entries = (await getAllEntries()).filter(isPrimarySurfaceEntry);
+const allEntries = await getAllEntries();
+const entries = allEntries.filter(isPrimarySurfaceEntry);
 const searchParams = Astro.url.searchParams;
 
 const typeParam = searchParams.get('type');
@@ -348,7 +349,9 @@ function buildHref(
         }
       </p>
 
-      <p class="result-count" data-result-count>Showing {filteredEntries.length} of {entries.length} objects</p>
+      <p class="result-count" data-result-count>
+        Showing {filteredEntries.length} of {entries.length} feed-visible objects
+      </p>
     </div>
   </section>
 
@@ -392,21 +395,21 @@ function buildHref(
   <section class="atlas">
     <header>
       <p>Archive atlas</p>
-      <span>System signal stays below the object list.</span>
+      <span>{entries.length} feed-visible · {allEntries.length} indexed total.</span>
     </header>
 
     <section class="stats">
       <article>
         <strong>{entries.length}</strong>
-        <span>Objects</span>
+        <span>Feed-visible objects</span>
       </article>
       <article>
         <strong>{typeCounts.length}</strong>
-        <span>Types in use</span>
+        <span>Types in feed</span>
       </article>
       <article>
         <strong>{constellationSet.size}</strong>
-        <span>Constellations</span>
+        <span>Constellations in feed</span>
       </article>
     </section>
 

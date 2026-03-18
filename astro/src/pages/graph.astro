@@ -253,14 +253,14 @@ const graphViewModelJson = JSON.stringify({
       <section class="graph-error page-plate">
         <h2>Graph Not Loaded</h2>
         <p>{loadError}</p>
-        <p>Run <code>node scripts/generate-graph-json.mjs objects astro/public/graph.json</code>.</p>
+        <p>Run <code>node scripts/generate-graph-json.mjs astro/src/content astro/public/graph.json</code>.</p>
       </section>
     ) : (
       <>
         <section class="graph-kpis">
           <article class="graph-kpi page-plate">
             <span class="graph-kpi-value">{graphClientData.nodeCount}</span>
-            <span class="graph-kpi-label">Objects in the field</span>
+            <span class="graph-kpi-label">Objects indexed</span>
           </article>
           <article class="graph-kpi page-plate">
             <span class="graph-kpi-value">{graphClientData.edgeCount}</span>
