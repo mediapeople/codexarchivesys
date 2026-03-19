@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-19T00:54:44.110Z",
+  "generatedAt": "2026-03-19T01:04:37.139Z",
   "sourceDir": "./src/content",
-  "nodeCount": 113,
-  "edgeCount": 4228,
+  "nodeCount": 114,
+  "edgeCount": 4314,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -1026,6 +1026,21 @@
       "themes": [
         "place",
         "memory",
+        "observation",
+        "transmission"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "ellijay-ga-fourth-of-july-loremap",
+      "type": "loremap",
+      "title": "Loremap: Ellijay, GA - Fourth of July",
+      "date": "2026-03-18",
+      "themes": [
+        "place",
+        "ritual",
+        "memory",
+        "signal",
         "observation",
         "transmission"
       ],
@@ -2375,6 +2390,16 @@
       ]
     },
     {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "north-georgia-march-2026",
+      "weight": 10,
+      "reasons": [
+        "shared-theme",
+        "explicit-connection",
+        "explicit-related"
+      ]
+    },
+    {
       "source": "i-work-with-machines-to-write-scripture",
       "target": "signal-descent-004",
       "weight": 10,
@@ -3083,6 +3108,15 @@
       "weight": 7,
       "reasons": [
         "explicit-connection",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "chattahoochee-river-loremap",
+      "target": "ellijay-ga-fourth-of-july-loremap",
+      "weight": 7,
+      "reasons": [
+        "shared-theme",
         "explicit-related"
       ]
     },
@@ -4076,6 +4110,15 @@
     {
       "source": "disrespectful-power",
       "target": "unacceptable-cost",
+      "weight": 6,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "pocket-rock-cathedral",
       "weight": 6,
       "reasons": [
         "shared-theme",
@@ -6919,6 +6962,14 @@
     },
     {
       "source": "constellation-node-alchemy",
+      "target": "ellijay-ga-fourth-of-july-loremap",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
       "target": "grand-myth-central",
       "weight": 4,
       "reasons": [
@@ -6962,6 +7013,38 @@
     {
       "source": "distortion-atlas",
       "target": "one-yard-from-forever-scroll-surface",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "grand-myth-central",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "mothers-calendar",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 4,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "suwanee-ga-loremap",
       "weight": 4,
       "reasons": [
         "shared-theme"
@@ -8414,6 +8497,14 @@
     },
     {
       "source": "capture-and-convert",
+      "target": "ellijay-ga-fourth-of-july-loremap",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
       "target": "garage-dispatch-001",
       "weight": 3,
       "reasons": [
@@ -8726,6 +8817,14 @@
     },
     {
       "source": "citizen-network-dispatch",
+      "target": "ellijay-ga-fourth-of-july-loremap",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
       "target": "flexible-machine-sweet-spot",
       "weight": 3,
       "reasons": [
@@ -8900,6 +8999,14 @@
     {
       "source": "citizen-network-doctrine",
       "target": "crane-field-illustration",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "ellijay-ga-fourth-of-july-loremap",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -12279,6 +12386,30 @@
     {
       "source": "distortion-atlas",
       "target": "pocket-rock-cathedral",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "signal-descent-001",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "transmission-note-to-future-me",
       "weight": 3,
       "reasons": [
         "shared-theme"
@@ -13564,6 +13695,14 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "ellijay-ga-fourth-of-july-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "flexible-machine-sweet-spot",
       "weight": 2,
       "reasons": [
@@ -13820,6 +13959,14 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "ellijay-ga-fourth-of-july-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "garage-dispatch-001",
       "weight": 2,
       "reasons": [
@@ -13973,6 +14120,14 @@
     {
       "source": "artifact-jsa-collage-001",
       "target": "disrespectful-power",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "ellijay-ga-fourth-of-july-loremap",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -14180,6 +14335,14 @@
     },
     {
       "source": "artifact-jsa-collage-wip-001",
+      "target": "ellijay-ga-fourth-of-july-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
       "target": "grand-myth-central",
       "weight": 2,
       "reasons": [
@@ -14349,6 +14512,14 @@
     {
       "source": "artifact-jsa-signal-fracture-001",
       "target": "distortion-atlas",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
+      "target": "ellijay-ga-fourth-of-july-loremap",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -14588,6 +14759,14 @@
     },
     {
       "source": "bezalel-the-designated-hand",
+      "target": "ellijay-ga-fourth-of-july-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
       "target": "flexible-machine-sweet-spot",
       "weight": 2,
       "reasons": [
@@ -14717,6 +14896,14 @@
     {
       "source": "builder-lineage-reflection",
       "target": "distortion-atlas",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "ellijay-ga-fourth-of-july-loremap",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -15220,6 +15407,14 @@
     },
     {
       "source": "characters-in-the-field",
+      "target": "ellijay-ga-fourth-of-july-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
       "target": "flexible-machine-sweet-spot",
       "weight": 2,
       "reasons": [
@@ -15597,6 +15792,14 @@
     {
       "source": "cities-built-on-ruin-reminiscence",
       "target": "distortion-atlas",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "ellijay-ga-fourth-of-july-loremap",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -16388,6 +16591,14 @@
     },
     {
       "source": "citizen-network-map-hi-fi",
+      "target": "ellijay-ga-fourth-of-july-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
       "target": "garage-dispatch-001",
       "weight": 2,
       "reasons": [
@@ -17132,6 +17343,14 @@
     },
     {
       "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "ellijay-ga-fourth-of-july-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
       "target": "garage-dispatch-001",
       "weight": 2,
       "reasons": [
@@ -17748,6 +17967,14 @@
     },
     {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "ellijay-ga-fourth-of-july-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "garage-dispatch-001",
       "weight": 2,
       "reasons": [
@@ -17828,6 +18055,14 @@
     },
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "ellijay-ga-fourth-of-july-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "i-work-with-machines-to-write-scripture",
       "weight": 2,
       "reasons": [
@@ -17948,6 +18183,14 @@
     },
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "ellijay-ga-fourth-of-july-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "i-work-with-machines-to-write-scripture",
       "weight": 2,
       "reasons": [
@@ -18064,6 +18307,14 @@
       "weight": 2,
       "reasons": [
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "ellijay-ga-fourth-of-july-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -18192,6 +18443,14 @@
       "weight": 2,
       "reasons": [
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "ellijay-ga-fourth-of-july-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -18356,6 +18615,14 @@
     },
     {
       "source": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "target": "ellijay-ga-fourth-of-july-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-7-loremap-foundation-notes",
       "target": "garage-dispatch-001",
       "weight": 2,
       "reasons": [
@@ -18509,6 +18776,14 @@
     {
       "source": "codex-archive-system-v3-7-loremap-foundation-notes",
       "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "ellijay-ga-fourth-of-july-loremap",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -18925,6 +19200,14 @@
     {
       "source": "codex-archive-system-v3-plus-notes",
       "target": "disrespectful-power",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
+      "target": "ellijay-ga-fourth-of-july-loremap",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -19460,6 +19743,14 @@
     },
     {
       "source": "crane-field-illustration",
+      "target": "ellijay-ga-fourth-of-july-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
       "target": "go-live-milestone",
       "weight": 2,
       "reasons": [
@@ -19724,6 +20015,14 @@
     },
     {
       "source": "disrespectful-power",
+      "target": "ellijay-ga-fourth-of-july-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "disrespectful-power",
       "target": "go-live-milestone",
       "weight": 2,
       "reasons": [
@@ -19940,6 +20239,14 @@
     },
     {
       "source": "distortion-atlas",
+      "target": "ellijay-ga-fourth-of-july-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
       "target": "grand-myth-central",
       "weight": 2,
       "reasons": [
@@ -19996,6 +20303,246 @@
     },
     {
       "source": "distortion-atlas",
+      "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "garage-dispatch-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "go-live-milestone",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "i-work-with-machines-to-write-scripture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "jsa-collage-evolution-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "jsa-collage-evolution-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "jsa-collage-evolution-003",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "keep-the-operator-whistling",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "machine-creatures",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "node-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "north-georgia-week-2",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "one-yard-from-forever",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "operator-winks-at-the-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "return-of-the-joker",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "ridge-line-lessons",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "scripture-with-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "shop-talk-framework",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "signal-descent-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "signal-descent-003",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "signal-descent-004",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "signal-descent-005",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "signal-harvest",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "signal.citizen-agency",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "stairwell-signal",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "steel-elbow-flinchian",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
       "target": "unacceptable-cost",
       "weight": 2,
       "reasons": [
@@ -23452,6 +23999,14 @@
     },
     {
       "source": "archive-box-stamped-fragments",
+      "target": "ellijay-ga-fourth-of-july-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
       "target": "flexible-machine-sweet-spot",
       "weight": 1,
       "reasons": [
@@ -26524,6 +27079,14 @@
     },
     {
       "source": "cities-built-on-ruin",
+      "target": "ellijay-ga-fourth-of-july-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
       "target": "garage-dispatch-001",
       "weight": 1,
       "reasons": [
@@ -27860,6 +28423,14 @@
     },
     {
       "source": "codex-archive-system-v2-7-notes",
+      "target": "ellijay-ga-fourth-of-july-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
       "target": "jsa-collage-evolution-003",
       "weight": 1,
       "reasons": [
@@ -27965,6 +28536,14 @@
     {
       "source": "codex-archive-system-v2-7-notes",
       "target": "work-intelligence-v4g",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "ellijay-ga-fourth-of-july-loremap",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -28205,6 +28784,14 @@
     {
       "source": "codex-archive-system-v3-11-lattice-groundwork-notes",
       "target": "disrespectful-power",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-11-lattice-groundwork-notes",
+      "target": "ellijay-ga-fourth-of-july-loremap",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -29620,6 +30207,14 @@
     },
     {
       "source": "codex-archive-system-v3-9-orientation-clarity-notes",
+      "target": "ellijay-ga-fourth-of-july-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-9-orientation-clarity-notes",
       "target": "garage-dispatch-001",
       "weight": 1,
       "reasons": [
@@ -29709,6 +30304,14 @@
     {
       "source": "codex-archive-system-v3-9-orientation-clarity-notes",
       "target": "work-intelligence-v4g",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "ellijay-ga-fourth-of-july-loremap",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -29940,6 +30543,14 @@
     },
     {
       "source": "codex-glyph-grammar",
+      "target": "ellijay-ga-fourth-of-july-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
       "target": "heart-does-not-dream",
       "weight": 1,
       "reasons": [
@@ -30117,6 +30728,14 @@
     {
       "source": "codex-glyph-system-first-emergence",
       "target": "distortion-atlas",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
+      "target": "ellijay-ga-fourth-of-july-loremap",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -31077,6 +31696,94 @@
     {
       "source": "distortion-atlas",
       "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "justice-begins-as-a-ripple",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "on-object-oriented-archives",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "on-visceral-distillation",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "quiet-vector-doctrine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "signal-post-test",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "when-the-commit-leaves-your-hands",
       "weight": 1,
       "reasons": [
         "shared-theme"
