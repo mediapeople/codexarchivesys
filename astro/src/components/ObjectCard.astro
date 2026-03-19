@@ -229,13 +229,19 @@ const showFragmentStageFooter = showFragmentStage && !isFragmentInterlude;
 const showExcerpt = Boolean(summaryText) && !showFragmentStage;
 const showThemes = entry.data.themes.length > 0 && variant !== 'mosaic' && !showFragmentStage;
 const showAuthorTease = !showFragmentStage;
-const hasImagePreview = !showFragmentStage && primaryMedia?.kind === 'image';
-const primaryMediaMeta = hasImagePreview ? await getImageAssetMetadata(primaryMedia.src) : null;
+const isLoremap = entry.collection === 'loremap';
+const loremapAtlas = getLoremapAtlasRender(entry.data as Record<string, unknown>, displayTitle, 'card');
+const showLoremapPreview = isLoremap && !showFragmentStage;
+const cardPrimaryMedia = showLoremapPreview ? null : primaryMedia;
+const hasImagePreview = !showFragmentStage && cardPrimaryMedia?.kind === 'image';
+const primaryMediaMeta = hasImagePreview ? await getImageAssetMetadata(cardPrimaryMedia.src) : null;
 const imagePreviewItems = hasImagePreview
   ? [
-      primaryMedia,
+      cardPrimaryMedia,
       ...mediaItems.filter(
-        (item) => item.kind === 'image' && (item.src !== primaryMedia?.src || item.role !== primaryMedia?.role)
+        (item) =>
+          item.kind === 'image' &&
+          (item.src !== cardPrimaryMedia?.src || item.role !== cardPrimaryMedia?.role)
       ),
     ]
   : [];
@@ -246,8 +252,8 @@ const previewMediaVersionBySrc = new Map(previewMediaVersionEntries);
 const getPreviewMediaSrc = (src: string) => withMediaVersion(src, previewMediaVersionBySrc.get(src) ?? undefined);
 const hasIndependentPreviewAction = hasImagePreview && (variant === 'feed' || variant === 'related');
 const useCenteredCopyStack = !showFragmentStage && (variant === 'feed' || variant === 'related');
-const primaryMediaCaption = primaryMedia?.caption || '';
-const primaryMediaSrc = primaryMedia ? getPreviewMediaSrc(primaryMedia.src) : '';
+const primaryMediaCaption = cardPrimaryMedia?.caption || '';
+const primaryMediaSrc = cardPrimaryMedia ? getPreviewMediaSrc(cardPrimaryMedia.src) : '';
 const previewImageCount = imagePreviewItems.length;
 const previewFrameStyle = hasImagePreview
   ? getImagePreviewFrameStyle(primaryMediaMeta, previewImageCount, variant)
@@ -265,10 +271,7 @@ const searchCorpus = [displayTitle, resolvedExcerpt, rawSummary, ...entry.data.t
   .join(' ')
   .toLowerCase();
 
-const readableDate = formatArchiveDate(entry.data.date);
-const isLoremap = entry.collection === 'loremap';
-const loremapAtlas = getLoremapAtlasRender(entry.data as Record<string, unknown>, displayTitle, 'card');
-const showLoremapPreview = isLoremap && !showFragmentStage && !primaryMedia;
+const readableDate = formatArchiveDate(entry.data);
 const useLoremapMinimalThumb = showLoremapPreview && (variant === 'feed' || variant === 'related');
 const showLoremapGeo = loremapAtlas.geo.toLowerCase() !== 'coordinates pending';
 const artifactType = entry.collection === 'artifact' && typeof (entry.data as Record<string, unknown>).artifactType === 'string'
@@ -278,7 +281,7 @@ const artifactSource = entry.collection === 'artifact' && typeof (entry.data as 
   ? String((entry.data as Record<string, unknown>).source).trim()
   : '';
 const showHtmlArtifactPreview =
-  entry.collection === 'artifact' && !primaryMedia && /^\/.+\.html$/i.test(artifactSource);
+  entry.collection === 'artifact' && !cardPrimaryMedia && /^\/.+\.html$/i.test(artifactSource);
 const artifactSourceName = showHtmlArtifactPreview
   ? artifactSource.split('/').filter(Boolean).pop()?.replace(/\.html$/i, '') || ''
   : '';
@@ -299,7 +302,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     data-media-shape={primaryMediaMeta?.shape}
     data-card-image-trigger={hasIndependentPreviewAction ? 'true' : undefined}
     data-card-lightbox-src={hasIndependentPreviewAction ? primaryMediaSrc : undefined}
-    data-card-lightbox-alt={hasIndependentPreviewAction ? (primaryMedia?.alt || `${entry.data.title} media preview`) : undefined}
+    data-card-lightbox-alt={hasIndependentPreviewAction ? (cardPrimaryMedia?.alt || `${entry.data.title} media preview`) : undefined}
     data-card-lightbox-caption={hasIndependentPreviewAction ? primaryMediaCaption : undefined}
     data-card-lightbox-images={previewGalleryPayload}
     data-card-lightbox-href={hasIndependentPreviewAction ? href : undefined}
@@ -339,20 +342,20 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
           </div>
         )}
       </>
-    ) : primaryMedia?.kind === 'image' ? (
+    ) : cardPrimaryMedia?.kind === 'image' ? (
       <img
         class="preview-image"
         src={primaryMediaSrc}
-        alt={primaryMedia.alt || `${entry.data.title} media preview`}
+        alt={cardPrimaryMedia.alt || `${entry.data.title} media preview`}
         width={primaryMediaMeta?.width}
         height={primaryMediaMeta?.height}
         loading="lazy"
         decoding="async"
       />
-    ) : primaryMedia ? (
+    ) : cardPrimaryMedia ? (
       <div class="preview-fallback">
-        <span>{primaryMedia.kind}</span>
-        <small>{formatMediaLabel(primaryMedia)}</small>
+        <span>{cardPrimaryMedia.kind}</span>
+        <small>{formatMediaLabel(cardPrimaryMedia)}</small>
       </div>
     ) : showLoremapPreview ? (
       <div class={`preview-loremap ${useLoremapMinimalThumb ? 'preview-loremap--minimal' : ''}`} aria-hidden="true">

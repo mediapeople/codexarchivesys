@@ -33,7 +33,7 @@ if (!entry) {
 const { Content } = await entry.render();
 
 const displayTitle = formatDisplayTitle(entry.data.title);
-const readableDate = formatArchiveLongDate(entry.data.date);
+const readableDate = formatArchiveLongDate(entry.data);
 const tags = entry.data.tags.length > 0 ? entry.data.tags : entry.data.themes;
 const directImages = entry.data.images.map((image) => image.trim()).filter(Boolean);
 const mediaImages = entry.data.media

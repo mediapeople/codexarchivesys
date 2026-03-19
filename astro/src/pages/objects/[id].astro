@@ -212,7 +212,7 @@ const detailRows = optionalFieldOrder
   })
   .filter((row): row is { label: string; value: string } => Boolean(row));
 
-const readableDate = formatArchiveLongDate(entry.data.date);
+const readableDate = formatArchiveLongDate(entry.data);
 const displayTitle = formatDisplayTitle(entry.data.title);
 const artifactSourceValue = entry.collection === 'artifact'
   ? formatValue((entry.data as Record<string, unknown>).source)

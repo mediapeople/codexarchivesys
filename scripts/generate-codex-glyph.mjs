@@ -21,6 +21,8 @@ export const mediaDirByType = {
   signal: 'signals',
 };
 
+const GLYPH_CANVAS_SCALE = 0.8;
+
 function hashChunks(input) {
   const hex = crypto.createHash('sha256').update(input).digest('hex');
   const numbers = [];
@@ -240,6 +242,7 @@ export function formatGlyphMediaBlockLines(mediaItem) {
 export function renderGlyphSvg(fields) {
   const { id = '', type = '', status = 'draft', themes = [] } = fields;
   const seed = hashChunks([id, type, status, ...themes].join(':'));
+  const glyphCanvasTransform = `translate(600 600) scale(${GLYPH_CANVAS_SCALE}) translate(-600 -600)`;
 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" fill="none">
   <rect width="1200" height="1200" fill="#0d0b09"/>
@@ -253,10 +256,12 @@ export function renderGlyphSvg(fields) {
       <stop offset="1" stop-color="#f7c978" stop-opacity="0"/>
     </radialGradient>
   </defs>
+  <g transform="${glyphCanvasTransform}">
   <circle cx="600" cy="600" r="428" fill="url(#ember)"/>
 ${buildFrame(status)}
 ${buildTypeGeometry(type, seed)}
 ${buildThemeGeometry(themes, seed)}
+  </g>
 </svg>
 `;
 }

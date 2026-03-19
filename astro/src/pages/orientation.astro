@@ -81,7 +81,7 @@ const constellationCards = constellationBlueprint.map((item) => ({
 }));
 
 const latestEntry = entries[0] || null;
-const latestDate = latestEntry ? formatArchiveDate(latestEntry.data.date) : null;
+const latestDate = latestEntry ? formatArchiveDate(latestEntry.data) : null;
 
 const coreOperatingRule =
   'The system optimizes for immediate orientation and dependable live publishing while preserving object-first reading quality.';

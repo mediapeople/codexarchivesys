@@ -60,7 +60,7 @@ const nexusContextQuery = `?from=nexus&nexus=${encodeURIComponent(issue.data.id)
       {issueExcerpt && <p class="excerpt">{issueExcerpt}</p>}
       {issue.data.themeStatement && <p class="statement">{issue.data.themeStatement}</p>}
       <div class="meta">
-        <span>{formatArchiveLongDate(issue.data.date)}</span>
+        <span>{formatArchiveLongDate(issue.data)}</span>
         {issue.data.releaseType && <span>{issue.data.releaseType}</span>}
         <span>{issue.data.includedObjects.length} items</span>
       </div>

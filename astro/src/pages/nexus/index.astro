@@ -30,7 +30,7 @@ const issues = (await getCollection('nexus'))
         <div class="copy">
           <header>
             <TypeBadge type="nexus" />
-            <span>{formatArchiveDate(issue.data.date)}</span>
+            <span>{formatArchiveDate(issue.data)}</span>
           </header>
           <h2>{formatDisplayTitle(issue.data.title)}</h2>
           {(() => {
