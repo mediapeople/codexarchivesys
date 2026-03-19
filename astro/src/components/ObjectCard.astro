@@ -136,7 +136,7 @@ function summarizeCardExcerpt(value: string, variant: 'feed' | 'related' | 'mosa
     return '';
   }
 
-  const maxLength = variant === 'mosaic' ? 110 : variant === 'related' ? 176 : 192;
+  const maxLength = variant === 'mosaic' ? 78 : variant === 'related' ? 114 : 152;
   if (normalized.length <= maxLength) {
     return normalized;
   }
@@ -727,6 +727,8 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     grid-column: 1;
     grid-row: 1 / span 5;
     min-width: 0;
+    width: 100%;
+    justify-self: stretch;
   }
 
   .card.feed .copy-stack,
@@ -783,6 +785,8 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     order: initial;
     aspect-ratio: 5 / 4;
     max-width: none;
+    width: 100%;
+    justify-self: stretch;
   }
 
   .card.feed .preview-wrap {
@@ -1756,7 +1760,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     line-height: 1.56;
     color: rgba(232, 226, 212, 0.88);
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -1770,7 +1774,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     line-height: 1.86;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 3;
     overflow: hidden;
     text-overflow: ellipsis;
   }
@@ -1781,7 +1785,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     line-height: 1.78;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 5;
+    -webkit-line-clamp: 4;
     overflow: hidden;
     text-overflow: ellipsis;
   }
@@ -2131,13 +2135,31 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
       margin: 0.84rem 0 1rem;
       font-size: 1.08rem;
       line-height: 1.7;
-      -webkit-line-clamp: 4;
+      -webkit-line-clamp: 3;
     }
 
     .card.feed.fragment .title,
     .card.related.fragment .title {
+      max-width: 100%;
       font-size: clamp(1.22rem, 5.6vw, 1.64rem);
       line-height: 1.24;
+    }
+
+    .card.related.fragment .excerpt,
+    .card.related.fragment .themes,
+    .card.related.fragment .author-tease {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .card.related.fragment .author-tease {
+      justify-self: stretch;
+    }
+
+    .card.related.fragment .author-name {
+      display: flex;
+      flex-wrap: wrap;
+      overflow-wrap: anywhere;
     }
 
     .card.fragment .fragment-line {
@@ -2194,7 +2216,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     }
 
     .card.mosaic .excerpt {
-      -webkit-line-clamp: 4;
+      -webkit-line-clamp: 3;
     }
   }
 
@@ -2264,6 +2286,15 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     .card:not(.mosaic):not(.fragment) .title {
       font-size: clamp(1.78rem, 9vw, 2.16rem);
       line-height: 1.12;
+    }
+
+    .card.related.fragment .title,
+    .card.related.fragment .excerpt,
+    .card.related.fragment .themes,
+    .card.related.fragment .author-tease,
+    .card.related.fragment .preview-wrap {
+      width: 100%;
+      max-width: 100%;
     }
 
     .card:not(.mosaic):not(.fragment) .excerpt {

@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-18T00:34:43.296Z",
+  "generatedAt": "2026-03-19T00:47:30.888Z",
   "sourceDir": "./src/content",
-  "nodeCount": 108,
-  "edgeCount": 4223,
+  "nodeCount": 113,
+  "edgeCount": 4228,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -594,6 +594,20 @@
       "constellations": []
     },
     {
+      "id": "everything-arrived-at-once",
+      "type": "codex",
+      "title": "Everything arrived at once",
+      "date": "2026-03-19",
+      "themes": [
+        "arrived",
+        "everything",
+        "once",
+        "what",
+        "built"
+      ],
+      "constellations": []
+    },
+    {
       "id": "nd-codex-object-classification",
       "type": "codex",
       "title": "ND Codex Object Classification",
@@ -617,6 +631,20 @@
         "methodology",
         "structure",
         "transmission"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "object-release-nfile-co",
+      "type": "codex",
+      "title": "OBJECT RELEASE: NFILE.CO",
+      "date": "2026-03-18",
+      "themes": [
+        "nfile",
+        "release",
+        "much",
+        "https",
+        "work"
       ],
       "constellations": []
     },
@@ -829,6 +857,20 @@
       "constellations": []
     },
     {
+      "id": "council-of-frogs",
+      "type": "fragment",
+      "title": "Council of frogs—",
+      "date": "2026-03-18",
+      "themes": [
+        "council",
+        "frogs",
+        "across",
+        "counts",
+        "keeps"
+      ],
+      "constellations": []
+    },
+    {
       "id": "i-work-with-machines-to-write-scripture",
       "type": "fragment",
       "title": "I Work With Machines to Write Scripture",
@@ -871,6 +913,22 @@
       "type": "fragment",
       "title": "Marginalia on Codex Archive System V3.12.1 Marginalia Live Publish Notes 2026-03-17-18-21-13",
       "date": "2026-03-17T22:21:13.903Z",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "marginalia-on-council-of-frogs-2026-03-18-18-06-19",
+      "type": "fragment",
+      "title": "Marginalia on Council of frogs— 2026-03-18-18-06-19",
+      "date": "2026-03-18T22:06:19.408Z",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "marginalia-on-everything-arrived-at-once-2026-03-18-20-39-30",
+      "type": "fragment",
+      "title": "Marginalia on Everything arrived at once 2026-03-18-20-39-30",
+      "date": "2026-03-19T00:39:30.897Z",
       "themes": [],
       "constellations": []
     },
@@ -6877,6 +6935,14 @@
       ]
     },
     {
+      "source": "council-of-frogs",
+      "target": "marginalia-on-council-of-frogs-2026-03-18-18-06-19",
+      "weight": 4,
+      "reasons": [
+        "explicit-connection"
+      ]
+    },
+    {
       "source": "crane-field-illustration",
       "target": "disrespectful-power",
       "weight": 4,
@@ -6899,6 +6965,14 @@
       "weight": 4,
       "reasons": [
         "shared-theme"
+      ]
+    },
+    {
+      "source": "everything-arrived-at-once",
+      "target": "marginalia-on-everything-arrived-at-once-2026-03-18-20-39-30",
+      "weight": 4,
+      "reasons": [
+        "explicit-connection"
       ]
     },
     {
@@ -31009,6 +31083,14 @@
       ]
     },
     {
+      "source": "everything-arrived-at-once",
+      "target": "parked",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "flexible-machine-sweet-spot",
       "target": "heart-does-not-dream",
       "weight": 1,
@@ -34019,6 +34101,22 @@
     {
       "source": "nothing-missing-only-unindexed",
       "target": "work-intelligence-v4g",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "object-release-nfile-co",
+      "target": "work-intelligence-v4g",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "object-release-nfile-co",
+      "target": "work-of-the-highest-consequence",
       "weight": 1,
       "reasons": [
         "shared-theme"
