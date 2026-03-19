@@ -1747,18 +1747,19 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     grid-column: 1;
     max-width: 42ch;
     margin: 1.45rem 0 1.7rem;
-    color: var(--text-body);
-    font-size: 1.2rem;
-    line-height: 1.88;
+    color: var(--mid);
+    font-size: clamp(1.02rem, 0.8rem + 0.32vw, 1.12rem);
+    line-height: 1.72;
+    font-weight: 400;
   }
 
   .card.mosaic .excerpt {
     order: 4;
     max-width: 100%;
     margin: 0.08rem 0 0.06rem;
-    font-size: 0.95rem;
-    line-height: 1.56;
-    color: rgba(232, 226, 212, 0.88);
+    font-size: 0.92rem;
+    line-height: 1.58;
+    color: var(--mid);
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -1770,8 +1771,6 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     margin-top: 1.35rem;
     margin-bottom: 1.2rem;
     max-width: 38ch;
-    font-size: 1.16rem;
-    line-height: 1.86;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
@@ -1782,7 +1781,6 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
   .card.feed .excerpt {
     margin: 1.14rem 0 1.02rem;
     max-width: 38ch;
-    line-height: 1.78;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 4;
@@ -2133,8 +2131,8 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     .card.related:not(.fragment) .excerpt {
       max-width: 100%;
       margin: 0.84rem 0 1rem;
-      font-size: 1.08rem;
-      line-height: 1.7;
+      font-size: clamp(1rem, 0.94rem + 0.24vw, 1.08rem);
+      line-height: 1.68;
       -webkit-line-clamp: 3;
     }
 
@@ -2299,8 +2297,8 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
 
     .card:not(.mosaic):not(.fragment) .excerpt {
       margin: 0.92rem 0 1.08rem;
-      font-size: 1.06rem;
-      line-height: 1.66;
+      font-size: 1rem;
+      line-height: 1.64;
     }
 
     .card:not(.mosaic):not(.fragment) .themes {
@@ -2323,8 +2321,8 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     }
 
     .card.mosaic .excerpt {
-      font-size: 0.9rem;
-      line-height: 1.5;
+      font-size: 0.88rem;
+      line-height: 1.54;
     }
   }
 </style>
