@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-19T01:14:16.269Z",
+  "generatedAt": "2026-03-20T13:48:49.754Z",
   "sourceDir": "./src/content",
-  "nodeCount": 114,
-  "edgeCount": 4314,
+  "nodeCount": 117,
+  "edgeCount": 4316,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -909,6 +909,14 @@
       ]
     },
     {
+      "id": "marginalia-on-a-primer-for-a-way-of-being-2026-03-20-09-38-32",
+      "type": "fragment",
+      "title": "Marginalia on a primer for a way of being 2026-03-20-09-38-32",
+      "date": "2026-03-20T13:38:32.589Z",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "marginalia-on-codex-archive-system-v3-12-1-marginalia-live-publish-notes-2026-03-17-18-21-13",
       "type": "fragment",
       "title": "Marginalia on Codex Archive System V3.12.1 Marginalia Live Publish Notes 2026-03-17-18-21-13",
@@ -1152,6 +1160,20 @@
       "constellations": [
         "Cascade Psalms"
       ]
+    },
+    {
+      "id": "another-day",
+      "type": "scroll",
+      "title": "\\\"another day\\\"",
+      "date": "2026-03-19",
+      "themes": [
+        "another",
+        "swing",
+        "away",
+        "what",
+        "when"
+      ],
+      "constellations": []
     },
     {
       "id": "apparatus-ledger",
@@ -1536,6 +1558,20 @@
         "survival",
         "signal",
         "observation"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "a-primer-for-a-way-of-being",
+      "type": "signal",
+      "title": "a primer for a way of being",
+      "date": "2026-03-20",
+      "themes": [
+        "primer",
+        "small",
+        "care",
+        "return",
+        "shine"
       ],
       "constellations": []
     },
@@ -5480,6 +5516,14 @@
       "reasons": [
         "shared-theme",
         "explicit-related"
+      ]
+    },
+    {
+      "source": "a-primer-for-a-way-of-being",
+      "target": "marginalia-on-a-primer-for-a-way-of-being-2026-03-20-09-38-32",
+      "weight": 4,
+      "reasons": [
+        "explicit-connection"
       ]
     },
     {
@@ -23673,6 +23717,14 @@
       "source": "the-circle-the-node-and-the-office",
       "target": "when-the-commit-leaves-your-hands",
       "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "another-day",
+      "target": "everything-arrived-at-once",
+      "weight": 1,
       "reasons": [
         "shared-theme"
       ]
