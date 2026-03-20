@@ -2,7 +2,13 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { getCanonicalObjectSlug, getObjectAliases, loadObjects, normalizeObjectRef } from './object-utils.mjs';
+import {
+  getCanonicalObjectSlug,
+  getObjectAliases,
+  loadObjects,
+  normalizeObjectRef,
+  sanitizeDiscoveryTerms,
+} from './object-utils.mjs';
 
 function overlapCount(a = [], b = []) {
   const setB = new Set(b);
@@ -85,6 +91,7 @@ const outFile = process.argv[3] || resolveDefaultOutFile();
 
 const objects = loadObjects(sourceDir);
 const graphIdByAlias = new Map();
+const getDiscoveryThemes = (item) => sanitizeDiscoveryTerms(item.fields.themes || []);
 
 function getGraphNodeId(item) {
   return getCanonicalObjectSlug(item.fields) || normalizeObjectRef(item.fields.id) || String(item.fields.id || '').trim();
@@ -113,7 +120,7 @@ const nodes = objects.map((item) => ({
   type: String(item.fields.type || ''),
   title: String(item.fields.title || ''),
   date: String(item.fields.date || ''),
-  themes: item.fields.themes || [],
+  themes: getDiscoveryThemes(item),
   constellations: item.fields.constellations || [],
 }));
 
@@ -147,7 +154,7 @@ for (let i = 0; i < objects.length; i += 1) {
     const aId = getGraphNodeId(a);
     const bId = getGraphNodeId(b);
 
-    const sharedThemes = overlapCount(a.fields.themes, b.fields.themes);
+    const sharedThemes = overlapCount(getDiscoveryThemes(a), getDiscoveryThemes(b));
     if (sharedThemes > 0) {
       upsertEdge(aId, bId, sharedThemes, 'shared-theme');
     }

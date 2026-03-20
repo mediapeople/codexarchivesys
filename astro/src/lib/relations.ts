@@ -1,6 +1,10 @@
 import type { ArchiveEntry } from './archive';
 import { isMarginaliaEntry } from './marginalia';
-import { getObjectReferenceAliases, normalizeObjectReference } from './objectInterop';
+import {
+  getObjectReferenceAliases,
+  getObjectThemes,
+  normalizeObjectReference,
+} from './objectInterop';
 
 export interface RelatedHit {
   entry: ArchiveEntry;
@@ -83,7 +87,7 @@ export function computeRelatedEntries(
       let score = 0;
       const reasons: string[] = [];
 
-      const sharedThemes = countOverlap(source.data.themes, candidate.data.themes);
+      const sharedThemes = countOverlap(getObjectThemes(source), getObjectThemes(candidate));
       if (sharedThemes > 0) {
         score += sharedThemes * 2;
         reasons.push(`themes:${sharedThemes}`);

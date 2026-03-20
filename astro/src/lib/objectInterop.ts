@@ -1,6 +1,7 @@
 import type { CodexMediaItem } from '../content/config';
 import { getAuthorProfiles, getPrimaryAuthor, type AuthorProfile } from './author';
 import { getTypeLabel, type ArchiveEntry, type CodexCollection } from './archive';
+import { sanitizeDiscoveryTerms } from './discoveryTerms';
 import { bodyStartsWithDuplicateTitleHeading, resolveExcerpt } from './excerpt';
 import { formatDisplayTitle } from './headline';
 import { SITE_TITLE, toSiteUrl } from './site';
@@ -211,6 +212,20 @@ function getObjectDataType(entry: ArchiveEntry): string {
   return normalizeText((entry.data as Record<string, unknown>).type) || entry.collection;
 }
 
+export function getObjectThemes(entry: ArchiveEntry): string[] {
+  return sanitizeDiscoveryTerms(entry.data.themes || []);
+}
+
+export function getObjectTags(entry: ArchiveEntry): string[] {
+  const data = entry.data as Record<string, unknown>;
+  return uniqueStrings(
+    sanitizeDiscoveryTerms([
+      ...normalizeStringArray(data.tags),
+      ...getObjectThemes(entry),
+    ])
+  );
+}
+
 export function getObjectSlug(entry: ArchiveEntry): string {
   const data = entry.data as Record<string, unknown>;
   return normalizeObjectReference(data.slug) || normalizeObjectReference(entry.data.id) || normalizeText(entry.slug);
@@ -391,15 +406,12 @@ export function getObjectRelations(entry: ArchiveEntry): ObjectRelation[] {
 }
 
 export function getObjectKeywords(entry: ArchiveEntry): string[] {
-  const data = entry.data as Record<string, unknown>;
-  const tags = normalizeStringArray(data.tags);
-
   return uniqueStrings([
     getTypeLabel(entry.collection),
     getObjectDataType(entry),
-    ...entry.data.themes,
+    ...getObjectThemes(entry),
     ...entry.data.constellations,
-    ...tags,
+    ...getObjectTags(entry),
   ]);
 }
 
@@ -416,7 +428,8 @@ export function getObjectImageUrls(entry: ArchiveEntry): string[] {
 export function getObjectExport(entry: ArchiveEntry): ObjectExportRecord {
   const contributors = getAuthorProfiles(entry);
   const author = getPrimaryAuthor(entry);
-  const tags = normalizeStringArray((entry.data as Record<string, unknown>).tags);
+  const themes = getObjectThemes(entry);
+  const tags = getObjectTags(entry);
 
   return {
     id: getObjectStableId(entry),
@@ -441,9 +454,9 @@ export function getObjectExport(entry: ArchiveEntry): ObjectExportRecord {
       focus: entry.data.focus ?? null,
       function: entry.data.function ?? null,
     },
-    themes: [...entry.data.themes],
+    themes,
     constellations: [...entry.data.constellations],
-    tags: uniqueStrings([...tags, ...entry.data.themes]),
+    tags,
     keywords: getObjectKeywords(entry),
     relations: getObjectRelations(entry),
     media: [...entry.data.media],

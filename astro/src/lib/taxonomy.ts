@@ -1,4 +1,9 @@
 import type { ArchiveEntry } from './archive';
+import {
+  buildThemeCountMap,
+  isIndexableThemeTerm,
+  sanitizeDiscoveryTerms,
+} from './discoveryTerms';
 import { getPublicObjectEntries } from './follow';
 import { getObjectUpdatedAt } from './objectInterop';
 import { compareByPureTimeline } from './timeline';
@@ -19,7 +24,11 @@ function normalizeTerm(value: string): string {
 }
 
 function getEntryTerms(entry: ArchiveEntry, kind: TaxonomyKind): string[] {
-  return kind === 'theme' ? entry.data.themes : entry.data.constellations;
+  if (kind === 'theme') {
+    return sanitizeDiscoveryTerms(entry.data.themes || []);
+  }
+
+  return entry.data.constellations;
 }
 
 export function slugifyTaxonomyTerm(term: string): string {
@@ -95,12 +104,19 @@ export function collectTaxonomyRecords(entries: ArchiveEntry[], kind: TaxonomyKi
     }
   }
 
-  return [...recordByTerm.values()]
+  const records = [...recordByTerm.values()]
     .map((record) => ({
       ...record,
       entries: [...record.entries].sort(compareByPureTimeline),
     }))
     .sort((a, b) => b.count - a.count || a.term.localeCompare(b.term));
+
+  if (kind !== 'theme') {
+    return records;
+  }
+
+  const themeCounts = buildThemeCountMap(entries);
+  return records.filter((record) => isIndexableThemeTerm(record.term, themeCounts));
 }
 
 export async function getPublicTaxonomyRecords(kind: TaxonomyKind): Promise<TaxonomyRecord[]> {
@@ -127,6 +143,7 @@ export function collectRelatedTaxonomyTerms(
 ): Array<{ term: string; slug: string; count: number }> {
   const excluded = new Set(excludedTerms.map((term) => normalizeTerm(term).toLowerCase()));
   const counts = new Map<string, number>();
+  const labels = new Map<string, string>();
 
   for (const entry of entries) {
     for (const rawTerm of getEntryTerms(entry, kind)) {
@@ -135,16 +152,24 @@ export function collectRelatedTaxonomyTerms(
         continue;
       }
 
-      counts.set(term, (counts.get(term) || 0) + 1);
+      const key = term.toLowerCase();
+      labels.set(key, term);
+      counts.set(key, (counts.get(key) || 0) + 1);
     }
   }
 
-  return [...counts.entries()]
-    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
-    .slice(0, limit)
-    .map(([term, count]) => ({
+  const ranked = [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  const filtered =
+    kind === 'theme'
+      ? ranked.filter(([key]) => isIndexableThemeTerm(labels.get(key) || key, counts))
+      : ranked;
+
+  return filtered.slice(0, limit).map(([key, count]) => {
+    const term = labels.get(key) || key;
+    return {
       term,
       slug: slugifyTaxonomyTerm(term),
       count,
-    }));
+    };
+  });
 }

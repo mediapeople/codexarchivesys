@@ -5,6 +5,7 @@ import ObjectCard from '../../components/ObjectCard.astro';
 import FieldlogDataPlate from '../../components/FieldlogDataPlate.astro';
 import MarginaliaPanel from '../../components/MarginaliaPanel.astro';
 import { getAllEntries } from '../../lib/archive';
+import { buildIndexableThemeSet } from '../../lib/discoveryTerms';
 import { computeRelatedEntries } from '../../lib/relations';
 import {
   formatMediaLabel,
@@ -30,6 +31,7 @@ import {
   getObjectPath,
   getObjectSlug,
   getObjectSummary,
+  getObjectThemes,
   resolveObjectReference,
 } from '../../lib/objectInterop';
 import { listAxes, readAxes } from '../../lib/axes';
@@ -49,6 +51,9 @@ export async function getStaticPaths() {
 }
 
 const allEntries = await getAllEntries();
+const publicEntries = allEntries.filter(
+  (candidate) => candidate.data.status === 'published' && candidate.data.visibility === 'public'
+);
 const entry = allEntries.find((candidate) => matchesObjectParam(candidate, Astro.params.id));
 
 if (!entry) {
@@ -311,7 +316,13 @@ const loremapLocation = loremapAtlas.location;
 const loremapGeo = loremapAtlas.geo;
 const loremapTerrain = loremapAtlas.terrain;
 const axes = listAxes(readAxes(entry.data as Record<string, unknown>));
-const hasTaxonomy = axes.length > 0 || entry.data.themes.length > 0 || entry.data.constellations.length > 0;
+const themes = getObjectThemes(entry);
+const publicThemeSet = buildIndexableThemeSet(publicEntries);
+const linkedThemes = themes.map((theme) => ({
+  term: theme,
+  linkable: publicThemeSet.has(theme.toLowerCase()),
+}));
+const hasTaxonomy = axes.length > 0 || themes.length > 0 || entry.data.constellations.length > 0;
 const contributors = getAuthorProfiles(entry);
 const primaryAuthor = contributors[0];
 const secondaryContributors = contributors.slice(1);
@@ -821,12 +832,18 @@ const exportAlternateLinks = [
             </ul>
           </div>
         )}
-        {entry.data.themes.length > 0 && (
+        {themes.length > 0 && (
           <div class="footer-tag-group">
             <p class="footer-tag-label">Themes</p>
             <ul class="pills">
-              {entry.data.themes.map((theme) => (
-                <li><a href={getTaxonomyTermPath('theme', theme)}>{theme}</a></li>
+              {linkedThemes.map((theme) => (
+                <li>
+                  {theme.linkable ? (
+                    <a href={getTaxonomyTermPath('theme', theme.term)}>{theme.term}</a>
+                  ) : (
+                    theme.term
+                  )}
+                </li>
               ))}
             </ul>
           </div>

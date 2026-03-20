@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-20T14:36:20.895Z",
+  "generatedAt": "2026-03-20T14:56:14.560Z",
   "sourceDir": "./src/content",
   "nodeCount": 117,
-  "edgeCount": 4316,
+  "edgeCount": 4314,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -308,7 +308,6 @@
         "work",
         "consequence",
         "highest",
-        "does",
         "aftershock"
       ],
       "constellations": []
@@ -721,13 +720,7 @@
       "type": "codex",
       "title": "Everything arrived at once",
       "date": "2026-03-19",
-      "themes": [
-        "arrived",
-        "everything",
-        "once",
-        "what",
-        "built"
-      ],
+      "themes": [],
       "constellations": []
     },
     {
@@ -774,8 +767,6 @@
       "themes": [
         "nfile",
         "release",
-        "much",
-        "https",
         "work"
       ],
       "constellations": []
@@ -1043,10 +1034,7 @@
       "date": "2026-03-18",
       "themes": [
         "council",
-        "frogs",
-        "across",
-        "counts",
-        "keeps"
+        "frogs"
       ],
       "constellations": []
     },
@@ -1196,10 +1184,7 @@
       "date": "2026-03-17",
       "themes": [
         "parked",
-        "become",
-        "everything",
-        "knowing",
-        "leave"
+        "knowing"
       ],
       "constellations": []
     },
@@ -1419,11 +1404,7 @@
       "title": "\\\"another day\\\"",
       "date": "2026-03-19",
       "themes": [
-        "another",
-        "swing",
-        "away",
-        "what",
-        "when"
+        "swing"
       ],
       "constellations": []
     },
@@ -1938,10 +1919,8 @@
       "title": "\\\"✦ OUTSIDE, PIB ✦\\\"",
       "date": "2026-03-17",
       "themes": [
-        "here",
         "outside",
         "doors",
-        "maybe",
         "people"
       ],
       "constellations": []
@@ -24073,14 +24052,6 @@
       ]
     },
     {
-      "source": "another-day",
-      "target": "everything-arrived-at-once",
-      "weight": 1,
-      "reasons": [
-        "shared-theme"
-      ]
-    },
-    {
       "source": "apparatus-ledger",
       "target": "artifact-jsa-collage-wip-001",
       "weight": 1,
@@ -32187,14 +32158,6 @@
     {
       "source": "ellijay-ga-fourth-of-july-loremap",
       "target": "when-the-commit-leaves-your-hands",
-      "weight": 1,
-      "reasons": [
-        "shared-theme"
-      ]
-    },
-    {
-      "source": "everything-arrived-at-once",
-      "target": "parked",
       "weight": 1,
       "reasons": [
         "shared-theme"

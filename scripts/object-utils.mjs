@@ -103,6 +103,32 @@ export const ACTIVE_THEMES = new Set([
   'work',
 ]);
 
+const LOW_SIGNAL_DISCOVERY_SLUGS = new Set([
+  'across',
+  'another',
+  'arrived',
+  'away',
+  'become',
+  'built',
+  'counts',
+  'does',
+  'everything',
+  'here',
+  'http',
+  'https',
+  'keeps',
+  'leave',
+  'maybe',
+  'much',
+  'once',
+  'what',
+  'when',
+  'www',
+]);
+
+const URLISH_TERM_RE =
+  /^(?:https?:\/\/|www\.|[a-z0-9-]+\.(?:ai|app|co|com|dev|edu|gov|io|me|net|org|tv|us))(?:[/?#].*)?$/i;
+
 export function normalizeObjectRef(value) {
   const raw = String(value || '').trim();
   if (!raw) {
@@ -235,6 +261,57 @@ function normalizeArray(value) {
     return [v];
   }
   return [];
+}
+
+export function slugifyDiscoveryTerm(term) {
+  return String(term || '')
+    .trim()
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+export function isLowSignalDiscoveryTerm(value) {
+  const normalized = String(value || '').trim().replace(/\s+/g, ' ');
+  if (!normalized) {
+    return true;
+  }
+
+  if (URLISH_TERM_RE.test(normalized)) {
+    return true;
+  }
+
+  const slug = slugifyDiscoveryTerm(normalized);
+  if (!slug || slug.length <= 2) {
+    return true;
+  }
+
+  return LOW_SIGNAL_DISCOVERY_SLUGS.has(slug);
+}
+
+export function sanitizeDiscoveryTerms(values) {
+  const seen = new Set();
+  const sanitized = [];
+
+  for (const value of values || []) {
+    const normalized = String(value || '').trim().replace(/\s+/g, ' ');
+    if (!normalized || isLowSignalDiscoveryTerm(normalized)) {
+      continue;
+    }
+
+    const key = normalized.toLowerCase();
+    if (seen.has(key)) {
+      continue;
+    }
+
+    seen.add(key);
+    sanitized.push(normalized);
+  }
+
+  return sanitized;
 }
 
 function parseFrontmatter(raw) {
@@ -504,6 +581,12 @@ export function validateObjects(objects, options = {}) {
           level: 'ERROR',
           file: obj.file,
           message: `theme not in active registry: ${theme}`,
+        });
+      } else if (isLowSignalDiscoveryTerm(theme)) {
+        findings.push({
+          level: 'WARN',
+          file: obj.file,
+          message: `theme may be too low-signal for public taxonomy: ${theme}`,
         });
       }
     }
