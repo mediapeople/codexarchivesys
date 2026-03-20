@@ -1,5 +1,7 @@
 ---
 id: jsa-collage-evolution-003
+slug: "jsa-collage-evolution-003"
+url: "https://ndcodex.com/objects/jsa-collage-evolution-003/"
 type: fieldlog
 title: "JSA Collage Evolution 003"
 date: 2026-03-08
@@ -7,6 +9,7 @@ postedAt: 2026-03-08T22:16:48.529Z
 status: published
 visibility: public
 
+summary: "The piece now reads less as a collage of panels and more as a compressed mythic debris field."
 excerpt: "The piece now reads less as a collage of panels and more as a compressed mythic debris field."
 
 themes:

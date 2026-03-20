@@ -1,11 +1,14 @@
 ---
 id: maintenance-without-cure
+slug: "maintenance-without-cure"
+url: "https://ndcodex.com/objects/maintenance-without-cure/"
 type: scroll
 title: "MAINTENANCE WITHOUT CURE"
 date: 2026-03-04
 status: draft
 visibility: public
 
+summary: "There is no cure in this room. There is only maintenance done on time."
 excerpt: "There is no cure in this room. There is only maintenance done on time."
 
 themes:

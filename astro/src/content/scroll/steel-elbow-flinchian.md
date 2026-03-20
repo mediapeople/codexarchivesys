@@ -1,5 +1,7 @@
 ---
 id: steel-elbow-flinchian
+slug: "steel-elbow-flinchian"
+url: "https://ndcodex.com/objects/steel-elbow-flinchian/"
 type: scroll
 title: "Flinchian Sonic Analysis - The Steel Elbow Diagnostic"
 date: 2026-03-08
@@ -7,6 +9,7 @@ postedAt: 2026-03-08T19:52:25.638Z
 status: published
 visibility: public
 
+summary: "It is a healing machine disguised as language."
 excerpt: "It is a healing machine disguised as language."
 
 themes:

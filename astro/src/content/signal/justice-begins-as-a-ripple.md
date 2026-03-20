@@ -1,11 +1,14 @@
 ---
 id: justice-begins-as-a-ripple
+slug: "justice-begins-as-a-ripple"
+url: "https://ndcodex.com/objects/justice-begins-as-a-ripple/"
 type: signal
 title: "Justice Begins As A Ripple"
 date: "2026-03-14"
 postedAt: "2026-03-15T03:08:21.206Z"
 status: published
 visibility: public
+summary: "Justice rarely arrives as a monument. It starts as a disturbance: a drop, a ring, a refusal to let the surface remain undisturbed. What looks small in the moment can still reorgani"
 excerpt: "Justice rarely arrives as a monument. It starts as a disturbance: a drop, a ring, a refusal to let the surface remain undisturbed. What looks small in the moment can still reorgani"
 themes:
   - "signal"

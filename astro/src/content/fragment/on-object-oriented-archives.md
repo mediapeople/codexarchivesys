@@ -1,11 +1,14 @@
 ---
 id: on-object-oriented-archives
+slug: "on-object-oriented-archives"
+url: "https://ndcodex.com/objects/on-object-oriented-archives/"
 type: fragment
 title: "On Object-Oriented Archives"
 date: 2026-02-20
 status: published
 visibility: public
 
+summary: "Pages are not the fundamental unit. Objects are."
 excerpt: "Pages are not the fundamental unit. Objects are."
 
 themes:

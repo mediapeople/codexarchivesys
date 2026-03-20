@@ -1,5 +1,7 @@
 ---
 id: unacceptable-cost
+slug: "unacceptable-cost"
+url: "https://ndcodex.com/objects/unacceptable-cost/"
 type: scroll
 title: "The Unacceptable Cost"
 date: 2026-03-09
@@ -7,6 +9,7 @@ postedAt: 2026-03-09T21:20:23.527Z
 status: published
 visibility: public
 
+summary: "They had the authority. They had the reach. They had the moment. The cost was human life."
 excerpt: "They had the authority. They had the reach. They had the moment. The cost was human life."
 
 themes:

@@ -1,5 +1,7 @@
 ---
 id: manic-rider-collapse
+slug: "manic-rider-collapse"
+url: "https://ndcodex.com/objects/manic-rider-collapse/"
 type: scroll
 title: "The Manic Rider and Collapse"
 date: 2026-03-10
@@ -7,6 +9,7 @@ postedAt: 2026-03-11T01:03:22.809Z
 status: published
 visibility: public
 
+summary: "Speed mistaken for destiny."
 excerpt: "Speed mistaken for destiny."
 
 themes:

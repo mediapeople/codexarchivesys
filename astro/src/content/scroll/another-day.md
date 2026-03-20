@@ -1,11 +1,14 @@
 ---
 id: another-day
+slug: "another-day"
+url: "https://ndcodex.com/objects/another-day/"
 type: scroll
 title: "\"another day\""
 date: "2026-03-19"
 postedAt: "2026-03-19T15:15:22.646Z"
 status: published
 visibility: public
+summary: "it didnt feel right. not to swing. swing away meril. god wiggling through the fissures. the wink to what we have been all along. a pad of perfect contact. for family. what would take advantage. more terribly so. full…"
 excerpt: "it didnt feel right. not to swing. swing away meril. god wiggling through the fissures. the wink to what we have been all along. a pad of perfect contact. for family. what would take advantage. more terribly so. full…"
 scale: meso
 depth: structural

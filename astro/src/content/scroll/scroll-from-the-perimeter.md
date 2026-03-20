@@ -1,11 +1,14 @@
 ---
 id: scroll-from-the-perimeter
+slug: "scroll-from-the-perimeter"
+url: "https://ndcodex.com/objects/scroll-from-the-perimeter/"
 type: scroll
 title: "A Scroll from the Perimeter"
 date: 2026-03-06
 status: draft
 visibility: public
 
+summary: "The current flickers. The current holds."
 excerpt: "The current flickers. The current holds."
 
 themes:

@@ -174,12 +174,15 @@ const FieldlogSpec = z.object({
 
 const universalFields = {
   id:             z.string(),
+  slug:           z.string().optional(),
+  url:            z.string().optional(),
   type:           ObjectType,
   title:          z.string(),
   date:           z.coerce.date(),
   postedAt:       z.coerce.date().optional(),
   status:         Status,
 
+  summary:        z.string().optional(),
   excerpt:        z.string().optional(),
   scale:          AxisScale.optional(),
   depth:          AxisDepth.optional(),

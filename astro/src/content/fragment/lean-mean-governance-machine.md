@@ -1,11 +1,14 @@
 ---
 id: lean-mean-governance-machine
+slug: "lean-mean-governance-machine"
+url: "https://ndcodex.com/objects/lean-mean-governance-machine/"
 type: fragment
 title: "Lean Mean Governance Machine"
 date: 2026-03-07
 status: published
 visibility: public
 
+summary: "Tight spine, live runtime, rapid patch loop."
 excerpt: "Tight spine, live runtime, rapid patch loop."
 
 themes:

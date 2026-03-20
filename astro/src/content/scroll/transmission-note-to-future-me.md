@@ -1,11 +1,14 @@
 ---
 id: transmission-note-to-future-me
+slug: "transmission-note-to-future-me"
+url: "https://ndcodex.com/objects/transmission-note-to-future-me/"
 type: scroll
 title: "TRANSMISSION NOTE TO FUTURE ME"
 date: 2026-03-02
 status: draft
 visibility: public
 
+summary: "If this reaches you, keep the archive legible before you keep it impressive."
 excerpt: "If this reaches you, keep the archive legible before you keep it impressive."
 
 themes:

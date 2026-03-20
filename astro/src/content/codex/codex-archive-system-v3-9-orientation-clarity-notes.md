@@ -1,5 +1,7 @@
 ---
 id: codex-archive-system-v3-9-orientation-clarity-notes
+slug: "codex-archive-system-v3-9-orientation-clarity-notes"
+url: "https://ndcodex.com/objects/codex-archive-system-v3-9-orientation-clarity-notes/"
 type: codex
 title: "CODEX ARCHIVE SYSTEM v3.9 ORIENTATION CLARITY NOTES"
 date: 2026-03-11
@@ -7,6 +9,7 @@ postedAt: 2026-03-11T14:00:00.000Z
 status: published
 visibility: public
 
+summary: "v3.9 clarifies site identity, simplifies the feed thesis, and gives Orientation a more human, empathic voice."
 excerpt: "v3.9 clarifies site identity, simplifies the feed thesis, and gives Orientation a more human, empathic voice."
 
 themes:

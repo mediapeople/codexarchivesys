@@ -1,5 +1,7 @@
 ---
 id: quiet-vector-doctrine
+slug: "quiet-vector-doctrine"
+url: "https://ndcodex.com/objects/quiet-vector-doctrine/"
 type: scroll
 title: "Quiet Vector Doctrine"
 date: 2026-03-11
@@ -7,6 +9,7 @@ postedAt: 2026-03-11T00:14:23.705Z
 status: published
 visibility: public
 
+summary: "Identity is optional. Orientation is not."
 excerpt: "Identity is optional. Orientation is not."
 
 themes:

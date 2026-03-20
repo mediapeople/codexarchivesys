@@ -1,5 +1,7 @@
 ---
 id: codex-archive-system-v3-4-image-experience-notes
+slug: "codex-archive-system-v3-4-image-experience-notes"
+url: "https://ndcodex.com/objects/codex-archive-system-v3-4-image-experience-notes/"
 type: codex
 title: "CODEX ARCHIVE SYSTEM v3.4 IMAGE EXPERIENCE NOTES"
 date: 2026-03-08
@@ -7,6 +9,7 @@ postedAt: 2026-03-08T23:16:07Z
 status: published
 visibility: public
 
+summary: "v3.4 extends image handling from simple expansion to full gallery continuity, gentler mobile inspection, and roomier reading rhythm."
 excerpt: "v3.4 extends image handling from simple expansion to full gallery continuity, gentler mobile inspection, and roomier reading rhythm."
 
 themes:

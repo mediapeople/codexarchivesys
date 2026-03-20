@@ -1,11 +1,14 @@
 ---
 id: reduce-novelty-before-care
+slug: "reduce-novelty-before-care"
+url: "https://ndcodex.com/objects/reduce-novelty-before-care/"
 type: fragment
 title: "Reduce Novelty Before Care"
 date: 2026-03-06
 status: draft
 visibility: public
 
+summary: "When a system feels heavy, reduce novelty before you reduce care."
 excerpt: "When a system feels heavy, reduce novelty before you reduce care."
 
 themes:

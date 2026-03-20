@@ -1,11 +1,14 @@
 ---
 id: ridge-line-lessons
+slug: "ridge-line-lessons"
+url: "https://ndcodex.com/objects/ridge-line-lessons/"
 type: scroll
 title: "RIDGE LINE LESSONS"
 date: 2026-03-03
 status: draft
 visibility: public
 
+summary: "The ridge line vanished in fog and still held its line."
 excerpt: "The ridge line vanished in fog and still held its line."
 
 themes:

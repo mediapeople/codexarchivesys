@@ -1,11 +1,14 @@
 ---
 id: work-of-the-highest-consequence
+slug: "work-of-the-highest-consequence"
+url: "https://ndcodex.com/objects/work-of-the-highest-consequence/"
 type: artifact
 title: "\"WORK OF THE HIGHEST CONSEQUENCE\""
 date: "2026-03-17"
 postedAt: "2026-03-17T13:39:10.867Z"
 status: published
 visibility: public
+summary: "Not loud. Not rushed. Not begging to be seen. This work does not ask for attention. It assumes continuation. Consequence is not importance. It is aftershock. It is the alteration of the field. after the act is complete…"
 excerpt: "Not loud. Not rushed. Not begging to be seen. This work does not ask for attention. It assumes continuation. Consequence is not importance. It is aftershock. It is the alteration of the field. after the act is complete…"
 themes:
   - "work"

@@ -1,5 +1,7 @@
 ---
 id: pocket-rock-cathedral
+slug: "pocket-rock-cathedral"
+url: "https://ndcodex.com/objects/pocket-rock-cathedral/"
 type: scroll
 title: "Pocket Rock Cathedral"
 date: 2026-03-10
@@ -7,6 +9,7 @@ postedAt: 2026-03-11T01:03:28.775Z
 status: published
 visibility: public
 
+summary: "Pressure made this first."
 excerpt: "Pressure made this first."
 
 themes:

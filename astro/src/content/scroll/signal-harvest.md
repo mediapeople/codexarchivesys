@@ -1,11 +1,14 @@
 ---
 id: signal-harvest
+slug: "signal-harvest"
+url: "https://ndcodex.com/objects/signal-harvest/"
 type: scroll
 title: "SIGNAL HARVEST"
 date: 2026-03-01
 status: published
 visibility: public
 
+summary: "Crystal does not rush."
 excerpt: "Crystal does not rush."
 
 themes:

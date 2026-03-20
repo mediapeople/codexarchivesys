@@ -1,5 +1,7 @@
 ---
 id: builder-lineage-reflection
+slug: "builder-lineage-reflection"
+url: "https://ndcodex.com/objects/builder-lineage-reflection/"
 type: fieldlog
 title: "Reflection: On Cain, Bezalel, and the Workbench"
 date: 2026-03-08
@@ -7,6 +9,7 @@ postedAt: 2026-03-09T01:08:42.081Z
 status: published
 visibility: internal
 
+summary: "The workbench often holds both energies simultaneously."
 excerpt: "The workbench often holds both energies simultaneously."
 
 themes:

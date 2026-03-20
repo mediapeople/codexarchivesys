@@ -1,5 +1,7 @@
 ---
 id: codex-glyph-grammar
+slug: "codex-glyph-grammar"
+url: "https://ndcodex.com/objects/codex-glyph-grammar/"
 type: codex
 title: "Codex Glyph Grammar: Symbol Generation Rules"
 date: 2026-03-08
@@ -7,6 +9,7 @@ postedAt: 2026-03-08T23:35:21.209Z
 status: published
 visibility: public
 
+summary: "Object metadata becomes visual structure."
 excerpt: "Object metadata becomes visual structure."
 
 themes:

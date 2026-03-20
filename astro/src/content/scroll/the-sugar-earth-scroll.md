@@ -1,11 +1,14 @@
 ---
 id: the-sugar-earth-scroll
+slug: "the-sugar-earth-scroll"
+url: "https://ndcodex.com/objects/the-sugar-earth-scroll/"
 type: scroll
 title: "THE SUGAR EARTH SCROLL"
 date: "2026-03-16"
 postedAt: "2026-03-16T23:17:32.547Z"
 status: published
 visibility: public
+summary: "Invocation of the Sweet Foundation. Let the glucose sing. Let the soil remember. Let the ancient chemistry unfold. This scroll begins in sweetness. Before questions. Before mirrors. There was sugar."
 excerpt: "Invocation of the Sweet Foundation. Let the glucose sing. Let the soil remember. Let the ancient chemistry unfold. This scroll begins in sweetness. Before questions. Before mirrors. There was sugar."
 themes:
   - "earth"

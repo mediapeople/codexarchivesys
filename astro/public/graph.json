@@ -1,11 +1,14 @@
 {
-  "generatedAt": "2026-03-20T13:48:49.754Z",
+  "generatedAt": "2026-03-20T14:36:20.895Z",
   "sourceDir": "./src/content",
   "nodeCount": 117,
   "edgeCount": 4316,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
+      "slug": "archive-box-stamped-fragments",
+      "url": "https://ndcodex.com/objects/archive-box-stamped-fragments/",
+      "stableId": "codex://object/archive-box-stamped-fragments",
       "type": "artifact",
       "title": "ARCHIVE BOX (STAMPED FRAGMENTS)",
       "date": "2026-02-27",
@@ -20,6 +23,9 @@
     },
     {
       "id": "artifact-jsa-collage-001",
+      "slug": "artifact-jsa-collage-001",
+      "url": "https://ndcodex.com/objects/artifact-jsa-collage-001/",
+      "stableId": "codex://object/artifact-jsa-collage-001",
       "type": "artifact",
       "title": "It Cost Us Dearly",
       "date": "2026-03-07",
@@ -37,6 +43,9 @@
     },
     {
       "id": "artifact-jsa-collage-wip-001",
+      "slug": "artifact-jsa-collage-wip-001",
+      "url": "https://ndcodex.com/objects/artifact-jsa-collage-wip-001/",
+      "stableId": "codex://object/artifact-jsa-collage-wip-001",
       "type": "artifact",
       "title": "JSA Collage - Work in Progress",
       "date": "2026-03-07",
@@ -52,6 +61,9 @@
     },
     {
       "id": "artifact-jsa-signal-fracture-001",
+      "slug": "artifact-jsa-signal-fracture-001",
+      "url": "https://ndcodex.com/objects/artifact-jsa-signal-fracture-001/",
+      "stableId": "codex://object/artifact-jsa-signal-fracture-001",
       "type": "artifact",
       "title": "JSA Signal Fracture",
       "date": "2026-03-08",
@@ -66,6 +78,9 @@
     },
     {
       "id": "citizen-network-map-hi-fi",
+      "slug": "citizen-network-map-hi-fi",
+      "url": "https://ndcodex.com/objects/citizen-network-map-hi-fi/",
+      "stableId": "codex://object/citizen-network-map-hi-fi",
       "type": "artifact",
       "title": "Citizen Network Map Hi-Fi",
       "date": "2026-03-10",
@@ -80,6 +95,9 @@
     },
     {
       "id": "crane-field-illustration",
+      "slug": "crane-field-illustration",
+      "url": "https://ndcodex.com/objects/crane-field-illustration/",
+      "stableId": "codex://object/crane-field-illustration",
       "type": "artifact",
       "title": "Crane Field Illustration",
       "date": "2026-03-11",
@@ -93,6 +111,9 @@
     },
     {
       "id": "deck-under-load-ii",
+      "slug": "deck-under-load-ii",
+      "url": "https://ndcodex.com/objects/deck-under-load-ii/",
+      "stableId": "codex://object/deck-under-load-ii",
       "type": "artifact",
       "title": "DECK UNDER LOAD II",
       "date": "2026-03-01",
@@ -107,6 +128,9 @@
     },
     {
       "id": "distortion-atlas",
+      "slug": "distortion-atlas",
+      "url": "https://ndcodex.com/objects/distortion-atlas/",
+      "stableId": "codex://object/distortion-atlas",
       "type": "artifact",
       "title": "The Distortion Atlas",
       "date": "2026-03-10",
@@ -120,6 +144,9 @@
     },
     {
       "id": "flexible-machine-sweet-spot",
+      "slug": "flexible-machine-sweet-spot",
+      "url": "https://ndcodex.com/objects/flexible-machine-sweet-spot/",
+      "stableId": "codex://object/flexible-machine-sweet-spot",
       "type": "artifact",
       "title": "The Sweet Spot of a Flexible Machine",
       "date": "2026-03-10",
@@ -134,6 +161,9 @@
     },
     {
       "id": "garage-dispatch-001",
+      "slug": "garage-dispatch-001",
+      "url": "https://ndcodex.com/objects/garage-dispatch-001/",
+      "stableId": "codex://object/garage-dispatch-001",
       "type": "artifact",
       "title": "Dispatch from the Garage",
       "date": "2026-03-11",
@@ -148,6 +178,9 @@
     },
     {
       "id": "on-visceral-distillation",
+      "slug": "on-visceral-distillation",
+      "url": "https://ndcodex.com/objects/on-visceral-distillation/",
+      "stableId": "codex://object/on-visceral-distillation",
       "type": "artifact",
       "title": "On Visceral Distillation",
       "date": "2026-03-10",
@@ -164,6 +197,9 @@
     },
     {
       "id": "one-yard-from-forever-scroll-surface",
+      "slug": "one-yard-from-forever-scroll-surface",
+      "url": "https://ndcodex.com/objects/one-yard-from-forever-scroll-surface/",
+      "stableId": "codex://object/one-yard-from-forever-scroll-surface",
       "type": "artifact",
       "title": "One Yard From Forever Scroll Surface",
       "date": "2026-03-11",
@@ -178,6 +214,9 @@
     },
     {
       "id": "phoenix-collage-fracture-study",
+      "slug": "phoenix-collage-fracture-study",
+      "url": "https://ndcodex.com/objects/phoenix-collage-fracture-study/",
+      "stableId": "codex://object/phoenix-collage-fracture-study",
       "type": "artifact",
       "title": "Phoenix Fracture Collage",
       "date": "2026-03-10",
@@ -192,6 +231,9 @@
     },
     {
       "id": "rodimus-prime-field-acquisition",
+      "slug": "rodimus-prime-field-acquisition",
+      "url": "https://ndcodex.com/objects/rodimus-prime-field-acquisition/",
+      "stableId": "codex://object/rodimus-prime-field-acquisition",
       "type": "artifact",
       "title": "Rodimus Prime Field Acquisition",
       "date": "2026-03-11",
@@ -205,6 +247,9 @@
     },
     {
       "id": "the-circle-the-node-and-the-office",
+      "slug": "the-circle-the-node-and-the-office",
+      "url": "https://ndcodex.com/objects/the-circle-the-node-and-the-office/",
+      "stableId": "codex://object/the-circle-the-node-and-the-office",
       "type": "artifact",
       "title": "The Circle, the Node, and the Office",
       "date": "2026-03-12",
@@ -219,6 +264,9 @@
     },
     {
       "id": "under-load",
+      "slug": "under-load",
+      "url": "https://ndcodex.com/objects/under-load/",
+      "stableId": "codex://object/under-load",
       "type": "artifact",
       "title": "UNDER LOAD",
       "date": "2026-02-24",
@@ -233,6 +281,9 @@
     },
     {
       "id": "work-intelligence-v4g",
+      "slug": "work-intelligence-v4g",
+      "url": "https://ndcodex.com/objects/work-intelligence-v4g/",
+      "stableId": "codex://object/work-intelligence-v4g",
       "type": "artifact",
       "title": "Work Intelligence V4G",
       "date": "2026-03-17",
@@ -247,6 +298,9 @@
     },
     {
       "id": "work-of-the-highest-consequence",
+      "slug": "work-of-the-highest-consequence",
+      "url": "https://ndcodex.com/objects/work-of-the-highest-consequence/",
+      "stableId": "codex://object/work-of-the-highest-consequence",
       "type": "artifact",
       "title": "\\\"WORK OF THE HIGHEST CONSEQUENCE\\\"",
       "date": "2026-03-17",
@@ -261,6 +315,9 @@
     },
     {
       "id": "carrier-pigeon-publishing-system",
+      "slug": "carrier-pigeon-publishing-system",
+      "url": "https://ndcodex.com/objects/carrier-pigeon-publishing-system/",
+      "stableId": "codex://object/carrier-pigeon-publishing-system",
       "type": "codex",
       "title": "Carrier Pigeon Publishing System",
       "date": "2026-03-15",
@@ -274,6 +331,9 @@
     },
     {
       "id": "codex-archive-system-v2-2",
+      "slug": "codex-archive-system-v2-2",
+      "url": "https://ndcodex.com/objects/codex-archive-system-v2-2/",
+      "stableId": "codex://object/codex-archive-system-v2-2",
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v2.2",
       "date": "2026-03-04",
@@ -286,6 +346,9 @@
     },
     {
       "id": "codex-archive-system-v2-5-notes",
+      "slug": "codex-archive-system-v2-5-notes",
+      "url": "https://ndcodex.com/objects/codex-archive-system-v2-5-notes/",
+      "stableId": "codex://object/codex-archive-system-v2-5-notes",
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v2.5 NOTES",
       "date": "2026-03-07",
@@ -298,6 +361,9 @@
     },
     {
       "id": "codex-archive-system-v2-6-notes",
+      "slug": "codex-archive-system-v2-6-notes",
+      "url": "https://ndcodex.com/objects/codex-archive-system-v2-6-notes/",
+      "stableId": "codex://object/codex-archive-system-v2-6-notes",
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v2.6 NOTES",
       "date": "2026-03-07",
@@ -310,6 +376,9 @@
     },
     {
       "id": "codex-archive-system-v2-7-notes",
+      "slug": "codex-archive-system-v2-7-notes",
+      "url": "https://ndcodex.com/objects/codex-archive-system-v2-7-notes/",
+      "stableId": "codex://object/codex-archive-system-v2-7-notes",
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v2.7 NOTES",
       "date": "2026-03-07",
@@ -325,6 +394,9 @@
     },
     {
       "id": "codex-archive-system-v3-1-build-notes",
+      "slug": "codex-archive-system-v3-1-build-notes",
+      "url": "https://ndcodex.com/objects/codex-archive-system-v3-1-build-notes/",
+      "stableId": "codex://object/codex-archive-system-v3-1-build-notes",
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3.1 BUILD NOTES",
       "date": "2026-03-08",
@@ -341,6 +413,9 @@
     },
     {
       "id": "codex-archive-system-v3-10-media-handoff-notes",
+      "slug": "codex-archive-system-v3-10-media-handoff-notes",
+      "url": "https://ndcodex.com/objects/codex-archive-system-v3-10-media-handoff-notes/",
+      "stableId": "codex://object/codex-archive-system-v3-10-media-handoff-notes",
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3.10 MEDIA HANDOFF NOTES",
       "date": "2026-03-13",
@@ -358,6 +433,9 @@
     },
     {
       "id": "codex-archive-system-v3-11-lattice-groundwork-notes",
+      "slug": "codex-archive-system-v3-11-lattice-groundwork-notes",
+      "url": "https://ndcodex.com/objects/codex-archive-system-v3-11-lattice-groundwork-notes/",
+      "stableId": "codex://object/codex-archive-system-v3-11-lattice-groundwork-notes",
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3.11 LATTICE GROUNDWORK NOTES",
       "date": "2026-03-17",
@@ -374,6 +452,9 @@
     },
     {
       "id": "codex-archive-system-v3-12-marginalia-live-publish-notes",
+      "slug": "codex-archive-system-v3-12-marginalia-live-publish-notes",
+      "url": "https://ndcodex.com/objects/codex-archive-system-v3-12-marginalia-live-publish-notes/",
+      "stableId": "codex://object/codex-archive-system-v3-12-marginalia-live-publish-notes",
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3.12.1 MARGINALIA LIVE PUBLISH NOTES",
       "date": "2026-03-17",
@@ -390,6 +471,9 @@
     },
     {
       "id": "codex-archive-system-v3-12-marginalia-notes",
+      "slug": "codex-archive-system-v3-12-marginalia-notes",
+      "url": "https://ndcodex.com/objects/codex-archive-system-v3-12-marginalia-notes/",
+      "stableId": "codex://object/codex-archive-system-v3-12-marginalia-notes",
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3.12 MARGINALIA NOTES",
       "date": "2026-03-17",
@@ -406,6 +490,9 @@
     },
     {
       "id": "codex-archive-system-v3-2-fragment-feed-notes",
+      "slug": "codex-archive-system-v3-2-fragment-feed-notes",
+      "url": "https://ndcodex.com/objects/codex-archive-system-v3-2-fragment-feed-notes/",
+      "stableId": "codex://object/codex-archive-system-v3-2-fragment-feed-notes",
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3.2 FRAGMENT FEED NOTES",
       "date": "2026-03-08",
@@ -422,6 +509,9 @@
     },
     {
       "id": "codex-archive-system-v3-3-modest-table-notes",
+      "slug": "codex-archive-system-v3-3-modest-table-notes",
+      "url": "https://ndcodex.com/objects/codex-archive-system-v3-3-modest-table-notes/",
+      "stableId": "codex://object/codex-archive-system-v3-3-modest-table-notes",
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3.3 MODEST TABLE NOTES",
       "date": "2026-03-08",
@@ -438,6 +528,9 @@
     },
     {
       "id": "codex-archive-system-v3-4-image-experience-notes",
+      "slug": "codex-archive-system-v3-4-image-experience-notes",
+      "url": "https://ndcodex.com/objects/codex-archive-system-v3-4-image-experience-notes/",
+      "stableId": "codex://object/codex-archive-system-v3-4-image-experience-notes",
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3.4 IMAGE EXPERIENCE NOTES",
       "date": "2026-03-08",
@@ -454,6 +547,9 @@
     },
     {
       "id": "codex-archive-system-v3-5-control-surface-notes",
+      "slug": "codex-archive-system-v3-5-control-surface-notes",
+      "url": "https://ndcodex.com/objects/codex-archive-system-v3-5-control-surface-notes/",
+      "stableId": "codex://object/codex-archive-system-v3-5-control-surface-notes",
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3.5 CONTROL SURFACE NOTES",
       "date": "2026-03-08",
@@ -470,6 +566,9 @@
     },
     {
       "id": "codex-archive-system-v3-6-reading-surface-notes",
+      "slug": "codex-archive-system-v3-6-reading-surface-notes",
+      "url": "https://ndcodex.com/objects/codex-archive-system-v3-6-reading-surface-notes/",
+      "stableId": "codex://object/codex-archive-system-v3-6-reading-surface-notes",
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3.6 READING SURFACE NOTES",
       "date": "2026-03-08",
@@ -486,6 +585,9 @@
     },
     {
       "id": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "slug": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "url": "https://ndcodex.com/objects/codex-archive-system-v3-7-loremap-foundation-notes/",
+      "stableId": "codex://object/codex-archive-system-v3-7-loremap-foundation-notes",
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3.7 LOREMAP FOUNDATION NOTES",
       "date": "2026-03-09",
@@ -502,6 +604,9 @@
     },
     {
       "id": "codex-archive-system-v3-8-specimen-surface-notes",
+      "slug": "codex-archive-system-v3-8-specimen-surface-notes",
+      "url": "https://ndcodex.com/objects/codex-archive-system-v3-8-specimen-surface-notes/",
+      "stableId": "codex://object/codex-archive-system-v3-8-specimen-surface-notes",
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3.8 SPECIMEN SURFACE NOTES",
       "date": "2026-03-10",
@@ -518,6 +623,9 @@
     },
     {
       "id": "codex-archive-system-v3-9-orientation-clarity-notes",
+      "slug": "codex-archive-system-v3-9-orientation-clarity-notes",
+      "url": "https://ndcodex.com/objects/codex-archive-system-v3-9-orientation-clarity-notes/",
+      "stableId": "codex://object/codex-archive-system-v3-9-orientation-clarity-notes",
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3.9 ORIENTATION CLARITY NOTES",
       "date": "2026-03-11",
@@ -535,6 +643,9 @@
     },
     {
       "id": "codex-archive-system-v3-notes",
+      "slug": "codex-archive-system-v3-notes",
+      "url": "https://ndcodex.com/objects/codex-archive-system-v3-notes/",
+      "stableId": "codex://object/codex-archive-system-v3-notes",
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3 NOTES",
       "date": "2026-03-07",
@@ -551,6 +662,9 @@
     },
     {
       "id": "codex-archive-system-v3-plus-notes",
+      "slug": "codex-archive-system-v3-plus-notes",
+      "url": "https://ndcodex.com/objects/codex-archive-system-v3-plus-notes/",
+      "stableId": "codex://object/codex-archive-system-v3-plus-notes",
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3+ NOTES",
       "date": "2026-03-07",
@@ -568,6 +682,9 @@
     },
     {
       "id": "codex-glyph-grammar",
+      "slug": "codex-glyph-grammar",
+      "url": "https://ndcodex.com/objects/codex-glyph-grammar/",
+      "stableId": "codex://object/codex-glyph-grammar",
       "type": "codex",
       "title": "Codex Glyph Grammar: Symbol Generation Rules",
       "date": "2026-03-08",
@@ -582,6 +699,9 @@
     },
     {
       "id": "codex-glyph-system-first-emergence",
+      "slug": "codex-glyph-system-first-emergence",
+      "url": "https://ndcodex.com/objects/codex-glyph-system-first-emergence/",
+      "stableId": "codex://object/codex-glyph-system-first-emergence",
       "type": "codex",
       "title": "Codex Glyph System: First Emergence",
       "date": "2026-03-08",
@@ -595,6 +715,9 @@
     },
     {
       "id": "everything-arrived-at-once",
+      "slug": "everything-arrived-at-once",
+      "url": "https://ndcodex.com/objects/everything-arrived-at-once/",
+      "stableId": "codex://object/everything-arrived-at-once",
       "type": "codex",
       "title": "Everything arrived at once",
       "date": "2026-03-19",
@@ -609,6 +732,9 @@
     },
     {
       "id": "nd-codex-object-classification",
+      "slug": "nd-codex-object-classification",
+      "url": "https://ndcodex.com/objects/nd-codex-object-classification/",
+      "stableId": "codex://object/nd-codex-object-classification",
       "type": "codex",
       "title": "ND Codex Object Classification",
       "date": "2026-03-15",
@@ -622,6 +748,9 @@
     },
     {
       "id": "node-doctrine",
+      "slug": "node-doctrine",
+      "url": "https://ndcodex.com/objects/node-doctrine/",
+      "stableId": "codex://object/node-doctrine",
       "type": "codex",
       "title": "Node Doctrine",
       "date": "2026-03-09",
@@ -636,6 +765,9 @@
     },
     {
       "id": "object-release-nfile-co",
+      "slug": "object-release-nfile-co",
+      "url": "https://ndcodex.com/objects/object-release-nfile-co/",
+      "stableId": "codex://object/object-release-nfile-co",
       "type": "codex",
       "title": "OBJECT RELEASE: NFILE.CO",
       "date": "2026-03-18",
@@ -650,6 +782,9 @@
     },
     {
       "id": "the-bones-hold-content-architecture",
+      "slug": "the-bones-hold-content-architecture",
+      "url": "https://ndcodex.com/objects/the-bones-hold-content-architecture/",
+      "stableId": "codex://object/the-bones-hold-content-architecture",
       "type": "codex",
       "title": "The Bones Hold: Content Architecture Scroll",
       "date": "2026-03-03",
@@ -663,6 +798,9 @@
     },
     {
       "id": "builder-lineage-reflection",
+      "slug": "builder-lineage-reflection",
+      "url": "https://ndcodex.com/objects/builder-lineage-reflection/",
+      "stableId": "codex://object/builder-lineage-reflection",
       "type": "fieldlog",
       "title": "Reflection: On Cain, Bezalel, and the Workbench",
       "date": "2026-03-08",
@@ -676,6 +814,9 @@
     },
     {
       "id": "go-live-milestone",
+      "slug": "go-live-milestone",
+      "url": "https://ndcodex.com/objects/go-live-milestone/",
+      "stableId": "codex://object/go-live-milestone",
       "type": "fieldlog",
       "title": "Go Live Milestone: ndcodex.com",
       "date": "2026-03-07",
@@ -691,6 +832,9 @@
     },
     {
       "id": "grand-myth-central",
+      "slug": "grand-myth-central",
+      "url": "https://ndcodex.com/objects/grand-myth-central/",
+      "stableId": "codex://object/grand-myth-central",
       "type": "fieldlog",
       "title": "Field Log: Grand Myth Central",
       "date": "2026-03-11",
@@ -705,6 +849,9 @@
     },
     {
       "id": "jsa-collage-evolution-001",
+      "slug": "jsa-collage-evolution-001",
+      "url": "https://ndcodex.com/objects/jsa-collage-evolution-001/",
+      "stableId": "codex://object/jsa-collage-evolution-001",
       "type": "fieldlog",
       "title": "JSA Collage Evolution 001",
       "date": "2026-03-07",
@@ -721,6 +868,9 @@
     },
     {
       "id": "jsa-collage-evolution-002",
+      "slug": "jsa-collage-evolution-002",
+      "url": "https://ndcodex.com/objects/jsa-collage-evolution-002/",
+      "stableId": "codex://object/jsa-collage-evolution-002",
       "type": "fieldlog",
       "title": "JSA Collage Evolution 002",
       "date": "2026-03-08",
@@ -735,6 +885,9 @@
     },
     {
       "id": "jsa-collage-evolution-003",
+      "slug": "jsa-collage-evolution-003",
+      "url": "https://ndcodex.com/objects/jsa-collage-evolution-003/",
+      "stableId": "codex://object/jsa-collage-evolution-003",
       "type": "fieldlog",
       "title": "JSA Collage Evolution 003",
       "date": "2026-03-08",
@@ -749,6 +902,9 @@
     },
     {
       "id": "mothers-calendar",
+      "slug": "mothers-calendar",
+      "url": "https://ndcodex.com/objects/mothers-calendar/",
+      "stableId": "codex://object/mothers-calendar",
       "type": "fieldlog",
       "title": "The Mother's Calendar",
       "date": "2026-03-10",
@@ -762,6 +918,9 @@
     },
     {
       "id": "north-georgia-march-2026",
+      "slug": "north-georgia-march-2026",
+      "url": "https://ndcodex.com/objects/north-georgia-march-2026/",
+      "stableId": "codex://object/north-georgia-march-2026",
       "type": "fieldlog",
       "title": "FIELD LOG: NORTH GEORGIA",
       "date": "2026-03-03",
@@ -777,6 +936,9 @@
     },
     {
       "id": "north-georgia-week-2",
+      "slug": "north-georgia-week-2",
+      "url": "https://ndcodex.com/objects/north-georgia-week-2/",
+      "stableId": "codex://object/north-georgia-week-2",
       "type": "fieldlog",
       "title": "FIELD LOG: NORTH GEORGIA (WEEK 2)",
       "date": "2026-03-06",
@@ -792,6 +954,9 @@
     },
     {
       "id": "race-to-the-top-six-bridges",
+      "slug": "race-to-the-top-six-bridges",
+      "url": "https://ndcodex.com/objects/race-to-the-top-six-bridges/",
+      "stableId": "codex://object/race-to-the-top-six-bridges",
       "type": "fieldlog",
       "title": "Race to the Top at Six Bridges Brewing",
       "date": "2026-03-10",
@@ -806,6 +971,9 @@
     },
     {
       "id": "return-of-the-joker",
+      "slug": "return-of-the-joker",
+      "url": "https://ndcodex.com/objects/return-of-the-joker/",
+      "stableId": "codex://object/return-of-the-joker",
       "type": "fieldlog",
       "title": "Field Log: Return of the Joker",
       "date": "2026-03-13",
@@ -819,6 +987,9 @@
     },
     {
       "id": "studio-bench-cycle",
+      "slug": "studio-bench-cycle",
+      "url": "https://ndcodex.com/objects/studio-bench-cycle/",
+      "stableId": "codex://object/studio-bench-cycle",
       "type": "fieldlog",
       "title": "Studio Bench Cycle",
       "date": "2026-03-06",
@@ -833,6 +1004,9 @@
     },
     {
       "id": "studio-log-adhesive-test-run",
+      "slug": "studio-log-adhesive-test-run",
+      "url": "https://ndcodex.com/objects/studio-log-adhesive-test-run/",
+      "stableId": "codex://object/studio-log-adhesive-test-run",
       "type": "fieldlog",
       "title": "STUDIO LOG: ADHESIVE TEST RUN",
       "date": "2026-03-05",
@@ -846,6 +1020,9 @@
     },
     {
       "id": "cities-built-on-ruin",
+      "slug": "cities-built-on-ruin",
+      "url": "https://ndcodex.com/objects/cities-built-on-ruin/",
+      "stableId": "codex://object/cities-built-on-ruin",
       "type": "fragment",
       "title": "Cities Built on Ruin",
       "date": "2026-03-08",
@@ -858,6 +1035,9 @@
     },
     {
       "id": "council-of-frogs",
+      "slug": "council-of-frogs",
+      "url": "https://ndcodex.com/objects/council-of-frogs/",
+      "stableId": "codex://object/council-of-frogs",
       "type": "fragment",
       "title": "Council of frogs—",
       "date": "2026-03-18",
@@ -872,6 +1052,9 @@
     },
     {
       "id": "i-work-with-machines-to-write-scripture",
+      "slug": "i-work-with-machines-to-write-scripture",
+      "url": "https://ndcodex.com/objects/i-work-with-machines-to-write-scripture/",
+      "stableId": "codex://object/i-work-with-machines-to-write-scripture",
       "type": "fragment",
       "title": "I Work With Machines to Write Scripture",
       "date": "2026-03-08",
@@ -884,6 +1067,9 @@
     },
     {
       "id": "keep-the-operator-whistling",
+      "slug": "keep-the-operator-whistling",
+      "url": "https://ndcodex.com/objects/keep-the-operator-whistling/",
+      "stableId": "codex://object/keep-the-operator-whistling",
       "type": "fragment",
       "title": "Keep the Operator Whistling",
       "date": "2026-03-11",
@@ -896,6 +1082,9 @@
     },
     {
       "id": "lean-mean-governance-machine",
+      "slug": "lean-mean-governance-machine",
+      "url": "https://ndcodex.com/objects/lean-mean-governance-machine/",
+      "stableId": "codex://object/lean-mean-governance-machine",
       "type": "fragment",
       "title": "Lean Mean Governance Machine",
       "date": "2026-03-07",
@@ -910,6 +1099,9 @@
     },
     {
       "id": "marginalia-on-a-primer-for-a-way-of-being-2026-03-20-09-38-32",
+      "slug": "marginalia-on-a-primer-for-a-way-of-being-2026-03-20-09-38-32",
+      "url": "https://ndcodex.com/objects/marginalia-on-a-primer-for-a-way-of-being-2026-03-20-09-38-32/",
+      "stableId": "codex://object/marginalia-on-a-primer-for-a-way-of-being-2026-03-20-09-38-32",
       "type": "fragment",
       "title": "Marginalia on a primer for a way of being 2026-03-20-09-38-32",
       "date": "2026-03-20T13:38:32.589Z",
@@ -918,6 +1110,9 @@
     },
     {
       "id": "marginalia-on-codex-archive-system-v3-12-1-marginalia-live-publish-notes-2026-03-17-18-21-13",
+      "slug": "marginalia-on-codex-archive-system-v3-12-1-marginalia-live-publish-notes-2026-03-17-18-21-13",
+      "url": "https://ndcodex.com/objects/marginalia-on-codex-archive-system-v3-12-1-marginalia-live-publish-notes-2026-03-17-18-21-13/",
+      "stableId": "codex://object/marginalia-on-codex-archive-system-v3-12-1-marginalia-live-publish-notes-2026-03-17-18-21-13",
       "type": "fragment",
       "title": "Marginalia on Codex Archive System V3.12.1 Marginalia Live Publish Notes 2026-03-17-18-21-13",
       "date": "2026-03-17T22:21:13.903Z",
@@ -926,6 +1121,9 @@
     },
     {
       "id": "marginalia-on-council-of-frogs-2026-03-18-18-06-19",
+      "slug": "marginalia-on-council-of-frogs-2026-03-18-18-06-19",
+      "url": "https://ndcodex.com/objects/marginalia-on-council-of-frogs-2026-03-18-18-06-19/",
+      "stableId": "codex://object/marginalia-on-council-of-frogs-2026-03-18-18-06-19",
       "type": "fragment",
       "title": "Marginalia on Council of frogs— 2026-03-18-18-06-19",
       "date": "2026-03-18T22:06:19.408Z",
@@ -934,6 +1132,9 @@
     },
     {
       "id": "marginalia-on-everything-arrived-at-once-2026-03-18-20-39-30",
+      "slug": "marginalia-on-everything-arrived-at-once-2026-03-18-20-39-30",
+      "url": "https://ndcodex.com/objects/marginalia-on-everything-arrived-at-once-2026-03-18-20-39-30/",
+      "stableId": "codex://object/marginalia-on-everything-arrived-at-once-2026-03-18-20-39-30",
       "type": "fragment",
       "title": "Marginalia on Everything arrived at once 2026-03-18-20-39-30",
       "date": "2026-03-19T00:39:30.897Z",
@@ -942,6 +1143,9 @@
     },
     {
       "id": "nothing-missing-only-unindexed",
+      "slug": "nothing-missing-only-unindexed",
+      "url": "https://ndcodex.com/objects/nothing-missing-only-unindexed/",
+      "stableId": "codex://object/nothing-missing-only-unindexed",
       "type": "fragment",
       "title": "Nothing Missing, Only Unindexed",
       "date": "2026-03-04",
@@ -954,6 +1158,9 @@
     },
     {
       "id": "on-object-oriented-archives",
+      "slug": "on-object-oriented-archives",
+      "url": "https://ndcodex.com/objects/on-object-oriented-archives/",
+      "stableId": "codex://object/on-object-oriented-archives",
       "type": "fragment",
       "title": "On Object-Oriented Archives",
       "date": "2026-02-20",
@@ -966,6 +1173,9 @@
     },
     {
       "id": "operator-winks-at-the-machines",
+      "slug": "operator-winks-at-the-machines",
+      "url": "https://ndcodex.com/objects/operator-winks-at-the-machines/",
+      "stableId": "codex://object/operator-winks-at-the-machines",
       "type": "fragment",
       "title": "The Operator Winks at the Machines",
       "date": "2026-03-09",
@@ -978,6 +1188,9 @@
     },
     {
       "id": "parked",
+      "slug": "parked",
+      "url": "https://ndcodex.com/objects/parked/",
+      "stableId": "codex://object/parked",
       "type": "fragment",
       "title": "Parked",
       "date": "2026-03-17",
@@ -992,6 +1205,9 @@
     },
     {
       "id": "reduce-novelty-before-care",
+      "slug": "reduce-novelty-before-care",
+      "url": "https://ndcodex.com/objects/reduce-novelty-before-care/",
+      "stableId": "codex://object/reduce-novelty-before-care",
       "type": "fragment",
       "title": "Reduce Novelty Before Care",
       "date": "2026-03-06",
@@ -1004,6 +1220,9 @@
     },
     {
       "id": "systems-survive-tuesdays",
+      "slug": "systems-survive-tuesdays",
+      "url": "https://ndcodex.com/objects/systems-survive-tuesdays/",
+      "stableId": "codex://object/systems-survive-tuesdays",
       "type": "fragment",
       "title": "Systems Survive Tuesdays",
       "date": "2026-03-06",
@@ -1016,6 +1235,9 @@
     },
     {
       "id": "when-the-commit-leaves-your-hands",
+      "slug": "when-the-commit-leaves-your-hands",
+      "url": "https://ndcodex.com/objects/when-the-commit-leaves-your-hands/",
+      "stableId": "codex://object/when-the-commit-leaves-your-hands",
       "type": "fragment",
       "title": "When the Commit Leaves Your Hands",
       "date": "2026-03-08",
@@ -1028,6 +1250,9 @@
     },
     {
       "id": "chattahoochee-river-loremap",
+      "slug": "chattahoochee-river-loremap",
+      "url": "https://ndcodex.com/objects/chattahoochee-river-loremap/",
+      "stableId": "codex://object/chattahoochee-river-loremap",
       "type": "loremap",
       "title": "Loremap: Chattahoochee River",
       "date": "2026-03-10",
@@ -1041,6 +1266,9 @@
     },
     {
       "id": "ellijay-ga-fourth-of-july-loremap",
+      "slug": "ellijay-ga-fourth-of-july-loremap",
+      "url": "https://ndcodex.com/objects/ellijay-ga-fourth-of-july-loremap/",
+      "stableId": "codex://object/ellijay-ga-fourth-of-july-loremap",
       "type": "loremap",
       "title": "Loremap: Ellijay, GA - Fourth of July",
       "date": "2026-03-18",
@@ -1056,6 +1284,9 @@
     },
     {
       "id": "suwanee-ga-loremap",
+      "slug": "suwanee-ga-loremap",
+      "url": "https://ndcodex.com/objects/suwanee-ga-loremap/",
+      "stableId": "codex://object/suwanee-ga-loremap",
       "type": "loremap",
       "title": "Loremap: Suwanee, GA",
       "date": "2026-03-08",
@@ -1069,6 +1300,9 @@
     },
     {
       "id": "citizen-network-dispatch",
+      "slug": "citizen-network-dispatch",
+      "url": "https://ndcodex.com/objects/citizen-network-dispatch/",
+      "stableId": "codex://object/citizen-network-dispatch",
       "type": "nexus",
       "title": "CITIZEN NETWORK DISPATCH",
       "date": "2026-03-10",
@@ -1085,6 +1319,9 @@
     },
     {
       "id": "signal-descent-001",
+      "slug": "signal-descent-001",
+      "url": "https://ndcodex.com/objects/signal-descent-001/",
+      "stableId": "codex://object/signal-descent-001",
       "type": "nexus",
       "title": "SIGNAL DESCENT",
       "date": "2026-03-04",
@@ -1100,6 +1337,9 @@
     },
     {
       "id": "signal-descent-002",
+      "slug": "signal-descent-002",
+      "url": "https://ndcodex.com/objects/signal-descent-002/",
+      "stableId": "codex://object/signal-descent-002",
       "type": "nexus",
       "title": "SIGNAL DESCENT 002",
       "date": "2026-03-06",
@@ -1115,6 +1355,9 @@
     },
     {
       "id": "signal-descent-003",
+      "slug": "signal-descent-003",
+      "url": "https://ndcodex.com/objects/signal-descent-003/",
+      "stableId": "codex://object/signal-descent-003",
       "type": "nexus",
       "title": "SIGNAL DESCENT 003",
       "date": "2026-03-07",
@@ -1131,6 +1374,9 @@
     },
     {
       "id": "signal-descent-004",
+      "slug": "signal-descent-004",
+      "url": "https://ndcodex.com/objects/signal-descent-004/",
+      "stableId": "codex://object/signal-descent-004",
       "type": "nexus",
       "title": "SIGNAL DESCENT 004",
       "date": "2026-03-08",
@@ -1147,6 +1393,9 @@
     },
     {
       "id": "signal-descent-005",
+      "slug": "signal-descent-005",
+      "url": "https://ndcodex.com/objects/signal-descent-005/",
+      "stableId": "codex://object/signal-descent-005",
       "type": "nexus",
       "title": "SIGNAL DESCENT 005",
       "date": "2026-03-11",
@@ -1163,6 +1412,9 @@
     },
     {
       "id": "another-day",
+      "slug": "another-day",
+      "url": "https://ndcodex.com/objects/another-day/",
+      "stableId": "codex://object/another-day",
       "type": "scroll",
       "title": "\\\"another day\\\"",
       "date": "2026-03-19",
@@ -1177,6 +1429,9 @@
     },
     {
       "id": "apparatus-ledger",
+      "slug": "apparatus-ledger",
+      "url": "https://ndcodex.com/objects/apparatus-ledger/",
+      "stableId": "codex://object/apparatus-ledger",
       "type": "scroll",
       "title": "✦ APPARATUS LEDGER ✦",
       "date": "2026-03-07",
@@ -1192,6 +1447,9 @@
     },
     {
       "id": "art-is-for-people-who-want-to-feel-alive",
+      "slug": "art-is-for-people-who-want-to-feel-alive",
+      "url": "https://ndcodex.com/objects/art-is-for-people-who-want-to-feel-alive/",
+      "stableId": "codex://object/art-is-for-people-who-want-to-feel-alive",
       "type": "scroll",
       "title": "Art Is for People Who Want to Feel Alive",
       "date": "2026-03-08",
@@ -1205,6 +1463,9 @@
     },
     {
       "id": "bezalel-the-designated-hand",
+      "slug": "bezalel-the-designated-hand",
+      "url": "https://ndcodex.com/objects/bezalel-the-designated-hand/",
+      "stableId": "codex://object/bezalel-the-designated-hand",
       "type": "scroll",
       "title": "Bezalel: The Designated Hand",
       "date": "2026-03-08",
@@ -1218,6 +1479,9 @@
     },
     {
       "id": "capture-and-convert",
+      "slug": "capture-and-convert",
+      "url": "https://ndcodex.com/objects/capture-and-convert/",
+      "stableId": "codex://object/capture-and-convert",
       "type": "scroll",
       "title": "Capture and Convert",
       "date": "2026-03-10",
@@ -1231,6 +1495,9 @@
     },
     {
       "id": "characters-in-the-field",
+      "slug": "characters-in-the-field",
+      "url": "https://ndcodex.com/objects/characters-in-the-field/",
+      "stableId": "codex://object/characters-in-the-field",
       "type": "scroll",
       "title": "The Characters in the Field",
       "date": "2026-03-11",
@@ -1243,6 +1510,9 @@
     },
     {
       "id": "cities-built-on-ruin-reminiscence",
+      "slug": "cities-built-on-ruin-reminiscence",
+      "url": "https://ndcodex.com/objects/cities-built-on-ruin-reminiscence/",
+      "stableId": "codex://object/cities-built-on-ruin-reminiscence",
       "type": "scroll",
       "title": "Cities Built on Ruin: Reminiscence of the Third Evolution",
       "date": "2026-03-08",
@@ -1257,6 +1527,9 @@
     },
     {
       "id": "citizen-network-doctrine",
+      "slug": "citizen-network-doctrine",
+      "url": "https://ndcodex.com/objects/citizen-network-doctrine/",
+      "stableId": "codex://object/citizen-network-doctrine",
       "type": "scroll",
       "title": "The Citizen Network Doctrine",
       "date": "2026-03-09",
@@ -1271,6 +1544,9 @@
     },
     {
       "id": "constellation-node-alchemy",
+      "slug": "constellation-node-alchemy",
+      "url": "https://ndcodex.com/objects/constellation-node-alchemy/",
+      "stableId": "codex://object/constellation-node-alchemy",
       "type": "scroll",
       "title": "Constellation Alchemy: Nodes That Remember",
       "date": "2026-03-09",
@@ -1285,6 +1561,9 @@
     },
     {
       "id": "disrespectful-power",
+      "slug": "disrespectful-power",
+      "url": "https://ndcodex.com/objects/disrespectful-power/",
+      "stableId": "codex://object/disrespectful-power",
       "type": "scroll",
       "title": "Disrespectful Power Is Gross",
       "date": "2026-03-09",
@@ -1298,6 +1577,9 @@
     },
     {
       "id": "heart-does-not-dream",
+      "slug": "heart-does-not-dream",
+      "url": "https://ndcodex.com/objects/heart-does-not-dream/",
+      "stableId": "codex://object/heart-does-not-dream",
       "type": "scroll",
       "title": "The Heart Does Not Dream. It Repeats.",
       "date": "2026-03-07",
@@ -1314,6 +1596,9 @@
     },
     {
       "id": "machine-creatures",
+      "slug": "machine-creatures",
+      "url": "https://ndcodex.com/objects/machine-creatures/",
+      "stableId": "codex://object/machine-creatures",
       "type": "scroll",
       "title": "Machine Creatures",
       "date": "2026-03-10",
@@ -1327,6 +1612,9 @@
     },
     {
       "id": "maintenance-without-cure",
+      "slug": "maintenance-without-cure",
+      "url": "https://ndcodex.com/objects/maintenance-without-cure/",
+      "stableId": "codex://object/maintenance-without-cure",
       "type": "scroll",
       "title": "MAINTENANCE WITHOUT CURE",
       "date": "2026-03-04",
@@ -1341,6 +1629,9 @@
     },
     {
       "id": "manic-rider-collapse",
+      "slug": "manic-rider-collapse",
+      "url": "https://ndcodex.com/objects/manic-rider-collapse/",
+      "stableId": "codex://object/manic-rider-collapse",
       "type": "scroll",
       "title": "The Manic Rider and Collapse",
       "date": "2026-03-10",
@@ -1354,6 +1645,9 @@
     },
     {
       "id": "one-yard-from-forever",
+      "slug": "one-yard-from-forever",
+      "url": "https://ndcodex.com/objects/one-yard-from-forever/",
+      "stableId": "codex://object/one-yard-from-forever",
       "type": "scroll",
       "title": "One Yard From Forever",
       "date": "2026-03-11",
@@ -1367,6 +1661,9 @@
     },
     {
       "id": "pocket-rock-cathedral",
+      "slug": "pocket-rock-cathedral",
+      "url": "https://ndcodex.com/objects/pocket-rock-cathedral/",
+      "stableId": "codex://object/pocket-rock-cathedral",
       "type": "scroll",
       "title": "Pocket Rock Cathedral",
       "date": "2026-03-10",
@@ -1381,6 +1678,9 @@
     },
     {
       "id": "pressure-psalm-v",
+      "slug": "pressure-psalm-v",
+      "url": "https://ndcodex.com/objects/pressure-psalm-v/",
+      "stableId": "codex://object/pressure-psalm-v",
       "type": "scroll",
       "title": "PRESSURE PSALM V",
       "date": "2026-03-05",
@@ -1395,6 +1695,9 @@
     },
     {
       "id": "quiet-vector-doctrine",
+      "slug": "quiet-vector-doctrine",
+      "url": "https://ndcodex.com/objects/quiet-vector-doctrine/",
+      "stableId": "codex://object/quiet-vector-doctrine",
       "type": "scroll",
       "title": "Quiet Vector Doctrine",
       "date": "2026-03-11",
@@ -1408,6 +1711,9 @@
     },
     {
       "id": "ridge-line-lessons",
+      "slug": "ridge-line-lessons",
+      "url": "https://ndcodex.com/objects/ridge-line-lessons/",
+      "stableId": "codex://object/ridge-line-lessons",
       "type": "scroll",
       "title": "RIDGE LINE LESSONS",
       "date": "2026-03-03",
@@ -1423,6 +1729,9 @@
     },
     {
       "id": "scripture-with-machines",
+      "slug": "scripture-with-machines",
+      "url": "https://ndcodex.com/objects/scripture-with-machines/",
+      "stableId": "codex://object/scripture-with-machines",
       "type": "scroll",
       "title": "Scripture With Machines",
       "date": "2026-03-08",
@@ -1436,6 +1745,9 @@
     },
     {
       "id": "scroll-from-the-perimeter",
+      "slug": "scroll-from-the-perimeter",
+      "url": "https://ndcodex.com/objects/scroll-from-the-perimeter/",
+      "stableId": "codex://object/scroll-from-the-perimeter",
       "type": "scroll",
       "title": "A Scroll from the Perimeter",
       "date": "2026-03-06",
@@ -1451,6 +1763,9 @@
     },
     {
       "id": "shop-talk-framework",
+      "slug": "shop-talk-framework",
+      "url": "https://ndcodex.com/objects/shop-talk-framework/",
+      "stableId": "codex://object/shop-talk-framework",
       "type": "scroll",
       "title": "Shop Talk",
       "date": "2026-03-12",
@@ -1465,6 +1780,9 @@
     },
     {
       "id": "signal-harvest",
+      "slug": "signal-harvest",
+      "url": "https://ndcodex.com/objects/signal-harvest/",
+      "stableId": "codex://object/signal-harvest",
       "type": "scroll",
       "title": "SIGNAL HARVEST",
       "date": "2026-03-01",
@@ -1479,6 +1797,9 @@
     },
     {
       "id": "stairwell-signal",
+      "slug": "stairwell-signal",
+      "url": "https://ndcodex.com/objects/stairwell-signal/",
+      "stableId": "codex://object/stairwell-signal",
       "type": "scroll",
       "title": "Stairwell Signal",
       "date": "2026-03-06",
@@ -1493,6 +1814,9 @@
     },
     {
       "id": "steel-elbow-flinchian",
+      "slug": "steel-elbow-flinchian",
+      "url": "https://ndcodex.com/objects/steel-elbow-flinchian/",
+      "stableId": "codex://object/steel-elbow-flinchian",
       "type": "scroll",
       "title": "Flinchian Sonic Analysis - The Steel Elbow Diagnostic",
       "date": "2026-03-08",
@@ -1506,6 +1830,9 @@
     },
     {
       "id": "the-bones-hold",
+      "slug": "the-bones-hold",
+      "url": "https://ndcodex.com/objects/the-bones-hold/",
+      "stableId": "codex://object/the-bones-hold",
       "type": "scroll",
       "title": "THE BONES HOLD",
       "date": "2026-02-28",
@@ -1522,6 +1849,9 @@
     },
     {
       "id": "the-sugar-earth-scroll",
+      "slug": "the-sugar-earth-scroll",
+      "url": "https://ndcodex.com/objects/the-sugar-earth-scroll/",
+      "stableId": "codex://object/the-sugar-earth-scroll",
       "type": "scroll",
       "title": "THE SUGAR EARTH SCROLL",
       "date": "2026-03-16",
@@ -1535,6 +1865,9 @@
     },
     {
       "id": "transmission-note-to-future-me",
+      "slug": "transmission-note-to-future-me",
+      "url": "https://ndcodex.com/objects/transmission-note-to-future-me/",
+      "stableId": "codex://object/transmission-note-to-future-me",
       "type": "scroll",
       "title": "TRANSMISSION NOTE TO FUTURE ME",
       "date": "2026-03-02",
@@ -1549,6 +1882,9 @@
     },
     {
       "id": "unacceptable-cost",
+      "slug": "unacceptable-cost",
+      "url": "https://ndcodex.com/objects/unacceptable-cost/",
+      "stableId": "codex://object/unacceptable-cost",
       "type": "scroll",
       "title": "The Unacceptable Cost",
       "date": "2026-03-09",
@@ -1563,6 +1899,9 @@
     },
     {
       "id": "a-primer-for-a-way-of-being",
+      "slug": "a-primer-for-a-way-of-being",
+      "url": "https://ndcodex.com/objects/a-primer-for-a-way-of-being/",
+      "stableId": "codex://object/a-primer-for-a-way-of-being",
       "type": "signal",
       "title": "a primer for a way of being",
       "date": "2026-03-20",
@@ -1577,6 +1916,9 @@
     },
     {
       "id": "justice-begins-as-a-ripple",
+      "slug": "justice-begins-as-a-ripple",
+      "url": "https://ndcodex.com/objects/justice-begins-as-a-ripple/",
+      "stableId": "codex://object/justice-begins-as-a-ripple",
       "type": "signal",
       "title": "Justice Begins As A Ripple",
       "date": "2026-03-14",
@@ -1589,6 +1931,9 @@
     },
     {
       "id": "outside-pib",
+      "slug": "outside-pib",
+      "url": "https://ndcodex.com/objects/outside-pib/",
+      "stableId": "codex://object/outside-pib",
       "type": "signal",
       "title": "\\\"✦ OUTSIDE, PIB ✦\\\"",
       "date": "2026-03-17",
@@ -1603,6 +1948,9 @@
     },
     {
       "id": "signal-post-test",
+      "slug": "signal-post-test",
+      "url": "https://ndcodex.com/objects/signal-post-test/",
+      "stableId": "codex://object/signal-post-test",
       "type": "signal",
       "title": "Signal post test",
       "date": "2026-03-14",
@@ -1613,6 +1961,9 @@
     },
     {
       "id": "signal.citizen-agency",
+      "slug": "signal.citizen-agency",
+      "url": "https://ndcodex.com/objects/signal.citizen-agency/",
+      "stableId": "codex://object/signal.citizen-agency",
       "type": "signal",
       "title": "Citizen Agency Recognition",
       "date": "2026-03-07",

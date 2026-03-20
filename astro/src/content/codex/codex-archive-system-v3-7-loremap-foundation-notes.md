@@ -1,5 +1,7 @@
 ---
 id: codex-archive-system-v3-7-loremap-foundation-notes
+slug: "codex-archive-system-v3-7-loremap-foundation-notes"
+url: "https://ndcodex.com/objects/codex-archive-system-v3-7-loremap-foundation-notes/"
 type: codex
 title: "CODEX ARCHIVE SYSTEM v3.7 LOREMAP FOUNDATION NOTES"
 date: 2026-03-09
@@ -7,6 +9,7 @@ postedAt: 2026-03-09T22:17:53Z
 status: published
 visibility: public
 
+summary: "v3.7 promotes loremap to a first-class object type and gives place-aware work its own schema, feed presence, and reading surface."
 excerpt: "v3.7 promotes loremap to a first-class object type and gives place-aware work its own schema, feed presence, and reading surface."
 
 themes:

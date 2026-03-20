@@ -1,11 +1,14 @@
 ---
 id: studio-bench-cycle
+slug: "studio-bench-cycle"
+url: "https://ndcodex.com/objects/studio-bench-cycle/"
 type: fieldlog
 title: "Studio Bench Cycle"
 date: 2026-03-06
 status: draft
 visibility: public
 
+summary: "I do not trust tape seams for anything we expect to revisit."
 excerpt: "I do not trust tape seams for anything we expect to revisit."
 
 themes:

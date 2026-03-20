@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { COLLECTIONS, getAllEntries } from '../lib/archive';
 import { getDefaultSourceProfile } from '../lib/sourceProfiles';
+import { getTaxonomyIndexPath, getTaxonomyTermPath } from '../lib/taxonomy';
 import TypeBadge from '../components/TypeBadge.astro';
 import { formatArchiveDate } from '../lib/timeline';
 
@@ -307,17 +308,20 @@ const fieldContractRows = [
     </p>
     <div class="constellation-grid">
       {constellationCards.map((item) => (
-        <article class={`constellation-card page-plate ${item.tone}`}>
+        <a class={`constellation-card page-plate ${item.tone}`} href={getTaxonomyTermPath('constellation', item.name)}>
           <h3>{item.name}</h3>
           <p>{item.description}</p>
           <div class="constellation-meta">
             <span>{item.scope}</span>
             <code>{item.count} objects</code>
           </div>
-        </article>
+        </a>
       ))}
     </div>
-    <p class="capacity">{activeConstellations.length} active of 100 capacity.</p>
+    <p class="capacity">
+      {activeConstellations.length} active of 100 capacity. Browse the full directories at{' '}
+      <a href={getTaxonomyIndexPath('theme')}>Themes</a> and <a href={getTaxonomyIndexPath('constellation')}>Constellations</a>.
+    </p>
   </section>
 
   <section class="panel path-panel page-plate">
@@ -912,7 +916,16 @@ const fieldContractRows = [
     --plate-surface: linear-gradient(180deg, rgba(16, 14, 12, 0.92), rgba(9, 9, 8, 0.96));
     --plate-tint: rgba(201, 150, 58, 0.06);
     --plate-tint-secondary: rgba(120, 160, 168, 0.04);
+    display: block;
     padding: 1.35rem 1.32rem 1.28rem;
+    color: inherit;
+    text-decoration: none;
+    transition: transform 0.14s ease, border-color 0.14s ease;
+  }
+
+  .constellation-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(244, 240, 232, 0.2);
   }
 
   .constellation-card h3 {
@@ -969,6 +982,17 @@ const fieldContractRows = [
     font-size: 10px;
     letter-spacing: var(--ls-ui-wide);
     text-transform: uppercase;
+  }
+
+  .capacity a {
+    color: var(--parchment);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(244, 240, 232, 0.18);
+  }
+
+  .capacity a:hover {
+    color: var(--star);
+    border-bottom-color: rgba(244, 240, 232, 0.42);
   }
 
   .path-panel ol {

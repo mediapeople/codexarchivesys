@@ -1,5 +1,7 @@
 ---
 id: capture-and-convert
+slug: "capture-and-convert"
+url: "https://ndcodex.com/objects/capture-and-convert/"
 type: scroll
 title: "Capture and Convert"
 date: 2026-03-10
@@ -7,6 +9,7 @@ postedAt: 2026-03-11T01:03:17.258Z
 status: published
 visibility: public
 
+summary: "Signal enters the body before language explains it."
 excerpt: "Signal enters the body before language explains it."
 
 themes:

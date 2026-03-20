@@ -1,5 +1,7 @@
 ---
 id: race-to-the-top-six-bridges
+slug: "race-to-the-top-six-bridges"
+url: "https://ndcodex.com/objects/race-to-the-top-six-bridges/"
 type: fieldlog
 title: "Race to the Top at Six Bridges Brewing"
 date: 2026-03-10
@@ -7,6 +9,7 @@ postedAt: 2026-03-10T16:05:58.724Z
 status: published
 visibility: public
 
+summary: "Race to the Top hit the Georgia Beer Day glass at Six Bridges Brewing and marked the brewery's 500th beer on Untappd with a hazy IPA worth slowing down for."
 excerpt: "Race to the Top hit the Georgia Beer Day glass at Six Bridges Brewing and marked the brewery's 500th beer on Untappd with a hazy IPA worth slowing down for."
 
 themes:

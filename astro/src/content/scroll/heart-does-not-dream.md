@@ -1,11 +1,14 @@
 ---
 id: heart-does-not-dream
+slug: "heart-does-not-dream"
+url: "https://ndcodex.com/objects/heart-does-not-dream/"
 type: scroll
 title: "The Heart Does Not Dream. It Repeats."
 date: 2026-03-07
 status: published
 visibility: public
 
+summary: "The heart does not dream. It repeats."
 excerpt: "The heart does not dream. It repeats."
 
 themes:

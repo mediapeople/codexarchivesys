@@ -2,7 +2,13 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { loadObjects, validateObjects } from './object-utils.mjs';
+import {
+  getCanonicalObjectSlug,
+  getObjectAliases,
+  loadObjects,
+  normalizeObjectRef,
+  validateObjects,
+} from './object-utils.mjs';
 
 function countValues(items) {
   const counts = new Map();
@@ -30,11 +36,29 @@ const runDate = requestedDate || new Date().toISOString().slice(0, 10);
 const objects = loadObjects(rootDir);
 const validation = validateObjects(objects);
 
+function getGraphId(obj) {
+  return getCanonicalObjectSlug(obj.fields) || normalizeObjectRef(obj.fields.id) || String(obj.fields.id || '').trim();
+}
+
 const ids = new Set(
   objects
-    .map((obj) => String(obj.fields.id || '').trim())
+    .map((obj) => getGraphId(obj))
     .filter(Boolean)
 );
+const graphIdByAlias = new Map();
+
+for (const obj of objects) {
+  const graphId = getGraphId(obj);
+  if (!graphId) {
+    continue;
+  }
+
+  for (const alias of getObjectAliases(obj.fields)) {
+    if (!graphIdByAlias.has(alias)) {
+      graphIdByAlias.set(alias, graphId);
+    }
+  }
+}
 
 const typeCounts = countValues(
   objects.map((obj) => String(obj.fields.type || '').trim()).filter(Boolean)
@@ -69,27 +93,30 @@ function registerEdge(a, b, reason) {
 }
 
 for (const obj of objects) {
-  const id = String(obj.fields.id || '').trim();
+  const id = getGraphId(obj);
   if (!id) {
     continue;
   }
 
   for (const connection of obj.fields.connections || []) {
-    if (ids.has(connection.ref)) {
-      registerEdge(id, connection.ref, 'explicitRelated');
+    const targetId = graphIdByAlias.get(normalizeObjectRef(connection.ref));
+    if (targetId && ids.has(targetId)) {
+      registerEdge(id, targetId, 'explicitRelated');
     }
   }
 
   for (const relatedId of obj.fields.related) {
-    if (ids.has(relatedId)) {
-      registerEdge(id, relatedId, 'explicitRelated');
+    const targetId = graphIdByAlias.get(normalizeObjectRef(relatedId));
+    if (targetId && ids.has(targetId)) {
+      registerEdge(id, targetId, 'explicitRelated');
     }
   }
 
   if (String(obj.fields.type) === 'nexus') {
     for (const ref of obj.includedRefs) {
-      if (ids.has(ref)) {
-        registerEdge(id, ref, 'nexusInclusion');
+      const targetId = graphIdByAlias.get(normalizeObjectRef(ref));
+      if (targetId && ids.has(targetId)) {
+        registerEdge(id, targetId, 'nexusInclusion');
       }
     }
   }
@@ -99,8 +126,8 @@ for (let i = 0; i < objects.length; i += 1) {
   for (let j = i + 1; j < objects.length; j += 1) {
     const a = objects[i];
     const b = objects[j];
-    const aId = String(a.fields.id || '').trim();
-    const bId = String(b.fields.id || '').trim();
+    const aId = getGraphId(a);
+    const bId = getGraphId(b);
     if (!aId || !bId) {
       continue;
     }

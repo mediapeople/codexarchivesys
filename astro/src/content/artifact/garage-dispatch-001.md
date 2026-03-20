@@ -1,5 +1,7 @@
 ---
 id: garage-dispatch-001
+slug: "garage-dispatch-001"
+url: "https://ndcodex.com/objects/garage-dispatch-001/"
 type: artifact
 title: "Dispatch from the Garage"
 date: 2026-03-11
@@ -7,6 +9,7 @@ postedAt: 2026-03-11T23:45:32.720Z
 status: published
 visibility: public
 
+summary: "A garage dispatch where fractured comic collages, family conversation, and the ethics of giving back occupy the same field."
 excerpt: "A garage dispatch where fractured comic collages, family conversation, and the ethics of giving back occupy the same field."
 
 themes:

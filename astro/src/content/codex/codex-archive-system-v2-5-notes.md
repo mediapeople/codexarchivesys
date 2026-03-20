@@ -1,11 +1,14 @@
 ---
 id: codex-archive-system-v2-5-notes
+slug: "codex-archive-system-v2-5-notes"
+url: "https://ndcodex.com/objects/codex-archive-system-v2-5-notes/"
 type: codex
 title: "CODEX ARCHIVE SYSTEM v2.5 NOTES"
 date: 2026-03-07
 status: draft
 visibility: public
 
+summary: "v2.5 expands system learnings: object-first readability, relation quality, and respawn-ready operations."
 excerpt: "v2.5 expands system learnings: object-first readability, relation quality, and respawn-ready operations."
 
 themes:

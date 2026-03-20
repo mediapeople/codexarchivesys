@@ -1,11 +1,14 @@
 ---
 id: the-bones-hold-content-architecture
+slug: "the-bones-hold-content-architecture"
+url: "https://ndcodex.com/objects/the-bones-hold-content-architecture/"
 type: codex
 title: "The Bones Hold: Content Architecture Scroll"
 date: 2026-03-03
 status: published
 visibility: public
 
+summary: "A field map is a living contract between content, design, and system."
 excerpt: "A field map is a living contract between content, design, and system."
 
 themes:

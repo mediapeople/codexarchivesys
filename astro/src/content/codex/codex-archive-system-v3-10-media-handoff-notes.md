@@ -1,5 +1,7 @@
 ---
 id: codex-archive-system-v3-10-media-handoff-notes
+slug: "codex-archive-system-v3-10-media-handoff-notes"
+url: "https://ndcodex.com/objects/codex-archive-system-v3-10-media-handoff-notes/"
 type: codex
 title: "CODEX ARCHIVE SYSTEM v3.10 MEDIA HANDOFF NOTES"
 date: 2026-03-13
@@ -7,6 +9,7 @@ postedAt: 2026-03-13T19:15:00.000Z
 status: published
 visibility: public
 
+summary: "v3.10 hardens image delivery at the publish handoff so HEIC-heavy fieldlogs arrive in cards, galleries, and object pages without manual rescue."
 excerpt: "v3.10 hardens image delivery at the publish handoff so HEIC-heavy fieldlogs arrive in cards, galleries, and object pages without manual rescue."
 
 themes:

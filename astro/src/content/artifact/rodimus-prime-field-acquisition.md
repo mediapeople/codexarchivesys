@@ -1,5 +1,7 @@
 ---
 id: rodimus-prime-field-acquisition
+slug: "rodimus-prime-field-acquisition"
+url: "https://ndcodex.com/objects/rodimus-prime-field-acquisition/"
 type: artifact
 title: "Rodimus Prime Field Acquisition"
 date: 2026-03-11
@@ -7,6 +9,7 @@ postedAt: 2026-03-14T23:54:21.503Z
 status: published
 visibility: public
 
+summary: "A small red warrior turns a collectibles visit into a compact myth of succession."
 excerpt: "A small red warrior turns a collectibles visit into a compact myth of succession."
 
 themes:

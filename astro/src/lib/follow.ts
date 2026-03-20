@@ -1,26 +1,8 @@
-import { getPrimaryAuthor } from './author';
-import { getAllEntries, getTypeLabel, type ArchiveEntry } from './archive';
+import { getAllEntries, type ArchiveEntry } from './archive';
 import { formatDisplayTitle } from './headline';
 import { isPrimarySurfaceEntry } from './marginalia';
-import { getPresentationLead } from './presentation';
-import { resolveExcerpt } from './excerpt';
-
-export const SITE_ORIGIN = 'https://ndcodex.com';
-export const SITE_TITLE = 'Codex Archive';
-export const SITE_DESCRIPTION =
-  'An object archive for human creative work.';
-
-export function withTrailingSlash(path: string): string {
-  if (path === '/' || /\.[a-z0-9]+$/i.test(path) || path.endsWith('/')) {
-    return path;
-  }
-
-  return `${path}/`;
-}
-
-export function toSiteUrl(path: string): string {
-  return new URL(withTrailingSlash(path), SITE_ORIGIN).toString();
-}
+import { getObjectExport, getObjectSummary } from './objectInterop';
+import { SITE_DESCRIPTION, SITE_ORIGIN, SITE_TITLE, toSiteUrl, withTrailingSlash } from './site';
 
 function getPublishedAt(entry: ArchiveEntry): Date {
   return entry.data.postedAt || entry.data.date;
@@ -28,6 +10,10 @@ function getPublishedAt(entry: ArchiveEntry): Date {
 
 export function isFollowableEntry(entry: ArchiveEntry): boolean {
   return isPrimarySurfaceEntry(entry);
+}
+
+export function isPublicObjectEntry(entry: ArchiveEntry): boolean {
+  return entry.data.status === 'published' && entry.data.visibility === 'public';
 }
 
 function byPublishedAtDesc(a: ArchiveEntry, b: ArchiveEntry): number {
@@ -45,35 +31,28 @@ export async function getFollowEntries(): Promise<ArchiveEntry[]> {
     .sort(byPublishedAtDesc);
 }
 
+export async function getPublicObjectEntries(): Promise<ArchiveEntry[]> {
+  return (await getAllEntries())
+    .filter(isPublicObjectEntry)
+    .sort(byPublishedAtDesc);
+}
+
 export function getFeedSummary(entry: ArchiveEntry): string {
-  const excerpt = resolveExcerpt({
-    title: entry.data.title,
-    excerpt: entry.data.excerpt,
-    body: entry.body,
-    max: 220,
-  });
-  if (excerpt) {
-    return excerpt;
-  }
-
-  const presentationLead = getPresentationLead(entry);
-  if (presentationLead) {
-    return presentationLead;
-  }
-
-  return `${getTypeLabel(entry.collection)} in the Codex Archive.`;
+  return getObjectSummary(entry);
 }
 
 export function getFeedItem(entry: ArchiveEntry) {
-  const author = getPrimaryAuthor(entry);
+  const exported = getObjectExport(entry);
 
   return {
-    id: entry.data.id,
+    id: exported.id,
     title: formatDisplayTitle(entry.data.title),
-    url: toSiteUrl(`/objects/${entry.data.id}`),
-    summary: getFeedSummary(entry),
+    url: exported.url,
+    summary: exported.summary || getFeedSummary(entry),
+    contentText: exported.content_text,
     datePublished: getPublishedAt(entry),
-    authorName: author.name,
-    tags: [getTypeLabel(entry.collection), ...entry.data.themes],
+    authorName: exported.author.name,
+    tags: exported.tags,
+    type: exported.type,
   };
 }

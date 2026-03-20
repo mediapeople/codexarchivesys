@@ -1,4 +1,5 @@
-import { getFeedItem, getFollowEntries, SITE_DESCRIPTION, SITE_TITLE, toSiteUrl } from '../lib/follow';
+import { getFeedItem, getFollowEntries } from '../lib/follow';
+import { SITE_DESCRIPTION, SITE_TITLE, toSiteUrl } from '../lib/site';
 
 export async function GET() {
   const entries = await getFollowEntries();
@@ -6,13 +7,15 @@ export async function GET() {
     const item = getFeedItem(entry);
 
     return {
-      id: item.url,
+      id: item.id,
       url: item.url,
       title: item.title,
       summary: item.summary,
+      content_text: item.contentText,
       date_published: item.datePublished.toISOString(),
       authors: [{ name: item.authorName }],
       tags: item.tags,
+      type: item.type,
     };
   });
 

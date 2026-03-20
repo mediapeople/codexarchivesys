@@ -1,11 +1,14 @@
 ---
 id: codex-archive-system-v3-3-modest-table-notes
+slug: "codex-archive-system-v3-3-modest-table-notes"
+url: "https://ndcodex.com/objects/codex-archive-system-v3-3-modest-table-notes/"
 type: codex
 title: "CODEX ARCHIVE SYSTEM v3.3 MODEST TABLE NOTES"
 date: 2026-03-08
 status: published
 visibility: public
 
+summary: "v3.3 gives image-backed feed cards a modest table, a separate lightbox path, and cleaner mobile inspection."
 excerpt: "v3.3 gives image-backed feed cards a modest table, a separate lightbox path, and cleaner mobile inspection."
 
 themes:

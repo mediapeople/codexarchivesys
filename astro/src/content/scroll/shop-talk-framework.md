@@ -1,5 +1,7 @@
 ---
 id: shop-talk-framework
+slug: "shop-talk-framework"
+url: "https://ndcodex.com/objects/shop-talk-framework/"
 type: scroll
 title: "Shop Talk"
 date: 2026-03-12
@@ -7,6 +9,7 @@ postedAt: 2026-03-12T14:46:04.456Z
 status: published
 visibility: public
 
+summary: "Writing transports attention, and attention is a fragment of life."
 excerpt: "Writing transports attention, and attention is a fragment of life."
 
 themes:

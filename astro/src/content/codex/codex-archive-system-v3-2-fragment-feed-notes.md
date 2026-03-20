@@ -1,5 +1,7 @@
 ---
 id: codex-archive-system-v3-2-fragment-feed-notes
+slug: "codex-archive-system-v3-2-fragment-feed-notes"
+url: "https://ndcodex.com/objects/codex-archive-system-v3-2-fragment-feed-notes/"
 type: codex
 title: "CODEX ARCHIVE SYSTEM v3.2 FRAGMENT FEED NOTES"
 date: 2026-03-08
@@ -7,6 +9,7 @@ postedAt: 2026-03-08T14:40:00-05:00
 status: published
 visibility: public
 
+summary: "v3.2 promotes fragments to first-class feed communication with floating interludes and prompt/return previews."
 excerpt: "v3.2 promotes fragments to first-class feed communication with floating interludes and prompt/return previews."
 
 themes:

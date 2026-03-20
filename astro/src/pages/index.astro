@@ -7,6 +7,8 @@ import { getImageAssetMetadata, getPublicAssetVersion } from '../lib/mediaAsset'
 import { isPrimarySurfaceEntry } from '../lib/marginalia';
 import { formatDisplayTitle } from '../lib/headline';
 import { getFeedPinnedFeatureId } from '../lib/feedConfig';
+import { getObjectPath } from '../lib/objectInterop';
+import { getTaxonomyIndexPath } from '../lib/taxonomy';
 import { compareByPureTimeline } from '../lib/timeline';
 import { execSync } from 'node:child_process';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
@@ -333,6 +335,12 @@ function buildHref(
         ))}
       </div>
 
+      <div class="taxonomy-browse">
+        <span>Browse taxonomy</span>
+        <a href={getTaxonomyIndexPath('theme')}>Themes ({sortedThemes.length})</a>
+        <a href={getTaxonomyIndexPath('constellation')}>Constellations ({constellationSet.size})</a>
+      </div>
+
       <p
         class="active-filters"
         data-active-filters
@@ -432,7 +440,7 @@ function buildHref(
       <div class="media-grid">
         {entriesWithMedia.map((item) => (
           <a
-            href={`/objects/${item.entry.data.id}`}
+            href={getObjectPath(item.entry)}
             class="media-tile"
             data-media-shape={item.primaryMediaMetadata?.shape}
           >
@@ -1072,6 +1080,31 @@ function buildHref(
     border-color: var(--gold);
     color: #e5c487;
     background: rgba(201, 150, 58, 0.1);
+  }
+
+  .taxonomy-browse {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem 0.9rem;
+    margin: -0.15rem 0 1.2rem;
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+  }
+
+  .taxonomy-browse a {
+    color: var(--parchment);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(244, 240, 232, 0.18);
+    padding-bottom: 0.14rem;
+  }
+
+  .taxonomy-browse a:hover {
+    color: var(--star);
+    border-bottom-color: rgba(244, 240, 232, 0.42);
   }
 
   .result-count {

@@ -1,5 +1,7 @@
 ---
 id: citizen-network-dispatch
+slug: "citizen-network-dispatch"
+url: "https://ndcodex.com/objects/citizen-network-dispatch/"
 type: nexus
 title: "CITIZEN NETWORK DISPATCH"
 date: 2026-03-10
@@ -7,6 +9,7 @@ postedAt: 2026-03-10T13:43:04.227Z
 status: published
 visibility: public
 
+summary: "A dispatch on borrowed authority, routing ethics, and what happens when signal meant for citizens is bent toward appetite."
 excerpt: "A dispatch on borrowed authority, routing ethics, and what happens when signal meant for citizens is bent toward appetite."
 
 themes:

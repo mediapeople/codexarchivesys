@@ -1,11 +1,14 @@
 ---
 id: a-primer-for-a-way-of-being
+slug: "a-primer-for-a-way-of-being"
+url: "https://ndcodex.com/objects/a-primer-for-a-way-of-being/"
 type: signal
 title: "a primer for a way of being"
 date: "2026-03-20"
 postedAt: "2026-03-20T13:36:41.879Z"
 status: published
 visibility: public
+summary: "one, not the one. I am one among many. small. Not the center. One among many. Small is accurate. present. Life everywhere. Here. Now. Power is contact. Reduce. Care. breathe. The beat holds. Return. You are being wound…"
 excerpt: "one, not the one. I am one among many. small. Not the center. One among many. Small is accurate. present. Life everywhere. Here. Now. Power is contact. Reduce. Care. breathe. The beat holds. Return. You are being wound…"
 scale: micro
 depth: surface

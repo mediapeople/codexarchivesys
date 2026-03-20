@@ -1,5 +1,7 @@
 ---
 id: operator-winks-at-the-machines
+slug: "operator-winks-at-the-machines"
+url: "https://ndcodex.com/objects/operator-winks-at-the-machines/"
 type: fragment
 title: "The Operator Winks at the Machines"
 date: 2026-03-09
@@ -7,6 +9,7 @@ postedAt: 2026-03-09T01:08:42.081Z
 status: published
 visibility: public
 
+summary: "The operator smiles from one side of his mouth, caught on the bit, and winks at the machines."
 excerpt: "The operator smiles from one side of his mouth, caught on the bit, and winks at the machines."
 
 themes:

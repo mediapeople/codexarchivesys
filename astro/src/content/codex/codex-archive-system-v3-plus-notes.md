@@ -1,11 +1,14 @@
 ---
 id: codex-archive-system-v3-plus-notes
+slug: "codex-archive-system-v3-plus-notes"
+url: "https://ndcodex.com/objects/codex-archive-system-v3-plus-notes/"
 type: codex
 title: "CODEX ARCHIVE SYSTEM v3+ NOTES"
 date: 2026-03-07
 status: published
 visibility: public
 
+summary: "v3+ hardens presentation runtime: type-aware sharing metadata, fallback social imaging, and fullscreen media inspection."
 excerpt: "v3+ hardens presentation runtime: type-aware sharing metadata, fallback social imaging, and fullscreen media inspection."
 
 themes:

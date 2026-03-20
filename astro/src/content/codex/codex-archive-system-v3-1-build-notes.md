@@ -1,5 +1,7 @@
 ---
 id: codex-archive-system-v3-1-build-notes
+slug: "codex-archive-system-v3-1-build-notes"
+url: "https://ndcodex.com/objects/codex-archive-system-v3-1-build-notes/"
 type: codex
 title: "CODEX ARCHIVE SYSTEM v3.1 BUILD NOTES"
 date: 2026-03-08
@@ -7,6 +9,7 @@ postedAt: 2026-03-08T09:55:00-05:00
 status: published
 visibility: public
 
+summary: "v3.1 locks mobile reading surfaces to the viewport, improves feed legibility, and keeps the active inbox honest."
 excerpt: "v3.1 locks mobile reading surfaces to the viewport, improves feed legibility, and keeps the active inbox honest."
 
 themes:

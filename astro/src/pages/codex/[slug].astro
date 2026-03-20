@@ -8,6 +8,13 @@ import { listAxes, readAxes } from '../../lib/axes';
 import { formatDisplayTitle } from '../../lib/headline';
 import { getMarginaliaEntriesForTarget } from '../../lib/marginalia';
 import { getBodyImagePreviewItems } from '../../lib/media';
+import {
+  getObjectJsonLd,
+  getObjectJsonPath,
+  getObjectMarkdownPath,
+  getObjectPath,
+  getObjectSummary,
+} from '../../lib/objectInterop';
 import { formatArchiveLongDate } from '../../lib/timeline';
 import { bodyStartsWithDuplicateTitleHeading, resolveExcerpt } from '../../lib/excerpt';
 
@@ -46,24 +53,35 @@ const inlineImageSrcs = new Set(inlineBodyImages);
 const galleryImages = images.filter((image) => !inlineImageSrcs.has(image));
 const state = entry.data.state ?? entry.data.status;
 const axes = listAxes(readAxes(entry.data as Record<string, unknown>));
-const summary = resolveExcerpt({
-  title: entry.data.title,
-  excerpt: entry.data.excerpt,
-  body: entry.body,
-  max: 220,
-});
+const summary = getObjectSummary(entry);
 const hideLeadHeading = bodyStartsWithDuplicateTitleHeading(entry.data.title, entry.body);
 const socialImage = mediaImages[0] || directImages[0] || inlineBodyImages[0];
 const marginaliaEntries = getMarginaliaEntriesForTarget(await getAllEntries(), entry.data.id);
+const canonicalObjectPath = getObjectPath(entry);
+const structuredData = getObjectJsonLd(entry);
+const alternateLinks = [
+  {
+    href: getObjectJsonPath(entry),
+    type: 'application/json',
+    title: `${displayTitle} JSON export`,
+  },
+  {
+    href: getObjectMarkdownPath(entry),
+    type: 'text/markdown',
+    title: `${displayTitle} Markdown export`,
+  },
+];
 ---
 
 <BaseLayout
   title={`${displayTitle} | Codex`}
   description={summary || 'Carrier Pigeon codex entry'}
-  canonicalPath={`/codex/${entry.slug}`}
+  canonicalPath={canonicalObjectPath}
   socialType="article"
   socialImage={socialImage}
   twitterCard={socialImage ? 'summary_large_image' : 'summary'}
+  structuredData={structuredData}
+  alternateLinks={alternateLinks}
 >
   <article class="codex-shell">
     <a class="back" href="/">← Back to archive</a>

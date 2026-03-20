@@ -1,5 +1,6 @@
 import type { ArchiveEntry } from './archive';
 import { isMarginaliaEntry } from './marginalia';
+import { getObjectReferenceAliases, normalizeObjectReference } from './objectInterop';
 
 export interface RelatedHit {
   entry: ArchiveEntry;
@@ -68,15 +69,17 @@ export function computeRelatedEntries(
     return [];
   }
 
-  const sourceRelated = source.data.related || [];
-  const sourceConnections = getConnectionRefs(source);
-  const sourceIncluded = getIncludedRefs(source);
+  const sourceAliases = new Set(getObjectReferenceAliases(source));
+  const sourceRelated = new Set((source.data.related || []).map((value) => normalizeObjectReference(value)));
+  const sourceConnections = new Set(getConnectionRefs(source).map((value) => normalizeObjectReference(value)));
+  const sourceIncluded = new Set(getIncludedRefs(source).map((value) => normalizeObjectReference(value)));
 
   const scored = allEntries
     .filter(
       (candidate) => candidate.data.id !== source.data.id && !isMarginaliaEntry(candidate)
     )
     .map((candidate) => {
+      const candidateAliases = getObjectReferenceAliases(candidate);
       let score = 0;
       const reasons: string[] = [];
 
@@ -95,33 +98,40 @@ export function computeRelatedEntries(
         reasons.push(`constellations:${sharedConstellations}`);
       }
 
-      if (sourceRelated.includes(candidate.data.id)) {
+      if (candidateAliases.some((alias) => sourceRelated.has(alias))) {
         score += 5;
         reasons.push('explicit-link');
       }
 
-      if (sourceConnections.includes(candidate.data.id)) {
+      if (candidateAliases.some((alias) => sourceConnections.has(alias))) {
         score += 6;
         reasons.push('explicit-connection');
       }
 
-      if (candidate.data.related.includes(source.data.id)) {
+      const candidateRelated = new Set(
+        (candidate.data.related || []).map((value) => normalizeObjectReference(value))
+      );
+      if ([...sourceAliases].some((alias) => candidateRelated.has(alias))) {
         score += 2;
         reasons.push('reverse-link');
       }
 
-      const candidateConnections = getConnectionRefs(candidate);
-      if (candidateConnections.includes(source.data.id)) {
+      const candidateConnections = new Set(
+        getConnectionRefs(candidate).map((value) => normalizeObjectReference(value))
+      );
+      if ([...sourceAliases].some((alias) => candidateConnections.has(alias))) {
         score += 3;
         reasons.push('reverse-connection');
       }
 
-      const candidateIncluded = getIncludedRefs(candidate);
-      if (sourceIncluded.includes(candidate.data.id)) {
+      const candidateIncluded = new Set(
+        getIncludedRefs(candidate).map((value) => normalizeObjectReference(value))
+      );
+      if (candidateAliases.some((alias) => sourceIncluded.has(alias))) {
         score += 4;
         reasons.push('nexus-inclusion');
       }
-      if (candidateIncluded.includes(source.data.id)) {
+      if ([...sourceAliases].some((alias) => candidateIncluded.has(alias))) {
         score += 4;
         reasons.push('included-by-nexus');
       }

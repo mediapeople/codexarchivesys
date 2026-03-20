@@ -1,5 +1,7 @@
 ---
 id: work-intelligence-v4g
+slug: "work-intelligence-v4g"
+url: "https://ndcodex.com/objects/work-intelligence-v4g/"
 type: artifact
 title: "Work Intelligence V4G"
 date: 2026-03-17
@@ -7,6 +9,7 @@ postedAt: 2026-03-18T00:24:47Z
 status: published
 visibility: public
 
+summary: "A field console for context, not tasks."
 excerpt: "A field console for context, not tasks."
 
 themes:

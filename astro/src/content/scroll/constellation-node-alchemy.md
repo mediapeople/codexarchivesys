@@ -1,5 +1,7 @@
 ---
 id: constellation-node-alchemy
+slug: "constellation-node-alchemy"
+url: "https://ndcodex.com/objects/constellation-node-alchemy/"
 type: scroll
 title: "Constellation Alchemy: Nodes That Remember"
 date: 2026-03-09
@@ -7,6 +9,7 @@ postedAt: 2026-03-09T21:20:23.527Z
 status: published
 visibility: public
 
+summary: "Nodes glow because someone stayed."
 excerpt: "Nodes glow because someone stayed."
 
 themes:

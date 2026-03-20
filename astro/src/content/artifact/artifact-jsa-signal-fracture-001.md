@@ -1,5 +1,7 @@
 ---
 id: artifact-jsa-signal-fracture-001
+slug: "artifact-jsa-signal-fracture-001"
+url: "https://ndcodex.com/objects/artifact-jsa-signal-fracture-001/"
 type: artifact
 title: "JSA Signal Fracture"
 date: 2026-03-08
@@ -7,6 +9,7 @@ postedAt: 2026-03-09T16:00:23.730Z
 status: published
 visibility: public
 
+summary: "Sequential storytelling collapses into simultaneous action."
 excerpt: "Sequential storytelling collapses into simultaneous action."
 
 themes:

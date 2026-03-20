@@ -1,5 +1,7 @@
 ---
 id: on-visceral-distillation
+slug: "on-visceral-distillation"
+url: "https://ndcodex.com/objects/on-visceral-distillation/"
 type: artifact
 title: "On Visceral Distillation"
 date: 2026-03-10
@@ -7,6 +9,7 @@ postedAt: 2026-03-10T21:25:24.505Z
 status: published
 visibility: public
 
+summary: "A signal visualization that stages compression, infrastructure, and clarity under pressure."
 excerpt: "A signal visualization that stages compression, infrastructure, and clarity under pressure."
 
 themes:

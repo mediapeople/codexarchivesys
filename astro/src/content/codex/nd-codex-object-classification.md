@@ -1,5 +1,7 @@
 ---
 id: nd-codex-object-classification
+slug: "nd-codex-object-classification"
+url: "https://ndcodex.com/objects/nd-codex-object-classification/"
 type: codex
 title: "ND Codex Object Classification"
 date: "2026-03-15"
@@ -13,6 +15,7 @@ tags:
   - "methodology"
 state: published
 dependencies: []
+summary: "ND Codex Object Classification The ND Codex archive organizes all entries into eight object classes. Each class describes the role an object plays in the archive , not the topic…"
 excerpt: "ND Codex Object Classification The ND Codex archive organizes all entries into eight object classes. Each class describes the role an object plays in the archive , not the topic…"
 themes:
   - "taxonomy"

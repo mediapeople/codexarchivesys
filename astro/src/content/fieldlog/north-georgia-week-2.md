@@ -1,11 +1,14 @@
 ---
 id: north-georgia-week-2
+slug: "north-georgia-week-2"
+url: "https://ndcodex.com/objects/north-georgia-week-2/"
 type: fieldlog
 title: "FIELD LOG: NORTH GEORGIA (WEEK 2)"
 date: 2026-03-06
 status: draft
 visibility: public
 
+summary: "The route got shorter. The practice stayed intact."
 excerpt: "The route got shorter. The practice stayed intact."
 
 themes:

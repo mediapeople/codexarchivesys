@@ -1,5 +1,7 @@
 ---
 id: cities-built-on-ruin
+slug: "cities-built-on-ruin"
+url: "https://ndcodex.com/objects/cities-built-on-ruin/"
 type: fragment
 title: "Cities Built on Ruin"
 date: 2026-03-08
@@ -7,6 +9,7 @@ postedAt: 2026-03-08T22:16:48.529Z
 status: published
 visibility: public
 
+summary: "Cities built on ruin."
 excerpt: "Cities built on ruin."
 
 themes:

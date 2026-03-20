@@ -1,11 +1,14 @@
 ---
 id: codex-archive-system-v2-2
+slug: "codex-archive-system-v2-2"
+url: "https://ndcodex.com/objects/codex-archive-system-v2-2/"
 type: codex
 title: "CODEX ARCHIVE SYSTEM v2.2"
 date: 2026-03-04
 status: published
 visibility: public
 
+summary: "The archive grows continuously. The system survives Tuesdays."
 excerpt: "The archive grows continuously. The system survives Tuesdays."
 
 themes:

@@ -1,11 +1,14 @@
 ---
 id: codex-archive-system-v2-7-notes
+slug: "codex-archive-system-v2-7-notes"
+url: "https://ndcodex.com/objects/codex-archive-system-v2-7-notes/"
 type: codex
 title: "CODEX ARCHIVE SYSTEM v2.7 NOTES"
 date: 2026-03-07
 status: published
 visibility: public
 
+summary: "v2.7 marks go-live: domain online, deploy loop active, and mobile reading surfaces stabilized."
 excerpt: "v2.7 marks go-live: domain online, deploy loop active, and mobile reading surfaces stabilized."
 
 themes:

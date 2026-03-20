@@ -1,5 +1,7 @@
 ---
 id: the-circle-the-node-and-the-office
+slug: "the-circle-the-node-and-the-office"
+url: "https://ndcodex.com/objects/the-circle-the-node-and-the-office/"
 type: artifact
 title: "The Circle, the Node, and the Office"
 date: 2026-03-12
@@ -7,6 +9,7 @@ postedAt: 2026-03-12T14:46:04.456Z
 status: published
 visibility: public
 
+summary: "A browser-native doctrine surface on bounded action, node intelligence, and office as public trust."
 excerpt: "A browser-native doctrine surface on bounded action, node intelligence, and office as public trust."
 
 themes:

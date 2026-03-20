@@ -1,5 +1,7 @@
 ---
 id: codex-archive-system-v3-5-control-surface-notes
+slug: "codex-archive-system-v3-5-control-surface-notes"
+url: "https://ndcodex.com/objects/codex-archive-system-v3-5-control-surface-notes/"
 type: codex
 title: "CODEX ARCHIVE SYSTEM v3.5 CONTROL SURFACE NOTES"
 date: 2026-03-08
@@ -7,6 +9,7 @@ postedAt: 2026-03-09T03:08:00Z
 status: published
 visibility: public
 
+summary: "v3.5 unifies feed search and filter controls across desktop and mobile, and tightens header conceal/reveal rhythm."
 excerpt: "v3.5 unifies feed search and filter controls across desktop and mobile, and tightens header conceal/reveal rhythm."
 
 themes:

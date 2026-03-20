@@ -1,5 +1,7 @@
 ---
 id: citizen-network-map-hi-fi
+slug: "citizen-network-map-hi-fi"
+url: "https://ndcodex.com/objects/citizen-network-map-hi-fi/"
 type: artifact
 title: "Citizen Network Map Hi-Fi"
 date: 2026-03-10
@@ -7,6 +9,7 @@ postedAt: 2026-03-10T03:17:34.874Z
 status: published
 visibility: public
 
+summary: "A digital scroll hi-fi staging doctrine as glowing network architecture."
 excerpt: "A digital scroll hi-fi staging doctrine as glowing network architecture."
 
 themes:

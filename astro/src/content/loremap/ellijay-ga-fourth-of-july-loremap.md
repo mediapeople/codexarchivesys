@@ -1,5 +1,7 @@
 ---
 id: ellijay-ga-fourth-of-july-loremap
+slug: "ellijay-ga-fourth-of-july-loremap"
+url: "https://ndcodex.com/objects/ellijay-ga-fourth-of-july-loremap/"
 type: loremap
 title: "Loremap: Ellijay, GA - Fourth of July"
 date: 2026-03-18
@@ -7,6 +9,7 @@ postedAt: 2026-03-18T21:02:58-04:00
 status: published
 visibility: public
 
+summary: "The land is old, the celebration is young, and Ellijay holds both without resolving the tension."
 excerpt: "The land is old, the celebration is young, and Ellijay holds both without resolving the tension."
 
 themes:

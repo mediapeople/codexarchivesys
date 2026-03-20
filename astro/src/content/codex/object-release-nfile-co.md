@@ -1,5 +1,7 @@
 ---
 id: object-release-nfile-co
+slug: "object-release-nfile-co"
+url: "https://ndcodex.com/objects/object-release-nfile-co/"
 type: codex
 title: "OBJECT RELEASE: NFILE.CO"
 date: "2026-03-18"
@@ -14,6 +16,7 @@ tags:
   - "work"
 state: published
 dependencies: []
+summary: "A surface has been reduced. https://nfile.co. The previous form carried too much. Too many words. Too much explanation. Too much invitation to interpret. This version removes that burden. The site now operates as a…"
 excerpt: "A surface has been reduced. https://nfile.co. The previous form carried too much. Too many words. Too much explanation. Too much invitation to interpret. This version removes that burden. The site now operates as a…"
 scale: meso
 depth: structural

@@ -1,5 +1,7 @@
 ---
 id: signal-descent-004
+slug: "signal-descent-004"
+url: "https://ndcodex.com/objects/signal-descent-004/"
 type: nexus
 title: "SIGNAL DESCENT 004"
 date: 2026-03-08
@@ -7,6 +9,7 @@ postedAt: 2026-03-08T18:07:26Z
 status: published
 visibility: public
 
+summary: "A fourth descent through channel, legibility, and the operator discipline required to keep machine-assisted lines worth reading."
 excerpt: "A fourth descent through channel, legibility, and the operator discipline required to keep machine-assisted lines worth reading."
 
 themes:

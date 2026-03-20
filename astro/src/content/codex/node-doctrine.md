@@ -1,5 +1,7 @@
 ---
 id: node-doctrine
+slug: "node-doctrine"
+url: "https://ndcodex.com/objects/node-doctrine/"
 type: codex
 title: "Node Doctrine"
 date: 2026-03-09
@@ -7,6 +9,7 @@ postedAt: 2026-03-09T21:20:23.527Z
 status: published
 visibility: internal
 
+summary: "A node is where signal becomes accountable."
 excerpt: "A node is where signal becomes accountable."
 
 themes:

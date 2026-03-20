@@ -1,0 +1,349 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ObjectCard from '../../components/ObjectCard.astro';
+import { COLLECTIONS, getTypeLabel } from '../../lib/archive';
+import { formatDisplayTitle } from '../../lib/headline';
+import { getObjectPath } from '../../lib/objectInterop';
+import { toSiteUrl } from '../../lib/site';
+import {
+  collectRelatedTaxonomyTerms,
+  getPublicTaxonomyRecordBySlug,
+  getPublicTaxonomyRecords,
+  getTaxonomyDefinition,
+  getTaxonomyIndexPath,
+  getTaxonomyTermPath,
+} from '../../lib/taxonomy';
+import { formatArchiveDate } from '../../lib/timeline';
+
+export async function getStaticPaths() {
+  const records = await getPublicTaxonomyRecords('theme');
+  return records.map((record) => ({
+    params: { slug: record.slug },
+  }));
+}
+
+const record = await getPublicTaxonomyRecordBySlug('theme', Astro.params.slug);
+
+if (!record) {
+  throw new Error(`Missing theme for slug: ${Astro.params.slug}`);
+}
+
+const latestEntry = record.entries[0] ?? null;
+const typeCounts = COLLECTIONS.map((type) => ({
+  type,
+  count: record.entries.filter((entry) => entry.collection === type).length,
+})).filter((item) => item.count > 0);
+const relatedThemes = collectRelatedTaxonomyTerms(record.entries, 'theme', [record.term], 8);
+const relatedConstellations = collectRelatedTaxonomyTerms(record.entries, 'constellation', [], 6);
+const description = `${record.count} public objects filed under the theme "${record.term}" in the Codex Archive.`;
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: `${record.term} | Themes | Codex Archive`,
+  description,
+  url: toSiteUrl(getTaxonomyTermPath('theme', record.term)),
+  isPartOf: {
+    '@type': 'WebSite',
+    name: 'Codex Archive',
+    url: toSiteUrl('/'),
+  },
+  about: record.term,
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: record.entries.length,
+    itemListElement: record.entries.slice(0, 40).map((entry, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: formatDisplayTitle(entry.data.title),
+      url: toSiteUrl(getObjectPath(entry)),
+    })),
+  },
+};
+---
+
+<BaseLayout
+  title={`${record.term} | Themes | Codex Archive`}
+  description={description}
+  canonicalPath={getTaxonomyTermPath('theme', record.term)}
+  structuredData={structuredData}
+>
+  <section class="taxonomy-hero page-hero">
+    <div class="taxonomy-paths">
+      <a href={getTaxonomyIndexPath('theme')}>Themes</a>
+      <span>/</span>
+      <a href="/constellations">Constellations</a>
+    </div>
+    <p class="page-hero-eyebrow">Theme</p>
+    <h1 class="page-hero-title">{record.term}</h1>
+    <p class="page-hero-sub">{getTaxonomyDefinition('theme')}</p>
+    <div class="taxonomy-stats">
+      <article class="page-plate">
+        <strong>{record.count}</strong>
+        <span>Objects filed here</span>
+      </article>
+      <article class="page-plate">
+        <strong>{typeCounts.length}</strong>
+        <span>Types represented</span>
+      </article>
+      {latestEntry && (
+        <article class="page-plate">
+          <strong>{formatArchiveDate(latestEntry.data)}</strong>
+          <span>Latest object date</span>
+        </article>
+      )}
+    </div>
+  </section>
+
+  <section class="taxonomy-summary page-plate">
+    <div>
+      <p class="taxonomy-kicker">Reading surface</p>
+      <h2>{record.term} as archive thread</h2>
+      <p class="taxonomy-copy">
+        This landing page gathers every public object explicitly tagged with <strong>{record.term}</strong>.
+        Use it as a stable reference point for crawlability, citation, and sequence building.
+      </p>
+    </div>
+    {latestEntry && (
+      <div class="taxonomy-summary-note">
+        <p class="taxonomy-summary-label">Latest object</p>
+        <a href={getObjectPath(latestEntry)}>
+          {formatDisplayTitle(latestEntry.data.title)}
+        </a>
+      </div>
+    )}
+  </section>
+
+  {(relatedThemes.length > 0 || relatedConstellations.length > 0) && (
+    <section class="taxonomy-links page-plate">
+      <div class="taxonomy-link-group">
+        <p class="taxonomy-link-label">Adjacent themes</p>
+        <div class="taxonomy-pill-row">
+          {relatedThemes.length > 0 ? relatedThemes.map((item) => (
+            <a href={getTaxonomyTermPath('theme', item.term)}>{item.term} <span>({item.count})</span></a>
+          )) : <span class="taxonomy-empty">No adjacent themes yet.</span>}
+        </div>
+      </div>
+
+      <div class="taxonomy-link-group">
+        <p class="taxonomy-link-label">Shared constellations</p>
+        <div class="taxonomy-pill-row taxonomy-pill-row--constellation">
+          {relatedConstellations.length > 0 ? relatedConstellations.map((item) => (
+            <a href={getTaxonomyTermPath('constellation', item.term)}>{item.term} <span>({item.count})</span></a>
+          )) : <span class="taxonomy-empty">No constellation links yet.</span>}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="taxonomy-types page-plate">
+    <p class="taxonomy-kicker">Type spread</p>
+    <div class="taxonomy-type-row">
+      {typeCounts.map((item) => (
+        <span>{getTypeLabel(item.type)} ({item.count})</span>
+      ))}
+    </div>
+  </section>
+
+  <section class="taxonomy-objects">
+    <header class="taxonomy-objects-head">
+      <h2>Objects under {record.term}</h2>
+      <span>{record.count} public objects</span>
+    </header>
+    <div class="cards">
+      {record.entries.map((entry) => (
+        <ObjectCard entry={entry} variant="feed" />
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .taxonomy-paths {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.8rem;
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    letter-spacing: var(--ls-ui);
+    text-transform: uppercase;
+  }
+
+  .taxonomy-paths a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .taxonomy-paths a:hover {
+    color: var(--star);
+  }
+
+  .taxonomy-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.9rem;
+  }
+
+  .taxonomy-stats article {
+    display: grid;
+    gap: 0.24rem;
+  }
+
+  .taxonomy-stats strong {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 2.2vw, 2.3rem);
+    line-height: 1.05;
+  }
+
+  .taxonomy-stats span,
+  .taxonomy-kicker,
+  .taxonomy-summary-label,
+  .taxonomy-link-label {
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    letter-spacing: var(--ls-ui);
+    text-transform: uppercase;
+  }
+
+  .taxonomy-summary,
+  .taxonomy-links,
+  .taxonomy-types {
+    margin-top: 2rem;
+    padding: 1.24rem;
+  }
+
+  .taxonomy-summary {
+    display: grid;
+    grid-template-columns: minmax(0, 1.8fr) minmax(220px, 0.9fr);
+    gap: 1.2rem;
+  }
+
+  .taxonomy-summary h2,
+  .taxonomy-objects-head h2 {
+    margin: 0;
+  }
+
+  .taxonomy-copy,
+  .taxonomy-summary-note {
+    margin: 0;
+    line-height: 1.75;
+  }
+
+  .taxonomy-summary-note {
+    display: grid;
+    align-content: start;
+    gap: 0.5rem;
+  }
+
+  .taxonomy-summary-note a {
+    color: var(--parchment);
+    text-decoration: none;
+    font-size: 1.08rem;
+    line-height: 1.5;
+  }
+
+  .taxonomy-summary-note a:hover {
+    color: var(--star);
+  }
+
+  .taxonomy-links {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .taxonomy-link-group {
+    display: grid;
+    gap: 0.56rem;
+  }
+
+  .taxonomy-pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem 0.7rem;
+  }
+
+  .taxonomy-pill-row a,
+  .taxonomy-type-row span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.26rem;
+    color: var(--ash);
+    font-family: var(--font-ui);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid rgba(244, 240, 232, 0.1);
+    padding: 0.42rem 0.62rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.015);
+  }
+
+  .taxonomy-pill-row--constellation a {
+    color: var(--gold);
+  }
+
+  .taxonomy-pill-row a:hover {
+    color: var(--star);
+    border-color: rgba(244, 240, 232, 0.22);
+  }
+
+  .taxonomy-pill-row span,
+  .taxonomy-empty {
+    color: var(--mid);
+  }
+
+  .taxonomy-type-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem 0.7rem;
+    margin-top: 0.72rem;
+  }
+
+  .taxonomy-objects {
+    margin-top: 2.4rem;
+  }
+
+  .taxonomy-objects-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .taxonomy-objects-head span {
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 0.78rem;
+    letter-spacing: var(--ls-ui);
+    text-transform: uppercase;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.2rem;
+  }
+
+  @media (max-width: 800px) {
+    .taxonomy-summary {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .taxonomy-summary,
+    .taxonomy-links,
+    .taxonomy-types {
+      padding: 1rem;
+    }
+
+    .cards {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

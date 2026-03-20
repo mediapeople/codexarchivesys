@@ -1,5 +1,7 @@
 ---
 id: flexible-machine-sweet-spot
+slug: "flexible-machine-sweet-spot"
+url: "https://ndcodex.com/objects/flexible-machine-sweet-spot/"
 type: artifact
 title: "The Sweet Spot of a Flexible Machine"
 date: 2026-03-10
@@ -7,6 +9,7 @@ postedAt: 2026-03-10T23:36:16.183Z
 status: published
 visibility: public
 
+summary: "A flexible machine becomes powerful in the narrow band between shallow inference and rigid instruction."
 excerpt: "A flexible machine becomes powerful in the narrow band between shallow inference and rigid instruction."
 
 themes:

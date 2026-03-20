@@ -1,5 +1,7 @@
 ---
 id: jsa-collage-evolution-002
+slug: "jsa-collage-evolution-002"
+url: "https://ndcodex.com/objects/jsa-collage-evolution-002/"
 type: fieldlog
 title: "JSA Collage Evolution 002"
 date: 2026-03-08
@@ -7,6 +9,7 @@ postedAt: 2026-03-08T19:05:53.437Z
 status: published
 visibility: public
 
+summary: "The composition has shifted from a speech-fragment anchor into a denser shard lattice that still holds figure legibility."
 excerpt: "The composition has shifted from a speech-fragment anchor into a denser shard lattice that still holds figure legibility."
 
 themes:

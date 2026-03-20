@@ -1,11 +1,14 @@
 ---
 id: codex-archive-system-v3-notes
+slug: "codex-archive-system-v3-notes"
+url: "https://ndcodex.com/objects/codex-archive-system-v3-notes/"
 type: codex
 title: "CODEX ARCHIVE SYSTEM v3 NOTES"
 date: 2026-03-07
 status: published
 visibility: public
 
+summary: "v3 codifies ingest learnings: WIP continuity links, promotion-time media normalization, and synchronized release-note updates."
 excerpt: "v3 codifies ingest learnings: WIP continuity links, promotion-time media normalization, and synchronized release-note updates."
 
 themes:

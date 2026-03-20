@@ -1,5 +1,7 @@
 ---
 id: artifact-jsa-collage-001
+slug: "artifact-jsa-collage-001"
+url: "https://ndcodex.com/objects/artifact-jsa-collage-001/"
 type: artifact
 title: "It Cost Us Dearly"
 date: 2026-03-07
@@ -7,6 +9,7 @@ postedAt: 2026-03-07T20:10:00-05:00
 status: published
 visibility: public
 
+summary: "A completed collage built from Justice Society page fragments, recomposed into one compressed impact field."
 excerpt: "A completed collage built from Justice Society page fragments, recomposed into one compressed impact field."
 
 themes:

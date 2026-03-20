@@ -1,5 +1,7 @@
 ---
 id: phoenix-collage-fracture-study
+slug: "phoenix-collage-fracture-study"
+url: "https://ndcodex.com/objects/phoenix-collage-fracture-study/"
 type: artifact
 title: "Phoenix Fracture Collage"
 date: 2026-03-10
@@ -7,6 +9,7 @@ postedAt: 2026-03-11T00:14:23.705Z
 status: published
 visibility: public
 
+summary: "Sequential storytelling collapses into a simultaneous visual field through structural slicing."
 excerpt: "Sequential storytelling collapses into a simultaneous visual field through structural slicing."
 
 themes:

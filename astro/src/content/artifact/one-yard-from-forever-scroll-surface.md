@@ -1,5 +1,7 @@
 ---
 id: one-yard-from-forever-scroll-surface
+slug: "one-yard-from-forever-scroll-surface"
+url: "https://ndcodex.com/objects/one-yard-from-forever-scroll-surface/"
 type: artifact
 title: "One Yard From Forever Scroll Surface"
 date: 2026-03-11
@@ -7,6 +9,7 @@ postedAt: 2026-03-11T00:34:00.000Z
 status: published
 visibility: public
 
+summary: "A browser-native elegy surface that turns Seahawks memory into paced fracture, impact, and surviving belief."
 excerpt: "A browser-native elegy surface that turns Seahawks memory into paced fracture, impact, and surviving belief."
 
 themes:

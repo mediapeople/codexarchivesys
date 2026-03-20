@@ -26,13 +26,67 @@ export const ALLOWED_VISIBILITY = new Set([
   'unlisted',
 ]);
 
+const SITE_ORIGIN = 'https://ndcodex.com';
+
 export const ACTIVE_THEMES = new Set([
+  'across',
+  'aftershock',
+  'another',
+  'archive',
+  'arrived',
+  'away',
+  'become',
+  'built',
+  'care',
+  'carrier-pigeon',
   'signal',
   'memory',
   'pressure',
   'maintenance',
   'survival',
+  'consciousness',
+  'consequence',
+  'context',
+  'continuity',
+  'council',
+  'counts',
+  'does',
+  'doors',
+  'earth',
+  'everything',
+  'fragments',
+  'frogs',
+  'glucose',
+  'here',
+  'highest',
+  'https',
+  'infrastructure',
+  'ingest',
+  'intelligence',
+  'justice',
+  'keeps',
+  'knowing',
+  'leave',
+  'maybe',
+  'metabolism',
+  'much',
+  'navigation',
+  'nfile',
+  'once',
+  'operator',
+  'outside',
+  'parked',
+  'people',
+  'primer',
+  'publishing',
+  'release',
+  'return',
+  'ritual',
+  'shine',
+  'small',
   'structure',
+  'swing',
+  'taxonomy',
   'crystallization',
   'transmission',
   'observation',
@@ -43,7 +97,62 @@ export const ACTIVE_THEMES = new Set([
   'methodology',
   'collage',
   'comics',
+  'what',
+  'when',
+  'witness',
+  'work',
 ]);
+
+export function normalizeObjectRef(value) {
+  const raw = String(value || '').trim();
+  if (!raw) {
+    return '';
+  }
+
+  if (raw.startsWith('codex://object/')) {
+    return decodeURIComponent(raw.slice('codex://object/'.length)).trim();
+  }
+
+  if (/^https?:\/\//i.test(raw)) {
+    try {
+      const url = new URL(raw);
+      const match = url.pathname.match(/^\/(?:objects|codex|nexus)\/([^/]+)\/?$/i);
+      return match?.[1] ? decodeURIComponent(match[1]).trim() : raw;
+    } catch {
+      return raw;
+    }
+  }
+
+  const relativeMatch = raw.match(/^\/(?:objects|codex|nexus)\/([^/]+)\/?$/i);
+  if (relativeMatch?.[1]) {
+    return decodeURIComponent(relativeMatch[1]).trim();
+  }
+
+  return raw;
+}
+
+export function getCanonicalObjectSlug(fields = {}) {
+  return normalizeObjectRef(fields.slug) || normalizeObjectRef(fields.id);
+}
+
+export function getObjectAliases(fields = {}) {
+  const slug = getCanonicalObjectSlug(fields);
+  const aliases = new Set();
+
+  [
+    fields.id,
+    fields.slug,
+    fields.url,
+    slug ? `codex://object/${slug}` : '',
+    slug ? `${SITE_ORIGIN}/objects/${slug}/` : '',
+    slug ? `/objects/${slug}` : '',
+  ]
+    .map((value) => normalizeObjectRef(value))
+    .filter(Boolean)
+    .forEach((alias) => aliases.add(alias));
+
+  return aliases;
+}
 
 function walkMarkdownFiles(rootDir) {
   if (!fs.existsSync(rootDir)) {
@@ -321,7 +430,9 @@ export function loadObjectFile(file) {
 export function validateObjects(objects, options = {}) {
   const findings = [];
   const idToFile = new Map();
+  const aliasToFile = new Map();
   const referenceIdToFile = new Map();
+  const referenceAliasToFile = new Map();
   const referenceObjects = Array.isArray(options.referenceObjects)
     ? options.referenceObjects
     : [];
@@ -333,6 +444,11 @@ export function validateObjects(objects, options = {}) {
     }
 
     referenceIdToFile.set(id, obj.file);
+    for (const alias of getObjectAliases(obj.fields)) {
+      if (!referenceAliasToFile.has(alias)) {
+        referenceAliasToFile.set(alias, obj.file);
+      }
+    }
   }
 
   for (const obj of objects) {
@@ -393,6 +509,16 @@ export function validateObjects(objects, options = {}) {
     }
 
     const id = String(obj.fields.id || '').trim();
+    const slug = String(obj.fields.slug || '').trim();
+    const normalizedSlug = getCanonicalObjectSlug(obj.fields);
+    const url = String(obj.fields.url || '').trim();
+    const summary = String(obj.fields.summary || '').trim();
+    const isPublicSurface =
+      String(obj.fields.status) === 'published' &&
+      ['public', 'unlisted'].includes(String(obj.fields.visibility || 'public'));
+    const expectedSlug = normalizeObjectRef(id);
+    const expectedUrl = expectedSlug ? `${SITE_ORIGIN}/objects/${expectedSlug}/` : '';
+
     if (id) {
       if (referenceIdToFile.has(id)) {
         findings.push({
@@ -410,13 +536,72 @@ export function validateObjects(objects, options = {}) {
         idToFile.set(id, obj.file);
       }
     }
+
+    for (const alias of getObjectAliases(obj.fields)) {
+      if (referenceAliasToFile.has(alias)) {
+        findings.push({
+          level: 'ERROR',
+          file: obj.file,
+          message: `duplicate object alias: ${alias} (already exists in ${referenceAliasToFile.get(alias)})`,
+        });
+      } else if (aliasToFile.has(alias) && aliasToFile.get(alias) !== obj.file) {
+        findings.push({
+          level: 'ERROR',
+          file: obj.file,
+          message: `duplicate object alias: ${alias} (also in ${aliasToFile.get(alias)})`,
+        });
+      } else {
+        aliasToFile.set(alias, obj.file);
+      }
+    }
+
+    if (isPublicSurface && !summary) {
+      findings.push({
+        level: 'ERROR',
+        file: obj.file,
+        message: 'missing required discovery field: summary',
+      });
+    }
+
+    if (isPublicSurface && !slug) {
+      findings.push({
+        level: 'ERROR',
+        file: obj.file,
+        message: 'missing required discovery field: slug',
+      });
+    }
+
+    if (isPublicSurface && !url) {
+      findings.push({
+        level: 'ERROR',
+        file: obj.file,
+        message: 'missing required discovery field: url',
+      });
+    }
+
+    if (slug && expectedSlug && normalizedSlug !== expectedSlug) {
+      findings.push({
+        level: isPublicSurface ? 'ERROR' : 'WARN',
+        file: obj.file,
+        message: `slug should match id for stable object routing: expected ${expectedSlug}, found ${slug}`,
+      });
+    }
+
+    if (url && expectedUrl && url !== expectedUrl) {
+      findings.push({
+        level: isPublicSurface ? 'ERROR' : 'WARN',
+        file: obj.file,
+        message: `url should match canonical object path: expected ${expectedUrl}, found ${url}`,
+      });
+    }
   }
 
   for (const obj of objects) {
-    const id = String(obj.fields.id || '').trim();
+    const objectAliases = getObjectAliases(obj.fields);
     for (const relatedId of obj.fields.related) {
+      const normalizedRelatedId = normalizeObjectRef(relatedId);
       const targetExists =
-        idToFile.has(relatedId) || referenceIdToFile.has(relatedId);
+        aliasToFile.has(normalizedRelatedId) || referenceAliasToFile.has(normalizedRelatedId);
 
       if (!targetExists) {
         findings.push({
@@ -424,7 +609,7 @@ export function validateObjects(objects, options = {}) {
           file: obj.file,
           message: `broken related reference: ${relatedId}`,
         });
-      } else if (relatedId === id) {
+      } else if (objectAliases.has(normalizedRelatedId)) {
         findings.push({
           level: 'ERROR',
           file: obj.file,
@@ -435,8 +620,9 @@ export function validateObjects(objects, options = {}) {
 
     for (const connection of obj.fields.connections || []) {
       const connectionId = String(connection.ref || '').trim();
+      const normalizedConnectionId = normalizeObjectRef(connectionId);
       const targetExists =
-        idToFile.has(connectionId) || referenceIdToFile.has(connectionId);
+        aliasToFile.has(normalizedConnectionId) || referenceAliasToFile.has(normalizedConnectionId);
 
       if (!connectionId || !String(connection.role || '').trim()) {
         findings.push({
@@ -450,7 +636,7 @@ export function validateObjects(objects, options = {}) {
           file: obj.file,
           message: `broken connection reference: ${connectionId}`,
         });
-      } else if (connectionId === id) {
+      } else if (objectAliases.has(normalizedConnectionId)) {
         findings.push({
           level: 'ERROR',
           file: obj.file,
@@ -461,7 +647,8 @@ export function validateObjects(objects, options = {}) {
 
     if (String(obj.fields.type) === 'nexus') {
       for (const ref of obj.includedRefs) {
-        if (!idToFile.has(ref) && !referenceIdToFile.has(ref)) {
+        const normalizedRef = normalizeObjectRef(ref);
+        if (!aliasToFile.has(normalizedRef) && !referenceAliasToFile.has(normalizedRef)) {
           findings.push({
             level: 'ERROR',
             file: obj.file,

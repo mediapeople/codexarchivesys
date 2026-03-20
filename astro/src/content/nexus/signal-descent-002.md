@@ -1,11 +1,14 @@
 ---
 id: signal-descent-002
+slug: "signal-descent-002"
+url: "https://ndcodex.com/objects/signal-descent-002/"
 type: nexus
 title: "SIGNAL DESCENT 002"
 date: 2026-03-06
 status: draft
 visibility: public
 
+summary: "A second descent through pressure, maintenance, and what remains legible under load."
 excerpt: "A second descent through pressure, maintenance, and what remains legible under load."
 
 themes:

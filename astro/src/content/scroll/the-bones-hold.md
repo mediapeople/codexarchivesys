@@ -1,11 +1,14 @@
 ---
 id: the-bones-hold
+slug: "the-bones-hold"
+url: "https://ndcodex.com/objects/the-bones-hold/"
 type: scroll
 title: "THE BONES HOLD"
 date: 2026-02-28
 status: published
 visibility: public
 
+summary: "A website is not a page. A body is not a feeling."
 excerpt: "A website is not a page. A body is not a feeling."
 
 themes:

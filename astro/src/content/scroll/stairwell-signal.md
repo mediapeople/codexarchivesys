@@ -1,11 +1,14 @@
 ---
 id: stairwell-signal
+slug: "stairwell-signal"
+url: "https://ndcodex.com/objects/stairwell-signal/"
 type: scroll
 title: "Stairwell Signal"
 date: 2026-03-06
 status: draft
 visibility: public
 
+summary: "If we polish the interface but stop labeling bins, we lose the work politely."
 excerpt: "If we polish the interface but stop labeling bins, we lose the work politely."
 
 themes:

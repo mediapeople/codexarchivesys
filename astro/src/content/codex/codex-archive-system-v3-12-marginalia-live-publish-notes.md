@@ -1,5 +1,7 @@
 ---
 id: codex-archive-system-v3-12-marginalia-live-publish-notes
+slug: "codex-archive-system-v3-12-marginalia-live-publish-notes"
+url: "https://ndcodex.com/objects/codex-archive-system-v3-12-marginalia-live-publish-notes/"
 type: codex
 title: "CODEX ARCHIVE SYSTEM v3.12.1 MARGINALIA LIVE PUBLISH NOTES"
 date: 2026-03-17
@@ -7,6 +9,7 @@ postedAt: 2026-03-17T22:17:52Z
 status: published
 visibility: public
 
+summary: "v3.12.1 hardens live marginalia publishing by teaching Carrier Pigeon to accept quoted markdown frontmatter scalars, including the inline composer's ISO date."
 excerpt: "v3.12.1 hardens live marginalia publishing by teaching Carrier Pigeon to accept quoted markdown frontmatter scalars, including the inline composer's ISO date."
 scale: macro
 depth: structural

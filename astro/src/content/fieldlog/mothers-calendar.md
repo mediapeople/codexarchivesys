@@ -1,5 +1,7 @@
 ---
 id: mothers-calendar
+slug: "mothers-calendar"
+url: "https://ndcodex.com/objects/mothers-calendar/"
 type: fieldlog
 title: "The Mother's Calendar"
 date: 2026-03-10
@@ -7,6 +9,7 @@ postedAt: 2026-03-10T19:34:14.809Z
 status: published
 visibility: public
 
+summary: "For the mother, a birthday is also a return to the crossing."
 excerpt: "For the mother, a birthday is also a return to the crossing."
 
 themes:

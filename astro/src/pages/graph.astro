@@ -6,6 +6,9 @@ import { formatDisplayTitle } from '../lib/headline';
 
 type GraphNode = {
   id: string;
+  slug?: string;
+  url?: string;
+  stableId?: string;
   title: string;
   type: string;
   date: string;
@@ -107,6 +110,15 @@ function formatGraphDate(value: string) {
     day: 'numeric',
     year: 'numeric',
   });
+}
+
+function getNodeHref(node: GraphNode | undefined, fallbackId?: string) {
+  if (node?.url) {
+    return node.url;
+  }
+
+  const slug = node?.slug || fallbackId || node?.id || '';
+  return `/objects/${slug}`;
 }
 
 const graphClientData: GraphPayload = {
@@ -415,7 +427,7 @@ const graphViewModelJson = JSON.stringify({
                     <p class="graph-panel-label">Selected object</p>
                     <h2 data-graph-selected-title>{initialSelected.displayTitle}</h2>
                   </div>
-                  <a class="graph-selected-open" href={`/objects/${initialSelected.id}`} data-graph-selected-href>
+                  <a class="graph-selected-open" href={getNodeHref(initialSelected)} data-graph-selected-href>
                     Open object
                   </a>
                 </div>
@@ -508,7 +520,7 @@ const graphViewModelJson = JSON.stringify({
             <ul class="graph-summary-list graph-summary-list--simple">
               {topNodes.map((node) => (
                 <li>
-                  <a href={`/objects/${node.id}`}>{node.displayTitle}</a>
+                  <a href={getNodeHref(node)}>{node.displayTitle}</a>
                   <span>{formatTypeLabel(node.type)} · {node.totalWeight}</span>
                 </li>
               ))}
@@ -524,9 +536,9 @@ const graphViewModelJson = JSON.stringify({
               {topEdges.map((edge) => (
                 <li>
                   <div class="graph-edge-copy">
-                    <a href={`/objects/${edge.source}`}>{edge.sourceNode?.displayTitle || edge.source}</a>
+                    <a href={getNodeHref(edge.sourceNode, edge.source)}>{edge.sourceNode?.displayTitle || edge.source}</a>
                     <span>↔</span>
-                    <a href={`/objects/${edge.target}`}>{edge.targetNode?.displayTitle || edge.target}</a>
+                    <a href={getNodeHref(edge.targetNode, edge.target)}>{edge.targetNode?.displayTitle || edge.target}</a>
                   </div>
                   <code>{edge.weight}</code>
                 </li>
@@ -1178,7 +1190,7 @@ const graphViewModelJson = JSON.stringify({
       }
 
       if (selectedHref instanceof HTMLAnchorElement) {
-        selectedHref.href = `/objects/${selectedNode.id}`;
+        selectedHref.href = selectedNode.url || `/objects/${selectedNode.slug || selectedNode.id}`;
       }
     }
 

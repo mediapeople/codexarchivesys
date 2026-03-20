@@ -1,5 +1,7 @@
 ---
 id: machine-creatures
+slug: "machine-creatures"
+url: "https://ndcodex.com/objects/machine-creatures/"
 type: scroll
 title: "Machine Creatures"
 date: 2026-03-10
@@ -7,6 +9,7 @@ postedAt: 2026-03-10T13:18:27.145Z
 status: published
 visibility: public
 
+summary: "Breath becomes signal. Signal becomes accord."
 excerpt: "Breath becomes signal. Signal becomes accord."
 
 themes:

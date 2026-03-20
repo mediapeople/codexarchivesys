@@ -1,5 +1,7 @@
 ---
 id: crane-field-illustration
+slug: "crane-field-illustration"
+url: "https://ndcodex.com/objects/crane-field-illustration/"
 type: artifact
 title: "Crane Field Illustration"
 date: 2026-03-11
@@ -7,6 +9,7 @@ postedAt: 2026-03-11T23:45:32.720Z
 status: published
 visibility: public
 
+summary: "A crane, birds, eyes, and connective lines render the watched worksite as a symbolic field of entanglement."
 excerpt: "A crane, birds, eyes, and connective lines render the watched worksite as a symbolic field of entanglement."
 
 themes:

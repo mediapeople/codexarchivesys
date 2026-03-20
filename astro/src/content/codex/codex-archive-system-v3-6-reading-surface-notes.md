@@ -1,5 +1,7 @@
 ---
 id: codex-archive-system-v3-6-reading-surface-notes
+slug: "codex-archive-system-v3-6-reading-surface-notes"
+url: "https://ndcodex.com/objects/codex-archive-system-v3-6-reading-surface-notes/"
 type: codex
 title: "CODEX ARCHIVE SYSTEM v3.6 READING SURFACE NOTES"
 date: 2026-03-08
@@ -7,6 +9,7 @@ postedAt: 2026-03-09T03:37:34Z
 status: published
 visibility: public
 
+summary: "v3.6 normalizes hero heading rhythm, holds feed cards in two columns longer, and tightens longform measure for deeper reading."
 excerpt: "v3.6 normalizes hero heading rhythm, holds feed cards in two columns longer, and tightens longform measure for deeper reading."
 
 themes:

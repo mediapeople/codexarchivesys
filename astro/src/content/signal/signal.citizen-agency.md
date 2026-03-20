@@ -1,11 +1,14 @@
 ---
 id: signal.citizen-agency
+slug: "signal.citizen-agency"
+url: "https://ndcodex.com/objects/signal.citizen-agency/"
 type: signal
 title: "Citizen Agency Recognition"
 date: 2026-03-07
 status: draft
 visibility: public
 
+summary: "Citizen agency recognition begins when people can name the system and refuse it."
 excerpt: "Citizen agency recognition begins when people can name the system and refuse it."
 
 themes:

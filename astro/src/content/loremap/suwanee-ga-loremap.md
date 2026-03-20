@@ -1,5 +1,7 @@
 ---
 id: suwanee-ga-loremap
+slug: "suwanee-ga-loremap"
+url: "https://ndcodex.com/objects/suwanee-ga-loremap/"
 type: loremap
 title: "Loremap: Suwanee, GA"
 date: 2026-03-08
@@ -7,6 +9,7 @@ postedAt: 2026-03-08T13:34:32-04:00
 status: published
 visibility: public
 
+summary: "The birds are not passing through; they are mapping the place for you."
 excerpt: "The birds are not passing through; they are mapping the place for you."
 
 themes:

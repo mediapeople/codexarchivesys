@@ -1,11 +1,14 @@
 ---
 id: north-georgia-march-2026
+slug: "north-georgia-march-2026"
+url: "https://ndcodex.com/objects/north-georgia-march-2026/"
 type: fieldlog
 title: "FIELD LOG: NORTH GEORGIA"
 date: 2026-03-03
 status: published
 visibility: public
 
+summary: "Fog at 6:40am. The ridge line was not visible. The ridge line was still there."
 excerpt: "Fog at 6:40am. The ridge line was not visible. The ridge line was still there."
 
 themes:

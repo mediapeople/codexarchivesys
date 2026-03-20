@@ -1,5 +1,7 @@
 ---
 id: scripture-with-machines
+slug: "scripture-with-machines"
+url: "https://ndcodex.com/objects/scripture-with-machines/"
 type: scroll
 title: "Scripture With Machines"
 date: 2026-03-08
@@ -7,6 +9,7 @@ postedAt: 2026-03-08T18:00:24.787Z
 status: published
 visibility: public
 
+summary: "Between them a narrow channel opens, and something worth keeping passes through."
 excerpt: "Between them a narrow channel opens, and something worth keeping passes through."
 
 themes:

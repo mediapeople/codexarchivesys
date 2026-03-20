@@ -1,5 +1,7 @@
 ---
 id: disrespectful-power
+slug: "disrespectful-power"
+url: "https://ndcodex.com/objects/disrespectful-power/"
 type: scroll
 title: "Disrespectful Power Is Gross"
 date: 2026-03-09
@@ -7,6 +9,7 @@ postedAt: 2026-03-09T21:50:47.379Z
 status: published
 visibility: public
 
+summary: "Power is a borrowed instrument. When the appetiti mistake it for the self, something inside the system begins to rot."
 excerpt: "Power is a borrowed instrument. When the appetiti mistake it for the self, something inside the system begins to rot."
 
 themes:

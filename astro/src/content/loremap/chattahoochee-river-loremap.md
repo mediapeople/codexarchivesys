@@ -1,5 +1,7 @@
 ---
 id: chattahoochee-river-loremap
+slug: "chattahoochee-river-loremap"
+url: "https://ndcodex.com/objects/chattahoochee-river-loremap/"
 type: loremap
 title: "Loremap: Chattahoochee River"
 date: 2026-03-10
@@ -7,6 +9,7 @@ postedAt: 2026-03-10T03:17:34.874Z
 status: published
 visibility: public
 
+summary: "You don't need permission to remember, but remembering changes how you float."
 excerpt: "You don't need permission to remember, but remembering changes how you float."
 
 themes:

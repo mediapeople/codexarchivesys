@@ -1,11 +1,14 @@
 ---
 id: go-live-milestone
+slug: "go-live-milestone"
+url: "https://ndcodex.com/objects/go-live-milestone/"
 type: fieldlog
 title: "Go Live Milestone: ndcodex.com"
 date: 2026-03-07
 status: published
 visibility: public
 
+summary: "ndcodex.com now resolves to the live Codex Archive deployment; production publishing is active."
 excerpt: "ndcodex.com now resolves to the live Codex Archive deployment; production publishing is active."
 
 themes:

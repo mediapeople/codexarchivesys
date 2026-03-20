@@ -1,11 +1,14 @@
 ---
 id: studio-log-adhesive-test-run
+slug: "studio-log-adhesive-test-run"
+url: "https://ndcodex.com/objects/studio-log-adhesive-test-run/"
 type: fieldlog
 title: "STUDIO LOG: ADHESIVE TEST RUN"
 date: 2026-03-05
 status: draft
 visibility: public
 
+summary: "Three adhesives, one humidity cycle, one clear winner by morning."
 excerpt: "Three adhesives, one humidity cycle, one clear winner by morning."
 
 themes:

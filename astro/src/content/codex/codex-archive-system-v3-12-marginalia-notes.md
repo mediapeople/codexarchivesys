@@ -1,5 +1,7 @@
 ---
 id: codex-archive-system-v3-12-marginalia-notes
+slug: "codex-archive-system-v3-12-marginalia-notes"
+url: "https://ndcodex.com/objects/codex-archive-system-v3-12-marginalia-notes/"
 type: codex
 title: "CODEX ARCHIVE SYSTEM v3.12 MARGINALIA NOTES"
 date: 2026-03-17
@@ -7,6 +9,7 @@ postedAt: 2026-03-17T22:20:00.000Z
 status: published
 visibility: public
 
+summary: "v3.12 adds a quiet marginalia layer: operator-authored fragments that attach to an object page without becoming their own public feed."
 excerpt: "v3.12 adds a quiet marginalia layer: operator-authored fragments that attach to an object page without becoming their own public feed."
 scale: macro
 depth: structural

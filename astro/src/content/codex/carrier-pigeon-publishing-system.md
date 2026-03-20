@@ -1,5 +1,7 @@
 ---
 id: carrier-pigeon-publishing-system
+slug: "carrier-pigeon-publishing-system"
+url: "https://ndcodex.com/objects/carrier-pigeon-publishing-system/"
 type: codex
 title: "Carrier Pigeon Publishing System"
 date: "2026-03-15"
@@ -13,6 +15,7 @@ tags:
   - "ingest"
 state: published
 dependencies: []
+summary: "Carrier Pigeon Publishing System Carrier Pigeon is the remote publishing system used by the ND Codex archive. It enables objects to be written, transmitted, and published directly…"
 excerpt: "Carrier Pigeon Publishing System Carrier Pigeon is the remote publishing system used by the ND Codex archive. It enables objects to be written, transmitted, and published directly…"
 themes:
   - "publishing"

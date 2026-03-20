@@ -1,5 +1,7 @@
 ---
 id: distortion-atlas
+slug: "distortion-atlas"
+url: "https://ndcodex.com/objects/distortion-atlas/"
 type: artifact
 title: "The Distortion Atlas"
 date: 2026-03-10
@@ -7,6 +9,7 @@ postedAt: 2026-03-10T21:25:24.505Z
 status: published
 visibility: public
 
+summary: "An interactive atlas of inner misperception, witness rites, and sovereign recalibration."
 excerpt: "An interactive atlas of inner misperception, witness rites, and sovereign recalibration."
 
 themes:

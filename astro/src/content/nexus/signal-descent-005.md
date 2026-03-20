@@ -1,5 +1,7 @@
 ---
 id: signal-descent-005
+slug: "signal-descent-005"
+url: "https://ndcodex.com/objects/signal-descent-005/"
 type: nexus
 title: "SIGNAL DESCENT 005"
 date: 2026-03-11
@@ -7,6 +9,7 @@ postedAt: 2026-03-11T01:36:22.841Z
 status: published
 visibility: public
 
+summary: "A fifth descent through capture, orientation, and the operator-built fields that let signal cross intact."
 excerpt: "A fifth descent through capture, orientation, and the operator-built fields that let signal cross intact."
 
 themes:

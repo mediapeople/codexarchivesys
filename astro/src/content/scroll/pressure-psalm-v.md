@@ -1,11 +1,14 @@
 ---
 id: pressure-psalm-v
+slug: "pressure-psalm-v"
+url: "https://ndcodex.com/objects/pressure-psalm-v/"
 type: scroll
 title: "PRESSURE PSALM V"
 date: 2026-03-05
 status: draft
 visibility: public
 
+summary: "Pressure does not ask if we are ready; it asks if we are true."
 excerpt: "Pressure does not ask if we are ready; it asks if we are true."
 
 themes:

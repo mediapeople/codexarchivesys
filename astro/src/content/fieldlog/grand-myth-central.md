@@ -1,5 +1,7 @@
 ---
 id: grand-myth-central
+slug: "grand-myth-central"
+url: "https://ndcodex.com/objects/grand-myth-central/"
 type: fieldlog
 title: "Field Log: Grand Myth Central"
 date: 2026-03-11
@@ -7,6 +9,7 @@ postedAt: 2026-03-11T23:45:32.720Z
 status: published
 visibility: public
 
+summary: "Standing in a toy aisle with the network in my hand, my wife in the airwaves, my sons in the aisles, and Rodimus Prime reborn under fluorescent stars."
 excerpt: "Standing in a toy aisle with the network in my hand, my wife in the airwaves, my sons in the aisles, and Rodimus Prime reborn under fluorescent stars."
 
 themes:

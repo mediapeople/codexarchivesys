@@ -1,5 +1,7 @@
 ---
 id: one-yard-from-forever
+slug: "one-yard-from-forever"
+url: "https://ndcodex.com/objects/one-yard-from-forever/"
 type: scroll
 title: "One Yard From Forever"
 date: 2026-03-11
@@ -7,6 +9,7 @@ postedAt: 2026-03-11T00:14:23.705Z
 status: published
 visibility: public
 
+summary: "Because belief does not evaporate at the goal line."
 excerpt: "Because belief does not evaporate at the goal line."
 
 themes:

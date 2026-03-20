@@ -956,15 +956,19 @@ function yamlImageMediaField(media: PigeonMediaItem[]): string {
 }
 
 function buildMarkdownEntry(payload: PigeonPayload, slug: string): string {
+  const canonicalUrl = `https://ndcodex.com/objects/${slug}/`;
   const lines: Array<string | null> = [
     '---',
     `id: ${slug}`,
+    `slug: ${yamlString(slug)}`,
+    `url: ${yamlString(canonicalUrl)}`,
     `type: ${payload.objectType}`,
     `title: ${yamlString(payload.title)}`,
     `date: ${yamlString(payload.date)}`,
     `postedAt: ${yamlString(new Date().toISOString())}`,
     `status: ${payload.status}`,
     `visibility: ${payload.visibility}`,
+    payload.excerpt ? `summary: ${yamlString(payload.excerpt)}` : null,
     payload.excerpt ? `excerpt: ${yamlString(payload.excerpt)}` : null,
     `scale: ${payload.axes.scale}`,
     `depth: ${payload.axes.depth}`,
@@ -1710,7 +1714,9 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
       visibility: normalizeVisibility(candidate.visibility) || 'public',
       excerpt: resolveExcerpt({
         title,
-        excerpt: typeof candidate.excerpt === 'string' ? candidate.excerpt : undefined,
+        excerpt:
+          (typeof candidate.summary === 'string' ? candidate.summary : undefined) ||
+          (typeof candidate.excerpt === 'string' ? candidate.excerpt : undefined),
         body,
         max: 220,
       }) || undefined,

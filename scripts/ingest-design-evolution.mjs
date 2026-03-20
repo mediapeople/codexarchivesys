@@ -2,7 +2,13 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { ACTIVE_THEMES, loadObjects } from './object-utils.mjs';
+import {
+  ACTIVE_THEMES,
+  getCanonicalObjectSlug,
+  getObjectAliases,
+  loadObjects,
+  normalizeObjectRef,
+} from './object-utils.mjs';
 
 const rootDir = process.argv[2] || 'objects';
 const requestedDate = process.argv[3];
@@ -106,12 +112,29 @@ function extractMediaKind(item) {
 
 const objects = loadObjects(rootDir);
 const objectCount = objects.length;
+function getGraphId(obj) {
+  return getCanonicalObjectSlug(obj.fields) || normalizeObjectRef(obj.fields.id) || String(obj.fields.id || '').trim();
+}
+
 const ids = new Set(
-  objects.map((obj) => String(obj.fields.id || '').trim()).filter(Boolean)
+  objects.map((obj) => getGraphId(obj)).filter(Boolean)
 );
+const graphIdByAlias = new Map();
+for (const obj of objects) {
+  const graphId = getGraphId(obj);
+  if (!graphId) {
+    continue;
+  }
+
+  for (const alias of getObjectAliases(obj.fields)) {
+    if (!graphIdByAlias.has(alias)) {
+      graphIdByAlias.set(alias, graphId);
+    }
+  }
+}
 const typeById = new Map(
   objects.map((obj) => [
-    String(obj.fields.id || '').trim(),
+    getGraphId(obj),
     String(obj.fields.type || '').trim(),
   ])
 );
@@ -149,30 +172,33 @@ for (const id of ids) {
 }
 
 for (const obj of objects) {
-  const id = String(obj.fields.id || '').trim();
+  const id = getGraphId(obj);
   if (!id || !ids.has(id)) {
     continue;
   }
 
   for (const relatedId of obj.fields.related) {
-    if (ids.has(relatedId)) {
+    const targetId = graphIdByAlias.get(normalizeObjectRef(relatedId));
+    if (targetId && ids.has(targetId)) {
       outbound.set(id, (outbound.get(id) || 0) + 1);
-      inbound.set(relatedId, (inbound.get(relatedId) || 0) + 1);
+      inbound.set(targetId, (inbound.get(targetId) || 0) + 1);
     }
   }
 
   for (const connection of obj.fields.connections || []) {
-    if (ids.has(connection.ref)) {
+    const targetId = graphIdByAlias.get(normalizeObjectRef(connection.ref));
+    if (targetId && ids.has(targetId)) {
       outbound.set(id, (outbound.get(id) || 0) + 1);
-      inbound.set(connection.ref, (inbound.get(connection.ref) || 0) + 1);
+      inbound.set(targetId, (inbound.get(targetId) || 0) + 1);
     }
   }
 
   if (String(obj.fields.type) === 'nexus') {
     for (const ref of obj.includedRefs) {
-      if (ids.has(ref)) {
+      const targetId = graphIdByAlias.get(normalizeObjectRef(ref));
+      if (targetId && ids.has(targetId)) {
         outbound.set(id, (outbound.get(id) || 0) + 1);
-        inbound.set(ref, (inbound.get(ref) || 0) + 1);
+        inbound.set(targetId, (inbound.get(targetId) || 0) + 1);
       }
     }
   }

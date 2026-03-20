@@ -2,7 +2,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { loadObjects } from './object-utils.mjs';
+import { getCanonicalObjectSlug, getObjectAliases, loadObjects, normalizeObjectRef } from './object-utils.mjs';
 
 function overlapCount(a = [], b = []) {
   const setB = new Set(b);
@@ -84,14 +84,32 @@ const sourceDir = process.argv[2] || resolveDefaultSourceDir();
 const outFile = process.argv[3] || resolveDefaultOutFile();
 
 const objects = loadObjects(sourceDir);
-const byId = new Map(
-  objects
-    .map((item) => [String(item.fields.id || '').trim(), item])
-    .filter(([id]) => Boolean(id))
-);
+const graphIdByAlias = new Map();
+
+function getGraphNodeId(item) {
+  return getCanonicalObjectSlug(item.fields) || normalizeObjectRef(item.fields.id) || String(item.fields.id || '').trim();
+}
+
+for (const item of objects) {
+  const graphId = getGraphNodeId(item);
+  if (!graphId) {
+    continue;
+  }
+
+  for (const alias of getObjectAliases(item.fields)) {
+    if (!graphIdByAlias.has(alias)) {
+      graphIdByAlias.set(alias, graphId);
+    }
+  }
+}
 
 const nodes = objects.map((item) => ({
-  id: String(item.fields.id || ''),
+  id: getGraphNodeId(item),
+  slug: getCanonicalObjectSlug(item.fields),
+  url: String(item.fields.url || ''),
+  stableId: getCanonicalObjectSlug(item.fields)
+    ? `codex://object/${getCanonicalObjectSlug(item.fields)}`
+    : '',
   type: String(item.fields.type || ''),
   title: String(item.fields.title || ''),
   date: String(item.fields.date || ''),
@@ -126,8 +144,8 @@ for (let i = 0; i < objects.length; i += 1) {
   for (let j = i + 1; j < objects.length; j += 1) {
     const a = objects[i];
     const b = objects[j];
-    const aId = String(a.fields.id || '').trim();
-    const bId = String(b.fields.id || '').trim();
+    const aId = getGraphNodeId(a);
+    const bId = getGraphNodeId(b);
 
     const sharedThemes = overlapCount(a.fields.themes, b.fields.themes);
     if (sharedThemes > 0) {
@@ -145,16 +163,18 @@ for (let i = 0; i < objects.length; i += 1) {
 }
 
 for (const obj of objects) {
-  const sourceId = String(obj.fields.id || '').trim();
+  const sourceId = getGraphNodeId(obj);
   for (const connection of obj.fields.connections || []) {
-    if (byId.has(connection.ref)) {
-      upsertEdge(sourceId, connection.ref, connection.display === 'feature' ? 5 : 4, 'explicit-connection');
+    const targetId = graphIdByAlias.get(normalizeObjectRef(connection.ref));
+    if (targetId) {
+      upsertEdge(sourceId, targetId, connection.display === 'feature' ? 5 : 4, 'explicit-connection');
     }
   }
 
   for (const relatedId of obj.fields.related || []) {
-    if (byId.has(relatedId)) {
-      upsertEdge(sourceId, relatedId, 3, 'explicit-related');
+    const targetId = graphIdByAlias.get(normalizeObjectRef(relatedId));
+    if (targetId) {
+      upsertEdge(sourceId, targetId, 3, 'explicit-related');
     }
   }
 
@@ -162,8 +182,9 @@ for (const obj of objects) {
   const fm = extractFrontmatter(raw);
   const refs = parseIncludedRefs(fm);
   for (const ref of refs) {
-    if (byId.has(ref)) {
-      upsertEdge(sourceId, ref, 4, 'nexus-inclusion');
+    const targetId = graphIdByAlias.get(normalizeObjectRef(ref));
+    if (targetId) {
+      upsertEdge(sourceId, targetId, 4, 'nexus-inclusion');
     }
   }
 }

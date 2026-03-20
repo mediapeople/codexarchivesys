@@ -4,6 +4,16 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import TypeBadge from '../../components/TypeBadge.astro';
 import { getAllEntries } from '../../lib/archive';
 import { formatDisplayTitle } from '../../lib/headline';
+import {
+  buildObjectLookup,
+  getObjectJsonLd,
+  getObjectJsonPath,
+  getObjectMarkdownPath,
+  getObjectPath,
+  matchesObjectParam,
+  getObjectSummary,
+  resolveObjectReference,
+} from '../../lib/objectInterop';
 import { compareByPureTimeline, formatArchiveLongDate } from '../../lib/timeline';
 import { resolveExcerpt } from '../../lib/excerpt';
 
@@ -12,7 +22,7 @@ export async function getStaticPaths() {
     (entry) => entry.data.status === 'published' && entry.data.visibility === 'public'
   );
   return nexusEntries.map((entry) => ({
-    params: { id: entry.data.id },
+    params: { id: entry.data.slug || entry.data.id },
   }));
 }
 
@@ -20,7 +30,7 @@ const nexusEntries = (await getCollection('nexus'))
   .filter((entry) => entry.data.status === 'published' && entry.data.visibility === 'public')
   .sort((a, b) => compareByPureTimeline(a, b) || b.data.id.localeCompare(a.data.id));
 
-const issue = nexusEntries.find((entry) => entry.data.id === Astro.params.id);
+const issue = nexusEntries.find((entry) => matchesObjectParam(entry, Astro.params.id));
 if (!issue) {
   throw new Error(`Missing nexus issue for id: ${Astro.params.id}`);
 }
@@ -28,12 +38,12 @@ if (!issue) {
 const { Content } = await issue.render();
 
 const allEntries = await getAllEntries();
-const byId = new Map(allEntries.map((entry) => [entry.data.id, entry]));
+const objectLookup = buildObjectLookup(allEntries);
 const sequence = issue.data.includedObjects
   .map((item, index) => ({
     index: index + 1,
     role: item.role,
-    entry: byId.get(item.ref) || null,
+    entry: resolveObjectReference(objectLookup, item.ref) || null,
     ref: item.ref,
   }))
   .filter((item) => Boolean(item.entry));
@@ -42,16 +52,31 @@ const issueIndex = nexusEntries.findIndex((entry) => entry.data.id === issue.dat
 const newerIssue = issueIndex > 0 ? nexusEntries[issueIndex - 1] : null;
 const olderIssue = issueIndex < nexusEntries.length - 1 ? nexusEntries[issueIndex + 1] : null;
 const displayIssueTitle = formatDisplayTitle(issue.data.title);
-const issueExcerpt = resolveExcerpt({
-  title: issue.data.title,
-  excerpt: issue.data.excerpt,
-  body: issue.body,
-  max: 220,
-});
+const issueExcerpt = getObjectSummary(issue);
 const nexusContextQuery = `?from=nexus&nexus=${encodeURIComponent(issue.data.id)}`;
+const canonicalObjectPath = getObjectPath(issue);
+const structuredData = getObjectJsonLd(issue);
+const alternateLinks = [
+  {
+    href: getObjectJsonPath(issue),
+    type: 'application/json',
+    title: `${displayIssueTitle} JSON export`,
+  },
+  {
+    href: getObjectMarkdownPath(issue),
+    type: 'text/markdown',
+    title: `${displayIssueTitle} Markdown export`,
+  },
+];
 ---
 
-<BaseLayout title={`${displayIssueTitle} | Nexus`}>
+<BaseLayout
+  title={`${displayIssueTitle} | Nexus`}
+  description={issueExcerpt || 'Nexus issue in the Codex Archive.'}
+  canonicalPath={canonicalObjectPath}
+  structuredData={structuredData}
+  alternateLinks={alternateLinks}
+>
   <article class="issue-shell">
     <a class="back" href="/nexus">← Back to nexus</a>
     <header class="head">
@@ -74,7 +99,7 @@ const nexusContextQuery = `?from=nexus&nexus=${encodeURIComponent(issue.data.id)
             <div class="seq-num">{String(item.index).padStart(2, '0')}</div>
             <div class="seq-main">
               <p class="role">{item.role}</p>
-              <a href={`/objects/${item.ref}${nexusContextQuery}`}>
+              <a href={`${getObjectPath(item.ref)}${nexusContextQuery}`}>
                 {item.entry?.data.title ? formatDisplayTitle(item.entry.data.title) : item.ref}
               </a>
               {item.entry && (

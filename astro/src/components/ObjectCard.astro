@@ -11,6 +11,7 @@ import { formatDisplayTitle } from '../lib/headline';
 import { getAuthorInitials, getPrimaryAuthor } from '../lib/author';
 import { getLoremapAtlasRender } from '../lib/loremap';
 import { getImageAssetMetadata, getPublicAssetVersion } from '../lib/mediaAsset';
+import { getObjectPath } from '../lib/objectInterop';
 import { formatArchiveDate } from '../lib/timeline';
 import { resolveExcerpt } from '../lib/excerpt';
 
@@ -36,7 +37,7 @@ type FragmentStageToken =
 
 const {
   entry,
-  href = `/objects/${entry.data.id}`,
+  href = getObjectPath(entry),
   relationScore,
   variant = 'feed',
   eyebrow,

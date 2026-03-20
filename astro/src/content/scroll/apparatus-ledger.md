@@ -1,11 +1,14 @@
 ---
 id: apparatus-ledger
+slug: "apparatus-ledger"
+url: "https://ndcodex.com/objects/apparatus-ledger/"
 type: scroll
 title: "✦ APPARATUS LEDGER ✦"
 date: 2026-03-07
 status: draft
 visibility: public
 
+summary: "The ledger is still open. We are still writing in it."
 excerpt: "The ledger is still open. We are still writing in it."
 
 themes:

@@ -1,5 +1,7 @@
 ---
 id: citizen-network-doctrine
+slug: "citizen-network-doctrine"
+url: "https://ndcodex.com/objects/citizen-network-doctrine/"
 type: scroll
 title: "The Citizen Network Doctrine"
 date: 2026-03-09
@@ -7,6 +9,7 @@ postedAt: 2026-03-09T21:20:23.527Z
 status: published
 visibility: public
 
+summary: "All authority remains conditional before the living network."
 excerpt: "All authority remains conditional before the living network."
 
 themes:

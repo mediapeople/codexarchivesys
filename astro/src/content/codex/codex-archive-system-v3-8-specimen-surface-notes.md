@@ -1,5 +1,7 @@
 ---
 id: codex-archive-system-v3-8-specimen-surface-notes
+slug: "codex-archive-system-v3-8-specimen-surface-notes"
+url: "https://ndcodex.com/objects/codex-archive-system-v3-8-specimen-surface-notes/"
 type: codex
 title: "CODEX ARCHIVE SYSTEM v3.8 SPECIMEN SURFACE NOTES"
 date: 2026-03-10
@@ -7,6 +9,7 @@ postedAt: 2026-03-10T19:38:11.957Z
 status: published
 visibility: public
 
+summary: "v3.8 makes fieldlog data plates first-class, keeps object-gallery chrome inside the stage, and hardens delivery images for real-world sharing."
 excerpt: "v3.8 makes fieldlog data plates first-class, keeps object-gallery chrome inside the stage, and hardens delivery images for real-world sharing."
 
 themes:

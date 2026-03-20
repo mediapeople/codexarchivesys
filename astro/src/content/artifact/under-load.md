@@ -1,11 +1,14 @@
 ---
 id: under-load
+slug: "under-load"
+url: "https://ndcodex.com/objects/under-load/"
 type: artifact
 title: "UNDER LOAD"
 date: 2026-02-24
 status: published
 visibility: public
 
+summary: "A skateboard is already a pressure instrument."
 excerpt: "A skateboard is already a pressure instrument."
 
 themes:

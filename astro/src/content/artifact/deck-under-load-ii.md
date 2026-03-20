@@ -1,11 +1,14 @@
 ---
 id: deck-under-load-ii
+slug: "deck-under-load-ii"
+url: "https://ndcodex.com/objects/deck-under-load-ii/"
 type: artifact
 title: "DECK UNDER LOAD II"
 date: 2026-03-01
 status: draft
 visibility: public
 
+summary: "Second deck study: impact language sealed under pressure skin."
 excerpt: "Second deck study: impact language sealed under pressure skin."
 
 themes:

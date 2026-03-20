@@ -8,6 +8,13 @@ interface Props {
   socialImageHeight?: number;
   socialType?: 'website' | 'article';
   twitterCard?: 'summary' | 'summary_large_image';
+  robots?: string;
+  structuredData?: unknown | unknown[];
+  alternateLinks?: Array<{
+    href: string;
+    type?: string;
+    title?: string;
+  }>;
 }
 
 const {
@@ -19,6 +26,9 @@ const {
   socialImageHeight,
   socialType = 'website',
   twitterCard,
+  robots = 'index, follow',
+  structuredData,
+  alternateLinks = [],
 } = Astro.props;
 
 const currentPath = Astro.url.pathname;
@@ -47,8 +57,27 @@ const canonicalUrl = normalizeCanonicalUrl(canonicalPath || currentPath);
 const socialImageUrl = toAbsoluteUrl(socialImage || defaultSocialImage);
 const rssFeedUrl = toAbsoluteUrl('/rss.xml');
 const jsonFeedUrl = toAbsoluteUrl('/feed.json');
+const objectFeedUrl = toAbsoluteUrl('/objects.json');
 const siteHomeUrl = toAbsoluteUrl('/');
 const resolvedTwitterCard = twitterCard || 'summary';
+const normalizedStructuredData = Array.isArray(structuredData)
+  ? structuredData.filter(Boolean)
+  : structuredData
+    ? [structuredData]
+    : [];
+const structuredDataJson = normalizedStructuredData.length > 0
+  ? JSON.stringify(
+      normalizedStructuredData.length === 1 ? normalizedStructuredData[0] : normalizedStructuredData,
+      null,
+      2
+    ).replace(/<\/script/gi, '<\\/script')
+  : '';
+const resolvedAlternateLinks = alternateLinks
+  .map((link) => ({
+    ...link,
+    href: toAbsoluteUrl(link.href),
+  }))
+  .filter((link) => Boolean(link.href));
 const hasSocialImageDimensions =
   typeof socialImageWidth === 'number' &&
   Number.isFinite(socialImageWidth) &&
@@ -74,6 +103,7 @@ const navItems = [
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
     <link rel="canonical" href={canonicalUrl} />
     <meta property="og:site_name" content="Codex Archive" />
     <meta property="og:type" content={socialType} />
@@ -94,6 +124,11 @@ const navItems = [
     <meta name="twitter:image" content={socialImageUrl} />
     <link rel="alternate" type="application/rss+xml" title="Codex Archive RSS Feed" href={rssFeedUrl} />
     <link rel="alternate" type="application/feed+json" title="Codex Archive JSON Feed" href={jsonFeedUrl} />
+    <link rel="alternate" type="application/json" title="Codex Archive Object Feed" href={objectFeedUrl} />
+    {resolvedAlternateLinks.map((link) => (
+      <link rel="alternate" href={link.href} type={link.type} title={link.title} />
+    ))}
+    {structuredDataJson && <script type="application/ld+json" set:html={structuredDataJson}></script>}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -182,12 +217,15 @@ const navItems = [
       <div class="site-footer-inner">
         <p class="site-footer-label">Follow</p>
         <p class="site-footer-copy">
-          Paste the site URL into most readers. Direct feeds are available if your reader wants them explicitly.
+          Paste the site URL into most readers. Direct feeds and taxonomy directories are available when a reader or crawler wants explicit structure.
         </p>
         <div class="site-footer-links">
           <a href={siteHomeUrl}>Site URL</a>
           <a href={rssFeedUrl}>RSS</a>
           <a href={jsonFeedUrl}>JSON Feed</a>
+          <a href={objectFeedUrl}>Object Feed</a>
+          <a href="/themes">Themes</a>
+          <a href="/constellations">Constellations</a>
         </div>
       </div>
     </footer>

@@ -1,5 +1,7 @@
 ---
 id: cities-built-on-ruin-reminiscence
+slug: "cities-built-on-ruin-reminiscence"
+url: "https://ndcodex.com/objects/cities-built-on-ruin-reminiscence/"
 type: scroll
 title: "Cities Built on Ruin: Reminiscence of the Third Evolution"
 date: 2026-03-08
@@ -7,6 +9,7 @@ postedAt: 2026-03-09T01:08:42.081Z
 status: published
 visibility: internal
 
+summary: "A thousand small decisions leaning in the same direction."
 excerpt: "A thousand small decisions leaning in the same direction."
 
 themes:

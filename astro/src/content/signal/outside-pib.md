@@ -1,11 +1,14 @@
 ---
 id: outside-pib
+slug: "outside-pib"
+url: "https://ndcodex.com/objects/outside-pib/"
 type: signal
 title: "\"✦ OUTSIDE, PIB ✦\""
 date: "2026-03-17"
 postedAt: "2026-03-17T15:47:27.441Z"
 status: published
 visibility: public
+summary: "Parked off PIB. Engine off. People coming and going. Doors opening, closing. Dropped him at the entrance. He walked in with the others. I stayed out here. Traffic keeps moving. Same as always. Nothing pauses for it…"
 excerpt: "Parked off PIB. Engine off. People coming and going. Doors opening, closing. Dropped him at the entrance. He walked in with the others. I stayed out here. Traffic keeps moving. Same as always. Nothing pauses for it…"
 themes:
   - "here"

@@ -1,11 +1,14 @@
 ---
 id: archive-box-stamped-fragments
+slug: "archive-box-stamped-fragments"
+url: "https://ndcodex.com/objects/archive-box-stamped-fragments/"
 type: artifact
 title: "ARCHIVE BOX (STAMPED FRAGMENTS)"
 date: 2026-02-27
 status: draft
 visibility: public
 
+summary: "A transport box turned into a small index of what refused disposal."
 excerpt: "A transport box turned into a small index of what refused disposal."
 
 themes:

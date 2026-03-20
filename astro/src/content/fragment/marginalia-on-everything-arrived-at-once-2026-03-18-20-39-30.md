@@ -1,11 +1,14 @@
 ---
 id: marginalia-on-everything-arrived-at-once-2026-03-18-20-39-30
+slug: "marginalia-on-everything-arrived-at-once-2026-03-18-20-39-30"
+url: "https://ndcodex.com/objects/marginalia-on-everything-arrived-at-once-2026-03-18-20-39-30/"
 type: fragment
 title: "Marginalia on Everything arrived at once 2026-03-18-20-39-30"
 date: "2026-03-19T00:39:30.897Z"
 postedAt: "2026-03-19T00:39:31.854Z"
 status: published
 visibility: unlisted
+summary: "Today has been a day."
 excerpt: "Today has been a day."
 scale: micro
 depth: recursive

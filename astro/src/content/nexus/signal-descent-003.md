@@ -1,11 +1,14 @@
 ---
 id: signal-descent-003
+slug: "signal-descent-003"
+url: "https://ndcodex.com/objects/signal-descent-003/"
 type: nexus
 title: "SIGNAL DESCENT 003"
 date: 2026-03-07
 status: draft
 visibility: public
 
+summary: "A third descent through naming, operations, and the discipline required to keep signals legible."
 excerpt: "A third descent through naming, operations, and the discipline required to keep signals legible."
 
 themes:

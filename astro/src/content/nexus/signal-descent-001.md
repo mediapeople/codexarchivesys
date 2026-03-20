@@ -1,11 +1,14 @@
 ---
 id: signal-descent-001
+slug: "signal-descent-001"
+url: "https://ndcodex.com/objects/signal-descent-001/"
 type: nexus
 title: "SIGNAL DESCENT"
 date: 2026-03-04
 status: published
 visibility: public
 
+summary: "The archive occasionally speaks. This is one of those moments."
 excerpt: "The archive occasionally speaks. This is one of those moments."
 
 themes:

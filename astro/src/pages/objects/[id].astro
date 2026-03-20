@@ -20,26 +20,43 @@ import { getAuthorInitials, getAuthorProfiles } from '../../lib/author';
 import { buildObjectShareMeta } from '../../lib/shareMeta';
 import { getLoremapAtlasRender } from '../../lib/loremap';
 import { getMarginaliaEntriesForTarget, isMarginaliaEntry } from '../../lib/marginalia';
+import {
+  buildObjectLookup,
+  getObjectJsonLd,
+  getObjectJsonPath,
+  getObjectMarkdownPath,
+  matchesObjectParam,
+  matchesObjectReference,
+  getObjectPath,
+  getObjectSlug,
+  getObjectSummary,
+  resolveObjectReference,
+} from '../../lib/objectInterop';
 import { listAxes, readAxes } from '../../lib/axes';
+import { getTaxonomyTermPath } from '../../lib/taxonomy';
 import { formatArchiveLongDate } from '../../lib/timeline';
 import { bodyStartsWithDuplicateTitleHeading, resolveExcerpt } from '../../lib/excerpt';
 
 export async function getStaticPaths() {
-  const entries = await getAllEntries();
+  const entries = (await getAllEntries()).filter(
+    (entry) =>
+      entry.data.status === 'published' &&
+      (entry.data.visibility === 'public' || entry.data.visibility === 'unlisted')
+  );
   return entries.map((entry) => ({
-    params: { id: entry.data.id },
+    params: { id: getObjectSlug(entry) },
   }));
 }
 
 const allEntries = await getAllEntries();
-const entry = allEntries.find((candidate) => candidate.data.id === Astro.params.id);
+const entry = allEntries.find((candidate) => matchesObjectParam(candidate, Astro.params.id));
 
 if (!entry) {
   throw new Error(`Missing entry for id: ${Astro.params.id}`);
 }
 
 const { Content } = await entry.render();
-const byId = new Map(allEntries.map((item) => [item.data.id, item]));
+const objectLookup = buildObjectLookup(allEntries);
 const connectionsRaw = (entry.data as Record<string, unknown>).connections;
 const connections = Array.isArray(connectionsRaw)
   ? connectionsRaw
@@ -53,7 +70,7 @@ const connections = Array.isArray(connectionsRaw)
           typeof (item as { role: unknown }).role === 'string'
         ) {
           const ref = (item as { ref: string }).ref;
-          const target = byId.get(ref);
+          const target = resolveObjectReference(objectLookup, ref);
           if (!target) {
             return null;
           }
@@ -76,11 +93,10 @@ const connections = Array.isArray(connectionsRaw)
         ): item is { ref: string; role: string; display: string; entry: (typeof allEntries)[number] } => Boolean(item)
       )
   : [];
-const connectedIds = new Set(connections.map((item) => item.ref));
 const featuredConnections = connections.filter((item) => item.display === 'feature');
 const inlineConnections = connections.filter((item) => item.display !== 'feature');
 const related = computeRelatedEntries(entry, allEntries, 3).filter(
-  (hit) => !connectedIds.has(hit.entry.data.id)
+  (hit) => !connections.some((item) => matchesObjectReference(hit.entry, item.ref))
 );
 const marginaliaEntries = getMarginaliaEntriesForTarget(allEntries, entry.data.id);
 const mediaItems = getPreviewMediaItems(entry);
@@ -127,7 +143,7 @@ const includedObjects = Array.isArray(includedObjectsRaw)
   : [];
 const isNexusObject = entry.collection === 'nexus';
 const sequenceItems = includedObjects.map((item, index) => {
-  const target = byId.get(item.ref);
+  const target = resolveObjectReference(objectLookup, item.ref);
   return {
     index: index + 1,
     role: item.role,
@@ -268,20 +284,16 @@ const loremapClassificationRaw = (entry.data as Record<string, unknown>).classif
 const loremapClassification = Array.isArray(loremapClassificationRaw)
   ? loremapClassificationRaw.map((item) => String(item).trim()).filter(Boolean)
   : [];
-const resolvedExcerpt = resolveExcerpt({
-  title: entry.data.title,
-  excerpt: entry.data.excerpt,
-  body: entry.body,
-  max: 220,
-});
+const resolvedExcerpt = getObjectSummary(entry);
 const hideLeadHeading = bodyStartsWithDuplicateTitleHeading(entry.data.title, entry.body);
+const canonicalObjectPath = getObjectPath(entry);
 
 const shareMeta = buildObjectShareMeta({
   collection: entry.collection,
   title: displayTitle,
   excerpt: resolvedExcerpt || undefined,
   mediaItems,
-  canonicalPath: `/objects/${entry.data.id}`,
+  canonicalPath: canonicalObjectPath,
   imageVersion:
     sharePrimaryMediaMeta?.version ??
     (sharePrimaryMedia ? mediaVersionBySrc.get(sharePrimaryMedia.src) ?? undefined : undefined) ??
@@ -313,6 +325,20 @@ const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 const hasSignalLeadImage =
   entry.collection === 'signal' && /^!(?:\[[^\]]*\]\([^)]+\)|\[\[[^\]]+\]\])/.test(entry.body.trimStart());
 const allowMarginaliaPublishing = !isMarginaliaEntry(entry);
+const pageRobots = entry.data.visibility === 'public' ? 'index, follow' : 'noindex, nofollow';
+const structuredData = getObjectJsonLd(entry);
+const exportAlternateLinks = [
+  {
+    href: getObjectJsonPath(entry),
+    type: 'application/json',
+    title: `${displayTitle} JSON export`,
+  },
+  {
+    href: getObjectMarkdownPath(entry),
+    type: 'text/markdown',
+    title: `${displayTitle} Markdown export`,
+  },
+];
 ---
 
 <BaseLayout
@@ -324,6 +350,9 @@ const allowMarginaliaPublishing = !isMarginaliaEntry(entry);
   socialImageHeight={shareMeta.socialImageHeight}
   socialType={shareMeta.socialType}
   twitterCard={shareMeta.twitterCard}
+  robots={pageRobots}
+  structuredData={structuredData}
+  alternateLinks={exportAlternateLinks}
 >
   <article class={`object-shell ${entry.collection} ${objectFirstFlow ? 'text-first-media' : ''}`}>
     <a
@@ -632,7 +661,7 @@ const allowMarginaliaPublishing = !isMarginaliaEntry(entry);
                   <div class="seq-num">{String(item.index).padStart(2, '0')}</div>
                   <div class="seq-main">
                     <p class="role">{item.role}</p>
-                    <a class="sequence-link" href={`/objects/${item.ref}${nexusObjectContextQuery}`}>
+                    <a class="sequence-link" href={`${getObjectPath(item.ref)}${nexusObjectContextQuery}`}>
                       {item.label}
                     </a>
                     {item.preview && <p class="preview">{item.preview}</p>}
@@ -641,7 +670,7 @@ const allowMarginaliaPublishing = !isMarginaliaEntry(entry);
               ) : (
                 <>
                   <span class="sequence-role">{item.role}</span>
-                  <a class="sequence-link" href={`/objects/${item.ref}`}>{item.label}</a>
+                  <a class="sequence-link" href={getObjectPath(item.ref)}>{item.label}</a>
                 </>
               )}
             </li>
@@ -797,7 +826,7 @@ const allowMarginaliaPublishing = !isMarginaliaEntry(entry);
             <p class="footer-tag-label">Themes</p>
             <ul class="pills">
               {entry.data.themes.map((theme) => (
-                <li>{theme}</li>
+                <li><a href={getTaxonomyTermPath('theme', theme)}>{theme}</a></li>
               ))}
             </ul>
           </div>
@@ -807,7 +836,7 @@ const allowMarginaliaPublishing = !isMarginaliaEntry(entry);
             <p class="footer-tag-label">Constellation</p>
             <ul class="pills constellation">
               {entry.data.constellations.map((name) => (
-                <li>{name}</li>
+                <li><a href={getTaxonomyTermPath('constellation', name)}>{name}</a></li>
               ))}
             </ul>
           </div>
@@ -1400,6 +1429,17 @@ const allowMarginaliaPublishing = !isMarginaliaEntry(entry);
     letter-spacing: var(--ls-ui);
     text-transform: lowercase;
     line-height: 1.35;
+  }
+
+  .pills li a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+
+  .pills li a:hover {
+    color: var(--star);
+    border-bottom-color: currentColor;
   }
 
   .pills li::before {

@@ -1,5 +1,7 @@
 ---
 id: everything-arrived-at-once
+slug: "everything-arrived-at-once"
+url: "https://ndcodex.com/objects/everything-arrived-at-once/"
 type: codex
 title: "Everything arrived at once"
 date: "2026-03-19"
@@ -16,6 +18,7 @@ images:
   - "/media/pigeon/codex/everything-arrived-at-once-01.png"
 state: published
 dependencies: []
+summary: "Opportunity. Pressure. Interruption. Work. You did not expand. You reduced. Spoke the number. Built what mattered. Left what didn’t. And in the middle of it. Parked. Waiting. Traffic moving. That’s the whole system…"
 excerpt: "Opportunity. Pressure. Interruption. Work. You did not expand. You reduced. Spoke the number. Built what mattered. Left what didn’t. And in the middle of it. Parked. Waiting. Traffic moving. That’s the whole system…"
 scale: meso
 depth: structural

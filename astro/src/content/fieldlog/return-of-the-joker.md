@@ -1,5 +1,7 @@
 ---
 id: return-of-the-joker
+slug: "return-of-the-joker"
+url: "https://ndcodex.com/objects/return-of-the-joker/"
 type: fieldlog
 title: "Field Log: Return of the Joker"
 date: 2026-03-13
@@ -7,6 +9,7 @@ postedAt: 2026-03-13T18:43:28.923Z
 status: published
 visibility: public
 
+summary: "The images attached to this object record the collage mid-formation."
 excerpt: "The images attached to this object record the collage mid-formation."
 
 themes:

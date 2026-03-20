@@ -1,5 +1,7 @@
 ---
 id: codex-glyph-system-first-emergence
+slug: "codex-glyph-system-first-emergence"
+url: "https://ndcodex.com/objects/codex-glyph-system-first-emergence/"
 type: codex
 title: "Codex Glyph System: First Emergence"
 date: 2026-03-08
@@ -7,6 +9,7 @@ postedAt: 2026-03-08T23:35:21.209Z
 status: published
 visibility: public
 
+summary: "The archive stopped behaving like a simple collection of entries and began behaving like a symbolic system."
 excerpt: "The archive stopped behaving like a simple collection of entries and began behaving like a symbolic system."
 
 themes:

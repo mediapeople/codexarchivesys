@@ -1,5 +1,7 @@
 ---
 id: codex-archive-system-v3-11-lattice-groundwork-notes
+slug: "codex-archive-system-v3-11-lattice-groundwork-notes"
+url: "https://ndcodex.com/objects/codex-archive-system-v3-11-lattice-groundwork-notes/"
 type: codex
 title: "CODEX ARCHIVE SYSTEM v3.11 LATTICE GROUNDWORK NOTES"
 date: 2026-03-17
@@ -7,6 +9,7 @@ postedAt: 2026-03-17T21:30:00.000Z
 status: published
 visibility: public
 
+summary: "v3.11 gives the archive its first coordinate backbone: axis-aware ingest, phone-side review, and a concrete path from object archive to lattice navigation."
 excerpt: "v3.11 gives the archive its first coordinate backbone: axis-aware ingest, phone-side review, and a concrete path from object archive to lattice navigation."
 scale: macro
 depth: structural

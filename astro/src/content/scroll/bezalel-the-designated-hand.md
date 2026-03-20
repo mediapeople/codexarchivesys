@@ -1,5 +1,7 @@
 ---
 id: bezalel-the-designated-hand
+slug: "bezalel-the-designated-hand"
+url: "https://ndcodex.com/objects/bezalel-the-designated-hand/"
 type: scroll
 title: "Bezalel: The Designated Hand"
 date: 2026-03-08
@@ -7,6 +9,7 @@ postedAt: 2026-03-09T01:08:42.081Z
 status: published
 visibility: internal
 
+summary: "The hands prepared before the blueprints arrived."
 excerpt: "The hands prepared before the blueprints arrived."
 
 themes:

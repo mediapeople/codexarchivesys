@@ -1,5 +1,7 @@
 ---
 id: characters-in-the-field
+slug: "characters-in-the-field"
+url: "https://ndcodex.com/objects/characters-in-the-field/"
 type: scroll
 title: "The Characters in the Field"
 date: 2026-03-11
@@ -7,6 +9,7 @@ postedAt: 2026-03-11T23:45:32.720Z
 status: published
 visibility: public
 
+summary: "Watching cranes, operators, and the watcher himself resolve as characters inside the same field."
 excerpt: "Watching cranes, operators, and the watcher himself resolve as characters inside the same field."
 
 themes:
