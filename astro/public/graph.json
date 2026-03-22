@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-20T14:56:14.560Z",
+  "generatedAt": "2026-03-22T12:54:40.103Z",
   "sourceDir": "./src/content",
-  "nodeCount": 117,
-  "edgeCount": 4314,
+  "nodeCount": 118,
+  "edgeCount": 4340,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -1264,6 +1264,24 @@
         "signal",
         "observation",
         "transmission"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "mcginnis-ferry-threshold",
+      "slug": "mcginnis-ferry-threshold",
+      "url": "https://ndcodex.com/objects/mcginnis-ferry-threshold/",
+      "stableId": "codex://object/mcginnis-ferry-threshold",
+      "type": "loremap",
+      "title": "Loremap: McGinnis Ferry Threshold",
+      "date": "2026-03-22",
+      "themes": [
+        "place",
+        "river",
+        "lineage",
+        "witness",
+        "relationship",
+        "memory"
       ],
       "constellations": []
     },
@@ -2644,6 +2662,16 @@
         "shared-theme",
         "explicit-related",
         "nexus-inclusion"
+      ]
+    },
+    {
+      "source": "chattahoochee-river-loremap",
+      "target": "mcginnis-ferry-threshold",
+      "weight": 10,
+      "reasons": [
+        "shared-theme",
+        "explicit-connection",
+        "explicit-related"
       ]
     },
     {
@@ -7752,6 +7780,24 @@
     {
       "source": "manic-rider-collapse",
       "target": "quiet-vector-doctrine",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "mcginnis-ferry-threshold",
+      "target": "north-georgia-march-2026",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "mcginnis-ferry-threshold",
+      "target": "suwanee-ga-loremap",
       "weight": 4,
       "reasons": [
         "shared-theme",
@@ -20749,6 +20795,14 @@
     },
     {
       "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "mcginnis-ferry-threshold",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
       "target": "node-doctrine",
       "weight": 2,
       "reasons": [
@@ -21374,6 +21428,14 @@
     {
       "source": "grand-myth-central",
       "target": "keep-the-operator-whistling",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "mcginnis-ferry-threshold",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -22326,6 +22388,30 @@
     {
       "source": "manic-rider-collapse",
       "target": "scroll-from-the-perimeter",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mcginnis-ferry-threshold",
+      "target": "mothers-calendar",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mcginnis-ferry-threshold",
+      "target": "pocket-rock-cathedral",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mcginnis-ferry-threshold",
+      "target": "rodimus-prime-field-acquisition",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -24445,6 +24531,14 @@
     },
     {
       "source": "archive-box-stamped-fragments",
+      "target": "mcginnis-ferry-threshold",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
       "target": "mothers-calendar",
       "weight": 1,
       "reasons": [
@@ -25933,6 +26027,14 @@
     },
     {
       "source": "bezalel-the-designated-hand",
+      "target": "mcginnis-ferry-threshold",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
       "target": "mothers-calendar",
       "weight": 1,
       "reasons": [
@@ -27261,6 +27363,14 @@
     },
     {
       "source": "cities-built-on-ruin-reminiscence",
+      "target": "mcginnis-ferry-threshold",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -27950,6 +28060,14 @@
     {
       "source": "citizen-network-doctrine",
       "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "mcginnis-ferry-threshold",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -30349,6 +30467,14 @@
     },
     {
       "source": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "target": "mcginnis-ferry-threshold",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-7-loremap-foundation-notes",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -31357,6 +31483,14 @@
     },
     {
       "source": "constellation-node-alchemy",
+      "target": "mcginnis-ferry-threshold",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -31886,6 +32020,14 @@
     {
       "source": "distortion-atlas",
       "target": "machine-creatures",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "mcginnis-ferry-threshold",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -33701,6 +33843,14 @@
     },
     {
       "source": "justice-begins-as-a-ripple",
+      "target": "mcginnis-ferry-threshold",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "justice-begins-as-a-ripple",
       "target": "mothers-calendar",
       "weight": 1,
       "reasons": [
@@ -34542,6 +34692,86 @@
     {
       "source": "manic-rider-collapse",
       "target": "under-load",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mcginnis-ferry-threshold",
+      "target": "north-georgia-week-2",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mcginnis-ferry-threshold",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mcginnis-ferry-threshold",
+      "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mcginnis-ferry-threshold",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mcginnis-ferry-threshold",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mcginnis-ferry-threshold",
+      "target": "ridge-line-lessons",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mcginnis-ferry-threshold",
+      "target": "signal-descent-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mcginnis-ferry-threshold",
+      "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mcginnis-ferry-threshold",
+      "target": "stairwell-signal",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mcginnis-ferry-threshold",
+      "target": "transmission-note-to-future-me",
       "weight": 1,
       "reasons": [
         "shared-theme"

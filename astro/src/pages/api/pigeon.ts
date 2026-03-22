@@ -9,8 +9,8 @@ import {
   normalizeAxisFunction,
   normalizeAxisScale,
   type ArchiveAxes,
-} from '../../lib/axes';
-import { resolveExcerpt } from '../../lib/excerpt';
+} from '../../lib/axes.ts';
+import { resolveExcerpt } from '../../lib/excerpt.ts';
 
 export const prerender = false;
 
@@ -440,12 +440,12 @@ function normalizeObjectType(value: unknown): PigeonObjectType | null {
 function logObjectTypeFallback(candidate: unknown, source: string): void {
   if (typeof candidate === 'string' && candidate.trim()) {
     console.warn(
-      `[Carrier Pigeon] Invalid object_type "${candidate.trim()}" from ${source}; defaulting to fragment.`
+      `[Carrier Pigeon] Invalid object_type "${candidate.trim()}" from ${source}; defaulting to codex.`
     );
     return;
   }
 
-  console.warn(`[Carrier Pigeon] Missing object_type in ${source}; defaulting to fragment.`);
+  console.warn(`[Carrier Pigeon] Missing object_type in ${source}; defaulting to codex.`);
 }
 
 function resolveObjectType(fields: Map<string, string[]>, source: string, fallback?: unknown): PigeonObjectType {
@@ -469,7 +469,7 @@ function resolveObjectType(fields: Map<string, string[]>, source: string, fallba
   }
 
   logObjectTypeFallback(invalidCandidate, source);
-  return 'fragment';
+  return 'codex';
 }
 
 function getEnvValue(name: string): string {
