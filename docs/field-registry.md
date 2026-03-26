@@ -378,6 +378,81 @@ terrain: "river corridor"
 
 ---
 
+### signal_track
+
+| Property | Value |
+|---|---|
+| **Owner** | system-derived (author-overridable) |
+| **Type** | string |
+| **Required** | no |
+| **Applies To** | all |
+| **Renders In** | Field HUD, report surfaces, future signal-aware discovery |
+
+Canonical track or signal title when music acts as a field vector. This is stored only when a real signal ident is present.
+
+```yaml
+signal_track: "6WA"
+```
+
+---
+
+### signal_artists
+
+| Property | Value |
+|---|---|
+| **Owner** | system-derived (author-overridable) |
+| **Type** | array of strings |
+| **Required** | no |
+| **Applies To** | all |
+| **Renders In** | Field HUD, report surfaces, future signal-aware discovery |
+
+Named artists associated with the signal ident. Store only when present; do not emit an empty list as a placeholder.
+
+```yaml
+signal_artists:
+  - "Snoop Dogg"
+  - "Nate Dogg"
+```
+
+---
+
+### signal_mode
+
+| Property | Value |
+|---|---|
+| **Owner** | system-derived |
+| **Type** | string |
+| **Required** | no |
+| **Applies To** | all |
+| **Renders In** | Field HUD, report surfaces |
+
+The operational signal mode inferred from the fragment when music is present.
+
+```yaml
+signal_mode: GLIDE
+```
+
+---
+
+### signal_lock
+
+| Property | Value |
+|---|---|
+| **Owner** | system-derived |
+| **Type** | enum |
+| **Required** | no |
+| **Applies To** | all |
+| **Renders In** | Field HUD, report surfaces |
+| **Allowed Values** | `OBSERVED` `INFERRED` `PENDING` |
+
+Confidence state for the signal ident. Only store it when the signal itself is present.
+
+```yaml
+signal_lock: OBSERVED
+```
+
+---
+
 ### visibility
 
 | Property | Value |

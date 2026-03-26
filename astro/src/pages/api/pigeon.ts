@@ -27,6 +27,7 @@ const OBJECT_TYPES = [
 
 const STATUS_VALUES = ['draft', 'review', 'published', 'archived'] as const;
 const VISIBILITY_VALUES = ['public', 'private', 'internal', 'unlisted'] as const;
+const SIGNAL_LOCK_VALUES = ['OBSERVED', 'INFERRED', 'PENDING'] as const;
 
 const UNIVERSAL_PASSTHROUGH_KEYS = new Set([
   'constellations',
@@ -427,6 +428,28 @@ function parseFrontmatterScalar(value: string | undefined): string | undefined {
 function normalizeOptionalString(value: string | undefined): string | undefined {
   const normalized = parseFrontmatterScalar(value)?.trim();
   return normalized ? normalized : undefined;
+}
+
+function normalizeSignalTrackValue(value: unknown): string | undefined {
+  if (typeof value !== 'string') {
+    return undefined;
+  }
+
+  const normalized = value.trim();
+  if (!normalized || normalized.toUpperCase() === 'UNLOCKED SIGNAL') {
+    return undefined;
+  }
+
+  return normalized;
+}
+
+function normalizeSignalLockValue(value: unknown): (typeof SIGNAL_LOCK_VALUES)[number] | undefined {
+  if (typeof value !== 'string') {
+    return undefined;
+  }
+
+  const normalized = value.trim().toUpperCase();
+  return SIGNAL_LOCK_VALUES.find((candidate) => candidate === normalized);
 }
 
 function normalizeImageReference(
@@ -1147,7 +1170,9 @@ function buildRespawnSummary(packet: unknown): string | null {
 
   const summary = [
     `MODE: ${typeof packet.mode === 'string' ? packet.mode : '—'}`,
-    `SIGNAL: ${typeof signal.track === 'string' ? signal.track : '—'} / ${typeof signal.mode === 'string' ? signal.mode : '—'} / coherence ${signal.coherence ?? '—'}`,
+    normalizeSignalTrackValue(signal.track) || normalizeFlexibleStringArray(signal.artists).length > 0
+      ? `SIGNAL: ${normalizeSignalTrackValue(signal.track) ?? '—'} / ${typeof signal.mode === 'string' ? signal.mode : '—'} / coherence ${signal.coherence ?? '—'}`
+      : '',
     `ATMOS: pollen ${typeof atmosphere.pollen === 'string' ? atmosphere.pollen : '—'} / intake risk ${typeof atmosphere.intake_risk === 'string' ? atmosphere.intake_risk : '—'}`,
     `WATCH: ${typeof traumaWeather.alert === 'string' ? traumaWeather.alert : 'NONE'}`,
     `SHADOW: ${typeof shadow.offset === 'string' ? shadow.offset : 'NONE'} / ${typeof shadow.desynchronization === 'string' ? shadow.desynchronization : 'CLEAR'}`,
@@ -1247,6 +1272,25 @@ function parseFieldHudRequest(
     (typeof candidate.summary === 'string' && candidate.summary.trim()) ||
     (typeof candidate.excerpt === 'string' && candidate.excerpt.trim()) ||
     undefined;
+  const packetSignal = isRecord(packet) && isRecord(packet.signal) ? packet.signal : null;
+  const signalTrack = normalizeSignalTrackValue(
+    candidate.signal_track ?? requestedFrontmatter.signal_track ?? packetSignal?.track
+  );
+  const signalArtists = normalizeFlexibleStringArray(
+    candidate.signal_artists ?? requestedFrontmatter.signal_artists ?? packetSignal?.artists
+  );
+  const signalMode = normalizeOptionalString(
+    typeof candidate.signal_mode === 'string'
+      ? candidate.signal_mode
+      : typeof requestedFrontmatter.signal_mode === 'string'
+        ? requestedFrontmatter.signal_mode
+        : typeof packetSignal?.mode === 'string'
+          ? packetSignal.mode
+          : undefined
+  );
+  const signalLock = normalizeSignalLockValue(
+    candidate.signal_lock ?? requestedFrontmatter.signal_lock ?? packetSignal?.signal_lock
+  );
   const excerpt =
     resolveExcerpt({
       title: titleCandidate,
@@ -1296,6 +1340,10 @@ function parseFieldHudRequest(
     function: axes.function,
     themes,
     media: Array.isArray(requestedFrontmatter.media) ? requestedFrontmatter.media : [],
+    signal_track: signalTrack,
+    signal_artists: signalArtists.length > 0 ? signalArtists : undefined,
+    signal_mode: signalMode,
+    signal_lock: signalLock,
     ...(objectType === 'codex'
       ? {
           tags,

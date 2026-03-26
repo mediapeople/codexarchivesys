@@ -197,6 +197,56 @@
     margin: 4px 0 16px;
   }
 
+  .ingest-aid-note {
+    margin: 2px 0 16px;
+    color: var(--text-body);
+    font-family: 'Libre Baskerville', Georgia, serif;
+    font-size: 12px;
+    line-height: 1.7;
+    max-width: 40rem;
+  }
+
+  .ingest-aid-note strong {
+    color: var(--amber-em);
+    font-weight: 600;
+  }
+
+  .ingest-side-fields {
+    margin-bottom: 16px;
+    border: 1px solid var(--glass-border);
+    background: rgba(255,255,255,0.015);
+  }
+
+  .ingest-side-fields summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    color: var(--amber-em);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .ingest-side-fields summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .ingest-side-fields-hint {
+    color: var(--amber-dim);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+  }
+
+  .ingest-side-fields-body {
+    padding: 0 14px 14px;
+    border-top: 1px solid var(--rule-faint);
+  }
+
   .smartfill-note {
     margin: 0;
     color: var(--amber-dim);
@@ -762,6 +812,28 @@
   .rp-row-val.hi { color: var(--amber-accent); }
   .rp-row-val.alert { color: var(--red-bright); }
 
+  .rp-signal-track {
+    font-family: 'Libre Baskerville', Georgia, serif;
+    font-size: 22px;
+    color: var(--amber-em);
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+
+  .rp-signal-artists {
+    color: var(--amber-dim);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+
+  .rp-signal-mode {
+    color: var(--amber-accent);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
   .rp-source {
     background: rgba(0,0,0,0.3);
     border: 1px solid var(--rule-faint);
@@ -1046,12 +1118,30 @@
     margin-bottom: 10px;
   }
 
+  .signal-block.simple {
+    padding: 10px 12px 11px;
+    border-color: rgba(201, 161, 90, 0.28);
+    background: linear-gradient(135deg, rgba(201, 161, 90, 0.08), rgba(255,255,255,0.02));
+  }
+
+  .signal-ident-label {
+    font-size: 9px;
+    color: var(--amber-label);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
   .signal-track {
     font-family: 'Libre Baskerville', Georgia, serif;
     font-size: 20px;
     font-weight: 400;
     color: var(--amber-em);
     margin-bottom: 2px;
+  }
+
+  .signal-block.simple .signal-track {
+    margin-bottom: 4px;
   }
 
   .signal-artists {
@@ -1061,11 +1151,50 @@
     margin-bottom: 8px;
   }
 
+  .signal-mode-line {
+    font-size: 10px;
+    color: var(--amber-accent);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
   .signal-lock-row {
     display: flex;
     gap: 8px;
     align-items: center;
     flex-wrap: wrap;
+  }
+
+  .signal-ident-list {
+    display: grid;
+    gap: 6px;
+  }
+
+  .signal-ident-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    align-items: baseline;
+    padding-bottom: 6px;
+    border-bottom: 1px dotted var(--rule-faint);
+    font-size: 12px;
+  }
+
+  .signal-ident-row:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .signal-ident-key {
+    color: var(--amber-label);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .signal-ident-value {
+    color: var(--amber-em);
+    text-align: right;
   }
 
   /* CONFIDENCE BADGES */
@@ -1607,50 +1736,62 @@ Your voice becomes the system."></textarea>
         </div>
       </div>
 
-      <div class="ingest-meta">
-        <div>
-          <label class="field-label">location</label>
-          <input type="text" class="field-input" id="input-location" placeholder="Pike Lot" style="margin-bottom:0;">
-        </div>
-        <div>
-          <label class="field-label">region</label>
-          <input type="text" class="field-input" id="input-region" placeholder="Mac D's Node" style="margin-bottom:0;">
-        </div>
-        <div>
-          <label class="field-label">track</label>
-          <input type="text" class="field-input" id="input-track" placeholder="6WA" style="margin-bottom:0;">
-        </div>
-      </div>
+      <p class="ingest-aid-note">
+        Write the fragment first. <strong>Place, signal, and atmosphere can be inferred</strong> from the language. Open the side fields only when you want to steer the packet.
+      </p>
 
-      <div class="ingest-meta">
-        <div>
-          <label class="field-label">artists</label>
-          <input type="text" class="field-input" id="input-artists" placeholder="Snoop Dogg, Nate Dogg" style="margin-bottom:0;">
-        </div>
-        <div>
-          <label class="field-label">bpm</label>
-          <input type="number" class="field-input" id="input-bpm" placeholder="92" style="margin-bottom:0;">
-        </div>
-        <div>
-          <label class="field-label">pollen override</label>
-          <select class="field-input" id="input-pollen" style="margin-bottom:0;">
-            <option value="">— infer —</option>
-            <option value="LOW">LOW</option>
-            <option value="MED">MED</option>
-            <option value="HIGH">HIGH</option>
-            <option value="SATURATED">SATURATED</option>
-          </select>
-        </div>
-      </div>
+      <details class="ingest-side-fields" id="ingest-side-fields">
+        <summary>
+          <span>Optional side fields</span>
+          <span class="ingest-side-fields-hint">smart fill keeps blank fields warm</span>
+        </summary>
+        <div class="ingest-side-fields-body">
+          <div class="ingest-meta">
+            <div>
+              <label class="field-label">location</label>
+              <input type="text" class="field-input" id="input-location" placeholder="Pike Lot" style="margin-bottom:0;">
+            </div>
+            <div>
+              <label class="field-label">region</label>
+              <input type="text" class="field-input" id="input-region" placeholder="Mac D's Node" style="margin-bottom:0;">
+            </div>
+            <div>
+              <label class="field-label">track</label>
+              <input type="text" class="field-input" id="input-track" placeholder="6WA" style="margin-bottom:0;">
+            </div>
+          </div>
 
-      <div class="ingest-field-actions">
-        <p class="smartfill-note" id="smartfill-note">
-          Smart fill watches the fragment and <strong>fills blank fields</strong> from the language without overwriting your edits.
-        </p>
-        <button class="btn-export" id="btn-smartfill" type="button" onclick="applySmartFillToMetadata({ force: true, toast: true })">
-          Smart Fill Fields
-        </button>
-      </div>
+          <div class="ingest-meta">
+            <div>
+              <label class="field-label">artists</label>
+              <input type="text" class="field-input" id="input-artists" placeholder="Snoop Dogg, Nate Dogg" style="margin-bottom:0;">
+            </div>
+            <div>
+              <label class="field-label">bpm</label>
+              <input type="number" class="field-input" id="input-bpm" placeholder="92" style="margin-bottom:0;">
+            </div>
+            <div>
+              <label class="field-label">pollen override</label>
+              <select class="field-input" id="input-pollen" style="margin-bottom:0;">
+                <option value="">— infer —</option>
+                <option value="LOW">LOW</option>
+                <option value="MED">MED</option>
+                <option value="HIGH">HIGH</option>
+                <option value="SATURATED">SATURATED</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="ingest-field-actions">
+            <p class="smartfill-note" id="smartfill-note">
+              Smart fill watches the fragment and <strong>fills blank fields</strong> from the language without overwriting your edits.
+            </p>
+            <button class="btn-export" id="btn-smartfill" type="button" onclick="applySmartFillToMetadata({ force: true, toast: true })">
+              Smart Fill Fields
+            </button>
+          </div>
+        </div>
+      </details>
 
       <button class="btn-ingest" id="btn-ingest" onclick="runIngest()">
         ✦ Ingest Fragment → Generate Packet
@@ -1731,12 +1872,8 @@ Your voice becomes the system."></textarea>
         </div>
       </div>
 
-      <div class="section-head">Signal</div>
-      <div class="signal-block">
-        <div class="signal-track" id="h-track">—</div>
-        <div class="signal-artists" id="h-artists">—</div>
-        <div class="signal-lock-row" id="h-signal-badges"></div>
-      </div>
+      <div class="section-head" id="h-signal-head" style="display:none;">Signal Ident</div>
+      <div class="signal-block" id="h-signal-ident" style="display:none;"></div>
 
       <div class="section-head">Trauma Weather</div>
       <div class="trauma-weather-grid">
@@ -2133,6 +2270,19 @@ function getFieldMetadataElements() {
   };
 }
 
+function syncIngestSideFieldsState() {
+  const details = document.getElementById('ingest-side-fields');
+  if (!(details instanceof HTMLDetailsElement)) return;
+
+  const hasValue = Object.values(getFieldMetadataElements()).some((element) =>
+    Boolean(String(element?.value || '').trim())
+  );
+
+  if (hasValue) {
+    details.open = true;
+  }
+}
+
 function normalizeFieldMetadataValue(key, value) {
   const normalized = String(value || '').trim();
   if (!normalized) return '';
@@ -2181,6 +2331,7 @@ function restoreFieldMetadataDraft() {
         element.dataset.smartFillSource = 'manual';
       });
     });
+    syncIngestSideFieldsState();
   } catch (error) {
     console.log('Field metadata draft restore disabled (localStorage unavailable)');
   }
@@ -2219,9 +2370,8 @@ function inferSmartFillMetadata(body) {
   const explicitBpm = extractLabeledMetadata(source, ['bpm', 'tempo']) || (source.match(/\b(\d{2,3})\s*bpm\b/i)?.[1] || '');
   const explicitPollen = extractLabeledMetadata(source, ['pollen', 'pollen override', 'air load']);
 
-  const artists = [];
-  if (text.includes('snoop dogg') || text.includes('snoop')) artists.push('Snoop Dogg');
-  if (text.includes('nate dogg')) artists.push('Nate Dogg');
+  const inferredTrack = inferSignalTrackValue(source, text);
+  const artists = inferSignalArtistsValue(source, text);
 
   const suggestions = {
     location:
@@ -2240,10 +2390,8 @@ function inferSmartFillMetadata(body) {
       normalizeFieldMetadataValue('region', previewArtifact.region)),
     track:
       explicitTrack ||
-      (text.includes('6wa') ? '6WA' :
-      normalizeFieldMetadataValue('track', previewSignal.track) !== 'UNLOCKED SIGNAL'
-        ? normalizeFieldMetadataValue('track', previewSignal.track)
-        : ''),
+      inferredTrack ||
+      normalizeFieldMetadataValue('track', previewSignal.track),
     artists:
       explicitArtists ||
       (artists.length > 0 ? artists.join(', ') :
@@ -2326,6 +2474,7 @@ function applySmartFillToMetadata(options) {
 
   if (applied.length > 0) {
     saveFieldMetadataDraft();
+    syncIngestSideFieldsState();
     const labels = applied.map((key) => key === 'bpm' ? 'BPM' : key.charAt(0).toUpperCase() + key.slice(1));
     setSmartFillNote(`Smart fill suggested <strong>${labels.join(', ')}</strong> from the fragment. Manual edits stay locked in.`);
     if (toast) {
@@ -2351,6 +2500,7 @@ function setupFieldMetadata() {
       const normalized = String(element.value || '').trim();
       element.dataset.smartFillSource = normalized ? 'manual' : 'manual-empty';
       saveFieldMetadataDraft();
+      syncIngestSideFieldsState();
     };
 
     element.addEventListener('input', markManual);
@@ -2358,6 +2508,7 @@ function setupFieldMetadata() {
   });
 
   setTimeout(() => applySmartFillToMetadata(), 120);
+  syncIngestSideFieldsState();
 }
 
 document.addEventListener('DOMContentLoaded', setupFieldMetadata);
@@ -2536,6 +2687,142 @@ document.querySelectorAll('.tab').forEach(tab => {
 // ── INGEST ENGINE (JS port of ingestScrollToPacket.ts) ──
 
 const includesAny = (text, needles) => needles.some(n => text.includes(n));
+const KNOWN_SIGNAL_ARTISTS = [
+  { name: 'Snoop Dogg', needles: ['snoop dogg', 'snoop'] },
+  { name: 'Nate Dogg', needles: ['nate dogg'] },
+  { name: 'Finnegan Tui', needles: ['finnegan tui'] },
+];
+
+function normalizeSignalTrackValue(value) {
+  const normalized = String(value || '').trim();
+  if (!normalized) return '';
+  return normalized.toUpperCase() === 'UNLOCKED SIGNAL' ? '' : normalized;
+}
+
+function normalizeSignalArtistList(value) {
+  if (Array.isArray(value)) {
+    return uniqueStrings(value);
+  }
+  if (typeof value === 'string') {
+    return uniqueStrings(value.split(','));
+  }
+  return [];
+}
+
+function hasSignalIdent(packet) {
+  const track = normalizeSignalTrackValue(packet?.signal?.track);
+  const artists = normalizeSignalArtistList(packet?.signal?.artists);
+  return Boolean(track) || artists.length > 0;
+}
+
+function extractQuotedSignalTrack(source) {
+  const match = String(source || '').match(/[“"]([^"\n]{2,48})[”"]/);
+  return match ? match[1].trim() : '';
+}
+
+function extractUppercaseSignalTrack(source) {
+  const matches = String(source || '').match(/\b[A-Z0-9]{2,6}\b/g) || [];
+  return matches.find((candidate) => /\d/.test(candidate) || candidate.length <= 4) || '';
+}
+
+function inferSignalTrackValue(source, text) {
+  return normalizeSignalTrackValue(
+    extractQuotedSignalTrack(source) ||
+    extractUppercaseSignalTrack(source) ||
+    (text.includes('6wa') ? '6WA' : '')
+  );
+}
+
+function inferSignalArtistsValue(source, text) {
+  const artists = KNOWN_SIGNAL_ARTISTS
+    .filter((artist) => includesAny(text, artist.needles))
+    .map((artist) => artist.name);
+  const byMatches = [...String(source || '').matchAll(/\bby\s+([A-Z][A-Za-z0-9'’.&-]+(?:\s+[A-Z][A-Za-z0-9'’.&-]+){0,2})/g)]
+    .map((match) => String(match[1] || '').trim());
+  return uniqueStrings([...artists, ...byMatches]);
+}
+
+function inferSignalUiMode(packet) {
+  if (!hasSignalIdent(packet)) {
+    return 'ENHANCED';
+  }
+
+  const activeVectors = [
+    packet?.atmosphere?.pollen && packet.atmosphere.pollen !== 'MED',
+    packet?.atmosphere?.intake_risk && packet.atmosphere.intake_risk !== 'LOW',
+    packet?.trauma_weather?.alert && packet.trauma_weather.alert !== 'NONE',
+    packet?.shadow?.offset && packet.shadow.offset !== 'NONE',
+    Array.isArray(packet?.anomalies) && packet.anomalies.length > 0,
+  ].filter(Boolean).length;
+
+  return activeVectors <= 1 ? 'SIMPLE' : 'ENHANCED';
+}
+
+function getSignalIdentLines(packet) {
+  const signal = packet?.signal || {};
+  const track = normalizeSignalTrackValue(signal.track);
+  const artists = normalizeSignalArtistList(signal.artists);
+  const mode = String(signal.mode || '').trim();
+  const lock = String(signal.signal_lock || '').trim();
+  const coherence = Number.isFinite(signal.coherence) ? String(signal.coherence) : '';
+  const bpm = Number.isFinite(signal.bpm) ? String(signal.bpm) : '';
+
+  return [
+    { key: 'Track', value: track },
+    { key: 'Artists', value: artists.join(' / ') },
+    { key: 'Mode', value: mode },
+    { key: 'Lock', value: lock },
+    { key: 'Coherence', value: coherence },
+    { key: 'BPM', value: bpm },
+  ].filter((item) => item.value);
+}
+
+function renderSignalIdent(packet) {
+  const head = document.getElementById('h-signal-head');
+  const block = document.getElementById('h-signal-ident');
+  if (!head || !block) return;
+
+  if (!hasSignalIdent(packet)) {
+    head.style.display = 'none';
+    block.style.display = 'none';
+    block.innerHTML = '';
+    block.classList.remove('simple');
+    return;
+  }
+
+  const signal = packet.signal || {};
+  const uiMode = packet._ui_mode || 'ENHANCED';
+  const track = normalizeSignalTrackValue(signal.track);
+  const artists = normalizeSignalArtistList(signal.artists).join(' / ');
+  const lines = getSignalIdentLines(packet);
+  const lead = track || artists;
+
+  head.style.display = '';
+  block.style.display = '';
+  block.classList.toggle('simple', uiMode === 'SIMPLE');
+
+  if (uiMode === 'SIMPLE' && lead) {
+    block.innerHTML = `
+      <div class="signal-ident-label">Signal</div>
+      <div class="signal-track">${escapeHtml(lead)}</div>
+      ${track && artists ? `<div class="signal-artists">${escapeHtml(artists)}</div>` : ''}
+      ${signal.mode ? `<div class="signal-mode-line">${escapeHtml(signal.mode)}</div>` : ''}
+    `;
+    return;
+  }
+
+  block.innerHTML = `
+    <div class="signal-ident-label">Signal Identification</div>
+    <div class="signal-ident-list">
+      ${lines.map((line) => `
+        <div class="signal-ident-row">
+          <span class="signal-ident-key">${escapeHtml(line.key)}</span>
+          <span class="signal-ident-value">${escapeHtml(line.value)}</span>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
 
 function scoreMode(text) {
   return {
@@ -2555,10 +2842,12 @@ function inferMode(text) {
   return Object.entries(scores).sort((a,b) => b[1]-a[1])[0]?.[0] || 'RECURSIVE';
 }
 
-function inferSignalMode(text) {
-  if (includesAny(text, ['snoop','bass','glide'])) return 'GLIDE';
-  if (includesAny(text, ['nate dogg','hook','singing'])) return 'HOOK';
-  return 'NEUTRAL';
+function inferSignalMode(text, hasSignal) {
+  if (!hasSignal && !includesAny(text, ['signal','track','artists','music','song','hook'])) return undefined;
+  if (includesAny(text, ['snoop','bass','glide','stabilize','steady'])) return 'GLIDE';
+  if (includesAny(text, ['nate dogg','hook','singing','lock'])) return 'HOOK';
+  if (includesAny(text, ['disrupt','noise','broken signal','signal collapse'])) return 'TARGET';
+  return hasSignal ? 'NEUTRAL' : undefined;
 }
 
 function inferRecommendation(mode, pollen, pm25) {
@@ -2595,13 +2884,15 @@ function inferPressure(text) {
   return 'LOW';
 }
 
-function inferSignalLock(text) {
-  if (includesAny(text, ['signal confirmed','real signal','undeniable'])) return 'OBSERVED';
-  if (includesAny(text, ['signal','track','voice','hook'])) return 'INFERRED';
-  return 'PENDING';
+function inferSignalLock(text, hasSignal) {
+  if (!hasSignal && !includesAny(text, ['signal','track','voice','hook','music','song'])) return undefined;
+  if (includesAny(text, ['signal confirmed','real signal','undeniable','observed'])) return 'OBSERVED';
+  if (includesAny(text, ['signal','track','voice','hook','music','song'])) return 'INFERRED';
+  return hasSignal ? 'PENDING' : undefined;
 }
 
-function inferCoherence(mode, text) {
+function inferCoherence(mode, text, hasSignal) {
+  if (!hasSignal) return null;
   const base = { SEALED:82, GLIDE:92, TARGET:68, RECURSIVE:76 }[mode];
   const bonus = [
     text.includes('snoop') ? 4 : 0,
@@ -2753,7 +3044,9 @@ function buildRespawnSummary(packet) {
 
   return [
     `MODE: ${packet?.mode || '—'}`,
-    `SIGNAL: ${packet?.signal?.track || '—'} / ${packet?.signal?.mode || '—'} / coherence ${packet?.signal?.coherence ?? '—'}`,
+    hasSignalIdent(packet)
+      ? `SIGNAL: ${normalizeSignalTrackValue(packet?.signal?.track) || '—'} / ${packet?.signal?.mode || '—'} / coherence ${packet?.signal?.coherence ?? '—'}`
+      : '',
     `ATMOS: pollen ${packet?.atmosphere?.pollen || '—'} / intake risk ${packet?.atmosphere?.intake_risk || '—'}`,
     `WATCH: ${packet?.trauma_weather?.alert || 'NONE'}`,
     `SHADOW: ${packet?.shadow?.offset || 'NONE'} / ${packet?.shadow?.desynchronization || 'CLEAR'}`,
@@ -2809,10 +3102,15 @@ function buildPigeonPayload(packet, sourceText) {
   const date = postedAt.slice(0, 10);
   const slug = slugifyFull(title);
   const summary = buildFieldResultSummary(packet, body);
+  const signalTrack = normalizeSignalTrackValue(packet?.signal?.track);
+  const signalArtists = normalizeSignalArtistList(packet?.signal?.artists);
+  const signalMode = String(packet?.signal?.mode || '').trim();
+  const signalLock = String(packet?.signal?.signal_lock || '').trim();
   const tags = uniqueStrings([
     collection,
     packet?.mode,
-    packet?.signal?.track,
+    signalTrack,
+    ...signalArtists,
     ...(Array.isArray(packet?.notes) ? packet.notes.map((note) => note?.label) : []),
   ]).slice(0, 12);
   const themes = uniqueStrings([
@@ -2837,6 +3135,10 @@ function buildPigeonPayload(packet, sourceText) {
     function: axes.function || 'diagnostic',
     themes,
     media: [],
+    signal_track: signalTrack || undefined,
+    signal_artists: signalArtists.length > 0 ? signalArtists : undefined,
+    signal_mode: signalMode || undefined,
+    signal_lock: signalLock || undefined,
     ...(collection === 'codex'
       ? {
           tags,
@@ -2859,7 +3161,8 @@ function buildPigeonPayload(packet, sourceText) {
 }
 
 function ingestScrollToPacket(raw) {
-  const text = `${raw.title||''}\n${raw.body}\n${(raw.tags||[]).join(' ')}`.toLowerCase();
+  const sourceBody = `${raw.title||''}\n${raw.body}\n${(raw.tags||[]).join(' ')}`;
+  const text = sourceBody.toLowerCase();
   const mode = inferMode(text);
   const timestamp = raw.timestamp || new Date().toISOString();
   const pollen = raw.atmosphere?.pollen || (includesAny(text,['pollen','green death mist']) ? 'SATURATED' : 'MED');
@@ -2867,20 +3170,31 @@ function ingestScrollToPacket(raw) {
   const o3     = raw.atmosphere?.o3     || (pollen === 'SATURATED' ? 120 : 55);
   const trauma      = inferTraumaWeather(text);
   const shadowOffset= inferShadowOffset(text);
-  const signalMode  = inferSignalMode(text);
-  const signalLock  = inferSignalLock(text);
-  const coherence   = inferCoherence(mode, text);
+  const manualTrack = normalizeSignalTrackValue(raw.signal?.track);
+  const manualArtists = normalizeSignalArtistList(raw.signal?.artists);
+  const signalTrack = manualTrack || inferSignalTrackValue(sourceBody, text);
+  const signalArtists = manualArtists.length > 0 ? manualArtists : inferSignalArtistsValue(sourceBody, text);
+  const hasSignal = Boolean(signalTrack) || signalArtists.length > 0;
+  const signalMode  = inferSignalMode(text, hasSignal);
+  const signalLock  = inferSignalLock(text, hasSignal);
+  const coherence   = inferCoherence(mode, text, hasSignal);
   const recommendation = inferRecommendation(mode, pollen, pm25);
   const traceConf   = inferTraceConfidence(text);
   const pressure    = inferPressure(text);
   const notes       = inferNotes(text, mode);
   const anomalies   = inferAnomalies(text, timestamp);
   const titleStem   = raw.title ? slugify(raw.title) : 'scroll-field';
-
-  const artists = raw.signal?.artists || [
-    ...(text.includes('snoop') ? ['Snoop Dogg'] : []),
-    ...(text.includes('nate dogg') ? ['Nate Dogg'] : []),
-  ];
+  const inferredBpm = raw.signal?.bpm || (hasSignal && includesAny(text, ['6wa', 'snoop', 'nate dogg', 'bpm', 'tempo']) ? 92 : undefined);
+  const signal = {
+    ...(signalTrack ? { track: signalTrack } : {}),
+    ...(signalArtists.length > 0 ? { artists: signalArtists } : {}),
+    ...(coherence !== null ? { coherence } : {}),
+    ...(Number.isFinite(inferredBpm) ? { bpm: inferredBpm } : {}),
+    ...(signalMode ? { mode: signalMode } : {}),
+    ...(includesAny(text, ['hook','singing','nate dogg']) ? { hook_acquired: true } : {}),
+    ...(text.includes('nate dogg') ? { guide_signal: 'NATE DOGG' } : {}),
+    ...(signalLock ? { signal_lock: signalLock } : {}),
+  };
 
   return {
     artifact: {
@@ -2899,16 +3213,7 @@ function ingestScrollToPacket(raw) {
       recommendation,
       saturation_class: pollen === 'SATURATED' ? 'GREEN DEATH MIST' : 'NOMINAL DRIFT',
     },
-    signal: {
-      track: raw.signal?.track || (text.includes('6wa') ? '6WA' : 'UNLOCKED SIGNAL'),
-      artists,
-      coherence,
-      bpm: raw.signal?.bpm || (signalMode !== 'NEUTRAL' ? 92 : undefined),
-      mode: signalMode,
-      hook_acquired: includesAny(text, ['hook','singing','nate dogg']),
-      guide_signal: text.includes('nate dogg') ? 'NATE DOGG' : undefined,
-      signal_lock: signalLock,
-    },
+    signal,
     internal_state: {
       stability: mode==='GLIDE'?92:mode==='TARGET'?68:mode==='SEALED'?84:78,
       cognitive_load: mode==='TARGET'?84:mode==='RECURSIVE'?64:56,
@@ -2931,6 +3236,13 @@ function ingestScrollToPacket(raw) {
     _source: raw.body,
     _codex_type: inferCodexObjectType(text),
     _axes: inferAxes(mode, text, inferCodexObjectType(text)),
+    _ui_mode: inferSignalUiMode({
+      signal,
+      atmosphere: { pollen, intake_risk: pm25 >= 55 ? 'HIGH' : pm25 >= 25 ? 'MODERATE' : 'LOW' },
+      trauma_weather: trauma,
+      shadow: { offset: shadowOffset },
+      anomalies,
+    }),
   };
 }
 
@@ -3051,12 +3363,12 @@ function updateSystemBar(p) {
   document.getElementById('sys-packet').textContent = p.system.packet;
   document.getElementById('sys-net').textContent = p.system.network;
   document.getElementById('sys-mode').textContent = p.mode;
-  document.getElementById('sys-signal').textContent = p.signal.signal_lock;
+  document.getElementById('sys-signal').textContent = p.signal?.signal_lock || 'NO SIGNAL';
   document.getElementById('sys-artifact-id').textContent = p.artifact.id;
 
   const modeColors = { SEALED:'nominal', GLIDE:'nominal', TARGET:'degraded', RECURSIVE:'degraded' };
   document.getElementById('sys-dot-mode').className = `sys-dot ${modeColors[p.mode]||'degraded'}`;
-  document.getElementById('sys-dot-signal').className = `sys-dot ${p.signal.signal_lock==='OBSERVED'?'nominal':p.signal.signal_lock==='INFERRED'?'degraded':'alert'}`;
+  document.getElementById('sys-dot-signal').className = `sys-dot ${p.signal?.signal_lock==='OBSERVED'?'nominal':p.signal?.signal_lock==='INFERRED'?'degraded':'degraded'}`;
   
   // Check for overflow and enable scrolling/marquee if needed
   setTimeout(checkSystemBarOverflow, 100);
@@ -3076,7 +3388,7 @@ function renderHUD(p) {
   const pillData = [
     p.atmosphere.recommendation,
     p.signal.mode,
-    `LOCK: ${p.signal.signal_lock}`,
+    p.signal.signal_lock ? `LOCK: ${p.signal.signal_lock}` : null,
     p.trauma_weather.alert !== 'NONE' ? `⚠ ${p.trauma_weather.alert}` : null,
     p.atmosphere.saturation_class,
   ].filter(Boolean);
@@ -3090,8 +3402,12 @@ function renderHUD(p) {
   });
 
   // Gauges
-  setGauge('h-stability', p.internal_state.stability, `ANCHOR: ${p.internal_state.anchor_lock}`);
-  setGauge('h-coherence', p.signal.coherence, `ALIGN: ${p.internal_state.signal_alignment}%`);
+  setGauge('h-stability', p.internal_state.stability, `ANCHOR: ${p.internal_state.anchor_lock || '—'}`);
+  setGauge(
+    'h-coherence',
+    p.signal.coherence,
+    Number.isFinite(p.internal_state.signal_alignment) ? `ALIGN: ${p.internal_state.signal_alignment}%` : 'ALIGN: —'
+  );
   setGauge('h-cog', p.internal_state.cognitive_load, `RESPIRATION: ${p.internal_state.respiration}`, true);
 
   // Atmosphere
@@ -3103,22 +3419,8 @@ function renderHUD(p) {
   document.getElementById('h-resp').textContent = p.internal_state.respiration;
   document.getElementById('h-resp-sub').textContent = `PRESSURE: ${p.internal_state.pressure}`;
 
-  // Signal
-  document.getElementById('h-track').textContent = p.signal.track;
-  document.getElementById('h-artists').textContent = p.signal.artists.join(' / ') || '—';
-  const sigBadges = document.getElementById('h-signal-badges');
-  sigBadges.innerHTML = '';
-  [
-    { label: p.signal.signal_lock, cls: `conf-${p.signal.signal_lock?.toLowerCase()}` },
-    p.signal.hook_acquired ? { label: 'HOOK ACQUIRED' } : null,
-    p.signal.guide_signal ? { label: `GUIDE: ${p.signal.guide_signal}` } : null,
-    p.signal.bpm ? { label: `${p.signal.bpm} BPM` } : null,
-  ].filter(Boolean).forEach(b => {
-    const el = document.createElement('span');
-    el.className = `pill active-pill ${b.cls||''}`;
-    el.textContent = b.label;
-    sigBadges.appendChild(el);
-  });
+  // Signal Ident
+  renderSignalIdent(p);
 
   // Trauma weather
   const twColors = { NONE:'var(--amber-dim)', WATCH:'var(--amber)', TRIGGERED:'var(--red-bright)' };
@@ -3186,10 +3488,11 @@ function renderHUD(p) {
 }
 
 function setGauge(id, value, sublabel, invert) {
-  document.getElementById(id).textContent = value;
+  const numericValue = Number.isFinite(value) ? Number(value) : null;
+  document.getElementById(id).textContent = numericValue === null ? '—' : numericValue;
   document.getElementById(`${id}-label`).textContent = sublabel;
   setTimeout(() => {
-    document.getElementById(`${id}-gauge`).style.width = `${value}%`;
+    document.getElementById(`${id}-gauge`).style.width = `${numericValue === null ? 0 : numericValue}%`;
   }, 100);
 }
 
@@ -3220,6 +3523,46 @@ function checkSystemBarOverflow() {
 window.addEventListener('resize', checkSystemBarOverflow);
 
 // ── RENDER REPORT PLATE ──
+function buildSignalReportSection(packet) {
+  if (!hasSignalIdent(packet)) {
+    return '';
+  }
+
+  const signal = packet.signal || {};
+  const uiMode = packet._ui_mode || 'ENHANCED';
+  const track = normalizeSignalTrackValue(signal.track);
+  const artists = normalizeSignalArtistList(signal.artists).join(' / ');
+  const lead = track || artists;
+
+  if (uiMode === 'SIMPLE' && lead) {
+    return `
+      <div class="rp-section">
+        <div class="rp-section-label">Signal</div>
+        <div class="rp-signal-track">${escapeHtml(lead)}</div>
+        ${track && artists ? `<div class="rp-signal-artists">${escapeHtml(artists)}</div>` : ''}
+        ${signal.mode ? `<div class="rp-signal-mode">${escapeHtml(signal.mode)}</div>` : ''}
+      </div>
+    `;
+  }
+
+  const lines = getSignalIdentLines(packet);
+  if (!lines.length) {
+    return '';
+  }
+
+  return `
+    <div class="rp-section">
+      <div class="rp-section-label">Signal Identification</div>
+      ${lines.map((line) => `
+        <div class="rp-row">
+          <span class="rp-row-key">${escapeHtml(line.key)}</span>
+          <span class="rp-row-val ${line.key === 'Track' ? 'hi' : ''}">${escapeHtml(line.value)}</span>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
 function renderReportPlate(p, sourceText) {
   document.getElementById('report-empty').style.display = 'none';
   document.getElementById('report-content').style.display = 'block';
@@ -3227,6 +3570,8 @@ function renderReportPlate(p, sourceText) {
   const ts = new Date(p.system.timestamp);
   const dateStr = ts.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   const timeStr = ts.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+  const signalSection = buildSignalReportSection(p);
+  const signalDominant = Boolean(signalSection) && p._ui_mode === 'SIMPLE';
 
   const plate = document.getElementById('report-plate');
   plate.innerHTML = `
@@ -3245,6 +3590,8 @@ function renderReportPlate(p, sourceText) {
       <div class="rp-source-text">${escapeHtml(sourceText)}</div>
     </div>
     ` : ''}
+
+    ${signalDominant ? signalSection : ''}
 
     <div class="rp-section">
       <div class="rp-section-label">Field State</div>
@@ -3266,15 +3613,7 @@ function renderReportPlate(p, sourceText) {
       <div class="rp-row"><span class="rp-row-key">Recommendation</span><span class="rp-row-val">${p.atmosphere.recommendation}</span></div>
     </div>
 
-    <div class="rp-section">
-      <div class="rp-section-label">Signal</div>
-      <div class="rp-row"><span class="rp-row-key">Track</span><span class="rp-row-val hi">${p.signal.track}</span></div>
-      <div class="rp-row"><span class="rp-row-key">Artists</span><span class="rp-row-val">${p.signal.artists.join(', ')||'—'}</span></div>
-      <div class="rp-row"><span class="rp-row-key">Coherence</span><span class="rp-row-val">${p.signal.coherence}</span></div>
-      <div class="rp-row"><span class="rp-row-key">Mode</span><span class="rp-row-val">${p.signal.mode}</span></div>
-      <div class="rp-row"><span class="rp-row-key">Lock</span><span class="rp-row-val">${p.signal.signal_lock}</span></div>
-      ${p.signal.guide_signal ? `<div class="rp-row"><span class="rp-row-key">Guide Signal</span><span class="rp-row-val hi">${p.signal.guide_signal}</span></div>` : ''}
-    </div>
+    ${signalDominant ? '' : signalSection}
 
     <div class="rp-section">
       <div class="rp-section-label">Trauma Weather · Shadow</div>
@@ -3345,7 +3684,7 @@ function renderRespawn(p) {
   document.getElementById('rs-1-content').innerHTML = `
     <div style="margin-bottom:6px;">Active mode: <strong style="color:var(--amber-accent)">${p.mode}</strong></div>
     <div style="margin-bottom:4px;">Intake burden: <strong>${p.atmosphere.intake_risk}</strong> · Pollen: <strong>${p.atmosphere.pollen}</strong></div>
-    <div style="margin-bottom:4px;">Signal stabilizing: <strong>${p.signal.track}</strong>${p.signal.guide_signal ? ' · Guide: ' + p.signal.guide_signal : ''}</div>
+    ${hasSignalIdent(p) ? `<div style="margin-bottom:4px;">Signal stabilizing: <strong>${escapeHtml(normalizeSignalTrackValue(p.signal.track) || normalizeSignalArtistList(p.signal.artists).join(' / '))}</strong>${p.signal.guide_signal ? ' · Guide: ' + escapeHtml(p.signal.guide_signal) : ''}</div>` : ''}
     ${p.shadow.note ? `<div style="color:var(--amber-dim); font-family:'Space Mono',monospace; font-size:12px; margin-top:6px;">${p.shadow.note}</div>` : ''}
   `;
   document.getElementById('rs-1').classList.add('complete');
@@ -3360,7 +3699,7 @@ function renderRespawn(p) {
   document.getElementById('rs-2-content').innerHTML = `
     <div style="color:var(--amber-accent); margin-bottom:6px; letter-spacing:0.1em;">${p.mode}</div>
     <div style="font-family:'Cormorant Garamond',serif; font-size:14px; color:var(--text-body);">${modeDesc[p.mode]}</div>
-    <div style="margin-top:8px; font-size:9px;">Stability: ${p.internal_state.stability} · Coherence: ${p.signal.coherence} · Anchor: ${p.internal_state.anchor_lock}</div>
+    <div style="margin-top:8px; font-size:9px;">Stability: ${p.internal_state.stability} · Coherence: ${Number.isFinite(p.signal.coherence) ? p.signal.coherence : '—'} · Anchor: ${p.internal_state.anchor_lock || '—'}</div>
   `;
   document.getElementById('rs-2').classList.add('complete');
 
@@ -3417,7 +3756,7 @@ function renderIngestLog(p) {
     MODE SCORES: SEALED=${scoreDisplay.SEALED} GLIDE=${scoreDisplay.GLIDE} TARGET=${scoreDisplay.TARGET} RECURSIVE=${scoreDisplay.RECURSIVE}<br>
     → INFERRED MODE: <strong style="color:var(--amber-accent)">${p.mode}</strong><br>
     OBJECT TYPE: ${(p._codex_type || 'signal').toUpperCase()}<br>
-    SIGNAL LOCK: ${p.signal.signal_lock} · SIGNAL MODE: ${p.signal.mode}<br>
+    ${hasSignalIdent(p) ? `SIGNAL LOCK: ${p.signal.signal_lock || '—'} · SIGNAL MODE: ${p.signal.mode || '—'}<br>` : ''}
     TRAUMA WEATHER: ${p.trauma_weather.alert} · BODY RESPONSE: ${p.trauma_weather.body_response}<br>
     SHADOW OFFSET: ${p.shadow.offset} · DESYNC: ${p.shadow.desynchronization}<br>
     ANOMALIES DETECTED: ${p.anomalies.length}<br>

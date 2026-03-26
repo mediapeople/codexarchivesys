@@ -198,6 +198,10 @@ const universalFields = {
   location:       z.string().optional(),
   geo:            z.string().optional(),
   terrain:        z.string().optional(),
+  signal_track:   z.string().optional(),
+  signal_artists: z.array(z.string()).default([]),
+  signal_mode:    z.string().optional(),
+  signal_lock:    z.enum(['OBSERVED', 'INFERRED', 'PENDING']).optional(),
   author:         Contributor.optional(),
   contributors:   z.array(Contributor).default([]),
 };

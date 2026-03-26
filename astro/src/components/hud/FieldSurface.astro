@@ -37,6 +37,11 @@ function joinParts(parts: string[], separator = ' / '): string {
   return parts.filter(Boolean).join(separator);
 }
 
+function normalizeSignalTrack(value: unknown): string {
+  const normalized = asString(value);
+  return normalized.toUpperCase() === 'UNLOCKED SIGNAL' ? '' : normalized;
+}
+
 const packetData = asRecord(packet);
 const artifact = asRecord(packetData?.artifact);
 const signal = asRecord(packetData?.signal);
@@ -47,8 +52,11 @@ const shadow = asRecord(packetData?.shadow);
 const packetId = asString(artifact?.id);
 const packetClass = asString(artifact?.class);
 const fieldLabel = joinParts([asString(artifact?.sector), asString(artifact?.region)]);
-const trackLabel = asString(signal?.track);
-const artistLabel = joinParts(asStringList(signal?.artists), ', ');
+const trackLabel = normalizeSignalTrack(signal?.track);
+const signalArtists = asStringList(signal?.artists);
+const artistLabel = joinParts(signalArtists, ', ');
+const hasSignal = Boolean(trackLabel) || signalArtists.length > 0;
+const uiMode = asString(packetData?._ui_mode) || 'ENHANCED';
 const modeLabel = asString(packetData?.mode);
 const signalMode = asString(signal?.mode);
 const coherenceValue = asNumber(signal?.coherence);
@@ -83,7 +91,7 @@ const hudFirst = initialView !== 'plate';
 const surfaceStates = [
   'Packet-backed',
   packetId ? 'Stored snapshot' : 'Awaiting packet',
-  trackLabel ? 'Signal-led' : 'Open fragment',
+  hasSignal ? 'Signal-led' : 'Open fragment',
 ];
 
 const reportCards = [
@@ -105,12 +113,18 @@ const hudCards = [
   { label: 'Packet', value: packetId || 'No packet stored' },
   { label: 'Class', value: packetClass || '—' },
   { label: 'Field', value: fieldLabel || '—' },
-  { label: 'Signal Mode', value: signalMode || '—' },
+  { label: 'Signal Mode', value: signalMode || '' },
   { label: 'Atmosphere', value: atmosphereLabel || '—' },
   { label: 'Watch', value: watchLabel },
   { label: 'Shadow', value: shadowLabel },
   { label: 'Object Path', value: objectPathLabel },
-];
+].filter((card) => card.value);
+
+const signalMeta = [
+  { label: 'Mode', value: signalMode || modeLabel },
+  { label: 'BPM', value: bpmValue !== null ? String(bpmValue) : '' },
+  { label: 'Coherence', value: coherenceValue !== null ? String(coherenceValue) : '' },
+].filter((item) => item.value);
 ---
 
 <section class="field-surface-wrap" data-view={hudFirst ? 'hud' : 'report'}>
@@ -136,37 +150,36 @@ const hudCards = [
       </div>
     </header>
 
-    <section class="field-surface-signal-strip" aria-label="Signal strip">
-      <div class="field-surface-signal-band">
-        <div class="field-surface-signal-core">
-          <div class="field-surface-eq" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
+    {hasSignal && (
+      <section class="field-surface-signal-strip" aria-label="Signal ident">
+        <div class="field-surface-signal-band" data-signal-mode={uiMode}>
+          <div class="field-surface-signal-core">
+            <div class="field-surface-eq" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div>
+              <p class="field-surface-micro">Signal Ident</p>
+              {trackLabel && <p class="field-surface-track">{trackLabel}</p>}
+              {artistLabel && <p class="field-surface-artists">{artistLabel}</p>}
+              {uiMode === 'SIMPLE' && signalMode && <p class="field-surface-mode-line">{signalMode}</p>}
+            </div>
           </div>
-          <div>
-            <p class="field-surface-micro">Signal</p>
-            <p class="field-surface-track">{trackLabel || 'Unscored signal'}</p>
-            <p class="field-surface-artists">{artistLabel || 'No artist reference stored'}</p>
-          </div>
-        </div>
 
-        <dl class="field-surface-mini">
-          <div>
-            <dt>Mode</dt>
-            <dd>{modeLabel || '—'}</dd>
-          </div>
-          <div>
-            <dt>BPM</dt>
-            <dd>{bpmValue ?? '—'}</dd>
-          </div>
-          <div>
-            <dt>Coherence</dt>
-            <dd>{coherenceValue ?? '—'}</dd>
-          </div>
-        </dl>
-      </div>
-    </section>
+          {uiMode !== 'SIMPLE' && signalMeta.length > 0 && (
+            <dl class="field-surface-mini">
+              {signalMeta.map((item) => (
+                <div>
+                  <dt>{item.label}</dt>
+                  <dd>{item.value}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
+        </div>
+      </section>
+    )}
 
     {hudFirst ? (
       <>
@@ -488,6 +501,15 @@ const hudCards = [
     font-family: 'Cormorant Garamond', var(--font-body);
     font-size: 1.08rem;
     line-height: 1.5;
+  }
+
+  .field-surface-mode-line {
+    margin: 0.38rem 0 0;
+    color: var(--field-amber-accent);
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
   }
 
   .field-surface-mini {
