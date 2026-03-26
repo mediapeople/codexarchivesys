@@ -193,6 +193,29 @@
     background: rgba(201,161,90,0.06);
   }
 
+  .ingest-field-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 4px 0 16px;
+  }
+
+  .smartfill-note {
+    margin: 0;
+    color: var(--amber-dim);
+    font-family: 'Libre Baskerville', Georgia, serif;
+    font-size: 11px;
+    line-height: 1.6;
+    max-width: 38rem;
+  }
+
+  .smartfill-note strong {
+    color: var(--amber-em);
+    font-weight: 600;
+  }
+
   .field-label {
     font-family: 'Space Mono', 'Courier New', monospace;
     font-size: 12px;
@@ -1377,6 +1400,16 @@
       font-size: 11px;
     }
 
+    .ingest-field-actions {
+      align-items: stretch;
+    }
+
+    .ingest-field-actions .btn-export {
+      width: 100%;
+      margin-right: 0;
+      margin-bottom: 0;
+    }
+
     .pigeon-auth-actions {
       flex-direction: column;
     }
@@ -1613,6 +1646,15 @@ Your voice becomes the system."></textarea>
             <option value="SATURATED">SATURATED</option>
           </select>
         </div>
+      </div>
+
+      <div class="ingest-field-actions">
+        <p class="smartfill-note" id="smartfill-note">
+          Smart fill watches the fragment and <strong>fills blank fields</strong> from the language without overwriting your edits.
+        </p>
+        <button class="btn-export" id="btn-smartfill" type="button" onclick="applySmartFillToMetadata({ force: true, toast: true })">
+          Smart Fill Fields
+        </button>
       </div>
 
       <button class="btn-ingest" id="btn-ingest" onclick="runIngest()">
@@ -1931,8 +1973,13 @@ setInterval(updateClock, 1000);
 updateClock();
 
 const PIGEON_KEY_STORAGE_KEY = 'carrier-pigeon.shared-key';
+const FIELD_HUD_DRAFT_KEY = 'field-hud-draft';
+const FIELD_HUD_METADATA_DRAFT_KEY = 'field-hud-draft-metadata';
+const FIELD_HUD_SMART_FILL_SOURCE = 'smart';
 const DEFAULT_INGEST_BUTTON_HTML = `✦ Ingest Fragment → Generate Packet
         <span style="font-size: 10px; opacity: 0.7; margin-left: 8px;">(Ctrl+Enter)</span>`;
+
+let fieldMetadataProgrammaticWrites = 0;
 
 function activateTab(name) {
   document.querySelectorAll('.tab').forEach((tab) => tab.classList.toggle('active', tab.dataset.tab === name));
@@ -2012,6 +2059,7 @@ function setupWritingSurface() {
   const charCount = document.getElementById('char-count');
   const autoSaveStatus = document.getElementById('auto-save-status');
   let saveTimeout;
+  let smartFillTimeout;
 
   // Character count
   function updateCharCount() {
@@ -2023,7 +2071,7 @@ function setupWritingSurface() {
   // Auto-save to localStorage
   function autoSave() {
     try {
-      localStorage.setItem('field-hud-draft', textarea.value);
+      localStorage.setItem(FIELD_HUD_DRAFT_KEY, textarea.value);
       if (autoSaveStatus) {
         autoSaveStatus.textContent = 'saved';
         setTimeout(() => {
@@ -2037,7 +2085,7 @@ function setupWritingSurface() {
 
   // Restore draft on load
   try {
-    const draft = localStorage.getItem('field-hud-draft');
+    const draft = localStorage.getItem(FIELD_HUD_DRAFT_KEY);
     if (draft && draft.trim() && !textarea.value.trim()) {
       textarea.value = draft;
       updateCharCount();
@@ -2049,8 +2097,10 @@ function setupWritingSurface() {
   textarea.addEventListener('input', () => {
     updateCharCount();
     clearTimeout(saveTimeout);
+    clearTimeout(smartFillTimeout);
     if (autoSaveStatus) autoSaveStatus.textContent = 'saving...';
     saveTimeout = setTimeout(autoSave, 800);
+    smartFillTimeout = setTimeout(() => applySmartFillToMetadata(), 420);
   });
 
   textarea.addEventListener('keydown', (e) => {
@@ -2062,10 +2112,260 @@ function setupWritingSurface() {
   });
 
   updateCharCount();
+  setTimeout(() => applySmartFillToMetadata(), 80);
 }
 
 // Initialize writing surface when DOM is ready
 document.addEventListener('DOMContentLoaded', setupWritingSurface);
+
+function withFieldMetadataProgrammaticWrite(callback) {
+  fieldMetadataProgrammaticWrites += 1;
+  try {
+    callback();
+  } finally {
+    fieldMetadataProgrammaticWrites = Math.max(0, fieldMetadataProgrammaticWrites - 1);
+  }
+}
+
+function getFieldMetadataElements() {
+  return {
+    location: document.getElementById('input-location'),
+    region: document.getElementById('input-region'),
+    track: document.getElementById('input-track'),
+    artists: document.getElementById('input-artists'),
+    bpm: document.getElementById('input-bpm'),
+    pollen: document.getElementById('input-pollen'),
+  };
+}
+
+function normalizeFieldMetadataValue(key, value) {
+  const normalized = String(value || '').trim();
+  if (!normalized) return '';
+
+  if (key === 'bpm') {
+    const digits = normalized.match(/\d{2,3}/);
+    return digits ? digits[0] : '';
+  }
+
+  if (key === 'pollen') {
+    const upper = normalized.toUpperCase();
+    if (upper === 'MEDIUM') return 'MED';
+    return ['LOW', 'MED', 'HIGH', 'SATURATED'].includes(upper) ? upper : '';
+  }
+
+  return normalized;
+}
+
+function saveFieldMetadataDraft() {
+  try {
+    const fields = getFieldMetadataElements();
+    const payload = Object.fromEntries(
+      Object.entries(fields).map(([key, element]) => [key, normalizeFieldMetadataValue(key, element?.value || '')])
+    );
+    localStorage.setItem(FIELD_HUD_METADATA_DRAFT_KEY, JSON.stringify(payload));
+  } catch (error) {
+    console.log('Field metadata draft save disabled (localStorage unavailable)');
+  }
+}
+
+function restoreFieldMetadataDraft() {
+  try {
+    const raw = localStorage.getItem(FIELD_HUD_METADATA_DRAFT_KEY);
+    if (!raw) return;
+
+    const saved = JSON.parse(raw);
+    if (!saved || typeof saved !== 'object') return;
+
+    const fields = getFieldMetadataElements();
+    withFieldMetadataProgrammaticWrite(() => {
+      Object.entries(fields).forEach(([key, element]) => {
+        if (!element) return;
+        const value = normalizeFieldMetadataValue(key, saved[key]);
+        if (!value || normalizeFieldMetadataValue(key, element.value)) return;
+        element.value = value;
+        element.dataset.smartFillSource = 'manual';
+      });
+    });
+  } catch (error) {
+    console.log('Field metadata draft restore disabled (localStorage unavailable)');
+  }
+}
+
+function setSmartFillNote(message) {
+  const note = document.getElementById('smartfill-note');
+  if (!note) return;
+  note.innerHTML = message;
+}
+
+function escapeRegex(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function extractLabeledMetadata(body, labels) {
+  const pattern = labels.map((label) => escapeRegex(label).replace(/\s+/g, '\\s+')).join('|');
+  const match = String(body || '').match(new RegExp(`(?:^|\\n)\\s*(?:${pattern})\\s*[:=-]\\s*([^\\n]+)`, 'i'));
+  return match ? match[1].trim() : '';
+}
+
+function inferSmartFillMetadata(body) {
+  const source = String(body || '').trim();
+  if (!source) return {};
+
+  const text = source.toLowerCase();
+  const previewPacket = ingestScrollToPacket({ body: source, timestamp: new Date().toISOString() });
+  const previewArtifact = previewPacket && typeof previewPacket === 'object' ? previewPacket.artifact || {} : {};
+  const previewSignal = previewPacket && typeof previewPacket === 'object' ? previewPacket.signal || {} : {};
+  const previewAtmosphere = previewPacket && typeof previewPacket === 'object' ? previewPacket.atmosphere || {} : {};
+
+  const explicitLocation = extractLabeledMetadata(source, ['location', 'site', 'place']);
+  const explicitRegion = extractLabeledMetadata(source, ['region', 'node', 'sector']);
+  const explicitTrack = extractLabeledMetadata(source, ['track', 'song', 'signal']);
+  const explicitArtists = extractLabeledMetadata(source, ['artists', 'artist', 'by']);
+  const explicitBpm = extractLabeledMetadata(source, ['bpm', 'tempo']) || (source.match(/\b(\d{2,3})\s*bpm\b/i)?.[1] || '');
+  const explicitPollen = extractLabeledMetadata(source, ['pollen', 'pollen override', 'air load']);
+
+  const artists = [];
+  if (text.includes('snoop dogg') || text.includes('snoop')) artists.push('Snoop Dogg');
+  if (text.includes('nate dogg')) artists.push('Nate Dogg');
+
+  const suggestions = {
+    location:
+      explicitLocation ||
+      (includesAny(text, ['pike lot', 'outside pike', 'mac d', 'mac ds', 'mcdonald']) ? 'Pike Lot' :
+      includesAny(text, ['river birth', 'flood plain']) ? 'River Birth Side' :
+      includesAny(text, ['cherry blossom']) ? 'Cherry Blossom Perimeter' :
+      normalizeFieldMetadataValue('location', previewArtifact.sector) !== 'UNSPECIFIED FIELD'
+        ? normalizeFieldMetadataValue('location', previewArtifact.sector)
+        : ''),
+    region:
+      explicitRegion ||
+      (includesAny(text, ['mac d', 'mac ds', 'mcdonald']) ? "Mac D's Node" :
+      includesAny(text, ['river birth', 'flood plain']) ? 'River Birth Side' :
+      includesAny(text, ['cherry blossom']) ? 'Cherry Blossom Perimeter' :
+      normalizeFieldMetadataValue('region', previewArtifact.region)),
+    track:
+      explicitTrack ||
+      (text.includes('6wa') ? '6WA' :
+      normalizeFieldMetadataValue('track', previewSignal.track) !== 'UNLOCKED SIGNAL'
+        ? normalizeFieldMetadataValue('track', previewSignal.track)
+        : ''),
+    artists:
+      explicitArtists ||
+      (artists.length > 0 ? artists.join(', ') :
+      Array.isArray(previewSignal.artists) && previewSignal.artists.length > 0
+        ? previewSignal.artists.map((artist) => normalizeFieldMetadataValue('artists', artist)).filter(Boolean).join(', ')
+        : ''),
+    bpm:
+      explicitBpm ||
+      (previewSignal.bpm && (explicitTrack || explicitArtists || includesAny(text, ['6wa', 'snoop', 'nate dogg', 'bpm', 'tempo']))
+        ? String(previewSignal.bpm)
+        : ''),
+    pollen:
+      explicitPollen ||
+      (includesAny(text, ['green death mist', 'pollen so thick', 'pollen saturation', 'saturated air']) ? 'SATURATED' :
+      includesAny(text, ['high pollen', 'pollen heavy', 'weaponizing beauty']) ? 'HIGH' :
+      text.includes('pollen') && normalizeFieldMetadataValue('pollen', previewAtmosphere.pollen)
+        ? normalizeFieldMetadataValue('pollen', previewAtmosphere.pollen)
+        : ''),
+  };
+
+  return Object.fromEntries(
+    Object.entries(suggestions)
+      .map(([key, value]) => [key, normalizeFieldMetadataValue(key, value)])
+      .filter(([, value]) => Boolean(value))
+  );
+}
+
+function canApplySmartFill(element, force) {
+  if (!element) return false;
+
+  const currentValue = String(element.value || '').trim();
+  const source = element.dataset.smartFillSource || '';
+
+  if (force) {
+    return !currentValue || source === FIELD_HUD_SMART_FILL_SOURCE || source === 'manual-empty';
+  }
+
+  if (!currentValue) {
+    return source !== 'manual-empty';
+  }
+
+  return source === FIELD_HUD_SMART_FILL_SOURCE;
+}
+
+function applySmartFillToMetadata(options) {
+  const config = options && typeof options === 'object' ? options : {};
+  const force = Boolean(config.force);
+  const toast = Boolean(config.toast);
+  const body = document.getElementById('input-body')?.value || '';
+
+  if (!String(body).trim()) {
+    if (toast) {
+      showToast('Write a fragment first, then smart fill the side fields');
+    }
+    return 0;
+  }
+
+  const suggestions = inferSmartFillMetadata(body);
+  const fields = getFieldMetadataElements();
+  const applied = [];
+
+  withFieldMetadataProgrammaticWrite(() => {
+    Object.entries(suggestions).forEach(([key, value]) => {
+      const element = fields[key];
+      const normalizedValue = normalizeFieldMetadataValue(key, value);
+      if (!element || !normalizedValue || !canApplySmartFill(element, force)) {
+        return;
+      }
+
+      const currentValue = normalizeFieldMetadataValue(key, element.value);
+      if (currentValue === normalizedValue && element.dataset.smartFillSource === FIELD_HUD_SMART_FILL_SOURCE) {
+        return;
+      }
+
+      element.value = normalizedValue;
+      element.dataset.smartFillSource = FIELD_HUD_SMART_FILL_SOURCE;
+      applied.push(key);
+    });
+  });
+
+  if (applied.length > 0) {
+    saveFieldMetadataDraft();
+    const labels = applied.map((key) => key === 'bpm' ? 'BPM' : key.charAt(0).toUpperCase() + key.slice(1));
+    setSmartFillNote(`Smart fill suggested <strong>${labels.join(', ')}</strong> from the fragment. Manual edits stay locked in.`);
+    if (toast) {
+      showToast(`Smart fill updated ${applied.length} field${applied.length === 1 ? '' : 's'}`);
+    }
+  } else if (toast) {
+    setSmartFillNote('Smart fill did not find any new side-field suggestions yet. Add more field detail to the fragment or fill them by hand.');
+    showToast('No new smart-fill suggestions yet');
+  }
+
+  return applied.length;
+}
+
+function setupFieldMetadata() {
+  const fields = getFieldMetadataElements();
+  restoreFieldMetadataDraft();
+
+  Object.values(fields).forEach((element) => {
+    if (!element) return;
+
+    const markManual = () => {
+      if (fieldMetadataProgrammaticWrites > 0) return;
+      const normalized = String(element.value || '').trim();
+      element.dataset.smartFillSource = normalized ? 'manual' : 'manual-empty';
+      saveFieldMetadataDraft();
+    };
+
+    element.addEventListener('input', markManual);
+    element.addEventListener('change', markManual);
+  });
+
+  setTimeout(() => applySmartFillToMetadata(), 120);
+}
+
+document.addEventListener('DOMContentLoaded', setupFieldMetadata);
 
 function getStoredPigeonKey() {
   try {
@@ -2703,6 +3003,19 @@ function loadDemo() {
   demo._source = "Mac D's lot, 10:19 AM. Nate Dogg on the hook. Green death mist everywhere — pollen so thick it's visible. Windows sealed. River-memory bleeding through calm surface conditions.";
   demo._codex_type = 'loremap';
   demo._axes = { scale: 'meso', depth: 'structural', focus: 'system', function: 'diagnostic' };
+  withFieldMetadataProgrammaticWrite(() => {
+    document.getElementById('input-body').value = demo._source;
+    document.getElementById('input-location').value = 'Pike Lot';
+    document.getElementById('input-region').value = "Mac D's Node";
+    document.getElementById('input-track').value = '6WA';
+    document.getElementById('input-artists').value = 'Snoop Dogg, Nate Dogg';
+    document.getElementById('input-bpm').value = '92';
+    document.getElementById('input-pollen').value = 'SATURATED';
+    Object.values(getFieldMetadataElements()).forEach((element) => {
+      if (element) element.dataset.smartFillSource = FIELD_HUD_SMART_FILL_SOURCE;
+    });
+  });
+  saveFieldMetadataDraft();
   loadPacket(demo, demo._source, false);
   activateTab('hud');
   setTimeout(() => {
