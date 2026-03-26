@@ -1,0 +1,68 @@
+version: 1
+
+mythmech:
+  enabled: true
+  nodes:
+    - id: object
+      label: Object
+      role: sacred-authored-content
+      load: core
+    - id: sidecar
+      label: Sidecar
+      role: structural-memory
+      load: support
+    - id: marginalia
+      label: Marginalia
+      role: lightweight-input
+      load: sensing
+    - id: spawn
+      label: Spawn
+      role: generative-output
+      load: release
+  edges:
+    - from: object
+      to: sidecar
+      type: externalizes
+    - from: sidecar
+      to: marginalia
+      type: accepts
+    - from: sidecar
+      to: spawn
+      type: enables
+  states:
+    inspection: active
+    load: mapped
+    failure: watch
+    spawn: ready
+
+lineage:
+  parents:
+    - carrier-pigeon-publishing-system
+    - node-doctrine
+  children:
+    - mythmech-load-report
+    - mythmech-failure-scan
+  relations:
+    - ref: carrier-pigeon-publishing-system
+      kind: ingest bridge
+    - ref: node-doctrine
+      kind: archive logic
+    - ref: mythmech-load-report
+      kind: potential spawn
+
+spawn:
+  candidates:
+    - mythmech-load-report
+    - mythmech-failure-scan
+    - mythmech-lineage-map
+
+marginalia:
+  entries:
+    - type: seed
+      value: load-bearing lines can become new objects
+    - type: load
+      value: identify mega crystals and structural strain
+    - type: fail
+      value: name collapse points before they harden
+    - type: evol
+      value: track how relations change over time

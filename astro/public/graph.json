@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-22T12:54:40.103Z",
+  "generatedAt": "2026-03-26T23:21:35.649Z",
   "sourceDir": "./src/content",
-  "nodeCount": 118,
-  "edgeCount": 4340,
+  "nodeCount": 131,
+  "edgeCount": 4406,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -74,6 +74,17 @@
         "structure",
         "observation"
       ],
+      "constellations": []
+    },
+    {
+      "id": "barefoot-in-the-aisle",
+      "slug": "barefoot-in-the-aisle",
+      "url": "https://ndcodex.com/objects/barefoot-in-the-aisle/",
+      "stableId": "codex://object/barefoot-in-the-aisle",
+      "type": "artifact",
+      "title": "barefoot in the aisle—",
+      "date": "2026-03-26",
+      "themes": [],
       "constellations": []
     },
     {
@@ -157,6 +168,17 @@
         "methodology",
         "architecture"
       ],
+      "constellations": []
+    },
+    {
+      "id": "fragments-refuse-obedience",
+      "slug": "fragments-refuse-obedience",
+      "url": "https://ndcodex.com/objects/fragments-refuse-obedience/",
+      "stableId": "codex://object/fragments-refuse-obedience",
+      "type": "artifact",
+      "title": "Fragments refuse obedience",
+      "date": "2026-03-24",
+      "themes": [],
       "constellations": []
     },
     {
@@ -246,6 +268,17 @@
       "constellations": []
     },
     {
+      "id": "specimen-001-pre-flight-assembly-optimistic",
+      "slug": "specimen-001-pre-flight-assembly-optimistic",
+      "url": "https://ndcodex.com/objects/specimen-001-pre-flight-assembly-optimistic/",
+      "stableId": "codex://object/specimen-001-pre-flight-assembly-optimistic",
+      "type": "artifact",
+      "title": "Specimen 001 — Pre-Flight Assembly (Optimistic)",
+      "date": "2026-03-24",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "the-circle-the-node-and-the-office",
       "slug": "the-circle-the-node-and-the-office",
       "url": "https://ndcodex.com/objects/the-circle-the-node-and-the-office/",
@@ -260,6 +293,17 @@
         "methodology",
         "transmission"
       ],
+      "constellations": []
+    },
+    {
+      "id": "the-lot-protocol",
+      "slug": "the-lot-protocol",
+      "url": "https://ndcodex.com/objects/the-lot-protocol/",
+      "stableId": "codex://object/the-lot-protocol",
+      "type": "artifact",
+      "title": "The Lot Protocol",
+      "date": "2026-03-23",
+      "themes": [],
       "constellations": []
     },
     {
@@ -724,6 +768,23 @@
       "constellations": []
     },
     {
+      "id": "mythmech-system",
+      "slug": "mythmech-system",
+      "url": "https://ndcodex.com/codex/mythmech-system",
+      "stableId": "codex://object/mythmech-system",
+      "type": "codex",
+      "title": "Mythmech System",
+      "date": "2026-03-26",
+      "themes": [
+        "mythmech",
+        "inspection",
+        "lineage",
+        "spawn",
+        "systems"
+      ],
+      "constellations": []
+    },
+    {
       "id": "nd-codex-object-classification",
       "slug": "nd-codex-object-classification",
       "url": "https://ndcodex.com/objects/nd-codex-object-classification/",
@@ -769,6 +830,17 @@
         "release",
         "work"
       ],
+      "constellations": []
+    },
+    {
+      "id": "return-to-self-inside-the-system",
+      "slug": "return-to-self-inside-the-system",
+      "url": "https://ndcodex.com/objects/return-to-self-inside-the-system/",
+      "stableId": "codex://object/return-to-self-inside-the-system",
+      "type": "codex",
+      "title": "return to self inside the system",
+      "date": "2026-03-24",
+      "themes": [],
       "constellations": []
     },
     {
@@ -1130,6 +1202,28 @@
       "constellations": []
     },
     {
+      "id": "marginalia-on-spring-hostile-spring-holy-2026-03-23-17-45-25",
+      "slug": "marginalia-on-spring-hostile-spring-holy-2026-03-23-17-45-25",
+      "url": "https://ndcodex.com/objects/marginalia-on-spring-hostile-spring-holy-2026-03-23-17-45-25/",
+      "stableId": "codex://object/marginalia-on-spring-hostile-spring-holy-2026-03-23-17-45-25",
+      "type": "fragment",
+      "title": "Marginalia on Spring Hostile, Spring Holy 2026-03-23-17-45-25",
+      "date": "2026-03-23T21:45:25.644Z",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "marginalia-on-the-lot-protocol-2026-03-23-17-40-58",
+      "slug": "marginalia-on-the-lot-protocol-2026-03-23-17-40-58",
+      "url": "https://ndcodex.com/objects/marginalia-on-the-lot-protocol-2026-03-23-17-40-58/",
+      "stableId": "codex://object/marginalia-on-the-lot-protocol-2026-03-23-17-40-58",
+      "type": "fragment",
+      "title": "Marginalia on The Lot Protocol 2026-03-23-17-40-58",
+      "date": "2026-03-23T21:40:58.574Z",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "nothing-missing-only-unindexed",
       "slug": "nothing-missing-only-unindexed",
       "url": "https://ndcodex.com/objects/nothing-missing-only-unindexed/",
@@ -1283,6 +1377,17 @@
         "relationship",
         "memory"
       ],
+      "constellations": []
+    },
+    {
+      "id": "spring-hostile-spring-holy",
+      "slug": "spring-hostile-spring-holy",
+      "url": "https://ndcodex.com/objects/spring-hostile-spring-holy/",
+      "stableId": "codex://object/spring-hostile-spring-holy",
+      "type": "loremap",
+      "title": "Spring Hostile, Spring Holy",
+      "date": "2026-03-23",
+      "themes": [],
       "constellations": []
     },
     {
@@ -1709,6 +1814,17 @@
       "constellations": []
     },
     {
+      "id": "recombinant-theater-another-day",
+      "slug": "recombinant-theater-another-day",
+      "url": "https://ndcodex.com/objects/recombinant-theater-another-day",
+      "stableId": "codex://object/recombinant-theater-another-day",
+      "type": "scroll",
+      "title": "Recombinant theater, another day",
+      "date": "2026-03-26",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "ridge-line-lessons",
       "slug": "ridge-line-lessons",
       "url": "https://ndcodex.com/objects/ridge-line-lessons/",
@@ -1793,6 +1909,21 @@
       "constellations": [
         "Cascade Psalms"
       ]
+    },
+    {
+      "id": "signal-scroll-pink-dust-threshold",
+      "slug": "signal-scroll-pink-dust-threshold",
+      "url": "https://ndcodex.com/objects/signal-scroll-pink-dust-threshold",
+      "stableId": "codex://object/signal-scroll-pink-dust-threshold",
+      "type": "scroll",
+      "title": "✦ SIGNAL SCROLL: PINK DUST THRESHOLD ✦",
+      "date": "2026-03-26",
+      "themes": [
+        "GLIDE",
+        "MINOR",
+        "NONE"
+      ],
+      "constellations": []
     },
     {
       "id": "stairwell-signal",
@@ -1944,6 +2075,17 @@
       "constellations": []
     },
     {
+      "id": "phase-drift-desktop",
+      "slug": "phase-drift-desktop",
+      "url": "https://ndcodex.com/objects/phase-drift-desktop/",
+      "stableId": "codex://object/phase-drift-desktop",
+      "type": "signal",
+      "title": "PHASE DRIFT DESKTOP",
+      "date": "2026-03-24",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "signal-post-test",
       "slug": "signal-post-test",
       "url": "https://ndcodex.com/objects/signal-post-test/",
@@ -1972,6 +2114,21 @@
       "constellations": [
         "Cascade Psalms"
       ]
+    },
+    {
+      "id": "the-field-before-naming",
+      "slug": "the-field-before-naming",
+      "url": "https://ndcodex.com/objects/the-field-before-naming",
+      "stableId": "codex://object/the-field-before-naming",
+      "type": "signal",
+      "title": "✦ THE FIELD BEFORE NAMING ✦",
+      "date": "2026-03-26",
+      "themes": [
+        "NEUTRAL",
+        "NONE",
+        "WATCH"
+      ],
+      "constellations": []
     }
   ],
   "edges": [
@@ -7784,6 +7941,22 @@
       "reasons": [
         "shared-theme",
         "explicit-related"
+      ]
+    },
+    {
+      "source": "marginalia-on-spring-hostile-spring-holy-2026-03-23-17-45-25",
+      "target": "spring-hostile-spring-holy",
+      "weight": 4,
+      "reasons": [
+        "explicit-connection"
+      ]
+    },
+    {
+      "source": "marginalia-on-the-lot-protocol-2026-03-23-17-40-58",
+      "target": "the-lot-protocol",
+      "weight": 4,
+      "reasons": [
+        "explicit-connection"
       ]
     },
     {
@@ -24251,6 +24424,14 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "one-yard-from-forever",
       "weight": 1,
       "reasons": [
@@ -26307,6 +26488,14 @@
     },
     {
       "source": "builder-lineage-reflection",
+      "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -26524,6 +26713,14 @@
     {
       "source": "capture-and-convert",
       "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "mythmech-system",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -26756,6 +26953,14 @@
     {
       "source": "characters-in-the-field",
       "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "mythmech-system",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -27875,6 +28080,14 @@
     },
     {
       "source": "citizen-network-dispatch",
+      "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -28075,6 +28288,14 @@
     },
     {
       "source": "citizen-network-doctrine",
+      "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -28244,6 +28465,14 @@
     {
       "source": "citizen-network-map-hi-fi",
       "target": "mothers-calendar",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
+      "target": "mythmech-system",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -28467,6 +28696,14 @@
     },
     {
       "source": "codex-archive-system-v2-2",
+      "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -28651,6 +28888,14 @@
     },
     {
       "source": "codex-archive-system-v2-5-notes",
+      "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -28819,6 +29064,14 @@
     },
     {
       "source": "codex-archive-system-v2-6-notes",
+      "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -28940,6 +29193,14 @@
     {
       "source": "codex-archive-system-v2-7-notes",
       "target": "mothers-calendar",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "mythmech-system",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -29075,6 +29336,14 @@
     },
     {
       "source": "codex-archive-system-v3-1-build-notes",
+      "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -29188,6 +29457,14 @@
     {
       "source": "codex-archive-system-v3-10-media-handoff-notes",
       "target": "mothers-calendar",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "mythmech-system",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -29316,6 +29593,14 @@
     {
       "source": "codex-archive-system-v3-11-lattice-groundwork-notes",
       "target": "jsa-collage-evolution-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-11-lattice-groundwork-notes",
+      "target": "mythmech-system",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -29539,6 +29824,14 @@
     },
     {
       "source": "codex-archive-system-v3-12-marginalia-live-publish-notes",
+      "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-12-marginalia-live-publish-notes",
       "target": "node-doctrine",
       "weight": 1,
       "reasons": [
@@ -29787,6 +30080,14 @@
     },
     {
       "source": "codex-archive-system-v3-12-marginalia-notes",
+      "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-12-marginalia-notes",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -29915,6 +30216,14 @@
     },
     {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -30011,6 +30320,14 @@
     },
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -30115,6 +30432,14 @@
     },
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -30212,6 +30537,14 @@
     {
       "source": "codex-archive-system-v3-5-control-surface-notes",
       "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "mythmech-system",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -30324,6 +30657,14 @@
     {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "mythmech-system",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -30475,6 +30816,14 @@
     },
     {
       "source": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-7-loremap-foundation-notes",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -30588,6 +30937,14 @@
     {
       "source": "codex-archive-system-v3-8-specimen-surface-notes",
       "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "mythmech-system",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -30755,6 +31112,14 @@
     },
     {
       "source": "codex-archive-system-v3-9-orientation-clarity-notes",
+      "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-9-orientation-clarity-notes",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -30844,6 +31209,14 @@
     {
       "source": "codex-archive-system-v3-notes",
       "target": "mothers-calendar",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "mythmech-system",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -30956,6 +31329,14 @@
     {
       "source": "codex-archive-system-v3-plus-notes",
       "target": "mothers-calendar",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
+      "target": "mythmech-system",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -31092,6 +31473,14 @@
     {
       "source": "codex-glyph-grammar",
       "target": "mothers-calendar",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
+      "target": "mythmech-system",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -31315,6 +31704,14 @@
     },
     {
       "source": "codex-glyph-system-first-emergence",
+      "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -31491,6 +31888,14 @@
     },
     {
       "source": "constellation-node-alchemy",
+      "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -31596,6 +32001,14 @@
     {
       "source": "crane-field-illustration",
       "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "mythmech-system",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -31836,6 +32249,14 @@
     {
       "source": "disrespectful-power",
       "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "disrespectful-power",
+      "target": "mythmech-system",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -32355,6 +32776,14 @@
     },
     {
       "source": "flexible-machine-sweet-spot",
+      "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
       "target": "one-yard-from-forever-scroll-surface",
       "weight": 1,
       "reasons": [
@@ -32500,6 +32929,14 @@
     {
       "source": "garage-dispatch-001",
       "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "mythmech-system",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -32699,6 +33136,14 @@
     },
     {
       "source": "go-live-milestone",
+      "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -32819,6 +33264,14 @@
     },
     {
       "source": "grand-myth-central",
+      "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
       "target": "on-visceral-distillation",
       "weight": 1,
       "reasons": [
@@ -32932,6 +33385,14 @@
     {
       "source": "heart-does-not-dream",
       "target": "machine-creatures",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "heart-does-not-dream",
+      "target": "mythmech-system",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -33092,6 +33553,14 @@
     {
       "source": "i-work-with-machines-to-write-scripture",
       "target": "mothers-calendar",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "mythmech-system",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -34075,6 +34544,14 @@
     },
     {
       "source": "keep-the-operator-whistling",
+      "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
       "target": "phoenix-collage-fracture-study",
       "weight": 1,
       "reasons": [
@@ -34195,6 +34672,14 @@
     },
     {
       "source": "lean-mean-governance-machine",
+      "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -34292,6 +34777,14 @@
     {
       "source": "machine-creatures",
       "target": "mothers-calendar",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "mythmech-system",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -34699,6 +35192,14 @@
     },
     {
       "source": "mcginnis-ferry-threshold",
+      "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mcginnis-ferry-threshold",
       "target": "north-georgia-week-2",
       "weight": 1,
       "reasons": [
@@ -34916,6 +35417,182 @@
     {
       "source": "mothers-calendar",
       "target": "the-circle-the-node-and-the-office",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythmech-system",
+      "target": "node-doctrine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythmech-system",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythmech-system",
+      "target": "on-object-oriented-archives",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythmech-system",
+      "target": "on-visceral-distillation",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythmech-system",
+      "target": "operator-winks-at-the-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythmech-system",
+      "target": "quiet-vector-doctrine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythmech-system",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythmech-system",
+      "target": "reduce-novelty-before-care",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythmech-system",
+      "target": "scripture-with-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythmech-system",
+      "target": "shop-talk-framework",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythmech-system",
+      "target": "signal-descent-003",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythmech-system",
+      "target": "signal-descent-004",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythmech-system",
+      "target": "signal-descent-005",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythmech-system",
+      "target": "signal.citizen-agency",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythmech-system",
+      "target": "steel-elbow-flinchian",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythmech-system",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythmech-system",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythmech-system",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythmech-system",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythmech-system",
+      "target": "unacceptable-cost",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythmech-system",
+      "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythmech-system",
+      "target": "work-intelligence-v4g",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -37228,6 +37905,14 @@
     {
       "source": "signal-post-test",
       "target": "unacceptable-cost",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-scroll-pink-dust-threshold",
+      "target": "the-field-before-naming",
       "weight": 1,
       "reasons": [
         "shared-theme"

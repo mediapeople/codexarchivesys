@@ -1,10 +1,18 @@
 ---
+import {
+  buildMythmechLead,
+  buildMythmechSupport,
+  normalizePlatePrompt,
+  summarizeMythmech,
+} from '../../lib/mythmech';
 import { buildRespawnLead, parseRespawnSummary } from '../../lib/respawn';
 
 const {
   title,
   objectUrl,
   packet,
+  mythmech,
+  platePrompt,
   sourceText,
   respawn,
   initialView = 'hud',
@@ -12,6 +20,8 @@ const {
   title: string;
   objectUrl: string;
   packet: unknown | null;
+  mythmech: unknown | null;
+  platePrompt: string | null;
   sourceText: string;
   respawn: string | null;
   initialView?: 'hud' | 'plate';
@@ -39,12 +49,19 @@ function joinParts(parts: string[], separator = ' / '): string {
   return parts.filter(Boolean).join(separator);
 }
 
+function uniqueStrings(values: string[]): string[] {
+  return [...new Set(values.map((value) => value.trim()).filter(Boolean))];
+}
+
 function normalizeSignalTrack(value: unknown): string {
   const normalized = asString(value);
   return normalized.toUpperCase() === 'UNLOCKED SIGNAL' ? '' : normalized;
 }
 
 const packetData = asRecord(packet);
+const mythmechSummary = summarizeMythmech(mythmech);
+const mythmechLead = mythmechSummary ? buildMythmechLead(mythmechSummary) : '';
+const mythmechSupport = mythmechSummary ? buildMythmechSupport(mythmechSummary) : '';
 const artifact = asRecord(packetData?.artifact);
 const signal = asRecord(packetData?.signal);
 const atmosphere = asRecord(packetData?.atmosphere);
@@ -87,6 +104,7 @@ const packetNotes = Array.isArray(packetData?.notes)
 
 const normalizedSourceText = sourceText.trim();
 const normalizedRespawn = typeof respawn === 'string' && respawn.trim() ? respawn.trim() : '';
+const normalizedPlatePrompt = normalizePlatePrompt(platePrompt) || '';
 const objectSlug = objectUrl.split('/').filter(Boolean).pop() || '';
 const hudRoute = objectSlug ? `/codex/${encodeURIComponent(objectSlug)}/hud` : '#hud';
 const plateRoute = objectSlug ? `/codex/${encodeURIComponent(objectSlug)}/plate` : '#report';
@@ -94,14 +112,25 @@ const respawnEntries = parseRespawnSummary(normalizedRespawn);
 const respawnLead = buildRespawnLead(respawnEntries);
 const objectPathLabel = objectUrl;
 const hudFirst = initialView !== 'plate';
+const noPacketMessage = mythmechSummary
+  ? 'No packet sidecar is stored for this object yet. Mythmech remains attached as the active inspection lens.'
+  : 'No packet sidecar is stored for this object yet. The source fragment remains canonical and this surface will fill in as soon as a packet is present.';
+const hasMythmechDetailGrid = Boolean(
+  mythmechSummary &&
+    (mythmechSummary.stateCount > 0 ||
+      mythmechSummary.relationCount > 0 ||
+      mythmechSummary.spawnCandidateCount > 0 ||
+      mythmechSummary.marginaliaCount > 0)
+);
 
-const surfaceStates = [
-  'Packet-backed',
-  packetId ? 'Stored snapshot' : 'Awaiting packet',
-  hasSignal ? 'Signal-led' : 'Open fragment',
-];
+const surfaceStates = uniqueStrings([
+  packetData ? 'Packet-backed' : mythmechSummary ? 'Mythmech-backed' : 'Source-first',
+  packetId ? 'Stored snapshot' : mythmechSummary ? 'Inspection lens attached' : 'Awaiting packet',
+  hasSignal ? 'Signal-led' : mythmechSummary ? 'Structural read' : 'Open fragment',
+  normalizedPlatePrompt ? 'Plate prompt stored' : '',
+]);
 
-const reportCards = [
+const packetReportCards = [
   {
     label: 'Field',
     value: fieldLabel || 'Field position not stored',
@@ -116,14 +145,58 @@ const reportCards = [
   },
 ];
 
+const mythmechReportCards = mythmechSummary
+  ? [
+      {
+        label: 'Inspection',
+        value: mythmechLead,
+      },
+      {
+        label: 'Lineage',
+        value:
+          mythmechSummary.parentCount > 0 || mythmechSummary.childCount > 0 || mythmechSummary.relationCount > 0
+            ? `${mythmechSummary.parentCount} parents · ${mythmechSummary.childCount} children · ${mythmechSummary.relationCount} relations`
+            : 'Lineage not stored',
+      },
+      {
+        label: 'Spawn',
+        value:
+          mythmechSummary.spawnCandidateCount > 0
+            ? mythmechSummary.candidateLabels.length > 0
+              ? mythmechSummary.candidateLabels.join(' · ')
+              : `${mythmechSummary.spawnCandidateCount} candidates`
+            : 'Spawn not stored',
+      },
+    ]
+  : [];
+
+const reportCards = [...(packetData ? packetReportCards : []), ...mythmechReportCards].filter((card) => card.value);
+
 const hudCards = [
-  { label: 'Packet', value: packetId || 'No packet stored' },
-  { label: 'Class', value: packetClass || '—' },
-  { label: 'Field', value: fieldLabel || '—' },
-  { label: 'Signal Mode', value: signalMode || '' },
-  { label: 'Atmosphere', value: atmosphereLabel || '—' },
-  { label: 'Watch', value: watchLabel },
-  { label: 'Shadow', value: shadowLabel },
+  ...(packetData
+    ? [
+        { label: 'Packet', value: packetId || 'No packet stored' },
+        { label: 'Class', value: packetClass || '—' },
+        { label: 'Field', value: fieldLabel || '—' },
+        { label: 'Signal Mode', value: signalMode || '' },
+        { label: 'Atmosphere', value: atmosphereLabel || '—' },
+        { label: 'Watch', value: watchLabel },
+        { label: 'Shadow', value: shadowLabel },
+      ]
+    : []),
+  ...(mythmechSummary
+    ? [
+        { label: 'Lens', value: mythmechSummary.enabled ? 'Enabled' : 'Stored' },
+        { label: 'Nodes', value: String(mythmechSummary.nodeCount) },
+        { label: 'Edges', value: String(mythmechSummary.edgeCount) },
+        { label: 'States', value: String(mythmechSummary.stateCount) },
+        { label: 'Parents', value: String(mythmechSummary.parentCount) },
+        { label: 'Children', value: String(mythmechSummary.childCount) },
+        { label: 'Relations', value: String(mythmechSummary.relationCount) },
+        { label: 'Spawn', value: String(mythmechSummary.spawnCandidateCount) },
+        { label: 'Marginalia', value: String(mythmechSummary.marginaliaCount) },
+      ]
+    : []),
   { label: 'Object Path', value: objectPathLabel },
 ].filter((card) => card.value);
 
@@ -139,7 +212,7 @@ const signalMeta = [
     <header class="field-surface-mast">
       <div class="field-surface-ident">
         <div class="field-surface-heading">
-          <p class="field-surface-kicker">Enhanced Surface</p>
+          <p class="field-surface-kicker">Inspect Surface</p>
           <h1 class="field-surface-title">{title}</h1>
         </div>
         <div class="field-surface-status-row" aria-label="Surface state">
@@ -225,26 +298,28 @@ const signalMeta = [
           </div>
 
           {!packetData && (
-            <p class="field-surface-empty">
-              No packet sidecar is stored for this object yet. The source fragment below remains canonical and this surface will fill in as soon as a packet is present.
-            </p>
+            <p class="field-surface-empty">{noPacketMessage}</p>
           )}
         </section>
 
         <section class="field-surface-section" id="report">
           <div class="field-surface-section-kicker">Report</div>
-          <div class="field-surface-report-grid">
-            {reportCards.map((card) => (
-              <article class="field-surface-cluster">
-                <p class="field-surface-cluster-label">{card.label}</p>
-                <p class="field-surface-cluster-copy">{card.value}</p>
-              </article>
-            ))}
-          </div>
+          {reportCards.length > 0 ? (
+            <div class="field-surface-report-grid">
+              {reportCards.map((card) => (
+                <article class="field-surface-cluster">
+                  <p class="field-surface-cluster-label">{card.label}</p>
+                  <p class="field-surface-cluster-copy">{card.value}</p>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <p class="field-surface-empty">No packet or Mythmech report cards are stored for this object yet.</p>
+          )}
 
           <pre class="field-surface-fragment">{normalizedSourceText || 'No source text is available for this object.'}</pre>
 
-          {(normalizedRespawn || packetNotes.length > 0) && (
+          {(normalizedRespawn || packetNotes.length > 0 || mythmechSummary || normalizedPlatePrompt) && (
             <div class="field-surface-note-stack">
               {normalizedRespawn && (
                 <article class="field-surface-note-card field-surface-note-card--respawn">
@@ -263,6 +338,61 @@ const signalMeta = [
                 </article>
               )}
 
+              {mythmechSummary && (
+                <article class="field-surface-note-card">
+                  <p class="field-surface-note-label">Mythmech</p>
+                  {mythmechLead && <p class="field-surface-note-title">{mythmechLead}</p>}
+                  {mythmechSupport && <p class="field-surface-note-copy">{mythmechSupport}</p>}
+                  {hasMythmechDetailGrid && (
+                    <dl class="field-surface-note-grid">
+                      {mythmechSummary.stateCount > 0 && (
+                        <div class="field-surface-note-stat">
+                          <dt>States</dt>
+                          <dd>{mythmechSummary.stateLabels.join(' · ')}</dd>
+                        </div>
+                      )}
+                      {mythmechSummary.relationCount > 0 && (
+                        <div class="field-surface-note-stat">
+                          <dt>Relations</dt>
+                          <dd>
+                            {mythmechSummary.relationLabels.length > 0
+                              ? mythmechSummary.relationLabels.join(' · ')
+                              : `${mythmechSummary.relationCount} relations`}
+                          </dd>
+                        </div>
+                      )}
+                      {mythmechSummary.spawnCandidateCount > 0 && (
+                        <div class="field-surface-note-stat">
+                          <dt>Spawn</dt>
+                          <dd>
+                            {mythmechSummary.candidateLabels.length > 0
+                              ? mythmechSummary.candidateLabels.join(' · ')
+                              : `${mythmechSummary.spawnCandidateCount} candidates`}
+                          </dd>
+                        </div>
+                      )}
+                      {mythmechSummary.marginaliaCount > 0 && (
+                        <div class:list={['field-surface-note-stat', 'field-surface-note-stat--wide']}>
+                          <dt>Marginalia</dt>
+                          <dd>
+                            {mythmechSummary.marginaliaTypes.length > 0
+                              ? mythmechSummary.marginaliaTypes.join(' · ')
+                              : `${mythmechSummary.marginaliaCount} entries`}
+                          </dd>
+                        </div>
+                      )}
+                    </dl>
+                  )}
+                </article>
+              )}
+
+              {normalizedPlatePrompt && (
+                <article class="field-surface-note-card">
+                  <p class="field-surface-note-label">Plate Prompt</p>
+                  <p class="field-surface-note-copy">{normalizedPlatePrompt}</p>
+                </article>
+              )}
+
               {packetNotes.map((note) => (
                 <article class="field-surface-note-card">
                   <p class="field-surface-note-label">{note.label}</p>
@@ -277,18 +407,22 @@ const signalMeta = [
       <>
         <section class="field-surface-section" id="report">
           <div class="field-surface-section-kicker">Report</div>
-          <div class="field-surface-report-grid">
-            {reportCards.map((card) => (
-              <article class="field-surface-cluster">
-                <p class="field-surface-cluster-label">{card.label}</p>
-                <p class="field-surface-cluster-copy">{card.value}</p>
-              </article>
-            ))}
-          </div>
+          {reportCards.length > 0 ? (
+            <div class="field-surface-report-grid">
+              {reportCards.map((card) => (
+                <article class="field-surface-cluster">
+                  <p class="field-surface-cluster-label">{card.label}</p>
+                  <p class="field-surface-cluster-copy">{card.value}</p>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <p class="field-surface-empty">No packet or Mythmech report cards are stored for this object yet.</p>
+          )}
 
           <pre class="field-surface-fragment">{normalizedSourceText || 'No source text is available for this object.'}</pre>
 
-          {(normalizedRespawn || packetNotes.length > 0) && (
+          {(normalizedRespawn || packetNotes.length > 0 || mythmechSummary || normalizedPlatePrompt) && (
             <div class="field-surface-note-stack">
               {normalizedRespawn && (
                 <article class="field-surface-note-card field-surface-note-card--respawn">
@@ -304,6 +438,61 @@ const signalMeta = [
                       ))}
                     </dl>
                   )}
+                </article>
+              )}
+
+              {mythmechSummary && (
+                <article class="field-surface-note-card">
+                  <p class="field-surface-note-label">Mythmech</p>
+                  {mythmechLead && <p class="field-surface-note-title">{mythmechLead}</p>}
+                  {mythmechSupport && <p class="field-surface-note-copy">{mythmechSupport}</p>}
+                  {hasMythmechDetailGrid && (
+                    <dl class="field-surface-note-grid">
+                      {mythmechSummary.stateCount > 0 && (
+                        <div class="field-surface-note-stat">
+                          <dt>States</dt>
+                          <dd>{mythmechSummary.stateLabels.join(' · ')}</dd>
+                        </div>
+                      )}
+                      {mythmechSummary.relationCount > 0 && (
+                        <div class="field-surface-note-stat">
+                          <dt>Relations</dt>
+                          <dd>
+                            {mythmechSummary.relationLabels.length > 0
+                              ? mythmechSummary.relationLabels.join(' · ')
+                              : `${mythmechSummary.relationCount} relations`}
+                          </dd>
+                        </div>
+                      )}
+                      {mythmechSummary.spawnCandidateCount > 0 && (
+                        <div class="field-surface-note-stat">
+                          <dt>Spawn</dt>
+                          <dd>
+                            {mythmechSummary.candidateLabels.length > 0
+                              ? mythmechSummary.candidateLabels.join(' · ')
+                              : `${mythmechSummary.spawnCandidateCount} candidates`}
+                          </dd>
+                        </div>
+                      )}
+                      {mythmechSummary.marginaliaCount > 0 && (
+                        <div class:list={['field-surface-note-stat', 'field-surface-note-stat--wide']}>
+                          <dt>Marginalia</dt>
+                          <dd>
+                            {mythmechSummary.marginaliaTypes.length > 0
+                              ? mythmechSummary.marginaliaTypes.join(' · ')
+                              : `${mythmechSummary.marginaliaCount} entries`}
+                          </dd>
+                        </div>
+                      )}
+                    </dl>
+                  )}
+                </article>
+              )}
+
+              {normalizedPlatePrompt && (
+                <article class="field-surface-note-card">
+                  <p class="field-surface-note-label">Plate Prompt</p>
+                  <p class="field-surface-note-copy">{normalizedPlatePrompt}</p>
                 </article>
               )}
 
@@ -329,9 +518,7 @@ const signalMeta = [
           </div>
 
           {!packetData && (
-            <p class="field-surface-empty">
-              No packet sidecar is stored for this object yet. The source fragment above remains canonical and this surface will fill in as soon as a packet is present.
-            </p>
+            <p class="field-surface-empty">{noPacketMessage}</p>
           )}
         </section>
       </>

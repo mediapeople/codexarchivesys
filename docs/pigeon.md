@@ -21,6 +21,32 @@ Carrier Pigeon is the phone-first ingest path for ndcodex.com.
 }
 ```
 
+Field HUD style JSON requests can also attach sidecars:
+
+- `packet` writes `<slug>.packet.json`
+- `respawn_summary` writes `<slug>.respawn.txt`
+- `mythmech` writes `<slug>.mythmech.sidecar`
+- `plate_prompt` writes `<slug>.plate-prompt.txt`
+
+Example sidecar payload shape:
+
+```json
+{
+  "collection": "codex",
+  "title": "Mythmech System",
+  "date": "2026-03-26",
+  "body": "# Mythmech System\n\nInspection lens attached.",
+  "mythmech": {
+    "version": 1,
+    "mythmech": { "enabled": true, "nodes": [], "edges": [], "states": {} },
+    "lineage": { "parents": [], "children": [], "relations": [] },
+    "spawn": { "candidates": [] },
+    "marginalia": { "entries": [] }
+  },
+  "plate_prompt": "vintage engineering diagram, exploded modular system"
+}
+```
+
 It also accepts a raw markdown note as the request body, which is the easiest option for iPhone Shortcuts:
 
 ```md

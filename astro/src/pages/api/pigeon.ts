@@ -11,6 +11,11 @@ import {
   type ArchiveAxes,
 } from '../../lib/axes.ts';
 import { resolveExcerpt } from '../../lib/excerpt.ts';
+import {
+  normalizeMythmechSidecar,
+  normalizePlatePrompt,
+  stringifyMythmechSidecar,
+} from '../../lib/mythmech.ts';
 
 export const prerender = false;
 
@@ -108,6 +113,8 @@ type FieldHudParsedPigeonRequest = {
   frontmatter: Record<string, unknown>;
   packet: unknown | null;
   respawnSummary: string | null;
+  mythmech: Record<string, unknown> | null;
+  platePrompt: string | null;
 };
 
 type ParsedPigeonRequest = StandardParsedPigeonRequest | FieldHudParsedPigeonRequest;
@@ -121,7 +128,7 @@ type PreparedImageAsset = {
 };
 
 type SidecarFile = {
-  suffix: '.packet.json' | '.respawn.txt';
+  suffix: '.packet.json' | '.respawn.txt' | '.mythmech.sidecar' | '.plate-prompt.txt';
   content: Buffer;
 };
 
@@ -1124,6 +1131,24 @@ function yamlScalar(value: unknown): string {
   return yamlString(String(value));
 }
 
+function omitOperationalFieldHudFrontmatter(frontmatter: Record<string, unknown>): Record<string, unknown> {
+  const sanitized = { ...frontmatter };
+
+  delete sanitized.body;
+  delete sanitized.fragment;
+  delete sanitized.collection;
+  delete sanitized.object_type;
+  delete sanitized.objectType;
+  delete sanitized.packet;
+  delete sanitized.respawn_summary;
+  delete sanitized.respawnSummary;
+  delete sanitized.mythmech;
+  delete sanitized.plate_prompt;
+  delete sanitized.platePrompt;
+
+  return sanitized;
+}
+
 function buildFrontmatterMarkdown(frontmatter: Record<string, unknown>, body: string): string {
   const lines = ['---'];
 
@@ -1196,11 +1221,12 @@ function buildFieldHudMarkdown(
   frontmatter: Record<string, unknown>,
   body: string
 ): string {
+  const sanitizedFrontmatter = omitOperationalFieldHudFrontmatter(frontmatter);
   const persistedFrontmatter = {
-    ...frontmatter,
+    ...sanitizedFrontmatter,
     id:
-      typeof frontmatter.id === 'string' && frontmatter.id.trim()
-        ? frontmatter.id.trim()
+      typeof sanitizedFrontmatter.id === 'string' && sanitizedFrontmatter.id.trim()
+        ? sanitizedFrontmatter.id.trim()
         : slug,
     slug,
     url: `https://ndcodex.com${getPublishedUrl(objectType, slug)}`,
@@ -1217,7 +1243,10 @@ function parseFieldHudRequest(
     'frontmatter' in candidate ||
     'collection' in candidate ||
     'packet' in candidate ||
-    'respawn_summary' in candidate;
+    'respawn_summary' in candidate ||
+    'mythmech' in candidate ||
+    'plate_prompt' in candidate ||
+    'platePrompt' in candidate;
 
   if (!looksLikeFieldHudPayload) {
     return null;
@@ -1225,6 +1254,15 @@ function parseFieldHudRequest(
 
   const requestedFrontmatter = isRecord(candidate.frontmatter) ? { ...candidate.frontmatter } : {};
   const packet = sanitizePacketSidecar(candidate.packet);
+  const mythmech = normalizeMythmechSidecar(
+    candidate.mythmech ?? requestedFrontmatter.mythmech
+  );
+  const platePrompt = normalizePlatePrompt(
+    candidate.plate_prompt ??
+      candidate.platePrompt ??
+      requestedFrontmatter.plate_prompt ??
+      requestedFrontmatter.platePrompt
+  );
   const rawBody =
     (typeof candidate.body === 'string' && candidate.body) ||
     (typeof candidate.fragment === 'string' && candidate.fragment) ||
@@ -1398,6 +1436,8 @@ function parseFieldHudRequest(
       undefined,
     frontmatter,
     packet,
+    mythmech,
+    platePrompt,
     respawnSummary:
       (typeof candidate.respawn_summary === 'string' && candidate.respawn_summary.trim()) ||
       buildRespawnSummary(packet),
@@ -1617,6 +1657,12 @@ async function writeLocalEntry(
           : null,
         respawn: sidecars.some((sidecar) => sidecar.suffix === '.respawn.txt')
           ? `${basePath}.respawn.txt`
+          : null,
+        mythmech: sidecars.some((sidecar) => sidecar.suffix === '.mythmech.sidecar')
+          ? `${basePath}.mythmech.sidecar`
+          : null,
+        plate_prompt: sidecars.some((sidecar) => sidecar.suffix === '.plate-prompt.txt')
+          ? `${basePath}.plate-prompt.txt`
           : null,
       },
       images: payload.images,
@@ -1972,6 +2018,12 @@ async function writeGitHubEntry(
         respawn: sidecars.some((sidecar) => sidecar.suffix === '.respawn.txt')
           ? relativePath.replace(/\.md$/i, '.respawn.txt')
           : null,
+        mythmech: sidecars.some((sidecar) => sidecar.suffix === '.mythmech.sidecar')
+          ? relativePath.replace(/\.md$/i, '.mythmech.sidecar')
+          : null,
+        plate_prompt: sidecars.some((sidecar) => sidecar.suffix === '.plate-prompt.txt')
+          ? relativePath.replace(/\.md$/i, '.plate-prompt.txt')
+          : null,
       },
       images: payload.images,
       axes: payload.axes,
@@ -2227,6 +2279,27 @@ export const POST: APIRoute = async ({ request }) => {
               {
                 suffix: '.respawn.txt' as const,
                 content: Buffer.from(parsed.respawnSummary, 'utf8'),
+              },
+            ]
+          : []),
+        ...(parsed.mythmech
+          ? (() => {
+              const content = stringifyMythmechSidecar(parsed.mythmech);
+              return content
+                ? [
+                    {
+                      suffix: '.mythmech.sidecar' as const,
+                      content: Buffer.from(content, 'utf8'),
+                    },
+                  ]
+                : [];
+            })()
+          : []),
+        ...(parsed.platePrompt
+          ? [
+              {
+                suffix: '.plate-prompt.txt' as const,
+                content: Buffer.from(parsed.platePrompt, 'utf8'),
               },
             ]
           : []),
