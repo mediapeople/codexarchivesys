@@ -23,7 +23,7 @@ function uniqueStrings(values: string[]): string[] {
   return [...new Set(values.map((value) => value.trim()).filter(Boolean))];
 }
 
-function clipCopy(value: string, max = 220): string {
+function clipCopy(value: string, max = 160): string {
   const normalized = value.replace(/\s+/g, ' ').trim();
   if (!normalized || normalized.length <= max) {
     return normalized;
@@ -45,105 +45,74 @@ function buildPacketResult(packetData: Record<string, unknown> | null): string {
     return '';
   }
 
-  const artifact = asRecord(packetData.artifact);
   const signal = asRecord(packetData.signal);
   const atmosphere = asRecord(packetData.atmosphere);
   const traumaWeather = asRecord(packetData.trauma_weather);
-  const noteValues = getNoteValues(packetData).slice(0, 2);
+  const noteValues = getNoteValues(packetData).slice(0, 1);
 
   const signalTrack = asString(signal?.track);
   const signalMode = asString(signal?.mode);
-  const signalLock = asString(signal?.signal_lock);
   const atmosphereState = asString(atmosphere?.saturation_class) || asString(atmosphere?.pollen);
   const intakeRisk = asString(atmosphere?.intake_risk);
   const traumaAlert = asString(traumaWeather?.alert);
-  const artifactStatus = asString(artifact?.status);
 
   const detailParts = [
-    signalTrack
-      ? `Signal ${signalTrack}${signalMode ? ` in ${signalMode}` : ''}${signalLock && signalLock !== 'PENDING' ? ` with ${signalLock} lock` : ''}`
-      : '',
+    signalTrack ? `Signal ${signalTrack}${signalMode ? ` in ${signalMode}` : ''}` : '',
     atmosphereState
       ? `Atmosphere ${atmosphereState}${intakeRisk ? ` with ${intakeRisk.toLowerCase()} intake risk` : ''}`
       : '',
-    traumaAlert && traumaAlert !== 'NONE' ? `Trauma weather ${traumaAlert}` : '',
-    artifactStatus ? `Status ${artifactStatus}` : '',
+    traumaAlert && traumaAlert !== 'NONE' ? `Watch ${traumaAlert}` : '',
   ].filter(Boolean);
 
   return [...noteValues, ...detailParts].join('. ').replace(/\s+/g, ' ').trim();
 }
 
-const typeLabel = getTypeLabel(type);
 const packetData = asRecord(packet);
-const respawnCopy = asString(respawn);
-const summaryCopy = asString(summary);
 const hasLead = packetData !== null;
+const summaryCopy = asString(summary);
+const respawnCopy = asString(respawn);
 
 const artifact = asRecord(packetData?.artifact);
 const signal = asRecord(packetData?.signal);
 const atmosphere = asRecord(packetData?.atmosphere);
 const traumaWeather = asRecord(packetData?.trauma_weather);
-const shadow = asRecord(packetData?.shadow);
 
+const typeLabel = getTypeLabel(type);
 const noteValues = getNoteValues(packetData);
-const packetNarrative = buildPacketResult(packetData);
-const primaryResult = clipCopy(noteValues[0] || packetNarrative || summaryCopy || respawnCopy.split('\n').find(Boolean) || '', 210);
-const sourceEcho = clipCopy(summaryCopy, 180);
-const secondaryResult = clipCopy(
-  uniqueStrings([
-    asString(packetData?.mode) ? `Mode ${asString(packetData?.mode)}` : '',
-    asString(signal?.track)
-      ? `Signal ${asString(signal?.track)}${asString(signal?.mode) ? ` / ${asString(signal?.mode)}` : ''}${asString(signal?.signal_lock) && asString(signal?.signal_lock) !== 'PENDING' ? ` / ${asString(signal?.signal_lock)}` : ''}`
-      : '',
-    (asString(atmosphere?.saturation_class) || asString(atmosphere?.pollen))
-      ? `Atmosphere ${asString(atmosphere?.saturation_class) || asString(atmosphere?.pollen)}${asString(atmosphere?.intake_risk) ? ` / ${asString(atmosphere?.intake_risk).toLowerCase()} intake` : ''}`
-      : '',
-    asString(traumaWeather?.alert) && asString(traumaWeather?.alert) !== 'NONE'
-      ? `Watch ${asString(traumaWeather?.alert)}`
-      : '',
-    asString(shadow?.offset) && asString(shadow?.offset) !== 'NONE'
-      ? `Shadow ${asString(shadow?.offset)}`
-      : '',
-  ]).join(' · '),
-  220
+const primaryResult = clipCopy(
+  noteValues[0] || buildPacketResult(packetData) || summaryCopy || respawnCopy.split('\n').find(Boolean) || ''
 );
-const showSourceEcho =
-  Boolean(sourceEcho) &&
-  sourceEcho.toLowerCase() !== primaryResult.toLowerCase() &&
-  sourceEcho.toLowerCase() !== secondaryResult.toLowerCase();
 
+const modeValue = asString(packetData?.mode);
 const signalValue = uniqueStrings([asString(signal?.track), asString(signal?.mode)]).join(' / ');
+const fieldValue = uniqueStrings([asString(artifact?.sector), asString(artifact?.region)]).join(' / ');
 const atmosphereValue = uniqueStrings([
   asString(atmosphere?.saturation_class) || asString(atmosphere?.pollen),
   asString(atmosphere?.intake_risk),
 ]).join(' / ');
-const fieldValue = uniqueStrings([asString(artifact?.sector), asString(artifact?.region)]).join(' / ');
-const shadowValue = uniqueStrings([asString(shadow?.offset), asString(shadow?.desynchronization)]).join(' / ');
-const packetId = asString(artifact?.id);
-const packetStatus = asString(artifact?.status);
-const recommendation = asString(atmosphere?.recommendation);
 const watchValue = asString(traumaWeather?.alert);
+const packetId = asString(artifact?.id);
 
-const pills = uniqueStrings([
-  typeLabel,
-  asString(packetData?.mode) ? `Mode ${asString(packetData?.mode)}` : '',
-  asString(signal?.track) ? `Signal ${asString(signal?.track)}` : '',
-  watchValue && watchValue !== 'NONE' ? `Watch ${watchValue}` : '',
-  respawnCopy ? 'Respawn stored' : 'Packet stored',
-]);
+const supportCopy = clipCopy(
+  uniqueStrings([
+    modeValue ? `Mode ${modeValue}` : '',
+    signalValue ? `Signal ${signalValue}` : '',
+    atmosphereValue ? `Atmosphere ${atmosphereValue}` : '',
+    watchValue && watchValue !== 'NONE' ? `Watch ${watchValue}` : '',
+  ]).join(' · '),
+  150
+);
 
-const factRows = [
+const metaItems = [
   { label: 'Object', value: typeLabel },
-  { label: 'Field', value: fieldValue },
   { label: 'Signal', value: signalValue },
-  { label: 'Atmosphere', value: atmosphereValue },
-  { label: 'Recommendation', value: recommendation },
-  { label: 'Watch', value: watchValue && watchValue !== 'NONE' ? watchValue : '' },
-  { label: 'Shadow', value: shadowValue && shadowValue !== 'NONE / CLEAR' ? shadowValue : '' },
+  { label: 'Field', value: fieldValue },
   { label: 'Packet', value: packetId },
-].filter((row) => row.value);
+  { label: 'Watch', value: watchValue && watchValue !== 'NONE' ? watchValue : '' },
+]
+  .filter((item) => item.value)
+  .slice(0, 4);
 
-const factGridClass = `field-result-grid${factRows.length <= 2 ? ' field-result-grid--compact' : ''}`;
 const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
 const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
 ---
@@ -151,46 +120,23 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
 {hasLead && (
   <section class="field-result-lead">
     <div class="field-result-head">
-      <div class="field-result-copy">
-        <p class="field-result-kicker">Field Result</p>
+      <p class="field-result-kicker">Field Result</p>
 
-        {pills.length > 0 && (
-          <ul class="field-result-pills" aria-label="Packet summary">
-            {pills.map((pill) => (
-              <li>{pill}</li>
-            ))}
-          </ul>
-        )}
-
-        {primaryResult && <p class="field-result-summary">{primaryResult}</p>}
-        {secondaryResult && <p class="field-result-support">{secondaryResult}</p>}
-        {showSourceEcho && <p class="field-result-source">Source trace: {sourceEcho}</p>}
-      </div>
-
-      <div class="field-result-rail">
-        <div class="field-result-trace">
-          <p class="field-result-trace-label">Stored Packet</p>
-          <p class="field-result-trace-value">{packetId || 'Packet active'}</p>
-          {(fieldValue || packetStatus) && (
-            <p class="field-result-trace-meta">
-              {[fieldValue, packetStatus].filter(Boolean).join(' / ')}
-            </p>
-          )}
-        </div>
-
-        <div class="field-result-actions">
-          <a href={hudHref}>Open HUD</a>
-          <a href={plateHref}>Open Plate</a>
-        </div>
-      </div>
+      <nav class="field-result-actions" aria-label="Packet views">
+        <a href={hudHref}>HUD</a>
+        <a href={plateHref}>Plate</a>
+      </nav>
     </div>
 
-    {factRows.length > 0 && (
-      <dl class={factGridClass}>
-        {factRows.map((row) => (
-          <div class="field-result-cell">
-            <dt>{row.label}</dt>
-            <dd>{row.value}</dd>
+    {primaryResult && <p class="field-result-summary">{primaryResult}</p>}
+    {supportCopy && <p class="field-result-support">{supportCopy}</p>}
+
+    {metaItems.length > 0 && (
+      <dl class="field-result-meta">
+        {metaItems.map((item) => (
+          <div class="field-result-chip">
+            <dt>{item.label}</dt>
+            <dd>{item.value}</dd>
           </div>
         ))}
       </dl>
@@ -200,51 +146,28 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
 
 <style>
   .field-result-lead {
-    position: relative;
-    margin: 1.75rem 0 2.2rem;
-    padding: 1.12rem 1.12rem 1.06rem;
-    border: 1px solid color-mix(in srgb, var(--gold) 28%, transparent);
+    max-width: 46rem;
+    margin: 1.4rem 0 2rem;
+    padding: 0.95rem 1rem;
+    border: 1px solid color-mix(in srgb, var(--gold) 18%, transparent);
     background:
-      radial-gradient(circle at top right, rgba(201, 150, 58, 0.11), transparent 34%),
-      linear-gradient(135deg, rgba(201, 150, 58, 0.1), rgba(255, 255, 255, 0.02)),
-      rgba(201, 150, 58, 0.045);
-    overflow: hidden;
-  }
-
-  .field-result-lead::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-      linear-gradient(90deg, rgba(255, 255, 255, 0.02), transparent 16%),
-      linear-gradient(180deg, rgba(232, 217, 180, 0.025), transparent 42%);
-    opacity: 0.35;
-  }
-
-  .field-result-head,
-  .field-result-grid {
-    position: relative;
-    z-index: 1;
+      linear-gradient(135deg, rgba(201, 150, 58, 0.05), rgba(255, 255, 255, 0.01)),
+      rgba(201, 150, 58, 0.025);
   }
 
   .field-result-head {
-    display: grid;
-    grid-template-columns: minmax(0, 1.55fr) minmax(16rem, 0.75fr);
-    gap: 1rem 1.1rem;
-    align-items: start;
-  }
-
-  .field-result-copy {
-    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    flex-wrap: wrap;
   }
 
   .field-result-kicker,
-  .field-result-pills li,
-  .field-result-trace-label,
   .field-result-actions a,
-  .field-result-cell dt {
+  .field-result-chip dt {
     font-family: var(--font-ui);
+    font-size: 10px;
     letter-spacing: var(--ls-ui);
     text-transform: uppercase;
   }
@@ -252,170 +175,80 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
   .field-result-kicker {
     margin: 0;
     color: var(--mid);
-    font-size: 11px;
-  }
-
-  .field-result-pills {
-    margin: 0.72rem 0 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.45rem;
-  }
-
-  .field-result-pills li {
-    padding: 0.3rem 0.62rem 0.28rem;
-    border: 1px solid color-mix(in srgb, var(--gold) 22%, transparent);
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.03);
-    color: var(--gold);
-    font-size: 10px;
-  }
-
-  .field-result-summary {
-    max-width: 42rem;
-    margin: 0.8rem 0 0;
-    color: var(--star);
-    font-size: clamp(1.02rem, 0.96rem + 0.52vw, 1.25rem);
-    line-height: 1.5;
-  }
-
-  .field-result-support,
-  .field-result-source {
-    max-width: 42rem;
-    margin: 0.72rem 0 0;
-    line-height: 1.6;
-  }
-
-  .field-result-support {
-    color: var(--gold);
-    font-family: var(--font-ui);
-    font-size: 0.88rem;
-    letter-spacing: 0.02em;
-  }
-
-  .field-result-source {
-    color: var(--mid);
-    font-size: 0.94rem;
-  }
-
-  .field-result-rail {
-    display: grid;
-    gap: 0.72rem;
-    align-content: start;
-  }
-
-  .field-result-trace,
-  .field-result-actions a,
-  .field-result-cell {
-    border: 1px solid color-mix(in srgb, var(--gold) 18%, transparent);
-    background: rgba(255, 255, 255, 0.03);
-  }
-
-  .field-result-trace {
-    padding: 0.9rem 0.94rem;
-  }
-
-  .field-result-trace-label {
-    margin: 0;
-    color: var(--mid);
-    font-size: 10px;
-  }
-
-  .field-result-trace-value {
-    margin: 0.4rem 0 0;
-    color: var(--star);
-    font-family: var(--font-ui);
-    font-size: 0.96rem;
-    line-height: 1.45;
-    word-break: break-word;
-  }
-
-  .field-result-trace-meta {
-    margin: 0.48rem 0 0;
-    color: var(--gold);
-    font-family: var(--font-ui);
-    font-size: 0.8rem;
-    line-height: 1.5;
   }
 
   .field-result-actions {
-    display: grid;
-    gap: 0.6rem;
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
   }
 
   .field-result-actions a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 2.9rem;
-    padding: 0.45rem 0.78rem;
     color: var(--gold);
     text-decoration: none;
-    font-size: 11px;
-    transition:
-      border-color 0.16s ease,
-      color 0.16s ease,
-      background 0.16s ease;
   }
 
   .field-result-actions a:hover {
     color: var(--star);
-    border-color: color-mix(in srgb, var(--gold) 34%, transparent);
-    background: rgba(255, 255, 255, 0.05);
   }
 
-  .field-result-grid {
-    margin: 1rem 0 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-    gap: 0.72rem;
+  .field-result-summary {
+    margin: 0.68rem 0 0;
+    color: var(--star);
+    font-size: clamp(0.98rem, 0.94rem + 0.32vw, 1.12rem);
+    line-height: 1.55;
   }
 
-  .field-result-grid--compact {
-    max-width: 35rem;
+  .field-result-support {
+    margin: 0.48rem 0 0;
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 0.8rem;
+    line-height: 1.55;
   }
 
-  .field-result-cell {
-    padding: 0.8rem 0.84rem;
+  .field-result-meta {
+    margin: 0.8rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
 
-  .field-result-cell dt {
+  .field-result-chip {
+    min-width: 0;
+    padding: 0.46rem 0.62rem;
+    border: 1px solid color-mix(in srgb, var(--gold) 14%, transparent);
+    background: rgba(255, 255, 255, 0.025);
+  }
+
+  .field-result-chip dt {
     margin: 0;
     color: var(--mid);
-    font-size: 10px;
   }
 
-  .field-result-cell dd {
-    margin: 0.34rem 0 0;
+  .field-result-chip dd {
+    margin: 0.22rem 0 0;
     color: var(--gold);
     font-family: var(--font-ui);
-    font-size: 0.9rem;
-    line-height: 1.5;
-  }
-
-  @media (max-width: 900px) {
-    .field-result-head {
-      grid-template-columns: 1fr;
-    }
-
-    .field-result-rail {
-      grid-template-columns: minmax(0, 1fr);
-    }
+    font-size: 0.82rem;
+    line-height: 1.45;
   }
 
   @media (max-width: 720px) {
     .field-result-lead {
-      margin-bottom: 1.8rem;
-      padding-inline: 0.95rem;
+      max-width: none;
+      margin-bottom: 1.6rem;
+      padding-inline: 0.9rem;
     }
 
-    .field-result-summary {
-      font-size: 1rem;
+    .field-result-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
     }
+  }
 
-    .field-result-grid {
+  @media (max-width: 520px) {
+    .field-result-meta {
       grid-template-columns: 1fr;
     }
   }
