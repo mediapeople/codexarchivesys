@@ -1,4 +1,6 @@
 ---
+import { buildRespawnLead, buildRespawnSupport, parseRespawnSummary } from '../lib/respawn';
+
 const { slug, packet, respawn } = Astro.props as {
   slug: string;
   packet: unknown | null;
@@ -21,7 +23,9 @@ function clipCopy(value: string, max = 132): string {
 const hasPacket = packet !== null;
 const respawnCopy = asString(respawn);
 const hasRespawn = Boolean(respawnCopy);
-const respawnLead = clipCopy(respawnCopy.split('\n').find(Boolean) || '');
+const respawnEntries = parseRespawnSummary(respawnCopy);
+const respawnLead = clipCopy(buildRespawnLead(respawnEntries));
+const respawnSupport = clipCopy(buildRespawnSupport(respawnEntries), 180);
 const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
 const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
 ---
@@ -32,7 +36,9 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
       <div>
         <p class="continuity-kicker">Continuity</p>
         <p class="continuity-copy">
-          {respawnLead || 'Packet continuity is stored for this object. Open the alternate surfaces when you want the operational read.'}
+          {hasRespawn
+            ? 'This object has a stored return path. Open HUD for the live instrument read or Report for the artifact surface.'
+            : 'Packet continuity is stored for this object. Open the alternate surfaces when you want the operational read.'}
         </p>
       </div>
 
@@ -41,6 +47,25 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
         <a href={plateHref} target="_blank" rel="noreferrer">Report</a>
       </div>
     </div>
+
+    {hasRespawn && (
+      <article class="continuity-respawn-card">
+        <p class="continuity-respawn-kicker">Respawn</p>
+        {respawnLead && <p class="continuity-respawn-title">{respawnLead}</p>}
+        {respawnSupport && <p class="continuity-respawn-copy">{respawnSupport}</p>}
+
+        {respawnEntries.length > 0 && (
+          <dl class="continuity-respawn-grid">
+            {respawnEntries.map((entry) => (
+              <div class:list={['continuity-respawn-item', entry.key === 'NOTES' && 'continuity-respawn-item--wide']}>
+                <dt>{entry.label}</dt>
+                <dd>{entry.value}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+      </article>
+    )}
   </section>
 )}
 
@@ -97,10 +122,69 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
     color: var(--star);
   }
 
+  .continuity-respawn-card {
+    margin-top: 0.95rem;
+    padding: 0.9rem 0.95rem 0.98rem;
+    border: 1px solid rgba(201, 150, 58, 0.14);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .continuity-respawn-kicker,
+  .continuity-respawn-grid dt {
+    margin: 0;
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui);
+    text-transform: uppercase;
+  }
+
+  .continuity-respawn-title {
+    margin: 0.48rem 0 0;
+    color: var(--text);
+    font-size: 1.28rem;
+    line-height: 1.45;
+  }
+
+  .continuity-respawn-copy {
+    margin: 0.48rem 0 0;
+    color: var(--mid);
+    font-size: 1rem;
+    line-height: 1.65;
+    max-width: 38rem;
+  }
+
+  .continuity-respawn-grid {
+    margin: 0.9rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+  }
+
+  .continuity-respawn-item {
+    padding-top: 0.7rem;
+    border-top: 1px solid rgba(201, 150, 58, 0.12);
+  }
+
+  .continuity-respawn-item--wide {
+    grid-column: 1 / -1;
+  }
+
+  .continuity-respawn-grid dd {
+    margin: 0.38rem 0 0;
+    color: var(--text-soft);
+    font-size: 0.98rem;
+    line-height: 1.65;
+  }
+
   @media (max-width: 720px) {
     .continuity-panel {
       max-width: none;
       margin-bottom: 1.9rem;
+    }
+
+    .continuity-respawn-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>

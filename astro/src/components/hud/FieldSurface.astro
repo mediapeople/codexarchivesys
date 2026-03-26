@@ -1,4 +1,6 @@
 ---
+import { buildRespawnLead, parseRespawnSummary } from '../../lib/respawn';
+
 const {
   title,
   objectUrl,
@@ -85,6 +87,11 @@ const packetNotes = Array.isArray(packetData?.notes)
 
 const normalizedSourceText = sourceText.trim();
 const normalizedRespawn = typeof respawn === 'string' && respawn.trim() ? respawn.trim() : '';
+const objectSlug = objectUrl.split('/').filter(Boolean).pop() || '';
+const hudRoute = objectSlug ? `/codex/${encodeURIComponent(objectSlug)}/hud` : '#hud';
+const plateRoute = objectSlug ? `/codex/${encodeURIComponent(objectSlug)}/plate` : '#report';
+const respawnEntries = parseRespawnSummary(normalizedRespawn);
+const respawnLead = buildRespawnLead(respawnEntries);
 const objectPathLabel = objectUrl;
 const hudFirst = initialView !== 'plate';
 
@@ -142,11 +149,28 @@ const signalMeta = [
 
       <div class="field-surface-nav-block">
         <nav class="field-surface-route-links" aria-label="Surface navigation">
-          <a class="field-surface-route-back" href={objectUrl}>← Back to object</a>
-          <a href="#hud">View HUD</a>
-          <a href="#report">Report</a>
+          <a class="field-surface-route-pill field-surface-route-pill--back" href={objectUrl}>← Object</a>
+          <a
+            class:list={['field-surface-route-pill', hudFirst && 'is-active']}
+            href={hudRoute}
+            aria-current={hudFirst ? 'page' : undefined}
+          >
+            HUD Surface
+          </a>
+          <a
+            class:list={['field-surface-route-pill', !hudFirst && 'is-active']}
+            href={plateRoute}
+            aria-current={!hudFirst ? 'page' : undefined}
+          >
+            Report Surface
+          </a>
         </nav>
-        <p class="field-surface-path">Canonical object: {objectPathLabel}</p>
+        <nav class="field-surface-anchor-links" aria-label="Section navigation">
+          <a href="#hud">Jump to HUD</a>
+          <a href="#report">Jump to report</a>
+        </nav>
+        <p class="field-surface-path">Canonical object</p>
+        <a class="field-surface-path-link" href={objectUrl}>{objectPathLabel}</a>
       </div>
     </header>
 
@@ -217,9 +241,19 @@ const signalMeta = [
           {(normalizedRespawn || packetNotes.length > 0) && (
             <div class="field-surface-note-stack">
               {normalizedRespawn && (
-                <article class="field-surface-note-card">
+                <article class="field-surface-note-card field-surface-note-card--respawn">
                   <p class="field-surface-note-label">Respawn</p>
-                  <p class="field-surface-note-copy">{normalizedRespawn}</p>
+                  {respawnLead && <p class="field-surface-note-title">{respawnLead}</p>}
+                  {respawnEntries.length > 0 && (
+                    <dl class="field-surface-note-grid">
+                      {respawnEntries.map((entry) => (
+                        <div class:list={['field-surface-note-stat', entry.key === 'NOTES' && 'field-surface-note-stat--wide']}>
+                          <dt>{entry.label}</dt>
+                          <dd>{entry.value}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  )}
                 </article>
               )}
 
@@ -251,9 +285,19 @@ const signalMeta = [
           {(normalizedRespawn || packetNotes.length > 0) && (
             <div class="field-surface-note-stack">
               {normalizedRespawn && (
-                <article class="field-surface-note-card">
+                <article class="field-surface-note-card field-surface-note-card--respawn">
                   <p class="field-surface-note-label">Respawn</p>
-                  <p class="field-surface-note-copy">{normalizedRespawn}</p>
+                  {respawnLead && <p class="field-surface-note-title">{respawnLead}</p>}
+                  {respawnEntries.length > 0 && (
+                    <dl class="field-surface-note-grid">
+                      {respawnEntries.map((entry) => (
+                        <div class:list={['field-surface-note-stat', entry.key === 'NOTES' && 'field-surface-note-stat--wide']}>
+                          <dt>{entry.label}</dt>
+                          <dd>{entry.value}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  )}
                 </article>
               )}
 
@@ -404,32 +448,83 @@ const signalMeta = [
   }
 
   .field-surface-nav-block {
-    min-width: min(100%, 15rem);
+    min-width: min(100%, 18rem);
+    display: grid;
+    gap: 0.65rem;
   }
 
   .field-surface-route-links {
     display: flex;
     justify-content: flex-end;
-    gap: 0.9rem;
+    gap: 0.55rem;
     flex-wrap: wrap;
   }
 
-  .field-surface-route-links a {
+  .field-surface-route-pill {
+    padding: 0.42rem 0.72rem;
+    border: 1px solid rgba(212, 196, 160, 0.14);
+    background: rgba(255, 255, 255, 0.016);
     color: var(--field-amber-accent);
     text-decoration: none;
+    transition: border-color 140ms ease, color 140ms ease, background 140ms ease;
   }
 
-  .field-surface-route-links a:hover {
+  .field-surface-route-pill:hover {
     color: var(--field-amber-em);
+    border-color: rgba(201, 161, 90, 0.34);
+    background: rgba(201, 161, 90, 0.06);
   }
 
-  .field-surface-route-back {
+  .field-surface-route-pill--back {
     color: var(--field-amber-dim);
   }
 
-  .field-surface-path {
-    margin-top: 0.8rem;
+  .field-surface-route-pill.is-active {
+    color: var(--field-bg);
+    border-color: rgba(201, 161, 90, 0.4);
+    background: rgba(201, 161, 90, 0.86);
+  }
+
+  .field-surface-anchor-links {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  .field-surface-anchor-links a {
+    color: var(--field-amber-dim);
+    text-decoration: none;
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .field-surface-anchor-links a:hover {
+    color: var(--field-amber-em);
+  }
+
+  .field-surface-path,
+  .field-surface-path-link {
     text-align: right;
+  }
+
+  .field-surface-path {
+    margin: 0.15rem 0 0;
+  }
+
+  .field-surface-path-link {
+    color: var(--field-amber-em);
+    text-decoration: none;
+    font-family: var(--font-ui);
+    font-size: 0.96rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+
+  .field-surface-path-link:hover {
+    color: var(--field-amber-accent);
   }
 
   .field-surface-signal-strip {
@@ -604,6 +699,46 @@ const signalMeta = [
     font-size: 0.98rem;
   }
 
+  .field-surface-note-title {
+    margin: 0.34rem 0 0;
+    color: var(--field-amber-em);
+    font-family: 'Cormorant Garamond', var(--font-body);
+    font-size: 1.18rem;
+    line-height: 1.5;
+  }
+
+  .field-surface-note-grid {
+    margin: 0.78rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.64rem;
+  }
+
+  .field-surface-note-stat {
+    padding-top: 0.62rem;
+    border-top: 1px solid var(--field-rule);
+  }
+
+  .field-surface-note-stat--wide {
+    grid-column: 1 / -1;
+  }
+
+  .field-surface-note-stat dt {
+    color: var(--field-amber-label);
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .field-surface-note-stat dd {
+    margin: 0.38rem 0 0;
+    color: var(--field-text-body);
+    line-height: 1.65;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+  }
+
   .field-surface-empty {
     margin-top: 0.9rem;
     color: var(--field-amber-dim);
@@ -646,7 +781,9 @@ const signalMeta = [
     }
 
     .field-surface-route-links,
-    .field-surface-path {
+    .field-surface-anchor-links,
+    .field-surface-path,
+    .field-surface-path-link {
       justify-content: flex-start;
       text-align: left;
     }
@@ -655,6 +792,10 @@ const signalMeta = [
     .field-surface-report-grid {
       grid-template-columns: 1fr;
       min-width: 0;
+    }
+
+    .field-surface-note-grid {
+      grid-template-columns: 1fr;
     }
   }
 
