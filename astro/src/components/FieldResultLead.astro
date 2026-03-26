@@ -61,7 +61,7 @@ const packetData = asRecord(packet);
 const respawnCopy = asString(respawn);
 const summaryCopy = asString(summary);
 const resultCopy = summaryCopy || buildPacketResult(packetData) || respawnCopy.split('\n').find(Boolean) || '';
-const hasLead = Boolean(resultCopy || packetData || respawnCopy);
+const hasLead = packetData !== null;
 
 const artifact = asRecord(packetData?.artifact);
 const signal = asRecord(packetData?.signal);
