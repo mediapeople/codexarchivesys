@@ -1,0 +1,71 @@
+{
+  "artifact": {
+    "id": "THE-FIEL-2026-03-26",
+    "sector": "Backyard",
+    "class": "FIELD / SIGNAL / ATMOS",
+    "status": "TARGET INFERENCE",
+    "region": "Domestic Field - Home Node",
+    "mode_label": "TARGET"
+  },
+  "system": {
+    "status": "NOMINAL",
+    "network": "CONNECTED",
+    "packet": "ACTIVE",
+    "timestamp": "2026-03-26T05:10:03.321Z"
+  },
+  "mode": "TARGET",
+  "atmosphere": {
+    "pm25": 28,
+    "o3": 55,
+    "pollen": "HIGH",
+    "intake_risk": "MODERATE",
+    "recommendation": "OPEN",
+    "saturation_class": "NOMINAL DRIFT"
+  },
+  "signal": {
+    "track": "Riven",
+    "artists": [
+      "Finnegan Tui"
+    ],
+    "coherence": 68,
+    "bpm": 68,
+    "mode": "NEUTRAL",
+    "hook_acquired": false,
+    "signal_lock": "INFERRED"
+  },
+  "internal_state": {
+    "stability": 68,
+    "cognitive_load": 84,
+    "respiration": "DEEP",
+    "pressure": "RISING",
+    "anchor_lock": "INFERRED",
+    "signal_alignment": 68
+  },
+  "trauma_weather": {
+    "alert": "WATCH",
+    "body_response": "ALERT",
+    "horizon_scan": "ACTIVE"
+  },
+  "shadow": {
+    "offset": "NONE",
+    "desynchronization": "CLEAR",
+    "trace_confidence": "LOW"
+  },
+  "anomalies": [],
+  "notes": [
+    {
+      "label": "mode",
+      "value": "Primary field mode inferred as TARGET"
+    }
+  ],
+  "flow": {
+    "density": "LOW"
+  },
+  "_codex_type": "signal",
+  "_axes": {
+    "scale": "meso",
+    "depth": "surface",
+    "focus": "character",
+    "function": "diagnostic"
+  }
+}

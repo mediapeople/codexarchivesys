@@ -1,0 +1,6 @@
+MODE: TARGET
+SIGNAL: Riven / NEUTRAL / coherence 68
+ATMOS: pollen HIGH / intake risk MODERATE
+WATCH: WATCH
+SHADOW: NONE / CLEAR
+NOTES: mode=Primary field mode inferred as TARGET
