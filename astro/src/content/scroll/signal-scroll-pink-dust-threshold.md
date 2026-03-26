@@ -2,7 +2,7 @@
 id: "signal-scroll-pink-dust-threshold"
 slug: "signal-scroll-pink-dust-threshold"
 type: "scroll"
-title: "# ✦ SIGNAL SCROLL: PINK DUST THRESHOLD ✦"
+title: "✦ SIGNAL SCROLL: PINK DUST THRESHOLD ✦"
 date: "2026-03-26"
 postedAt: "2026-03-26T21:08:24.600Z"
 status: "published"

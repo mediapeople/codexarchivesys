@@ -174,6 +174,12 @@ function normalizeIncomingTitle(value: unknown): string {
     normalized = unwrapped;
   }
 
+  normalized = normalized
+    .replace(/^\s{0,3}#{1,6}\s+/u, '')
+    .replace(/^\s*>+\s*/u, '')
+    .replace(/^\s*[-*+]\s+/u, '')
+    .trim();
+
   return normalized;
 }
 
@@ -212,7 +218,7 @@ function normalizeDateString(value: unknown, fallback: string): string {
 function getFirstMeaningfulLine(value: string): string {
   return value
     .split('\n')
-    .map((line) => line.trim())
+    .map((line) => normalizeIncomingTitle(line))
     .find(Boolean) || '';
 }
 

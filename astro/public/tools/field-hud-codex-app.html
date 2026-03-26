@@ -3168,6 +3168,15 @@ function slugifyFull(value) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'').slice(0, 60);
 }
 
+function normalizePublishTitle(value) {
+  return String(value || '')
+    .trim()
+    .replace(/^\s{0,3}#{1,6}\s+/u, '')
+    .replace(/^\s*>+\s*/u, '')
+    .replace(/^\s*[-*+]\s+/u, '')
+    .trim();
+}
+
 function uniqueStrings(values) {
   return [...new Set(values.map((value) => String(value || '').trim()).filter(Boolean))];
 }
@@ -3245,7 +3254,9 @@ function buildPigeonPayload(packet, sourceText) {
   const axes = packet._axes || {};
   const collection = packet._codex_type || 'codex';
   const body = (sourceText || '').trim();
-  const title = ((body.split('\n').map((line) => line.trim()).find(Boolean)) || packet?.artifact?.sector || 'Untitled fragment').slice(0, 64);
+  const title = normalizePublishTitle(
+    ((body.split('\n').map((line) => line.trim()).find(Boolean)) || packet?.artifact?.sector || 'Untitled fragment')
+  ).slice(0, 64);
   const postedAt = packet?.system?.timestamp || new Date().toISOString();
   const date = postedAt.slice(0, 10);
   const slug = slugifyFull(title);
@@ -3408,7 +3419,7 @@ function setIngestButtonState(label, disabled) {
 function runIngest() {
   const body    = document.getElementById('input-body').value.trim();
   const firstLine = body.split('\n')[0].trim();
-  const title   = firstLine.slice(0, 48) || undefined;
+  const title   = normalizePublishTitle(firstLine).slice(0, 48) || undefined;
   const location= document.getElementById('input-location').value.trim();
   const region  = document.getElementById('input-region').value.trim();
   const track   = document.getElementById('input-track').value.trim();

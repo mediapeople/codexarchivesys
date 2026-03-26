@@ -2095,6 +2095,15 @@ export const PIGEON_APP_SCRIPT = String.raw`
     return trimmed;
   }
 
+  function normalizeTitleScalar(value) {
+    return String(value || '')
+      .trim()
+      .replace(/^\s{0,3}#{1,6}\s+/, '')
+      .replace(/^\s*>+\s*/, '')
+      .replace(/^\s*[-*+]\s+/, '')
+      .trim();
+  }
+
   function parseFrontmatter(raw) {
     const normalized = normalizeRawNote(raw);
     const normalizedForMatch = normalized.replace(/^\s+/, '');
@@ -2142,7 +2151,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
 
     result.hasTitleField = fields.has('title');
     result.hasDateField = fields.has('date');
-    result.title = parseFrontmatterScalar((fields.get('title') && fields.get('title')[0]) || '');
+    result.title = normalizeTitleScalar(parseFrontmatterScalar((fields.get('title') && fields.get('title')[0]) || ''));
     result.date = parseFrontmatterScalar((fields.get('date') && fields.get('date')[0]) || '');
     result.state = parseFrontmatterScalar((fields.get('state') && fields.get('state')[0]) || '');
     result.objectType = objectType;
