@@ -94,10 +94,22 @@ type ParsedFrontmatter = {
   body: string;
 };
 
-type ParsedPigeonRequest = {
+type StandardParsedPigeonRequest = {
+  kind: 'standard';
   payload: PigeonPayload;
   uploadedImages: File[];
 };
+
+type FieldHudParsedPigeonRequest = {
+  kind: 'field-hud';
+  payload: PigeonPayload;
+  requestedSlug?: string;
+  frontmatter: Record<string, unknown>;
+  packet: unknown | null;
+  respawnSummary: string | null;
+};
+
+type ParsedPigeonRequest = StandardParsedPigeonRequest | FieldHudParsedPigeonRequest;
 
 type PreparedImageAsset = {
   originalName: string;
@@ -105,6 +117,11 @@ type PreparedImageAsset = {
   repoPath: string;
   buffer: Buffer;
   contentType: string;
+};
+
+type SidecarFile = {
+  suffix: '.packet.json' | '.respawn.txt';
+  content: Buffer;
 };
 
 type GitHubConfig = {
@@ -125,6 +142,40 @@ function slugify(value: string): string {
     .replace(/-{2,}/g, '-');
 }
 
+function normalizeIncomingTitle(value: unknown): string {
+  let normalized = typeof value === 'string' ? value.trim() : '';
+  if (!normalized) {
+    return '';
+  }
+
+  const quotePairs: Array<[string, string]> = [
+    ['"', '"'],
+    ["'", "'"],
+    ['“', '”'],
+    ['‘', '’'],
+  ];
+
+  for (let depth = 0; depth < 2; depth += 1) {
+    const matchingPair = quotePairs.find(
+      ([open, close]) => normalized.startsWith(open) && normalized.endsWith(close)
+    );
+    if (!matchingPair) {
+      break;
+    }
+
+    const unwrapped = normalized
+      .slice(matchingPair[0].length, normalized.length - matchingPair[1].length)
+      .trim();
+    if (!unwrapped) {
+      break;
+    }
+
+    normalized = unwrapped;
+  }
+
+  return normalized;
+}
+
 function normalizeStringArray(value: unknown): string[] | null {
   if (!Array.isArray(value) || !value.every((item) => typeof item === 'string')) {
     return null;
@@ -133,8 +184,39 @@ function normalizeStringArray(value: unknown): string[] | null {
   return [...new Set(value.map((item) => item.trim()).filter(Boolean))];
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+}
+
+function normalizeFlexibleStringArray(value: unknown): string[] {
+  if (typeof value === 'string') {
+    return normalizeNonEmptyStrings(value.split(','));
+  }
+
+  return normalizeStringArray(value) ?? [];
+}
+
 function normalizeNonEmptyStrings(values: string[]): string[] {
   return [...new Set(values.map((value) => value.trim()).filter(Boolean))];
+}
+
+function normalizeDateString(value: unknown, fallback: string): string {
+  if (typeof value === 'string' && value.trim() && !Number.isNaN(Date.parse(value))) {
+    return value.trim();
+  }
+
+  return fallback;
+}
+
+function getFirstMeaningfulLine(value: string): string {
+  return value
+    .split('\n')
+    .map((line) => line.trim())
+    .find(Boolean) || '';
+}
+
+function omitUndefinedFields(fields: Record<string, unknown>): Record<string, unknown> {
+  return Object.fromEntries(Object.entries(fields).filter(([, value]) => value !== undefined));
 }
 
 function readAxisField(
@@ -604,7 +686,7 @@ function parseMarkdownNote(note: string, fallbackObjectType?: unknown): PigeonPa
 
   const fields = parsedFrontmatter.fields;
   const objectType = resolveObjectType(fields, 'markdown note frontmatter', fallbackObjectType);
-  const title = normalizeOptionalString(fields.get('title')?.[0]) || '';
+  const title = normalizeIncomingTitle(normalizeOptionalString(fields.get('title')?.[0])) || '';
   const date = normalizeOptionalString(fields.get('date')?.[0]) || '';
   const tags = (fields.get('tags') || []).flatMap(parseFrontmatterValue);
   const themes = (fields.get('themes') || []).flatMap(parseFrontmatterValue);
@@ -956,7 +1038,7 @@ function yamlImageMediaField(media: PigeonMediaItem[]): string {
 }
 
 function buildMarkdownEntry(payload: PigeonPayload, slug: string): string {
-  const canonicalUrl = `https://ndcodex.com/objects/${slug}/`;
+  const canonicalUrl = `https://ndcodex.com${getPublishedUrl(payload.objectType, slug)}`;
   const lines: Array<string | null> = [
     '---',
     `id: ${slug}`,
@@ -995,6 +1077,277 @@ function buildMarkdownEntry(payload: PigeonPayload, slug: string): string {
   }
 
   return lines.filter((line): line is string => Boolean(line)).join('\n');
+}
+
+function yamlScalar(value: unknown): string {
+  if (value === null) {
+    return 'null';
+  }
+
+  if (typeof value === 'number' || typeof value === 'boolean') {
+    return String(value);
+  }
+
+  if (Array.isArray(value) || isRecord(value)) {
+    return JSON.stringify(value);
+  }
+
+  return yamlString(String(value));
+}
+
+function buildFrontmatterMarkdown(frontmatter: Record<string, unknown>, body: string): string {
+  const lines = ['---'];
+
+  for (const [key, value] of Object.entries(frontmatter)) {
+    if (value === undefined) {
+      continue;
+    }
+
+    lines.push(`${key}: ${yamlScalar(value)}`);
+  }
+
+  lines.push('---', '', body.trim(), '');
+  return lines.join('\n');
+}
+
+function sanitizePacketSidecar(packet: unknown): unknown | null {
+  if (!packet) {
+    return null;
+  }
+
+  if (!isRecord(packet)) {
+    return packet;
+  }
+
+  const sanitized = { ...packet };
+  delete sanitized._source;
+  return sanitized;
+}
+
+function buildRespawnSummary(packet: unknown): string | null {
+  if (!isRecord(packet)) {
+    return null;
+  }
+
+  const signal = isRecord(packet.signal) ? packet.signal : {};
+  const atmosphere = isRecord(packet.atmosphere) ? packet.atmosphere : {};
+  const traumaWeather = isRecord(packet.trauma_weather) ? packet.trauma_weather : {};
+  const shadow = isRecord(packet.shadow) ? packet.shadow : {};
+  const notes = Array.isArray(packet.notes)
+    ? packet.notes
+        .filter((item): item is Record<string, unknown> => isRecord(item))
+        .map((item) => {
+          const label = typeof item.label === 'string' ? item.label : 'note';
+          const value = typeof item.value === 'string' ? item.value : '';
+          return value ? `${label}=${value}` : '';
+        })
+        .filter(Boolean)
+        .join(' | ')
+    : '';
+
+  const summary = [
+    `MODE: ${typeof packet.mode === 'string' ? packet.mode : '—'}`,
+    `SIGNAL: ${typeof signal.track === 'string' ? signal.track : '—'} / ${typeof signal.mode === 'string' ? signal.mode : '—'} / coherence ${signal.coherence ?? '—'}`,
+    `ATMOS: pollen ${typeof atmosphere.pollen === 'string' ? atmosphere.pollen : '—'} / intake risk ${typeof atmosphere.intake_risk === 'string' ? atmosphere.intake_risk : '—'}`,
+    `WATCH: ${typeof traumaWeather.alert === 'string' ? traumaWeather.alert : 'NONE'}`,
+    `SHADOW: ${typeof shadow.offset === 'string' ? shadow.offset : 'NONE'} / ${typeof shadow.desynchronization === 'string' ? shadow.desynchronization : 'CLEAR'}`,
+    notes ? `NOTES: ${notes}` : '',
+  ]
+    .filter(Boolean)
+    .join('\n');
+
+  return summary.trim() ? summary : null;
+}
+
+function buildFieldHudMarkdown(
+  objectType: PigeonObjectType,
+  slug: string,
+  frontmatter: Record<string, unknown>,
+  body: string
+): string {
+  const persistedFrontmatter = {
+    ...frontmatter,
+    id:
+      typeof frontmatter.id === 'string' && frontmatter.id.trim()
+        ? frontmatter.id.trim()
+        : slug,
+    slug,
+    url: `https://ndcodex.com${getPublishedUrl(objectType, slug)}`,
+    type: objectType,
+  };
+
+  return buildFrontmatterMarkdown(omitUndefinedFields(persistedFrontmatter), body);
+}
+
+function parseFieldHudRequest(
+  candidate: Record<string, unknown>
+): FieldHudParsedPigeonRequest | Response | null {
+  const looksLikeFieldHudPayload =
+    'frontmatter' in candidate ||
+    'collection' in candidate ||
+    'packet' in candidate ||
+    'respawn_summary' in candidate;
+
+  if (!looksLikeFieldHudPayload) {
+    return null;
+  }
+
+  const requestedFrontmatter = isRecord(candidate.frontmatter) ? { ...candidate.frontmatter } : {};
+  const packet = sanitizePacketSidecar(candidate.packet);
+  const rawBody =
+    (typeof candidate.body === 'string' && candidate.body) ||
+    (typeof candidate.fragment === 'string' && candidate.fragment) ||
+    (typeof requestedFrontmatter.body === 'string' && requestedFrontmatter.body) ||
+    (isRecord(candidate.packet) && typeof candidate.packet._source === 'string' ? candidate.packet._source : '') ||
+    '';
+  const body = normalizeNewlines(rawBody).trim();
+
+  if (!body) {
+    return Response.json({ error: 'body is required for Field HUD publish requests.' }, { status: 400 });
+  }
+
+  const requestedCollection =
+    candidate.collection ??
+    requestedFrontmatter.collection ??
+    requestedFrontmatter.object_type ??
+    requestedFrontmatter.objectType ??
+    requestedFrontmatter.type;
+  const objectType = normalizeObjectType(requestedCollection) || 'codex';
+  const titleCandidate =
+    normalizeIncomingTitle(candidate.title) ||
+    normalizeIncomingTitle(requestedFrontmatter.title) ||
+    getFirstMeaningfulLine(body).slice(0, 120);
+
+  if (!titleCandidate) {
+    return Response.json({ error: 'title is required for Field HUD publish requests.' }, { status: 400 });
+  }
+
+  const date = normalizeDateString(
+    candidate.date ?? requestedFrontmatter.date,
+    new Date().toISOString()
+  );
+  const axisOverrides = resolveAxisOverridesFromRecord(
+    { ...requestedFrontmatter, ...candidate },
+    'field hud payload'
+  );
+
+  if (axisOverrides instanceof Response) {
+    return axisOverrides;
+  }
+
+  const tags = normalizeFlexibleStringArray(candidate.tags ?? requestedFrontmatter.tags);
+  const themes = normalizeFlexibleStringArray(candidate.themes ?? requestedFrontmatter.themes);
+  const images = normalizeFlexibleStringArray(candidate.images ?? requestedFrontmatter.images);
+  const dependencies = normalizeFlexibleStringArray(
+    candidate.dependencies ?? requestedFrontmatter.dependencies
+  );
+  const requestedExcerpt =
+    (typeof requestedFrontmatter.summary === 'string' && requestedFrontmatter.summary.trim()) ||
+    (typeof requestedFrontmatter.excerpt === 'string' && requestedFrontmatter.excerpt.trim()) ||
+    (typeof candidate.summary === 'string' && candidate.summary.trim()) ||
+    (typeof candidate.excerpt === 'string' && candidate.excerpt.trim()) ||
+    undefined;
+  const excerpt =
+    resolveExcerpt({
+      title: titleCandidate,
+      excerpt: requestedExcerpt,
+      body,
+      max: 220,
+    }) || undefined;
+  const status =
+    normalizeStatus(candidate.status) ||
+    normalizeStatus(requestedFrontmatter.status) ||
+    normalizeStatus(candidate.state) ||
+    normalizeStatus(requestedFrontmatter.state) ||
+    'published';
+  const visibility =
+    normalizeVisibility(candidate.visibility) ||
+    normalizeVisibility(requestedFrontmatter.visibility) ||
+    'public';
+  const axes = inferAxes({
+    objectType,
+    title: titleCandidate,
+    body,
+    existing: axisOverrides,
+  });
+  const frontmatter = omitUndefinedFields({
+    ...requestedFrontmatter,
+    collection: undefined,
+    object_type: undefined,
+    objectType: undefined,
+    body: undefined,
+    id:
+      typeof requestedFrontmatter.id === 'string' && requestedFrontmatter.id.trim()
+        ? requestedFrontmatter.id.trim()
+        : undefined,
+    title: titleCandidate,
+    date,
+    postedAt:
+      typeof requestedFrontmatter.postedAt === 'string' && requestedFrontmatter.postedAt.trim()
+        ? requestedFrontmatter.postedAt.trim()
+        : new Date().toISOString(),
+    status,
+    visibility,
+    summary: requestedExcerpt || excerpt,
+    excerpt: requestedExcerpt || excerpt,
+    scale: axes.scale,
+    depth: axes.depth,
+    focus: axes.focus,
+    function: axes.function,
+    themes,
+    media: Array.isArray(requestedFrontmatter.media) ? requestedFrontmatter.media : [],
+    ...(objectType === 'codex'
+      ? {
+          tags,
+          images,
+          state:
+            normalizeStatus(requestedFrontmatter.state) ||
+            normalizeStatus(candidate.state) ||
+            status,
+          dependencies,
+        }
+      : {}),
+  });
+
+  if (objectType !== 'codex') {
+    delete frontmatter.tags;
+    delete frontmatter.images;
+    delete frontmatter.state;
+    delete frontmatter.dependencies;
+  }
+
+  return {
+    kind: 'field-hud',
+    payload: {
+      objectType,
+      title: titleCandidate,
+      date,
+      axes,
+      tags,
+      themes,
+      body,
+      images,
+      media: [],
+      status,
+      visibility,
+      excerpt,
+      codexState:
+        objectType === 'codex'
+          ? normalizeStatus(frontmatter.state) || status
+          : undefined,
+      codexDependencies: dependencies,
+      passthroughFrontmatter: [],
+    },
+    requestedSlug:
+      (typeof candidate.slug === 'string' && candidate.slug.trim()) ||
+      (typeof requestedFrontmatter.slug === 'string' && requestedFrontmatter.slug.trim()) ||
+      undefined,
+    frontmatter,
+    packet,
+    respawnSummary:
+      (typeof candidate.respawn_summary === 'string' && candidate.respawn_summary.trim()) ||
+      buildRespawnSummary(packet),
+  };
 }
 
 function getRelativeContentPath(objectType: PigeonObjectType, slug: string, contentRoot = 'astro/src/content'): string {
@@ -1167,7 +1520,8 @@ async function writeLocalEntry(
   payload: PigeonPayload,
   slug: string,
   markdown: string,
-  uploadedAssets: PreparedImageAsset[]
+  uploadedAssets: PreparedImageAsset[],
+  sidecars: SidecarFile[] = []
 ): Promise<Response> {
   const contentDir = await resolveContentDir(payload.objectType);
   const publicDir = await resolvePublicDir();
@@ -1180,16 +1534,20 @@ async function writeLocalEntry(
     // File does not exist yet.
   }
 
-  await Promise.all(
-    uploadedAssets.map(async (asset) => {
-      const assetPath = path.join(publicDir, asset.publicSrc.replace(/^\/+/, ''));
-      await mkdir(path.dirname(assetPath), { recursive: true });
-      await writeFile(assetPath, asset.buffer);
-    })
-  );
-
   await mkdir(contentDir, { recursive: true });
-  await writeFile(filePath, markdown, 'utf8');
+
+  const basePath = path.join(contentDir, slug);
+  await Promise.all(
+    [
+      ...uploadedAssets.map(async (asset) => {
+        const assetPath = path.join(publicDir, asset.publicSrc.replace(/^\/+/, ''));
+        await mkdir(path.dirname(assetPath), { recursive: true });
+        await writeFile(assetPath, asset.buffer);
+      }),
+      writeFile(filePath, markdown, 'utf8'),
+      ...sidecars.map((sidecar) => writeFile(`${basePath}${sidecar.suffix}`, sidecar.content)),
+    ]
+  );
 
   return Response.json(
     {
@@ -1198,9 +1556,21 @@ async function writeLocalEntry(
       slug,
       objectType: payload.objectType,
       path: filePath,
+      paths: {
+        markdown: filePath,
+        packet: sidecars.some((sidecar) => sidecar.suffix === '.packet.json')
+          ? `${basePath}.packet.json`
+          : null,
+        respawn: sidecars.some((sidecar) => sidecar.suffix === '.respawn.txt')
+          ? `${basePath}.respawn.txt`
+          : null,
+      },
       images: payload.images,
       axes: payload.axes,
       url: getPublishedUrl(payload.objectType, slug),
+      object_url: getPublishedUrl(payload.objectType, slug),
+      hud_url: `/codex/${slug}/hud`,
+      plate_url: `/codex/${slug}/plate`,
       note: 'Entry written to source content. Rebuild or redeploy to publish outside local dev.',
     },
     { status: 201 }
@@ -1485,7 +1855,8 @@ async function writeGitHubEntry(
   payload: PigeonPayload,
   slug: string,
   markdown: string,
-  uploadedAssets: PreparedImageAsset[]
+  uploadedAssets: PreparedImageAsset[],
+  sidecars: SidecarFile[] = []
 ): Promise<Response> {
   const relativePath = getRelativeContentPath(payload.objectType, slug, config.contentRoot);
   const lookupResponse = await fetch(getGitHubApiUrl(config, relativePath, config.branch), {
@@ -1521,6 +1892,10 @@ async function writeGitHubEntry(
         path: relativePath,
         content: Buffer.from(markdown, 'utf8'),
       },
+      ...sidecars.map((sidecar) => ({
+        path: relativePath.replace(/\.md$/i, sidecar.suffix),
+        content: sidecar.content,
+      })),
     ]
   );
 
@@ -1535,9 +1910,21 @@ async function writeGitHubEntry(
       slug,
       objectType: payload.objectType,
       path: relativePath,
+      paths: {
+        markdown: relativePath,
+        packet: sidecars.some((sidecar) => sidecar.suffix === '.packet.json')
+          ? relativePath.replace(/\.md$/i, '.packet.json')
+          : null,
+        respawn: sidecars.some((sidecar) => sidecar.suffix === '.respawn.txt')
+          ? relativePath.replace(/\.md$/i, '.respawn.txt')
+          : null,
+      },
       images: payload.images,
       axes: payload.axes,
       url: getPublishedUrl(payload.objectType, slug),
+      object_url: getPublishedUrl(payload.objectType, slug),
+      hud_url: `/codex/${slug}/hud`,
+      plate_url: `/codex/${slug}/plate`,
       commitSha: commitResult.commitSha,
       commitUrl: commitResult.commitUrl,
       note: 'Entry committed to GitHub. Netlify will publish it after the next deploy completes.',
@@ -1585,6 +1972,7 @@ async function parseMultipartPayload(request: Request): Promise<ParsedPigeonRequ
   }
 
   return {
+    kind: 'standard',
     payload: parsed,
     uploadedImages,
   };
@@ -1608,6 +1996,7 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
     }
 
     return {
+      kind: 'standard',
       payload: parsed,
       uploadedImages: [],
     };
@@ -1626,6 +2015,13 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
   }
 
   const candidate = payload as Record<string, unknown>;
+  const fieldHudRequest = parseFieldHudRequest(candidate);
+  if (fieldHudRequest instanceof Response) {
+    return fieldHudRequest;
+  }
+  if (fieldHudRequest) {
+    return fieldHudRequest;
+  }
 
   if (typeof candidate.note === 'string') {
     const fallbackObjectType =
@@ -1639,12 +2035,13 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
     }
 
     return {
+      kind: 'standard',
       payload: parsed,
       uploadedImages: [],
     };
   }
 
-  const title = typeof candidate.title === 'string' ? candidate.title.trim() : '';
+  const title = normalizeIncomingTitle(candidate.title);
   const date = typeof candidate.date === 'string' ? candidate.date.trim() : '';
   const body = typeof candidate.body === 'string' ? candidate.body.trim() : '';
   const tags = normalizeStringArray(candidate.tags);
@@ -1695,6 +2092,7 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
   }
 
   return {
+    kind: 'standard',
     payload: {
       objectType,
       title,
@@ -1739,7 +2137,9 @@ export const POST: APIRoute = async ({ request }) => {
     return parsed;
   }
 
-  const baseSlug = slugify(parsed.payload.title);
+  const baseSlug = slugify(
+    parsed.kind === 'field-hud' && parsed.requestedSlug ? parsed.requestedSlug : parsed.payload.title
+  );
   if (!baseSlug) {
     return Response.json({ error: 'Unable to derive a slug from title.' }, { status: 400 });
   }
@@ -1752,6 +2152,49 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     const slug = resolvedSlug;
+    if (parsed.kind === 'field-hud') {
+      const markdown = buildFieldHudMarkdown(
+        parsed.payload.objectType,
+        slug,
+        parsed.frontmatter,
+        parsed.payload.body
+      );
+      const sidecars: SidecarFile[] = [
+        ...(parsed.packet !== null
+          ? [
+              {
+                suffix: '.packet.json' as const,
+                content: Buffer.from(JSON.stringify(parsed.packet, null, 2), 'utf8'),
+              },
+            ]
+          : []),
+        ...(parsed.respawnSummary
+          ? [
+              {
+                suffix: '.respawn.txt' as const,
+                content: Buffer.from(parsed.respawnSummary, 'utf8'),
+              },
+            ]
+          : []),
+      ];
+
+      if (githubConfig) {
+        return await writeGitHubEntry(githubConfig, parsed.payload, slug, markdown, [], sidecars);
+      }
+
+      if (isHostedRuntime()) {
+        return Response.json(
+          {
+            error:
+              'Carrier Pigeon is running in hosted mode without GitHub write configuration. Set PIGEON_GITHUB_TOKEN and PIGEON_GITHUB_REPO.',
+          },
+          { status: 500 }
+        );
+      }
+
+      return await writeLocalEntry(parsed.payload, slug, markdown, [], sidecars);
+    }
+
     const preparedImages = await prepareUploadedImages(parsed.uploadedImages, parsed.payload.objectType, slug);
     const uploadedImagesByName = new Map(
       preparedImages.map((asset) => [normalizeFilename(asset.originalName), asset] as const)

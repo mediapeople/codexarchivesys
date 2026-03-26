@@ -1,0 +1,209 @@
+---
+import { getTypeLabel } from '../lib/archive';
+
+const { slug, type, summary, packet, respawn } = Astro.props as {
+  slug: string;
+  type: string;
+  summary?: string;
+  packet: unknown | null;
+  respawn: string | null;
+};
+
+function asRecord(value: unknown): Record<string, unknown> | null {
+  return value && typeof value === 'object' && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : null;
+}
+
+function asString(value: unknown): string {
+  return typeof value === 'string' ? value.trim() : '';
+}
+
+function buildPacketResult(packetData: Record<string, unknown> | null): string {
+  if (!packetData) {
+    return '';
+  }
+
+  const artifact = asRecord(packetData.artifact);
+  const signal = asRecord(packetData.signal);
+  const atmosphere = asRecord(packetData.atmosphere);
+  const traumaWeather = asRecord(packetData.trauma_weather);
+  const noteValues = Array.isArray(packetData.notes)
+    ? packetData.notes
+        .map((item) => asString(asRecord(item)?.value))
+        .filter(Boolean)
+        .slice(0, 2)
+    : [];
+
+  const signalTrack = asString(signal?.track);
+  const signalMode = asString(signal?.mode);
+  const signalLock = asString(signal?.signal_lock);
+  const atmosphereState = asString(atmosphere?.saturation_class) || asString(atmosphere?.pollen);
+  const intakeRisk = asString(atmosphere?.intake_risk);
+  const traumaAlert = asString(traumaWeather?.alert);
+  const artifactStatus = asString(artifact?.status);
+
+  const detailParts = [
+    signalTrack
+      ? `Signal ${signalTrack}${signalMode ? ` in ${signalMode}` : ''}${signalLock ? ` with ${signalLock} lock` : ''}`
+      : '',
+    atmosphereState
+      ? `Atmosphere ${atmosphereState}${intakeRisk ? ` with ${intakeRisk.toLowerCase()} intake risk` : ''}`
+      : '',
+    traumaAlert && traumaAlert !== 'NONE' ? `Trauma weather ${traumaAlert}` : '',
+    artifactStatus ? `Status ${artifactStatus}` : '',
+  ].filter(Boolean);
+
+  return [...noteValues, ...detailParts].join('. ').replace(/\s+/g, ' ').trim();
+}
+
+const packetData = asRecord(packet);
+const respawnCopy = asString(respawn);
+const summaryCopy = asString(summary);
+const resultCopy = summaryCopy || buildPacketResult(packetData) || respawnCopy.split('\n').find(Boolean) || '';
+const hasLead = Boolean(resultCopy || packetData || respawnCopy);
+
+const artifact = asRecord(packetData?.artifact);
+const signal = asRecord(packetData?.signal);
+const atmosphere = asRecord(packetData?.atmosphere);
+const traumaWeather = asRecord(packetData?.trauma_weather);
+
+const signalValue = [asString(signal?.track), asString(signal?.mode)].filter(Boolean).join(' / ');
+const atmosphereValue = [asString(atmosphere?.saturation_class), asString(atmosphere?.intake_risk)]
+  .filter(Boolean)
+  .join(' / ');
+const factRows = [
+  { label: 'Object', value: getTypeLabel(type) },
+  { label: 'Mode', value: asString(packetData?.mode) },
+  { label: 'Signal', value: signalValue },
+  { label: 'Atmosphere', value: atmosphereValue },
+  { label: 'Watch', value: asString(traumaWeather?.alert) },
+  { label: 'Packet', value: asString(artifact?.id) },
+].filter((row) => row.value);
+
+const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
+const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
+---
+
+{hasLead && (
+  <section class="field-result-lead">
+    <div class="field-result-head">
+      <div>
+        <p class="field-result-kicker">Field Result</p>
+        {resultCopy && <p class="field-result-summary">{resultCopy}</p>}
+      </div>
+
+      <div class="field-result-actions">
+        <a href={hudHref}>Open HUD</a>
+        <a href={plateHref}>Open Plate</a>
+      </div>
+    </div>
+
+    {factRows.length > 0 && (
+      <dl class="field-result-grid">
+        {factRows.map((row) => (
+          <div class="field-result-cell">
+            <dt>{row.label}</dt>
+            <dd>{row.value}</dd>
+          </div>
+        ))}
+      </dl>
+    )}
+  </section>
+)}
+
+<style>
+  .field-result-lead {
+    margin: 1.75rem 0 2.2rem;
+    padding: 1.15rem 1.15rem 1.05rem;
+    border: 1px solid rgba(201, 150, 58, 0.26);
+    background:
+      linear-gradient(135deg, rgba(201, 150, 58, 0.12), rgba(255, 255, 255, 0.02)),
+      rgba(201, 150, 58, 0.05);
+  }
+
+  .field-result-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .field-result-kicker {
+    margin: 0;
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: var(--ls-ui);
+    text-transform: uppercase;
+  }
+
+  .field-result-summary {
+    max-width: 44rem;
+    margin: 0.55rem 0 0;
+    color: var(--star);
+    font-size: clamp(1.08rem, 0.98rem + 0.35vw, 1.34rem);
+    line-height: 1.5;
+  }
+
+  .field-result-actions {
+    display: flex;
+    gap: 0.85rem;
+    flex-wrap: wrap;
+  }
+
+  .field-result-actions a {
+    color: var(--gold);
+    text-decoration: none;
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: var(--ls-ui);
+    text-transform: uppercase;
+  }
+
+  .field-result-actions a:hover {
+    color: var(--star);
+  }
+
+  .field-result-grid {
+    margin: 1rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    gap: 0.8rem;
+  }
+
+  .field-result-cell {
+    padding: 0.78rem 0.82rem;
+    border: 1px solid rgba(201, 150, 58, 0.18);
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .field-result-cell dt {
+    margin: 0;
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui);
+    text-transform: uppercase;
+  }
+
+  .field-result-cell dd {
+    margin: 0.34rem 0 0;
+    color: var(--gold);
+    font-family: var(--font-ui);
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 720px) {
+    .field-result-lead {
+      margin-bottom: 1.8rem;
+      padding-inline: 0.95rem;
+    }
+
+    .field-result-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

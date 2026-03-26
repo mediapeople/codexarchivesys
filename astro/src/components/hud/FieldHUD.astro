@@ -1,0 +1,169 @@
+---
+const { title, objectUrl, plateUrl, packet, respawn } = Astro.props as {
+  title: string;
+  objectUrl: string;
+  plateUrl: string;
+  packet: unknown | null;
+  respawn: string | null;
+};
+
+const packetData =
+  packet && typeof packet === 'object' ? (packet as Record<string, any>) : null;
+const notes = Array.isArray(packetData?.notes)
+  ? packetData.notes
+      .filter((item: unknown) => item && typeof item === 'object')
+      .map((item: any) => `[${item.label || 'note'}] ${item.value || ''}`.trim())
+      .filter(Boolean)
+  : [];
+const respawnCopy = typeof respawn === 'string' && respawn.trim() ? respawn.trim() : '';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} HUD</title>
+    <style>
+      :root {
+        --bg: #0d0b08;
+        --amber: #c9a15a;
+        --amber-em: #e0b870;
+        --amber-dim: #7a5e2c;
+        --rule: #3a2e18;
+        --glass: rgba(201, 161, 90, 0.04);
+        --glass-border: rgba(201, 161, 90, 0.12);
+        --text: #b8a07a;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+
+      a {
+        color: var(--amber-em);
+      }
+
+      .app {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 24px 16px 60px;
+      }
+
+      .mast {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        border-bottom: 1px solid var(--rule);
+        padding-bottom: 12px;
+        margin-bottom: 16px;
+      }
+
+      .title {
+        color: var(--amber-em);
+        font-size: 1.5rem;
+      }
+
+      .nav {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+        font-size: 0.85rem;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .cell,
+      .empty,
+      pre {
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        padding: 12px;
+      }
+
+      .eyebrow {
+        color: var(--amber-dim);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        margin-bottom: 6px;
+      }
+
+      .value {
+        color: var(--amber-em);
+        font-size: 1.25rem;
+      }
+
+      .notes {
+        margin-top: 14px;
+      }
+
+      .empty {
+        margin-top: 14px;
+        line-height: 1.7;
+      }
+
+      pre {
+        white-space: pre-wrap;
+        font: inherit;
+        line-height: 1.6;
+      }
+
+      @media (max-width: 700px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <header class="mast">
+        <div>
+          <div class="eyebrow">Field HUD</div>
+          <div class="title">{packetData?.artifact?.sector || title}</div>
+          <nav class="nav">
+            <a href={objectUrl}>Canonical object</a>
+            <a href={plateUrl}>Report plate</a>
+          </nav>
+        </div>
+        <div>
+          <div class="eyebrow">Packet</div>
+          <div>{packetData?.artifact?.id || 'No packet stored'}</div>
+        </div>
+      </header>
+
+      <section class="grid">
+        <div class="cell"><div class="eyebrow">Mode</div><div class="value">{packetData?.mode || '—'}</div></div>
+        <div class="cell"><div class="eyebrow">Signal</div><div class="value">{packetData?.signal?.track || '—'}</div></div>
+        <div class="cell"><div class="eyebrow">Coherence</div><div class="value">{packetData?.signal?.coherence ?? '—'}</div></div>
+        <div class="cell"><div class="eyebrow">Atmosphere</div><div class="value">{packetData?.atmosphere?.pollen || '—'} / {packetData?.atmosphere?.intake_risk || '—'}</div></div>
+        <div class="cell"><div class="eyebrow">Trauma Weather</div><div class="value">{packetData?.trauma_weather?.alert || 'NONE'}</div></div>
+        <div class="cell"><div class="eyebrow">Shadow</div><div class="value">{packetData?.shadow?.offset || 'NONE'} / {packetData?.shadow?.desynchronization || 'CLEAR'}</div></div>
+      </section>
+
+      {!packetData && (
+        <section class="empty">
+          No stored packet was found for this object. The canonical source fragment still lives on the archive page, and this HUD route will start rehydrating as soon as a packet sidecar is present.
+        </section>
+      )}
+
+      <section class="notes">
+        <div class="eyebrow">Respawn / Notes</div>
+        <pre>{respawnCopy || notes.join('\n') || 'No respawn summary or packet notes are stored yet.'}</pre>
+      </section>
+    </div>
+  </body>
+</html>

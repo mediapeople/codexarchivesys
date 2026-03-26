@@ -1,0 +1,100 @@
+---
+const { slug, packet, respawn } = Astro.props as {
+  slug: string;
+  packet: unknown | null;
+  respawn: string | null;
+};
+
+const hasPacket = packet !== null;
+const hasRespawn = typeof respawn === 'string' && respawn.trim().length > 0;
+const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
+const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
+---
+
+{(hasPacket || hasRespawn) && (
+  <section class="continuity-panel">
+    <div class="continuity-head">
+      <p class="continuity-kicker">Continuity</p>
+      <div class="continuity-actions">
+        <a href={hudHref}>Open HUD</a>
+        <a href={plateHref}>Open Plate</a>
+      </div>
+    </div>
+
+    {hasRespawn ? (
+      <pre class="continuity-respawn">{respawn}</pre>
+    ) : (
+      <p class="continuity-note">
+        Packet sidecar detected. Respawn notes have not been stored for this object yet.
+      </p>
+    )}
+  </section>
+)}
+
+<style>
+  .continuity-panel {
+    margin: 2rem 0 2.4rem;
+    padding: 1rem 1.1rem 1.05rem;
+    border: 1px solid rgba(201, 150, 58, 0.24);
+    background: rgba(201, 150, 58, 0.08);
+  }
+
+  .continuity-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.9rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .continuity-kicker {
+    margin: 0;
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: var(--ls-ui);
+    text-transform: uppercase;
+  }
+
+  .continuity-actions {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  .continuity-actions a {
+    color: var(--gold);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: var(--ls-ui);
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .continuity-actions a:hover {
+    color: var(--star);
+  }
+
+  .continuity-respawn,
+  .continuity-note {
+    margin: 0.9rem 0 0;
+  }
+
+  .continuity-respawn {
+    padding: 0.95rem;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    border: 1px solid rgba(201, 150, 58, 0.18);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-body);
+    font-family: var(--font-ui);
+    font-size: 12px;
+    line-height: 1.7;
+  }
+
+  .continuity-note {
+    color: var(--mid);
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+</style>

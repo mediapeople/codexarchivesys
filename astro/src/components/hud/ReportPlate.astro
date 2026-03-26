@@ -1,0 +1,157 @@
+---
+const { title, objectUrl, hudUrl, packet, sourceText, respawn } = Astro.props as {
+  title: string;
+  objectUrl: string;
+  hudUrl: string;
+  packet: unknown | null;
+  sourceText: string;
+  respawn: string | null;
+};
+
+const packetData =
+  packet && typeof packet === 'object' ? (packet as Record<string, any>) : null;
+const normalizedSourceText = sourceText.trim();
+const normalizedRespawn = typeof respawn === 'string' && respawn.trim() ? respawn.trim() : '';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} Plate</title>
+    <style>
+      :root {
+        --bg: #0a0805;
+        --amber-em: #e0b870;
+        --amber-dim: #7a5e2c;
+        --rule: #3a2e18;
+        --rule-faint: #241c0c;
+        --text: #b8a07a;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: Georgia, serif;
+      }
+
+      a {
+        color: var(--amber-em);
+      }
+
+      .plate {
+        max-width: 720px;
+        margin: 24px auto;
+        padding: 28px;
+        border: 1px solid var(--rule);
+      }
+
+      .head {
+        text-align: center;
+        border-bottom: 1px solid var(--rule);
+        padding-bottom: 16px;
+        margin-bottom: 18px;
+      }
+
+      .eyebrow {
+        color: var(--amber-dim);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+      }
+
+      .title {
+        color: var(--amber-em);
+        font-size: 2rem;
+        font-style: italic;
+        margin-top: 8px;
+      }
+
+      .nav {
+        display: flex;
+        justify-content: center;
+        gap: 14px;
+        flex-wrap: wrap;
+        margin-top: 14px;
+        font-size: 0.95rem;
+      }
+
+      .section {
+        margin-top: 18px;
+      }
+
+      .label {
+        color: var(--amber-dim);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        border-bottom: 1px solid var(--rule-faint);
+        padding-bottom: 4px;
+        margin-bottom: 8px;
+      }
+
+      .row {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 4px 0;
+        border-bottom: 1px dotted var(--rule-faint);
+      }
+
+      .empty {
+        line-height: 1.7;
+        padding: 8px 0 2px;
+      }
+
+      pre {
+        white-space: pre-wrap;
+        line-height: 1.7;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--rule-faint);
+        padding: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <article class="plate">
+      <header class="head">
+        <div class="eyebrow">Field Report Plate</div>
+        <div class="title">{packetData?.artifact?.sector || title}</div>
+        <div>{packetData?.artifact?.id || 'No packet stored'}</div>
+        <nav class="nav">
+          <a href={objectUrl}>Canonical object</a>
+          <a href={hudUrl}>Open HUD</a>
+        </nav>
+      </header>
+
+      <section class="section">
+        <div class="label">Field State</div>
+        <div class="row"><span>Mode</span><span>{packetData?.mode || '—'}</span></div>
+        <div class="row"><span>Signal</span><span>{packetData?.signal?.track || '—'}</span></div>
+        <div class="row"><span>Coherence</span><span>{packetData?.signal?.coherence ?? '—'}</span></div>
+        <div class="row"><span>Pollen</span><span>{packetData?.atmosphere?.pollen || '—'}</span></div>
+        <div class="row"><span>Intake Risk</span><span>{packetData?.atmosphere?.intake_risk || '—'}</span></div>
+        <div class="row"><span>Trauma Weather</span><span>{packetData?.trauma_weather?.alert || 'NONE'}</span></div>
+        <div class="row"><span>Shadow</span><span>{packetData?.shadow?.offset || 'NONE'}</span></div>
+        {!packetData && (
+          <p class="empty">
+            No packet sidecar is stored for this object yet. The source fragment below remains canonical and can still be reread or republished.
+          </p>
+        )}
+      </section>
+
+      <section class="section">
+        <div class="label">Source Fragment</div>
+        <pre>{normalizedSourceText || 'No source text is available for this object.'}</pre>
+      </section>
+
+      {normalizedRespawn && (
+        <section class="section">
+          <div class="label">Respawn</div>
+          <pre>{normalizedRespawn}</pre>
+        </section>
+      )}
+    </article>
+  </body>
+</html>

@@ -2071,6 +2071,30 @@ export const PIGEON_APP_SCRIPT = String.raw`
       .filter(Boolean);
   }
 
+  function parseFrontmatterScalar(value) {
+    const trimmed = String(value || '').trim();
+    if (!trimmed) {
+      return '';
+    }
+
+    if (trimmed.startsWith('"') && trimmed.endsWith('"')) {
+      try {
+        const parsed = JSON.parse(trimmed);
+        if (typeof parsed === 'string') {
+          return parsed.trim();
+        }
+      } catch (error) {
+        return trimmed.slice(1, -1).trim();
+      }
+    }
+
+    if (trimmed.startsWith("'") && trimmed.endsWith("'")) {
+      return trimmed.slice(1, -1).replace(/''/g, "'").trim();
+    }
+
+    return trimmed;
+  }
+
   function parseFrontmatter(raw) {
     const normalized = normalizeRawNote(raw);
     const normalizedForMatch = normalized.replace(/^\s+/, '');
@@ -2118,9 +2142,9 @@ export const PIGEON_APP_SCRIPT = String.raw`
 
     result.hasTitleField = fields.has('title');
     result.hasDateField = fields.has('date');
-    result.title = ((fields.get('title') && fields.get('title')[0]) || '').trim();
-    result.date = ((fields.get('date') && fields.get('date')[0]) || '').trim();
-    result.state = ((fields.get('state') && fields.get('state')[0]) || '').trim();
+    result.title = parseFrontmatterScalar((fields.get('title') && fields.get('title')[0]) || '');
+    result.date = parseFrontmatterScalar((fields.get('date') && fields.get('date')[0]) || '');
+    result.state = parseFrontmatterScalar((fields.get('state') && fields.get('state')[0]) || '');
     result.objectType = objectType;
     result.axisOverrides = readAxisOverridesFromFrontmatterFields(fields);
     result.axes = inferAxesFromText({
@@ -2267,9 +2291,9 @@ export const PIGEON_APP_SCRIPT = String.raw`
       if (ARRAY_FIELDS.has(key)) {
         fields[key] = values.flatMap(parseFrontmatterArray).filter(Boolean);
       } else if (values.length > 1) {
-        fields[key] = values.map((value) => value.trim()).filter(Boolean);
+        fields[key] = values.map((value) => parseFrontmatterScalar(value)).filter(Boolean);
       } else {
-        fields[key] = ((values[0] || '') + '').trim();
+        fields[key] = parseFrontmatterScalar((values[0] || '') + '');
       }
     });
 
