@@ -19,6 +19,27 @@ function asString(value: unknown): string {
   return typeof value === 'string' ? value.trim() : '';
 }
 
+function uniqueStrings(values: string[]): string[] {
+  return [...new Set(values.map((value) => value.trim()).filter(Boolean))];
+}
+
+function clipCopy(value: string, max = 220): string {
+  const normalized = value.replace(/\s+/g, ' ').trim();
+  if (!normalized || normalized.length <= max) {
+    return normalized;
+  }
+
+  return `${normalized.slice(0, max).replace(/\s+\S*$/, '').replace(/[.?!,:;]+$/, '').trim()}…`;
+}
+
+function getNoteValues(packetData: Record<string, unknown> | null): string[] {
+  return Array.isArray(packetData?.notes)
+    ? packetData.notes
+        .map((item) => asString(asRecord(item)?.value))
+        .filter(Boolean)
+    : [];
+}
+
 function buildPacketResult(packetData: Record<string, unknown> | null): string {
   if (!packetData) {
     return '';
@@ -28,12 +49,7 @@ function buildPacketResult(packetData: Record<string, unknown> | null): string {
   const signal = asRecord(packetData.signal);
   const atmosphere = asRecord(packetData.atmosphere);
   const traumaWeather = asRecord(packetData.trauma_weather);
-  const noteValues = Array.isArray(packetData.notes)
-    ? packetData.notes
-        .map((item) => asString(asRecord(item)?.value))
-        .filter(Boolean)
-        .slice(0, 2)
-    : [];
+  const noteValues = getNoteValues(packetData).slice(0, 2);
 
   const signalTrack = asString(signal?.track);
   const signalMode = asString(signal?.mode);
@@ -45,7 +61,7 @@ function buildPacketResult(packetData: Record<string, unknown> | null): string {
 
   const detailParts = [
     signalTrack
-      ? `Signal ${signalTrack}${signalMode ? ` in ${signalMode}` : ''}${signalLock ? ` with ${signalLock} lock` : ''}`
+      ? `Signal ${signalTrack}${signalMode ? ` in ${signalMode}` : ''}${signalLock && signalLock !== 'PENDING' ? ` with ${signalLock} lock` : ''}`
       : '',
     atmosphereState
       ? `Atmosphere ${atmosphereState}${intakeRisk ? ` with ${intakeRisk.toLowerCase()} intake risk` : ''}`
@@ -57,30 +73,77 @@ function buildPacketResult(packetData: Record<string, unknown> | null): string {
   return [...noteValues, ...detailParts].join('. ').replace(/\s+/g, ' ').trim();
 }
 
+const typeLabel = getTypeLabel(type);
 const packetData = asRecord(packet);
 const respawnCopy = asString(respawn);
 const summaryCopy = asString(summary);
-const resultCopy = summaryCopy || buildPacketResult(packetData) || respawnCopy.split('\n').find(Boolean) || '';
 const hasLead = packetData !== null;
 
 const artifact = asRecord(packetData?.artifact);
 const signal = asRecord(packetData?.signal);
 const atmosphere = asRecord(packetData?.atmosphere);
 const traumaWeather = asRecord(packetData?.trauma_weather);
+const shadow = asRecord(packetData?.shadow);
 
-const signalValue = [asString(signal?.track), asString(signal?.mode)].filter(Boolean).join(' / ');
-const atmosphereValue = [asString(atmosphere?.saturation_class), asString(atmosphere?.intake_risk)]
-  .filter(Boolean)
-  .join(' / ');
+const noteValues = getNoteValues(packetData);
+const packetNarrative = buildPacketResult(packetData);
+const primaryResult = clipCopy(noteValues[0] || packetNarrative || summaryCopy || respawnCopy.split('\n').find(Boolean) || '', 210);
+const sourceEcho = clipCopy(summaryCopy, 180);
+const secondaryResult = clipCopy(
+  uniqueStrings([
+    asString(packetData?.mode) ? `Mode ${asString(packetData?.mode)}` : '',
+    asString(signal?.track)
+      ? `Signal ${asString(signal?.track)}${asString(signal?.mode) ? ` / ${asString(signal?.mode)}` : ''}${asString(signal?.signal_lock) && asString(signal?.signal_lock) !== 'PENDING' ? ` / ${asString(signal?.signal_lock)}` : ''}`
+      : '',
+    (asString(atmosphere?.saturation_class) || asString(atmosphere?.pollen))
+      ? `Atmosphere ${asString(atmosphere?.saturation_class) || asString(atmosphere?.pollen)}${asString(atmosphere?.intake_risk) ? ` / ${asString(atmosphere?.intake_risk).toLowerCase()} intake` : ''}`
+      : '',
+    asString(traumaWeather?.alert) && asString(traumaWeather?.alert) !== 'NONE'
+      ? `Watch ${asString(traumaWeather?.alert)}`
+      : '',
+    asString(shadow?.offset) && asString(shadow?.offset) !== 'NONE'
+      ? `Shadow ${asString(shadow?.offset)}`
+      : '',
+  ]).join(' · '),
+  220
+);
+const showSourceEcho =
+  Boolean(sourceEcho) &&
+  sourceEcho.toLowerCase() !== primaryResult.toLowerCase() &&
+  sourceEcho.toLowerCase() !== secondaryResult.toLowerCase();
+
+const signalValue = uniqueStrings([asString(signal?.track), asString(signal?.mode)]).join(' / ');
+const atmosphereValue = uniqueStrings([
+  asString(atmosphere?.saturation_class) || asString(atmosphere?.pollen),
+  asString(atmosphere?.intake_risk),
+]).join(' / ');
+const fieldValue = uniqueStrings([asString(artifact?.sector), asString(artifact?.region)]).join(' / ');
+const shadowValue = uniqueStrings([asString(shadow?.offset), asString(shadow?.desynchronization)]).join(' / ');
+const packetId = asString(artifact?.id);
+const packetStatus = asString(artifact?.status);
+const recommendation = asString(atmosphere?.recommendation);
+const watchValue = asString(traumaWeather?.alert);
+
+const pills = uniqueStrings([
+  typeLabel,
+  asString(packetData?.mode) ? `Mode ${asString(packetData?.mode)}` : '',
+  asString(signal?.track) ? `Signal ${asString(signal?.track)}` : '',
+  watchValue && watchValue !== 'NONE' ? `Watch ${watchValue}` : '',
+  respawnCopy ? 'Respawn stored' : 'Packet stored',
+]);
+
 const factRows = [
-  { label: 'Object', value: getTypeLabel(type) },
-  { label: 'Mode', value: asString(packetData?.mode) },
+  { label: 'Object', value: typeLabel },
+  { label: 'Field', value: fieldValue },
   { label: 'Signal', value: signalValue },
   { label: 'Atmosphere', value: atmosphereValue },
-  { label: 'Watch', value: asString(traumaWeather?.alert) },
-  { label: 'Packet', value: asString(artifact?.id) },
+  { label: 'Recommendation', value: recommendation },
+  { label: 'Watch', value: watchValue && watchValue !== 'NONE' ? watchValue : '' },
+  { label: 'Shadow', value: shadowValue && shadowValue !== 'NONE / CLEAR' ? shadowValue : '' },
+  { label: 'Packet', value: packetId },
 ].filter((row) => row.value);
 
+const factGridClass = `field-result-grid${factRows.length <= 2 ? ' field-result-grid--compact' : ''}`;
 const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
 const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
 ---
@@ -88,19 +151,42 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
 {hasLead && (
   <section class="field-result-lead">
     <div class="field-result-head">
-      <div>
+      <div class="field-result-copy">
         <p class="field-result-kicker">Field Result</p>
-        {resultCopy && <p class="field-result-summary">{resultCopy}</p>}
+
+        {pills.length > 0 && (
+          <ul class="field-result-pills" aria-label="Packet summary">
+            {pills.map((pill) => (
+              <li>{pill}</li>
+            ))}
+          </ul>
+        )}
+
+        {primaryResult && <p class="field-result-summary">{primaryResult}</p>}
+        {secondaryResult && <p class="field-result-support">{secondaryResult}</p>}
+        {showSourceEcho && <p class="field-result-source">Source trace: {sourceEcho}</p>}
       </div>
 
-      <div class="field-result-actions">
-        <a href={hudHref}>Open HUD</a>
-        <a href={plateHref}>Open Plate</a>
+      <div class="field-result-rail">
+        <div class="field-result-trace">
+          <p class="field-result-trace-label">Stored Packet</p>
+          <p class="field-result-trace-value">{packetId || 'Packet active'}</p>
+          {(fieldValue || packetStatus) && (
+            <p class="field-result-trace-meta">
+              {[fieldValue, packetStatus].filter(Boolean).join(' / ')}
+            </p>
+          )}
+        </div>
+
+        <div class="field-result-actions">
+          <a href={hudHref}>Open HUD</a>
+          <a href={plateHref}>Open Plate</a>
+        </div>
       </div>
     </div>
 
     {factRows.length > 0 && (
-      <dl class="field-result-grid">
+      <dl class={factGridClass}>
         {factRows.map((row) => (
           <div class="field-result-cell">
             <dt>{row.label}</dt>
@@ -114,92 +200,219 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
 
 <style>
   .field-result-lead {
+    position: relative;
     margin: 1.75rem 0 2.2rem;
-    padding: 1.15rem 1.15rem 1.05rem;
-    border: 1px solid rgba(201, 150, 58, 0.26);
+    padding: 1.12rem 1.12rem 1.06rem;
+    border: 1px solid color-mix(in srgb, var(--gold) 28%, transparent);
     background:
-      linear-gradient(135deg, rgba(201, 150, 58, 0.12), rgba(255, 255, 255, 0.02)),
-      rgba(201, 150, 58, 0.05);
+      radial-gradient(circle at top right, rgba(201, 150, 58, 0.11), transparent 34%),
+      linear-gradient(135deg, rgba(201, 150, 58, 0.1), rgba(255, 255, 255, 0.02)),
+      rgba(201, 150, 58, 0.045);
+    overflow: hidden;
+  }
+
+  .field-result-lead::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02), transparent 16%),
+      linear-gradient(180deg, rgba(232, 217, 180, 0.025), transparent 42%);
+    opacity: 0.35;
+  }
+
+  .field-result-head,
+  .field-result-grid {
+    position: relative;
+    z-index: 1;
   }
 
   .field-result-head {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    align-items: flex-start;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: minmax(0, 1.55fr) minmax(16rem, 0.75fr);
+    gap: 1rem 1.1rem;
+    align-items: start;
+  }
+
+  .field-result-copy {
+    min-width: 0;
+  }
+
+  .field-result-kicker,
+  .field-result-pills li,
+  .field-result-trace-label,
+  .field-result-actions a,
+  .field-result-cell dt {
+    font-family: var(--font-ui);
+    letter-spacing: var(--ls-ui);
+    text-transform: uppercase;
   }
 
   .field-result-kicker {
     margin: 0;
     color: var(--mid);
-    font-family: var(--font-ui);
     font-size: 11px;
-    letter-spacing: var(--ls-ui);
-    text-transform: uppercase;
+  }
+
+  .field-result-pills {
+    margin: 0.72rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+
+  .field-result-pills li {
+    padding: 0.3rem 0.62rem 0.28rem;
+    border: 1px solid color-mix(in srgb, var(--gold) 22%, transparent);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--gold);
+    font-size: 10px;
   }
 
   .field-result-summary {
-    max-width: 44rem;
-    margin: 0.55rem 0 0;
+    max-width: 42rem;
+    margin: 0.8rem 0 0;
     color: var(--star);
-    font-size: clamp(1.08rem, 0.98rem + 0.35vw, 1.34rem);
+    font-size: clamp(1.02rem, 0.96rem + 0.52vw, 1.25rem);
+    line-height: 1.5;
+  }
+
+  .field-result-support,
+  .field-result-source {
+    max-width: 42rem;
+    margin: 0.72rem 0 0;
+    line-height: 1.6;
+  }
+
+  .field-result-support {
+    color: var(--gold);
+    font-family: var(--font-ui);
+    font-size: 0.88rem;
+    letter-spacing: 0.02em;
+  }
+
+  .field-result-source {
+    color: var(--mid);
+    font-size: 0.94rem;
+  }
+
+  .field-result-rail {
+    display: grid;
+    gap: 0.72rem;
+    align-content: start;
+  }
+
+  .field-result-trace,
+  .field-result-actions a,
+  .field-result-cell {
+    border: 1px solid color-mix(in srgb, var(--gold) 18%, transparent);
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .field-result-trace {
+    padding: 0.9rem 0.94rem;
+  }
+
+  .field-result-trace-label {
+    margin: 0;
+    color: var(--mid);
+    font-size: 10px;
+  }
+
+  .field-result-trace-value {
+    margin: 0.4rem 0 0;
+    color: var(--star);
+    font-family: var(--font-ui);
+    font-size: 0.96rem;
+    line-height: 1.45;
+    word-break: break-word;
+  }
+
+  .field-result-trace-meta {
+    margin: 0.48rem 0 0;
+    color: var(--gold);
+    font-family: var(--font-ui);
+    font-size: 0.8rem;
     line-height: 1.5;
   }
 
   .field-result-actions {
-    display: flex;
-    gap: 0.85rem;
-    flex-wrap: wrap;
+    display: grid;
+    gap: 0.6rem;
   }
 
   .field-result-actions a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.9rem;
+    padding: 0.45rem 0.78rem;
     color: var(--gold);
     text-decoration: none;
-    font-family: var(--font-ui);
     font-size: 11px;
-    letter-spacing: var(--ls-ui);
-    text-transform: uppercase;
+    transition:
+      border-color 0.16s ease,
+      color 0.16s ease,
+      background 0.16s ease;
   }
 
   .field-result-actions a:hover {
     color: var(--star);
+    border-color: color-mix(in srgb, var(--gold) 34%, transparent);
+    background: rgba(255, 255, 255, 0.05);
   }
 
   .field-result-grid {
     margin: 1rem 0 0;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-    gap: 0.8rem;
+    gap: 0.72rem;
+  }
+
+  .field-result-grid--compact {
+    max-width: 35rem;
   }
 
   .field-result-cell {
-    padding: 0.78rem 0.82rem;
-    border: 1px solid rgba(201, 150, 58, 0.18);
-    background: rgba(255, 255, 255, 0.03);
+    padding: 0.8rem 0.84rem;
   }
 
   .field-result-cell dt {
     margin: 0;
     color: var(--mid);
-    font-family: var(--font-ui);
     font-size: 10px;
-    letter-spacing: var(--ls-ui);
-    text-transform: uppercase;
   }
 
   .field-result-cell dd {
     margin: 0.34rem 0 0;
     color: var(--gold);
     font-family: var(--font-ui);
-    font-size: 0.92rem;
+    font-size: 0.9rem;
     line-height: 1.5;
+  }
+
+  @media (max-width: 900px) {
+    .field-result-head {
+      grid-template-columns: 1fr;
+    }
+
+    .field-result-rail {
+      grid-template-columns: minmax(0, 1fr);
+    }
   }
 
   @media (max-width: 720px) {
     .field-result-lead {
       margin-bottom: 1.8rem;
       padding-inline: 0.95rem;
+    }
+
+    .field-result-summary {
+      font-size: 1rem;
     }
 
     .field-result-grid {
