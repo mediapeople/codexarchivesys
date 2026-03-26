@@ -1,8 +1,9 @@
 ---
 import { getTypeLabel } from '../lib/archive';
 
-const { slug, type, summary, packet, respawn } = Astro.props as {
+const { slug, title, type, summary, packet, respawn } = Astro.props as {
   slug: string;
+  title?: string;
   type: string;
   summary?: string;
   packet: unknown | null;
@@ -69,6 +70,7 @@ function buildPacketResult(packetData: Record<string, unknown> | null): string {
 
 const packetData = asRecord(packet);
 const hasLead = packetData !== null;
+const titleCopy = asString(title);
 const summaryCopy = asString(summary);
 const respawnCopy = asString(respawn);
 
@@ -120,11 +122,20 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
 {hasLead && (
   <section class="field-result-lead">
     <div class="field-result-head">
-      <p class="field-result-kicker">Field Result</p>
+      <div class="field-result-ident">
+        <p class="field-result-kicker">Field Result</p>
+        {titleCopy && <p class="field-result-title">{titleCopy}</p>}
+      </div>
 
       <nav class="field-result-actions" aria-label="Packet views">
-        <a href={hudHref}>HUD</a>
-        <a href={plateHref}>Plate</a>
+        <a href={hudHref}>
+          <span class="field-result-glyph" aria-hidden="true">◎</span>
+          <span>HUD</span>
+        </a>
+        <a href={plateHref}>
+          <span class="field-result-glyph" aria-hidden="true">▣</span>
+          <span>Plate</span>
+        </a>
       </nav>
     </div>
 
@@ -157,10 +168,14 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
 
   .field-result-head {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     gap: 0.8rem;
     flex-wrap: wrap;
+  }
+
+  .field-result-ident {
+    min-width: 0;
   }
 
   .field-result-kicker,
@@ -177,6 +192,15 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
     color: var(--mid);
   }
 
+  .field-result-title {
+    margin: 0.28rem 0 0;
+    color: color-mix(in srgb, var(--mid) 88%, var(--gold) 12%);
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
   .field-result-actions {
     display: flex;
     gap: 0.8rem;
@@ -184,8 +208,17 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
   }
 
   .field-result-actions a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.34rem;
     color: var(--gold);
     text-decoration: none;
+  }
+
+  .field-result-glyph {
+    display: inline-block;
+    font-size: 0.88em;
+    line-height: 1;
   }
 
   .field-result-actions a:hover {
