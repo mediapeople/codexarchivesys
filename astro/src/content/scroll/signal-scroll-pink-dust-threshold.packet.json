@@ -1,0 +1,82 @@
+{
+  "artifact": {
+    "id": "SIGNAL-S-2026-03-26",
+    "sector": "Backyard",
+    "class": "FIELD / SIGNAL / ATMOS",
+    "status": "SEALED INFERENCE",
+    "region": "Suburban North Georgia",
+    "mode_label": "SEALED"
+  },
+  "system": {
+    "status": "NOMINAL",
+    "network": "CONNECTED",
+    "packet": "ACTIVE",
+    "timestamp": "2026-03-26T21:08:24.600Z"
+  },
+  "mode": "SEALED",
+  "atmosphere": {
+    "pm25": 75,
+    "o3": 120,
+    "pollen": "SATURATED",
+    "intake_risk": "HIGH",
+    "recommendation": "WINDOWS_UP",
+    "saturation_class": "GREEN DEATH MIST"
+  },
+  "signal": {
+    "track": "PINK",
+    "coherence": 82,
+    "mode": "GLIDE",
+    "signal_lock": "INFERRED"
+  },
+  "internal_state": {
+    "stability": 84,
+    "cognitive_load": 56,
+    "respiration": "SHALLOW",
+    "pressure": "RISING",
+    "anchor_lock": "INFERRED",
+    "signal_alignment": 82
+  },
+  "trauma_weather": {
+    "alert": "NONE",
+    "body_response": "CALM",
+    "horizon_scan": "PASSIVE"
+  },
+  "shadow": {
+    "offset": "MINOR",
+    "desynchronization": "OBSERVED",
+    "trace_confidence": "MEDIUM",
+    "observed_delta_ms": 240,
+    "note": "Shadow state inferred from recurrence / memory language"
+  },
+  "anomalies": [
+    {
+      "type": "AIR SATURATION",
+      "state": "OBSERVED",
+      "severity": "HIGH",
+      "observation_time": "2026-03-26T21:08:24.600Z",
+      "confidence": "HIGH",
+      "note": "Pollen load and intake burden elevated"
+    }
+  ],
+  "notes": [
+    {
+      "label": "intake",
+      "value": "Atmospheric saturation elevated, intake discipline required"
+    },
+    {
+      "label": "signal",
+      "value": "Low-friction musical signal stabilized the field"
+    }
+  ],
+  "flow": {
+    "density": "LOW"
+  },
+  "_codex_type": "scroll",
+  "_axes": {
+    "scale": "macro",
+    "depth": "structural",
+    "focus": "character",
+    "function": "therapeutic"
+  },
+  "_ui_mode": "ENHANCED"
+}

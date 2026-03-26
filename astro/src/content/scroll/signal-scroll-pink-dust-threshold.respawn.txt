@@ -1,0 +1,6 @@
+MODE: SEALED
+SIGNAL: PINK / GLIDE / coherence 82
+ATMOS: pollen SATURATED / intake risk HIGH
+WATCH: NONE
+SHADOW: MINOR / OBSERVED
+NOTES: intake=Atmospheric saturation elevated, intake discipline required | signal=Low-friction musical signal stabilized the field
