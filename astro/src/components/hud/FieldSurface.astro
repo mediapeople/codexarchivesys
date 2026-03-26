@@ -1,0 +1,656 @@
+---
+const {
+  title,
+  objectUrl,
+  packet,
+  sourceText,
+  respawn,
+  initialView = 'hud',
+} = Astro.props as {
+  title: string;
+  objectUrl: string;
+  packet: unknown | null;
+  sourceText: string;
+  respawn: string | null;
+  initialView?: 'hud' | 'plate';
+};
+
+function asRecord(value: unknown): Record<string, unknown> | null {
+  return value && typeof value === 'object' && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : null;
+}
+
+function asString(value: unknown): string {
+  return typeof value === 'string' ? value.trim() : '';
+}
+
+function asNumber(value: unknown): number | null {
+  return typeof value === 'number' && Number.isFinite(value) ? value : null;
+}
+
+function asStringList(value: unknown): string[] {
+  return Array.isArray(value) ? value.map((item) => asString(item)).filter(Boolean) : [];
+}
+
+function joinParts(parts: string[], separator = ' / '): string {
+  return parts.filter(Boolean).join(separator);
+}
+
+const packetData = asRecord(packet);
+const artifact = asRecord(packetData?.artifact);
+const signal = asRecord(packetData?.signal);
+const atmosphere = asRecord(packetData?.atmosphere);
+const traumaWeather = asRecord(packetData?.trauma_weather);
+const shadow = asRecord(packetData?.shadow);
+
+const packetId = asString(artifact?.id);
+const packetClass = asString(artifact?.class);
+const fieldLabel = joinParts([asString(artifact?.sector), asString(artifact?.region)]);
+const trackLabel = asString(signal?.track);
+const artistLabel = joinParts(asStringList(signal?.artists), ', ');
+const modeLabel = asString(packetData?.mode);
+const signalMode = asString(signal?.mode);
+const coherenceValue = asNumber(signal?.coherence);
+const bpmValue = asNumber(signal?.bpm);
+const atmosphereLabel = joinParts([
+  asString(atmosphere?.saturation_class) || asString(atmosphere?.pollen),
+  asString(atmosphere?.intake_risk),
+]);
+const watchLabel = asString(traumaWeather?.alert) || 'NONE';
+const shadowLabel = joinParts([
+  asString(shadow?.offset) || 'NONE',
+  asString(shadow?.desynchronization) || 'CLEAR',
+]);
+
+const packetNotes = Array.isArray(packetData?.notes)
+  ? packetData.notes
+      .map((item) => asRecord(item))
+      .filter((item): item is Record<string, unknown> => Boolean(item))
+      .map((item) => ({
+        label: asString(item.label) || 'Note',
+        value: asString(item.value),
+      }))
+      .filter((item) => item.value)
+      .slice(0, 4)
+  : [];
+
+const normalizedSourceText = sourceText.trim();
+const normalizedRespawn = typeof respawn === 'string' && respawn.trim() ? respawn.trim() : '';
+const objectPathLabel = objectUrl;
+const hudFirst = initialView !== 'plate';
+
+const surfaceStates = [
+  'Packet-backed',
+  packetId ? 'Stored snapshot' : 'Awaiting packet',
+  trackLabel ? 'Signal-led' : 'Open fragment',
+];
+
+const reportCards = [
+  {
+    label: 'Field',
+    value: fieldLabel || 'Field position not stored',
+  },
+  {
+    label: 'Atmosphere',
+    value: atmosphereLabel || 'Atmosphere not stored',
+  },
+  {
+    label: 'State',
+    value: joinParts([modeLabel, watchLabel, shadowLabel], ' · ') || 'State not stored',
+  },
+];
+
+const hudCards = [
+  { label: 'Packet', value: packetId || 'No packet stored' },
+  { label: 'Class', value: packetClass || '—' },
+  { label: 'Field', value: fieldLabel || '—' },
+  { label: 'Signal Mode', value: signalMode || '—' },
+  { label: 'Atmosphere', value: atmosphereLabel || '—' },
+  { label: 'Watch', value: watchLabel },
+  { label: 'Shadow', value: shadowLabel },
+  { label: 'Object Path', value: objectPathLabel },
+];
+---
+
+<section class="field-surface-wrap" data-view={hudFirst ? 'hud' : 'report'}>
+  <article class="field-surface-shell page-plate">
+    <header class="field-surface-mast">
+      <div class="field-surface-ident">
+        <p class="field-surface-kicker">Enhanced Surface</p>
+        <h1 class="field-surface-title">{title}</h1>
+        <div class="field-surface-status-row" aria-label="Surface state">
+          {surfaceStates.map((state) => (
+            <span class="field-surface-status-pill">{state}</span>
+          ))}
+        </div>
+      </div>
+
+      <div class="field-surface-nav-block">
+        <nav class="field-surface-route-links" aria-label="Surface navigation">
+          <a class="field-surface-route-back" href={objectUrl}>← Back to object</a>
+          <a href="#hud">View HUD</a>
+          <a href="#report">Report</a>
+        </nav>
+        <p class="field-surface-path">Canonical object: {objectPathLabel}</p>
+      </div>
+    </header>
+
+    <section class="field-surface-signal-strip" aria-label="Signal strip">
+      <div class="field-surface-signal-band">
+        <div class="field-surface-signal-core">
+          <div class="field-surface-eq" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div>
+            <p class="field-surface-micro">Signal</p>
+            <p class="field-surface-track">{trackLabel || 'Unscored signal'}</p>
+            <p class="field-surface-artists">{artistLabel || 'No artist reference stored'}</p>
+          </div>
+        </div>
+
+        <dl class="field-surface-mini">
+          <div>
+            <dt>Mode</dt>
+            <dd>{modeLabel || '—'}</dd>
+          </div>
+          <div>
+            <dt>BPM</dt>
+            <dd>{bpmValue ?? '—'}</dd>
+          </div>
+          <div>
+            <dt>Coherence</dt>
+            <dd>{coherenceValue ?? '—'}</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    {hudFirst ? (
+      <>
+        <section class="field-surface-section" id="hud">
+          <div class="field-surface-section-kicker">View HUD</div>
+          <div class="field-surface-hud-grid">
+            {hudCards.map((card) => (
+              <article class="field-surface-cell">
+                <div class="field-surface-micro">{card.label}</div>
+                <div class="field-surface-value">{card.value}</div>
+              </article>
+            ))}
+          </div>
+
+          {!packetData && (
+            <p class="field-surface-empty">
+              No packet sidecar is stored for this object yet. The source fragment below remains canonical and this surface will fill in as soon as a packet is present.
+            </p>
+          )}
+        </section>
+
+        <section class="field-surface-section" id="report">
+          <div class="field-surface-section-kicker">Report</div>
+          <div class="field-surface-report-grid">
+            {reportCards.map((card) => (
+              <article class="field-surface-cluster">
+                <p class="field-surface-cluster-label">{card.label}</p>
+                <p class="field-surface-cluster-copy">{card.value}</p>
+              </article>
+            ))}
+          </div>
+
+          <pre class="field-surface-fragment">{normalizedSourceText || 'No source text is available for this object.'}</pre>
+
+          {(normalizedRespawn || packetNotes.length > 0) && (
+            <div class="field-surface-note-stack">
+              {normalizedRespawn && (
+                <article class="field-surface-note-card">
+                  <p class="field-surface-note-label">Respawn</p>
+                  <p class="field-surface-note-copy">{normalizedRespawn}</p>
+                </article>
+              )}
+
+              {packetNotes.map((note) => (
+                <article class="field-surface-note-card">
+                  <p class="field-surface-note-label">{note.label}</p>
+                  <p class="field-surface-note-copy">{note.value}</p>
+                </article>
+              ))}
+            </div>
+          )}
+        </section>
+      </>
+    ) : (
+      <>
+        <section class="field-surface-section" id="report">
+          <div class="field-surface-section-kicker">Report</div>
+          <div class="field-surface-report-grid">
+            {reportCards.map((card) => (
+              <article class="field-surface-cluster">
+                <p class="field-surface-cluster-label">{card.label}</p>
+                <p class="field-surface-cluster-copy">{card.value}</p>
+              </article>
+            ))}
+          </div>
+
+          <pre class="field-surface-fragment">{normalizedSourceText || 'No source text is available for this object.'}</pre>
+
+          {(normalizedRespawn || packetNotes.length > 0) && (
+            <div class="field-surface-note-stack">
+              {normalizedRespawn && (
+                <article class="field-surface-note-card">
+                  <p class="field-surface-note-label">Respawn</p>
+                  <p class="field-surface-note-copy">{normalizedRespawn}</p>
+                </article>
+              )}
+
+              {packetNotes.map((note) => (
+                <article class="field-surface-note-card">
+                  <p class="field-surface-note-label">{note.label}</p>
+                  <p class="field-surface-note-copy">{note.value}</p>
+                </article>
+              ))}
+            </div>
+          )}
+        </section>
+
+        <section class="field-surface-section" id="hud">
+          <div class="field-surface-section-kicker">View HUD</div>
+          <div class="field-surface-hud-grid">
+            {hudCards.map((card) => (
+              <article class="field-surface-cell">
+                <div class="field-surface-micro">{card.label}</div>
+                <div class="field-surface-value">{card.value}</div>
+              </article>
+            ))}
+          </div>
+
+          {!packetData && (
+            <p class="field-surface-empty">
+              No packet sidecar is stored for this object yet. The source fragment above remains canonical and this surface will fill in as soon as a packet is present.
+            </p>
+          )}
+        </section>
+      </>
+    )}
+  </article>
+</section>
+
+<style>
+  .field-surface-wrap {
+    width: min(100%, 1120px);
+    margin: clamp(2.2rem, 4vw, 3.8rem) auto 4rem;
+    color: var(--field-amber-em);
+  }
+
+  .field-surface-shell {
+    --plate-border: rgba(212, 196, 160, 0.16);
+    --plate-shadow: 0 22px 56px rgba(0, 0, 0, 0.28);
+    --plate-surface: linear-gradient(180deg, rgba(18, 14, 10, 0.985), rgba(11, 9, 6, 0.995));
+    --plate-tint: rgba(201, 161, 90, 0.09);
+    --plate-tint-secondary: rgba(212, 196, 160, 0.06);
+    --plate-sheen: rgba(255, 255, 255, 0.04);
+    --plate-ridge: rgba(255, 255, 255, 0.03);
+    position: relative;
+    overflow: hidden;
+    padding: clamp(1.2rem, 2.4vw, 1.7rem);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.018), transparent 18%),
+      radial-gradient(circle at 14% 0%, rgba(201, 161, 90, 0.08), transparent 42%),
+      radial-gradient(circle at 100% 100%, rgba(212, 196, 160, 0.06), transparent 58%),
+      var(--field-bg);
+  }
+
+  .field-surface-shell::before,
+  .field-surface-shell::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .field-surface-shell::before {
+    background: var(--field-scanlines);
+    opacity: 0.28;
+  }
+
+  .field-surface-shell::after {
+    background-image: var(--field-noise-image);
+    background-size: 240px 240px;
+    opacity: 0.03;
+  }
+
+  .field-surface-mast,
+  .field-surface-signal-strip,
+  .field-surface-section {
+    position: relative;
+    z-index: 1;
+  }
+
+  .field-surface-mast {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.4rem;
+    flex-wrap: wrap;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--field-rule);
+  }
+
+  .field-surface-ident {
+    min-width: 0;
+    max-width: 44rem;
+  }
+
+  .field-surface-kicker,
+  .field-surface-status-pill,
+  .field-surface-route-links,
+  .field-surface-section-kicker,
+  .field-surface-micro,
+  .field-surface-mini dt,
+  .field-surface-note-label,
+  .field-surface-path,
+  .field-surface-cluster-label {
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .field-surface-kicker,
+  .field-surface-micro,
+  .field-surface-mini dt,
+  .field-surface-note-label,
+  .field-surface-cluster-label,
+  .field-surface-path {
+    color: var(--field-amber-label);
+  }
+
+  .field-surface-title {
+    margin: 0.42rem 0 0;
+    color: var(--field-amber-em);
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 1.8rem + 1vw, 3rem);
+    font-weight: 600;
+    line-height: 1.03;
+  }
+
+  .field-surface-status-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.48rem;
+    margin-top: 0.9rem;
+  }
+
+  .field-surface-status-pill {
+    padding: 0.22rem 0.54rem;
+    border: 1px solid rgba(212, 196, 160, 0.18);
+    border-radius: 999px;
+    color: var(--field-amber-label);
+    background: rgba(255, 255, 255, 0.015);
+  }
+
+  .field-surface-nav-block {
+    min-width: min(100%, 15rem);
+  }
+
+  .field-surface-route-links {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.9rem;
+    flex-wrap: wrap;
+  }
+
+  .field-surface-route-links a {
+    color: var(--field-amber-accent);
+    text-decoration: none;
+  }
+
+  .field-surface-route-links a:hover {
+    color: var(--field-amber-em);
+  }
+
+  .field-surface-route-back {
+    color: var(--field-amber-dim);
+  }
+
+  .field-surface-path {
+    margin-top: 0.8rem;
+    text-align: right;
+  }
+
+  .field-surface-signal-strip {
+    margin-top: 1.35rem;
+    padding: 1.18rem 0 1.22rem;
+    border-bottom: 1px solid var(--field-rule);
+  }
+
+  .field-surface-signal-band {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .field-surface-signal-core {
+    display: flex;
+    gap: 0.9rem;
+    align-items: center;
+    min-width: 0;
+  }
+
+  .field-surface-eq {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 0.22rem;
+    width: 1.7rem;
+    height: 1.3rem;
+    padding-bottom: 0.1rem;
+    flex: 0 0 auto;
+  }
+
+  .field-surface-eq span {
+    display: block;
+    width: 0.22rem;
+    border-radius: 999px;
+    background: var(--field-amber-accent);
+    box-shadow: 0 0 10px rgba(201, 161, 90, 0.2);
+    animation: field-surface-pulse 1.15s ease-in-out infinite;
+  }
+
+  .field-surface-eq span:nth-child(1) {
+    height: 38%;
+    animation-delay: 0s;
+  }
+
+  .field-surface-eq span:nth-child(2) {
+    height: 100%;
+    animation-delay: 0.16s;
+  }
+
+  .field-surface-eq span:nth-child(3) {
+    height: 58%;
+    animation-delay: 0.34s;
+  }
+
+  .field-surface-track {
+    margin: 0.18rem 0 0;
+    color: var(--field-amber-em);
+    font-family: var(--font-ui);
+    font-size: clamp(1.3rem, 1.22rem + 0.48vw, 1.8rem);
+    line-height: 1.08;
+  }
+
+  .field-surface-artists {
+    margin: 0.32rem 0 0;
+    color: var(--field-amber-dim);
+    font-family: 'Cormorant Garamond', var(--font-body);
+    font-size: 1.08rem;
+    line-height: 1.5;
+  }
+
+  .field-surface-mini {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.8rem;
+    min-width: min(100%, 21rem);
+  }
+
+  .field-surface-mini dd {
+    margin: 0.28rem 0 0;
+    color: var(--field-amber-em);
+    font-family: var(--font-ui);
+    font-size: 0.96rem;
+  }
+
+  .field-surface-section {
+    margin-top: 1.5rem;
+    padding: 1.15rem 1.18rem 1.22rem;
+    border: 1px solid var(--field-glass-border);
+    background: var(--field-glass);
+    scroll-margin-top: 6rem;
+  }
+
+  .field-surface-section-kicker {
+    color: var(--field-amber-accent);
+  }
+
+  .field-surface-hud-grid {
+    margin-top: 0.98rem;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.78rem;
+  }
+
+  .field-surface-cell,
+  .field-surface-cluster,
+  .field-surface-note-card {
+    padding: 0.82rem 0.88rem 0.92rem;
+    border: 1px solid var(--field-rule);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .field-surface-value {
+    margin-top: 0.35rem;
+    color: var(--field-amber-em);
+    font-family: var(--font-ui);
+    font-size: 1.02rem;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+
+  .field-surface-report-grid {
+    margin-top: 0.98rem;
+    display: grid;
+    grid-template-columns: 1.05fr 1fr 1fr;
+    gap: 0.8rem;
+  }
+
+  .field-surface-cluster-copy {
+    margin: 0.48rem 0 0;
+    color: var(--field-text-body);
+    line-height: 1.72;
+    font-family: 'Cormorant Garamond', var(--font-body);
+    font-size: 1.12rem;
+  }
+
+  .field-surface-fragment {
+    margin: 1.15rem 0 0;
+    color: var(--field-amber-em);
+    background: transparent;
+    border: 0;
+    padding: 0;
+    white-space: pre-wrap;
+    font-family: 'Cormorant Garamond', var(--font-body);
+    font-size: clamp(1.18rem, 1.08rem + 0.24vw, 1.36rem);
+    line-height: 1.88;
+  }
+
+  .field-surface-note-stack {
+    margin-top: 1rem;
+    display: grid;
+    gap: 0.78rem;
+  }
+
+  .field-surface-note-copy {
+    margin: 0.32rem 0 0;
+    color: var(--field-text-body);
+    line-height: 1.68;
+    font-family: var(--font-body);
+    font-size: 0.98rem;
+  }
+
+  .field-surface-empty {
+    margin-top: 0.9rem;
+    color: var(--field-amber-dim);
+    line-height: 1.7;
+    font-family: var(--font-body);
+    font-size: 0.98rem;
+  }
+
+  @keyframes field-surface-pulse {
+    0%,
+    100% {
+      transform: scaleY(0.55);
+      opacity: 0.5;
+    }
+
+    50% {
+      transform: scaleY(1);
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: 960px) {
+    .field-surface-hud-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .field-surface-report-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .field-surface-wrap {
+      margin-top: 2rem;
+    }
+
+    .field-surface-mast,
+    .field-surface-signal-band {
+      align-items: flex-start;
+    }
+
+    .field-surface-route-links,
+    .field-surface-path {
+      justify-content: flex-start;
+      text-align: left;
+    }
+
+    .field-surface-mini,
+    .field-surface-report-grid {
+      grid-template-columns: 1fr;
+      min-width: 0;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .field-surface-wrap {
+      margin-bottom: 3.2rem;
+    }
+
+    .field-surface-shell {
+      padding: 1rem;
+    }
+
+    .field-surface-hud-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .field-surface-fragment {
+      font-size: 1.08rem;
+    }
+  }
+</style>

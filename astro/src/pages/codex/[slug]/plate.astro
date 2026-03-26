@@ -1,5 +1,6 @@
 ---
-import ReportPlate from '../../../components/hud/ReportPlate.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import FieldSurface from '../../../components/hud/FieldSurface.astro';
 import { getAllEntries } from '../../../lib/archive';
 import { formatDisplayTitle } from '../../../lib/headline';
 import { loadObjectSidecars } from '../../../lib/loadObjectSidecars';
@@ -31,13 +32,21 @@ if (!entry) {
 const slug = getObjectSlug(entry);
 const objectUrl = entry.collection === 'codex' ? `/codex/${encodeURIComponent(slug)}` : `/objects/${encodeURIComponent(slug)}`;
 const { packet, respawn } = await loadObjectSidecars(entry.filePath);
+const displayTitle = formatDisplayTitle(entry.data.title);
+const canonicalPath = `/codex/${encodeURIComponent(slug)}/plate`;
 ---
 
-<ReportPlate
-  title={formatDisplayTitle(entry.data.title)}
-  objectUrl={objectUrl}
-  hudUrl={`/codex/${encodeURIComponent(slug)}/hud`}
-  packet={packet}
-  sourceText={entry.body}
-  respawn={respawn}
-/>
+<BaseLayout
+  title={`${displayTitle} · Report`}
+  description={`Packet-backed report surface for ${displayTitle}.`}
+  canonicalPath={canonicalPath}
+>
+  <FieldSurface
+    title={displayTitle}
+    objectUrl={objectUrl}
+    packet={packet}
+    sourceText={entry.body}
+    respawn={respawn}
+    initialView="plate"
+  />
+</BaseLayout>

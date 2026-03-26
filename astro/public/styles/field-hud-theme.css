@@ -1,0 +1,31 @@
+:root {
+  --field-bg: #0d0b08;
+  --field-amber: #d4c4a0;
+  --field-amber-em: #e8e2d4;
+  --field-amber-accent: #c9a15a;
+  --field-amber-dim: #9a8b6f;
+  --field-amber-label: #b8ad95;
+  --field-rule: #3a2e18;
+  --field-rule-faint: #241c0c;
+  --field-red-alert: #b85a2e;
+  --field-red-bright: #d67240;
+  --field-green-dim: #2a4a2a;
+  --field-green-bright: #5a9a5a;
+  --field-text-body: #c4b89f;
+  --field-text-dim: #7a6e58;
+  --field-text-muted: #5a4e38;
+  --field-glass: rgba(212, 196, 160, 0.04);
+  --field-glass-border: rgba(212, 196, 160, 0.12);
+  --field-safe-top: env(safe-area-inset-top, 0px);
+  --field-safe-right: env(safe-area-inset-right, 0px);
+  --field-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --field-safe-left: env(safe-area-inset-left, 0px);
+  --field-scanlines: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  --field-noise-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}

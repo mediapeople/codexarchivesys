@@ -103,15 +103,14 @@ const supportCopy = clipCopy(
   150
 );
 
-const metaItems = [
-  { label: 'Object', value: typeLabel },
-  { label: 'Signal', value: signalValue },
-  { label: 'Field', value: fieldValue },
-  { label: 'Packet', value: packetId },
-  { label: 'Watch', value: watchValue && watchValue !== 'NONE' ? watchValue : '' },
-]
-  .filter((item) => item.value)
-  .slice(0, 4);
+const detailLine = clipCopy(
+  uniqueStrings([
+    typeLabel ? `${typeLabel} object` : '',
+    fieldValue ? `Field ${fieldValue}` : '',
+    packetId ? `Packet ${packetId}` : '',
+  ]).join(' · '),
+  144
+);
 
 const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
 const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
@@ -124,35 +123,24 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
         <p class="field-result-kicker">Enhanced Object</p>
         <div class="field-result-badges" aria-label="Packet status">
           <span>Snapshot</span>
-          <span>Packet-backed</span>
         </div>
       </div>
 
       <nav class="field-result-actions" aria-label="Packet views">
         <a href={hudHref} target="_blank" rel="noreferrer">
           <span class="field-result-glyph" aria-hidden="true">◎</span>
-          <span>HUD</span>
+          <span>View HUD</span>
         </a>
         <a href={plateHref} target="_blank" rel="noreferrer">
           <span class="field-result-glyph" aria-hidden="true">▣</span>
-          <span>Plate</span>
+          <span>Report</span>
         </a>
       </nav>
     </div>
 
     {primaryResult && <p class="field-result-summary">{primaryResult}</p>}
     {supportCopy && <p class="field-result-support">{supportCopy}</p>}
-
-    {metaItems.length > 0 && (
-      <dl class="field-result-meta">
-        {metaItems.map((item) => (
-          <div class="field-result-chip">
-            <dt>{item.label}</dt>
-            <dd>{item.value}</dd>
-          </div>
-        ))}
-      </dl>
-    )}
+    {detailLine && <p class="field-result-detail-line">{detailLine}</p>}
   </section>
 )}
 
@@ -160,7 +148,7 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
   .field-result-lead {
     max-width: 46rem;
     margin: 1.4rem 0 2rem;
-    padding: 0.95rem 1rem;
+    padding: 0.95rem 1rem 1rem;
     border: 1px solid color-mix(in srgb, var(--gold) 18%, transparent);
     background:
       linear-gradient(135deg, rgba(201, 150, 58, 0.05), rgba(255, 255, 255, 0.01)),
@@ -201,7 +189,7 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
   }
 
   .field-result-badges span {
-    padding: 0.2rem 0.48rem;
+    padding: 0.18rem 0.48rem;
     border: 1px solid color-mix(in srgb, var(--gold) 18%, transparent);
     border-radius: 999px;
     color: color-mix(in srgb, var(--mid) 76%, var(--gold) 24%);
@@ -251,31 +239,14 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
     line-height: 1.55;
   }
 
-  .field-result-meta {
-    margin: 0.8rem 0 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .field-result-chip {
-    min-width: 0;
-    padding: 0.46rem 0.62rem;
-    border: 1px solid color-mix(in srgb, var(--gold) 14%, transparent);
-    background: rgba(255, 255, 255, 0.025);
-  }
-
-  .field-result-chip dt {
-    margin: 0;
-    color: var(--mid);
-  }
-
-  .field-result-chip dd {
-    margin: 0.22rem 0 0;
-    color: var(--gold);
+  .field-result-detail-line {
+    margin: 0.68rem 0 0;
+    color: color-mix(in srgb, var(--mid) 68%, var(--gold) 32%);
     font-family: var(--font-ui);
-    font-size: 0.82rem;
-    line-height: 1.45;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    line-height: 1.6;
+    text-transform: uppercase;
   }
 
   @media (max-width: 720px) {
@@ -283,17 +254,6 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
       max-width: none;
       margin-bottom: 1.6rem;
       padding-inline: 0.9rem;
-    }
-
-    .field-result-meta {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-
-  @media (max-width: 520px) {
-    .field-result-meta {
-      grid-template-columns: 1fr;
     }
   }
 </style>

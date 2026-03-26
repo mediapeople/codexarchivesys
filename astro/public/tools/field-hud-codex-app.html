@@ -8,30 +8,31 @@
 <meta name="apple-mobile-web-app-title" content="Field HUD">
 <meta name="theme-color" content="#0d0b08">
 <title>FIELD HUD v1.1 — CODEX APP</title>
+<link rel="stylesheet" href="/styles/field-hud-theme.css">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0d0b08;
-    --amber: #d4c4a0;  /* More subdued, closer to cream */
-    --amber-em: #e8e2d4;  /* Clean white/cream for primary text */
-    --amber-accent: #c9a15a;  /* Keep for accents only */
-    --amber-dim: #9a8b6f;  /* More muted for secondary text */
-    --amber-label: #b8ad95;  /* Softer for labels */
-    --rule: #3a2e18;
-    --rule-faint: #241c0c;
-    --red-alert: #b85a2e;
-    --red-bright: #d67240;
-    --green-dim: #2a4a2a;
-    --green-bright: #5a9a5a;
-    --text-body: #c4b89f;  /* Warmer body text */
-    --text-dim: #7a6e58;
-    --text-muted: #5a4e38;
-    --glass: rgba(212,196,160,0.04);  /* Adjusted to match new amber */
-    --glass-border: rgba(212,196,160,0.12);
-    --safe-top: env(safe-area-inset-top, 0px);
-    --safe-right: env(safe-area-inset-right, 0px);
-    --safe-bottom: env(safe-area-inset-bottom, 0px);
-    --safe-left: env(safe-area-inset-left, 0px);
+    --bg: var(--field-bg, #0d0b08);
+    --amber: var(--field-amber, #d4c4a0);
+    --amber-em: var(--field-amber-em, #e8e2d4);
+    --amber-accent: var(--field-amber-accent, #c9a15a);
+    --amber-dim: var(--field-amber-dim, #9a8b6f);
+    --amber-label: var(--field-amber-label, #b8ad95);
+    --rule: var(--field-rule, #3a2e18);
+    --rule-faint: var(--field-rule-faint, #241c0c);
+    --red-alert: var(--field-red-alert, #b85a2e);
+    --red-bright: var(--field-red-bright, #d67240);
+    --green-dim: var(--field-green-dim, #2a4a2a);
+    --green-bright: var(--field-green-bright, #5a9a5a);
+    --text-body: var(--field-text-body, #c4b89f);
+    --text-dim: var(--field-text-dim, #7a6e58);
+    --text-muted: var(--field-text-muted, #5a4e38);
+    --glass: var(--field-glass, rgba(212,196,160,0.04));
+    --glass-border: var(--field-glass-border, rgba(212,196,160,0.12));
+    --safe-top: var(--field-safe-top, env(safe-area-inset-top, 0px));
+    --safe-right: var(--field-safe-right, env(safe-area-inset-right, 0px));
+    --safe-bottom: var(--field-safe-bottom, env(safe-area-inset-bottom, 0px));
+    --safe-left: var(--field-safe-left, env(safe-area-inset-left, 0px));
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -54,13 +55,7 @@
     content: '';
     position: fixed;
     inset: 0;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0,0,0,0.08) 2px,
-      rgba(0,0,0,0.08) 4px
-    );
+    background: var(--field-scanlines);
     pointer-events: none;
     z-index: 1000;
   }
@@ -71,7 +66,7 @@
     position: fixed;
     inset: 0;
     opacity: 0.03;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-image: var(--field-noise-image);
     pointer-events: none;
     z-index: 999;
   }
@@ -3486,16 +3481,16 @@ async function sendToPigeon() {
 
     const links = [
       result.object_url ? { label: 'Open Object', href: result.object_url } : null,
-      result.hud_url ? { label: 'Open HUD', href: result.hud_url } : null,
-      result.plate_url ? { label: 'Open Plate', href: result.plate_url } : null,
+      result.hud_url ? { label: 'View HUD', href: result.hud_url } : null,
+      result.plate_url ? { label: 'Open Report', href: result.plate_url } : null,
     ].filter(Boolean);
 
     setPigeonButtons('Sent ✓', true);
     setPigeonResult('success', [
       `Published ${result.slug || payload.slug} to ${result.path || 'the archive'}.`,
-      result.note || 'Object, HUD, and Plate are ready.',
+      result.note || 'Object, View HUD, and Report are ready.',
     ], links);
-    showToast(`Saved ${result.slug || payload.slug} · HUD and plate ready`);
+    showToast(`Saved ${result.slug || payload.slug} · HUD and report ready`);
     setTimeout(() => setPigeonButtons('↑ Send to Pigeon', false), 1800);
   } catch (error) {
     setPigeonButtons('↑ Send to Pigeon', false);
