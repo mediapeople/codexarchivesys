@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Field HUD">
@@ -28,6 +28,10 @@
     --text-muted: #5a4e38;
     --glass: rgba(212,196,160,0.04);  /* Adjusted to match new amber */
     --glass-border: rgba(212,196,160,0.12);
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -41,6 +45,8 @@
     min-height: 100vh;
     min-height: calc(var(--vh, 1vh) * 100);
     overflow-x: hidden;
+    overscroll-behavior-y: none;
+    -webkit-text-size-adjust: 100%;
   }
 
   /* SCANLINE OVERLAY */
@@ -74,7 +80,11 @@
   .app {
     max-width: 900px;
     margin: 0 auto;
-    padding: 14px 16px 60px;
+    padding:
+      calc(14px + var(--safe-top))
+      calc(16px + var(--safe-right))
+      calc(60px + var(--safe-bottom))
+      calc(16px + var(--safe-left));
   }
 
   /* ── MASTHEAD ── */
@@ -89,7 +99,7 @@
     gap: 8px;
   }
 
-  .masthead-left { display: flex; align-items: baseline; gap: 14px; }
+  .masthead-left { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; min-width: 0; }
 
   .masthead-title {
     font-family: 'Playfair Display', 'Times New Roman', serif;
@@ -110,6 +120,7 @@
     font-size: 9px;
     color: var(--amber-dim);
     letter-spacing: 0.1em;
+    white-space: nowrap;
   }
 
   .pulse {
@@ -148,6 +159,7 @@
     border-bottom: 2px solid transparent;
     transition: all 0.2s;
     margin-bottom: -1px;
+    white-space: nowrap;
   }
 
   .tab:hover { color: var(--amber-em); }
@@ -205,6 +217,9 @@
     transition: border-color 0.2s;
     margin-bottom: 12px;
     border-radius: 2px;
+    -webkit-appearance: none;
+    appearance: none;
+    -webkit-text-fill-color: var(--amber-em);
   }
 
   .field-input:focus { 
@@ -222,10 +237,10 @@
 
   .field-textarea {
     width: 100%;
-    background: rgba(0,0,0,0.6);
+    background: rgba(6,5,4,0.86);
     border: 2px solid var(--rule);
     color: var(--amber-em);
-    font-family: 'Libre Baskerville', Georgia, serif;
+    font-family: 'Cormorant Garamond', 'Libre Baskerville', Georgia, serif;
     font-size: 17px;
     font-weight: 400;
     line-height: 1.8;
@@ -237,6 +252,11 @@
     margin-bottom: 12px;
     border-radius: 2px;
     box-shadow: inset 0 2px 8px rgba(0,0,0,0.3);
+    -webkit-appearance: none;
+    appearance: none;
+    -webkit-text-fill-color: var(--amber-em);
+    caret-color: var(--amber-accent);
+    letter-spacing: 0.01em;
   }
 
   /* Full-screen focus mode */
@@ -251,7 +271,11 @@
     border: none;
     border-radius: 0;
     min-height: 100vh;
-    padding: 40px;
+    padding:
+      calc(64px + var(--safe-top))
+      calc(28px + var(--safe-right))
+      calc(32px + var(--safe-bottom))
+      calc(28px + var(--safe-left));
     font-size: 20px;
     line-height: 2.0;
     box-shadow: none;
@@ -267,8 +291,8 @@
   /* Focus mode exit button */
   .focus-exit-btn {
     position: fixed;
-    top: 20px;
-    right: 20px;
+    top: calc(16px + var(--safe-top));
+    right: calc(16px + var(--safe-right));
     z-index: 10000;
     background: rgba(201,161,90,0.9);
     color: var(--bg);
@@ -297,18 +321,41 @@
 
   .field-textarea:focus { 
     border-color: var(--amber);
-    background: rgba(0,0,0,0.8);
+    background: rgba(7,6,4,0.96);
     box-shadow: 
       inset 0 2px 12px rgba(0,0,0,0.4),
       0 0 0 1px var(--amber);
   }
 
   .field-textarea::placeholder {
-    font-family: 'Libre Baskerville', Georgia, serif;
-    color: var(--amber-dim);
-    opacity: 0.8;
+    font-family: 'Cormorant Garamond', 'Libre Baskerville', Georgia, serif;
+    color: rgba(212,196,160,0.54);
+    opacity: 1;
     font-size: 15px;
     line-height: 1.6;
+  }
+
+  .focus-hint {
+    font-size: 8px;
+    opacity: 0.5;
+    margin-left: 6px;
+    font-weight: 300;
+  }
+
+  .writing-meta {
+    position: absolute;
+    bottom: 12px;
+    right: 16px;
+    font-size: 10px;
+    color: var(--amber-dim);
+    pointer-events: none;
+    opacity: 0.8;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.05em;
+    background: rgba(13,11,8,0.9);
+    padding: 4px 8px;
+    border-radius: 2px;
+    backdrop-filter: blur(4px);
   }
 
   .ingest-meta {
@@ -1084,13 +1131,18 @@
   /* ── MOBILE HARDENING ── */
   @media (max-width: 768px) {
     .app {
-      padding: 16px 12px 40px;
+      padding:
+        calc(12px + var(--safe-top))
+        calc(12px + var(--safe-right))
+        calc(36px + var(--safe-bottom))
+        calc(12px + var(--safe-left));
     }
 
     .masthead {
       flex-direction: column;
       align-items: flex-start;
       gap: 8px;
+      margin-bottom: 14px;
     }
 
     .masthead-title {
@@ -1102,50 +1154,63 @@
     }
 
     .system-bar {
-      flex-direction: column;
-      gap: 8px;
-      padding: 12px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px 10px;
+      padding: 10px;
+      overflow: visible;
     }
 
     .sys-item {
-      justify-content: space-between;
-      width: 100%;
-      padding: 4px 0;
-      border-bottom: 1px solid var(--rule-faint);
+      justify-content: flex-start;
+      width: auto;
+      padding: 6px 0;
+      border-bottom: none;
     }
 
     .sys-item:last-child {
-      border-bottom: none;
-      margin-left: 0;
+      grid-column: 1 / -1;
+      margin-left: 0 !important;
+      padding-top: 8px;
+      border-top: 1px solid var(--rule-faint);
     }
 
     .tab-bar {
-      gap: 0;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-    }
-
-    .tab-bar::-webkit-scrollbar {
-      display: none;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 6px;
+      border-bottom: none;
+      overflow: visible;
     }
 
     .tab {
-      flex-shrink: 0;
-      min-width: 90px;
-      font-size: 11px;
-      padding: 12px 18px;
+      min-width: 0;
+      font-size: 10px;
+      padding: 10px 6px;
+      margin-bottom: 0;
+      min-height: 48px;
+      border: 1px solid var(--rule);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      white-space: normal;
+      line-height: 1.2;
+      letter-spacing: 0.08em;
     }
 
     .field-textarea {
-      font-size: 16px; /* Prevents iOS zoom on focus */
-      line-height: 1.6;
-      min-height: 200px;
-      padding: 16px;
+      font-size: 18px;
+      line-height: 1.75;
+      min-height: 240px;
+      padding: 18px 18px 68px;
       border-radius: 4px;
       -webkit-appearance: none;
       -webkit-tap-highlight-color: transparent;
+    }
+
+    .field-textarea::placeholder {
+      font-size: 17px;
+      line-height: 1.55;
     }
 
     .field-textarea:focus {
@@ -1163,6 +1228,10 @@
       font-size: 16px; /* Prevents iOS zoom */
       padding: 12px;
       border-radius: 4px;
+    }
+
+    .ingest-area {
+      padding: 16px 14px;
     }
 
     .btn-ingest {
@@ -1285,12 +1354,16 @@
 
     /* Character counter positioning */
     #writing-meta {
-      bottom: 16px;
-      right: 20px;
+      bottom: 14px;
+      right: 14px;
       background: rgba(13,11,8,0.9);
       padding: 6px 10px;
       border-radius: 3px;
       backdrop-filter: blur(6px);
+    }
+
+    .focus-hint {
+      display: none;
     }
   }
 
@@ -1301,8 +1374,8 @@
     }
 
     .field-textarea {
-      min-height: 180px;
-      padding: 14px;
+      min-height: 220px;
+      padding: 14px 14px 60px;
     }
 
     .axis-grid {
@@ -1385,14 +1458,14 @@
   <div class="panel active" id="panel-ingest">
 
     <div class="ingest-area">
-      <label class="field-label">primary writing surface <span style="font-size: 8px; opacity: 0.5; margin-left: 6px; font-weight: 300;">⌃⌃ focus</span></label>
+      <label class="field-label">primary writing surface <span class="focus-hint">⌃⌃ focus</span></label>
       <div style="position: relative;">
         <textarea class="field-textarea" id="input-body" placeholder="Drop your fragment here.
 
 Write naturally. The engine infers everything from your language: mode, signal state, atmosphere, anomalies, shadow drift, object type, axis values.
 
 Your voice becomes the system."></textarea>
-        <div id="writing-meta" style="position: absolute; bottom: 12px; right: 16px; font-size: 10px; color: var(--amber-dim); pointer-events: none; opacity: 0.8; font-family: 'Space Mono', monospace; letter-spacing: 0.05em; background: rgba(13,11,8,0.9); padding: 4px 8px; border-radius: 2px; backdrop-filter: blur(4px);">
+        <div id="writing-meta" class="writing-meta">
           <span id="char-count">0</span> chars · <span id="auto-save-status">ready</span>
         </div>
       </div>
@@ -1723,7 +1796,8 @@ updateClock();
 function setupMobileHardening() {
   // Prevent iOS bounce scroll
   document.addEventListener('touchmove', (e) => {
-    if (e.target.closest('.field-textarea, .panel')) return;
+    if (!focusModeActive) return;
+    if (e.target.closest('.field-textarea.focus-mode, .focus-exit-btn')) return;
     e.preventDefault();
   }, { passive: false });
 
@@ -2826,7 +2900,12 @@ function escapeHtml(str) {
 // ── FOCUS MODE FUNCTIONALITY ──
 let focusModeActive = false;
 
+function isCoarsePointerDevice() {
+  return window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window;
+}
+
 function toggleFocusMode() {
+  if (isCoarsePointerDevice()) return;
   const textarea = document.getElementById('input-body');
   const exitBtn = document.getElementById('focus-exit-btn');
   
@@ -2869,7 +2948,7 @@ function handleFocusEscape(e) {
 // Add double-click to enter focus mode
 document.addEventListener('DOMContentLoaded', () => {
   const textarea = document.getElementById('input-body');
-  if (textarea) {
+  if (textarea && !isCoarsePointerDevice()) {
     textarea.addEventListener('dblclick', toggleFocusMode);
   }
 });
