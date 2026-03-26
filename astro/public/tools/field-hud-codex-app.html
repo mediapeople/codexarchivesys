@@ -197,6 +197,18 @@
     margin: 4px 0 16px;
   }
 
+  .ingest-reset-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
+
+  .ingest-reset-row .btn-export {
+    margin-right: 0;
+    margin-bottom: 0;
+    min-width: 156px;
+  }
+
   .ingest-aid-note {
     margin: 2px 0 16px;
     color: var(--text-body);
@@ -1534,6 +1546,10 @@
       margin-bottom: 0;
     }
 
+    .ingest-reset-row .btn-export {
+      width: 100%;
+    }
+
     .pigeon-auth-actions {
       flex-direction: column;
     }
@@ -1797,6 +1813,10 @@ Your voice becomes the system."></textarea>
         ✦ Ingest Fragment → Generate Packet
         <span style="font-size: 10px; opacity: 0.7; margin-left: 8px;">(Ctrl+Enter)</span>
       </button>
+
+      <div class="ingest-reset-row">
+        <button class="btn-export" id="btn-clear-form" type="button" onclick="clearIngestForm()">Clear Form</button>
+      </div>
     </div>
 
     <div class="section-head">Demo</div>
@@ -2108,6 +2128,7 @@ const PIGEON_KEY_STORAGE_KEY = 'carrier-pigeon.shared-key';
 const FIELD_HUD_DRAFT_KEY = 'field-hud-draft';
 const FIELD_HUD_METADATA_DRAFT_KEY = 'field-hud-draft-metadata';
 const FIELD_HUD_SMART_FILL_SOURCE = 'smart';
+const DEFAULT_SMART_FILL_NOTE = `Smart fill watches the fragment and <strong>fills blank fields</strong> from the language without overwriting your edits.`;
 const DEFAULT_INGEST_BUTTON_HTML = `✦ Ingest Fragment → Generate Packet
         <span style="font-size: 10px; opacity: 0.7; margin-left: 8px;">(Ctrl+Enter)</span>`;
 
@@ -2341,6 +2362,133 @@ function setSmartFillNote(message) {
   const note = document.getElementById('smartfill-note');
   if (!note) return;
   note.innerHTML = message;
+}
+
+function resetSystemBar() {
+  const packet = document.getElementById('sys-packet');
+  const net = document.getElementById('sys-net');
+  const mode = document.getElementById('sys-mode');
+  const signal = document.getElementById('sys-signal');
+  const artifactId = document.getElementById('sys-artifact-id');
+  const packetDot = document.getElementById('sys-dot-packet');
+  const netDot = document.getElementById('sys-dot-net');
+  const modeDot = document.getElementById('sys-dot-mode');
+  const signalDot = document.getElementById('sys-dot-signal');
+
+  if (packet) packet.textContent = 'IDLE';
+  if (net) net.textContent = 'CONNECTED';
+  if (mode) mode.textContent = '—';
+  if (signal) signal.textContent = '—';
+  if (artifactId) artifactId.textContent = 'NO PACKET';
+  if (packetDot) packetDot.className = 'sys-dot nominal';
+  if (netDot) netDot.className = 'sys-dot nominal';
+  if (modeDot) modeDot.className = 'sys-dot';
+  if (signalDot) signalDot.className = 'sys-dot';
+}
+
+function resetPacketViews() {
+  activePacket = null;
+
+  const hudEmpty = document.getElementById('hud-empty');
+  const hudContent = document.getElementById('hud-content');
+  const reportEmpty = document.getElementById('report-empty');
+  const reportContent = document.getElementById('report-content');
+  const reportPlate = document.getElementById('report-plate');
+  const respawnPacketBlock = document.getElementById('respawn-packet-block');
+  const respawnPacketJson = document.getElementById('respawn-packet-json');
+  const ingestLog = document.getElementById('ingest-log');
+  const ingestLogContent = document.getElementById('ingest-log-content');
+
+  if (hudEmpty) hudEmpty.style.display = 'block';
+  if (hudContent) hudContent.style.display = 'none';
+  if (reportEmpty) reportEmpty.style.display = 'block';
+  if (reportContent) reportContent.style.display = 'none';
+  if (reportPlate) reportPlate.innerHTML = '';
+  if (respawnPacketBlock) respawnPacketBlock.style.display = 'none';
+  if (respawnPacketJson) respawnPacketJson.textContent = '';
+  if (ingestLog) ingestLog.style.display = 'none';
+  if (ingestLogContent) ingestLogContent.innerHTML = '';
+
+  ['rst-fragment', 'rst-mode', 'rst-signal', 'rst-trauma', 'rst-packet'].forEach((id) => {
+    document.getElementById(id)?.classList.remove('done');
+  });
+  ['rs-1', 'rs-2', 'rs-3', 'rs-4', 'rs-5'].forEach((id) => {
+    document.getElementById(id)?.classList.remove('complete');
+  });
+
+  const stepDefaults = {
+    'rs-1-content': '<span style="color:var(--amber-dim);">Awaiting packet. Ingest a fragment to begin respawn.</span>',
+    'rs-2-content': '<span style="color:var(--amber-dim);">—</span>',
+    'rs-3-content': '<span style="color:var(--amber-dim);">—</span>',
+    'rs-4-content': '<span style="color:var(--amber-dim);">—</span>',
+    'rs-5-content': '<span style="color:var(--amber-dim);">—</span>',
+  };
+  Object.entries(stepDefaults).forEach(([id, html]) => {
+    const element = document.getElementById(id);
+    if (element) element.innerHTML = html;
+  });
+
+  setPigeonButtons('↑ Send to Pigeon', true);
+  setPigeonResult('info', []);
+  setPigeonAuthOpen(false);
+  resetSystemBar();
+}
+
+function clearIngestForm() {
+  const textarea = document.getElementById('input-body');
+  const details = document.getElementById('ingest-side-fields');
+  const charCount = document.getElementById('char-count');
+  const autoSaveStatus = document.getElementById('auto-save-status');
+  const hasDraftContent =
+    Boolean(String(textarea?.value || '').trim()) ||
+    Object.values(getFieldMetadataElements()).some((element) => Boolean(String(element?.value || '').trim())) ||
+    Boolean(activePacket);
+
+  if (hasDraftContent && !window.confirm('Clear the fragment, side fields, and current packet?')) {
+    return;
+  }
+
+  if (focusModeActive) {
+    exitFocusMode();
+  }
+
+  if (textarea) {
+    textarea.value = '';
+  }
+
+  withFieldMetadataProgrammaticWrite(() => {
+    Object.values(getFieldMetadataElements()).forEach((element) => {
+      if (!element) return;
+      element.value = '';
+      delete element.dataset.smartFillSource;
+    });
+  });
+
+  if (details instanceof HTMLDetailsElement) {
+    details.open = false;
+  }
+
+  if (charCount) charCount.textContent = '0';
+  if (autoSaveStatus) autoSaveStatus.textContent = 'ready';
+
+  try {
+    localStorage.removeItem(FIELD_HUD_DRAFT_KEY);
+    localStorage.removeItem(FIELD_HUD_METADATA_DRAFT_KEY);
+  } catch (error) {
+    console.log('Draft clear disabled (localStorage unavailable)');
+  }
+
+  setIngestButtonState(DEFAULT_INGEST_BUTTON_HTML, false);
+  setSmartFillNote(DEFAULT_SMART_FILL_NOTE);
+  resetPacketViews();
+  activateTab('ingest');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  if (textarea && !isCoarsePointerDevice()) {
+    textarea.focus();
+  }
+
+  showToast('Form cleared · ready for a new fragment');
 }
 
 function escapeRegex(value) {
