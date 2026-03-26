@@ -259,7 +259,7 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
   .field-result-lead--rail {
     max-width: none;
     margin: 0;
-    padding: 1.15rem 1rem 0.95rem;
+    padding: 0.9rem 1rem 0.92rem;
   }
 
   .field-result-lead--rail .field-result-corner {
@@ -286,20 +286,42 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
   }
 
   .field-result-lead--rail .field-result-head {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+    padding-right: 5.8rem;
+  }
+
+  .field-result-lead--rail .field-result-ident {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
   }
 
   .field-result-lead--rail .field-result-badges {
     margin-top: 0;
   }
 
+  .field-result-lead--rail .field-result-badges span {
+    font-size: 0.54rem;
+    letter-spacing: 0.1em;
+  }
+
   .field-result-lead--rail .field-result-actions {
-    margin-top: 0.72rem;
-    gap: 0.72rem;
+    margin-top: 0;
+    gap: 0.66rem;
+  }
+
+  .field-result-lead--rail .field-result-actions a {
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
   }
 
   .field-result-lead--rail .field-result-summary {
-    margin-top: 0.85rem;
+    margin-top: 0.72rem;
     font-size: 1rem;
     line-height: 1.52;
   }
