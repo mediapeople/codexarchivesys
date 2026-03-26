@@ -395,7 +395,6 @@ const exportAlternateLinks = [
 
     <FieldResultLead
       slug={getObjectSlug(entry)}
-      title={displayTitle}
       type={entry.collection}
       summary={fieldResultSummary}
       packet={sidecars.packet}
@@ -2702,7 +2701,8 @@ const exportAlternateLinks = [
     --table-head: rgba(255, 255, 255, 0.02);
   }
 
-  .body--hide-lead-heading > :global(h1:first-child) {
+  .body--hide-lead-heading > :global(h1:first-child),
+  .body--hide-lead-heading > :global(p:first-child) {
     display: none;
   }
 

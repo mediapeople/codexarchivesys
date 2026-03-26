@@ -126,7 +126,6 @@ const alternateLinks = [
 
     <FieldResultLead
       slug={entry.slug}
-      title={displayTitle}
       type={entry.collection}
       summary={fieldResultSummary}
       packet={sidecars.packet}
@@ -286,7 +285,8 @@ const alternateLinks = [
     line-height: 1.95;
   }
 
-  .body--hide-lead-heading > :global(h1:first-child) {
+  .body--hide-lead-heading > :global(h1:first-child),
+  .body--hide-lead-heading > :global(p:first-child) {
     display: none;
   }
 

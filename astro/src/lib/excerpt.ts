@@ -243,12 +243,12 @@ export function bodyStartsWithDuplicateTitleHeading(title: string, body: string)
       continue;
     }
 
-    if (!/^\s{0,3}#{1,6}\s+/u.test(rawLine)) {
-      return false;
+    const leadText = stripTrailingDecoration(stripLeadingDecoration(stripMarkdownSyntax(rawLine)));
+    if (!leadText) {
+      continue;
     }
 
-    const headingText = stripTrailingDecoration(stripLeadingDecoration(stripMarkdownSyntax(rawLine)));
-    return normalizeComparableText(headingText) === titleComparable;
+    return normalizeComparableText(leadText) === titleComparable;
   }
 
   return false;

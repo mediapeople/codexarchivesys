@@ -1,9 +1,8 @@
 ---
 import { getTypeLabel } from '../lib/archive';
 
-const { slug, title, type, summary, packet, respawn } = Astro.props as {
+const { slug, type, summary, packet, respawn } = Astro.props as {
   slug: string;
-  title?: string;
   type: string;
   summary?: string;
   packet: unknown | null;
@@ -70,7 +69,6 @@ function buildPacketResult(packetData: Record<string, unknown> | null): string {
 
 const packetData = asRecord(packet);
 const hasLead = packetData !== null;
-const titleCopy = asString(title);
 const summaryCopy = asString(summary);
 const respawnCopy = asString(respawn);
 
@@ -123,16 +121,19 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
   <section class="field-result-lead">
     <div class="field-result-head">
       <div class="field-result-ident">
-        <p class="field-result-kicker">Field Result</p>
-        {titleCopy && <p class="field-result-title">{titleCopy}</p>}
+        <p class="field-result-kicker">Enhanced Object</p>
+        <div class="field-result-badges" aria-label="Packet status">
+          <span>Snapshot</span>
+          <span>Packet-backed</span>
+        </div>
       </div>
 
       <nav class="field-result-actions" aria-label="Packet views">
-        <a href={hudHref}>
+        <a href={hudHref} target="_blank" rel="noreferrer">
           <span class="field-result-glyph" aria-hidden="true">◎</span>
           <span>HUD</span>
         </a>
-        <a href={plateHref}>
+        <a href={plateHref} target="_blank" rel="noreferrer">
           <span class="field-result-glyph" aria-hidden="true">▣</span>
           <span>Plate</span>
         </a>
@@ -192,12 +193,22 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
     color: var(--mid);
   }
 
-  .field-result-title {
-    margin: 0.28rem 0 0;
-    color: color-mix(in srgb, var(--mid) 88%, var(--gold) 12%);
+  .field-result-badges {
+    margin-top: 0.34rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.38rem;
+  }
+
+  .field-result-badges span {
+    padding: 0.2rem 0.48rem;
+    border: 1px solid color-mix(in srgb, var(--gold) 18%, transparent);
+    border-radius: 999px;
+    color: color-mix(in srgb, var(--mid) 76%, var(--gold) 24%);
+    background: rgba(255, 255, 255, 0.02);
     font-family: var(--font-ui);
-    font-size: 0.72rem;
-    letter-spacing: 0.12em;
+    font-size: 0.58rem;
+    letter-spacing: 0.11em;
     text-transform: uppercase;
   }
 

@@ -79,6 +79,10 @@ const respawnCopy = typeof respawn === 'string' && respawn.trim() ? respawn.trim
         font-size: 0.85rem;
       }
 
+      .nav-back {
+        color: var(--text);
+      }
+
       .grid {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -135,7 +139,7 @@ const respawnCopy = typeof respawn === 'string' && respawn.trim() ? respawn.trim
           <div class="eyebrow">Field HUD</div>
           <div class="title">{packetData?.artifact?.sector || title}</div>
           <nav class="nav">
-            <a href={objectUrl}>Canonical object</a>
+            <a class="nav-back" href={objectUrl}>← Back to object</a>
             <a href={plateUrl}>Report plate</a>
           </nav>
         </div>

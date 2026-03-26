@@ -77,6 +77,10 @@ const normalizedRespawn = typeof respawn === 'string' && respawn.trim() ? respaw
         font-size: 0.95rem;
       }
 
+      .nav-back {
+        color: var(--text);
+      }
+
       .section {
         margin-top: 18px;
       }
@@ -120,7 +124,7 @@ const normalizedRespawn = typeof respawn === 'string' && respawn.trim() ? respaw
         <div class="title">{packetData?.artifact?.sector || title}</div>
         <div>{packetData?.artifact?.id || 'No packet stored'}</div>
         <nav class="nav">
-          <a href={objectUrl}>Canonical object</a>
+          <a class="nav-back" href={objectUrl}>← Back to object</a>
           <a href={hudUrl}>Open HUD</a>
         </nav>
       </header>
