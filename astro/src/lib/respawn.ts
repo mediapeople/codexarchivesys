@@ -70,20 +70,16 @@ export function buildRespawnLead(entries: RespawnEntry[]): string {
   const signal = getEntry(entries, 'SIGNAL')?.value;
   const atmosphere = getEntry(entries, 'ATMOS')?.value;
 
-  if (mode && signal) {
-    return `Return through ${mode} mode with ${signal}.`;
-  }
-
   if (mode) {
-    return `Return through ${mode} mode.`;
+    return `Resume with ${mode} mode active.`;
   }
 
   if (signal) {
-    return `Signal cue: ${signal}.`;
+    return `Resume from the stored signal cue.`;
   }
 
   if (atmosphere) {
-    return `Atmosphere on return: ${atmosphere}.`;
+    return `Resume from the stored field conditions.`;
   }
 
   return entries[0]?.value || '';
