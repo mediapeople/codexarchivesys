@@ -1128,6 +1128,104 @@
   .btn-pigeon:hover { background: var(--amber); }
   .btn-pigeon:disabled { opacity: 0.4; cursor: not-allowed; }
 
+  .pigeon-auth-panel,
+  .pigeon-result {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    padding: 12px 14px;
+    margin-bottom: 12px;
+  }
+
+  .pigeon-auth-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .pigeon-auth-title {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--amber-label);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .pigeon-auth-note {
+    font-size: 10px;
+    line-height: 1.6;
+    color: var(--amber-dim);
+    font-family: 'Libre Baskerville', Georgia, serif;
+  }
+
+  .pigeon-auth-fields {
+    margin-top: 12px;
+  }
+
+  .pigeon-auth-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+
+  .pigeon-auth-actions .btn-export,
+  .pigeon-auth-actions .btn-pigeon {
+    margin: 0;
+  }
+
+  .pigeon-result {
+    font-size: 10px;
+    line-height: 1.7;
+    color: var(--amber-dim);
+  }
+
+  .pigeon-result.success {
+    border-color: rgba(86, 171, 112, 0.42);
+    background: rgba(22, 45, 28, 0.38);
+    color: var(--green-bright);
+  }
+
+  .pigeon-result.error {
+    border-color: rgba(198, 76, 76, 0.42);
+    background: rgba(49, 17, 17, 0.4);
+    color: #f0b3a7;
+  }
+
+  .pigeon-result.info {
+    color: var(--amber-dim);
+  }
+
+  .pigeon-result-line + .pigeon-result-line {
+    margin-top: 4px;
+  }
+
+  .pigeon-result-links {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+
+  .pigeon-result-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 34px;
+    padding: 0 10px;
+    border: 1px solid var(--rule);
+    color: var(--amber-em);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 9px;
+  }
+
+  .pigeon-result-link:hover {
+    border-color: var(--amber-dim);
+    color: var(--amber-accent);
+  }
+
   /* ── MOBILE HARDENING ── */
   @media (max-width: 768px) {
     .app {
@@ -1277,6 +1375,17 @@
       width: 100%;
       justify-content: center;
       font-size: 11px;
+    }
+
+    .pigeon-auth-actions {
+      flex-direction: column;
+    }
+
+    .pigeon-auth-actions .btn-export,
+    .pigeon-auth-actions .btn-pigeon,
+    .pigeon-result-link {
+      width: 100%;
+      justify-content: center;
     }
 
     .anomaly-item {
@@ -1636,6 +1745,34 @@ Your voice becomes the system."></textarea>
         </div>
         <button class="btn-pigeon" id="btn-pigeon" onclick="sendToPigeon()" disabled>↑ Send to Pigeon</button>
       </div>
+      <div class="pigeon-auth-panel" id="pigeon-auth-panel">
+        <div class="pigeon-auth-head">
+          <div>
+            <div class="pigeon-auth-title">Carrier Pigeon Key</div>
+            <div class="pigeon-auth-note" id="pigeon-auth-status">
+              Required for publish. Stored only in this browser on this device.
+            </div>
+          </div>
+          <button class="btn-export" id="btn-pigeon-auth-toggle" type="button">Enter Key</button>
+        </div>
+        <div class="pigeon-auth-fields" id="pigeon-auth-fields" hidden>
+          <input
+            type="password"
+            class="field-input"
+            id="pigeon-key-input"
+            placeholder="Paste Carrier Pigeon key"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+            style="margin-bottom:0;"
+          >
+          <div class="pigeon-auth-actions">
+            <button class="btn-pigeon" id="btn-pigeon-auth-save" type="button">Save Key</button>
+            <button class="btn-export" id="btn-pigeon-auth-clear" type="button">Clear Saved Key</button>
+          </div>
+        </div>
+      </div>
+      <div class="pigeon-result info" id="pigeon-result" data-pigeon-result hidden></div>
       <div class="axis-grid">
         <div class="axis-cell">
           <div class="axis-cell-label">Scale</div>
@@ -1678,6 +1815,7 @@ Your voice becomes the system."></textarea>
       <button class="btn-export" onclick="exportPacket()">Export Packet JSON</button>
       <button class="btn-export" onclick="copyPlate()">Copy Plate Text</button>
       <button class="btn-pigeon" style="display:inline-block; margin-bottom:16px;" onclick="sendToPigeon()">↑ Send to Pigeon</button>
+      <div class="pigeon-result info" data-pigeon-result hidden></div>
       <div class="report-plate" id="report-plate">
         <!-- dynamically filled -->
       </div>
@@ -1791,6 +1929,15 @@ function updateClock() {
 }
 setInterval(updateClock, 1000);
 updateClock();
+
+const PIGEON_KEY_STORAGE_KEY = 'carrier-pigeon.shared-key';
+const DEFAULT_INGEST_BUTTON_HTML = `✦ Ingest Fragment → Generate Packet
+        <span style="font-size: 10px; opacity: 0.7; margin-left: 8px;">(Ctrl+Enter)</span>`;
+
+function activateTab(name) {
+  document.querySelectorAll('.tab').forEach((tab) => tab.classList.toggle('active', tab.dataset.tab === name));
+  document.querySelectorAll('.panel').forEach((panel) => panel.classList.toggle('active', panel.id === `panel-${name}`));
+}
 
 // ── MOBILE HARDENING ──
 function setupMobileHardening() {
@@ -1920,13 +2067,174 @@ function setupWritingSurface() {
 // Initialize writing surface when DOM is ready
 document.addEventListener('DOMContentLoaded', setupWritingSurface);
 
+function getStoredPigeonKey() {
+  try {
+    return (localStorage.getItem(PIGEON_KEY_STORAGE_KEY) || '').trim();
+  } catch (error) {
+    return '';
+  }
+}
+
+function maskPigeonKey(key) {
+  const trimmed = String(key || '').trim();
+  if (!trimmed) return 'not stored';
+  if (trimmed.length <= 6) return 'stored on this device';
+  return `stored on this device · ending ${trimmed.slice(-4)}`;
+}
+
+function setPigeonResult(kind, lines, links) {
+  const boxes = document.querySelectorAll('[data-pigeon-result]');
+  if (!boxes.length) return;
+
+  const messages = (Array.isArray(lines) ? lines : [lines]).filter(Boolean);
+  const linkItems = Array.isArray(links) ? links.filter((link) => link && link.href && link.label) : [];
+
+  boxes.forEach((box) => {
+    if (!messages.length && !linkItems.length) {
+      box.hidden = true;
+      box.innerHTML = '';
+      box.className = 'pigeon-result info';
+      return;
+    }
+
+    box.hidden = false;
+    box.className = `pigeon-result ${kind || 'info'}`;
+    box.innerHTML = `
+      ${messages
+        .map((line) => `<div class="pigeon-result-line">${escapeHtml(String(line))}</div>`)
+        .join('')}
+      ${
+        linkItems.length
+          ? `<div class="pigeon-result-links">${linkItems
+              .map(
+                (link) =>
+                  `<a class="pigeon-result-link" href="${escapeHtml(String(link.href))}" target="_blank" rel="noreferrer">${escapeHtml(String(link.label))}</a>`
+              )
+              .join('')}</div>`
+          : ''
+      }
+    `;
+  });
+}
+
+function updatePigeonAuthUI(message) {
+  const status = document.getElementById('pigeon-auth-status');
+  const fields = document.getElementById('pigeon-auth-fields');
+  const toggle = document.getElementById('btn-pigeon-auth-toggle');
+  const save = document.getElementById('btn-pigeon-auth-save');
+  const clear = document.getElementById('btn-pigeon-auth-clear');
+  const input = document.getElementById('pigeon-key-input');
+  const storedKey = getStoredPigeonKey();
+
+  if (!status || !fields || !toggle || !save || !clear || !input) return;
+
+  if (fields.hidden) {
+    input.value = storedKey;
+  }
+
+  status.textContent =
+    message ||
+    (storedKey
+      ? `Publishing key ${maskPigeonKey(storedKey)}.`
+      : 'Required for publish. Stored only in this browser on this device.');
+  toggle.textContent = fields.hidden ? (storedKey ? 'Update Key' : 'Enter Key') : 'Hide Key';
+  save.textContent = storedKey ? 'Update Key' : 'Save Key';
+  clear.disabled = !storedKey;
+}
+
+function setPigeonAuthOpen(open, options) {
+  const fields = document.getElementById('pigeon-auth-fields');
+  const input = document.getElementById('pigeon-key-input');
+  if (!fields || !input) return;
+
+  const nextState = Boolean(open);
+  fields.hidden = !nextState;
+  if (nextState) {
+    input.value = getStoredPigeonKey();
+  }
+  updatePigeonAuthUI(options && options.message);
+
+  if (nextState && options && options.focus) {
+    setTimeout(() => input.focus(), 80);
+  }
+}
+
+function revealPigeonAuth(message, focus) {
+  activateTab('hud');
+  setPigeonAuthOpen(true, { focus: focus !== false, message });
+  const panel = document.getElementById('pigeon-auth-panel');
+  if (panel) {
+    setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'center' }), 40);
+  }
+  setPigeonResult('info', message || 'Enter the Carrier Pigeon key to publish from this phone.');
+}
+
+function savePigeonKey() {
+  const input = document.getElementById('pigeon-key-input');
+  if (!input) return;
+
+  const value = input.value.trim();
+  if (!value) {
+    showToast('Paste the Carrier Pigeon key before saving');
+    revealPigeonAuth('Paste the Carrier Pigeon key, then save it on this device.', true);
+    return;
+  }
+
+  try {
+    localStorage.setItem(PIGEON_KEY_STORAGE_KEY, value);
+    updatePigeonAuthUI('Publishing key saved on this device.');
+    setPigeonResult('info', 'Carrier Pigeon key saved on this device. Publish is ready.');
+    showToast('Carrier Pigeon key saved');
+  } catch (error) {
+    setPigeonResult('error', 'Could not save the Carrier Pigeon key in this browser.');
+    showToast('Could not save the Carrier Pigeon key');
+  }
+}
+
+function clearPigeonKey() {
+  try {
+    localStorage.removeItem(PIGEON_KEY_STORAGE_KEY);
+  } catch (error) {
+    // noop
+  }
+
+  const input = document.getElementById('pigeon-key-input');
+  if (input) input.value = '';
+  updatePigeonAuthUI('Publishing key removed from this device.');
+  setPigeonResult('info', 'Publishing key cleared. Enter it again before sending to Pigeon.');
+  showToast('Carrier Pigeon key cleared');
+}
+
+function setupPigeonAuth() {
+  const toggle = document.getElementById('btn-pigeon-auth-toggle');
+  const save = document.getElementById('btn-pigeon-auth-save');
+  const clear = document.getElementById('btn-pigeon-auth-clear');
+  const input = document.getElementById('pigeon-key-input');
+
+  if (!toggle || !save || !clear || !input) return;
+
+  toggle.addEventListener('click', () => {
+    const fields = document.getElementById('pigeon-auth-fields');
+    setPigeonAuthOpen(fields ? fields.hidden : true, { focus: true });
+  });
+  save.addEventListener('click', savePigeonKey);
+  clear.addEventListener('click', clearPigeonKey);
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      savePigeonKey();
+    }
+  });
+
+  updatePigeonAuthUI();
+}
+
+document.addEventListener('DOMContentLoaded', setupPigeonAuth);
+
 // ── TAB SYSTEM ──
 document.querySelectorAll('.tab').forEach(tab => {
   tab.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-    tab.classList.add('active');
-    document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+    activateTab(tab.dataset.tab);
   });
 });
 
@@ -2334,6 +2642,13 @@ function ingestScrollToPacket(raw) {
 // ── ACTIVE PACKET STATE ──
 let activePacket = null;
 
+function setIngestButtonState(label, disabled) {
+  const button = document.getElementById('btn-ingest');
+  if (!button) return;
+  button.disabled = Boolean(disabled);
+  button.innerHTML = label;
+}
+
 // ── INGEST ──
 function runIngest() {
   const body    = document.getElementById('input-body').value.trim();
@@ -2346,7 +2661,13 @@ function runIngest() {
   const bpm     = parseInt(document.getElementById('input-bpm').value) || undefined;
   const pollen  = document.getElementById('input-pollen').value || undefined;
 
-  if (!body) { alert('Fragment body required.'); return; }
+  if (!body) {
+    showToast('Fragment body required before ingest');
+    document.getElementById('input-body').focus();
+    return;
+  }
+
+  setIngestButtonState('Generating packet...', true);
 
   const raw = {
     title: title || undefined,
@@ -2365,8 +2686,16 @@ function runIngest() {
   // Clean undefined
   if (!raw.signal.track && !raw.signal.artists && !raw.signal.bpm) delete raw.signal;
 
-  const packet = ingestScrollToPacket(raw);
-  loadPacket(packet, body, true);
+  try {
+    const packet = ingestScrollToPacket(raw);
+    loadPacket(packet, body, true);
+  } catch (error) {
+    console.error('Field HUD ingest failed', error);
+    setPigeonResult('error', `Ingest failed · ${(error && error.message) || 'unknown error'}`);
+    showToast('Ingest failed · check fragment and try again');
+  } finally {
+    setTimeout(() => setIngestButtonState(DEFAULT_INGEST_BUTTON_HTML, false), 900);
+  }
 }
 
 function loadDemo() {
@@ -2375,11 +2704,11 @@ function loadDemo() {
   demo._codex_type = 'loremap';
   demo._axes = { scale: 'meso', depth: 'structural', focus: 'system', function: 'diagnostic' };
   loadPacket(demo, demo._source, false);
-  // Switch to HUD
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelector('[data-tab="hud"]').classList.add('active');
-  document.getElementById('panel-hud').classList.add('active');
+  activateTab('hud');
+  setTimeout(() => {
+    const target = document.getElementById('hud-mode-block');
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 120);
 }
 
 function loadPacket(packet, sourceText, showLog) {
@@ -2390,16 +2719,23 @@ function loadPacket(packet, sourceText, showLog) {
   renderHUD(packet);
   renderReportPlate(packet, sourceText);
   renderRespawn(packet);
+  setPigeonResult('info', [
+    `Packet active · ${(packet._codex_type || 'signal').toUpperCase()} ready to publish`,
+    'HUD and Report Plate refreshed from the current fragment.',
+  ]);
 
   if (showLog) {
     renderIngestLog(packet);
-    // Auto-switch to HUD
+    showToast(`Packet ready · ${(packet._codex_type || 'signal').toUpperCase()} live in HUD`);
     setTimeout(() => {
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-      document.querySelector('[data-tab="hud"]').classList.add('active');
-      document.getElementById('panel-hud').classList.add('active');
-    }, 600);
+      activateTab('hud');
+      const target = document.getElementById('hud-mode-block');
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }, 180);
   }
 }
 
@@ -2765,20 +3101,21 @@ function renderIngestLog(p) {
   const content = document.getElementById('ingest-log-content');
   log.style.display = 'block';
 
-  const scoreDisplay = scoreMode(
-    `${document.getElementById('input-title').value}\n${document.getElementById('input-body').value}`.toLowerCase()
-  );
+  const source = String(p._source || document.getElementById('input-body').value || '').toLowerCase();
+  const scoreDisplay = scoreMode(source);
 
   content.innerHTML = `
+    PACKET READY · HUD + REPORT PLATE REFRESHED<br>
     MODE SCORES: SEALED=${scoreDisplay.SEALED} GLIDE=${scoreDisplay.GLIDE} TARGET=${scoreDisplay.TARGET} RECURSIVE=${scoreDisplay.RECURSIVE}<br>
     → INFERRED MODE: <strong style="color:var(--amber-accent)">${p.mode}</strong><br>
+    OBJECT TYPE: ${(p._codex_type || 'signal').toUpperCase()}<br>
     SIGNAL LOCK: ${p.signal.signal_lock} · SIGNAL MODE: ${p.signal.mode}<br>
     TRAUMA WEATHER: ${p.trauma_weather.alert} · BODY RESPONSE: ${p.trauma_weather.body_response}<br>
     SHADOW OFFSET: ${p.shadow.offset} · DESYNC: ${p.shadow.desynchronization}<br>
     ANOMALIES DETECTED: ${p.anomalies.length}<br>
     NOTES INFERRED: ${p.notes.length}<br>
     PACKET ID: ${p.artifact.id}<br>
-    → PACKET ACTIVE. RENDERING HUD...
+    → SWITCHING TO HUD...
   `;
 }
 
@@ -2794,35 +3131,62 @@ function setPigeonButtons(label, disabled) {
 }
 
 async function sendToPigeon() {
-  if (!activePacket) return;
+  if (!activePacket) {
+    showToast('Generate a packet before sending to Pigeon');
+    return;
+  }
   const payload = buildPigeonPayload(activePacket, activePacket._source || '');
+  const key = getStoredPigeonKey();
 
   if (!payload.body) {
+    setPigeonResult('error', 'Publish blocked · source fragment missing.');
     showToast('Publish blocked · source fragment missing');
     return;
   }
 
+  if (!key) {
+    revealPigeonAuth('Enter the Carrier Pigeon key first, then send again.', true);
+    showToast('Carrier Pigeon key required');
+    return;
+  }
+
   setPigeonButtons('Sending...', true);
+  setPigeonResult('info', 'Sending packet to Carrier Pigeon...');
 
   try {
     const response = await fetch('/api/pigeon', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${key}`,
       },
       body: JSON.stringify(payload),
     });
     const result = await response.json().catch(() => ({}));
 
     if (!response.ok) {
+      if (response.status === 401 || response.status === 403) {
+        revealPigeonAuth('Publishing key rejected. Update the Carrier Pigeon key and try again.', true);
+      }
       throw new Error(result.error || result.detail || `Pigeon returned ${response.status}`);
     }
 
+    const links = [
+      result.object_url ? { label: 'Open Object', href: result.object_url } : null,
+      result.hud_url ? { label: 'Open HUD', href: result.hud_url } : null,
+      result.plate_url ? { label: 'Open Plate', href: result.plate_url } : null,
+    ].filter(Boolean);
+
     setPigeonButtons('Sent ✓', true);
+    setPigeonResult('success', [
+      `Published ${result.slug || payload.slug} to ${result.path || 'the archive'}.`,
+      result.note || 'Object, HUD, and Plate are ready.',
+    ], links);
     showToast(`Saved ${result.slug || payload.slug} · HUD and plate ready`);
     setTimeout(() => setPigeonButtons('↑ Send to Pigeon', false), 1800);
   } catch (error) {
     setPigeonButtons('↑ Send to Pigeon', false);
+    setPigeonResult('error', `Publish failed · ${(error && error.message) || 'unknown error'}`);
     showToast(`Publish failed · ${(error && error.message) || 'unknown error'}`);
   }
 }
