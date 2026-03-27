@@ -183,7 +183,6 @@ const normalizedSourceText = sourceText.trim();
 const normalizedRespawn = typeof respawn === 'string' && respawn.trim() ? respawn.trim() : '';
 const normalizedPlatePrompt = normalizePlatePrompt(platePrompt) || '';
 const objectSlug = objectUrl.split('/').filter(Boolean).pop() || '';
-const hudRoute = objectSlug ? `/codex/${encodeURIComponent(objectSlug)}/hud` : '#hud';
 const respawnEntries = parseRespawnSummary(normalizedRespawn);
 const respawnLead = buildRespawnLead(respawnEntries);
 const objectPathLabel = objectUrl;
@@ -243,92 +242,10 @@ const hudSurfaceState =
         ? 'Packet Memory'
         : 'Source First';
 const hudSurfaceCopy = mythmechSummary
-  ? 'One surface for hinge, load, packet memory, and return paths without crowding the object.'
+  ? 'See what carries the piece, where pressure gathers, and where intervention can actually happen.'
   : packetData
-    ? 'One surface for packet state, signal weather, and the preserved fragment.'
-    : 'One surface for source continuity while the deeper structural layer comes online.';
-
-const packetReportCards = [
-  {
-    label: 'Field',
-    value: fieldLabel || 'Field position not stored',
-  },
-  {
-    label: 'Atmosphere',
-    value: atmosphereLabel || 'Atmosphere not stored',
-  },
-  {
-    label: 'State',
-    value: joinParts([modeLabel, watchLabel, shadowLabel], ' · ') || 'State not stored',
-  },
-];
-
-const mythmechReportCards = mythmechSummary
-  ? [
-      {
-        label: 'Inspection',
-        value: mythmechLead,
-      },
-      {
-        label: 'Hinge',
-        value: mythmechSummary.hingeLabel || 'Hinge not stored',
-      },
-      {
-        label: 'Load',
-        value: mythmechLoadCopy || 'Load not stored',
-      },
-      {
-        label: 'Lineage',
-        value: mythmechLineageCopy || 'Lineage not stored',
-      },
-      {
-        label: 'Spawn',
-        value:
-          mythmechSummary.spawnCandidateCount > 0
-            ? mythmechSummary.candidateLabels.length > 0
-              ? mythmechSummary.candidateLabels.join(' · ')
-              : `${mythmechSummary.spawnCandidateCount} candidates`
-            : 'Spawn not stored',
-      },
-      {
-        label: 'Marginalia',
-        value:
-          mythmechSignalCopy ||
-          (mythmechSummary.marginaliaCount > 0 ? `${mythmechSummary.marginaliaCount} signals stored` : 'Signals not stored'),
-      },
-    ]
-  : [];
-
-const reportCards = [...(packetData ? packetReportCards : []), ...mythmechReportCards].filter((card) => card.value);
-
-const hudCards = [
-  ...(packetData
-    ? [
-        { label: 'Packet', value: packetId || 'No packet stored' },
-        { label: 'Class', value: packetClass || '—' },
-        { label: 'Field', value: fieldLabel || '—' },
-        { label: 'Signal Mode', value: signalMode || '' },
-        { label: 'Atmosphere', value: atmosphereLabel || '—' },
-        { label: 'Watch', value: watchLabel },
-        { label: 'Shadow', value: shadowLabel },
-      ]
-    : []),
-  ...(mythmechSummary
-    ? [
-        { label: 'Lens', value: mythmechSummary.enabled ? 'Enabled' : 'Stored' },
-        { label: 'Hinge', value: mythmechSummary.hingeLabel || '' },
-        { label: 'Nodes', value: String(mythmechSummary.nodeCount) },
-        { label: 'Flows', value: String(mythmechSummary.flowCount) },
-        { label: 'Load', value: mythmechLoadCopy || '' },
-        { label: 'States', value: String(mythmechSummary.stateCount) },
-        { label: 'Parents', value: String(mythmechSummary.parentCount) },
-        { label: 'Children', value: String(mythmechSummary.childCount) },
-        { label: 'Spawn', value: String(mythmechSummary.spawnCandidateCount) },
-        { label: 'Marginalia', value: mythmechSignalCopy || String(mythmechSummary.marginaliaCount) },
-      ]
-    : []),
-  { label: 'Object Path', value: objectPathLabel },
-].filter((card) => card.value);
+    ? 'See the field conditions, signal state, and preserved fragment without losing the object itself.'
+    : 'See the source fragment clearly while the deeper inspection layer comes online.';
 
 const signalMeta = [
   { label: 'Mode', value: signalMode || modeLabel },
@@ -488,7 +405,7 @@ const inspectLeadCopy =
   'Select a chamber to inspect what carries the object, how pressure moves, and where intervention begins.';
 const inspectSupportCopy =
   mythmechSupport ||
-  'Exploded modules keep the object readable while making its structure legible under load.';
+  'Start at the hinge, then trace pressure, control, and grounding to understand what the piece is doing under load.';
 const inspectLegend = [
   { label: 'Pressure', tone: 'pressure', copy: 'Constraint, risk, breakdown' },
   { label: 'Control', tone: 'control', copy: 'Adjustment, agency, response' },
@@ -558,12 +475,67 @@ const inspectDetailCards = inspectChamberPlacements.map((node) => ({
       : [],
 }));
 const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stage';
+
+function findInspectValue(matchers: string[]): string {
+  const node = inspectChambers.find((item) => {
+    const role = item.role.toLowerCase();
+    const label = item.label.toLowerCase();
+    const id = item.id.toLowerCase();
+    return matchers.some((matcher) => role.includes(matcher) || label.includes(matcher) || id.includes(matcher));
+  });
+
+  return node?.label || '';
+}
+
+const inspectPressureValue = findInspectValue(['pressure']) || atmosphereLabel || mythmechLoadCopy;
+const inspectControlValue = findInspectValue(['signal', 'control']) || packetSignalLabel || signalMode || mythmechFlowCopy;
+const inspectGroundValue = findInspectValue(['ground', 'field', 'anchor']) || fieldLabel;
+const inspectStateValue =
+  findInspectValue(['state', 'trace', 'shadow']) || joinParts([modeLabel, watchLabel, shadowLabel], ' · ');
+const inspectContinuityValue =
+  mythmechLineageCopy ||
+  (packetId ? `Packet ${packetId}` : '') ||
+  (mythmechSummary ? `${mythmechSummary.nodeCount} nodes · ${mythmechSummary.flowCount} flows` : '');
+
+const orientationCards = [
+  { label: 'Intervention', value: inspectLeadLabel },
+  { label: 'Pressure', value: inspectPressureValue || 'Pressure not stored' },
+  { label: 'Control Surface', value: inspectControlValue || 'Control surface not stored' },
+  { label: 'Ground', value: inspectGroundValue || 'Ground not stored' },
+  { label: 'State', value: inspectStateValue || 'State not stored' },
+];
+
+const supportingCards = [
+  packetId ? { label: 'Packet Memory', value: packetId } : null,
+  packetClass ? { label: 'Object Class', value: packetClass } : null,
+  inspectContinuityValue ? { label: 'Continuity', value: inspectContinuityValue } : null,
+  mythmechSummary
+    ? {
+        label: 'Spawnable Vectors',
+        value:
+          mythmechSummary.spawnCandidateCount > 0
+            ? mythmechSummary.candidateLabels.length > 0
+              ? mythmechSummary.candidateLabels.join(' · ')
+              : `${mythmechSummary.spawnCandidateCount} vectors`
+            : 'No vectors stored',
+      }
+    : null,
+  mythmechSummary
+    ? {
+        label: 'Marginalia Signals',
+        value:
+          mythmechSignalCopy ||
+          (mythmechSummary.marginaliaCount > 0 ? `${mythmechSummary.marginaliaCount} signals stored` : 'Signals not stored'),
+      }
+    : null,
+].filter((card): card is { label: string; value: string } => Boolean(card?.value));
 ---
 
 <section class="field-surface-wrap">
   <article class="field-surface-shell page-plate">
     <header class="field-surface-mast">
       <div class="field-surface-ident">
+        <a class="field-surface-back-link" href={objectUrl}>← Back to object</a>
         <div class="field-surface-heading">
           <p class="field-surface-kicker">HUD</p>
           <h1 class="field-surface-title">{title}</h1>
@@ -584,21 +556,14 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
             </div>
             <span class="field-surface-nav-state">{hudSurfaceState}</span>
           </div>
-          <div class="field-surface-nav-actions" aria-label="Surface navigation">
-            <a class="field-surface-return-link" href={objectUrl}>
-              <span>Return</span>
-              <strong>← Object</strong>
-            </a>
-            <a class="field-surface-mode-chip" href={hudRoute} aria-current="page">HUD</a>
-          </div>
           <nav class="field-surface-anchor-links" aria-label="Section navigation">
             <a class="field-surface-anchor-pill" href="#hud">
               <span class="field-surface-anchor-index">01</span>
-              <span>Overview</span>
+              <span>Meaning</span>
             </a>
             <a class="field-surface-anchor-pill" href="#readout">
               <span class="field-surface-anchor-index">02</span>
-              <span>Readout</span>
+              <span>Support</span>
             </a>
           </nav>
           <div class="field-surface-path-block">
@@ -738,7 +703,7 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
                   )}
                   {node.spawn.length > 0 && (
                     <div class="field-surface-focus-cluster">
-                      <p class="field-surface-focus-label">Spawn</p>
+                      <p class="field-surface-focus-label">Spawnable Vectors</p>
                       <ul class="field-surface-focus-list">
                         {node.spawn.map((item) => (
                           <li><strong>{item}</strong></li>
@@ -786,9 +751,13 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
     )}
 
     <section class="field-surface-section" id="hud">
-      <div class="field-surface-section-kicker">HUD Overview</div>
+      <div class="field-surface-section-kicker">What This Gives You</div>
+      <p class="field-surface-section-intro">
+        Read these cards as the value of the inspect surface: where the piece turns, what presses on it, what steadies it,
+        and what state it finally presents.
+      </p>
       <div class="field-surface-hud-grid">
-        {hudCards.map((card) => (
+        {orientationCards.map((card) => (
           <article class="field-surface-cell">
             <div class="field-surface-micro">{card.label}</div>
             <div class="field-surface-value">{card.value}</div>
@@ -802,10 +771,14 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
     </section>
 
     <section class="field-surface-section" id="readout">
-      <div class="field-surface-section-kicker">HUD Readout</div>
-      {reportCards.length > 0 ? (
+      <div class="field-surface-section-kicker">Supporting Memory</div>
+      <p class="field-surface-section-intro">
+        These traces support the inspect read without overwhelming it. They show what was stored around the object, not
+        just what the object says.
+      </p>
+      {supportingCards.length > 0 ? (
         <div class="field-surface-report-grid">
-          {reportCards.map((card) => (
+          {supportingCards.map((card) => (
             <article class="field-surface-cluster">
               <p class="field-surface-cluster-label">{card.label}</p>
               <p class="field-surface-cluster-copy">{card.value}</p>
@@ -813,9 +786,10 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
           ))}
         </div>
       ) : (
-        <p class="field-surface-empty">No packet or Mythmech readout cards are stored for this object yet.</p>
+        <p class="field-surface-empty">No supporting packet or Mythmech memory is stored for this object yet.</p>
       )}
 
+      <p class="field-surface-note-label field-surface-fragment-label">Source Fragment</p>
       <pre class="field-surface-fragment">{normalizedSourceText || 'No source text is available for this object.'}</pre>
 
       {(normalizedRespawn || packetNotes.length > 0 || mythmechSummary || normalizedPlatePrompt) && (
@@ -876,11 +850,11 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
                   )}
                   {mythmechSummary.spawnCandidateCount > 0 && (
                     <div class="field-surface-note-stat">
-                      <dt>Spawn</dt>
+                      <dt>Spawnable Vectors</dt>
                       <dd>
                         {mythmechSummary.candidateLabels.length > 0
                           ? mythmechSummary.candidateLabels.join(' · ')
-                          : `${mythmechSummary.spawnCandidateCount} candidates`}
+                          : `${mythmechSummary.spawnCandidateCount} vectors`}
                       </dd>
                     </div>
                   )}
@@ -1037,8 +1011,26 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
   .field-surface-ident {
     min-width: 0;
     display: grid;
-    gap: 1rem;
+    gap: 0.92rem;
     max-width: 100%;
+  }
+
+  .field-surface-back-link {
+    display: inline-block;
+    width: fit-content;
+    color: var(--field-amber-label);
+    text-decoration: none;
+    padding: 0 0 0.24rem;
+    border-bottom: 1px solid var(--surface-line);
+    font-family: var(--font-ui);
+    font-size: 12px;
+    letter-spacing: var(--ls-ui);
+    transition: color 140ms ease, border-color 140ms ease;
+  }
+
+  .field-surface-back-link:hover {
+    color: var(--field-amber-em);
+    border-color: var(--surface-accent-line);
   }
 
   .field-surface-heading {
@@ -1055,7 +1047,6 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
   .field-surface-note-label,
   .field-surface-path,
   .field-surface-cluster-label,
-  .field-surface-return-link span,
   .field-surface-anchor-index,
   .field-surface-path-hint {
     font-family: var(--font-ui);
@@ -1072,9 +1063,28 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
   .field-surface-cluster-label,
   .field-surface-path,
   .field-surface-path-hint,
-  .field-surface-anchor-index,
-  .field-surface-return-link span {
+  .field-surface-anchor-index {
     color: var(--field-amber-label);
+  }
+
+  .field-surface-cell .field-surface-micro,
+  .field-surface-cluster-label,
+  .field-surface-note-label,
+  .field-surface-archetype-kicker,
+  .field-surface-focus-kicker,
+  .field-surface-focus-label {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    min-height: 1.55rem;
+    margin: 0;
+    padding: 0.12rem 0.48rem;
+    border: 1px solid var(--surface-line);
+    border-radius: 8px;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.022), rgba(255, 255, 255, 0.008)),
+      var(--surface-panel-wash);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
   }
 
   .field-surface-title {
@@ -1098,7 +1108,7 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
   .field-surface-status-pill {
     padding: 0.22rem 0.54rem;
     border: 1px solid var(--surface-line);
-    border-radius: 999px;
+    border-radius: var(--field-chip-radius);
     color: var(--field-amber-label);
     background: var(--surface-panel-wash);
   }
@@ -1111,8 +1121,8 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
   .field-surface-nav-card {
     position: relative;
     display: grid;
-    gap: 0.95rem;
-    padding: 1.05rem;
+    gap: 1.1rem;
+    padding: 1.18rem 1.2rem 1.22rem;
     border: 1px solid var(--surface-line);
     border-radius: var(--surface-radius);
     overflow: hidden;
@@ -1179,21 +1189,12 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
     min-height: 1.9rem;
     padding: 0.16rem 0.68rem;
     border: 1px solid var(--surface-line);
-    border-radius: 999px;
+    border-radius: var(--field-chip-radius);
     color: var(--field-amber-label);
     background: var(--surface-panel-wash);
     white-space: nowrap;
   }
 
-  .field-surface-nav-actions {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 0.72rem;
-    align-items: stretch;
-  }
-
-  .field-surface-return-link,
-  .field-surface-mode-chip,
   .field-surface-anchor-pill,
   .field-surface-path-link {
     border-radius: var(--surface-radius);
@@ -1203,43 +1204,6 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
       color 140ms ease,
       background 140ms ease,
       transform 140ms ease;
-  }
-
-  .field-surface-return-link {
-    display: grid;
-    gap: 0.28rem;
-    padding: 0.8rem 0.92rem 0.84rem;
-    border: 1px solid var(--surface-line);
-    background:
-      linear-gradient(180deg, var(--surface-panel-elevated), rgba(255, 255, 255, 0.008)),
-      var(--surface-panel-wash);
-  }
-
-  .field-surface-return-link strong {
-    color: var(--field-amber-em);
-    font-family: var(--font-ui);
-    font-size: 0.92rem;
-    font-weight: 400;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-
-  .field-surface-mode-chip {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 5.8rem;
-    padding: 0.72rem 0.9rem;
-    border: 1px solid var(--surface-accent-line);
-    color: var(--field-amber-em);
-    background:
-      linear-gradient(180deg, var(--surface-accent-fill), rgba(255, 255, 255, 0.015)),
-      var(--surface-panel-wash);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
-    font-family: var(--font-ui);
-    font-size: 0.74rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
   }
 
   .field-surface-anchor-links {
@@ -1263,8 +1227,6 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
     text-transform: uppercase;
   }
 
-  .field-surface-return-link:hover,
-  .field-surface-mode-chip:hover,
   .field-surface-anchor-pill:hover,
   .field-surface-path-link:hover {
     color: var(--field-amber-em);
@@ -1399,7 +1361,7 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
 
   .field-surface-section {
     margin-top: 1.5rem;
-    padding: 1.15rem 1.18rem 1.22rem;
+    padding: 1.4rem 1.45rem 1.5rem;
     border: 1px solid var(--surface-line);
     border-radius: var(--surface-radius);
     background:
@@ -1413,21 +1375,30 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
     color: var(--field-amber-label);
   }
 
+  .field-surface-section-intro {
+    max-width: 56rem;
+    margin: 0.72rem 0 0;
+    color: var(--field-amber-dim);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.74;
+  }
+
   .field-surface-section--diagram {
     overflow: hidden;
   }
 
   .field-surface-diagram-grid {
-    margin-top: 0.92rem;
+    margin-top: 1.12rem;
     display: grid;
     grid-template-columns: minmax(15rem, 18rem) minmax(0, 1fr);
-    gap: 1rem 1.1rem;
+    gap: 1.2rem 1.35rem;
     align-items: start;
   }
 
   .field-surface-archetype-card,
   .field-surface-focus-card {
-    padding: 1rem 1.02rem 1.05rem;
+    padding: 1.22rem 1.28rem 1.34rem;
     border: 1px solid var(--surface-line);
     border-radius: var(--surface-radius);
     background:
@@ -1448,7 +1419,7 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
   }
 
   .field-surface-archetype-title {
-    margin: 0.52rem 0 0;
+    margin: 0.74rem 0 0;
     color: var(--field-amber-em);
     font-family: var(--font-display);
     font-size: clamp(1.5rem, 1.28rem + 0.6vw, 2rem);
@@ -1460,7 +1431,7 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
   .field-surface-archetype-support,
   .field-surface-focus-summary,
   .field-surface-focus-copy {
-    margin: 0.7rem 0 0;
+    margin: 0.92rem 0 0;
     color: var(--field-text-body);
     font-family: var(--font-body);
     line-height: 1.66;
@@ -1472,10 +1443,10 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
   }
 
   .field-surface-archetype-meta {
-    margin-top: 0.9rem;
+    margin-top: 1.15rem;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.42rem;
+    gap: 0.5rem;
   }
 
   .field-surface-archetype-meta span,
@@ -1485,7 +1456,7 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
     min-height: 1.8rem;
     padding: 0.16rem 0.58rem;
     border: 1px solid var(--surface-line);
-    border-radius: 999px;
+    border-radius: var(--field-chip-radius);
     background: var(--surface-panel-wash);
     color: var(--field-amber-label);
     font-family: var(--font-ui);
@@ -1495,9 +1466,9 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
   }
 
   .field-surface-flow-legend {
-    margin-top: 0.95rem;
+    margin-top: 1.22rem;
     display: grid;
-    gap: 0.62rem;
+    gap: 0.82rem;
   }
 
   .field-surface-flow-key {
@@ -1554,7 +1525,7 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
   .field-surface-stage-shell {
     position: relative;
     min-width: 0;
-    padding: 0.8rem;
+    padding: 1rem;
     border: 1px solid var(--surface-line);
     border-radius: var(--surface-radius);
     background:
@@ -1615,11 +1586,11 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
     position: absolute;
     width: min(12rem, 26%);
     min-width: 8.2rem;
-    min-height: 5.3rem;
-    padding: 0.72rem 0.78rem 0.76rem;
+    min-height: 6rem;
+    padding: 0.92rem 0.96rem 0.98rem;
     display: grid;
     align-content: start;
-    gap: 0.34rem;
+    gap: 0.44rem;
     border: 1px solid var(--surface-line);
     border-radius: 10px;
     background:
@@ -1641,7 +1612,7 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
   .field-surface-chamber::before {
     content: '';
     position: absolute;
-    inset: 0.48rem auto 0.48rem 0.48rem;
+    inset: 0.62rem auto 0.62rem 0.58rem;
     width: 1px;
     background: var(--surface-line);
     opacity: 0.78;
@@ -1699,13 +1670,13 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
   .field-surface-focus-head {
     display: flex;
     justify-content: space-between;
-    gap: 1rem;
+    gap: 1.2rem 1.4rem;
     align-items: start;
     flex-wrap: wrap;
   }
 
   .field-surface-focus-title {
-    margin: 0.38rem 0 0;
+    margin: 0.62rem 0 0;
     color: var(--field-amber-em);
     font-family: var(--font-display);
     font-size: clamp(1.2rem, 1.05rem + 0.32vw, 1.5rem);
@@ -1719,14 +1690,14 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
   }
 
   .field-surface-focus-meta-grid {
-    margin-top: 0.95rem;
+    margin-top: 1.2rem;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.8rem;
+    gap: 1rem;
   }
 
   .field-surface-focus-cluster {
-    padding-top: 0.72rem;
+    padding-top: 0.92rem;
     border-top: 1px solid var(--surface-line);
   }
 
@@ -1793,16 +1764,16 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
   }
 
   .field-surface-hud-grid {
-    margin-top: 0.98rem;
+    margin-top: 1.15rem;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0.78rem;
+    gap: 0.95rem;
   }
 
   .field-surface-cell,
   .field-surface-cluster,
   .field-surface-note-card {
-    padding: 0.82rem 0.88rem 0.92rem;
+    padding: 1.12rem 1.16rem 1.22rem;
     border: 1px solid var(--surface-line);
     border-radius: var(--surface-radius);
     background:
@@ -1811,11 +1782,11 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
   }
 
   .field-surface-value {
-    margin-top: 0.35rem;
+    margin-top: 0.68rem;
     color: var(--field-amber-em);
     font-family: var(--font-ui);
-    font-size: 1.02rem;
-    line-height: 1.45;
+    font-size: 1.06rem;
+    line-height: 1.58;
     overflow-wrap: anywhere;
   }
 
@@ -1827,15 +1798,15 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
   }
 
   .field-surface-cluster-copy {
-    margin: 0.48rem 0 0;
+    margin: 0.72rem 0 0;
     color: var(--field-text-body);
-    line-height: 1.72;
+    line-height: 1.82;
     font-family: 'Cormorant Garamond', var(--font-body);
-    font-size: 1.12rem;
+    font-size: 1.16rem;
   }
 
   .field-surface-fragment {
-    margin: 1.15rem 0 0;
+    margin: 0.82rem 0 0;
     color: var(--field-amber-em);
     background: transparent;
     border: 0;
@@ -1847,38 +1818,37 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
   }
 
   .field-surface-note-stack {
-    margin-top: 1rem;
+    margin-top: 1.3rem;
     display: grid;
-    gap: 0.78rem;
+    gap: 0.95rem;
   }
 
   .field-surface-note-copy {
-    margin: 0.32rem 0 0;
+    margin: 0.56rem 0 0;
     color: var(--field-text-body);
-    line-height: 1.68;
+    line-height: 1.78;
     font-family: var(--font-body);
-    font-size: 0.98rem;
+    font-size: 1rem;
   }
 
   .field-surface-note-title {
-    margin: 0.34rem 0 0;
+    margin: 0.56rem 0 0;
     color: var(--field-amber-em);
-    font-family: var(--font-ui);
-    font-size: 0.9rem;
-    letter-spacing: 0.05em;
-    line-height: 1.7;
-    text-transform: uppercase;
+    font-family: 'Cormorant Garamond', var(--font-body);
+    font-size: 1.16rem;
+    letter-spacing: 0.01em;
+    line-height: 1.6;
   }
 
   .field-surface-note-grid {
-    margin: 0.78rem 0 0;
+    margin: 1rem 0 0;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.64rem;
+    gap: 0.88rem 1rem;
   }
 
   .field-surface-note-stat {
-    padding-top: 0.62rem;
+    padding-top: 0.84rem;
     border-top: 1px solid var(--surface-line);
   }
 
@@ -1887,6 +1857,13 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
   }
 
   .field-surface-note-stat dt {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.5rem;
+    padding: 0.1rem 0.42rem;
+    border: 1px solid var(--surface-line);
+    border-radius: 7px;
+    background: rgba(255, 255, 255, 0.016);
     color: var(--field-amber-label);
     font-family: var(--font-ui);
     font-size: 0.68rem;
@@ -1895,20 +1872,23 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
   }
 
   .field-surface-note-stat dd {
-    margin: 0.38rem 0 0;
+    margin: 0.54rem 0 0;
     color: var(--field-text-body);
-    line-height: 1.52;
-    font-family: var(--font-ui);
-    font-size: 0.86rem;
-    letter-spacing: 0.02em;
+    line-height: 1.68;
+    font-family: var(--font-body);
+    font-size: 0.96rem;
   }
 
   .field-surface-empty {
-    margin-top: 0.9rem;
+    margin-top: 1.15rem;
     color: var(--field-amber-dim);
     line-height: 1.7;
     font-family: var(--font-body);
     font-size: 0.98rem;
+  }
+
+  .field-surface-fragment-label {
+    margin-top: 1.35rem;
   }
 
   @keyframes field-surface-pulse {
@@ -1963,13 +1943,11 @@ const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stag
     }
 
     .field-surface-nav-header,
-    .field-surface-nav-actions,
     .field-surface-anchor-links {
       grid-template-columns: 1fr;
     }
 
-    .field-surface-nav-state,
-    .field-surface-mode-chip {
+    .field-surface-nav-state {
       justify-self: flex-start;
     }
 

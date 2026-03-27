@@ -281,11 +281,11 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
             )}
             {mythmechSummary.spawnCandidateCount > 0 && (
               <div class="inspect-card">
-                <dt>Spawn</dt>
+                <dt>Spawnable Vectors</dt>
                 <dd>
                   {mythmechSummary.candidateLabels.length > 0
                     ? mythmechSummary.candidateLabels.join(' · ')
-                    : `${mythmechSummary.spawnCandidateCount} candidates`}
+                    : `${mythmechSummary.spawnCandidateCount} vectors`}
                 </dd>
               </div>
             )}
@@ -384,6 +384,7 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
     --inspect-copy: var(--field-text-body);
     --inspect-emphasis: var(--field-amber-em);
     --inspect-radius: 12px;
+    --inspect-chip-radius: var(--field-chip-radius);
     position: relative;
     margin: 2.4rem 0 0;
     max-width: 42rem;
@@ -513,7 +514,7 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
     min-height: 1.75rem;
     padding: 0.18rem 0.7rem;
     border: 1px solid var(--inspect-line);
-    border-radius: 999px;
+    border-radius: var(--inspect-chip-radius);
     color: var(--inspect-emphasis);
     background: var(--field-panel-wash);
   }
@@ -546,7 +547,7 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
   .inspect-panel-badges span {
     padding: 0.16rem 0.48rem;
     border: 1px solid var(--field-line-soft);
-    border-radius: 999px;
+    border-radius: var(--inspect-chip-radius);
     color: var(--inspect-label);
     background: rgba(255, 255, 255, 0.014);
   }
@@ -558,7 +559,7 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
     height: 2.4rem;
     place-items: center;
     border: 1px solid var(--inspect-line);
-    border-radius: 999px;
+    border-radius: var(--inspect-chip-radius);
     color: var(--inspect-label);
     background: var(--field-panel-wash);
     transition:
@@ -686,7 +687,7 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
   .inspect-facts li {
     padding: 0.28rem 0.62rem;
     border: 1px solid var(--field-line-soft);
-    border-radius: 999px;
+    border-radius: var(--inspect-chip-radius);
     color: var(--inspect-copy);
     background: var(--field-panel-wash);
     font-family: var(--font-ui);
@@ -718,7 +719,7 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
     min-height: 1.9rem;
     padding: 0.2rem 0.72rem;
     border: 1px solid var(--field-line-soft);
-    border-radius: 999px;
+    border-radius: var(--inspect-chip-radius);
     background: var(--field-panel-wash);
   }
 
@@ -743,7 +744,7 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
     min-height: 2rem;
     padding: 0.28rem 0.84rem;
     border: 1px solid var(--field-line-soft);
-    border-radius: 999px;
+    border-radius: var(--inspect-chip-radius);
     color: var(--inspect-emphasis);
     background: var(--field-panel-wash);
     text-decoration: none;

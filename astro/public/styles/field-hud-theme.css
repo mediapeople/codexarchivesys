@@ -32,6 +32,7 @@
   --field-flow-control: rgba(120, 168, 180, 0.45);
   --field-flow-grounding: rgba(90, 154, 90, 0.42);
   --field-radius: 12px;
+  --field-chip-radius: 10px;
   --field-safe-top: env(safe-area-inset-top, 0px);
   --field-safe-right: env(safe-area-inset-right, 0px);
   --field-safe-bottom: env(safe-area-inset-bottom, 0px);

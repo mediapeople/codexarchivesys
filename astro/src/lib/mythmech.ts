@@ -615,7 +615,7 @@ export function buildMythmechLead(summary: MythmechSummary): string {
   }
 
   if (summary.spawnCandidateCount > 0) {
-    return `Mythmech is attached and tracking spawn candidates for this object.`;
+    return `Mythmech is attached and tracking spawnable vectors for this object.`;
   }
 
   return summary.enabled
@@ -632,7 +632,7 @@ export function buildMythmechSupport(summary: MythmechSummary): string {
     summary.parentCount > 0 || summary.childCount > 0 || summary.relationCount > 0
       ? `Lineage ${summary.parentCount} parents / ${summary.childCount} children / ${summary.relationCount} relations`
       : '';
-  const spawnCopy = summary.spawnCandidateCount > 0 ? `Spawn ${summary.spawnCandidateCount} candidates` : '';
+  const spawnCopy = summary.spawnCandidateCount > 0 ? `Spawnable vectors ${summary.spawnCandidateCount}` : '';
   const stateCopy = summary.stateCount > 0 ? `States ${summary.stateCount}` : '';
   const marginaliaCopy =
     summary.marginaliaSignals.length > 0
