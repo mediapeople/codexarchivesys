@@ -155,6 +155,10 @@ The public `/pigeon` page:
 - stores the publishing key only in local browser storage on that device
 - supports `Add to Home Screen`
 - posts raw markdown notes directly to `/api/pigeon`
+- exposes the published object immediately after submit
+- auto-generates a HUD link for published `scroll` entries
+
+The older `/tools/field-hud-codex-app.html` URL now redirects into `/pigeon` so publishing stays on one lane.
 
 ## Minimal shortcut
 

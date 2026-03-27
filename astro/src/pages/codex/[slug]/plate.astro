@@ -5,7 +5,7 @@ import { getAllEntries } from '../../../lib/archive';
 import { formatDisplayTitle } from '../../../lib/headline';
 import { loadObjectSidecars } from '../../../lib/loadObjectSidecars';
 import { getMarginaliaEntriesForTarget, getMythmechMarginaliaEntries } from '../../../lib/marginalia';
-import { getObjectSlug } from '../../../lib/objectInterop';
+import { getObjectPath, getObjectSlug } from '../../../lib/objectInterop';
 
 export async function getStaticPaths() {
   const entries = (await getAllEntries()).filter(
@@ -31,11 +31,11 @@ if (!entry) {
 }
 
 const slug = getObjectSlug(entry);
-const objectUrl = entry.collection === 'codex' ? `/codex/${encodeURIComponent(slug)}` : `/objects/${encodeURIComponent(slug)}`;
+const objectUrl = getObjectPath(entry);
 const { packet, respawn, mythmech, platePrompt } = await loadObjectSidecars(entry.filePath);
 const mythmechMarginaliaEntries = getMythmechMarginaliaEntries(getMarginaliaEntriesForTarget(entries, entry.data.id));
 const displayTitle = formatDisplayTitle(entry.data.title);
-const canonicalPath = `/codex/${encodeURIComponent(slug)}/hud`;
+const canonicalPath = `${getObjectPath(entry)}/hud`;
 ---
 
 <BaseLayout

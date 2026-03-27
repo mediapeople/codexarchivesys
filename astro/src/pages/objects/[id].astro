@@ -642,6 +642,7 @@ const exportAlternateLinks = [
       mythmech={sidecars.mythmech}
       platePrompt={sidecars.platePrompt}
       marginaliaEntries={mythmechMarginaliaEntries}
+      forceVisible={entry.collection === 'scroll' && entry.data.status === 'published'}
     />
 
     <MarginaliaPanel

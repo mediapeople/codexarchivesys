@@ -1,20 +1,20 @@
 ---
 import {
   buildMythmechLead,
-  buildMythmechSupport,
   mergeMythmechMarginaliaEntries,
   normalizePlatePrompt,
   summarizeMythmech,
 } from '../lib/mythmech';
 import { buildRespawnLead, parseRespawnSummary } from '../lib/respawn';
 
-const { slug, packet, respawn, mythmech, platePrompt, marginaliaEntries = [] } = Astro.props as {
+const { slug, packet, respawn, mythmech, platePrompt, marginaliaEntries = [], forceVisible = false } = Astro.props as {
   slug: string;
   packet: unknown | null;
   respawn: string | null;
   mythmech: unknown | null;
   platePrompt: string | null;
   marginaliaEntries?: unknown[];
+  forceVisible?: boolean;
 };
 
 function asRecord(value: unknown): Record<string, unknown> | null {
@@ -27,6 +27,10 @@ function asString(value: unknown): string {
   return typeof value === 'string' ? value.trim() : '';
 }
 
+function asNumber(value: unknown): number | null {
+  return typeof value === 'number' && Number.isFinite(value) ? value : null;
+}
+
 function uniqueStrings(values: string[]): string[] {
   return [...new Set(values.map((value) => value.trim()).filter(Boolean))];
 }
@@ -37,7 +41,7 @@ function clipCopy(value: string, max = 180): string {
     return normalized;
   }
 
-  return `${normalized.slice(0, max).replace(/\s+\S*$/, '').replace(/[.?!,:;]+$/, '').trim()}…`;
+  return `${normalized.slice(0, max).replace(/\s+\S*$/, '').replace(/[.?!,:;]+$/, '').trim()}...`;
 }
 
 function endSentence(value: string): string {
@@ -49,751 +53,267 @@ function endSentence(value: string): string {
   return /[.?!]$/.test(normalized) ? normalized : `${normalized}.`;
 }
 
-function getPacketNotes(packetData: Record<string, unknown> | null): Array<{ label: string; value: string }> {
-  return Array.isArray(packetData?.notes)
-    ? packetData.notes
-        .map((item) => asRecord(item))
-        .filter((item): item is Record<string, unknown> => Boolean(item))
-        .map((item) => ({
-          label: asString(item.label) || 'Note',
-          value: asString(item.value),
-        }))
-        .filter((item) => item.value)
-        .slice(0, 2)
-    : [];
-}
-
-function buildPacketSummary(packetData: Record<string, unknown> | null): string {
-  if (!packetData) {
-    return '';
-  }
-
-  const signal = asRecord(packetData.signal);
-  const atmosphere = asRecord(packetData.atmosphere);
-  const traumaWeather = asRecord(packetData.trauma_weather);
-  const noteLead = getPacketNotes(packetData)[0]?.value || '';
-  const signalTrack = asString(signal?.track);
-  const signalMode = asString(signal?.mode);
-  const atmosphereState = asString(atmosphere?.saturation_class) || asString(atmosphere?.pollen);
-  const intakeRisk = asString(atmosphere?.intake_risk);
-  const watch = asString(traumaWeather?.alert);
-
-  return uniqueStrings([
-    noteLead,
-    signalTrack ? `Signal ${signalTrack}${signalMode ? ` in ${signalMode}` : ''}` : '',
-    atmosphereState
-      ? `Atmosphere ${atmosphereState}${intakeRisk ? ` with ${intakeRisk.toLowerCase()} intake risk` : ''}`
-      : '',
-    watch && watch !== 'NONE' ? `Watch ${watch}` : '',
-  ]).join('. ');
-}
-
 const packetData = asRecord(packet);
+const signal = asRecord(packetData?.signal);
+const atmosphere = asRecord(packetData?.atmosphere);
+const traumaWeather = asRecord(packetData?.trauma_weather);
 const mythmechData = mergeMythmechMarginaliaEntries(mythmech, marginaliaEntries);
 const mythmechSummary = summarizeMythmech(mythmechData);
-const mythmechLead = mythmechSummary ? buildMythmechLead(mythmechSummary) : '';
-const mythmechSupport = mythmechSummary ? buildMythmechSupport(mythmechSummary) : '';
-const packetSummary = clipCopy(buildPacketSummary(packetData));
-const packetNotes = getPacketNotes(packetData);
+const mythmechLead = mythmechSummary ? clipCopy(buildMythmechLead(mythmechSummary), 108) : '';
 const normalizedRespawn = asString(respawn);
-const respawnEntries = parseRespawnSummary(normalizedRespawn).filter((entry) => {
-  if (entry.key === 'WATCH' && entry.value === 'NONE') return false;
-  if (entry.key === 'SHADOW' && entry.value === 'NONE / CLEAR') return false;
-  return true;
-});
-const respawnLead = clipCopy(buildRespawnLead(respawnEntries));
+const respawnEntries = parseRespawnSummary(normalizedRespawn);
+const respawnLead = clipCopy(buildRespawnLead(respawnEntries), 108);
 const normalizedPlatePrompt = normalizePlatePrompt(platePrompt) || '';
 const hasInspectData =
-  packetData !== null || mythmechSummary !== null || Boolean(normalizedRespawn) || Boolean(normalizedPlatePrompt);
-const badges = uniqueStrings([
-  packetData ? 'Snapshot' : '',
-  mythmechSummary ? 'Mythmech' : '',
-  normalizedRespawn ? 'Respawn' : '',
-  normalizedPlatePrompt ? 'Plate Prompt' : '',
+  forceVisible || packetData !== null || mythmechSummary !== null || Boolean(normalizedRespawn) || Boolean(normalizedPlatePrompt);
+
+const mode = asString(packetData?.mode).toUpperCase();
+const watch = asString(traumaWeather?.alert).toUpperCase();
+const signalTrack = asString(signal?.track);
+const signalMode = asString(signal?.mode);
+const coherence = asNumber(signal?.coherence);
+const atmosphereState = asString(atmosphere?.saturation_class) || asString(atmosphere?.pollen);
+const intakeRisk = asString(atmosphere?.intake_risk).toUpperCase();
+
+function buildConsequenceLead(): string {
+  if (mode === 'TARGET') {
+    return 'Direction has resolved.';
+  }
+
+  if (mode === 'SEALED') {
+    return 'Containment is holding.';
+  }
+
+  if (watch === 'WATCH') {
+    return 'Attention needs to stay active.';
+  }
+
+  if (mythmechLead) {
+    return endSentence(clipCopy(mythmechLead, 82));
+  }
+
+  if (respawnLead) {
+    return endSentence(clipCopy(respawnLead, 82));
+  }
+
+  if (normalizedPlatePrompt) {
+    return 'A visual read is ready.';
+  }
+
+  if (forceVisible) {
+    return 'Inspection is available.';
+  }
+
+  return 'Inspection is available.';
+}
+
+function buildConsequenceCopy(): string {
+  const parts: string[] = [];
+
+  if (mode === 'TARGET') {
+    parts.push('The system is no longer searching.');
+  } else if (mode === 'SEALED') {
+    parts.push('The object is holding a stable boundary.');
+  }
+
+  if (intakeRisk === 'CRITICAL' || intakeRisk === 'HIGH') {
+    parts.push('Pressure is elevated, so move carefully.');
+  } else if (intakeRisk === 'MODERATE' || atmosphereState.toUpperCase().includes('DRIFT')) {
+    parts.push('Proceeding is possible, but drift needs monitoring.');
+  }
+
+  if (coherence !== null) {
+    if (coherence >= 80) {
+      parts.push('Signal is coherent enough for confident motion.');
+    } else if (coherence >= 60) {
+      parts.push('Signal is usable, but not strong enough to ignore noise.');
+    }
+  } else if (signalTrack || signalMode) {
+    parts.push('Signal is present, but it still needs a deliberate read.');
+  }
+
+  if (watch === 'WATCH') {
+    parts.push('Keep attention on it even if nothing looks broken yet.');
+  }
+
+  if (parts.length === 0 && mythmechSummary) {
+    parts.push('Open the hinge, flows, and grounding layer when you want the structural read.');
+  }
+
+  if (parts.length === 0 && normalizedRespawn) {
+    parts.push('A return path is stored if you need the recovery logic.');
+  }
+
+  if (parts.length === 0 && normalizedPlatePrompt) {
+    parts.push('There is a prepared visual report when you want the diagnostic surface.');
+  }
+
+  if (parts.length === 0 && forceVisible) {
+    parts.push('This published scroll can open in HUD even before packet memory is attached.');
+  }
+
+  return uniqueStrings(parts).slice(0, 2).join(' ');
+}
+
+const consequenceLead = buildConsequenceLead();
+const consequenceCopy = buildConsequenceCopy();
+const hudSupportLine =
+  packetData || mythmechSummary
+    ? 'Open live packet state, hinge, and diagnostic readout.'
+    : forceVisible
+      ? 'Open the dedicated HUD for this published scroll.'
+      : 'Open the dedicated inspection surface for this object.';
+const accessStates = uniqueStrings([
+  packetData ? 'Packet-backed' : '',
+  mythmechSummary ? 'Mythmech lens' : '',
+  normalizedRespawn ? 'Respawn stored' : '',
+  normalizedPlatePrompt ? 'Plate prompt stored' : '',
 ]);
-const packetFacts = uniqueStrings([
-  asString(packetData?.mode) ? `Mode ${asString(packetData?.mode)}` : '',
-  (() => {
-    const signal = asRecord(packetData?.signal);
-    const signalValue = uniqueStrings([asString(signal?.track), asString(signal?.mode)]).join(' / ');
-    return signalValue ? `Signal ${signalValue}` : '';
-  })(),
-  (() => {
-    const atmosphere = asRecord(packetData?.atmosphere);
-    const value = uniqueStrings([
-      asString(atmosphere?.saturation_class) || asString(atmosphere?.pollen),
-      asString(atmosphere?.intake_risk),
-    ]).join(' / ');
-    return value ? `Atmosphere ${value}` : '';
-  })(),
-  (() => {
-    const traumaWeather = asRecord(packetData?.trauma_weather);
-    const watch = asString(traumaWeather?.alert);
-    return watch && watch !== 'NONE' ? `Watch ${watch}` : '';
-  })(),
-]);
-const inspectHeadline = clipCopy(
-  packetNotes[0]?.value ||
-    mythmechLead ||
-    respawnLead ||
-    normalizedPlatePrompt ||
-    'Open the deeper read only when you want it.',
-  96
-);
-const inspectMeta = clipCopy(
-  (() => {
-    if (packetData) {
-      const signal = asRecord(packetData.signal);
-      const atmosphere = asRecord(packetData.atmosphere);
-      const traumaWeather = asRecord(packetData.trauma_weather);
-      const mode = asString(packetData.mode);
-      const signalValue = uniqueStrings([asString(signal?.track), asString(signal?.mode)]).join(' / ');
-      const atmosphereState = asString(atmosphere?.saturation_class) || asString(atmosphere?.pollen);
-      const intakeRisk = asString(atmosphere?.intake_risk);
-      const watch = asString(traumaWeather?.alert);
-
-      return endSentence(
-        uniqueStrings([
-          'Snapshot stored',
-          mode ? `${mode} mode` : '',
-          signalValue ? `${signalValue} signal` : '',
-          atmosphereState
-            ? intakeRisk
-              ? `${atmosphereState} with ${intakeRisk.toLowerCase()} intake risk`
-              : `${atmosphereState} atmosphere`
-            : '',
-          watch && watch !== 'NONE' ? `watch ${watch}` : '',
-        ]).join('. ')
-      );
-    }
-
-    if (mythmechSummary) {
-      return endSentence(clipCopy(mythmechSupport || mythmechLead || 'Structural lens attached.', 132));
-    }
-
-    if (respawnLead) {
-      return endSentence(`Return path stored. ${respawnLead}`);
-    }
-
-    if (normalizedPlatePrompt) {
-      return 'Plate prompt stored for later surface work.';
-    }
-
-    return 'Open when you want the deeper structural read.';
-  })(),
-  148
-);
-const mythmechLoadCopy = mythmechSummary
-  ? uniqueStrings([
-      mythmechSummary.criticalCount > 0 ? `${mythmechSummary.criticalCount} critical` : '',
-      mythmechSummary.highCount > 0 ? `${mythmechSummary.highCount} high` : '',
-      mythmechSummary.mediumCount > 0 ? `${mythmechSummary.mediumCount} medium` : '',
-      mythmechSummary.lowCount > 0 ? `${mythmechSummary.lowCount} low` : '',
-    ]).join(' / ')
-  : '';
-const mythmechLineageCopy = mythmechSummary
-  ? `${mythmechSummary.parentCount} parents / ${mythmechSummary.childCount} children`
-  : '';
-const mythmechFlowCopy = mythmechSummary
-  ? mythmechSummary.flowLabels.length > 0
-    ? `${mythmechSummary.flowCount} flows · ${mythmechSummary.flowLabels.join(' · ')}`
-    : `${mythmechSummary.flowCount} flows`
-  : '';
-const mythmechSignalCopy = mythmechSummary
-  ? mythmechSummary.marginaliaSignals.length > 0
-    ? mythmechSummary.marginaliaSignals.join(' · ')
-    : mythmechSummary.marginaliaTypes.join(' · ')
-  : '';
-const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
+const hudHref = `/objects/${encodeURIComponent(slug)}/hud`;
 ---
 
 {hasInspectData && (
-  <details class="inspect-panel">
-    <summary class="inspect-panel-summary">
-      <span class="inspect-panel-sigil" aria-hidden="true">
-        <span class="inspect-panel-sigil-core"></span>
-      </span>
-
-      <span class="inspect-panel-head">
-        <span class="inspect-panel-overline">
-          <span class="inspect-panel-label">Inspect</span>
-          {badges.length > 0 && (
-            <span class="inspect-panel-badges" aria-label="Stored inspection layers">
-              {badges.map((badge) => (
-                <span>{badge}</span>
-              ))}
-            </span>
-          )}
-        </span>
-        <span class="inspect-panel-copy">{inspectHeadline}</span>
-        <span class="inspect-panel-meta">{inspectMeta}</span>
-      </span>
-
-      <span class="inspect-panel-toggle" aria-hidden="true"></span>
-    </summary>
-
-    <div class="inspect-panel-shell">
-      <p class="inspect-panel-note">
-        Objects stay primary. This layer is here when you want structure, continuity, or a usable return path.
-      </p>
-
-      {mythmechSummary && (
-        <section class="inspect-section">
-          <div class="inspect-section-head">
-            <h2>Inspect Mode</h2>
-            <p>{mythmechLead}</p>
-          </div>
-
-          <dl class="inspect-grid">
-            {mythmechSummary.hingeLabel && (
-              <div class="inspect-card">
-                <dt>Hinge</dt>
-                <dd>{mythmechSummary.hingeLabel}</dd>
-              </div>
-            )}
-            <div class="inspect-card">
-              <dt>Nodes / Flows</dt>
-              <dd>{mythmechSummary.nodeCount} / {mythmechSummary.flowCount}</dd>
-            </div>
-            {mythmechLoadCopy && (
-              <div class="inspect-card">
-                <dt>Load</dt>
-                <dd>{mythmechLoadCopy}</dd>
-              </div>
-            )}
-            {mythmechLineageCopy && (
-              <div class="inspect-card">
-                <dt>Lineage</dt>
-                <dd>{mythmechLineageCopy}</dd>
-              </div>
-            )}
-            {mythmechFlowCopy && (
-              <div class="inspect-card">
-                <dt>Flows</dt>
-                <dd>{mythmechFlowCopy}</dd>
-              </div>
-            )}
-            {mythmechSummary.stateCount > 0 && (
-              <div class="inspect-card">
-                <dt>States</dt>
-                <dd>{mythmechSummary.stateLabels.join(' · ')}</dd>
-              </div>
-            )}
-            {mythmechSummary.spawnCandidateCount > 0 && (
-              <div class="inspect-card">
-                <dt>Spawnable Vectors</dt>
-                <dd>
-                  {mythmechSummary.candidateLabels.length > 0
-                    ? mythmechSummary.candidateLabels.join(' · ')
-                    : `${mythmechSummary.spawnCandidateCount} vectors`}
-                </dd>
-              </div>
-            )}
-            {mythmechSignalCopy && (
-              <div class:list={['inspect-card', 'inspect-card--wide']}>
-                <dt>Marginalia Signals</dt>
-                <dd>{mythmechSignalCopy}</dd>
-              </div>
-            )}
-            {!mythmechSignalCopy && mythmechSummary.marginaliaCount > 0 && (
-              <div class:list={['inspect-card', 'inspect-card--wide']}>
-                <dt>Marginalia</dt>
-                <dd>{mythmechSummary.marginaliaCount} entries</dd>
-              </div>
-            )}
-            {!mythmechSignalCopy && !mythmechLoadCopy && !mythmechSummary.hingeLabel && mythmechLineageCopy && (
-              <div class="inspect-card">
-                <dt>Lineage</dt>
-                <dd>{mythmechLineageCopy}</dd>
-              </div>
-            )}
-          </dl>
-
-          {mythmechSupport && <p class="inspect-support">{mythmechSupport}</p>}
-        </section>
+  <section class="inspect-access" aria-label="HUD access">
+    <div class="inspect-access-head">
+      <p class="inspect-access-kicker">HUD</p>
+      {accessStates.length > 0 && (
+        <div class="inspect-access-badges" aria-label="Stored inspection layers">
+          {accessStates.map((state) => (
+            <span>{state}</span>
+          ))}
+        </div>
       )}
-
-      {packetData && (
-        <section class="inspect-section">
-          <div class="inspect-section-head">
-            <h2>Snapshot</h2>
-            {packetSummary && <p>{packetSummary}</p>}
-          </div>
-
-          {packetFacts.length > 0 && (
-            <ul class="inspect-facts" aria-label="Snapshot facts">
-              {packetFacts.map((fact) => (
-                <li>{fact}</li>
-              ))}
-            </ul>
-          )}
-
-          {packetNotes.length > 0 && (
-            <div class="inspect-notes">
-              {packetNotes.map((note) => (
-                <article class="inspect-note">
-                  <p>{note.label}</p>
-                  <strong>{note.value}</strong>
-                </article>
-              ))}
-            </div>
-          )}
-        </section>
-      )}
-
-      {respawnEntries.length > 0 && (
-        <section class="inspect-section">
-          <div class="inspect-section-head">
-            <h2>Respawn</h2>
-            {respawnLead && <p>{respawnLead}</p>}
-          </div>
-
-          <dl class="inspect-grid">
-            {respawnEntries.map((entry) => (
-              <div class:list={['inspect-card', entry.key === 'NOTES' && 'inspect-card--wide']}>
-                <dt>{entry.label}</dt>
-                <dd>{entry.value}</dd>
-              </div>
-            ))}
-          </dl>
-        </section>
-      )}
-
-      {normalizedPlatePrompt && (
-        <details class="inspect-aux">
-          <summary>Plate Prompt</summary>
-          <p>{normalizedPlatePrompt}</p>
-        </details>
-      )}
-
-      <div class="inspect-actions">
-        <a href={hudHref}>View HUD</a>
-      </div>
     </div>
-  </details>
+
+    <div class="inspect-access-row">
+      <div class="inspect-access-copy">
+        <h2>{consequenceLead}</h2>
+        {consequenceCopy && <p class="inspect-access-text">{consequenceCopy}</p>}
+        <p class="inspect-access-note">{hudSupportLine}</p>
+      </div>
+
+      <a class="inspect-access-button" href={hudHref}>View HUD</a>
+    </div>
+  </section>
 )}
 
 <style>
-  .inspect-panel {
-    --inspect-line: var(--field-line-strong);
-    --inspect-line-strong: var(--field-accent-line);
-    --inspect-surface: var(--field-panel);
-    --inspect-surface-soft: var(--field-panel-wash);
-    --inspect-accent: var(--field-amber-accent);
-    --inspect-label: var(--field-amber-label);
-    --inspect-copy: var(--field-text-body);
-    --inspect-emphasis: var(--field-amber-em);
-    --inspect-radius: 12px;
-    --inspect-chip-radius: var(--field-chip-radius);
-    position: relative;
-    margin: 2.4rem 0 0;
-    max-width: 42rem;
-    border: 1px solid var(--inspect-line);
-    border-radius: var(--inspect-radius);
-    overflow: hidden;
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 18%),
-      radial-gradient(circle at 100% 0%, var(--field-accent-soft), transparent 40%),
-      rgba(13, 11, 8, 0.94);
-    box-shadow:
-      0 24px 64px rgba(0, 0, 0, 0.24),
-      inset 0 1px 0 var(--field-panel-line);
+  .inspect-access {
+    margin: 2.2rem 0 0;
+    max-width: 44rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--field-line-soft);
   }
 
-  .inspect-panel::before,
-  .inspect-panel::after {
-    content: '';
-    position: absolute;
-    pointer-events: none;
-  }
-
-  .inspect-panel::before {
-    inset: 1px;
-    border-radius: inherit;
-    background:
-      radial-gradient(circle at 88% 0%, var(--field-accent-soft), transparent 32%),
-      linear-gradient(135deg, rgba(255, 255, 255, 0.03), transparent 40%),
-      repeating-linear-gradient(
-        90deg,
-        rgba(171, 143, 104, 0.018) 0,
-        rgba(171, 143, 104, 0.018) 1px,
-        transparent 1px,
-        transparent 12px
-      );
-    opacity: 0.74;
-  }
-
-  .inspect-panel::after {
-    top: 0;
-    left: 1.1rem;
-    right: 1.1rem;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--field-accent-line), transparent);
-  }
-
-  .inspect-panel-summary {
-    position: relative;
-    z-index: 1;
-    list-style: none;
-    cursor: pointer;
-    padding: 1rem 1.1rem 1.08rem 1.12rem;
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    gap: 0.9rem 1rem;
-    align-items: center;
-    transition: background 160ms ease;
-  }
-
-  .inspect-panel-summary::-webkit-details-marker {
-    display: none;
-  }
-
-  .inspect-panel:hover .inspect-panel-summary,
-  .inspect-panel[open] .inspect-panel-summary {
-    background: var(--field-panel-wash);
-  }
-
-  .inspect-panel-sigil {
-    position: relative;
-    display: grid;
-    width: 2.9rem;
-    aspect-ratio: 1;
-    place-items: center;
-    border: 1px solid var(--inspect-line);
-    border-radius: 999px;
-    background: radial-gradient(circle, var(--field-accent-fill), rgba(255, 255, 255, 0.01) 62%, transparent 74%);
-    box-shadow: inset 0 1px 0 var(--field-panel-line);
-  }
-
-  .inspect-panel-sigil::before {
-    content: '';
-    position: absolute;
-    inset: 0.32rem;
-    border: 1px dashed var(--field-accent-line);
-    border-radius: 999px;
-  }
-
-  .inspect-panel-sigil-core {
-    width: 0.54rem;
-    height: 0.54rem;
-    border-radius: 999px;
-    background: var(--inspect-accent);
-    box-shadow:
-      0 0 0 0.32rem rgba(171, 143, 104, 0.12),
-      0 0 0.9rem rgba(171, 143, 104, 0.12);
-  }
-
-  .inspect-panel-head {
-    min-width: 0;
-    display: grid;
-    gap: 0.38rem;
-  }
-
-  .inspect-panel-overline {
+  .inspect-access-head,
+  .inspect-access-row {
     display: flex;
     flex-wrap: wrap;
+  }
+
+  .inspect-access-head {
     align-items: center;
     gap: 0.45rem 0.55rem;
   }
 
-  .inspect-panel-label,
-  .inspect-panel-badges span,
-  .inspect-card dt,
-  .inspect-note p,
-  .inspect-aux summary,
-  .inspect-actions a {
+  .inspect-access-kicker,
+  .inspect-access-badges span,
+  .inspect-access-button {
     font-family: var(--font-ui);
     font-size: 10px;
     letter-spacing: var(--ls-ui);
     text-transform: uppercase;
   }
 
-  .inspect-panel-label {
-    display: inline-flex;
-    align-items: center;
-    min-height: 1.75rem;
-    padding: 0.18rem 0.7rem;
-    border: 1px solid var(--inspect-line);
-    border-radius: var(--inspect-chip-radius);
-    color: var(--inspect-emphasis);
-    background: var(--field-panel-wash);
+  .inspect-access-kicker {
+    margin: 0;
+    color: var(--field-amber-label);
   }
 
-  .inspect-panel-copy {
+  .inspect-access-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.34rem;
+  }
+
+  .inspect-access-badges span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.65rem;
+    padding: 0.12rem 0.52rem;
+    border: 1px solid var(--field-line-soft);
+    border-radius: var(--field-chip-radius);
+    color: var(--field-amber-label);
+    background: rgba(255, 255, 255, 0.012);
+  }
+
+  .inspect-access-row {
+    margin-top: 0.82rem;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.9rem 1rem;
+  }
+
+  .inspect-access-copy {
+    flex: 1 1 20rem;
     min-width: 0;
-    color: var(--inspect-emphasis);
-    font-family: var(--font-display);
-    font-size: clamp(1rem, 0.96rem + 0.26vw, 1.16rem);
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    line-height: 1.35;
+  }
+
+  .inspect-access-copy h2 {
+    margin: 0;
+    color: var(--field-amber-em);
+    font-size: clamp(1.2rem, 1.08rem + 0.55vw, 1.52rem);
+    line-height: 1.08;
     text-wrap: balance;
   }
 
-  .inspect-panel-meta {
-    color: var(--inspect-copy);
+  .inspect-access-text,
+  .inspect-access-note {
+    margin: 0.42rem 0 0;
+    color: var(--field-text-body);
     font-family: var(--font-body);
-    font-size: 0.92rem;
-    letter-spacing: 0;
-    line-height: 1.55;
+    font-size: 0.98rem;
+    line-height: 1.58;
+    text-wrap: pretty;
   }
 
-  .inspect-panel-badges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.32rem;
+  .inspect-access-note {
+    color: var(--field-amber-label);
+    font-size: 0.86rem;
   }
 
-  .inspect-panel-badges span {
-    padding: 0.16rem 0.48rem;
-    border: 1px solid var(--field-line-soft);
-    border-radius: var(--inspect-chip-radius);
-    color: var(--inspect-label);
-    background: rgba(255, 255, 255, 0.014);
-  }
-
-  .inspect-panel-toggle {
-    position: relative;
-    display: grid;
-    width: 2.4rem;
-    height: 2.4rem;
-    place-items: center;
-    border: 1px solid var(--inspect-line);
-    border-radius: var(--inspect-chip-radius);
-    color: var(--inspect-label);
-    background: var(--field-panel-wash);
-    transition:
-      transform 180ms ease,
-      color 180ms ease,
-      border-color 180ms ease,
-      background 180ms ease;
-  }
-
-  .inspect-panel-toggle::before,
-  .inspect-panel-toggle::after {
-    content: '';
-    position: absolute;
-    width: 0.78rem;
-    height: 1.5px;
-    border-radius: 999px;
-    background: currentColor;
-  }
-
-  .inspect-panel-toggle::after {
-    transform: rotate(90deg);
-  }
-
-  .inspect-panel[open] .inspect-panel-toggle {
-    transform: rotate(135deg);
-    color: var(--inspect-emphasis);
-    border-color: var(--inspect-line-strong);
-    background: rgba(255, 255, 255, 0.026);
-  }
-
-  .inspect-panel-shell {
-    position: relative;
-    z-index: 1;
-    padding: 0 1.1rem 1.12rem;
-    border-top: 1px solid var(--field-line-soft);
-    background: linear-gradient(180deg, rgba(16, 12, 9, 0.28), rgba(16, 12, 9, 0));
-    animation: inspect-panel-reveal 220ms ease;
-  }
-
-  .inspect-panel-note {
-    margin: 0.95rem 0 0;
-    padding: 0.84rem 0.96rem;
-    border: 1px solid var(--field-line-soft);
-    border-radius: var(--inspect-radius);
-    color: var(--inspect-copy);
-    line-height: 1.68;
-    background:
-      linear-gradient(135deg, var(--field-accent-soft), rgba(255, 255, 255, 0.018)),
-      var(--inspect-surface-soft);
-  }
-
-  .inspect-section {
-    margin-top: 1rem;
-    padding: 1rem;
-    border: 1px solid var(--field-line-soft);
-    border-radius: var(--inspect-radius);
-    background:
-      linear-gradient(180deg, var(--field-panel-elevated), rgba(255, 255, 255, 0.012)),
-      var(--inspect-surface);
-    box-shadow: inset 0 1px 0 var(--field-panel-line);
-  }
-
-  .inspect-section-head {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.5rem 1rem;
-  }
-
-  .inspect-section-head h2 {
-    margin: 0;
-    color: var(--inspect-emphasis);
-    font-size: 1.04rem;
-  }
-
-  .inspect-section-head p,
-  .inspect-support,
-  .inspect-card dd,
-  .inspect-aux p {
-    margin: 0.38rem 0 0;
-    color: var(--inspect-copy);
-    line-height: 1.62;
-  }
-
-  .inspect-grid {
-    margin: 0.8rem 0 0;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.75rem;
-  }
-
-  .inspect-card,
-  .inspect-note {
-    padding: 0.8rem 0.82rem 0.84rem;
-    border: 1px solid var(--field-line-soft);
-    border-radius: var(--inspect-radius);
-    background:
-      linear-gradient(180deg, var(--field-panel-elevated), rgba(255, 255, 255, 0.012)),
-      rgba(11, 9, 7, 0.62);
-  }
-
-  .inspect-card--wide {
-    grid-column: 1 / -1;
-  }
-
-  .inspect-card dt,
-  .inspect-note p,
-  .inspect-aux summary {
-    color: var(--inspect-label);
-  }
-
-  .inspect-card dd {
-    color: var(--inspect-emphasis);
-  }
-
-  .inspect-facts {
-    margin: 0.8rem 0 0;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.45rem 0.6rem;
-    list-style: none;
-  }
-
-  .inspect-facts li {
-    padding: 0.28rem 0.62rem;
-    border: 1px solid var(--field-line-soft);
-    border-radius: var(--inspect-chip-radius);
-    color: var(--inspect-copy);
-    background: var(--field-panel-wash);
-    font-family: var(--font-ui);
-    font-size: 0.8rem;
-    line-height: 1.5;
-  }
-
-  .inspect-notes {
-    margin-top: 0.8rem;
-    display: grid;
-    gap: 0.7rem;
-  }
-
-  .inspect-note strong {
-    display: block;
-    margin-top: 0.3rem;
-    color: var(--inspect-emphasis);
-    line-height: 1.6;
-  }
-
-  .inspect-aux {
-    margin-top: 1rem;
-  }
-
-  .inspect-aux summary {
-    cursor: pointer;
+  .inspect-access-button {
     display: inline-flex;
+    flex: 0 0 auto;
     align-items: center;
-    min-height: 1.9rem;
-    padding: 0.2rem 0.72rem;
-    border: 1px solid var(--field-line-soft);
-    border-radius: var(--inspect-chip-radius);
-    background: var(--field-panel-wash);
-  }
-
-  .inspect-aux p {
-    margin-top: 0.8rem;
-    padding: 0.92rem 1rem;
-    border: 1px solid var(--field-line-soft);
-    border-radius: var(--inspect-radius);
-    background: var(--field-panel-wash);
-  }
-
-  .inspect-actions {
-    margin-top: 1rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.68rem;
-  }
-
-  .inspect-actions a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 2rem;
-    padding: 0.28rem 0.84rem;
-    border: 1px solid var(--field-line-soft);
-    border-radius: var(--inspect-chip-radius);
-    color: var(--inspect-emphasis);
-    background: var(--field-panel-wash);
+    justify-content: center;
+    min-height: 2.4rem;
+    padding: 0.3rem 0.96rem;
+    border: 1px solid var(--field-accent-line);
+    border-radius: var(--field-chip-radius);
+    color: var(--field-amber-em);
+    background: var(--field-accent-fill);
     text-decoration: none;
     transition:
-      transform 160ms ease,
-      border-color 160ms ease,
-      color 160ms ease,
-      background 160ms ease;
+      transform 140ms ease,
+      color 140ms ease,
+      border-color 140ms ease,
+      background 140ms ease;
   }
 
-  .inspect-actions a:hover {
-    color: var(--inspect-emphasis);
-    border-color: var(--field-accent-line);
-    background: var(--field-accent-fill);
+  .inspect-access-button:hover {
     transform: translateY(-1px);
-  }
-
-  @keyframes inspect-panel-reveal {
-    from {
-      opacity: 0;
-      transform: translateY(8px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    border-color: var(--field-amber-accent);
+    background: rgba(171, 143, 104, 0.18);
   }
 
   @media (max-width: 720px) {
-    .inspect-panel-summary {
-      padding: 0.96rem 0.92rem 1rem;
-      gap: 0.82rem 0.84rem;
+    .inspect-access-row {
+      align-items: flex-start;
     }
 
-    .inspect-panel-shell {
-      padding: 0 0.92rem 0.96rem;
-    }
-
-    .inspect-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .inspect-card--wide {
-      grid-column: auto;
-    }
-
-    .inspect-panel-meta {
-      font-size: 0.84rem;
+    .inspect-access-button {
+      min-width: 100%;
     }
   }
 </style>

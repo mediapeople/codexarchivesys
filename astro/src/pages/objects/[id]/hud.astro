@@ -5,7 +5,7 @@ import { getAllEntries } from '../../../lib/archive';
 import { formatDisplayTitle } from '../../../lib/headline';
 import { loadObjectSidecars } from '../../../lib/loadObjectSidecars';
 import { getMarginaliaEntriesForTarget, getMythmechMarginaliaEntries } from '../../../lib/marginalia';
-import { getObjectPath, getObjectSlug } from '../../../lib/objectInterop';
+import { getObjectPath, getObjectSlug, matchesObjectParam } from '../../../lib/objectInterop';
 
 export async function getStaticPaths() {
   const entries = (await getAllEntries()).filter(
@@ -15,7 +15,7 @@ export async function getStaticPaths() {
   );
 
   return entries.map((entry) => ({
-    params: { slug: getObjectSlug(entry) },
+    params: { id: getObjectSlug(entry) },
   }));
 }
 
@@ -24,10 +24,10 @@ const entries = (await getAllEntries()).filter(
     entry.data.status === 'published' &&
     (entry.data.visibility === 'public' || entry.data.visibility === 'unlisted')
 );
-const entry = entries.find((candidate) => getObjectSlug(candidate) === Astro.params.slug);
+const entry = entries.find((candidate) => matchesObjectParam(candidate, Astro.params.id));
 
 if (!entry) {
-  throw new Error(`Object not found for slug: ${Astro.params.slug}`);
+  throw new Error(`Object not found for id: ${Astro.params.id}`);
 }
 
 const slug = getObjectSlug(entry);

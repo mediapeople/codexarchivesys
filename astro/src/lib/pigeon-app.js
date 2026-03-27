@@ -1083,6 +1083,50 @@ textarea {
   gap: 8px;
 }
 
+.workflow-publish {
+  margin-top: 18px;
+  padding: 18px 18px 20px;
+  border: 1px solid var(--rule);
+  background: rgba(184, 115, 51, 0.04);
+}
+
+.workflow-publish[hidden] {
+  display: none;
+}
+
+.workflow-publish-head {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.workflow-publish-title {
+  color: var(--light);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.workflow-publish-note {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.workflow-publish-links {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.workflow-publish-links .btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
 .archive-link {
   display: block;
   margin-top: 32px;
@@ -1381,6 +1425,17 @@ export function renderPigeonAppMarkup(options = {}) {
     <div class="workflow-actions">
       <button class="btn-ghost" id="copyUrlButton" type="button">${escapeHtml(copyButtonLabel)}</button>
     </div>
+    <div class="workflow-publish" id="publishActions" hidden>
+      <div class="workflow-publish-head">
+        <div class="workflow-publish-title">Published Surface</div>
+        <div class="workflow-publish-note" id="publishActionsNote"></div>
+      </div>
+      <div class="workflow-publish-links">
+        <a class="btn-ghost" id="openObjectLink" href="#" hidden>Open Object</a>
+        <a class="btn-ghost" id="openHudLink" href="#" hidden>View HUD</a>
+        <a class="btn-ghost" id="openCommitLink" href="#" hidden>Open Commit</a>
+      </div>
+    </div>
   </section>
 
   <a class="archive-link" href="${escapeHtml(archiveHref)}">${escapeHtml(archiveLabel)}</a>
@@ -1418,6 +1473,12 @@ export const PIGEON_APP_SCRIPT = String.raw`
     config.smartDraftReadyMessage || 'Smart Draft inferred frontmatter. Review it, then send again.';
   const smartDraftButtonMessage =
     config.smartDraftButtonMessage || 'Review the inferred frontmatter, then send when ready.';
+  const publishedSurfaceScrollMessage =
+    config.publishedSurfaceScrollMessage ||
+    'Published scrolls automatically generate a HUD. Open the object to read, or HUD to inspect.';
+  const publishedSurfaceDefaultMessage =
+    config.publishedSurfaceDefaultMessage ||
+    'Published to the archive. Open the object to confirm it landed.';
   const localContentRoot = config.contentRoot || 'astro/src/content';
   const typeMeta = ${SCRIPT_TYPE_META};
   const axisLabels = ${SCRIPT_AXIS_LABELS};
@@ -1447,6 +1508,11 @@ export const PIGEON_APP_SCRIPT = String.raw`
   const loadTemplateButton = document.getElementById('loadTemplateButton');
   const clearNoteButton = document.getElementById('clearNoteButton');
   const copyUrlButton = document.getElementById('copyUrlButton');
+  const publishActions = document.getElementById('publishActions');
+  const publishActionsNote = document.getElementById('publishActionsNote');
+  const openObjectLink = document.getElementById('openObjectLink');
+  const openHudLink = document.getElementById('openHudLink');
+  const openCommitLink = document.getElementById('openCommitLink');
   const transmitBar = document.getElementById('transmitBar');
   const transmitButton = document.getElementById('transmitButton');
   const transmitLabel = document.getElementById('transmitLabel');
@@ -3087,7 +3153,78 @@ export const PIGEON_APP_SCRIPT = String.raw`
     trimLogLines();
   }
 
+  function setActionLink(node, href, label, options) {
+    if (!node) {
+      return false;
+    }
+
+    const resolvedHref = typeof href === 'string' && href ? resolveHref(href) : '';
+    node.textContent = label;
+    node.hidden = !resolvedHref;
+
+    if (!resolvedHref) {
+      node.removeAttribute('href');
+      node.removeAttribute('target');
+      node.removeAttribute('rel');
+      return false;
+    }
+
+    node.href = resolvedHref;
+
+    if (options && options.external) {
+      node.target = '_blank';
+      node.rel = 'noreferrer';
+    } else {
+      node.removeAttribute('target');
+      node.removeAttribute('rel');
+    }
+
+    return true;
+  }
+
+  function clearPublishActions() {
+    if (publishActions) {
+      publishActions.hidden = true;
+    }
+
+    if (publishActionsNote) {
+      publishActionsNote.textContent = '';
+    }
+
+    setActionLink(openObjectLink, '', 'Open Object');
+    setActionLink(openHudLink, '', 'View HUD');
+    setActionLink(openCommitLink, '', 'Open Commit');
+  }
+
+  function showPublishActions(data) {
+    const objectHref =
+      typeof data.object_url === 'string' && data.object_url
+        ? data.object_url
+        : typeof data.url === 'string' && data.url
+          ? data.url
+          : '';
+    const hudHref = typeof data.hud_url === 'string' ? data.hud_url : '';
+    const commitHref = typeof data.commitUrl === 'string' ? data.commitUrl : '';
+
+    const hasObject = setActionLink(openObjectLink, objectHref, 'Open Object');
+    const hasHud = setActionLink(openHudLink, hudHref, 'View HUD');
+    const hasCommit = setActionLink(openCommitLink, commitHref, 'Open Commit', { external: true });
+
+    if (!publishActions) {
+      return;
+    }
+
+    publishActions.hidden = !(hasObject || hasHud || hasCommit);
+
+    if (publishActionsNote) {
+      publishActionsNote.textContent = hasHud
+        ? publishedSurfaceScrollMessage
+        : publishedSurfaceDefaultMessage;
+    }
+  }
+
   function persistDraft() {
+    clearPublishActions();
     if (!draftStorageKey) {
       return;
     }
@@ -3387,6 +3524,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
     }
 
     setTransmitVisualState('sending', false);
+    clearPublishActions();
     triggerFlap(0);
     logLine('info', preparingMessage);
 
@@ -3433,11 +3571,17 @@ export const PIGEON_APP_SCRIPT = String.raw`
       setTransmitVisualState('delivered', false);
       triggerFlap(300);
       logLine('ok', (data && data.note) || successMessage);
+      showPublishActions(data || {});
 
-      if (data && typeof data.url === 'string' && data.url) {
+      if (data && typeof data.object_url === 'string' && data.object_url) {
         logLine('info', 'Open published entry', {
-          href: resolveHref(data.url),
-          external: true,
+          href: resolveHref(data.object_url),
+        });
+      }
+
+      if (data && typeof data.hud_url === 'string' && data.hud_url) {
+        logLine('info', 'Open HUD', {
+          href: resolveHref(data.hud_url),
         });
       }
 

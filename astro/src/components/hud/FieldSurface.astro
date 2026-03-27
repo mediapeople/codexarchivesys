@@ -92,6 +92,10 @@ function compactLabel(value: string, words = 4): string {
   return parts.slice(0, words).join(' ');
 }
 
+function commandLabel(value: string, words = 3): string {
+  return compactLabel(value.replace(/[^\p{L}\p{N}/ -]+/gu, ' '), words).toUpperCase() || 'STATE ACTIVE';
+}
+
 function sentenceCase(value: string): string {
   const normalized = value.trim();
   if (!normalized) {
@@ -157,9 +161,10 @@ const modeLabel = asString(packetData?.mode);
 const signalMode = asString(signal?.mode);
 const coherenceValue = asNumber(signal?.coherence);
 const bpmValue = asNumber(signal?.bpm);
+const intakeRisk = asString(atmosphere?.intake_risk);
 const atmosphereLabel = joinParts([
   asString(atmosphere?.saturation_class) || asString(atmosphere?.pollen),
-  asString(atmosphere?.intake_risk),
+  intakeRisk,
 ]);
 const watchLabel = asString(traumaWeather?.alert) || 'NONE';
 const shadowLabel = joinParts([
@@ -187,8 +192,8 @@ const respawnEntries = parseRespawnSummary(normalizedRespawn);
 const respawnLead = buildRespawnLead(respawnEntries);
 const objectPathLabel = objectUrl;
 const noPacketMessage = mythmechSummary
-  ? 'No packet sidecar is stored for this object yet. Mythmech remains attached as the active inspection lens.'
-  : 'No packet sidecar is stored for this object yet. The source fragment remains canonical and this surface will fill in as soon as a packet is present.';
+  ? 'No field packet is attached yet. Mythmech remains the active inspection lens.'
+  : 'No field packet is attached. This HUD is running in source-first mode, and packet memory can be added later if it earns the space.';
 const mythmechLoadCopy = mythmechSummary
   ? uniqueStrings([
       mythmechSummary.criticalCount > 0 ? `${mythmechSummary.criticalCount} critical` : '',
@@ -241,11 +246,7 @@ const hudSurfaceState =
       : packetData
         ? 'Packet Memory'
         : 'Source First';
-const hudSurfaceCopy = mythmechSummary
-  ? 'See what carries the piece, where pressure gathers, and where intervention can actually happen.'
-  : packetData
-    ? 'See the field conditions, signal state, and preserved fragment without losing the object itself.'
-    : 'See the source fragment clearly while the deeper inspection layer comes online.';
+const hudSurfaceCopy = 'See what matters, why it matters, and where to go next.';
 
 const signalMeta = [
   { label: 'Mode', value: signalMode || modeLabel },
@@ -475,6 +476,7 @@ const inspectDetailCards = inspectChamberPlacements.map((node) => ({
       : [],
 }));
 const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stage';
+const viewRootId = objectSlug ? `hud-view-${objectSlug}` : 'hud-view';
 
 function findInspectValue(matchers: string[]): string {
   const node = inspectChambers.find((item) => {
@@ -496,6 +498,111 @@ const inspectContinuityValue =
   mythmechLineageCopy ||
   (packetId ? `Packet ${packetId}` : '') ||
   (mythmechSummary ? `${mythmechSummary.nodeCount} nodes · ${mythmechSummary.flowCount} flows` : '');
+
+const fieldStrikeValue = asString(artifact?.sector) || fieldLabel || (mythmechSummary ? 'STRUCTURE' : 'SOURCE');
+const pressureStrikeValue =
+  asString(atmosphere?.intake_risk).toUpperCase() ||
+  asString(atmosphere?.saturation_class).toUpperCase() ||
+  asString(atmosphere?.pollen).toUpperCase() ||
+  mythmechLoadCopy.toUpperCase() ||
+  (mythmechSummary ? 'INFERRED' : 'UNLOADED');
+const signalStrikeCore = signalMode || trackLabel || inspectControlValue || (mythmechSummary ? 'STRUCTURED' : 'BODY FIRST');
+const signalStrikeValue = coherenceValue !== null ? `${signalStrikeCore} ${coherenceValue}` : signalStrikeCore;
+const stateStrikeValue = watchLabel || shadowLabel || (mythmechSummary ? 'INSPECTABLE' : 'READABLE');
+const watchDisplay = watchLabel === 'WATCH' ? 'Active' : watchLabel || 'None';
+const snapshotRows = [
+  { label: 'Field', value: fieldLabel || fieldStrikeValue || 'Not stored' },
+  { label: 'Atmosphere', value: atmosphereLabel || 'Not stored' },
+  { label: 'Shadow', value: shadowLabel || 'None / Clear' },
+  { label: 'Watch', value: watchDisplay },
+];
+
+const meaningLine =
+  !packetData && !mythmechSummary
+    ? 'Source fragment is ready.'
+    : modeLabel === 'TARGET'
+    ? 'Direction has resolved.'
+    : modeLabel === 'SEALED'
+      ? 'Containment is holding.'
+      : watchLabel === 'WATCH'
+        ? 'Attention needs to stay active.'
+        : mythmechLead
+          ? sentenceCase(clipCopy(mythmechLead, 86))
+          : packetNotes[0]?.value
+            ? sentenceCase(clipCopy(packetNotes[0].value, 86))
+            : 'Packet state is available.';
+const consequenceLine =
+  !packetData && !mythmechSummary
+    ? 'HUD can open without field load or packet memory.'
+    : modeLabel === 'TARGET'
+    ? 'The system is ready to act, not search.'
+    : modeLabel === 'SEALED'
+      ? 'The boundary is doing work, so avoid unnecessary disturbance.'
+      : watchLabel === 'WATCH'
+        ? 'This is not an emergency, but it is not a forgettable state.'
+        : coherenceValue !== null && coherenceValue >= 60
+          ? 'Conditions are coherent enough for motion, but not strong enough to ignore noise.'
+          : atmosphereLabel
+            ? 'Conditions are present, so read the field before you commit.'
+            : 'Inspection clarifies what deserves attention.';
+const attentionLine =
+  !packetData && !mythmechSummary
+    ? 'Start with the fragment and add structure only when it becomes useful.'
+    : intakeRisk === 'CRITICAL' || intakeRisk === 'HIGH'
+    ? 'Monitor intake and pressure drift before increasing load.'
+    : watchLabel === 'WATCH'
+      ? 'Maintain attention on drift, watch state, and signal coherence.'
+      : shadowLabel && shadowLabel !== 'NONE / CLEAR'
+        ? 'Keep an eye on hidden drag and desynchronization.'
+        : 'Proceed, but inspect deeper if the state begins to shift.';
+const nextMoveLine =
+  !packetData && !mythmechSummary
+    ? 'Use fragment now, then add graph or memory later if the object needs deeper instrumentation.'
+    : modeLabel === 'TARGET'
+    ? 'Continue forward and use graph or memory only if conditions change.'
+    : watchLabel === 'WATCH'
+      ? 'Stay with the object, then inspect the graph if you need more resolution.'
+      : 'Use the depth views to inspect graph, fragment, or memory on demand.';
+const hingeCommand =
+  modeLabel === 'TARGET'
+    ? 'TARGET LOCKED'
+    : modeLabel === 'SEALED'
+      ? 'SEALED HOLD'
+      : watchLabel === 'WATCH'
+        ? 'WATCH ACTIVE'
+        : signalMode
+          ? `${commandLabel(signalMode, 2)} SIGNAL`
+          : commandLabel(inspectLeadLabel, 3);
+const hingeSummary = uniqueStrings([meaningLine, consequenceLine]).join(' ');
+const flowVectorItems = [
+  { label: 'Pressure', value: pressureStrikeValue || 'UNSCORED', direction: 'input' },
+  { label: 'Signal', value: signalStrikeValue || 'UNSCORED', direction: 'stabilize' },
+  { label: 'Action', value: modeLabel || commandLabel(inspectLeadLabel, 2), direction: 'output' },
+];
+const hudRegisterCards = [
+  { label: 'Meaning', value: meaningLine },
+  { label: 'Consequence', value: consequenceLine },
+  { label: 'Attention', value: attentionLine },
+  { label: 'Next Move', value: nextMoveLine },
+];
+const memoryShiftCards = [
+  (() => {
+    const priorMode = respawnEntries.find((entry) => entry.key === 'MODE')?.value;
+    return priorMode && modeLabel && priorMode !== modeLabel ? { label: 'Mode Shift', value: `${priorMode} → ${modeLabel}` } : null;
+  })(),
+  (() => {
+    const priorSignal = respawnEntries.find((entry) => entry.key === 'SIGNAL')?.value;
+    return priorSignal && packetSignalLabel && priorSignal !== packetSignalLabel
+      ? { label: 'Signal Shift', value: `${priorSignal} → ${packetSignalLabel}` }
+      : null;
+  })(),
+  (() => {
+    const priorAtmosphere = respawnEntries.find((entry) => entry.key === 'ATMOS')?.value;
+    return priorAtmosphere && atmosphereLabel && priorAtmosphere !== atmosphereLabel
+      ? { label: 'Pressure Shift', value: `${priorAtmosphere} → ${atmosphereLabel}` }
+      : null;
+  })(),
+].filter((card): card is { label: string; value: string } => Boolean(card));
 
 const orientationCards = [
   { label: 'Intervention', value: inspectLeadLabel },
@@ -529,13 +636,27 @@ const supportingCards = [
       }
     : null,
 ].filter((card): card is { label: string; value: string } => Boolean(card?.value));
+const hasMemoryPanel =
+  memoryShiftCards.length > 0 ||
+  supportingCards.length > 0 ||
+  Boolean(normalizedRespawn) ||
+  Boolean(mythmechSummary) ||
+  Boolean(normalizedPlatePrompt) ||
+  packetNotes.length > 0;
+const viewTabs = [
+  { id: 'hud', label: 'HUD' },
+  { id: 'fragment', label: 'Fragment' },
+  inspectChamberPlacements.length > 0 ? { id: 'graph', label: 'Graph' } : null,
+  hasMemoryPanel ? { id: 'memory', label: 'Memory' } : null,
+].filter((tab): tab is { id: string; label: string } => Boolean(tab));
 ---
 
 <section class="field-surface-wrap">
+  <a class="field-surface-back-link" href={objectUrl}>← Back to object</a>
+
   <article class="field-surface-shell page-plate">
     <header class="field-surface-mast">
       <div class="field-surface-ident">
-        <a class="field-surface-back-link" href={objectUrl}>← Back to object</a>
         <div class="field-surface-heading">
           <p class="field-surface-kicker">HUD</p>
           <h1 class="field-surface-title">{title}</h1>
@@ -551,19 +672,19 @@ const supportingCards = [
         <div class="field-surface-nav-card">
           <div class="field-surface-nav-header">
             <div class="field-surface-nav-copy-block">
-              <p class="field-surface-nav-kicker">Visual Report</p>
+              <p class="field-surface-nav-kicker">Inspection Views</p>
               <p class="field-surface-nav-copy">{hudSurfaceCopy}</p>
             </div>
             <span class="field-surface-nav-state">{hudSurfaceState}</span>
           </div>
           <nav class="field-surface-anchor-links" aria-label="Section navigation">
-            <a class="field-surface-anchor-pill" href="#hud">
+            <a class="field-surface-anchor-pill" href="#strike">
               <span class="field-surface-anchor-index">01</span>
-              <span>Meaning</span>
+              <span>Register</span>
             </a>
-            <a class="field-surface-anchor-pill" href="#readout">
+            <a class="field-surface-anchor-pill" href="#views">
               <span class="field-surface-anchor-index">02</span>
-              <span>Support</span>
+              <span>Depth</span>
             </a>
           </nav>
           <div class="field-surface-path-block">
@@ -577,318 +698,438 @@ const supportingCards = [
       </div>
     </header>
 
-    {inspectChamberPlacements.length > 0 && (
-      <section class:list={['field-surface-section', 'field-surface-section--diagram']} id="inspect-map" data-inspect-root={inspectRootId}>
-        <div class="field-surface-section-kicker">Inspect Plate</div>
-        <div class="field-surface-diagram-grid">
-          <aside class="field-surface-archetype-card">
-            <p class="field-surface-archetype-kicker">Archetype Panel</p>
-            <h2 class="field-surface-archetype-title">{inspectLeadLabel}</h2>
-            <p class="field-surface-archetype-copy">{inspectLeadCopy}</p>
-            <p class="field-surface-archetype-support">{inspectSupportCopy}</p>
+    <section class="field-surface-strike-band" id="strike" aria-label="Strike layer">
+      <article class="field-surface-strike-item">
+        <p class="field-surface-micro">Mode</p>
+        <strong>{modeLabel || 'Unscored'}</strong>
+      </article>
+      <article class="field-surface-strike-item">
+        <p class="field-surface-micro">State</p>
+        <strong>{stateStrikeValue}</strong>
+      </article>
+      <article class="field-surface-strike-item">
+        <p class="field-surface-micro">Signal</p>
+        <strong>{signalStrikeValue}</strong>
+      </article>
+      <article class="field-surface-strike-item">
+        <p class="field-surface-micro">Pressure</p>
+        <strong>{pressureStrikeValue}</strong>
+      </article>
+      <article class="field-surface-strike-item">
+        <p class="field-surface-micro">Field</p>
+        <strong>{fieldStrikeValue}</strong>
+      </article>
+    </section>
 
-            <div class="field-surface-archetype-meta">
-              <span>{inspectSourceLabel}</span>
-              {mythmechSummary && <span>{mythmechSummary.nodeCount} nodes / {mythmechSummary.flowCount} flows</span>}
-              {!mythmechSummary && packetData && <span>{inspectChamberPlacements.length} packet chambers</span>}
-            </div>
-
-            <div class="field-surface-flow-legend" aria-label="Flow legend">
-              {inspectLegend.map((item) => (
-                <div class="field-surface-flow-key">
-                  <span class="field-surface-flow-swatch" data-flow={item.tone}></span>
-                  <div>
-                    <p class="field-surface-flow-name">{item.label}</p>
-                    <p class="field-surface-flow-copy">{item.copy}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </aside>
-
-          <div class="field-surface-stage-shell">
-            <div class="field-surface-stage">
-              <svg class="field-surface-stage-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-                {inspectResolvedConnectors.map((connector) => (
-                  <g data-flow={connector.tone}>
-                    <line
-                      x1={connector.fromPoint.x}
-                      y1={connector.fromPoint.y}
-                      x2={connector.toPoint.x}
-                      y2={connector.toPoint.y}
-                    />
-                    <circle cx={connector.fromPoint.x} cy={connector.fromPoint.y} r="0.8"></circle>
-                    <circle cx={connector.toPoint.x} cy={connector.toPoint.y} r="0.8"></circle>
-                  </g>
-                ))}
-              </svg>
-
-              {inspectChamberPlacements.map((node) => (
-                <button
-                  type="button"
-                  class:list={['field-surface-chamber', node.id === inspectInitialNodeId && 'is-active']}
-                  data-inspect-node={node.id}
-                  data-load={node.load || 'stored'}
-                  data-source={node.source}
-                  style={`left:${node.point.x}%;top:${node.point.y}%;`}
-                  aria-pressed={node.id === inspectInitialNodeId ? 'true' : 'false'}
-                >
-                  <span class="field-surface-chamber-role">{node.role}</span>
-                  <strong class="field-surface-chamber-label">{node.shortLabel}</strong>
-                  <span class="field-surface-chamber-load">{node.load || 'stored'}</span>
-                </button>
-              ))}
-            </div>
-          </div>
+    <section class:list={['field-surface-section', 'field-surface-section--hinge']}>
+      <div class="field-surface-section-kicker">Hinge</div>
+      <div class="field-surface-hinge-block">
+        <div class="field-surface-hinge-main">
+          <h2 class="field-surface-hinge-title">{hingeCommand}</h2>
+          <p class="field-surface-hinge-summary">{hingeSummary}</p>
         </div>
-
-        <div class="field-surface-focus-stack">
-          {inspectDetailCards.map((node) => (
-            <article
-              id={`inspect-node-${node.id}`}
-              class:list={['field-surface-focus-card', node.id === inspectInitialNodeId && 'is-active']}
-              data-inspect-detail={node.id}
-              hidden={node.id === inspectInitialNodeId ? undefined : true}
-            >
-              <div class="field-surface-focus-head">
-                <div>
-                  <p class="field-surface-focus-kicker">{node.role}</p>
-                  <h3 class="field-surface-focus-title">{node.label}</h3>
-                </div>
-                <div class="field-surface-focus-tags">
-                  <span>{node.load || 'stored'}</span>
-                  <span>{node.source}</span>
-                </div>
-              </div>
-              <p class="field-surface-focus-summary">{node.summary}</p>
-              <p class="field-surface-focus-copy">{node.detail}</p>
-
-              {(node.flows.length > 0 || node.provenance.length > 0 || node.spawn.length > 0 || node.reverseTrace.length > 0) && (
-                <div class="field-surface-focus-meta-grid">
-                  {node.flows.length > 0 && (
-                    <div class="field-surface-focus-cluster">
-                      <p class="field-surface-focus-label">Flows</p>
-                      <ul class="field-surface-focus-list">
-                        {node.flows.map((flow) => (
-                          <li data-flow={flow.tone}>
-                            <span>{flow.direction}</span>
-                            <strong>{flow.label}</strong>
-                            <em>{flow.target}</em>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  {node.reverseTrace.length > 0 && (
-                    <div class="field-surface-focus-cluster">
-                      <p class="field-surface-focus-label">Reverse Trace</p>
-                      <ul class="field-surface-focus-list">
-                        {node.reverseTrace.map((step) => (
-                          <li data-flow="grounding">
-                            <strong>{step}</strong>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  {node.provenance.length > 0 && (
-                    <div class="field-surface-focus-cluster">
-                      <p class="field-surface-focus-label">Provenance</p>
-                      <ul class="field-surface-focus-list">
-                        {node.provenance.map((item) => (
-                          <li><strong>{item}</strong></li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  {node.spawn.length > 0 && (
-                    <div class="field-surface-focus-cluster">
-                      <p class="field-surface-focus-label">Spawnable Vectors</p>
-                      <ul class="field-surface-focus-list">
-                        {node.spawn.map((item) => (
-                          <li><strong>{item}</strong></li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              )}
-            </article>
-          ))}
+        <div class="field-surface-hinge-side">
+          <p class="field-surface-hinge-label">Attention</p>
+          <p class="field-surface-hinge-note">{attentionLine}</p>
         </div>
-      </section>
-    )}
+      </div>
+    </section>
 
-    {hasSignal && (
-      <section class="field-surface-signal-strip" aria-label="Signal ident">
-        <div class="field-surface-signal-band" data-signal-mode={uiMode}>
-          <div class="field-surface-signal-core">
-            <div class="field-surface-eq" aria-hidden="true">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-            <div>
-              <p class="field-surface-micro">Signal Ident</p>
-              {trackLabel && <p class="field-surface-track">{trackLabel}</p>}
-              {artistLabel && <p class="field-surface-artists">{artistLabel}</p>}
-              {uiMode === 'SIMPLE' && signalMode && <p class="field-surface-mode-line">{signalMode}</p>}
-            </div>
-          </div>
-
-          {uiMode !== 'SIMPLE' && signalMeta.length > 0 && (
-            <dl class="field-surface-mini">
-              {signalMeta.map((item) => (
-                <div>
-                  <dt>{item.label}</dt>
-                  <dd>{item.value}</dd>
-                </div>
-              ))}
-            </dl>
-          )}
-        </div>
-      </section>
-    )}
-
-    <section class="field-surface-section" id="hud">
-      <div class="field-surface-section-kicker">What This Gives You</div>
-      <p class="field-surface-section-intro">
-        Read these cards as the value of the inspect surface: where the piece turns, what presses on it, what steadies it,
-        and what state it finally presents.
-      </p>
-      <div class="field-surface-hud-grid">
-        {orientationCards.map((card) => (
-          <article class="field-surface-cell">
-            <div class="field-surface-micro">{card.label}</div>
-            <div class="field-surface-value">{card.value}</div>
+    <section class:list={['field-surface-section', 'field-surface-section--flow']}>
+      <div class="field-surface-section-kicker">Flow Vector</div>
+      <div class="field-surface-flow-vector" aria-label="Flow vector">
+        {flowVectorItems.map((item, index) => (
+          <article class="field-surface-flow-card" data-direction={item.direction}>
+            <p class="field-surface-flow-card-label">{item.label}</p>
+            <strong class="field-surface-flow-card-value">{item.value}</strong>
+            {index < flowVectorItems.length - 1 && <span class="field-surface-flow-arrow" aria-hidden="true">→</span>}
           </article>
         ))}
       </div>
-
-      {!packetData && (
-        <p class="field-surface-empty">{noPacketMessage}</p>
-      )}
     </section>
 
-    <section class="field-surface-section" id="readout">
-      <div class="field-surface-section-kicker">Supporting Memory</div>
-      <p class="field-surface-section-intro">
-        These traces support the inspect read without overwhelming it. They show what was stored around the object, not
-        just what the object says.
-      </p>
-      {supportingCards.length > 0 ? (
-        <div class="field-surface-report-grid">
-          {supportingCards.map((card) => (
-            <article class="field-surface-cluster">
-              <p class="field-surface-cluster-label">{card.label}</p>
-              <p class="field-surface-cluster-copy">{card.value}</p>
+    <section class="field-surface-section" id="snapshot">
+      <div class="field-surface-section-kicker">Diagnostic Snapshot</div>
+      <dl class="field-surface-snapshot-grid">
+        {snapshotRows.map((row) => (
+          <div class="field-surface-snapshot-row">
+            <dt>{row.label}</dt>
+            <dd>{row.value}</dd>
+          </div>
+        ))}
+      </dl>
+      {!packetData && <p class="field-surface-empty">{noPacketMessage}</p>}
+    </section>
+
+    <section class="field-surface-section field-surface-section--views" id="views" data-view-root={viewRootId}>
+      <div class="field-surface-view-head">
+        <div>
+          <div class="field-surface-section-kicker">View Toggle</div>
+          <p class="field-surface-section-intro">Read fast. Open depth only on demand.</p>
+        </div>
+        <div class="field-surface-view-toggle" role="tablist" aria-label="HUD views">
+          {viewTabs.map((tab) => (
+            <button
+              type="button"
+              class:list={['field-surface-view-button', tab.id === 'hud' && 'is-active']}
+              data-view-button={tab.id}
+              aria-pressed={tab.id === 'hud' ? 'true' : 'false'}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div class:list={['field-surface-view-panel', 'is-active']} data-view-panel="hud">
+        <div class="field-surface-hud-grid">
+          {hudRegisterCards.map((card) => (
+            <article class="field-surface-cell">
+              <div class="field-surface-micro">{card.label}</div>
+              <div class="field-surface-value">{card.value}</div>
             </article>
           ))}
         </div>
-      ) : (
-        <p class="field-surface-empty">No supporting packet or Mythmech memory is stored for this object yet.</p>
+      </div>
+
+      <div class="field-surface-view-panel" data-view-panel="fragment" hidden>
+        <p class="field-surface-note-label field-surface-fragment-label">Source Fragment</p>
+        <pre class="field-surface-fragment">{normalizedSourceText || 'No source text is available for this object.'}</pre>
+      </div>
+
+      {inspectChamberPlacements.length > 0 && (
+        <div class="field-surface-view-panel" data-view-panel="graph" hidden>
+          <div class="field-surface-panel-head">
+            <p class="field-surface-section-kicker">Graph View</p>
+            <p class="field-surface-section-intro">
+              Trace hinge, pressure, control, and grounding without crowding the top of the HUD.
+            </p>
+          </div>
+
+          <div class="field-surface-diagram-grid" data-inspect-root={inspectRootId}>
+            <aside class="field-surface-archetype-card">
+              <p class="field-surface-archetype-kicker">Archetype Panel</p>
+              <h2 class="field-surface-archetype-title">{inspectLeadLabel}</h2>
+              <p class="field-surface-archetype-copy">{inspectLeadCopy}</p>
+              <p class="field-surface-archetype-support">{inspectSupportCopy}</p>
+
+              <div class="field-surface-archetype-meta">
+                <span>{inspectSourceLabel}</span>
+                {mythmechSummary && <span>{mythmechSummary.nodeCount} nodes / {mythmechSummary.flowCount} flows</span>}
+                {!mythmechSummary && packetData && <span>{inspectChamberPlacements.length} packet chambers</span>}
+              </div>
+
+              <div class="field-surface-flow-legend" aria-label="Flow legend">
+                {inspectLegend.map((item) => (
+                  <div class="field-surface-flow-key">
+                    <span class="field-surface-flow-swatch" data-flow={item.tone}></span>
+                    <div>
+                      <p class="field-surface-flow-name">{item.label}</p>
+                      <p class="field-surface-flow-copy">{item.copy}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </aside>
+
+            <div class="field-surface-stage-shell">
+              <div class="field-surface-stage">
+                <svg class="field-surface-stage-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                  {inspectResolvedConnectors.map((connector) => (
+                    <g data-flow={connector.tone}>
+                      <line
+                        x1={connector.fromPoint.x}
+                        y1={connector.fromPoint.y}
+                        x2={connector.toPoint.x}
+                        y2={connector.toPoint.y}
+                      />
+                      <circle cx={connector.fromPoint.x} cy={connector.fromPoint.y} r="0.8"></circle>
+                      <circle cx={connector.toPoint.x} cy={connector.toPoint.y} r="0.8"></circle>
+                    </g>
+                  ))}
+                </svg>
+
+                {inspectChamberPlacements.map((node) => (
+                  <button
+                    type="button"
+                    class:list={['field-surface-chamber', node.id === inspectInitialNodeId && 'is-active']}
+                    data-inspect-node={node.id}
+                    data-load={node.load || 'stored'}
+                    data-source={node.source}
+                    style={`left:${node.point.x}%;top:${node.point.y}%;`}
+                    aria-pressed={node.id === inspectInitialNodeId ? 'true' : 'false'}
+                  >
+                    <span class="field-surface-chamber-role">{node.role}</span>
+                    <strong class="field-surface-chamber-label">{node.shortLabel}</strong>
+                    <span class="field-surface-chamber-load">{node.load || 'stored'}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div class="field-surface-focus-stack">
+            {inspectDetailCards.map((node) => (
+              <article
+                id={`inspect-node-${node.id}`}
+                class:list={['field-surface-focus-card', node.id === inspectInitialNodeId && 'is-active']}
+                data-inspect-detail={node.id}
+                hidden={node.id === inspectInitialNodeId ? undefined : true}
+              >
+                <div class="field-surface-focus-head">
+                  <div>
+                    <p class="field-surface-focus-kicker">{node.role}</p>
+                    <h3 class="field-surface-focus-title">{node.label}</h3>
+                  </div>
+                  <div class="field-surface-focus-tags">
+                    <span>{node.load || 'stored'}</span>
+                    <span>{node.source}</span>
+                  </div>
+                </div>
+                <p class="field-surface-focus-summary">{node.summary}</p>
+                <p class="field-surface-focus-copy">{node.detail}</p>
+
+                {(node.flows.length > 0 || node.provenance.length > 0 || node.spawn.length > 0 || node.reverseTrace.length > 0) && (
+                  <div class="field-surface-focus-meta-grid">
+                    {node.flows.length > 0 && (
+                      <div class="field-surface-focus-cluster">
+                        <p class="field-surface-focus-label">Flows</p>
+                        <ul class="field-surface-focus-list">
+                          {node.flows.map((flow) => (
+                            <li data-flow={flow.tone}>
+                              <span>{flow.direction}</span>
+                              <strong>{flow.label}</strong>
+                              <em>{flow.target}</em>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {node.reverseTrace.length > 0 && (
+                      <div class="field-surface-focus-cluster">
+                        <p class="field-surface-focus-label">Reverse Trace</p>
+                        <ul class="field-surface-focus-list">
+                          {node.reverseTrace.map((step) => (
+                            <li data-flow="grounding">
+                              <strong>{step}</strong>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {node.provenance.length > 0 && (
+                      <div class="field-surface-focus-cluster">
+                        <p class="field-surface-focus-label">Provenance</p>
+                        <ul class="field-surface-focus-list">
+                          {node.provenance.map((item) => (
+                            <li><strong>{item}</strong></li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {node.spawn.length > 0 && (
+                      <div class="field-surface-focus-cluster">
+                        <p class="field-surface-focus-label">Spawnable Vectors</p>
+                        <ul class="field-surface-focus-list">
+                          {node.spawn.map((item) => (
+                            <li><strong>{item}</strong></li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </article>
+            ))}
+          </div>
+        </div>
       )}
 
-      <p class="field-surface-note-label field-surface-fragment-label">Source Fragment</p>
-      <pre class="field-surface-fragment">{normalizedSourceText || 'No source text is available for this object.'}</pre>
+      {hasMemoryPanel && (
+        <div class="field-surface-view-panel" data-view-panel="memory" hidden>
+          {memoryShiftCards.length > 0 && (
+            <>
+              <p class="field-surface-note-label">Shift</p>
+              <div class="field-surface-report-grid field-surface-report-grid--memory">
+                {memoryShiftCards.map((card) => (
+                  <article class="field-surface-cluster">
+                    <p class="field-surface-cluster-label">{card.label}</p>
+                    <p class="field-surface-cluster-copy">{card.value}</p>
+                  </article>
+                ))}
+              </div>
+            </>
+          )}
 
-      {(normalizedRespawn || packetNotes.length > 0 || mythmechSummary || normalizedPlatePrompt) && (
-        <div class="field-surface-note-stack">
-          {normalizedRespawn && (
-            <article class="field-surface-note-card field-surface-note-card--respawn">
-              <p class="field-surface-note-label">Respawn</p>
-              {respawnLead && <p class="field-surface-note-title">{respawnLead}</p>}
-              {respawnEntries.length > 0 && (
-                <dl class="field-surface-note-grid">
-                  {respawnEntries.map((entry) => (
-                    <div class:list={['field-surface-note-stat', entry.key === 'NOTES' && 'field-surface-note-stat--wide']}>
-                      <dt>{entry.label}</dt>
-                      <dd>{entry.value}</dd>
-                    </div>
-                  ))}
-                </dl>
+          {supportingCards.length > 0 ? (
+            <>
+              <p class="field-surface-note-label field-surface-memory-label">Supporting Memory</p>
+              <div class="field-surface-report-grid field-surface-report-grid--memory">
+                {supportingCards.map((card) => (
+                  <article class="field-surface-cluster">
+                    <p class="field-surface-cluster-label">{card.label}</p>
+                    <p class="field-surface-cluster-copy">{card.value}</p>
+                  </article>
+                ))}
+              </div>
+            </>
+          ) : (
+            <p class="field-surface-empty">No supporting packet or Mythmech memory is stored for this object yet.</p>
+          )}
+
+          {(normalizedRespawn || packetNotes.length > 0 || mythmechSummary || normalizedPlatePrompt) && (
+            <div class="field-surface-note-stack">
+              {normalizedRespawn && (
+                <article class="field-surface-note-card field-surface-note-card--respawn">
+                  <p class="field-surface-note-label">Respawn</p>
+                  {respawnLead && <p class="field-surface-note-title">{respawnLead}</p>}
+                  {respawnEntries.length > 0 && (
+                    <dl class="field-surface-note-grid">
+                      {respawnEntries.map((entry) => (
+                        <div class:list={['field-surface-note-stat', entry.key === 'NOTES' && 'field-surface-note-stat--wide']}>
+                          <dt>{entry.label}</dt>
+                          <dd>{entry.value}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  )}
+                </article>
               )}
-            </article>
-          )}
 
-          {mythmechSummary && (
-            <article class="field-surface-note-card">
-              <p class="field-surface-note-label">Mythmech</p>
-              {mythmechLead && <p class="field-surface-note-title">{mythmechLead}</p>}
-              {mythmechSupport && <p class="field-surface-note-copy">{mythmechSupport}</p>}
-              {hasMythmechDetailGrid && (
-                <dl class="field-surface-note-grid">
-                  {mythmechSummary.stateCount > 0 && (
-                    <div class="field-surface-note-stat">
-                      <dt>States</dt>
-                      <dd>{mythmechSummary.stateLabels.join(' · ')}</dd>
-                    </div>
+              {mythmechSummary && (
+                <article class="field-surface-note-card">
+                  <p class="field-surface-note-label">Mythmech</p>
+                  {mythmechLead && <p class="field-surface-note-title">{mythmechLead}</p>}
+                  {mythmechSupport && <p class="field-surface-note-copy">{mythmechSupport}</p>}
+                  {hasMythmechDetailGrid && (
+                    <dl class="field-surface-note-grid">
+                      {mythmechSummary.stateCount > 0 && (
+                        <div class="field-surface-note-stat">
+                          <dt>States</dt>
+                          <dd>{mythmechSummary.stateLabels.join(' · ')}</dd>
+                        </div>
+                      )}
+                      {mythmechSummary.hingeLabel && (
+                        <div class="field-surface-note-stat">
+                          <dt>Hinge</dt>
+                          <dd>{mythmechSummary.hingeLabel}</dd>
+                        </div>
+                      )}
+                      {mythmechLoadCopy && (
+                        <div class="field-surface-note-stat">
+                          <dt>Load</dt>
+                          <dd>{mythmechLoadCopy}</dd>
+                        </div>
+                      )}
+                      {mythmechFlowCopy && (
+                        <div class="field-surface-note-stat">
+                          <dt>Flows</dt>
+                          <dd>{mythmechFlowCopy}</dd>
+                        </div>
+                      )}
+                      {mythmechLineageCopy && (
+                        <div class="field-surface-note-stat">
+                          <dt>Lineage</dt>
+                          <dd>{mythmechLineageCopy}</dd>
+                        </div>
+                      )}
+                      {mythmechSummary.spawnCandidateCount > 0 && (
+                        <div class="field-surface-note-stat">
+                          <dt>Spawnable Vectors</dt>
+                          <dd>
+                            {mythmechSummary.candidateLabels.length > 0
+                              ? mythmechSummary.candidateLabels.join(' · ')
+                              : `${mythmechSummary.spawnCandidateCount} vectors`}
+                          </dd>
+                        </div>
+                      )}
+                      {(mythmechSignalCopy || mythmechSummary.marginaliaCount > 0) && (
+                        <div class:list={['field-surface-note-stat', 'field-surface-note-stat--wide']}>
+                          <dt>Marginalia Signals</dt>
+                          <dd>
+                            {mythmechSignalCopy || `${mythmechSummary.marginaliaCount} entries`}
+                          </dd>
+                        </div>
+                      )}
+                    </dl>
                   )}
-                  {mythmechSummary.hingeLabel && (
-                    <div class="field-surface-note-stat">
-                      <dt>Hinge</dt>
-                      <dd>{mythmechSummary.hingeLabel}</dd>
-                    </div>
-                  )}
-                  {mythmechLoadCopy && (
-                    <div class="field-surface-note-stat">
-                      <dt>Load</dt>
-                      <dd>{mythmechLoadCopy}</dd>
-                    </div>
-                  )}
-                  {mythmechFlowCopy && (
-                    <div class="field-surface-note-stat">
-                      <dt>Flows</dt>
-                      <dd>{mythmechFlowCopy}</dd>
-                    </div>
-                  )}
-                  {mythmechLineageCopy && (
-                    <div class="field-surface-note-stat">
-                      <dt>Lineage</dt>
-                      <dd>{mythmechLineageCopy}</dd>
-                    </div>
-                  )}
-                  {mythmechSummary.spawnCandidateCount > 0 && (
-                    <div class="field-surface-note-stat">
-                      <dt>Spawnable Vectors</dt>
-                      <dd>
-                        {mythmechSummary.candidateLabels.length > 0
-                          ? mythmechSummary.candidateLabels.join(' · ')
-                          : `${mythmechSummary.spawnCandidateCount} vectors`}
-                      </dd>
-                    </div>
-                  )}
-                  {(mythmechSignalCopy || mythmechSummary.marginaliaCount > 0) && (
-                    <div class:list={['field-surface-note-stat', 'field-surface-note-stat--wide']}>
-                      <dt>Marginalia Signals</dt>
-                      <dd>
-                        {mythmechSignalCopy || `${mythmechSummary.marginaliaCount} entries`}
-                      </dd>
-                    </div>
-                  )}
-                </dl>
+                </article>
               )}
-            </article>
-          )}
 
-          {normalizedPlatePrompt && (
-            <article class="field-surface-note-card">
-              <p class="field-surface-note-label">Surface Prompt</p>
-              <p class="field-surface-note-copy">{normalizedPlatePrompt}</p>
-            </article>
-          )}
+              {normalizedPlatePrompt && (
+                <article class="field-surface-note-card">
+                  <p class="field-surface-note-label">Surface Prompt</p>
+                  <p class="field-surface-note-copy">{normalizedPlatePrompt}</p>
+                </article>
+              )}
 
-          {packetNotes.map((note) => (
-            <article class="field-surface-note-card">
-              <p class="field-surface-note-label">{note.label}</p>
-              <p class="field-surface-note-copy">{note.value}</p>
-            </article>
-          ))}
+              {packetNotes.map((note) => (
+                <article class="field-surface-note-card">
+                  <p class="field-surface-note-label">{note.label}</p>
+                  <p class="field-surface-note-copy">{note.value}</p>
+                </article>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </section>
   </article>
 </section>
+
+{viewTabs.length > 0 && (
+  <script is:inline define:vars={{ viewRootId }}>
+    (() => {
+      const root = document.querySelector(`[data-view-root="${viewRootId}"]`);
+      if (!(root instanceof HTMLElement)) return;
+
+      const buttons = Array.from(root.querySelectorAll('[data-view-button]'));
+      const panels = Array.from(root.querySelectorAll('[data-view-panel]'));
+      if (buttons.length === 0 || panels.length === 0) return;
+
+      const available = buttons
+        .map((button) => (button instanceof HTMLElement ? button.dataset.viewButton || '' : ''))
+        .filter(Boolean);
+
+      const setView = (id, updateHash = true) => {
+        buttons.forEach((button) => {
+          if (!(button instanceof HTMLElement)) return;
+          const active = button.dataset.viewButton === id;
+          button.classList.toggle('is-active', active);
+          button.setAttribute('aria-pressed', active ? 'true' : 'false');
+        });
+
+        panels.forEach((panel) => {
+          if (!(panel instanceof HTMLElement)) return;
+          const active = panel.dataset.viewPanel === id;
+          panel.hidden = !active;
+          panel.classList.toggle('is-active', active);
+        });
+
+        if (id && updateHash) {
+          window.history.replaceState(null, '', `#view-${id}`);
+        }
+      };
+
+      const hash = window.location.hash.replace(/^#/, '');
+      const initialId = hash.startsWith('inspect-node-') && available.includes('graph')
+        ? 'graph'
+        : hash.startsWith('view-') && available.includes(hash.slice(5))
+          ? hash.slice(5)
+          : available[0];
+
+      buttons.forEach((button) => {
+        if (!(button instanceof HTMLElement)) return;
+        button.addEventListener('click', () => {
+          const id = button.dataset.viewButton || '';
+          if (id) setView(id);
+        });
+      });
+
+      if (initialId) setView(initialId, false);
+    })();
+  </script>
+)}
 
 {inspectChamberPlacements.length > 0 && (
   <script is:inline define:vars={{ inspectRootId, inspectInitialNodeId }}>
@@ -900,7 +1141,7 @@ const supportingCards = [
       const details = Array.from(root.querySelectorAll('[data-inspect-detail]'));
       if (buttons.length === 0 || details.length === 0) return;
 
-      const setActive = (id) => {
+      const setActive = (id, updateHash = true) => {
         buttons.forEach((button) => {
           if (!(button instanceof HTMLElement)) return;
           const active = button.dataset.inspectNode === id;
@@ -915,7 +1156,7 @@ const supportingCards = [
           detail.classList.toggle('is-active', active);
         });
 
-        if (id) {
+        if (id && updateHash) {
           window.history.replaceState(null, '', `#inspect-node-${id}`);
         }
       };
@@ -934,7 +1175,7 @@ const supportingCards = [
         });
       });
 
-      if (initialId) setActive(initialId);
+      if (initialId) setActive(initialId, window.location.hash.startsWith('#inspect-node-'));
     })();
   </script>
 )}
@@ -943,6 +1184,8 @@ const supportingCards = [
   .field-surface-wrap {
     width: min(100%, 1120px);
     margin: clamp(2.2rem, 4vw, 3.8rem) auto 4rem;
+    display: grid;
+    gap: 0.9rem;
     color: var(--field-amber-em);
   }
 
@@ -1011,26 +1254,23 @@ const supportingCards = [
   .field-surface-ident {
     min-width: 0;
     display: grid;
-    gap: 0.92rem;
+    gap: 1rem;
     max-width: 100%;
   }
 
   .field-surface-back-link {
     display: inline-block;
-    width: fit-content;
     color: var(--field-amber-label);
     text-decoration: none;
-    padding: 0 0 0.24rem;
-    border-bottom: 1px solid var(--surface-line);
+    width: fit-content;
     font-family: var(--font-ui);
     font-size: 12px;
     letter-spacing: var(--ls-ui);
-    transition: color 140ms ease, border-color 140ms ease;
+    transition: color 140ms ease;
   }
 
   .field-surface-back-link:hover {
     color: var(--field-amber-em);
-    border-color: var(--surface-accent-line);
   }
 
   .field-surface-heading {
@@ -1091,7 +1331,7 @@ const supportingCards = [
     margin: 0.48rem 0 0;
     color: var(--field-amber-em);
     font-family: var(--font-display);
-    font-size: clamp(2.3rem, 2rem + 1.35vw, 3.5rem);
+    font-size: clamp(2rem, 1.74rem + 0.92vw, 2.85rem);
     font-weight: 600;
     line-height: 0.96;
     text-wrap: balance;
@@ -1262,6 +1502,203 @@ const supportingCards = [
     font-size: 0.88rem;
     line-height: 1.56;
     overflow-wrap: anywhere;
+  }
+
+  .field-surface-strike-band {
+    margin-top: 1.2rem;
+    padding: 0.94rem 0 1.08rem;
+    border-bottom: 1px solid var(--surface-line);
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.8rem 1rem;
+  }
+
+  .field-surface-strike-item {
+    min-width: 0;
+    display: grid;
+    gap: 0.34rem;
+  }
+
+  .field-surface-strike-item strong {
+    color: var(--field-amber-em);
+    font-family: var(--font-ui);
+    font-size: clamp(0.94rem, 0.88rem + 0.2vw, 1.08rem);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    line-height: 1.24;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+  }
+
+  .field-surface-hinge-block {
+    margin-top: 0.96rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(15rem, 18rem);
+    gap: 1rem 1.5rem;
+    align-items: start;
+  }
+
+  .field-surface-hinge-title {
+    margin: 0;
+    color: var(--field-amber-em);
+    font-family: var(--font-ui);
+    font-size: clamp(1.18rem, 1.06rem + 0.38vw, 1.48rem);
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    line-height: 1.14;
+    text-transform: uppercase;
+  }
+
+  .field-surface-hinge-summary,
+  .field-surface-hinge-note {
+    margin: 0.64rem 0 0;
+    color: var(--field-text-body);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.72;
+    text-wrap: pretty;
+  }
+
+  .field-surface-hinge-side {
+    padding-left: 1rem;
+    border-left: 1px solid var(--surface-line);
+  }
+
+  .field-surface-hinge-label,
+  .field-surface-flow-card-label,
+  .field-surface-snapshot-row dt,
+  .field-surface-view-button {
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .field-surface-hinge-label,
+  .field-surface-flow-card-label,
+  .field-surface-snapshot-row dt {
+    margin: 0;
+    color: var(--field-amber-label);
+  }
+
+  .field-surface-flow-vector {
+    margin-top: 0.96rem;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.85rem;
+  }
+
+  .field-surface-flow-card {
+    position: relative;
+    padding: 1rem 1.04rem 1.06rem;
+    border: 1px solid var(--surface-line);
+    border-radius: var(--surface-radius);
+    background:
+      linear-gradient(180deg, var(--surface-panel-elevated), rgba(255, 255, 255, 0.01)),
+      rgba(255, 255, 255, 0.012);
+    box-shadow: inset 0 1px 0 var(--surface-panel-line);
+  }
+
+  .field-surface-flow-card-value {
+    display: block;
+    margin-top: 0.54rem;
+    color: var(--field-amber-em);
+    font-family: var(--font-ui);
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    line-height: 1.38;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+  }
+
+  .field-surface-flow-arrow {
+    position: absolute;
+    top: 50%;
+    right: -0.62rem;
+    color: var(--field-amber-label);
+    font-family: var(--font-ui);
+    font-size: 0.94rem;
+    transform: translate(50%, -50%);
+    pointer-events: none;
+  }
+
+  .field-surface-snapshot-grid {
+    margin: 0.96rem 0 0;
+    display: grid;
+    gap: 0.68rem;
+  }
+
+  .field-surface-snapshot-row {
+    display: grid;
+    grid-template-columns: 8rem minmax(0, 1fr);
+    gap: 1rem;
+    padding-bottom: 0.68rem;
+    border-bottom: 1px solid var(--surface-line);
+  }
+
+  .field-surface-snapshot-row:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .field-surface-snapshot-row dd {
+    margin: 0;
+    color: var(--field-amber-em);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .field-surface-view-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem 1.2rem;
+    align-items: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .field-surface-view-toggle {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.62rem;
+  }
+
+  .field-surface-view-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2rem;
+    padding: 0.28rem 0.78rem;
+    border: 1px solid var(--surface-line);
+    border-radius: var(--field-chip-radius);
+    color: var(--field-amber-label);
+    background: var(--surface-panel-wash);
+    transition:
+      border-color 140ms ease,
+      color 140ms ease,
+      background 140ms ease,
+      transform 140ms ease;
+  }
+
+  .field-surface-view-button:hover,
+  .field-surface-view-button.is-active {
+    color: var(--field-amber-em);
+    border-color: var(--surface-accent-line);
+    background: var(--surface-accent-fill);
+    transform: translateY(-1px);
+  }
+
+  .field-surface-view-panel {
+    margin-top: 1.2rem;
+  }
+
+  .field-surface-view-panel:not(.is-active) {
+    display: none;
+  }
+
+  .field-surface-panel-head {
+    margin-bottom: 1.02rem;
   }
 
   .field-surface-signal-strip {
@@ -1766,7 +2203,7 @@ const supportingCards = [
   .field-surface-hud-grid {
     margin-top: 1.15rem;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.95rem;
   }
 
@@ -1784,9 +2221,9 @@ const supportingCards = [
   .field-surface-value {
     margin-top: 0.68rem;
     color: var(--field-amber-em);
-    font-family: var(--font-ui);
-    font-size: 1.06rem;
-    line-height: 1.58;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.72;
     overflow-wrap: anywhere;
   }
 
@@ -1913,6 +2350,22 @@ const supportingCards = [
       max-width: 24ch;
     }
 
+    .field-surface-strike-band,
+    .field-surface-flow-vector {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .field-surface-hinge-block {
+      grid-template-columns: 1fr;
+    }
+
+    .field-surface-hinge-side {
+      padding-left: 0;
+      border-left: 0;
+      padding-top: 0.9rem;
+      border-top: 1px solid var(--surface-line);
+    }
+
     .field-surface-diagram-grid {
       grid-template-columns: 1fr;
     }
@@ -1957,6 +2410,21 @@ const supportingCards = [
       min-width: 0;
     }
 
+    .field-surface-strike-band,
+    .field-surface-flow-vector,
+    .field-surface-hud-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .field-surface-flow-arrow {
+      display: none;
+    }
+
+    .field-surface-snapshot-row {
+      grid-template-columns: 1fr;
+      gap: 0.42rem;
+    }
+
     .field-surface-note-grid {
       grid-template-columns: 1fr;
     }
@@ -1981,10 +2449,6 @@ const supportingCards = [
 
     .field-surface-title {
       font-size: clamp(2rem, 1.72rem + 1.4vw, 2.5rem);
-    }
-
-    .field-surface-hud-grid {
-      grid-template-columns: 1fr;
     }
 
     .field-surface-fragment {

@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-03-27T20:45:00.222Z",
+  "generatedAt": "2026-03-27T21:28:42.106Z",
   "sourceDir": "./src/content",
-  "nodeCount": 131,
+  "nodeCount": 140,
   "edgeCount": 4406,
   "nodes": [
     {
@@ -268,6 +268,17 @@
       "constellations": []
     },
     {
+      "id": "sight-exceed-vessel",
+      "slug": "sight-exceed-vessel",
+      "url": "https://ndcodex.com/objects/sight-exceed-vessel",
+      "stableId": "codex://object/sight-exceed-vessel",
+      "type": "artifact",
+      "title": "sight exceed vessel",
+      "date": "2026-03-27",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "specimen-001-pre-flight-assembly-optimistic",
       "slug": "specimen-001-pre-flight-assembly-optimistic",
       "url": "https://ndcodex.com/objects/specimen-001-pre-flight-assembly-optimistic/",
@@ -354,6 +365,17 @@
         "highest",
         "aftershock"
       ],
+      "constellations": []
+    },
+    {
+      "id": "a-complete-operational-stack-for-the-conductive-state",
+      "slug": "a-complete-operational-stack-for-the-conductive-state",
+      "url": "https://ndcodex.com/codex/a-complete-operational-stack-for-the-conductive-state",
+      "stableId": "codex://object/a-complete-operational-stack-for-the-conductive-state",
+      "type": "codex",
+      "title": "A Complete Operational Stack for the Conductive State",
+      "date": "2026-03-27",
+      "themes": [],
       "constellations": []
     },
     {
@@ -860,6 +882,17 @@
       "constellations": []
     },
     {
+      "id": "the-machine-knows-me",
+      "slug": "the-machine-knows-me",
+      "url": "https://ndcodex.com/codex/the-machine-knows-me",
+      "stableId": "codex://object/the-machine-knows-me",
+      "type": "codex",
+      "title": "the machine knows me",
+      "date": "2026-03-27",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "builder-lineage-reflection",
       "slug": "builder-lineage-reflection",
       "url": "https://ndcodex.com/objects/builder-lineage-reflection/",
@@ -961,6 +994,17 @@
         "pressure",
         "signal"
       ],
+      "constellations": []
+    },
+    {
+      "id": "line-6-pre-yamaha",
+      "slug": "line-6-pre-yamaha",
+      "url": "https://ndcodex.com/objects/line-6-pre-yamaha",
+      "stableId": "codex://object/line-6-pre-yamaha",
+      "type": "fieldlog",
+      "title": "Line 6, Pre-Yamaha",
+      "date": "2026-03-27",
+      "themes": [],
       "constellations": []
     },
     {
@@ -1566,6 +1610,17 @@
       "constellations": []
     },
     {
+      "id": "babylon-on-board",
+      "slug": "babylon-on-board",
+      "url": "https://ndcodex.com/objects/babylon-on-board",
+      "stableId": "codex://object/babylon-on-board",
+      "type": "scroll",
+      "title": "Babylon on board—",
+      "date": "2026-03-27",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "bezalel-the-designated-hand",
       "slug": "bezalel-the-designated-hand",
       "url": "https://ndcodex.com/objects/bezalel-the-designated-hand/",
@@ -1926,6 +1981,17 @@
       "constellations": []
     },
     {
+      "id": "sons-of-thunder",
+      "slug": "sons-of-thunder",
+      "url": "https://ndcodex.com/objects/sons-of-thunder",
+      "stableId": "codex://object/sons-of-thunder",
+      "type": "scroll",
+      "title": "sons of thunder",
+      "date": "2026-03-27",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "stairwell-signal",
       "slug": "stairwell-signal",
       "url": "https://ndcodex.com/objects/stairwell-signal/",
@@ -1941,6 +2007,17 @@
       "constellations": [
         "Maintenance Psalms"
       ]
+    },
+    {
+      "id": "stay-on-target",
+      "slug": "stay-on-target",
+      "url": "https://ndcodex.com/objects/stay-on-target",
+      "stableId": "codex://object/stay-on-target",
+      "type": "scroll",
+      "title": "✦ STAY ON TARGET ✦",
+      "date": "2026-03-27",
+      "themes": [],
+      "constellations": []
     },
     {
       "id": "steel-elbow-flinchian",
@@ -2042,6 +2119,28 @@
         "return",
         "shine"
       ],
+      "constellations": []
+    },
+    {
+      "id": "check-check-from-the-yard",
+      "slug": "check-check-from-the-yard",
+      "url": "https://ndcodex.com/objects/check-check-from-the-yard",
+      "stableId": "codex://object/check-check-from-the-yard",
+      "type": "signal",
+      "title": "check. check, from the yard",
+      "date": "2026-03-27",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "jagged-crater",
+      "slug": "jagged-crater",
+      "url": "https://ndcodex.com/objects/jagged-crater",
+      "stableId": "codex://object/jagged-crater",
+      "type": "signal",
+      "title": "jagged crater",
+      "date": "2026-03-27",
+      "themes": [],
       "constellations": []
     },
     {
