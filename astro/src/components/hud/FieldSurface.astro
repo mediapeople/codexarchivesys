@@ -292,12 +292,11 @@ const hasMythmechDetailGrid = Boolean(
       mythmechSummary.marginaliaCount > 0)
 );
 
-const surfaceStates = uniqueStrings([
-  packetData ? 'Packet-backed' : mythmechSummary ? 'Mythmech-backed' : 'Source-first',
-  packetId ? 'Stored snapshot' : mythmechSummary ? 'Inspection lens attached' : 'Awaiting packet',
-  hasSignal ? 'Signal-led' : mythmechSummary ? 'Structural read' : 'Open fragment',
-  normalizedPlatePrompt ? 'Plate prompt stored' : '',
-], 3);
+const surfaceContextLine = uniqueStrings([
+  packetData ? 'Built from packet memory' : mythmechSummary ? 'Built from Mythmech structure' : 'Running source-first',
+  packetId ? 'using the stored snapshot' : mythmechSummary ? 'with an inspect lens attached' : '',
+  hasSignal ? 'and current signal state' : normalizedPlatePrompt ? 'with a stored surface prompt' : '',
+], 3).join(' / ');
 
 const signalMeta = [
   { label: 'Mode', value: signalMode || modeLabel },
@@ -631,18 +630,19 @@ const flowVectorItems = [
   { label: 'Action', value: modeLabel || commandLabel(inspectLeadLabel, 2), direction: 'output' },
 ];
 const valueRegisterCards = [
-  { label: 'Meaning', value: meaningLine },
-  { label: 'Consequence', value: consequenceLine },
-  { label: 'Attention', value: attentionLine },
-  { label: 'Next Move', value: nextMoveLine },
+  { label: 'Meaning', definition: 'What the current state says about this object.', value: meaningLine },
+  { label: 'Consequence', definition: 'Why that state matters in this object right now.', value: consequenceLine },
+  { label: 'Attention', definition: 'What this object is asking you to watch.', value: attentionLine },
+  { label: 'Next Move', definition: 'The simplest useful move from this object state.', value: nextMoveLine },
 ];
 const supportingCards = [
-  packetId ? { label: 'Packet', value: packetId } : null,
-  packetClass ? { label: 'Class', value: packetClass } : null,
-  inspectContinuityValue ? { label: 'Lineage', value: inspectContinuityValue } : null,
+  packetId ? { label: 'Packet', definition: 'The stored field record attached to this object.', value: packetId } : null,
+  packetClass ? { label: 'Class', definition: 'The archive class this object is carrying.', value: packetClass } : null,
+  inspectContinuityValue ? { label: 'Lineage', definition: 'How this object connects to parent, child, or peer structure.', value: inspectContinuityValue } : null,
   mythmechSummary
     ? {
         label: 'Spawnable Vectors',
+        definition: 'The live directions this object can continue into new objects.',
         value:
           mythmechSummary.spawnCandidateCount > 0
             ? mythmechSummary.candidateLabels.length > 0
@@ -654,21 +654,22 @@ const supportingCards = [
   mythmechSummary
     ? {
         label: 'Marginalia Signals',
+        definition: 'The notes and tags already shaping how this object is being read.',
         value:
           mythmechSignalCopy ||
           (mythmechSummary.marginaliaCount > 0 ? `${mythmechSummary.marginaliaCount} signals stored` : 'Signals not stored'),
       }
     : null,
-].filter((card): card is { label: string; value: string } => Boolean(card?.value));
+].filter((card): card is { label: string; definition: string; value: string } => Boolean(card?.value));
 const fragmentPreview = buildFragmentPreview(normalizedSourceText);
 const fragmentHasOverflow = Boolean(fragmentPreview) && fragmentPreview.trim() !== normalizedSourceText.trim();
 const respawnPreviewEntries = respawnEntries.filter((entry) => entry.key !== 'NOTES').slice(0, 5);
 const respawnNotes = respawnEntries.find((entry) => entry.key === 'NOTES')?.value || '';
 const hasMemoryPanel = supportingCards.length > 0 || Boolean(normalizedRespawn) || Boolean(normalizedPlatePrompt);
 const viewTabs = [
-  { id: 'overview', label: 'Overview' },
+  { id: 'overview', label: 'Meaning' },
   normalizedSourceText ? { id: 'fragment', label: 'Fragment' } : null,
-  inspectChamberPlacements.length > 0 ? { id: 'graph', label: 'Graph' } : null,
+  inspectChamberPlacements.length > 0 ? { id: 'graph', label: 'Structure' } : null,
   hasMemoryPanel ? { id: 'memory', label: 'Memory' } : null,
 ].filter((tab): tab is { id: string; label: string } => Boolean(tab));
 ---
@@ -683,17 +684,13 @@ const viewTabs = [
           <p class="field-surface-kicker">HUD</p>
           <h1 class="field-surface-title">{title}</h1>
         </div>
-        <div class="field-surface-status-row" aria-label="Surface state">
-          {surfaceStates.map((state) => (
-            <span class="field-surface-status-pill">{state}</span>
-          ))}
-        </div>
+        {surfaceContextLine && <p class="field-surface-context-line">{surfaceContextLine}</p>}
       </div>
     </header>
 
     <section class="field-surface-strike-wrap" id="strike" aria-label="Strike layer">
       <div class="field-surface-section-kicker">Strike Layer</div>
-      <p class="field-surface-layer-note">Immediate state read.</p>
+      <p class="field-surface-layer-note">The fastest operational read of this object right now.</p>
       <div class="field-surface-strike-band">
         <article class="field-surface-strike-item">
           <p class="field-surface-micro">Mode</p>
@@ -720,7 +717,7 @@ const viewTabs = [
 
     <section class:list={['field-surface-section', 'field-surface-section--hinge']}>
       <div class="field-surface-section-kicker">Hinge</div>
-      <p class="field-surface-layer-note">What matters most right now.</p>
+      <p class="field-surface-layer-note">The single strongest claim this HUD is making about the object.</p>
       <div class="field-surface-hinge-block">
         <div class="field-surface-hinge-main">
           <h2 class="field-surface-hinge-title">{hingeCommand}</h2>
@@ -735,10 +732,10 @@ const viewTabs = [
 
     <section class:list={['field-surface-section', 'field-surface-section--flow']}>
       <div class="field-surface-section-kicker">Flow Vector</div>
-      <p class="field-surface-layer-note">What presses, what stabilizes, what resolves.</p>
+      <p class="field-surface-layer-note">How pressure enters the object, what stabilizes it, and what state it produces.</p>
       <div class="field-surface-flow-vector" aria-label="Flow vector">
         {flowVectorItems.map((item, index) => (
-          <article class="field-surface-flow-card" data-direction={item.direction}>
+          <article class="field-surface-flow-step" data-direction={item.direction}>
             <p class="field-surface-flow-card-label">{item.label}</p>
             <strong class="field-surface-flow-card-value">{item.value}</strong>
             {index < flowVectorItems.length - 1 && <span class="field-surface-flow-arrow" aria-hidden="true">→</span>}
@@ -749,7 +746,7 @@ const viewTabs = [
 
     <section class="field-surface-section" id="snapshot">
       <div class="field-surface-section-kicker">Diagnostic Snapshot</div>
-      <p class="field-surface-layer-note">Context that supports the read.</p>
+      <p class="field-surface-layer-note">Stored field conditions around the object, kept separate from the object body.</p>
       <dl class="field-surface-snapshot-grid">
         {snapshotRows.map((row) => (
           <div class="field-surface-snapshot-row">
@@ -765,7 +762,7 @@ const viewTabs = [
       <div class="field-surface-view-head">
         <div>
           <div class="field-surface-section-kicker">Depth</div>
-          <p class="field-surface-layer-note">Open only what adds clarity.</p>
+          <p class="field-surface-layer-note">Open meaning, fragment, structure, or memory only when this object needs more resolution.</p>
         </div>
         <div class="field-surface-view-toggle" role="tablist" aria-label="HUD views">
           {viewTabs.map((tab) => (
@@ -782,20 +779,24 @@ const viewTabs = [
       </div>
 
       <div class:list={['field-surface-view-panel', 'is-active']} data-view-panel="overview">
-        <p class="field-surface-note-label">Value Register</p>
-        <p class="field-surface-layer-note">Why the state matters and what to do next.</p>
-        <div class="field-surface-hud-grid">
+        <p class="field-surface-note-label">Why This Matters</p>
+        <p class="field-surface-layer-note">These lines translate stored state into meaning for this object.</p>
+        <dl class="field-surface-register-list">
           {valueRegisterCards.map((card) => (
-            <article class="field-surface-cell">
-              <div class="field-surface-micro">{card.label}</div>
-              <div class="field-surface-value">{card.value}</div>
-            </article>
+            <div class="field-surface-register-row">
+              <dt>
+                <span class="field-surface-micro">{card.label}</span>
+                <span class="field-surface-register-definition">{card.definition}</span>
+              </dt>
+              <dd>{card.value}</dd>
+            </div>
           ))}
-        </div>
+        </dl>
       </div>
 
       <div class="field-surface-view-panel" data-view-panel="fragment" hidden>
         <p class="field-surface-note-label field-surface-fragment-label">Source Fragment</p>
+        <p class="field-surface-layer-note">The object body itself, kept separate from the diagnostic read.</p>
         <pre class="field-surface-fragment">{fragmentPreview || 'No source text is available for this object.'}</pre>
         {fragmentHasOverflow && (
           <a class="field-surface-path-link field-surface-path-link--inline" href={objectUrl}>
@@ -806,7 +807,8 @@ const viewTabs = [
 
       {inspectChamberPlacements.length > 0 && (
         <div class="field-surface-view-panel" data-view-panel="graph" hidden>
-          <p class="field-surface-note-label">Graph</p>
+          <p class="field-surface-note-label">Structure Map</p>
+          <p class="field-surface-layer-note">This map shows which chambers hold the object together and how pressure moves between them.</p>
           <div class="field-surface-diagram-grid" data-inspect-root={inspectRootId}>
             <aside class="field-surface-archetype-card">
               <p class="field-surface-archetype-kicker">Hinge</p>
@@ -947,18 +949,20 @@ const viewTabs = [
 
       {hasMemoryPanel && (
         <div class="field-surface-view-panel" data-view-panel="memory" hidden>
-          <p class="field-surface-note-label">Memory</p>
+          <p class="field-surface-note-label">Stored Context</p>
+          <p class="field-surface-layer-note">Adjacent memory around the object: packet state, lineage, respawn, and authored structure.</p>
           {supportingCards.length > 0 ? (
-            <>
-              <div class="field-surface-report-grid field-surface-report-grid--memory">
-                {supportingCards.map((card) => (
-                  <article class="field-surface-cluster">
-                    <p class="field-surface-cluster-label">{card.label}</p>
-                    <p class="field-surface-cluster-copy">{card.value}</p>
-                  </article>
-                ))}
-              </div>
-            </>
+            <dl class="field-surface-memory-list">
+              {supportingCards.map((card) => (
+                <div class="field-surface-memory-row">
+                  <dt>
+                    <span class="field-surface-cluster-label">{card.label}</span>
+                    <span class="field-surface-register-definition">{card.definition}</span>
+                  </dt>
+                  <dd>{card.value}</dd>
+                </div>
+              ))}
+            </dl>
           ) : (
             <p class="field-surface-empty">No supporting packet or Mythmech memory is stored for this object yet.</p>
           )}
@@ -1295,18 +1299,14 @@ const viewTabs = [
   .field-surface-archetype-kicker,
   .field-surface-focus-kicker,
   .field-surface-focus-label {
-    display: inline-flex;
-    align-items: center;
-    width: fit-content;
-    min-height: 1.55rem;
+    display: block;
+    width: auto;
+    min-height: 0;
     margin: 0;
-    padding: 0.12rem 0.48rem;
-    border: 1px solid var(--surface-line);
-    border-radius: 8px;
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.022), rgba(255, 255, 255, 0.008)),
-      var(--surface-panel-wash);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
   }
 
   .field-surface-title {
@@ -1319,12 +1319,23 @@ const viewTabs = [
     text-wrap: balance;
   }
 
+  .field-surface-context-line {
+    margin: 0;
+    color: var(--field-amber-dim);
+    font-family: var(--font-body);
+    font-size: 0.98rem;
+    line-height: 1.62;
+    text-wrap: pretty;
+    max-width: 42rem;
+  }
+
   .field-surface-status-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.48rem;
+    gap: 0.16rem 0.62rem;
     margin-top: 0;
     max-width: 28rem;
+    align-items: center;
   }
 
   .field-surface-layer-note {
@@ -1337,11 +1348,16 @@ const viewTabs = [
   }
 
   .field-surface-status-pill {
-    padding: 0.22rem 0.54rem;
-    border: 1px solid var(--surface-line);
-    border-radius: var(--field-chip-radius);
+    padding: 0;
+    border: 0;
     color: var(--field-amber-label);
-    background: var(--surface-panel-wash);
+    background: none;
+  }
+
+  .field-surface-status-pill + .field-surface-status-pill::before {
+    content: '/';
+    margin-right: 0.62rem;
+    color: var(--field-text-dim);
   }
 
   .field-surface-nav-block {
@@ -1580,23 +1596,19 @@ const viewTabs = [
     margin-top: 0.96rem;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.85rem;
+    gap: 0.85rem 1.2rem;
   }
 
-  .field-surface-flow-card {
+  .field-surface-flow-step {
     position: relative;
-    padding: 1rem 1.04rem 1.06rem;
-    border: 1px solid var(--surface-line);
-    border-radius: var(--surface-radius);
-    background:
-      linear-gradient(180deg, var(--surface-panel-elevated), rgba(255, 255, 255, 0.01)),
-      rgba(255, 255, 255, 0.012);
-    box-shadow: inset 0 1px 0 var(--surface-panel-line);
+    min-width: 0;
+    padding: 0.92rem 1.18rem 0 0;
+    border-top: 1px solid var(--surface-line);
   }
 
   .field-surface-flow-card-value {
     display: block;
-    margin-top: 0.54rem;
+    margin-top: 0.42rem;
     color: var(--field-amber-em);
     font-family: var(--font-ui);
     font-size: 1rem;
@@ -1609,12 +1621,12 @@ const viewTabs = [
 
   .field-surface-flow-arrow {
     position: absolute;
-    top: 50%;
-    right: -0.62rem;
+    top: 0.94rem;
+    right: -0.2rem;
     color: var(--field-amber-label);
     font-family: var(--font-ui);
     font-size: 0.94rem;
-    transform: translate(50%, -50%);
+    transform: translateX(50%);
     pointer-events: none;
   }
 
@@ -1883,18 +1895,23 @@ const viewTabs = [
 
   .field-surface-archetype-meta span,
   .field-surface-focus-tags span {
-    display: inline-flex;
-    align-items: center;
-    min-height: 1.8rem;
-    padding: 0.16rem 0.58rem;
-    border: 1px solid var(--surface-line);
-    border-radius: var(--field-chip-radius);
-    background: var(--surface-panel-wash);
+    display: inline;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    background: none;
     color: var(--field-amber-label);
     font-family: var(--font-ui);
     font-size: 0.68rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
+  }
+
+  .field-surface-archetype-meta span + span::before,
+  .field-surface-focus-tags span + span::before {
+    content: '/';
+    margin-right: 0.5rem;
+    color: var(--field-text-dim);
   }
 
   .field-surface-flow-legend {
@@ -2195,15 +2212,51 @@ const viewTabs = [
     text-transform: uppercase;
   }
 
-  .field-surface-hud-grid {
+  .field-surface-register-list,
+  .field-surface-memory-list {
     margin-top: 1.15rem;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.95rem;
+    gap: 0;
   }
 
-  .field-surface-cell,
-  .field-surface-cluster,
+  .field-surface-register-row,
+  .field-surface-memory-row {
+    display: grid;
+    grid-template-columns: minmax(15rem, 20rem) minmax(0, 1fr);
+    gap: 0.75rem 1.4rem;
+    align-items: start;
+    padding: 1rem 0;
+    border-top: 1px solid var(--surface-line);
+  }
+
+  .field-surface-register-row dt,
+  .field-surface-memory-row dt {
+    margin: 0;
+    display: grid;
+    gap: 0.28rem;
+    align-content: start;
+  }
+
+  .field-surface-register-row dd,
+  .field-surface-memory-row dd {
+    margin: 0;
+    color: var(--field-amber-em);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.74;
+    overflow-wrap: anywhere;
+  }
+
+  .field-surface-register-definition {
+    color: var(--field-text-dim);
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    line-height: 1.56;
+    text-transform: none;
+    letter-spacing: 0;
+    text-wrap: pretty;
+  }
+
   .field-surface-note-card {
     padding: 1.12rem 1.16rem 1.22rem;
     border: 1px solid var(--surface-line);
@@ -2295,13 +2348,11 @@ const viewTabs = [
   }
 
   .field-surface-note-stat dt {
-    display: inline-flex;
-    align-items: center;
-    min-height: 1.5rem;
-    padding: 0.1rem 0.42rem;
-    border: 1px solid var(--surface-line);
-    border-radius: 7px;
-    background: rgba(255, 255, 255, 0.016);
+    display: block;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    background: none;
     color: var(--field-amber-label);
     font-family: var(--font-ui);
     font-size: 0.68rem;
@@ -2373,12 +2424,9 @@ const viewTabs = [
   }
 
   @media (max-width: 960px) {
-    .field-surface-hud-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .field-surface-report-grid {
-      grid-template-columns: 1fr 1fr;
+    .field-surface-register-row,
+    .field-surface-memory-row {
+      grid-template-columns: minmax(12rem, 16rem) minmax(0, 1fr);
     }
 
     .field-surface-focus-meta-grid {
@@ -2406,14 +2454,8 @@ const viewTabs = [
     }
 
     .field-surface-mini,
-    .field-surface-report-grid {
-      grid-template-columns: 1fr;
-      min-width: 0;
-    }
-
     .field-surface-strike-band,
-    .field-surface-flow-vector,
-    .field-surface-hud-grid {
+    .field-surface-flow-vector {
       grid-template-columns: 1fr;
     }
 
@@ -2426,6 +2468,8 @@ const viewTabs = [
       gap: 0.42rem;
     }
 
+    .field-surface-register-row,
+    .field-surface-memory-row,
     .field-surface-note-grid {
       grid-template-columns: 1fr;
     }

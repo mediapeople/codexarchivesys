@@ -370,15 +370,28 @@ const exportAlternateLinks = [
   alternateLinks={exportAlternateLinks}
 >
   <article class={`object-shell ${entry.collection} ${objectFirstFlow ? 'text-first-media' : ''}`}>
-    <a
-      class="back"
-      href={defaultBackHref}
-      data-context-back-link
-      data-default-href={defaultBackHref}
-      data-default-label={defaultBackLabel}
-    >
-      ← {defaultBackLabel}
-    </a>
+    <div class="object-topline">
+      <a
+        class="back"
+        href={defaultBackHref}
+        data-context-back-link
+        data-default-href={defaultBackHref}
+        data-default-label={defaultBackLabel}
+      >
+        ← {defaultBackLabel}
+      </a>
+
+      <InspectModePanel
+        slug={getObjectSlug(entry)}
+        packet={sidecars.packet}
+        respawn={sidecars.respawn}
+        mythmech={sidecars.mythmech}
+        platePrompt={sidecars.platePrompt}
+        marginaliaEntries={mythmechMarginaliaEntries}
+        forceVisible={entry.collection === 'scroll' && entry.data.status === 'published'}
+        variant="utility"
+      />
+    </div>
 
     <header class="object-head">
       <h1>{displayTitle}</h1>
@@ -634,16 +647,6 @@ const exportAlternateLinks = [
     >
       <Content />
     </section>
-
-    <InspectModePanel
-      slug={getObjectSlug(entry)}
-      packet={sidecars.packet}
-      respawn={sidecars.respawn}
-      mythmech={sidecars.mythmech}
-      platePrompt={sidecars.platePrompt}
-      marginaliaEntries={mythmechMarginaliaEntries}
-      forceVisible={entry.collection === 'scroll' && entry.data.status === 'published'}
-    />
 
     <MarginaliaPanel
       objectId={entry.data.id}
@@ -1325,7 +1328,6 @@ const exportAlternateLinks = [
     display: inline-block;
     color: var(--mid);
     text-decoration: none;
-    margin-bottom: 1.1rem;
     font-family: var(--font-ui);
     font-size: 12px;
     letter-spacing: var(--ls-ui);
@@ -1337,6 +1339,14 @@ const exportAlternateLinks = [
   .back:hover {
     color: var(--star);
     border-color: var(--object-rule);
+  }
+
+  .object-topline {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.9rem 1.2rem;
+    align-items: start;
+    margin-bottom: 1.1rem;
   }
 
   .object-head > :global(.type-badge) {
@@ -2695,6 +2705,8 @@ const exportAlternateLinks = [
   }
 
   .body {
+    width: min(100%, 72ch);
+    max-width: min(100%, 72ch);
     margin-top: 4.2rem;
     line-height: 1.95;
     padding-top: 0.2rem;
@@ -3747,7 +3759,7 @@ const exportAlternateLinks = [
   }
 
   @media (max-width: 900px) {
-    .back {
+    .object-topline {
       margin-bottom: 1.35rem;
     }
 
@@ -4020,7 +4032,9 @@ const exportAlternateLinks = [
   }
 
   @media (max-width: 560px) {
-    .back {
+    .object-topline {
+      grid-template-columns: 1fr;
+      gap: 0.42rem;
       margin-bottom: 1.48rem;
     }
 

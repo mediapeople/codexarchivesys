@@ -1,7 +1,7 @@
 ---
 import { mergeMythmechMarginaliaEntries, normalizePlatePrompt, summarizeMythmech } from '../lib/mythmech';
 
-const { slug, packet, respawn, mythmech, platePrompt, marginaliaEntries = [], forceVisible = false } = Astro.props as {
+const { slug, packet, respawn, mythmech, platePrompt, marginaliaEntries = [], forceVisible = false, variant = 'inline' } = Astro.props as {
   slug: string;
   packet: unknown | null;
   respawn: string | null;
@@ -9,6 +9,7 @@ const { slug, packet, respawn, mythmech, platePrompt, marginaliaEntries = [], fo
   platePrompt: string | null;
   marginaliaEntries?: unknown[];
   forceVisible?: boolean;
+  variant?: 'inline' | 'utility';
 };
 
 function asRecord(value: unknown): Record<string, unknown> | null {
@@ -28,7 +29,7 @@ const hudHref = `/objects/${encodeURIComponent(slug)}/hud`;
 ---
 
 {hasInspectData && (
-  <section class="inspect-access" aria-label="HUD access">
+  <section class:list={['inspect-access', variant === 'utility' && 'inspect-access--utility']} aria-label="HUD access">
     <p class="inspect-access-kicker">Enhanced Object</p>
     <a class="inspect-access-button" href={hudHref}>View HUD</a>
   </section>
@@ -36,9 +37,20 @@ const hudHref = `/objects/${encodeURIComponent(slug)}/hud`;
 
 <style>
   .inspect-access {
+    display: grid;
+    gap: 0.62rem;
     margin: 2.1rem 0 0;
     padding-top: 1rem;
     border-top: 1px solid var(--field-line-soft);
+  }
+
+  .inspect-access--utility {
+    margin: 0;
+    padding: 0;
+    border-top: 0;
+    gap: 0.34rem;
+    justify-items: end;
+    align-content: start;
   }
 
   .inspect-access-kicker,
@@ -50,7 +62,7 @@ const hudHref = `/objects/${encodeURIComponent(slug)}/hud`;
   }
 
   .inspect-access-kicker {
-    margin: 0 0 0.62rem;
+    margin: 0;
     color: var(--field-amber-label);
   }
 
@@ -76,5 +88,36 @@ const hudHref = `/objects/${encodeURIComponent(slug)}/hud`;
     transform: translateY(-1px);
     border-color: var(--field-amber-accent);
     background: rgba(171, 143, 104, 0.12);
+  }
+
+  .inspect-access--utility .inspect-access-button {
+    min-height: 0;
+    padding: 0.38rem 0.76rem 0.34rem;
+    border-color: rgba(171, 143, 104, 0.34);
+    background: rgba(255, 255, 255, 0.008);
+  }
+
+  @media (max-width: 700px) {
+    .inspect-access--utility {
+      justify-items: start;
+      gap: 0.18rem;
+    }
+
+    .inspect-access--utility .inspect-access-button {
+      justify-content: flex-start;
+      min-height: 0;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: none;
+      color: var(--field-amber-em);
+    }
+
+    .inspect-access--utility .inspect-access-button:hover {
+      transform: none;
+      border-color: transparent;
+      background: none;
+      color: var(--star);
+    }
   }
 </style>
