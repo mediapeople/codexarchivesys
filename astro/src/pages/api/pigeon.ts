@@ -1670,7 +1670,6 @@ async function writeLocalEntry(
       url: getPublishedUrl(payload.objectType, slug),
       object_url: getPublishedUrl(payload.objectType, slug),
       hud_url: `/codex/${slug}/hud`,
-      plate_url: `/codex/${slug}/plate`,
       note: 'Entry written to source content. Rebuild or redeploy to publish outside local dev.',
     },
     { status: 201 }
@@ -2030,7 +2029,6 @@ async function writeGitHubEntry(
       url: getPublishedUrl(payload.objectType, slug),
       object_url: getPublishedUrl(payload.objectType, slug),
       hud_url: `/codex/${slug}/hud`,
-      plate_url: `/codex/${slug}/plate`,
       commitSha: commitResult.commitSha,
       commitUrl: commitResult.commitUrl,
       note: 'Entry committed to GitHub. Netlify will publish it after the next deploy completes.',

@@ -2,17 +2,19 @@
 import {
   buildMythmechLead,
   buildMythmechSupport,
+  mergeMythmechMarginaliaEntries,
   normalizePlatePrompt,
   summarizeMythmech,
 } from '../lib/mythmech';
 import { buildRespawnLead, parseRespawnSummary } from '../lib/respawn';
 
-const { slug, packet, respawn, mythmech, platePrompt } = Astro.props as {
+const { slug, packet, respawn, mythmech, platePrompt, marginaliaEntries = [] } = Astro.props as {
   slug: string;
   packet: unknown | null;
   respawn: string | null;
   mythmech: unknown | null;
   platePrompt: string | null;
+  marginaliaEntries?: unknown[];
 };
 
 function asRecord(value: unknown): Record<string, unknown> | null {
@@ -36,6 +38,15 @@ function clipCopy(value: string, max = 180): string {
   }
 
   return `${normalized.slice(0, max).replace(/\s+\S*$/, '').replace(/[.?!,:;]+$/, '').trim()}…`;
+}
+
+function endSentence(value: string): string {
+  const normalized = value.trim();
+  if (!normalized) {
+    return '';
+  }
+
+  return /[.?!]$/.test(normalized) ? normalized : `${normalized}.`;
 }
 
 function getPacketNotes(packetData: Record<string, unknown> | null): Array<{ label: string; value: string }> {
@@ -78,7 +89,8 @@ function buildPacketSummary(packetData: Record<string, unknown> | null): string 
 }
 
 const packetData = asRecord(packet);
-const mythmechSummary = summarizeMythmech(mythmech);
+const mythmechData = mergeMythmechMarginaliaEntries(mythmech, marginaliaEntries);
+const mythmechSummary = summarizeMythmech(mythmechData);
 const mythmechLead = mythmechSummary ? buildMythmechLead(mythmechSummary) : '';
 const mythmechSupport = mythmechSummary ? buildMythmechSupport(mythmechSummary) : '';
 const packetSummary = clipCopy(buildPacketSummary(packetData));
@@ -99,9 +111,6 @@ const badges = uniqueStrings([
   normalizedRespawn ? 'Respawn' : '',
   normalizedPlatePrompt ? 'Plate Prompt' : '',
 ]);
-const inspectLead = clipCopy(
-  mythmechLead || packetSummary || respawnLead || 'Open the structural read only when you want it.'
-);
 const packetFacts = uniqueStrings([
   asString(packetData?.mode) ? `Mode ${asString(packetData?.mode)}` : '',
   (() => {
@@ -123,8 +132,79 @@ const packetFacts = uniqueStrings([
     return watch && watch !== 'NONE' ? `Watch ${watch}` : '';
   })(),
 ]);
+const inspectHeadline = clipCopy(
+  packetNotes[0]?.value ||
+    mythmechLead ||
+    respawnLead ||
+    normalizedPlatePrompt ||
+    'Open the deeper read only when you want it.',
+  96
+);
+const inspectMeta = clipCopy(
+  (() => {
+    if (packetData) {
+      const signal = asRecord(packetData.signal);
+      const atmosphere = asRecord(packetData.atmosphere);
+      const traumaWeather = asRecord(packetData.trauma_weather);
+      const mode = asString(packetData.mode);
+      const signalValue = uniqueStrings([asString(signal?.track), asString(signal?.mode)]).join(' / ');
+      const atmosphereState = asString(atmosphere?.saturation_class) || asString(atmosphere?.pollen);
+      const intakeRisk = asString(atmosphere?.intake_risk);
+      const watch = asString(traumaWeather?.alert);
+
+      return endSentence(
+        uniqueStrings([
+          'Snapshot stored',
+          mode ? `${mode} mode` : '',
+          signalValue ? `${signalValue} signal` : '',
+          atmosphereState
+            ? intakeRisk
+              ? `${atmosphereState} with ${intakeRisk.toLowerCase()} intake risk`
+              : `${atmosphereState} atmosphere`
+            : '',
+          watch && watch !== 'NONE' ? `watch ${watch}` : '',
+        ]).join('. ')
+      );
+    }
+
+    if (mythmechSummary) {
+      return endSentence(clipCopy(mythmechSupport || mythmechLead || 'Structural lens attached.', 132));
+    }
+
+    if (respawnLead) {
+      return endSentence(`Return path stored. ${respawnLead}`);
+    }
+
+    if (normalizedPlatePrompt) {
+      return 'Plate prompt stored for later surface work.';
+    }
+
+    return 'Open when you want the deeper structural read.';
+  })(),
+  148
+);
+const mythmechLoadCopy = mythmechSummary
+  ? uniqueStrings([
+      mythmechSummary.criticalCount > 0 ? `${mythmechSummary.criticalCount} critical` : '',
+      mythmechSummary.highCount > 0 ? `${mythmechSummary.highCount} high` : '',
+      mythmechSummary.mediumCount > 0 ? `${mythmechSummary.mediumCount} medium` : '',
+      mythmechSummary.lowCount > 0 ? `${mythmechSummary.lowCount} low` : '',
+    ]).join(' / ')
+  : '';
+const mythmechLineageCopy = mythmechSummary
+  ? `${mythmechSummary.parentCount} parents / ${mythmechSummary.childCount} children`
+  : '';
+const mythmechFlowCopy = mythmechSummary
+  ? mythmechSummary.flowLabels.length > 0
+    ? `${mythmechSummary.flowCount} flows · ${mythmechSummary.flowLabels.join(' · ')}`
+    : `${mythmechSummary.flowCount} flows`
+  : '';
+const mythmechSignalCopy = mythmechSummary
+  ? mythmechSummary.marginaliaSignals.length > 0
+    ? mythmechSummary.marginaliaSignals.join(' · ')
+    : mythmechSummary.marginaliaTypes.join(' · ')
+  : '';
 const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
-const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
 ---
 
 {hasInspectData && (
@@ -136,7 +216,7 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
 
       <span class="inspect-panel-head">
         <span class="inspect-panel-overline">
-          <span class="inspect-panel-label">Inspect Lens</span>
+          <span class="inspect-panel-label">Inspect</span>
           {badges.length > 0 && (
             <span class="inspect-panel-badges" aria-label="Stored inspection layers">
               {badges.map((badge) => (
@@ -145,8 +225,8 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
             </span>
           )}
         </span>
-        <span class="inspect-panel-copy">{inspectLead}</span>
-        <span class="inspect-panel-meta">Structural memory stays offstage until you want the read.</span>
+        <span class="inspect-panel-copy">{inspectHeadline}</span>
+        <span class="inspect-panel-meta">{inspectMeta}</span>
       </span>
 
       <span class="inspect-panel-toggle" aria-hidden="true"></span>
@@ -160,19 +240,39 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
       {mythmechSummary && (
         <section class="inspect-section">
           <div class="inspect-section-head">
-            <h2>Mythmech</h2>
+            <h2>Inspect Mode</h2>
             <p>{mythmechLead}</p>
           </div>
 
           <dl class="inspect-grid">
+            {mythmechSummary.hingeLabel && (
+              <div class="inspect-card">
+                <dt>Hinge</dt>
+                <dd>{mythmechSummary.hingeLabel}</dd>
+              </div>
+            )}
             <div class="inspect-card">
-              <dt>Nodes / Edges</dt>
-              <dd>{mythmechSummary.nodeCount} / {mythmechSummary.edgeCount}</dd>
+              <dt>Nodes / Flows</dt>
+              <dd>{mythmechSummary.nodeCount} / {mythmechSummary.flowCount}</dd>
             </div>
-            <div class="inspect-card">
-              <dt>Lineage</dt>
-              <dd>{mythmechSummary.parentCount} parents / {mythmechSummary.childCount} children</dd>
-            </div>
+            {mythmechLoadCopy && (
+              <div class="inspect-card">
+                <dt>Load</dt>
+                <dd>{mythmechLoadCopy}</dd>
+              </div>
+            )}
+            {mythmechLineageCopy && (
+              <div class="inspect-card">
+                <dt>Lineage</dt>
+                <dd>{mythmechLineageCopy}</dd>
+              </div>
+            )}
+            {mythmechFlowCopy && (
+              <div class="inspect-card">
+                <dt>Flows</dt>
+                <dd>{mythmechFlowCopy}</dd>
+              </div>
+            )}
             {mythmechSummary.stateCount > 0 && (
               <div class="inspect-card">
                 <dt>States</dt>
@@ -189,14 +289,22 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
                 </dd>
               </div>
             )}
-            {mythmechSummary.marginaliaCount > 0 && (
-              <div class="inspect-card inspect-card--wide">
+            {mythmechSignalCopy && (
+              <div class:list={['inspect-card', 'inspect-card--wide']}>
+                <dt>Marginalia Signals</dt>
+                <dd>{mythmechSignalCopy}</dd>
+              </div>
+            )}
+            {!mythmechSignalCopy && mythmechSummary.marginaliaCount > 0 && (
+              <div class:list={['inspect-card', 'inspect-card--wide']}>
                 <dt>Marginalia</dt>
-                <dd>
-                  {mythmechSummary.marginaliaTypes.length > 0
-                    ? mythmechSummary.marginaliaTypes.join(' · ')
-                    : `${mythmechSummary.marginaliaCount} entries`}
-                </dd>
+                <dd>{mythmechSummary.marginaliaCount} entries</dd>
+              </div>
+            )}
+            {!mythmechSignalCopy && !mythmechLoadCopy && !mythmechSummary.hingeLabel && mythmechLineageCopy && (
+              <div class="inspect-card">
+                <dt>Lineage</dt>
+                <dd>{mythmechLineageCopy}</dd>
               </div>
             )}
           </dl>
@@ -259,8 +367,7 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
       )}
 
       <div class="inspect-actions">
-        <a href={hudHref}>Open HUD</a>
-        <a href={plateHref}>Open Report</a>
+        <a href={hudHref}>View HUD</a>
       </div>
     </div>
   </details>
@@ -272,11 +379,12 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
     --inspect-line-strong: rgba(216, 188, 132, 0.28);
     --inspect-surface: rgba(26, 19, 12, 0.88);
     --inspect-surface-soft: rgba(255, 255, 255, 0.025);
+    --inspect-radius: 12px;
     position: relative;
     margin: 2.4rem 0 0;
     max-width: 42rem;
     border: 1px solid var(--inspect-line);
-    border-radius: 1.35rem;
+    border-radius: var(--inspect-radius);
     overflow: hidden;
     background:
       linear-gradient(180deg, rgba(34, 24, 14, 0.9), rgba(15, 11, 8, 0.96)),
@@ -417,12 +525,11 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
   }
 
   .inspect-panel-meta {
-    color: color-mix(in srgb, var(--mid) 82%, var(--gold) 18%);
-    font-family: var(--font-ui);
-    font-size: 0.62rem;
-    letter-spacing: 0.12em;
-    line-height: 1.5;
-    text-transform: uppercase;
+    color: color-mix(in srgb, var(--mid) 80%, var(--gold) 20%);
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    letter-spacing: 0;
+    line-height: 1.55;
   }
 
   .inspect-panel-badges {
@@ -490,7 +597,7 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
     margin: 0.95rem 0 0;
     padding: 0.84rem 0.96rem;
     border: 1px solid rgba(216, 188, 132, 0.12);
-    border-radius: 1rem;
+    border-radius: var(--inspect-radius);
     color: var(--text-soft);
     line-height: 1.68;
     background:
@@ -502,7 +609,7 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
     margin-top: 1rem;
     padding: 1rem;
     border: 1px solid rgba(216, 188, 132, 0.11);
-    border-radius: 1.05rem;
+    border-radius: var(--inspect-radius);
     background:
       linear-gradient(180deg, rgba(255, 255, 255, 0.022), rgba(255, 255, 255, 0.012)),
       var(--inspect-surface);
@@ -542,7 +649,7 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
   .inspect-note {
     padding: 0.8rem 0.82rem 0.84rem;
     border: 1px solid rgba(216, 188, 132, 0.12);
-    border-radius: 0.96rem;
+    border-radius: var(--inspect-radius);
     background:
       linear-gradient(180deg, rgba(255, 255, 255, 0.028), rgba(255, 255, 255, 0.014)),
       rgba(11, 9, 7, 0.62);
@@ -614,7 +721,7 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
     margin-top: 0.8rem;
     padding: 0.92rem 1rem;
     border: 1px solid rgba(216, 188, 132, 0.1);
-    border-radius: 0.96rem;
+    border-radius: var(--inspect-radius);
     background: rgba(255, 255, 255, 0.015);
   }
 
@@ -662,10 +769,6 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
   }
 
   @media (max-width: 720px) {
-    .inspect-panel {
-      border-radius: 1.1rem;
-    }
-
     .inspect-panel-summary {
       padding: 0.96rem 0.92rem 1rem;
       gap: 0.82rem 0.84rem;
@@ -684,7 +787,7 @@ const plateHref = `/codex/${encodeURIComponent(slug)}/plate`;
     }
 
     .inspect-panel-meta {
-      font-size: 0.58rem;
+      font-size: 0.84rem;
     }
   }
 </style>

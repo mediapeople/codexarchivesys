@@ -2,6 +2,7 @@
 import {
   buildMythmechLead,
   buildMythmechSupport,
+  mergeMythmechMarginaliaEntries,
   normalizePlatePrompt,
   summarizeMythmech,
 } from '../../lib/mythmech';
@@ -13,18 +14,18 @@ const {
   packet,
   mythmech,
   platePrompt,
+  marginaliaEntries = [],
   sourceText,
   respawn,
-  initialView = 'hud',
 } = Astro.props as {
   title: string;
   objectUrl: string;
   packet: unknown | null;
   mythmech: unknown | null;
   platePrompt: string | null;
+  marginaliaEntries?: unknown[];
   sourceText: string;
   respawn: string | null;
-  initialView?: 'hud' | 'plate';
 };
 
 function asRecord(value: unknown): Record<string, unknown> | null {
@@ -59,7 +60,8 @@ function normalizeSignalTrack(value: unknown): string {
 }
 
 const packetData = asRecord(packet);
-const mythmechSummary = summarizeMythmech(mythmech);
+const mythmechData = mergeMythmechMarginaliaEntries(mythmech, marginaliaEntries);
+const mythmechSummary = summarizeMythmech(mythmechData);
 const mythmechLead = mythmechSummary ? buildMythmechLead(mythmechSummary) : '';
 const mythmechSupport = mythmechSummary ? buildMythmechSupport(mythmechSummary) : '';
 const artifact = asRecord(packetData?.artifact);
@@ -107,19 +109,47 @@ const normalizedRespawn = typeof respawn === 'string' && respawn.trim() ? respaw
 const normalizedPlatePrompt = normalizePlatePrompt(platePrompt) || '';
 const objectSlug = objectUrl.split('/').filter(Boolean).pop() || '';
 const hudRoute = objectSlug ? `/codex/${encodeURIComponent(objectSlug)}/hud` : '#hud';
-const plateRoute = objectSlug ? `/codex/${encodeURIComponent(objectSlug)}/plate` : '#report';
 const respawnEntries = parseRespawnSummary(normalizedRespawn);
 const respawnLead = buildRespawnLead(respawnEntries);
 const objectPathLabel = objectUrl;
-const hudFirst = initialView !== 'plate';
 const noPacketMessage = mythmechSummary
   ? 'No packet sidecar is stored for this object yet. Mythmech remains attached as the active inspection lens.'
   : 'No packet sidecar is stored for this object yet. The source fragment remains canonical and this surface will fill in as soon as a packet is present.';
+const mythmechLoadCopy = mythmechSummary
+  ? uniqueStrings([
+      mythmechSummary.criticalCount > 0 ? `${mythmechSummary.criticalCount} critical` : '',
+      mythmechSummary.highCount > 0 ? `${mythmechSummary.highCount} high` : '',
+      mythmechSummary.mediumCount > 0 ? `${mythmechSummary.mediumCount} medium` : '',
+      mythmechSummary.lowCount > 0 ? `${mythmechSummary.lowCount} low` : '',
+    ]).join(' / ')
+  : '';
+const mythmechLineageCopy = mythmechSummary
+  ? mythmechSummary.parentCount > 0 || mythmechSummary.childCount > 0 || mythmechSummary.relationCount > 0
+    ? `${mythmechSummary.parentCount} parents · ${mythmechSummary.childCount} children · ${mythmechSummary.relationCount} relations`
+    : ''
+  : '';
+const mythmechFlowCopy = mythmechSummary
+  ? mythmechSummary.flowLabels.length > 0
+    ? `${mythmechSummary.flowCount} flows · ${mythmechSummary.flowLabels.join(' · ')}`
+    : mythmechSummary.flowCount > 0
+      ? `${mythmechSummary.flowCount} flows`
+      : ''
+  : '';
+const mythmechSignalCopy = mythmechSummary
+  ? mythmechSummary.marginaliaSignals.length > 0
+    ? mythmechSummary.marginaliaSignals.join(' · ')
+    : mythmechSummary.marginaliaTypes.length > 0
+      ? mythmechSummary.marginaliaTypes.join(' · ')
+      : ''
+  : '';
 const hasMythmechDetailGrid = Boolean(
   mythmechSummary &&
-    (mythmechSummary.stateCount > 0 ||
-      mythmechSummary.relationCount > 0 ||
+    (Boolean(mythmechSummary.hingeLabel) ||
+      Boolean(mythmechLoadCopy) ||
+      Boolean(mythmechFlowCopy) ||
+      mythmechSummary.stateCount > 0 ||
       mythmechSummary.spawnCandidateCount > 0 ||
+      Boolean(mythmechSignalCopy) ||
       mythmechSummary.marginaliaCount > 0)
 );
 
@@ -129,6 +159,19 @@ const surfaceStates = uniqueStrings([
   hasSignal ? 'Signal-led' : mythmechSummary ? 'Structural read' : 'Open fragment',
   normalizedPlatePrompt ? 'Plate prompt stored' : '',
 ]);
+const hudSurfaceState =
+  packetData && mythmechSummary
+    ? 'Packet + Mythmech'
+    : mythmechSummary
+      ? 'Mythmech Lens'
+      : packetData
+        ? 'Packet Memory'
+        : 'Source First';
+const hudSurfaceCopy = mythmechSummary
+  ? 'One surface for hinge, load, packet memory, and return paths without crowding the object.'
+  : packetData
+    ? 'One surface for packet state, signal weather, and the preserved fragment.'
+    : 'One surface for source continuity while the deeper structural layer comes online.';
 
 const packetReportCards = [
   {
@@ -152,11 +195,16 @@ const mythmechReportCards = mythmechSummary
         value: mythmechLead,
       },
       {
+        label: 'Hinge',
+        value: mythmechSummary.hingeLabel || 'Hinge not stored',
+      },
+      {
+        label: 'Load',
+        value: mythmechLoadCopy || 'Load not stored',
+      },
+      {
         label: 'Lineage',
-        value:
-          mythmechSummary.parentCount > 0 || mythmechSummary.childCount > 0 || mythmechSummary.relationCount > 0
-            ? `${mythmechSummary.parentCount} parents · ${mythmechSummary.childCount} children · ${mythmechSummary.relationCount} relations`
-            : 'Lineage not stored',
+        value: mythmechLineageCopy || 'Lineage not stored',
       },
       {
         label: 'Spawn',
@@ -166,6 +214,12 @@ const mythmechReportCards = mythmechSummary
               ? mythmechSummary.candidateLabels.join(' · ')
               : `${mythmechSummary.spawnCandidateCount} candidates`
             : 'Spawn not stored',
+      },
+      {
+        label: 'Marginalia',
+        value:
+          mythmechSignalCopy ||
+          (mythmechSummary.marginaliaCount > 0 ? `${mythmechSummary.marginaliaCount} signals stored` : 'Signals not stored'),
       },
     ]
   : [];
@@ -187,14 +241,15 @@ const hudCards = [
   ...(mythmechSummary
     ? [
         { label: 'Lens', value: mythmechSummary.enabled ? 'Enabled' : 'Stored' },
+        { label: 'Hinge', value: mythmechSummary.hingeLabel || '' },
         { label: 'Nodes', value: String(mythmechSummary.nodeCount) },
-        { label: 'Edges', value: String(mythmechSummary.edgeCount) },
+        { label: 'Flows', value: String(mythmechSummary.flowCount) },
+        { label: 'Load', value: mythmechLoadCopy || '' },
         { label: 'States', value: String(mythmechSummary.stateCount) },
         { label: 'Parents', value: String(mythmechSummary.parentCount) },
         { label: 'Children', value: String(mythmechSummary.childCount) },
-        { label: 'Relations', value: String(mythmechSummary.relationCount) },
         { label: 'Spawn', value: String(mythmechSummary.spawnCandidateCount) },
-        { label: 'Marginalia', value: String(mythmechSummary.marginaliaCount) },
+        { label: 'Marginalia', value: mythmechSignalCopy || String(mythmechSummary.marginaliaCount) },
       ]
     : []),
   { label: 'Object Path', value: objectPathLabel },
@@ -207,12 +262,12 @@ const signalMeta = [
 ].filter((item) => item.value);
 ---
 
-<section class="field-surface-wrap" data-view={hudFirst ? 'hud' : 'report'}>
+<section class="field-surface-wrap">
   <article class="field-surface-shell page-plate">
     <header class="field-surface-mast">
       <div class="field-surface-ident">
         <div class="field-surface-heading">
-          <p class="field-surface-kicker">Inspect Surface</p>
+          <p class="field-surface-kicker">HUD</p>
           <h1 class="field-surface-title">{title}</h1>
         </div>
         <div class="field-surface-status-row" aria-label="Surface state">
@@ -224,30 +279,36 @@ const signalMeta = [
 
       <div class="field-surface-nav-block">
         <div class="field-surface-nav-card">
-          <nav class="field-surface-route-links" aria-label="Surface navigation">
-            <a class="field-surface-route-pill field-surface-route-pill--back" href={objectUrl}>← Object</a>
-            <a
-              class:list={['field-surface-route-pill', hudFirst && 'is-active']}
-              href={hudRoute}
-              aria-current={hudFirst ? 'page' : undefined}
-            >
-              HUD Surface
+          <div class="field-surface-nav-header">
+            <div class="field-surface-nav-copy-block">
+              <p class="field-surface-nav-kicker">Visual Report</p>
+              <p class="field-surface-nav-copy">{hudSurfaceCopy}</p>
+            </div>
+            <span class="field-surface-nav-state">{hudSurfaceState}</span>
+          </div>
+          <div class="field-surface-nav-actions" aria-label="Surface navigation">
+            <a class="field-surface-return-link" href={objectUrl}>
+              <span>Return</span>
+              <strong>← Object</strong>
             </a>
-            <a
-              class:list={['field-surface-route-pill', !hudFirst && 'is-active']}
-              href={plateRoute}
-              aria-current={!hudFirst ? 'page' : undefined}
-            >
-              Report Surface
-            </a>
-          </nav>
+            <a class="field-surface-mode-chip" href={hudRoute} aria-current="page">HUD</a>
+          </div>
           <nav class="field-surface-anchor-links" aria-label="Section navigation">
-            <a href="#hud">Jump to HUD</a>
-            <a href="#report">Jump to report</a>
+            <a class="field-surface-anchor-pill" href="#hud">
+              <span class="field-surface-anchor-index">01</span>
+              <span>Overview</span>
+            </a>
+            <a class="field-surface-anchor-pill" href="#readout">
+              <span class="field-surface-anchor-index">02</span>
+              <span>Readout</span>
+            </a>
           </nav>
           <div class="field-surface-path-block">
             <p class="field-surface-path">Canonical object</p>
-            <a class="field-surface-path-link" href={objectUrl}>{objectPathLabel}</a>
+            <a class="field-surface-path-link" href={objectUrl}>
+              <span class="field-surface-path-value">{objectPathLabel}</span>
+              <span class="field-surface-path-hint">Open the primary object</span>
+            </a>
           </div>
         </div>
       </div>
@@ -284,245 +345,134 @@ const signalMeta = [
       </section>
     )}
 
-    {hudFirst ? (
-      <>
-        <section class="field-surface-section" id="hud">
-          <div class="field-surface-section-kicker">View HUD</div>
-          <div class="field-surface-hud-grid">
-            {hudCards.map((card) => (
-              <article class="field-surface-cell">
-                <div class="field-surface-micro">{card.label}</div>
-                <div class="field-surface-value">{card.value}</div>
-              </article>
-            ))}
-          </div>
+    <section class="field-surface-section" id="hud">
+      <div class="field-surface-section-kicker">HUD Overview</div>
+      <div class="field-surface-hud-grid">
+        {hudCards.map((card) => (
+          <article class="field-surface-cell">
+            <div class="field-surface-micro">{card.label}</div>
+            <div class="field-surface-value">{card.value}</div>
+          </article>
+        ))}
+      </div>
 
-          {!packetData && (
-            <p class="field-surface-empty">{noPacketMessage}</p>
+      {!packetData && (
+        <p class="field-surface-empty">{noPacketMessage}</p>
+      )}
+    </section>
+
+    <section class="field-surface-section" id="readout">
+      <div class="field-surface-section-kicker">HUD Readout</div>
+      {reportCards.length > 0 ? (
+        <div class="field-surface-report-grid">
+          {reportCards.map((card) => (
+            <article class="field-surface-cluster">
+              <p class="field-surface-cluster-label">{card.label}</p>
+              <p class="field-surface-cluster-copy">{card.value}</p>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <p class="field-surface-empty">No packet or Mythmech readout cards are stored for this object yet.</p>
+      )}
+
+      <pre class="field-surface-fragment">{normalizedSourceText || 'No source text is available for this object.'}</pre>
+
+      {(normalizedRespawn || packetNotes.length > 0 || mythmechSummary || normalizedPlatePrompt) && (
+        <div class="field-surface-note-stack">
+          {normalizedRespawn && (
+            <article class="field-surface-note-card field-surface-note-card--respawn">
+              <p class="field-surface-note-label">Respawn</p>
+              {respawnLead && <p class="field-surface-note-title">{respawnLead}</p>}
+              {respawnEntries.length > 0 && (
+                <dl class="field-surface-note-grid">
+                  {respawnEntries.map((entry) => (
+                    <div class:list={['field-surface-note-stat', entry.key === 'NOTES' && 'field-surface-note-stat--wide']}>
+                      <dt>{entry.label}</dt>
+                      <dd>{entry.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
+            </article>
           )}
-        </section>
 
-        <section class="field-surface-section" id="report">
-          <div class="field-surface-section-kicker">Report</div>
-          {reportCards.length > 0 ? (
-            <div class="field-surface-report-grid">
-              {reportCards.map((card) => (
-                <article class="field-surface-cluster">
-                  <p class="field-surface-cluster-label">{card.label}</p>
-                  <p class="field-surface-cluster-copy">{card.value}</p>
-                </article>
-              ))}
-            </div>
-          ) : (
-            <p class="field-surface-empty">No packet or Mythmech report cards are stored for this object yet.</p>
-          )}
-
-          <pre class="field-surface-fragment">{normalizedSourceText || 'No source text is available for this object.'}</pre>
-
-          {(normalizedRespawn || packetNotes.length > 0 || mythmechSummary || normalizedPlatePrompt) && (
-            <div class="field-surface-note-stack">
-              {normalizedRespawn && (
-                <article class="field-surface-note-card field-surface-note-card--respawn">
-                  <p class="field-surface-note-label">Respawn</p>
-                  {respawnLead && <p class="field-surface-note-title">{respawnLead}</p>}
-                  {respawnEntries.length > 0 && (
-                    <dl class="field-surface-note-grid">
-                      {respawnEntries.map((entry) => (
-                        <div class:list={['field-surface-note-stat', entry.key === 'NOTES' && 'field-surface-note-stat--wide']}>
-                          <dt>{entry.label}</dt>
-                          <dd>{entry.value}</dd>
-                        </div>
-                      ))}
-                    </dl>
+          {mythmechSummary && (
+            <article class="field-surface-note-card">
+              <p class="field-surface-note-label">Mythmech</p>
+              {mythmechLead && <p class="field-surface-note-title">{mythmechLead}</p>}
+              {mythmechSupport && <p class="field-surface-note-copy">{mythmechSupport}</p>}
+              {hasMythmechDetailGrid && (
+                <dl class="field-surface-note-grid">
+                  {mythmechSummary.stateCount > 0 && (
+                    <div class="field-surface-note-stat">
+                      <dt>States</dt>
+                      <dd>{mythmechSummary.stateLabels.join(' · ')}</dd>
+                    </div>
                   )}
-                </article>
-              )}
-
-              {mythmechSummary && (
-                <article class="field-surface-note-card">
-                  <p class="field-surface-note-label">Mythmech</p>
-                  {mythmechLead && <p class="field-surface-note-title">{mythmechLead}</p>}
-                  {mythmechSupport && <p class="field-surface-note-copy">{mythmechSupport}</p>}
-                  {hasMythmechDetailGrid && (
-                    <dl class="field-surface-note-grid">
-                      {mythmechSummary.stateCount > 0 && (
-                        <div class="field-surface-note-stat">
-                          <dt>States</dt>
-                          <dd>{mythmechSummary.stateLabels.join(' · ')}</dd>
-                        </div>
-                      )}
-                      {mythmechSummary.relationCount > 0 && (
-                        <div class="field-surface-note-stat">
-                          <dt>Relations</dt>
-                          <dd>
-                            {mythmechSummary.relationLabels.length > 0
-                              ? mythmechSummary.relationLabels.join(' · ')
-                              : `${mythmechSummary.relationCount} relations`}
-                          </dd>
-                        </div>
-                      )}
-                      {mythmechSummary.spawnCandidateCount > 0 && (
-                        <div class="field-surface-note-stat">
-                          <dt>Spawn</dt>
-                          <dd>
-                            {mythmechSummary.candidateLabels.length > 0
-                              ? mythmechSummary.candidateLabels.join(' · ')
-                              : `${mythmechSummary.spawnCandidateCount} candidates`}
-                          </dd>
-                        </div>
-                      )}
-                      {mythmechSummary.marginaliaCount > 0 && (
-                        <div class:list={['field-surface-note-stat', 'field-surface-note-stat--wide']}>
-                          <dt>Marginalia</dt>
-                          <dd>
-                            {mythmechSummary.marginaliaTypes.length > 0
-                              ? mythmechSummary.marginaliaTypes.join(' · ')
-                              : `${mythmechSummary.marginaliaCount} entries`}
-                          </dd>
-                        </div>
-                      )}
-                    </dl>
+                  {mythmechSummary.hingeLabel && (
+                    <div class="field-surface-note-stat">
+                      <dt>Hinge</dt>
+                      <dd>{mythmechSummary.hingeLabel}</dd>
+                    </div>
                   )}
-                </article>
-              )}
-
-              {normalizedPlatePrompt && (
-                <article class="field-surface-note-card">
-                  <p class="field-surface-note-label">Plate Prompt</p>
-                  <p class="field-surface-note-copy">{normalizedPlatePrompt}</p>
-                </article>
-              )}
-
-              {packetNotes.map((note) => (
-                <article class="field-surface-note-card">
-                  <p class="field-surface-note-label">{note.label}</p>
-                  <p class="field-surface-note-copy">{note.value}</p>
-                </article>
-              ))}
-            </div>
-          )}
-        </section>
-      </>
-    ) : (
-      <>
-        <section class="field-surface-section" id="report">
-          <div class="field-surface-section-kicker">Report</div>
-          {reportCards.length > 0 ? (
-            <div class="field-surface-report-grid">
-              {reportCards.map((card) => (
-                <article class="field-surface-cluster">
-                  <p class="field-surface-cluster-label">{card.label}</p>
-                  <p class="field-surface-cluster-copy">{card.value}</p>
-                </article>
-              ))}
-            </div>
-          ) : (
-            <p class="field-surface-empty">No packet or Mythmech report cards are stored for this object yet.</p>
-          )}
-
-          <pre class="field-surface-fragment">{normalizedSourceText || 'No source text is available for this object.'}</pre>
-
-          {(normalizedRespawn || packetNotes.length > 0 || mythmechSummary || normalizedPlatePrompt) && (
-            <div class="field-surface-note-stack">
-              {normalizedRespawn && (
-                <article class="field-surface-note-card field-surface-note-card--respawn">
-                  <p class="field-surface-note-label">Respawn</p>
-                  {respawnLead && <p class="field-surface-note-title">{respawnLead}</p>}
-                  {respawnEntries.length > 0 && (
-                    <dl class="field-surface-note-grid">
-                      {respawnEntries.map((entry) => (
-                        <div class:list={['field-surface-note-stat', entry.key === 'NOTES' && 'field-surface-note-stat--wide']}>
-                          <dt>{entry.label}</dt>
-                          <dd>{entry.value}</dd>
-                        </div>
-                      ))}
-                    </dl>
+                  {mythmechLoadCopy && (
+                    <div class="field-surface-note-stat">
+                      <dt>Load</dt>
+                      <dd>{mythmechLoadCopy}</dd>
+                    </div>
                   )}
-                </article>
-              )}
-
-              {mythmechSummary && (
-                <article class="field-surface-note-card">
-                  <p class="field-surface-note-label">Mythmech</p>
-                  {mythmechLead && <p class="field-surface-note-title">{mythmechLead}</p>}
-                  {mythmechSupport && <p class="field-surface-note-copy">{mythmechSupport}</p>}
-                  {hasMythmechDetailGrid && (
-                    <dl class="field-surface-note-grid">
-                      {mythmechSummary.stateCount > 0 && (
-                        <div class="field-surface-note-stat">
-                          <dt>States</dt>
-                          <dd>{mythmechSummary.stateLabels.join(' · ')}</dd>
-                        </div>
-                      )}
-                      {mythmechSummary.relationCount > 0 && (
-                        <div class="field-surface-note-stat">
-                          <dt>Relations</dt>
-                          <dd>
-                            {mythmechSummary.relationLabels.length > 0
-                              ? mythmechSummary.relationLabels.join(' · ')
-                              : `${mythmechSummary.relationCount} relations`}
-                          </dd>
-                        </div>
-                      )}
-                      {mythmechSummary.spawnCandidateCount > 0 && (
-                        <div class="field-surface-note-stat">
-                          <dt>Spawn</dt>
-                          <dd>
-                            {mythmechSummary.candidateLabels.length > 0
-                              ? mythmechSummary.candidateLabels.join(' · ')
-                              : `${mythmechSummary.spawnCandidateCount} candidates`}
-                          </dd>
-                        </div>
-                      )}
-                      {mythmechSummary.marginaliaCount > 0 && (
-                        <div class:list={['field-surface-note-stat', 'field-surface-note-stat--wide']}>
-                          <dt>Marginalia</dt>
-                          <dd>
-                            {mythmechSummary.marginaliaTypes.length > 0
-                              ? mythmechSummary.marginaliaTypes.join(' · ')
-                              : `${mythmechSummary.marginaliaCount} entries`}
-                          </dd>
-                        </div>
-                      )}
-                    </dl>
+                  {mythmechFlowCopy && (
+                    <div class="field-surface-note-stat">
+                      <dt>Flows</dt>
+                      <dd>{mythmechFlowCopy}</dd>
+                    </div>
                   )}
-                </article>
+                  {mythmechLineageCopy && (
+                    <div class="field-surface-note-stat">
+                      <dt>Lineage</dt>
+                      <dd>{mythmechLineageCopy}</dd>
+                    </div>
+                  )}
+                  {mythmechSummary.spawnCandidateCount > 0 && (
+                    <div class="field-surface-note-stat">
+                      <dt>Spawn</dt>
+                      <dd>
+                        {mythmechSummary.candidateLabels.length > 0
+                          ? mythmechSummary.candidateLabels.join(' · ')
+                          : `${mythmechSummary.spawnCandidateCount} candidates`}
+                      </dd>
+                    </div>
+                  )}
+                  {(mythmechSignalCopy || mythmechSummary.marginaliaCount > 0) && (
+                    <div class:list={['field-surface-note-stat', 'field-surface-note-stat--wide']}>
+                      <dt>Marginalia Signals</dt>
+                      <dd>
+                        {mythmechSignalCopy || `${mythmechSummary.marginaliaCount} entries`}
+                      </dd>
+                    </div>
+                  )}
+                </dl>
               )}
-
-              {normalizedPlatePrompt && (
-                <article class="field-surface-note-card">
-                  <p class="field-surface-note-label">Plate Prompt</p>
-                  <p class="field-surface-note-copy">{normalizedPlatePrompt}</p>
-                </article>
-              )}
-
-              {packetNotes.map((note) => (
-                <article class="field-surface-note-card">
-                  <p class="field-surface-note-label">{note.label}</p>
-                  <p class="field-surface-note-copy">{note.value}</p>
-                </article>
-              ))}
-            </div>
+            </article>
           )}
-        </section>
 
-        <section class="field-surface-section" id="hud">
-          <div class="field-surface-section-kicker">View HUD</div>
-          <div class="field-surface-hud-grid">
-            {hudCards.map((card) => (
-              <article class="field-surface-cell">
-                <div class="field-surface-micro">{card.label}</div>
-                <div class="field-surface-value">{card.value}</div>
-              </article>
-            ))}
-          </div>
-
-          {!packetData && (
-            <p class="field-surface-empty">{noPacketMessage}</p>
+          {normalizedPlatePrompt && (
+            <article class="field-surface-note-card">
+              <p class="field-surface-note-label">Surface Prompt</p>
+              <p class="field-surface-note-copy">{normalizedPlatePrompt}</p>
+            </article>
           )}
-        </section>
-      </>
-    )}
+
+          {packetNotes.map((note) => (
+            <article class="field-surface-note-card">
+              <p class="field-surface-note-label">{note.label}</p>
+              <p class="field-surface-note-copy">{note.value}</p>
+            </article>
+          ))}
+        </div>
+      )}
+    </section>
   </article>
 </section>
 
@@ -599,13 +549,17 @@ const signalMeta = [
 
   .field-surface-kicker,
   .field-surface-status-pill,
-  .field-surface-route-links,
+  .field-surface-nav-kicker,
+  .field-surface-nav-state,
   .field-surface-section-kicker,
   .field-surface-micro,
   .field-surface-mini dt,
   .field-surface-note-label,
   .field-surface-path,
-  .field-surface-cluster-label {
+  .field-surface-cluster-label,
+  .field-surface-return-link span,
+  .field-surface-anchor-index,
+  .field-surface-path-hint {
     font-family: var(--font-ui);
     font-size: 0.72rem;
     letter-spacing: 0.14em;
@@ -613,11 +567,15 @@ const signalMeta = [
   }
 
   .field-surface-kicker,
+  .field-surface-nav-kicker,
   .field-surface-micro,
   .field-surface-mini dt,
   .field-surface-note-label,
   .field-surface-cluster-label,
-  .field-surface-path {
+  .field-surface-path,
+  .field-surface-path-hint,
+  .field-surface-anchor-index,
+  .field-surface-return-link span {
     color: var(--field-amber-label);
   }
 
@@ -649,77 +607,178 @@ const signalMeta = [
 
   .field-surface-nav-block {
     min-width: 0;
+    align-self: stretch;
   }
 
   .field-surface-nav-card {
+    position: relative;
     display: grid;
-    gap: 0.8rem;
-    padding: 0.95rem 1rem 1rem;
-    border: 1px solid var(--field-rule);
-    background: rgba(255, 255, 255, 0.02);
+    gap: 0.95rem;
+    padding: 1.05rem;
+    border: 1px solid rgba(212, 196, 160, 0.18);
+    border-radius: 12px;
+    overflow: hidden;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.012)),
+      radial-gradient(circle at 100% 0%, rgba(201, 161, 90, 0.09), transparent 46%),
+      rgba(255, 255, 255, 0.02);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.035),
+      0 18px 40px rgba(0, 0, 0, 0.18);
   }
 
-  .field-surface-route-links {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.55rem;
+  .field-surface-nav-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.03), transparent 44%),
+      repeating-linear-gradient(
+        90deg,
+        rgba(201, 161, 90, 0.022) 0,
+        rgba(201, 161, 90, 0.022) 1px,
+        transparent 1px,
+        transparent 12px
+      );
+    opacity: 0.82;
   }
 
-  .field-surface-route-pill {
-    padding: 0.42rem 0.72rem;
-    border: 1px solid rgba(212, 196, 160, 0.14);
-    background: rgba(255, 255, 255, 0.016);
+  .field-surface-nav-card > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .field-surface-nav-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 0.9rem;
+  }
+
+  .field-surface-nav-copy-block {
+    display: grid;
+    gap: 0.42rem;
+  }
+
+  .field-surface-nav-kicker,
+  .field-surface-nav-state {
+    margin: 0;
+  }
+
+  .field-surface-nav-copy {
+    margin: 0;
+    color: var(--field-text-body);
+    font-family: var(--font-body);
+    font-size: 0.98rem;
+    line-height: 1.58;
+    text-wrap: balance;
+  }
+
+  .field-surface-nav-state {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.9rem;
+    padding: 0.16rem 0.68rem;
+    border: 1px solid rgba(201, 161, 90, 0.22);
+    border-radius: 999px;
     color: var(--field-amber-accent);
-    text-decoration: none;
-    text-align: center;
-    transition: border-color 140ms ease, color 140ms ease, background 140ms ease;
+    background: rgba(255, 255, 255, 0.03);
+    white-space: nowrap;
   }
 
-  .field-surface-route-pill:hover {
+  .field-surface-nav-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.72rem;
+    align-items: stretch;
+  }
+
+  .field-surface-return-link,
+  .field-surface-mode-chip,
+  .field-surface-anchor-pill,
+  .field-surface-path-link {
+    border-radius: 12px;
+    text-decoration: none;
+    transition:
+      border-color 140ms ease,
+      color 140ms ease,
+      background 140ms ease,
+      transform 140ms ease;
+  }
+
+  .field-surface-return-link {
+    display: grid;
+    gap: 0.28rem;
+    padding: 0.8rem 0.92rem 0.84rem;
+    border: 1px solid rgba(212, 196, 160, 0.14);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.022), rgba(255, 255, 255, 0.008)),
+      rgba(255, 255, 255, 0.012);
+  }
+
+  .field-surface-return-link strong {
     color: var(--field-amber-em);
-    border-color: rgba(201, 161, 90, 0.34);
-    background: rgba(201, 161, 90, 0.06);
-  }
-
-  .field-surface-route-pill--back {
-    grid-column: 1 / -1;
-    color: var(--field-amber-dim);
-  }
-
-  .field-surface-route-pill.is-active {
-    color: var(--field-bg);
-    border-color: rgba(201, 161, 90, 0.4);
-    background: rgba(201, 161, 90, 0.86);
-  }
-
-  .field-surface-anchor-links {
-    display: flex;
-    justify-content: flex-start;
-    gap: 0.8rem;
-    flex-wrap: wrap;
-  }
-
-  .field-surface-anchor-links a {
-    color: var(--field-amber-dim);
-    text-decoration: none;
     font-family: var(--font-ui);
-    font-size: 0.68rem;
-    letter-spacing: 0.14em;
+    font-size: 0.92rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
   }
 
-  .field-surface-anchor-links a:hover {
+  .field-surface-mode-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 5.8rem;
+    padding: 0.72rem 0.9rem;
+    border: 1px solid rgba(201, 161, 90, 0.4);
+    color: var(--field-bg);
+    background: rgba(201, 161, 90, 0.86);
+    font-family: var(--font-ui);
+    font-size: 0.74rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .field-surface-anchor-links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.72rem;
+  }
+
+  .field-surface-anchor-pill {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.7rem;
+    padding: 0.74rem 0.86rem;
+    border: 1px solid rgba(212, 196, 160, 0.12);
+    background: rgba(255, 255, 255, 0.015);
     color: var(--field-amber-em);
+    font-family: var(--font-ui);
+    font-size: 0.76rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .field-surface-return-link:hover,
+  .field-surface-mode-chip:hover,
+  .field-surface-anchor-pill:hover,
+  .field-surface-path-link:hover {
+    color: var(--field-amber-em);
+    border-color: rgba(201, 161, 90, 0.34);
+    background:
+      linear-gradient(180deg, rgba(201, 161, 90, 0.08), rgba(255, 255, 255, 0.02)),
+      rgba(255, 255, 255, 0.02);
+    transform: translateY(-1px);
   }
 
   .field-surface-path-block {
-    padding-top: 0.72rem;
+    display: grid;
+    gap: 0.5rem;
+    padding-top: 0.84rem;
     border-top: 1px solid var(--field-rule);
-  }
-
-  .field-surface-path,
-  .field-surface-path-link {
-    text-align: left;
   }
 
   .field-surface-path {
@@ -727,18 +786,19 @@ const signalMeta = [
   }
 
   .field-surface-path-link {
-    display: inline-block;
-    margin-top: 0.32rem;
-    color: var(--field-amber-em);
-    text-decoration: none;
-    font-family: var(--font-ui);
-    font-size: 0.88rem;
-    line-height: 1.5;
-    overflow-wrap: anywhere;
+    display: grid;
+    gap: 0.36rem;
+    padding: 0.82rem 0.88rem;
+    border: 1px solid rgba(212, 196, 160, 0.14);
+    background: rgba(255, 255, 255, 0.015);
   }
 
-  .field-surface-path-link:hover {
-    color: var(--field-amber-accent);
+  .field-surface-path-value {
+    color: var(--field-amber-em);
+    font-family: var(--font-ui);
+    font-size: 0.88rem;
+    line-height: 1.56;
+    overflow-wrap: anywhere;
   }
 
   .field-surface-signal-strip {
@@ -1007,16 +1067,15 @@ const signalMeta = [
       align-items: flex-start;
     }
 
-    .field-surface-route-links,
-    .field-surface-anchor-links,
-    .field-surface-path,
-    .field-surface-path-link {
-      justify-content: flex-start;
-      text-align: left;
+    .field-surface-nav-header,
+    .field-surface-nav-actions,
+    .field-surface-anchor-links {
+      grid-template-columns: 1fr;
     }
 
-    .field-surface-route-links {
-      grid-template-columns: 1fr;
+    .field-surface-nav-state,
+    .field-surface-mode-chip {
+      justify-self: flex-start;
     }
 
     .field-surface-mini,

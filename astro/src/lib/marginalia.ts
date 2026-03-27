@@ -2,6 +2,13 @@ import { getAuthorInitials, getPrimaryAuthor, type AuthorProfile } from './autho
 import type { ArchiveEntry } from './archive';
 
 export type MarginaliaKind = 'note' | 'quote' | 'link';
+export type MythmechMarginaliaEntry = {
+  type: string;
+  value: string;
+  sourceId: string;
+};
+
+const MYTHMECH_TAGS = new Set(['seed', 'load', 'fail', 'link', 'evol']);
 
 export type MarginaliaLinkMeta = {
   href?: string;
@@ -11,6 +18,14 @@ export type MarginaliaLinkMeta = {
 
 function normalizeText(value: unknown): string {
   return typeof value === 'string' ? value.trim() : '';
+}
+
+export function extractMythmechTags(value: string): string[] {
+  return [...new Set(
+    [...value.matchAll(/#([a-z0-9_-]+)/gi)]
+      .map((match) => match[1].toLowerCase())
+      .filter((tag) => MYTHMECH_TAGS.has(tag))
+  )];
 }
 
 function getConnections(entry: ArchiveEntry) {
@@ -102,6 +117,23 @@ export function getMarginaliaEntriesForTarget(
 
 export function getMarginaliaBody(entry: ArchiveEntry): string {
   return entry.body.trim();
+}
+
+export function getMythmechMarginaliaEntries(entries: ArchiveEntry[]): MythmechMarginaliaEntry[] {
+  return entries.flatMap((entry) => {
+    const body = getMarginaliaBody(entry);
+    const tags = extractMythmechTags(body);
+
+    if (tags.length === 0) {
+      return [];
+    }
+
+    return tags.map((tag) => ({
+      type: tag,
+      value: body,
+      sourceId: entry.data.id,
+    }));
+  });
 }
 
 export function inferMarginaliaKind(body: string): MarginaliaKind {

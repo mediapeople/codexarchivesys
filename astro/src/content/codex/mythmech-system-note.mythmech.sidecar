@@ -1,0 +1,108 @@
+version: 1
+
+mythmech:
+  enabled: true
+  inspect_mode: optional
+  tensor:
+    hinge:
+      label: reveals what holds meaning together
+    flows:
+      - pressure
+      - control
+      - grounding
+  nodes:
+    - id: hinge
+      label: reveals what holds meaning together
+      role: hinge
+      load: critical
+    - id: object-first
+      label: object reads normally
+      role: reading-surface
+      load: high
+    - id: inspect-mode
+      label: inspect mode reveals hidden structure
+      role: inspection-layer
+      load: high
+    - id: spawn
+      label: important parts can become new objects
+      role: generative-output
+      load: medium
+    - id: lineage
+      label: ideas evolve through lineage
+      role: relational-memory
+      load: medium
+    - id: marginalia
+      label: marginalia becomes signal input
+      role: signal-source
+      load: low
+  edges:
+    - from: hinge
+      to: object-first
+      type: stabilizes
+      flow: grounding
+    - from: hinge
+      to: inspect-mode
+      type: reveals
+      flow: control
+    - from: inspect-mode
+      to: spawn
+      type: enables
+      flow: control
+    - from: inspect-mode
+      to: lineage
+      type: maps
+      flow: pressure
+    - from: marginalia
+      to: inspect-mode
+      type: feeds
+      flow: grounding
+  states:
+    read: intact
+    inspect: active
+    load: mapped
+    spawn: ready
+
+lineage:
+  parents:
+    - carrier-pigeon-publishing-system
+    - marginalia-live-publish-notes
+  children:
+    - mythmech-hinge-map
+    - mythmech-load-report
+    - mythmech-lineage-map
+  relations:
+    - ref: carrier-pigeon-publishing-system
+      kind: object ingest bridge
+    - ref: marginalia-live-publish-notes
+      kind: marginalia signal source
+    - ref: mythmech-hinge-map
+      kind: hinge study
+    - ref: mythmech-lineage-map
+      kind: lineage graph
+    - ref: node-doctrine
+      kind: archive logic
+
+spawn:
+  candidates:
+    - mythmech-hinge-map
+    - mythmech-load-report
+    - mythmech-lineage-map
+
+marginalia:
+  refs:
+    - "#seed"
+    - "#load"
+    - "#fail"
+    - "#link"
+    - "#evol"
+  entries:
+    - type: seed
+      value: "#seed important parts can become new objects"
+    - type: load
+      value: "#load identify what actually carries weight"
+    - type: fail
+      value: "#fail name the breakdown point before it hardens"
+    - type: link
+      value: "#link show how load-bearing parts relate"
+    - type: evol
+      value: "#evol track how ideas transform over time"
