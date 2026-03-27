@@ -375,10 +375,14 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
 
 <style>
   .inspect-panel {
-    --inspect-line: rgba(216, 188, 132, 0.18);
-    --inspect-line-strong: rgba(216, 188, 132, 0.28);
-    --inspect-surface: rgba(26, 19, 12, 0.88);
-    --inspect-surface-soft: rgba(255, 255, 255, 0.025);
+    --inspect-line: var(--field-line-strong);
+    --inspect-line-strong: var(--field-accent-line);
+    --inspect-surface: var(--field-panel);
+    --inspect-surface-soft: var(--field-panel-wash);
+    --inspect-accent: var(--field-amber-accent);
+    --inspect-label: var(--field-amber-label);
+    --inspect-copy: var(--field-text-body);
+    --inspect-emphasis: var(--field-amber-em);
     --inspect-radius: 12px;
     position: relative;
     margin: 2.4rem 0 0;
@@ -387,11 +391,12 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
     border-radius: var(--inspect-radius);
     overflow: hidden;
     background:
-      linear-gradient(180deg, rgba(34, 24, 14, 0.9), rgba(15, 11, 8, 0.96)),
-      rgba(201, 150, 58, 0.03);
+      linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 18%),
+      radial-gradient(circle at 100% 0%, var(--field-accent-soft), transparent 40%),
+      rgba(13, 11, 8, 0.94);
     box-shadow:
       0 24px 64px rgba(0, 0, 0, 0.24),
-      inset 0 1px 0 rgba(255, 255, 255, 0.035);
+      inset 0 1px 0 var(--field-panel-line);
   }
 
   .inspect-panel::before,
@@ -405,16 +410,16 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
     inset: 1px;
     border-radius: inherit;
     background:
-      radial-gradient(circle at 88% 0%, rgba(201, 150, 58, 0.13), transparent 32%),
+      radial-gradient(circle at 88% 0%, var(--field-accent-soft), transparent 32%),
       linear-gradient(135deg, rgba(255, 255, 255, 0.03), transparent 40%),
       repeating-linear-gradient(
         90deg,
-        rgba(201, 150, 58, 0.024) 0,
-        rgba(201, 150, 58, 0.024) 1px,
+        rgba(171, 143, 104, 0.018) 0,
+        rgba(171, 143, 104, 0.018) 1px,
         transparent 1px,
         transparent 12px
       );
-    opacity: 0.85;
+    opacity: 0.74;
   }
 
   .inspect-panel::after {
@@ -422,7 +427,7 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
     left: 1.1rem;
     right: 1.1rem;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(229, 201, 141, 0.5), transparent);
+    background: linear-gradient(90deg, transparent, var(--field-accent-line), transparent);
   }
 
   .inspect-panel-summary {
@@ -444,7 +449,7 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
 
   .inspect-panel:hover .inspect-panel-summary,
   .inspect-panel[open] .inspect-panel-summary {
-    background: rgba(255, 255, 255, 0.016);
+    background: var(--field-panel-wash);
   }
 
   .inspect-panel-sigil {
@@ -455,15 +460,15 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
     place-items: center;
     border: 1px solid var(--inspect-line);
     border-radius: 999px;
-    background: radial-gradient(circle, rgba(201, 150, 58, 0.14), rgba(201, 150, 58, 0.03) 60%, transparent 72%);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    background: radial-gradient(circle, var(--field-accent-fill), rgba(255, 255, 255, 0.01) 62%, transparent 74%);
+    box-shadow: inset 0 1px 0 var(--field-panel-line);
   }
 
   .inspect-panel-sigil::before {
     content: '';
     position: absolute;
     inset: 0.32rem;
-    border: 1px dashed rgba(216, 188, 132, 0.24);
+    border: 1px dashed var(--field-accent-line);
     border-radius: 999px;
   }
 
@@ -471,10 +476,10 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
     width: 0.54rem;
     height: 0.54rem;
     border-radius: 999px;
-    background: var(--accent-quote-strong);
+    background: var(--inspect-accent);
     box-shadow:
-      0 0 0 0.32rem rgba(201, 150, 58, 0.13),
-      0 0 1rem rgba(201, 150, 58, 0.16);
+      0 0 0 0.32rem rgba(171, 143, 104, 0.12),
+      0 0 0.9rem rgba(171, 143, 104, 0.12);
   }
 
   .inspect-panel-head {
@@ -509,13 +514,13 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
     padding: 0.18rem 0.7rem;
     border: 1px solid var(--inspect-line);
     border-radius: 999px;
-    color: var(--accent-quote-strong);
-    background: rgba(255, 255, 255, 0.02);
+    color: var(--inspect-emphasis);
+    background: var(--field-panel-wash);
   }
 
   .inspect-panel-copy {
     min-width: 0;
-    color: var(--star);
+    color: var(--inspect-emphasis);
     font-family: var(--font-display);
     font-size: clamp(1rem, 0.96rem + 0.26vw, 1.16rem);
     font-weight: 700;
@@ -525,7 +530,7 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
   }
 
   .inspect-panel-meta {
-    color: color-mix(in srgb, var(--mid) 80%, var(--gold) 20%);
+    color: var(--inspect-copy);
     font-family: var(--font-body);
     font-size: 0.92rem;
     letter-spacing: 0;
@@ -540,10 +545,10 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
 
   .inspect-panel-badges span {
     padding: 0.16rem 0.48rem;
-    border: 1px solid rgba(216, 188, 132, 0.16);
+    border: 1px solid var(--field-line-soft);
     border-radius: 999px;
-    color: color-mix(in srgb, var(--mid) 68%, var(--gold) 32%);
-    background: rgba(255, 255, 255, 0.016);
+    color: var(--inspect-label);
+    background: rgba(255, 255, 255, 0.014);
   }
 
   .inspect-panel-toggle {
@@ -554,8 +559,8 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
     place-items: center;
     border: 1px solid var(--inspect-line);
     border-radius: 999px;
-    color: var(--gold);
-    background: rgba(255, 255, 255, 0.02);
+    color: var(--inspect-label);
+    background: var(--field-panel-wash);
     transition:
       transform 180ms ease,
       color 180ms ease,
@@ -579,16 +584,16 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
 
   .inspect-panel[open] .inspect-panel-toggle {
     transform: rotate(135deg);
-    color: var(--star);
+    color: var(--inspect-emphasis);
     border-color: var(--inspect-line-strong);
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.026);
   }
 
   .inspect-panel-shell {
     position: relative;
     z-index: 1;
     padding: 0 1.1rem 1.12rem;
-    border-top: 1px solid rgba(216, 188, 132, 0.1);
+    border-top: 1px solid var(--field-line-soft);
     background: linear-gradient(180deg, rgba(16, 12, 9, 0.28), rgba(16, 12, 9, 0));
     animation: inspect-panel-reveal 220ms ease;
   }
@@ -596,24 +601,24 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
   .inspect-panel-note {
     margin: 0.95rem 0 0;
     padding: 0.84rem 0.96rem;
-    border: 1px solid rgba(216, 188, 132, 0.12);
+    border: 1px solid var(--field-line-soft);
     border-radius: var(--inspect-radius);
-    color: var(--text-soft);
+    color: var(--inspect-copy);
     line-height: 1.68;
     background:
-      linear-gradient(135deg, rgba(201, 150, 58, 0.06), rgba(255, 255, 255, 0.018)),
+      linear-gradient(135deg, var(--field-accent-soft), rgba(255, 255, 255, 0.018)),
       var(--inspect-surface-soft);
   }
 
   .inspect-section {
     margin-top: 1rem;
     padding: 1rem;
-    border: 1px solid rgba(216, 188, 132, 0.11);
+    border: 1px solid var(--field-line-soft);
     border-radius: var(--inspect-radius);
     background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.022), rgba(255, 255, 255, 0.012)),
+      linear-gradient(180deg, var(--field-panel-elevated), rgba(255, 255, 255, 0.012)),
       var(--inspect-surface);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.028);
+    box-shadow: inset 0 1px 0 var(--field-panel-line);
   }
 
   .inspect-section-head {
@@ -625,7 +630,7 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
 
   .inspect-section-head h2 {
     margin: 0;
-    color: var(--star);
+    color: var(--inspect-emphasis);
     font-size: 1.04rem;
   }
 
@@ -634,7 +639,7 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
   .inspect-card dd,
   .inspect-aux p {
     margin: 0.38rem 0 0;
-    color: var(--text-soft);
+    color: var(--inspect-copy);
     line-height: 1.62;
   }
 
@@ -648,10 +653,10 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
   .inspect-card,
   .inspect-note {
     padding: 0.8rem 0.82rem 0.84rem;
-    border: 1px solid rgba(216, 188, 132, 0.12);
+    border: 1px solid var(--field-line-soft);
     border-radius: var(--inspect-radius);
     background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.028), rgba(255, 255, 255, 0.014)),
+      linear-gradient(180deg, var(--field-panel-elevated), rgba(255, 255, 255, 0.012)),
       rgba(11, 9, 7, 0.62);
   }
 
@@ -662,11 +667,11 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
   .inspect-card dt,
   .inspect-note p,
   .inspect-aux summary {
-    color: color-mix(in srgb, var(--mid) 70%, var(--gold) 30%);
+    color: var(--inspect-label);
   }
 
   .inspect-card dd {
-    color: var(--star);
+    color: var(--inspect-emphasis);
   }
 
   .inspect-facts {
@@ -680,10 +685,10 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
 
   .inspect-facts li {
     padding: 0.28rem 0.62rem;
-    border: 1px solid rgba(216, 188, 132, 0.11);
+    border: 1px solid var(--field-line-soft);
     border-radius: 999px;
-    color: var(--text-soft);
-    background: rgba(255, 255, 255, 0.018);
+    color: var(--inspect-copy);
+    background: var(--field-panel-wash);
     font-family: var(--font-ui);
     font-size: 0.8rem;
     line-height: 1.5;
@@ -698,7 +703,7 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
   .inspect-note strong {
     display: block;
     margin-top: 0.3rem;
-    color: var(--star);
+    color: var(--inspect-emphasis);
     line-height: 1.6;
   }
 
@@ -712,17 +717,17 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
     align-items: center;
     min-height: 1.9rem;
     padding: 0.2rem 0.72rem;
-    border: 1px solid rgba(216, 188, 132, 0.14);
+    border: 1px solid var(--field-line-soft);
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.018);
+    background: var(--field-panel-wash);
   }
 
   .inspect-aux p {
     margin-top: 0.8rem;
     padding: 0.92rem 1rem;
-    border: 1px solid rgba(216, 188, 132, 0.1);
+    border: 1px solid var(--field-line-soft);
     border-radius: var(--inspect-radius);
-    background: rgba(255, 255, 255, 0.015);
+    background: var(--field-panel-wash);
   }
 
   .inspect-actions {
@@ -737,10 +742,10 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
     align-items: center;
     min-height: 2rem;
     padding: 0.28rem 0.84rem;
-    border: 1px solid rgba(216, 188, 132, 0.14);
+    border: 1px solid var(--field-line-soft);
     border-radius: 999px;
-    color: var(--gold);
-    background: rgba(255, 255, 255, 0.02);
+    color: var(--inspect-emphasis);
+    background: var(--field-panel-wash);
     text-decoration: none;
     transition:
       transform 160ms ease,
@@ -750,9 +755,9 @@ const hudHref = `/codex/${encodeURIComponent(slug)}/hud`;
   }
 
   .inspect-actions a:hover {
-    color: var(--star);
-    border-color: rgba(216, 188, 132, 0.26);
-    background: rgba(255, 255, 255, 0.04);
+    color: var(--inspect-emphasis);
+    border-color: var(--field-accent-line);
+    background: var(--field-accent-fill);
     transform: translateY(-1px);
   }
 

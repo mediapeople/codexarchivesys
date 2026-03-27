@@ -2,6 +2,7 @@
 import {
   buildMythmechLead,
   buildMythmechSupport,
+  extractMythmechInspectModel,
   mergeMythmechMarginaliaEntries,
   normalizePlatePrompt,
   summarizeMythmech,
@@ -50,8 +51,9 @@ function joinParts(parts: string[], separator = ' / '): string {
   return parts.filter(Boolean).join(separator);
 }
 
-function uniqueStrings(values: string[]): string[] {
-  return [...new Set(values.map((value) => value.trim()).filter(Boolean))];
+function uniqueStrings(values: string[], max?: number): string[] {
+  const unique = [...new Set(values.map((value) => value.trim()).filter(Boolean))];
+  return typeof max === 'number' ? unique.slice(0, max) : unique;
 }
 
 function normalizeSignalTrack(value: unknown): string {
@@ -59,11 +61,84 @@ function normalizeSignalTrack(value: unknown): string {
   return normalized.toUpperCase() === 'UNLOCKED SIGNAL' ? '' : normalized;
 }
 
+type SurfaceLoadLevel = 'critical' | 'high' | 'medium' | 'low' | '';
+
+type SurfaceChamber = {
+  id: string;
+  label: string;
+  shortLabel: string;
+  role: string;
+  load: SurfaceLoadLevel;
+  source: 'mythmech' | 'packet';
+  summary: string;
+  detail: string;
+};
+
+type SurfaceConnector = {
+  id: string;
+  from: string;
+  to: string;
+  label: string;
+  flow: string;
+};
+
+type StagePoint = {
+  x: number;
+  y: number;
+};
+
+function compactLabel(value: string, words = 4): string {
+  const parts = value.trim().split(/\s+/).filter(Boolean);
+  return parts.slice(0, words).join(' ');
+}
+
+function sentenceCase(value: string): string {
+  const normalized = value.trim();
+  if (!normalized) {
+    return '';
+  }
+
+  return /[.?!]$/.test(normalized) ? normalized : `${normalized}.`;
+}
+
+function normalizeFlowTone(value: string): 'pressure' | 'control' | 'grounding' | 'signal' {
+  const normalized = value.toLowerCase();
+  if (normalized.includes('control') || normalized.includes('adjust')) return 'control';
+  if (
+    normalized.includes('ground') ||
+    normalized.includes('relation') ||
+    normalized.includes('anchor') ||
+    normalized.includes('link')
+  ) {
+    return 'grounding';
+  }
+
+  if (normalized.includes('pressure') || normalized.includes('risk') || normalized.includes('fail')) return 'pressure';
+  return 'signal';
+}
+
+function buildStagePoints(count: number): StagePoint[] {
+  const layouts: Record<number, StagePoint[]> = {
+    1: [{ x: 48, y: 20 }],
+    2: [{ x: 48, y: 18 }, { x: 74, y: 56 }],
+    3: [{ x: 48, y: 16 }, { x: 22, y: 54 }, { x: 74, y: 58 }],
+    4: [{ x: 46, y: 14 }, { x: 76, y: 24 }, { x: 24, y: 54 }, { x: 64, y: 66 }],
+    5: [{ x: 46, y: 14 }, { x: 76, y: 24 }, { x: 18, y: 30 }, { x: 30, y: 62 }, { x: 70, y: 62 }],
+    6: [{ x: 44, y: 14 }, { x: 76, y: 22 }, { x: 16, y: 28 }, { x: 28, y: 54 }, { x: 58, y: 48 }, { x: 78, y: 72 }],
+    7: [{ x: 44, y: 14 }, { x: 76, y: 22 }, { x: 16, y: 28 }, { x: 28, y: 52 }, { x: 54, y: 46 }, { x: 78, y: 58 }, { x: 46, y: 78 }],
+    8: [{ x: 44, y: 14 }, { x: 76, y: 22 }, { x: 16, y: 28 }, { x: 28, y: 48 }, { x: 56, y: 42 }, { x: 82, y: 50 }, { x: 34, y: 78 }, { x: 68, y: 76 }],
+  };
+
+  const fallback = layouts[Math.min(Math.max(count, 1), 8)] ?? layouts[8];
+  return fallback.slice(0, count);
+}
+
 const packetData = asRecord(packet);
 const mythmechData = mergeMythmechMarginaliaEntries(mythmech, marginaliaEntries);
 const mythmechSummary = summarizeMythmech(mythmechData);
 const mythmechLead = mythmechSummary ? buildMythmechLead(mythmechSummary) : '';
 const mythmechSupport = mythmechSummary ? buildMythmechSupport(mythmechSummary) : '';
+const mythmechInspectModel = extractMythmechInspectModel(mythmechData);
 const artifact = asRecord(packetData?.artifact);
 const signal = asRecord(packetData?.signal);
 const atmosphere = asRecord(packetData?.atmosphere);
@@ -260,6 +335,229 @@ const signalMeta = [
   { label: 'BPM', value: bpmValue !== null ? String(bpmValue) : '' },
   { label: 'Coherence', value: coherenceValue !== null ? String(coherenceValue) : '' },
 ].filter((item) => item.value);
+const packetSignalLabel = joinParts([trackLabel, signalMode], ' / ');
+const fallbackInspectChambers: SurfaceChamber[] = packetData
+  ? [
+      {
+        id: 'hinge',
+        label: packetNotes[0]?.value || 'Signal threshold',
+        shortLabel: compactLabel(packetNotes[0]?.value || 'Signal threshold'),
+        role: 'Hinge',
+        load: 'critical',
+        source: 'packet',
+        summary: sentenceCase(packetNotes[0]?.value || 'Packet notes identify the main intervention point for this field.'),
+        detail: sentenceCase(
+          packetNotes[0]?.value ||
+            'This packet-derived hinge becomes the first chamber in inspect mode until authored Mythmech arrives.'
+        ),
+      },
+      {
+        id: 'signal',
+        label: packetSignalLabel || 'Signal',
+        shortLabel: compactLabel(packetSignalLabel || 'Signal'),
+        role: 'Signal',
+        load: 'high',
+        source: 'packet',
+        summary: sentenceCase(
+          packetSignalLabel ? `Signal track ${packetSignalLabel} is the stabilizing control surface.` : 'Signal state is stored in packet memory.'
+        ),
+        detail: sentenceCase(
+          packetSignalLabel
+            ? `${packetSignalLabel} carries the available agency in the current field state.`
+            : 'Signal metadata will populate here when the packet is richer.'
+        ),
+      },
+      {
+        id: 'atmosphere',
+        label: atmosphereLabel || 'Atmosphere',
+        shortLabel: compactLabel(atmosphereLabel || 'Atmosphere'),
+        role: 'Pressure',
+        load: 'high',
+        source: 'packet',
+        summary: sentenceCase(
+          atmosphereLabel ? `${atmosphereLabel} defines the environmental load on the object.` : 'Atmosphere data is stored in packet memory.'
+        ),
+        detail: sentenceCase(
+          atmosphereLabel
+            ? `${atmosphereLabel} is the pressure chamber acting on the object from outside the body.`
+            : 'Atmosphere metadata will appear here once packet data is present.'
+        ),
+      },
+      {
+        id: 'field',
+        label: fieldLabel || 'Field position',
+        shortLabel: compactLabel(fieldLabel || 'Field position'),
+        role: 'Ground',
+        load: 'medium',
+        source: 'packet',
+        summary: sentenceCase(
+          fieldLabel ? `${fieldLabel} grounds the scroll in a specific field position.` : 'Field position is stored in packet memory.'
+        ),
+        detail: sentenceCase(
+          fieldLabel
+            ? `${fieldLabel} is the chamber that keeps this reading attached to place, not abstraction.`
+            : 'Field position will become visible here when packet metadata is available.'
+        ),
+      },
+      {
+        id: 'shadow',
+        label: shadowLabel || 'Shadow',
+        shortLabel: compactLabel(shadowLabel || 'Shadow'),
+        role: 'Trace',
+        load: 'medium',
+        source: 'packet',
+        summary: sentenceCase(
+          shadowLabel ? `${shadowLabel} tracks drift, offset, and recurrence around the field.` : 'Shadow trace is stored in packet memory.'
+        ),
+        detail: sentenceCase(
+          shadowLabel
+            ? `${shadowLabel} is the chamber where desynchronization and afterimage begin to register.`
+            : 'Shadow state will appear here when packet metadata is available.'
+        ),
+      },
+      {
+        id: 'state',
+        label: joinParts([modeLabel, watchLabel], ' / ') || 'State',
+        shortLabel: compactLabel(joinParts([modeLabel, watchLabel], ' / ') || 'State'),
+        role: 'State',
+        load: 'low',
+        source: 'packet',
+        summary: sentenceCase(
+          modeLabel || watchLabel
+            ? `${joinParts([modeLabel, watchLabel], ' / ')} records the current operating posture.`
+            : 'Operating state is stored in packet memory.'
+        ),
+        detail: sentenceCase(
+          modeLabel || watchLabel
+            ? `${joinParts([modeLabel, watchLabel], ' / ')} is the visible posture presented by the system under load.`
+            : 'State metadata will appear here when packet data is available.'
+        ),
+      },
+    ].filter((item) => item.label)
+  : [];
+const fallbackInspectConnectors: SurfaceConnector[] =
+  fallbackInspectChambers.length > 0
+    ? [
+        { id: 'field-atmosphere', from: 'field', to: 'atmosphere', label: 'Grounds', flow: 'Grounding' },
+        { id: 'atmosphere-hinge', from: 'atmosphere', to: 'hinge', label: 'Pressurizes', flow: 'Pressure' },
+        { id: 'signal-hinge', from: 'signal', to: 'hinge', label: 'Stabilizes', flow: 'Control' },
+        { id: 'shadow-hinge', from: 'shadow', to: 'hinge', label: 'Echoes', flow: 'Pressure' },
+        { id: 'hinge-state', from: 'hinge', to: 'state', label: 'Determines', flow: 'Control' },
+      ].filter((item) =>
+        fallbackInspectChambers.some((node) => node.id === item.from) &&
+        fallbackInspectChambers.some((node) => node.id === item.to)
+      )
+    : [];
+const inspectChambers: SurfaceChamber[] =
+  mythmechInspectModel && mythmechInspectModel.nodes.length > 0
+    ? mythmechInspectModel.nodes.map((node) => ({
+        id: node.id,
+        label: node.label,
+        shortLabel: compactLabel(node.label),
+        role: node.role,
+        load: node.load,
+        source: 'mythmech',
+        summary: sentenceCase(node.summary),
+        detail: sentenceCase(node.detail),
+      }))
+    : fallbackInspectChambers;
+const inspectConnectors: SurfaceConnector[] =
+  mythmechInspectModel && mythmechInspectModel.nodes.length > 0
+    ? mythmechInspectModel.edges.map((edge) => ({
+        id: edge.id,
+        from: edge.from,
+        to: edge.to,
+        label: edge.label,
+        flow: edge.flow,
+      }))
+    : fallbackInspectConnectors;
+const inspectSourceLabel =
+  mythmechInspectModel && mythmechInspectModel.nodes.length > 0
+    ? 'Mythmech-authored structure'
+    : packetData
+      ? 'Packet-derived fallback'
+      : '';
+const inspectLeadLabel =
+  mythmechInspectModel?.hingeLabel ||
+  inspectChambers.find((node) => node.id === 'hinge')?.label ||
+  inspectChambers[0]?.label ||
+  title;
+const inspectLeadCopy =
+  mythmechLead ||
+  packetNotes[0]?.value ||
+  'Select a chamber to inspect what carries the object, how pressure moves, and where intervention begins.';
+const inspectSupportCopy =
+  mythmechSupport ||
+  'Exploded modules keep the object readable while making its structure legible under load.';
+const inspectLegend = [
+  { label: 'Pressure', tone: 'pressure', copy: 'Constraint, risk, breakdown' },
+  { label: 'Control', tone: 'control', copy: 'Adjustment, agency, response' },
+  { label: 'Grounding', tone: 'grounding', copy: 'Relation, anchor, return' },
+];
+const inspectStagePoints = buildStagePoints(inspectChambers.length);
+const inspectChamberPlacements = inspectChambers.map((node, index) => ({
+  ...node,
+  point: inspectStagePoints[index] ?? inspectStagePoints[inspectStagePoints.length - 1] ?? { x: 50, y: 50 },
+}));
+const inspectPointMap = new Map(inspectChamberPlacements.map((node) => [node.id, node.point]));
+const inspectLabelMap = new Map(inspectChamberPlacements.map((node) => [node.id, node.label]));
+const inspectResolvedConnectors = inspectConnectors
+  .map((connector) => {
+    const fromPoint = inspectPointMap.get(connector.from);
+    const toPoint = inspectPointMap.get(connector.to);
+    if (!fromPoint || !toPoint) {
+      return null;
+    }
+
+    return {
+      ...connector,
+      tone: normalizeFlowTone(connector.flow || connector.label),
+      fromPoint,
+      toPoint,
+    };
+  })
+  .filter(
+    (
+      connector
+    ): connector is SurfaceConnector & { tone: 'pressure' | 'control' | 'grounding' | 'signal'; fromPoint: StagePoint; toPoint: StagePoint } =>
+      Boolean(connector)
+  );
+const inspectProvenanceRefs = mythmechInspectModel
+  ? uniqueStrings([...mythmechInspectModel.parentRefs, ...mythmechInspectModel.relationRefs], 4)
+  : [];
+const inspectSpawnRefs = mythmechInspectModel ? mythmechInspectModel.candidateRefs.slice(0, 3) : [];
+const inspectReverseTrace = mythmechInspectModel?.reverseTrace ?? [];
+const inspectInitialNodeId =
+  (mythmechInspectModel?.hingeId &&
+    inspectChamberPlacements.some((node) => node.id === mythmechInspectModel.hingeId) &&
+    mythmechInspectModel.hingeId) ||
+  inspectChamberPlacements[0]?.id ||
+  '';
+const inspectDetailCards = inspectChamberPlacements.map((node) => ({
+  ...node,
+  flows: inspectResolvedConnectors
+    .filter((connector) => connector.from === node.id || connector.to === node.id)
+    .map((connector) => ({
+      id: connector.id,
+      direction: connector.from === node.id ? 'Out' : 'In',
+      label: connector.label,
+      target: connector.from === node.id ? inspectLabelMap.get(connector.to) || connector.to : inspectLabelMap.get(connector.from) || connector.from,
+      tone: connector.tone,
+    })),
+  provenance:
+    mythmechInspectModel && (node.id === mythmechInspectModel.hingeId || node.load === 'critical')
+      ? inspectProvenanceRefs
+      : [],
+  spawn:
+    mythmechInspectModel && (node.id === mythmechInspectModel.hingeId || node.load === 'critical')
+      ? inspectSpawnRefs
+      : [],
+  reverseTrace:
+    mythmechInspectModel && (node.id === mythmechInspectModel.hingeId || node.load === 'critical')
+      ? inspectReverseTrace
+      : [],
+}));
+const inspectRootId = objectSlug ? `inspect-stage-${objectSlug}` : 'inspect-stage';
 ---
 
 <section class="field-surface-wrap">
@@ -313,6 +611,148 @@ const signalMeta = [
         </div>
       </div>
     </header>
+
+    {inspectChamberPlacements.length > 0 && (
+      <section class:list={['field-surface-section', 'field-surface-section--diagram']} id="inspect-map" data-inspect-root={inspectRootId}>
+        <div class="field-surface-section-kicker">Inspect Plate</div>
+        <div class="field-surface-diagram-grid">
+          <aside class="field-surface-archetype-card">
+            <p class="field-surface-archetype-kicker">Archetype Panel</p>
+            <h2 class="field-surface-archetype-title">{inspectLeadLabel}</h2>
+            <p class="field-surface-archetype-copy">{inspectLeadCopy}</p>
+            <p class="field-surface-archetype-support">{inspectSupportCopy}</p>
+
+            <div class="field-surface-archetype-meta">
+              <span>{inspectSourceLabel}</span>
+              {mythmechSummary && <span>{mythmechSummary.nodeCount} nodes / {mythmechSummary.flowCount} flows</span>}
+              {!mythmechSummary && packetData && <span>{inspectChamberPlacements.length} packet chambers</span>}
+            </div>
+
+            <div class="field-surface-flow-legend" aria-label="Flow legend">
+              {inspectLegend.map((item) => (
+                <div class="field-surface-flow-key">
+                  <span class="field-surface-flow-swatch" data-flow={item.tone}></span>
+                  <div>
+                    <p class="field-surface-flow-name">{item.label}</p>
+                    <p class="field-surface-flow-copy">{item.copy}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </aside>
+
+          <div class="field-surface-stage-shell">
+            <div class="field-surface-stage">
+              <svg class="field-surface-stage-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                {inspectResolvedConnectors.map((connector) => (
+                  <g data-flow={connector.tone}>
+                    <line
+                      x1={connector.fromPoint.x}
+                      y1={connector.fromPoint.y}
+                      x2={connector.toPoint.x}
+                      y2={connector.toPoint.y}
+                    />
+                    <circle cx={connector.fromPoint.x} cy={connector.fromPoint.y} r="0.8"></circle>
+                    <circle cx={connector.toPoint.x} cy={connector.toPoint.y} r="0.8"></circle>
+                  </g>
+                ))}
+              </svg>
+
+              {inspectChamberPlacements.map((node) => (
+                <button
+                  type="button"
+                  class:list={['field-surface-chamber', node.id === inspectInitialNodeId && 'is-active']}
+                  data-inspect-node={node.id}
+                  data-load={node.load || 'stored'}
+                  data-source={node.source}
+                  style={`left:${node.point.x}%;top:${node.point.y}%;`}
+                  aria-pressed={node.id === inspectInitialNodeId ? 'true' : 'false'}
+                >
+                  <span class="field-surface-chamber-role">{node.role}</span>
+                  <strong class="field-surface-chamber-label">{node.shortLabel}</strong>
+                  <span class="field-surface-chamber-load">{node.load || 'stored'}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div class="field-surface-focus-stack">
+          {inspectDetailCards.map((node) => (
+            <article
+              id={`inspect-node-${node.id}`}
+              class:list={['field-surface-focus-card', node.id === inspectInitialNodeId && 'is-active']}
+              data-inspect-detail={node.id}
+              hidden={node.id === inspectInitialNodeId ? undefined : true}
+            >
+              <div class="field-surface-focus-head">
+                <div>
+                  <p class="field-surface-focus-kicker">{node.role}</p>
+                  <h3 class="field-surface-focus-title">{node.label}</h3>
+                </div>
+                <div class="field-surface-focus-tags">
+                  <span>{node.load || 'stored'}</span>
+                  <span>{node.source}</span>
+                </div>
+              </div>
+              <p class="field-surface-focus-summary">{node.summary}</p>
+              <p class="field-surface-focus-copy">{node.detail}</p>
+
+              {(node.flows.length > 0 || node.provenance.length > 0 || node.spawn.length > 0 || node.reverseTrace.length > 0) && (
+                <div class="field-surface-focus-meta-grid">
+                  {node.flows.length > 0 && (
+                    <div class="field-surface-focus-cluster">
+                      <p class="field-surface-focus-label">Flows</p>
+                      <ul class="field-surface-focus-list">
+                        {node.flows.map((flow) => (
+                          <li data-flow={flow.tone}>
+                            <span>{flow.direction}</span>
+                            <strong>{flow.label}</strong>
+                            <em>{flow.target}</em>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {node.reverseTrace.length > 0 && (
+                    <div class="field-surface-focus-cluster">
+                      <p class="field-surface-focus-label">Reverse Trace</p>
+                      <ul class="field-surface-focus-list">
+                        {node.reverseTrace.map((step) => (
+                          <li data-flow="grounding">
+                            <strong>{step}</strong>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {node.provenance.length > 0 && (
+                    <div class="field-surface-focus-cluster">
+                      <p class="field-surface-focus-label">Provenance</p>
+                      <ul class="field-surface-focus-list">
+                        {node.provenance.map((item) => (
+                          <li><strong>{item}</strong></li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {node.spawn.length > 0 && (
+                    <div class="field-surface-focus-cluster">
+                      <p class="field-surface-focus-label">Spawn</p>
+                      <ul class="field-surface-focus-list">
+                        {node.spawn.map((item) => (
+                          <li><strong>{item}</strong></li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
+            </article>
+          ))}
+        </div>
+      </section>
+    )}
 
     {hasSignal && (
       <section class="field-surface-signal-strip" aria-label="Signal ident">
@@ -476,6 +916,55 @@ const signalMeta = [
   </article>
 </section>
 
+{inspectChamberPlacements.length > 0 && (
+  <script is:inline define:vars={{ inspectRootId, inspectInitialNodeId }}>
+    (() => {
+      const root = document.querySelector(`[data-inspect-root="${inspectRootId}"]`);
+      if (!(root instanceof HTMLElement)) return;
+
+      const buttons = Array.from(root.querySelectorAll('[data-inspect-node]'));
+      const details = Array.from(root.querySelectorAll('[data-inspect-detail]'));
+      if (buttons.length === 0 || details.length === 0) return;
+
+      const setActive = (id) => {
+        buttons.forEach((button) => {
+          if (!(button instanceof HTMLElement)) return;
+          const active = button.dataset.inspectNode === id;
+          button.classList.toggle('is-active', active);
+          button.setAttribute('aria-pressed', active ? 'true' : 'false');
+        });
+
+        details.forEach((detail) => {
+          if (!(detail instanceof HTMLElement)) return;
+          const active = detail.dataset.inspectDetail === id;
+          detail.hidden = !active;
+          detail.classList.toggle('is-active', active);
+        });
+
+        if (id) {
+          window.history.replaceState(null, '', `#inspect-node-${id}`);
+        }
+      };
+
+      const initialHash = window.location.hash.replace(/^#inspect-node-/, '');
+      const initialId =
+        buttons.some((button) => button instanceof HTMLElement && button.dataset.inspectNode === initialHash)
+          ? initialHash
+          : inspectInitialNodeId;
+
+      buttons.forEach((button) => {
+        if (!(button instanceof HTMLElement)) return;
+        button.addEventListener('click', () => {
+          const id = button.dataset.inspectNode || '';
+          if (id) setActive(id);
+        });
+      });
+
+      if (initialId) setActive(initialId);
+    })();
+  </script>
+)}
+
 <style>
   .field-surface-wrap {
     width: min(100%, 1120px);
@@ -484,21 +973,30 @@ const signalMeta = [
   }
 
   .field-surface-shell {
-    --plate-border: rgba(212, 196, 160, 0.16);
-    --plate-shadow: 0 22px 56px rgba(0, 0, 0, 0.28);
-    --plate-surface: linear-gradient(180deg, rgba(18, 14, 10, 0.985), rgba(11, 9, 6, 0.995));
-    --plate-tint: rgba(201, 161, 90, 0.09);
-    --plate-tint-secondary: rgba(212, 196, 160, 0.06);
-    --plate-sheen: rgba(255, 255, 255, 0.04);
-    --plate-ridge: rgba(255, 255, 255, 0.03);
+    --surface-radius: var(--field-radius);
+    --surface-line: var(--field-line-soft);
+    --surface-line-strong: var(--field-line-strong);
+    --surface-panel: var(--field-panel);
+    --surface-panel-elevated: var(--field-panel-elevated);
+    --surface-panel-wash: var(--field-panel-wash);
+    --surface-panel-line: var(--field-panel-line);
+    --surface-accent-soft: var(--field-accent-soft);
+    --surface-accent-line: var(--field-accent-line);
+    --surface-accent-fill: var(--field-accent-fill);
+    --surface-accent-glow: var(--field-accent-glow);
     position: relative;
     overflow: hidden;
     padding: clamp(1.2rem, 2.4vw, 1.7rem);
+    border: 1px solid var(--surface-line);
+    border-radius: var(--surface-radius);
     background:
       linear-gradient(180deg, rgba(255, 255, 255, 0.018), transparent 18%),
-      radial-gradient(circle at 14% 0%, rgba(201, 161, 90, 0.08), transparent 42%),
-      radial-gradient(circle at 100% 100%, rgba(212, 196, 160, 0.06), transparent 58%),
+      radial-gradient(circle at 14% 0%, var(--surface-accent-soft), transparent 42%),
+      radial-gradient(circle at 100% 100%, rgba(212, 196, 160, 0.04), transparent 58%),
       var(--field-bg);
+    box-shadow:
+      0 20px 52px rgba(0, 0, 0, 0.24),
+      inset 0 1px 0 var(--surface-panel-line);
   }
 
   .field-surface-shell::before,
@@ -533,7 +1031,7 @@ const signalMeta = [
     align-items: start;
     gap: 1.6rem 2.2rem;
     padding-bottom: 1rem;
-    border-bottom: 1px solid var(--field-rule);
+    border-bottom: 1px solid var(--surface-line);
   }
 
   .field-surface-ident {
@@ -599,10 +1097,10 @@ const signalMeta = [
 
   .field-surface-status-pill {
     padding: 0.22rem 0.54rem;
-    border: 1px solid rgba(212, 196, 160, 0.18);
+    border: 1px solid var(--surface-line);
     border-radius: 999px;
     color: var(--field-amber-label);
-    background: rgba(255, 255, 255, 0.015);
+    background: var(--surface-panel-wash);
   }
 
   .field-surface-nav-block {
@@ -615,15 +1113,15 @@ const signalMeta = [
     display: grid;
     gap: 0.95rem;
     padding: 1.05rem;
-    border: 1px solid rgba(212, 196, 160, 0.18);
-    border-radius: 12px;
+    border: 1px solid var(--surface-line);
+    border-radius: var(--surface-radius);
     overflow: hidden;
     background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.012)),
-      radial-gradient(circle at 100% 0%, rgba(201, 161, 90, 0.09), transparent 46%),
-      rgba(255, 255, 255, 0.02);
+      linear-gradient(180deg, var(--surface-panel-elevated), rgba(255, 255, 255, 0.012)),
+      radial-gradient(circle at 100% 0%, var(--surface-accent-soft), transparent 46%),
+      var(--surface-panel);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.035),
+      inset 0 1px 0 var(--surface-panel-line),
       0 18px 40px rgba(0, 0, 0, 0.18);
   }
 
@@ -636,12 +1134,12 @@ const signalMeta = [
       linear-gradient(135deg, rgba(255, 255, 255, 0.03), transparent 44%),
       repeating-linear-gradient(
         90deg,
-        rgba(201, 161, 90, 0.022) 0,
-        rgba(201, 161, 90, 0.022) 1px,
+        rgba(171, 143, 104, 0.016) 0,
+        rgba(171, 143, 104, 0.016) 1px,
         transparent 1px,
         transparent 12px
       );
-    opacity: 0.82;
+    opacity: 0.72;
   }
 
   .field-surface-nav-card > * {
@@ -680,10 +1178,10 @@ const signalMeta = [
     align-items: center;
     min-height: 1.9rem;
     padding: 0.16rem 0.68rem;
-    border: 1px solid rgba(201, 161, 90, 0.22);
+    border: 1px solid var(--surface-line);
     border-radius: 999px;
-    color: var(--field-amber-accent);
-    background: rgba(255, 255, 255, 0.03);
+    color: var(--field-amber-label);
+    background: var(--surface-panel-wash);
     white-space: nowrap;
   }
 
@@ -698,7 +1196,7 @@ const signalMeta = [
   .field-surface-mode-chip,
   .field-surface-anchor-pill,
   .field-surface-path-link {
-    border-radius: 12px;
+    border-radius: var(--surface-radius);
     text-decoration: none;
     transition:
       border-color 140ms ease,
@@ -711,10 +1209,10 @@ const signalMeta = [
     display: grid;
     gap: 0.28rem;
     padding: 0.8rem 0.92rem 0.84rem;
-    border: 1px solid rgba(212, 196, 160, 0.14);
+    border: 1px solid var(--surface-line);
     background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.022), rgba(255, 255, 255, 0.008)),
-      rgba(255, 255, 255, 0.012);
+      linear-gradient(180deg, var(--surface-panel-elevated), rgba(255, 255, 255, 0.008)),
+      var(--surface-panel-wash);
   }
 
   .field-surface-return-link strong {
@@ -732,9 +1230,12 @@ const signalMeta = [
     justify-content: center;
     min-width: 5.8rem;
     padding: 0.72rem 0.9rem;
-    border: 1px solid rgba(201, 161, 90, 0.4);
-    color: var(--field-bg);
-    background: rgba(201, 161, 90, 0.86);
+    border: 1px solid var(--surface-accent-line);
+    color: var(--field-amber-em);
+    background:
+      linear-gradient(180deg, var(--surface-accent-fill), rgba(255, 255, 255, 0.015)),
+      var(--surface-panel-wash);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
     font-family: var(--font-ui);
     font-size: 0.74rem;
     letter-spacing: 0.18em;
@@ -753,9 +1254,9 @@ const signalMeta = [
     justify-content: space-between;
     gap: 0.7rem;
     padding: 0.74rem 0.86rem;
-    border: 1px solid rgba(212, 196, 160, 0.12);
-    background: rgba(255, 255, 255, 0.015);
-    color: var(--field-amber-em);
+    border: 1px solid var(--surface-line);
+    background: var(--surface-panel-wash);
+    color: var(--field-text-body);
     font-family: var(--font-ui);
     font-size: 0.76rem;
     letter-spacing: 0.12em;
@@ -767,9 +1268,9 @@ const signalMeta = [
   .field-surface-anchor-pill:hover,
   .field-surface-path-link:hover {
     color: var(--field-amber-em);
-    border-color: rgba(201, 161, 90, 0.34);
+    border-color: var(--surface-accent-line);
     background:
-      linear-gradient(180deg, rgba(201, 161, 90, 0.08), rgba(255, 255, 255, 0.02)),
+      linear-gradient(180deg, var(--surface-accent-fill), rgba(255, 255, 255, 0.02)),
       rgba(255, 255, 255, 0.02);
     transform: translateY(-1px);
   }
@@ -778,7 +1279,7 @@ const signalMeta = [
     display: grid;
     gap: 0.5rem;
     padding-top: 0.84rem;
-    border-top: 1px solid var(--field-rule);
+    border-top: 1px solid var(--surface-line);
   }
 
   .field-surface-path {
@@ -789,12 +1290,12 @@ const signalMeta = [
     display: grid;
     gap: 0.36rem;
     padding: 0.82rem 0.88rem;
-    border: 1px solid rgba(212, 196, 160, 0.14);
-    background: rgba(255, 255, 255, 0.015);
+    border: 1px solid var(--surface-line);
+    background: var(--surface-panel-wash);
   }
 
   .field-surface-path-value {
-    color: var(--field-amber-em);
+    color: var(--field-text-body);
     font-family: var(--font-ui);
     font-size: 0.88rem;
     line-height: 1.56;
@@ -804,7 +1305,7 @@ const signalMeta = [
   .field-surface-signal-strip {
     margin-top: 1.35rem;
     padding: 1.18rem 0 1.22rem;
-    border-bottom: 1px solid var(--field-rule);
+    border-bottom: 1px solid var(--surface-line);
   }
 
   .field-surface-signal-band {
@@ -837,7 +1338,7 @@ const signalMeta = [
     width: 0.22rem;
     border-radius: 999px;
     background: var(--field-amber-accent);
-    box-shadow: 0 0 10px rgba(201, 161, 90, 0.2);
+    box-shadow: 0 0 10px var(--surface-accent-glow);
     animation: field-surface-pulse 1.15s ease-in-out infinite;
   }
 
@@ -874,7 +1375,7 @@ const signalMeta = [
 
   .field-surface-mode-line {
     margin: 0.38rem 0 0;
-    color: var(--field-amber-accent);
+    color: var(--field-amber-label);
     font-family: var(--font-ui);
     font-size: 0.72rem;
     letter-spacing: 0.16em;
@@ -899,13 +1400,396 @@ const signalMeta = [
   .field-surface-section {
     margin-top: 1.5rem;
     padding: 1.15rem 1.18rem 1.22rem;
-    border: 1px solid var(--field-glass-border);
-    background: var(--field-glass);
+    border: 1px solid var(--surface-line);
+    border-radius: var(--surface-radius);
+    background:
+      linear-gradient(180deg, var(--surface-panel-elevated), rgba(255, 255, 255, 0.012)),
+      var(--surface-panel);
     scroll-margin-top: 6rem;
+    box-shadow: inset 0 1px 0 var(--surface-panel-line);
   }
 
   .field-surface-section-kicker {
-    color: var(--field-amber-accent);
+    color: var(--field-amber-label);
+  }
+
+  .field-surface-section--diagram {
+    overflow: hidden;
+  }
+
+  .field-surface-diagram-grid {
+    margin-top: 0.92rem;
+    display: grid;
+    grid-template-columns: minmax(15rem, 18rem) minmax(0, 1fr);
+    gap: 1rem 1.1rem;
+    align-items: start;
+  }
+
+  .field-surface-archetype-card,
+  .field-surface-focus-card {
+    padding: 1rem 1.02rem 1.05rem;
+    border: 1px solid var(--surface-line);
+    border-radius: var(--surface-radius);
+    background:
+      linear-gradient(180deg, var(--surface-panel-elevated), rgba(255, 255, 255, 0.012)),
+      var(--surface-panel);
+    box-shadow: inset 0 1px 0 var(--surface-panel-line);
+  }
+
+  .field-surface-archetype-kicker,
+  .field-surface-focus-kicker,
+  .field-surface-focus-label {
+    margin: 0;
+    color: var(--field-amber-label);
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .field-surface-archetype-title {
+    margin: 0.52rem 0 0;
+    color: var(--field-amber-em);
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 1.28rem + 0.6vw, 2rem);
+    line-height: 1;
+    text-wrap: balance;
+  }
+
+  .field-surface-archetype-copy,
+  .field-surface-archetype-support,
+  .field-surface-focus-summary,
+  .field-surface-focus-copy {
+    margin: 0.7rem 0 0;
+    color: var(--field-text-body);
+    font-family: var(--font-body);
+    line-height: 1.66;
+  }
+
+  .field-surface-archetype-support {
+    color: var(--field-amber-dim);
+    font-size: 0.94rem;
+  }
+
+  .field-surface-archetype-meta {
+    margin-top: 0.9rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.42rem;
+  }
+
+  .field-surface-archetype-meta span,
+  .field-surface-focus-tags span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.8rem;
+    padding: 0.16rem 0.58rem;
+    border: 1px solid var(--surface-line);
+    border-radius: 999px;
+    background: var(--surface-panel-wash);
+    color: var(--field-amber-label);
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .field-surface-flow-legend {
+    margin-top: 0.95rem;
+    display: grid;
+    gap: 0.62rem;
+  }
+
+  .field-surface-flow-key {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.62rem;
+    align-items: start;
+  }
+
+  .field-surface-flow-swatch {
+    display: inline-block;
+    width: 2rem;
+    height: 1px;
+    margin-top: 0.72rem;
+    background: var(--surface-line-strong);
+  }
+
+  .field-surface-flow-swatch[data-flow='pressure'] {
+    background: var(--field-flow-pressure);
+  }
+
+  .field-surface-flow-swatch[data-flow='control'] {
+    background: var(--field-flow-control);
+  }
+
+  .field-surface-flow-swatch[data-flow='grounding'] {
+    background: var(--field-flow-grounding);
+  }
+
+  .field-surface-flow-name {
+    color: var(--field-amber-em);
+    font-family: var(--font-ui);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .field-surface-flow-copy {
+    margin: 0.16rem 0 0;
+    color: var(--field-text-dim);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .field-surface-focus-summary {
+    margin: 0.16rem 0 0;
+    color: var(--field-text-dim);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .field-surface-stage-shell {
+    position: relative;
+    min-width: 0;
+    padding: 0.8rem;
+    border: 1px solid var(--surface-line);
+    border-radius: var(--surface-radius);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.015), transparent 24%),
+      rgba(255, 255, 255, 0.012);
+  }
+
+  .field-surface-stage {
+    position: relative;
+    min-height: 34rem;
+    border: 1px solid var(--surface-line);
+    border-radius: calc(var(--surface-radius) - 2px);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.012), transparent 18%),
+      radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.03), transparent 36%),
+      rgba(10, 9, 7, 0.72);
+  }
+
+  .field-surface-stage-lines {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .field-surface-stage-lines g {
+    stroke: var(--surface-line-strong);
+    fill: var(--surface-line-strong);
+  }
+
+  .field-surface-stage-lines g[data-flow='pressure'] {
+    stroke: var(--field-flow-pressure);
+    fill: var(--field-flow-pressure);
+  }
+
+  .field-surface-stage-lines g[data-flow='control'] {
+    stroke: var(--field-flow-control);
+    fill: var(--field-flow-control);
+  }
+
+  .field-surface-stage-lines g[data-flow='grounding'] {
+    stroke: var(--field-flow-grounding);
+    fill: var(--field-flow-grounding);
+  }
+
+  .field-surface-stage-lines line {
+    stroke-width: 0.22;
+    stroke-linecap: round;
+    opacity: 0.88;
+  }
+
+  .field-surface-stage-lines circle {
+    opacity: 0.8;
+  }
+
+  .field-surface-chamber {
+    position: absolute;
+    width: min(12rem, 26%);
+    min-width: 8.2rem;
+    min-height: 5.3rem;
+    padding: 0.72rem 0.78rem 0.76rem;
+    display: grid;
+    align-content: start;
+    gap: 0.34rem;
+    border: 1px solid var(--surface-line);
+    border-radius: 10px;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.008)),
+      rgba(14, 12, 9, 0.88);
+    color: var(--field-amber-em);
+    text-align: left;
+    transform: translate(-50%, -50%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.03),
+      0 10px 26px rgba(0, 0, 0, 0.15);
+    transition:
+      transform 160ms ease,
+      border-color 160ms ease,
+      box-shadow 160ms ease,
+      background 160ms ease;
+  }
+
+  .field-surface-chamber::before {
+    content: '';
+    position: absolute;
+    inset: 0.48rem auto 0.48rem 0.48rem;
+    width: 1px;
+    background: var(--surface-line);
+    opacity: 0.78;
+  }
+
+  .field-surface-chamber[data-load='critical']::before,
+  .field-surface-chamber[data-load='high']::before {
+    background: var(--surface-accent-line);
+  }
+
+  .field-surface-chamber:hover,
+  .field-surface-chamber.is-active {
+    transform: translate(-50%, calc(-50% - 2px));
+    border-color: var(--surface-accent-line);
+    background:
+      linear-gradient(180deg, var(--surface-accent-fill), rgba(255, 255, 255, 0.01)),
+      rgba(14, 12, 9, 0.92);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.03),
+      0 14px 30px rgba(0, 0, 0, 0.18);
+  }
+
+  .field-surface-chamber-role,
+  .field-surface-chamber-load {
+    position: relative;
+    z-index: 1;
+    color: var(--field-amber-label);
+    font-family: var(--font-ui);
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .field-surface-chamber-label {
+    position: relative;
+    z-index: 1;
+    color: var(--field-amber-em);
+    font-family: var(--font-ui);
+    font-size: 0.95rem;
+    font-weight: 400;
+    line-height: 1.24;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-wrap: balance;
+  }
+
+  .field-surface-focus-stack {
+    margin-top: 1rem;
+  }
+
+  .field-surface-focus-card:not(.is-active) {
+    display: none;
+  }
+
+  .field-surface-focus-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: start;
+    flex-wrap: wrap;
+  }
+
+  .field-surface-focus-title {
+    margin: 0.38rem 0 0;
+    color: var(--field-amber-em);
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 1.05rem + 0.32vw, 1.5rem);
+    line-height: 1.1;
+  }
+
+  .field-surface-focus-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .field-surface-focus-meta-grid {
+    margin-top: 0.95rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+  }
+
+  .field-surface-focus-cluster {
+    padding-top: 0.72rem;
+    border-top: 1px solid var(--surface-line);
+  }
+
+  .field-surface-focus-list {
+    margin: 0.55rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.42rem;
+  }
+
+  .field-surface-focus-list li {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.42rem 0.55rem;
+    align-items: baseline;
+    padding-left: 0.78rem;
+    position: relative;
+    color: var(--field-text-body);
+    font-family: var(--font-body);
+    line-height: 1.55;
+  }
+
+  .field-surface-focus-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.58rem;
+    width: 0.36rem;
+    height: 0.36rem;
+    border-radius: 999px;
+    background: var(--surface-line-strong);
+  }
+
+  .field-surface-focus-list li[data-flow='pressure']::before {
+    background: var(--field-flow-pressure);
+  }
+
+  .field-surface-focus-list li[data-flow='control']::before {
+    background: var(--field-flow-control);
+  }
+
+  .field-surface-focus-list li[data-flow='grounding']::before {
+    background: var(--field-flow-grounding);
+  }
+
+  .field-surface-focus-list span,
+  .field-surface-focus-list em {
+    color: var(--field-amber-dim);
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    font-style: normal;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .field-surface-focus-list strong {
+    color: var(--field-amber-em);
+    font-family: var(--font-ui);
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
   .field-surface-hud-grid {
@@ -919,8 +1803,11 @@ const signalMeta = [
   .field-surface-cluster,
   .field-surface-note-card {
     padding: 0.82rem 0.88rem 0.92rem;
-    border: 1px solid var(--field-rule);
-    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--surface-line);
+    border-radius: var(--surface-radius);
+    background:
+      linear-gradient(180deg, var(--surface-panel-elevated), rgba(255, 255, 255, 0.01)),
+      rgba(255, 255, 255, 0.016);
   }
 
   .field-surface-value {
@@ -992,7 +1879,7 @@ const signalMeta = [
 
   .field-surface-note-stat {
     padding-top: 0.62rem;
-    border-top: 1px solid var(--field-rule);
+    border-top: 1px solid var(--surface-line);
   }
 
   .field-surface-note-stat--wide {
@@ -1045,6 +1932,10 @@ const signalMeta = [
     .field-surface-heading {
       max-width: 24ch;
     }
+
+    .field-surface-diagram-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
   @media (max-width: 960px) {
@@ -1054,6 +1945,10 @@ const signalMeta = [
 
     .field-surface-report-grid {
       grid-template-columns: 1fr 1fr;
+    }
+
+    .field-surface-focus-meta-grid {
+      grid-template-columns: 1fr;
     }
   }
 
@@ -1087,6 +1982,14 @@ const signalMeta = [
     .field-surface-note-grid {
       grid-template-columns: 1fr;
     }
+
+    .field-surface-stage {
+      min-height: 30rem;
+    }
+
+    .field-surface-chamber {
+      width: min(13rem, 38%);
+    }
   }
 
   @media (max-width: 620px) {
@@ -1108,6 +2011,25 @@ const signalMeta = [
 
     .field-surface-fragment {
       font-size: 1.08rem;
+    }
+
+    .field-surface-stage-shell {
+      padding: 0.55rem;
+    }
+
+    .field-surface-stage {
+      min-height: 26rem;
+    }
+
+    .field-surface-chamber {
+      width: min(12rem, 42%);
+      min-width: 6.6rem;
+      min-height: 4.8rem;
+      padding: 0.6rem 0.66rem 0.68rem;
+    }
+
+    .field-surface-chamber-label {
+      font-size: 0.8rem;
     }
   }
 </style>

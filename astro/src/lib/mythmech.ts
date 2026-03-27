@@ -27,6 +27,41 @@ export type MythmechSummary = {
   marginaliaSignals: string[];
 };
 
+export type MythmechLoadLevel = 'critical' | 'high' | 'medium' | 'low' | '';
+
+export type MythmechInspectNode = {
+  id: string;
+  label: string;
+  role: string;
+  load: MythmechLoadLevel;
+  summary: string;
+  detail: string;
+  hinge: boolean;
+};
+
+export type MythmechInspectEdge = {
+  id: string;
+  from: string;
+  to: string;
+  label: string;
+  flow: string;
+};
+
+export type MythmechInspectModel = {
+  enabled: boolean;
+  hingeId: string;
+  hingeLabel: string;
+  nodes: MythmechInspectNode[];
+  edges: MythmechInspectEdge[];
+  reverseTrace: string[];
+  parentRefs: string[];
+  childRefs: string[];
+  relationRefs: string[];
+  candidateRefs: string[];
+  stateLabels: string[];
+  signalRefs: string[];
+};
+
 const MYTHMECH_SIGNAL_TAGS = new Set(['seed', 'load', 'fail', 'link', 'evol']);
 
 function asRecord(value: unknown): UnknownRecord | null {
@@ -139,6 +174,32 @@ function normalizeLoadLevel(value: unknown): 'critical' | 'high' | 'medium' | 'l
     : '';
 }
 
+function slugifyToken(value: string): string {
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function extractId(item: unknown): string {
+  if (typeof item === 'string') {
+    return slugifyToken(item);
+  }
+
+  const record = asRecord(item);
+  if (!record) {
+    return '';
+  }
+
+  return slugifyToken(
+    asString(record.id) ||
+      asString(record.ref) ||
+      asString(record.label) ||
+      asString(record.title)
+  );
+}
+
 function extractLoadLevel(item: unknown): 'critical' | 'high' | 'medium' | 'low' | '' {
   const record = asRecord(item);
   if (!record) {
@@ -173,6 +234,44 @@ function extractFlowLabel(item: unknown): string {
       asString(record.kind) ||
       asString(record.type)
   );
+}
+
+function extractEdgeLabel(item: unknown): string {
+  if (typeof item === 'string') {
+    return titleCase(item);
+  }
+
+  const record = asRecord(item);
+  if (!record) {
+    return '';
+  }
+
+  return titleCase(
+    asString(record.label) ||
+      asString(record.type) ||
+      asString(record.kind) ||
+      asString(record.flow)
+  );
+}
+
+function extractNodeCopy(item: unknown): string {
+  const record = asRecord(item);
+  if (!record) {
+    return '';
+  }
+
+  return normalizeCopy(
+    asString(record.summary) ||
+      asString(record.description) ||
+      asString(record.note) ||
+      asString(record.value) ||
+      asString(record.copy)
+  );
+}
+
+function extractNodeRoleLabel(item: unknown): string {
+  const role = extractNodeRole(item);
+  return role ? titleCase(role) : 'Node';
 }
 
 function extractHingeLabel(tensor: UnknownRecord | null, nodes: unknown[]): string {
@@ -367,6 +466,130 @@ export function summarizeMythmech(value: unknown): MythmechSummary | null {
     marginaliaCount: asList(marginalia.entries).length,
     marginaliaTypes,
     marginaliaSignals,
+  };
+}
+
+export function extractMythmechInspectModel(value: unknown): MythmechInspectModel | null {
+  const root = normalizeMythmechSidecar(value);
+  if (!root) {
+    return null;
+  }
+
+  const mythmech = asRecord(root.mythmech) ?? {};
+  const tensor = asRecord(mythmech.tensor) ?? asRecord(root.tensor);
+  const lineage = asRecord(root.lineage) ?? {};
+  const spawn = asRecord(root.spawn) ?? {};
+  const marginalia = asRecord(root.marginalia) ?? {};
+  const states = asRecord(mythmech.states) ?? {};
+  const nodesRaw = asList(mythmech.nodes);
+  const edgesRaw = asList(mythmech.edges);
+  const hingeLabel = extractHingeLabel(tensor, nodesRaw);
+  const reverseTrace = uniqueStrings(
+    [
+      ...asList(root.reverse_trace).map((item) => extractLabel(item) || asString(item)),
+      ...asList(mythmech.reverse_trace).map((item) => extractLabel(item) || asString(item)),
+      ...asList(tensor?.reverse_trace).map((item) => extractLabel(item) || asString(item)),
+    ].filter(Boolean)
+  );
+
+  const nodes = nodesRaw.map((item, index) => {
+    const label = extractLabel(item) || `Node ${index + 1}`;
+    const id = extractId(item) || `node-${index + 1}`;
+    const role = extractNodeRoleLabel(item);
+    const load = extractLoadLevel(item);
+    const summary = extractNodeCopy(item);
+    const hinge =
+      asRecord(item)?.hinge === true ||
+      extractNodeRole(item) === 'hinge' ||
+      (hingeLabel && label === hingeLabel);
+
+    return {
+      id,
+      label,
+      role,
+      load,
+      summary: summary || `${role} in the Mythmech structure map.`,
+      detail: summary || `${label} holds a ${load || 'stored'} role in the current inspection map.`,
+      hinge,
+    };
+  });
+
+  if (nodes.length === 0 && hingeLabel) {
+    nodes.push({
+      id: extractId(hingeLabel) || 'hinge',
+      label: hingeLabel,
+      role: 'Hinge',
+      load: 'critical',
+      summary: `${hingeLabel} anchors the current inspection map.`,
+      detail: `${hingeLabel} is stored as the hinge for this object.`,
+      hinge: true,
+    });
+  }
+
+  const nodeIds = new Set(nodes.map((node) => node.id));
+  const edges = edgesRaw
+    .map((item, index) => {
+      const record = asRecord(item);
+      if (!record) {
+        return null;
+      }
+
+      const from = slugifyToken(asString(record.from));
+      const to = slugifyToken(asString(record.to));
+      if (!from || !to) {
+        return null;
+      }
+
+      return {
+        id: extractId(item) || `edge-${index + 1}`,
+        from,
+        to,
+        label: extractEdgeLabel(item) || 'Connects',
+        flow: extractFlowLabel(record.flow) || extractFlowLabel(item),
+      };
+    })
+    .filter((item): item is MythmechInspectEdge => Boolean(item))
+    .filter((item) => nodeIds.has(item.from) && nodeIds.has(item.to));
+
+  const hingeNodeId =
+    nodes.find((node) => node.hinge)?.id ||
+    nodes.find((node) => node.label === hingeLabel)?.id ||
+    nodes[0]?.id ||
+    '';
+
+  const loadOrder: Record<MythmechLoadLevel, number> = {
+    critical: 0,
+    high: 1,
+    medium: 2,
+    low: 3,
+    '': 4,
+  };
+
+  const orderedNodes = [...nodes].sort((left, right) => {
+    if (left.id === hingeNodeId) return -1;
+    if (right.id === hingeNodeId) return 1;
+    const loadDelta = loadOrder[left.load] - loadOrder[right.load];
+    if (loadDelta !== 0) return loadDelta;
+    return left.label.localeCompare(right.label);
+  });
+
+  return {
+    enabled: mythmech.enabled !== false,
+    hingeId: hingeNodeId,
+    hingeLabel,
+    nodes: orderedNodes,
+    edges,
+    reverseTrace,
+    parentRefs: uniqueStrings(asList(lineage.parents).map((item) => extractLabel(item) || asString(item)).filter(Boolean)),
+    childRefs: uniqueStrings(asList(lineage.children).map((item) => extractLabel(item) || asString(item)).filter(Boolean)),
+    relationRefs: uniqueStrings(asList(lineage.relations).map((item) => extractLabel(item) || asString(item)).filter(Boolean)),
+    candidateRefs: uniqueStrings(asList(spawn.candidates).map((item) => extractLabel(item) || asString(item)).filter(Boolean)),
+    stateLabels: uniqueStrings(
+      Object.entries(states)
+        .map(([key, stateValue]) => formatStateLabel(key, stateValue))
+        .filter(Boolean)
+    ),
+    signalRefs: uniqueStrings(asList(marginalia.refs).map((item) => asString(item)).filter(Boolean)),
   };
 }
 
