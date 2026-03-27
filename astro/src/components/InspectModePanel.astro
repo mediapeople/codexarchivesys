@@ -1,11 +1,5 @@
 ---
-import {
-  buildMythmechLead,
-  mergeMythmechMarginaliaEntries,
-  normalizePlatePrompt,
-  summarizeMythmech,
-} from '../lib/mythmech';
-import { buildRespawnLead, parseRespawnSummary } from '../lib/respawn';
+import { mergeMythmechMarginaliaEntries, normalizePlatePrompt, summarizeMythmech } from '../lib/mythmech';
 
 const { slug, packet, respawn, mythmech, platePrompt, marginaliaEntries = [], forceVisible = false } = Astro.props as {
   slug: string;
@@ -23,201 +17,31 @@ function asRecord(value: unknown): Record<string, unknown> | null {
     : null;
 }
 
-function asString(value: unknown): string {
-  return typeof value === 'string' ? value.trim() : '';
-}
-
-function asNumber(value: unknown): number | null {
-  return typeof value === 'number' && Number.isFinite(value) ? value : null;
-}
-
-function uniqueStrings(values: string[]): string[] {
-  return [...new Set(values.map((value) => value.trim()).filter(Boolean))];
-}
-
-function clipCopy(value: string, max = 180): string {
-  const normalized = value.replace(/\s+/g, ' ').trim();
-  if (!normalized || normalized.length <= max) {
-    return normalized;
-  }
-
-  return `${normalized.slice(0, max).replace(/\s+\S*$/, '').replace(/[.?!,:;]+$/, '').trim()}...`;
-}
-
-function endSentence(value: string): string {
-  const normalized = value.trim();
-  if (!normalized) {
-    return '';
-  }
-
-  return /[.?!]$/.test(normalized) ? normalized : `${normalized}.`;
-}
-
 const packetData = asRecord(packet);
-const signal = asRecord(packetData?.signal);
-const atmosphere = asRecord(packetData?.atmosphere);
-const traumaWeather = asRecord(packetData?.trauma_weather);
 const mythmechData = mergeMythmechMarginaliaEntries(mythmech, marginaliaEntries);
 const mythmechSummary = summarizeMythmech(mythmechData);
-const mythmechLead = mythmechSummary ? clipCopy(buildMythmechLead(mythmechSummary), 108) : '';
-const normalizedRespawn = asString(respawn);
-const respawnEntries = parseRespawnSummary(normalizedRespawn);
-const respawnLead = clipCopy(buildRespawnLead(respawnEntries), 108);
+const normalizedRespawn = typeof respawn === 'string' ? respawn.trim() : '';
 const normalizedPlatePrompt = normalizePlatePrompt(platePrompt) || '';
 const hasInspectData =
   forceVisible || packetData !== null || mythmechSummary !== null || Boolean(normalizedRespawn) || Boolean(normalizedPlatePrompt);
-
-const mode = asString(packetData?.mode).toUpperCase();
-const watch = asString(traumaWeather?.alert).toUpperCase();
-const signalTrack = asString(signal?.track);
-const signalMode = asString(signal?.mode);
-const coherence = asNumber(signal?.coherence);
-const atmosphereState = asString(atmosphere?.saturation_class) || asString(atmosphere?.pollen);
-const intakeRisk = asString(atmosphere?.intake_risk).toUpperCase();
-
-function buildConsequenceLead(): string {
-  if (mode === 'TARGET') {
-    return 'Direction has resolved.';
-  }
-
-  if (mode === 'SEALED') {
-    return 'Containment is holding.';
-  }
-
-  if (watch === 'WATCH') {
-    return 'Attention needs to stay active.';
-  }
-
-  if (mythmechLead) {
-    return endSentence(clipCopy(mythmechLead, 82));
-  }
-
-  if (respawnLead) {
-    return endSentence(clipCopy(respawnLead, 82));
-  }
-
-  if (normalizedPlatePrompt) {
-    return 'A visual read is ready.';
-  }
-
-  if (forceVisible) {
-    return 'Inspection is available.';
-  }
-
-  return 'Inspection is available.';
-}
-
-function buildConsequenceCopy(): string {
-  const parts: string[] = [];
-
-  if (mode === 'TARGET') {
-    parts.push('The system is no longer searching.');
-  } else if (mode === 'SEALED') {
-    parts.push('The object is holding a stable boundary.');
-  }
-
-  if (intakeRisk === 'CRITICAL' || intakeRisk === 'HIGH') {
-    parts.push('Pressure is elevated, so move carefully.');
-  } else if (intakeRisk === 'MODERATE' || atmosphereState.toUpperCase().includes('DRIFT')) {
-    parts.push('Proceeding is possible, but drift needs monitoring.');
-  }
-
-  if (coherence !== null) {
-    if (coherence >= 80) {
-      parts.push('Signal is coherent enough for confident motion.');
-    } else if (coherence >= 60) {
-      parts.push('Signal is usable, but not strong enough to ignore noise.');
-    }
-  } else if (signalTrack || signalMode) {
-    parts.push('Signal is present, but it still needs a deliberate read.');
-  }
-
-  if (watch === 'WATCH') {
-    parts.push('Keep attention on it even if nothing looks broken yet.');
-  }
-
-  if (parts.length === 0 && mythmechSummary) {
-    parts.push('Open the hinge, flows, and grounding layer when you want the structural read.');
-  }
-
-  if (parts.length === 0 && normalizedRespawn) {
-    parts.push('A return path is stored if you need the recovery logic.');
-  }
-
-  if (parts.length === 0 && normalizedPlatePrompt) {
-    parts.push('There is a prepared visual report when you want the diagnostic surface.');
-  }
-
-  if (parts.length === 0 && forceVisible) {
-    parts.push('This published scroll can open in HUD even before packet memory is attached.');
-  }
-
-  return uniqueStrings(parts).slice(0, 2).join(' ');
-}
-
-const consequenceLead = buildConsequenceLead();
-const consequenceCopy = buildConsequenceCopy();
-const hudSupportLine =
-  packetData || mythmechSummary
-    ? 'Open live packet state, hinge, and diagnostic readout.'
-    : forceVisible
-      ? 'Open the dedicated HUD for this published scroll.'
-      : 'Open the dedicated inspection surface for this object.';
-const accessStates = uniqueStrings([
-  packetData ? 'Packet-backed' : '',
-  mythmechSummary ? 'Mythmech lens' : '',
-  normalizedRespawn ? 'Respawn stored' : '',
-  normalizedPlatePrompt ? 'Plate prompt stored' : '',
-]);
 const hudHref = `/objects/${encodeURIComponent(slug)}/hud`;
 ---
 
 {hasInspectData && (
   <section class="inspect-access" aria-label="HUD access">
-    <div class="inspect-access-head">
-      <p class="inspect-access-kicker">HUD</p>
-      {accessStates.length > 0 && (
-        <div class="inspect-access-badges" aria-label="Stored inspection layers">
-          {accessStates.map((state) => (
-            <span>{state}</span>
-          ))}
-        </div>
-      )}
-    </div>
-
-    <div class="inspect-access-row">
-      <div class="inspect-access-copy">
-        <h2>{consequenceLead}</h2>
-        {consequenceCopy && <p class="inspect-access-text">{consequenceCopy}</p>}
-        <p class="inspect-access-note">{hudSupportLine}</p>
-      </div>
-
-      <a class="inspect-access-button" href={hudHref}>View HUD</a>
-    </div>
+    <p class="inspect-access-kicker">Enhanced Object</p>
+    <a class="inspect-access-button" href={hudHref}>View HUD</a>
   </section>
 )}
 
 <style>
   .inspect-access {
-    margin: 2.2rem 0 0;
-    max-width: 44rem;
+    margin: 2.1rem 0 0;
     padding-top: 1rem;
     border-top: 1px solid var(--field-line-soft);
   }
 
-  .inspect-access-head,
-  .inspect-access-row {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .inspect-access-head {
-    align-items: center;
-    gap: 0.45rem 0.55rem;
-  }
-
   .inspect-access-kicker,
-  .inspect-access-badges span,
   .inspect-access-button {
     font-family: var(--font-ui);
     font-size: 10px;
@@ -226,73 +50,20 @@ const hudHref = `/objects/${encodeURIComponent(slug)}/hud`;
   }
 
   .inspect-access-kicker {
-    margin: 0;
+    margin: 0 0 0.62rem;
     color: var(--field-amber-label);
-  }
-
-  .inspect-access-badges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.34rem;
-  }
-
-  .inspect-access-badges span {
-    display: inline-flex;
-    align-items: center;
-    min-height: 1.65rem;
-    padding: 0.12rem 0.52rem;
-    border: 1px solid var(--field-line-soft);
-    border-radius: var(--field-chip-radius);
-    color: var(--field-amber-label);
-    background: rgba(255, 255, 255, 0.012);
-  }
-
-  .inspect-access-row {
-    margin-top: 0.82rem;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 0.9rem 1rem;
-  }
-
-  .inspect-access-copy {
-    flex: 1 1 20rem;
-    min-width: 0;
-  }
-
-  .inspect-access-copy h2 {
-    margin: 0;
-    color: var(--field-amber-em);
-    font-size: clamp(1.2rem, 1.08rem + 0.55vw, 1.52rem);
-    line-height: 1.08;
-    text-wrap: balance;
-  }
-
-  .inspect-access-text,
-  .inspect-access-note {
-    margin: 0.42rem 0 0;
-    color: var(--field-text-body);
-    font-family: var(--font-body);
-    font-size: 0.98rem;
-    line-height: 1.58;
-    text-wrap: pretty;
-  }
-
-  .inspect-access-note {
-    color: var(--field-amber-label);
-    font-size: 0.86rem;
   }
 
   .inspect-access-button {
     display: inline-flex;
-    flex: 0 0 auto;
     align-items: center;
     justify-content: center;
-    min-height: 2.4rem;
-    padding: 0.3rem 0.96rem;
+    min-height: 2.3rem;
+    padding: 0.34rem 0.96rem;
     border: 1px solid var(--field-accent-line);
     border-radius: var(--field-chip-radius);
     color: var(--field-amber-em);
-    background: var(--field-accent-fill);
+    background: rgba(255, 255, 255, 0.012);
     text-decoration: none;
     transition:
       transform 140ms ease,
@@ -304,16 +75,6 @@ const hudHref = `/objects/${encodeURIComponent(slug)}/hud`;
   .inspect-access-button:hover {
     transform: translateY(-1px);
     border-color: var(--field-amber-accent);
-    background: rgba(171, 143, 104, 0.18);
-  }
-
-  @media (max-width: 720px) {
-    .inspect-access-row {
-      align-items: flex-start;
-    }
-
-    .inspect-access-button {
-      min-width: 100%;
-    }
+    background: rgba(171, 143, 104, 0.12);
   }
 </style>
