@@ -16,6 +16,12 @@ import {
   normalizePlatePrompt,
   stringifyMythmechSidecar,
 } from '../../lib/mythmech.ts';
+import {
+  extractUploadedImageCapture,
+  inferPigeonVisionSuggestion,
+  type PigeonMediaCapture,
+  type PigeonVisionSuggestion,
+} from '../../lib/pigeonImageIntelligence.ts';
 
 export const prerender = false;
 
@@ -65,6 +71,7 @@ type PigeonMediaItem = {
   role: 'hero' | 'gallery';
   alt?: string;
   caption?: string;
+  capture?: PigeonMediaCapture;
 };
 
 type PigeonPayload = {
@@ -126,10 +133,11 @@ type PreparedImageAsset = {
   repoPath: string;
   buffer: Buffer;
   contentType: string;
+  capture?: PigeonMediaCapture;
 };
 
 type SidecarFile = {
-  suffix: '.packet.json' | '.respawn.txt' | '.mythmech.sidecar' | '.plate-prompt.txt';
+  suffix: '.packet.json' | '.respawn.txt' | '.mythmech.sidecar' | '.plate-prompt.txt' | '.vision.json';
   content: Buffer;
 };
 
@@ -1082,10 +1090,10 @@ function buildNormalizedImageFields(
   uploadedImagesByName: Map<string, PreparedImageAsset>,
   uploadedAssets: PreparedImageAsset[]
 ): { images: string[]; media: PigeonMediaItem[] } {
-  const ordered: Array<{ src: string; alt?: string; caption?: string }> = [];
-  const bySrc = new Map<string, { src: string; alt?: string; caption?: string }>();
+  const ordered: Array<{ src: string; alt?: string; caption?: string; capture?: PigeonMediaCapture }> = [];
+  const bySrc = new Map<string, { src: string; alt?: string; caption?: string; capture?: PigeonMediaCapture }>();
 
-  const upsert = (src: string, alt?: string, caption?: string) => {
+  const upsert = (src: string, alt?: string, caption?: string, capture?: PigeonMediaCapture) => {
     const normalizedSrc = src.trim();
     if (!normalizedSrc) {
       return;
@@ -1101,6 +1109,9 @@ function buildNormalizedImageFields(
       if (!existing.caption && normalizedCaption) {
         existing.caption = normalizedCaption;
       }
+      if (!existing.capture && capture) {
+        existing.capture = capture;
+      }
       return;
     }
 
@@ -1108,6 +1119,7 @@ function buildNormalizedImageFields(
       src: normalizedSrc,
       alt: normalizedAlt,
       caption: normalizedCaption,
+      capture,
     };
     bySrc.set(normalizedSrc, item);
     ordered.push(item);
@@ -1127,7 +1139,7 @@ function buildNormalizedImageFields(
   }
 
   for (const asset of uploadedAssets) {
-    upsert(asset.publicSrc, fallbackAltFromImageTarget(asset.originalName));
+    upsert(asset.publicSrc, fallbackAltFromImageTarget(asset.originalName), undefined, asset.capture);
   }
 
   const media = ordered.map((item, index) => ({
@@ -1136,6 +1148,7 @@ function buildNormalizedImageFields(
     role: index === 0 ? ('hero' as const) : ('gallery' as const),
     alt: item.alt,
     caption: item.caption,
+    capture: item.capture,
   }));
 
   return {
@@ -1175,6 +1188,52 @@ function yamlImageMediaField(media: PigeonMediaItem[]): string {
 
       if (item.caption) {
         lines.push(`    caption: ${yamlString(item.caption)}`);
+      }
+
+      if (item.capture) {
+        lines.push('    capture:');
+
+        if (typeof item.capture.width === 'number') {
+          lines.push(`      width: ${item.capture.width}`);
+        }
+
+        if (typeof item.capture.height === 'number') {
+          lines.push(`      height: ${item.capture.height}`);
+        }
+
+        if (item.capture.shape) {
+          lines.push(`      shape: ${item.capture.shape}`);
+        }
+
+        if (item.capture.format) {
+          lines.push(`      format: ${yamlString(item.capture.format)}`);
+        }
+
+        if (item.capture.originalFilename) {
+          lines.push(`      originalFilename: ${yamlString(item.capture.originalFilename)}`);
+        }
+
+        if (item.capture.uploadedAt) {
+          lines.push(`      uploadedAt: ${yamlString(item.capture.uploadedAt)}`);
+        }
+
+        if (item.capture.capturedAt) {
+          lines.push(`      capturedAt: ${yamlString(item.capture.capturedAt)}`);
+        }
+
+        if (item.capture.camera) {
+          lines.push(`      camera: ${yamlString(item.capture.camera)}`);
+        }
+
+        if (item.capture.geo) {
+          lines.push('      geo:');
+          lines.push(`        latitude: ${item.capture.geo.latitude}`);
+          lines.push(`        longitude: ${item.capture.geo.longitude}`);
+
+          if (typeof item.capture.geo.altitude === 'number') {
+            lines.push(`        altitude: ${item.capture.geo.altitude}`);
+          }
+        }
       }
 
       return lines.join('\n');
@@ -1647,6 +1706,8 @@ async function prepareUploadedImages(
   objectType: PigeonObjectType,
   slug: string
 ): Promise<PreparedImageAsset[]> {
+  const uploadedAt = new Date().toISOString();
+
   return Promise.all(
     files.map(async (file, index) => {
       if (!file.type.startsWith('image/')) {
@@ -1662,6 +1723,12 @@ async function prepareUploadedImages(
         (normalizedSubtype === 'jpeg' ? 'jpg' : normalizedSubtype === 'svg+xml' ? 'svg' : normalizedSubtype) ||
         'jpg';
       const publicSrc = getRelativePublicImagePath(objectType, slug, index, extension);
+      const capture = await extractUploadedImageCapture({
+        buffer,
+        contentType: file.type || `image/${extension === 'jpg' ? 'jpeg' : extension}`,
+        originalFilename: file.name,
+        uploadedAt,
+      }).catch(() => undefined);
 
       return {
         originalName: file.name,
@@ -1669,6 +1736,7 @@ async function prepareUploadedImages(
         repoPath: `astro/public${publicSrc}`,
         buffer,
         contentType: file.type || `image/${extension === 'jpg' ? 'jpeg' : extension}`,
+        capture,
       };
     })
   );
@@ -1774,6 +1842,9 @@ async function writeLocalEntry(
           : null,
         plate_prompt: sidecars.some((sidecar) => sidecar.suffix === '.plate-prompt.txt')
           ? `${basePath}.plate-prompt.txt`
+          : null,
+        vision: sidecars.some((sidecar) => sidecar.suffix === '.vision.json')
+          ? `${basePath}.vision.json`
           : null,
       },
       images: payload.images,
@@ -2137,6 +2208,9 @@ async function writeGitHubEntry(
         plate_prompt: sidecars.some((sidecar) => sidecar.suffix === '.plate-prompt.txt')
           ? relativePath.replace(/\.md$/i, '.plate-prompt.txt')
           : null,
+        vision: sidecars.some((sidecar) => sidecar.suffix === '.vision.json')
+          ? relativePath.replace(/\.md$/i, '.vision.json')
+          : null,
       },
       images: payload.images,
       axes: payload.axes,
@@ -2465,6 +2539,28 @@ export const POST: APIRoute = async ({ request }) => {
       preparedImages.map((asset) => [normalizeFilename(asset.originalName), asset] as const)
     );
     const rewrittenBody = rewriteBodyImageReferences(parsed.payload.body, uploadedImagesByName);
+    const visionSuggestionPromise: Promise<PigeonVisionSuggestion | null> =
+      preparedImages.length > 0
+        ? inferPigeonVisionSuggestion({
+            objectType: parsed.payload.objectType,
+            title: parsed.payload.title,
+            body: rewrittenBody.body,
+            images: preparedImages.map((asset, index) => ({
+              index: index + 1,
+              src: asset.publicSrc,
+              originalFilename: asset.originalName,
+              buffer: asset.buffer,
+              contentType: asset.contentType,
+            })),
+          }).catch((error) => {
+            console.warn(
+              `[Carrier Pigeon] Vision suggestion skipped for ${parsed.payload.objectType}/${slug}: ${
+                error instanceof Error ? error.message : String(error)
+              }`
+            );
+            return null;
+          })
+        : Promise.resolve(null);
     const normalizedImageFields = buildNormalizedImageFields(
       parsed.payload.images,
       rewrittenBody.body,
@@ -2487,9 +2583,18 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     const markdown = buildMarkdownEntry(finalPayload, slug);
+    const visionSuggestion = await visionSuggestionPromise;
+    const visionSidecars: SidecarFile[] = visionSuggestion
+      ? [
+          {
+            suffix: '.vision.json',
+            content: Buffer.from(JSON.stringify(visionSuggestion, null, 2), 'utf8'),
+          },
+        ]
+      : [];
 
     if (githubConfig) {
-      return await writeGitHubEntry(githubConfig, finalPayload, slug, markdown, preparedImages);
+      return await writeGitHubEntry(githubConfig, finalPayload, slug, markdown, preparedImages, visionSidecars);
     }
 
     if (isHostedRuntime()) {
@@ -2502,7 +2607,7 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    return await writeLocalEntry(finalPayload, slug, markdown, preparedImages);
+    return await writeLocalEntry(finalPayload, slug, markdown, preparedImages, visionSidecars);
   } catch (error) {
     return Response.json(
       {

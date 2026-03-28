@@ -199,6 +199,72 @@ function formatSourceLabel(value: string): string {
     .join(' ');
 }
 
+function formatCaptureTimestamp(value: string | undefined): string | null {
+  if (!value) {
+    return null;
+  }
+
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) {
+    return null;
+  }
+
+  return parsed.toLocaleString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  });
+}
+
+function formatCaptureGeo(
+  value: { latitude: number; longitude: number; altitude?: number } | undefined
+): string | null {
+  if (!value) {
+    return null;
+  }
+
+  const base = `${value.latitude.toFixed(5)}, ${value.longitude.toFixed(5)}`;
+  return typeof value.altitude === 'number' ? `${base} / alt ${value.altitude.toFixed(1)}m` : base;
+}
+
+function buildCaptureDetailRows(
+  capture:
+    | {
+        width?: number;
+        height?: number;
+        shape?: string;
+        format?: string;
+        capturedAt?: string;
+        camera?: string;
+        geo?: { latitude: number; longitude: number; altitude?: number };
+      }
+    | undefined
+): Array<{ label: string; value: string }> {
+  if (!capture) {
+    return [];
+  }
+
+  const rows: Array<{ label: string; value: string } | null> = [];
+  const captureLabel = formatCaptureTimestamp(capture.capturedAt);
+  const geometryParts = [
+    typeof capture.width === 'number' && typeof capture.height === 'number'
+      ? `${capture.width} x ${capture.height}`
+      : '',
+    capture.shape || '',
+    capture.format || '',
+  ].filter(Boolean);
+  const geoLabel = formatCaptureGeo(capture.geo);
+
+  rows.push(captureLabel ? { label: 'Captured', value: captureLabel } : null);
+  rows.push(capture.camera ? { label: 'Camera', value: capture.camera } : null);
+  rows.push(geometryParts.length > 0 ? { label: 'Image', value: geometryParts.join(' / ') } : null);
+  rows.push(geoLabel ? { label: 'Coordinates', value: geoLabel } : null);
+
+  return rows.filter((row): row is { label: string; value: string } => Boolean(row));
+}
+
 function hasRenderableBodyContent(body: string, hideLeadHeading: boolean): boolean {
   const trimmed = body.trim();
   if (!trimmed) {
@@ -307,12 +373,16 @@ const loremapFieldLabels = new Set(['Location', 'Geo', 'Terrain']);
 const loremapDetailRows = isLoremapObject
   ? detailRows.filter((row) => loremapFieldLabels.has(row.label))
   : [];
-const rawSupportingDetailRows = isLoremapObject
-  ? detailRows.filter((row) => !loremapFieldLabels.has(row.label))
-  : detailRows;
+const captureDetailRows = primaryMedia?.kind === 'image' ? buildCaptureDetailRows(primaryMedia.capture) : [];
+const rawSupportingDetailRows = [
+  ...(isLoremapObject
+    ? detailRows.filter((row) => !loremapFieldLabels.has(row.label))
+    : detailRows),
+  ...captureDetailRows,
+];
 const artifactSupportRows = isHtmlArtifact
-  ? detailRows.filter((row) => row.label !== 'Source')
-  : detailRows;
+  ? rawSupportingDetailRows.filter((row) => row.label !== 'Source')
+  : rawSupportingDetailRows;
 const supportingDetailRows = isHtmlArtifact
   ? rawSupportingDetailRows.filter((row) => row.label !== 'Source')
   : rawSupportingDetailRows;

@@ -7,6 +7,7 @@ export interface ObjectSidecars {
   respawn: string | null;
   mythmech: Record<string, unknown> | null;
   platePrompt: string | null;
+  vision: Record<string, unknown> | null;
 }
 
 function getCandidatePaths(filePath: string): string[] {
@@ -37,6 +38,21 @@ async function readPacket(candidates: string[]): Promise<unknown | null> {
       return JSON.parse(await readFile(candidate, 'utf8'));
     } catch {
       // Packet sidecars are optional.
+    }
+  }
+
+  return null;
+}
+
+async function readJsonSidecar(candidates: string[]): Promise<Record<string, unknown> | null> {
+  for (const candidate of candidates) {
+    try {
+      const parsed = JSON.parse(await readFile(candidate, 'utf8'));
+      return parsed && typeof parsed === 'object' && !Array.isArray(parsed)
+        ? (parsed as Record<string, unknown>)
+        : null;
+    } catch {
+      // JSON sidecars are optional.
     }
   }
 
@@ -90,7 +106,7 @@ async function readPlatePrompt(candidates: string[]): Promise<string | null> {
 
 export async function loadObjectSidecars(filePath: string | undefined): Promise<ObjectSidecars> {
   if (!filePath) {
-    return { packet: null, respawn: null, mythmech: null, platePrompt: null };
+    return { packet: null, respawn: null, mythmech: null, platePrompt: null, vision: null };
   }
 
   const bases = getCandidatePaths(filePath).map((candidate) => candidate.replace(/\.md$/i, ''));
@@ -100,5 +116,6 @@ export async function loadObjectSidecars(filePath: string | undefined): Promise<
     respawn: await readRespawn(bases.map((base) => `${base}.respawn.txt`)),
     mythmech: await readMythmech(bases.map((base) => `${base}.mythmech.sidecar`)),
     platePrompt: await readPlatePrompt(bases.map((base) => `${base}.plate-prompt.txt`)),
+    vision: await readJsonSidecar(bases.map((base) => `${base}.vision.json`)),
   };
 }

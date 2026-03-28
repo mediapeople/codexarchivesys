@@ -53,6 +53,14 @@ const MediaRole = z.enum([
   'reference',
 ]);
 
+const ImageShape = z.enum([
+  'wide',
+  'landscape',
+  'square',
+  'portrait',
+  'tall',
+]);
+
 const ConnectionDisplay = z.enum([
   'inline',
   'feature',
@@ -140,6 +148,24 @@ const Contributor = z.object({
   bio: z.string().optional(),
 });
 
+const MediaCaptureGeo = z.object({
+  latitude: z.number(),
+  longitude: z.number(),
+  altitude: z.number().optional(),
+});
+
+const MediaCapture = z.object({
+  width: z.number().int().positive().optional(),
+  height: z.number().int().positive().optional(),
+  shape: ImageShape.optional(),
+  format: z.string().optional(),
+  originalFilename: z.string().optional(),
+  uploadedAt: z.coerce.date().optional(),
+  capturedAt: z.coerce.date().optional(),
+  camera: z.string().optional(),
+  geo: MediaCaptureGeo.optional(),
+});
+
 // ─── MEDIA OBJECT ─────────────────────────────────────────────────────────────
 
 const MediaItem = z.object({
@@ -148,6 +174,7 @@ const MediaItem = z.object({
   role: MediaRole,
   alt:  z.string().optional(),
   caption: z.string().optional(),
+  capture: MediaCapture.optional(),
 });
 
 // ─── NEXUS INCLUDED OBJECT ────────────────────────────────────────────────────
