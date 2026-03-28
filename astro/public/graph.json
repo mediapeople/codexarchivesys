@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-28T00:42:28.232Z",
+  "generatedAt": "2026-03-28T02:17:23.237Z",
   "sourceDir": "./src/content",
-  "nodeCount": 141,
-  "edgeCount": 4488,
+  "nodeCount": 145,
+  "edgeCount": 4491,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -136,6 +136,17 @@
       "constellations": [
         "Archaeological Objects"
       ]
+    },
+    {
+      "id": "desert-lab-pocket-scale",
+      "slug": "desert-lab-pocket-scale",
+      "url": "https://ndcodex.com/objects/desert-lab-pocket-scale",
+      "stableId": "codex://object/desert-lab-pocket-scale",
+      "type": "artifact",
+      "title": "Desert Lab (Pocket Scale)",
+      "date": "2026-03-27",
+      "themes": [],
+      "constellations": []
     },
     {
       "id": "distortion-atlas",
@@ -1254,6 +1265,17 @@
       "constellations": []
     },
     {
+      "id": "marginalia-on-desert-lab-pocket-scale-2026-03-27-21-21-02",
+      "slug": "marginalia-on-desert-lab-pocket-scale-2026-03-27-21-21-02",
+      "url": "https://ndcodex.com/objects/marginalia-on-desert-lab-pocket-scale-2026-03-27-21-21-02",
+      "stableId": "codex://object/marginalia-on-desert-lab-pocket-scale-2026-03-27-21-21-02",
+      "type": "fragment",
+      "title": "Marginalia on Desert Lab (Pocket Scale) 2026-03-27-21-21-02",
+      "date": "2026-03-28T01:21:02.192Z",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "marginalia-on-everything-arrived-at-once-2026-03-18-20-39-30",
       "slug": "marginalia-on-everything-arrived-at-once-2026-03-18-20-39-30",
       "url": "https://ndcodex.com/objects/marginalia-on-everything-arrived-at-once-2026-03-18-20-39-30/",
@@ -1261,6 +1283,28 @@
       "type": "fragment",
       "title": "Marginalia on Everything arrived at once 2026-03-18-20-39-30",
       "date": "2026-03-19T00:39:30.897Z",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "marginalia-on-jagged-crater-2026-03-27-21-10-01",
+      "slug": "marginalia-on-jagged-crater-2026-03-27-21-10-01",
+      "url": "https://ndcodex.com/objects/marginalia-on-jagged-crater-2026-03-27-21-10-01",
+      "stableId": "codex://object/marginalia-on-jagged-crater-2026-03-27-21-10-01",
+      "type": "fragment",
+      "title": "Marginalia on jagged crater 2026-03-27-21-10-01",
+      "date": "2026-03-28T01:10:01.276Z",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "marginalia-on-jagged-crater-2026-03-27-21-31-19",
+      "slug": "marginalia-on-jagged-crater-2026-03-27-21-31-19",
+      "url": "https://ndcodex.com/objects/marginalia-on-jagged-crater-2026-03-27-21-31-19",
+      "stableId": "codex://object/marginalia-on-jagged-crater-2026-03-27-21-31-19",
+      "type": "fragment",
+      "title": "Marginalia on jagged crater 2026-03-27-21-31-19",
+      "date": "2026-03-28T01:31:19.404Z",
       "themes": [],
       "constellations": []
     },
@@ -7747,6 +7791,14 @@
       ]
     },
     {
+      "source": "desert-lab-pocket-scale",
+      "target": "marginalia-on-desert-lab-pocket-scale-2026-03-27-21-21-02",
+      "weight": 4,
+      "reasons": [
+        "explicit-connection"
+      ]
+    },
+    {
       "source": "distortion-atlas",
       "target": "one-yard-from-forever-scroll-surface",
       "weight": 4,
@@ -7947,6 +7999,22 @@
       "reasons": [
         "shared-theme",
         "explicit-related"
+      ]
+    },
+    {
+      "source": "jagged-crater",
+      "target": "marginalia-on-jagged-crater-2026-03-27-21-10-01",
+      "weight": 4,
+      "reasons": [
+        "explicit-connection"
+      ]
+    },
+    {
+      "source": "jagged-crater",
+      "target": "marginalia-on-jagged-crater-2026-03-27-21-31-19",
+      "weight": 4,
+      "reasons": [
+        "explicit-connection"
       ]
     },
     {
