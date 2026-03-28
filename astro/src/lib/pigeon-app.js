@@ -1197,8 +1197,8 @@ export function renderPigeonAppMarkup(options = {}) {
   const {
     eyebrow = 'Remote archive ingest',
     deck = 'Publish a markdown note from your phone, authenticate with your Carrier Pigeon key, and commit it straight into the ndcodex repository from anywhere.',
-    notePlaceholder = `Paste anything here, then use Smart Draft to infer title, type, date, and starter frontmatter.\n\nOr load a template if you already know the object type.`,
-    templateNote = 'Paste raw text -> Smart Draft infers frontmatter. Load Template still gives you the manual shell.',
+    notePlaceholder = `Paste anything here.\n\nWith images attached, a short note becomes a caption by default, and you can use lines like:\ntitle: Designers in 2026\ncaption: looking at the machine like it owes them rent`,
+    templateNote = 'Short image notes publish as captions. Smart Draft is still there when you want full frontmatter or body prose.',
     attachNote = 'If the note body contains ![[image.jpg]] or markdown image links, Carrier Pigeon will rewrite matching file names to the uploaded public image paths.',
     keyNote = 'Stored only in this browser on this device so you do not have to re-enter it every time.',
     workflowTitle = 'Phone workflow',
@@ -2176,6 +2176,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
     const normalizedForMatch = normalized.replace(/^\s+/, '');
     const result = {
       title: '',
+      caption: '',
       date: '',
       state: '',
       objectType: null,
@@ -2201,6 +2202,19 @@ export const PIGEON_APP_SCRIPT = String.raw`
 
     const parsedFrontmatter = parseLooseFrontmatter(normalizedForMatch);
     if (!parsedFrontmatter) {
+      const smartImageDraft = parseSmartImageDraft(normalizedForMatch);
+      if (smartImageDraft) {
+        result.caption = smartImageDraft.caption;
+        result.body = '';
+        result.axes = inferAxesFromText({
+          objectType: selectedType,
+          title: result.title,
+          body: '',
+          existing: result.axes,
+        });
+        return result;
+      }
+
       result.axes = inferAxesFromText({
         objectType: selectedType,
         title: result.title,
@@ -2220,19 +2234,24 @@ export const PIGEON_APP_SCRIPT = String.raw`
     result.hasTitleField = fields.has('title');
     result.hasDateField = fields.has('date');
     result.title = normalizeTitleScalar(parseFrontmatterScalar((fields.get('title') && fields.get('title')[0]) || ''));
+    result.caption = parseFrontmatterScalar((fields.get('caption') && fields.get('caption')[0]) || '');
     result.date = parseFrontmatterScalar((fields.get('date') && fields.get('date')[0]) || '');
     result.state = parseFrontmatterScalar((fields.get('state') && fields.get('state')[0]) || '');
     result.objectType = objectType;
     result.axisOverrides = readAxisOverridesFromFrontmatterFields(fields);
+    const frontmatterBody = parsedFrontmatter.body.trim();
+    const inferredCaption =
+      !result.caption && shouldTreatPlainImageNoteAsCaption(frontmatterBody) ? frontmatterBody : '';
+    result.caption = result.caption || inferredCaption;
     result.axes = inferAxesFromText({
       objectType: objectType || selectedType,
       title: result.title,
-      body: parsedFrontmatter.body.trim(),
+      body: inferredCaption ? '' : frontmatterBody,
       existing: result.axisOverrides,
     });
     result.tags = (fields.get('tags') || []).flatMap(parseFrontmatterArray);
     result.images = (fields.get('images') || []).flatMap(parseFrontmatterArray);
-    result.body = parsedFrontmatter.body.trim();
+    result.body = inferredCaption ? '' : frontmatterBody;
     return result;
   }
 
@@ -2259,7 +2278,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
       }
 
       const firstKey = firstFieldMatch[1].toLowerCase();
-      if (!/^(title|date|object_type|objecttype|type|state|tags|images|summary|id|status|visibility|themes|media|scale|depth|focus|function)$/.test(firstKey)) {
+      if (!/^(title|caption|date|object_type|objecttype|type|state|tags|images|summary|id|status|visibility|themes|media|scale|depth|focus|function)$/.test(firstKey)) {
         return null;
       }
     }
@@ -2357,6 +2376,15 @@ export const PIGEON_APP_SCRIPT = String.raw`
     const order = [];
 
     if (!parsedFrontmatter) {
+      const smartImageDraft = parseSmartImageDraft(normalized);
+      if (smartImageDraft) {
+        return {
+          fields: { caption: smartImageDraft.caption },
+          order: ['caption'],
+          body: '',
+        };
+      }
+
       return {
         fields,
         order,
@@ -2375,10 +2403,80 @@ export const PIGEON_APP_SCRIPT = String.raw`
       }
     });
 
+    const frontmatterBody = parsedFrontmatter.body.trim();
+    if (!hasMeaningfulValue(fields.caption) && shouldTreatPlainImageNoteAsCaption(frontmatterBody)) {
+      fields.caption = frontmatterBody;
+      if (!order.includes('caption')) {
+        order.push('caption');
+      }
+
+      return {
+        fields,
+        order,
+        body: '',
+      };
+    }
+
     return {
       fields,
       order,
-      body: parsedFrontmatter.body.trim(),
+      body: frontmatterBody,
+    };
+  }
+
+  function shouldTreatPlainImageNoteAsCaption(value) {
+    if (!hasAttachedImages()) {
+      return false;
+    }
+
+    const trimmed = normalizeRawNote(value).trim();
+    if (!trimmed || trimmed.length > 280) {
+      return false;
+    }
+
+    if (/\n\s*\n/.test(trimmed)) {
+      return false;
+    }
+
+    const lines = trimmed.split('\n').map((line) => line.trim()).filter(Boolean);
+    if (lines.length === 0 || lines.length > 3) {
+      return false;
+    }
+
+    const fencedCodeMarker = String.fromCharCode(96).repeat(3);
+    const looksStructuredMarkdown = (line) =>
+      line === '---' ||
+      line.startsWith(fencedCodeMarker) ||
+      /^#{1,6}\s/.test(line) ||
+      /^>\s/.test(line) ||
+      /^[-*+]\s/.test(line) ||
+      /^\d+[.)]\s/.test(line);
+
+    if (
+      lines.some(
+        (line) =>
+          looksStructuredMarkdown(line) ||
+          /!\[\[|!\[[^\]]*\]\([^)]+\)/.test(line)
+      )
+    ) {
+      return false;
+    }
+
+    return true;
+  }
+
+  function parseSmartImageDraft(raw) {
+    const normalized = normalizeRawNote(raw).trim();
+    if (!normalized || parseLooseFrontmatter(normalized.replace(/^\s+/, ''))) {
+      return null;
+    }
+
+    if (!shouldTreatPlainImageNoteAsCaption(normalized)) {
+      return null;
+    }
+
+    return {
+      caption: normalized,
     };
   }
 
@@ -2691,6 +2789,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
     if (typeKey === 'type') {
       pushKey('object_type');
     }
+    pushKey('caption');
     pushKey('tags');
     pushKey('scale');
     pushKey('depth');
@@ -2738,12 +2837,15 @@ export const PIGEON_APP_SCRIPT = String.raw`
       ) ||
       normalizeObjectType(fields.object_type) ||
       normalizeObjectType(fields.type);
-    const body = loose.body || parsed.body || rawNote.trim();
-    const inferredTitle = parsed.title || inferTitleFromText(body);
+    const captionText = parsed.caption || '';
+    const body = loose.body || parsed.body || (captionText ? '' : rawNote.trim());
+    const inferenceText = captionText || body;
+    const inferredTitle = parsed.title || inferTitleFromText(inferenceText);
     const inferredDate =
-      parsed.date && !Number.isNaN(Date.parse(parsed.date)) ? parsed.date : inferDateFromText(body);
-    const inferredType = existingType || inferObjectTypeFromText(inferredTitle, body);
-    const inferredTags = parsed.tags.length ? parsed.tags : inferTagsFromText(inferredTitle, body);
+      parsed.date && !Number.isNaN(Date.parse(parsed.date)) ? parsed.date : inferDateFromText(inferenceText);
+    const inferredType =
+      existingType || (captionText && !body ? resolvePublishType(parsed) : inferObjectTypeFromText(inferredTitle, body));
+    const inferredTags = parsed.tags.length ? parsed.tags : inferTagsFromText(inferredTitle, inferenceText);
     const inferredAxes = inferAxesFromText({
       objectType: inferredType,
       title: inferredTitle,

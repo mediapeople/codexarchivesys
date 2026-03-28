@@ -82,6 +82,7 @@ type PigeonPayload = {
   tags: string[];
   themes: string[];
   body: string;
+  primaryCaption?: string;
   images: string[];
   media: PigeonMediaItem[];
   imageOnly: boolean;
@@ -282,6 +283,42 @@ function formatFallbackObjectTitle(objectType: PigeonObjectType, date: string): 
 
 function isImageOnlySubmission(body: string, imageCount: number): boolean {
   return imageCount > 0 && !hasMeaningfulBody(body);
+}
+
+function shouldTreatNoteAsImageCaption(value: string): boolean {
+  const trimmed = normalizeNewlines(value).trim();
+  if (!trimmed || trimmed.length > 280) {
+    return false;
+  }
+
+  if (/\n\s*\n/.test(trimmed)) {
+    return false;
+  }
+
+  const lines = trimmed.split('\n').map((line) => line.trim()).filter(Boolean);
+  if (lines.length === 0 || lines.length > 3) {
+    return false;
+  }
+
+  const looksStructuredMarkdown = (line: string): boolean =>
+    line === '---' ||
+    line.startsWith('```') ||
+    /^#{1,6}\s/.test(line) ||
+    /^>\s/.test(line) ||
+    /^[-*+]\s/.test(line) ||
+    /^\d+[.)]\s/.test(line);
+
+  if (
+    lines.some(
+      (line) =>
+        looksStructuredMarkdown(line) ||
+        /!\[\[|!\[[^\]]*\]\([^)]+\)/.test(line)
+    )
+  ) {
+    return false;
+  }
+
+  return true;
 }
 
 function omitUndefinedFields(fields: Record<string, unknown>): Record<string, unknown> {
@@ -773,31 +810,49 @@ function buildPassthroughFrontmatter(entries: FrontmatterEntry[], objectType: Pi
 
 function buildImageOnlyPayload(
   objectTypeCandidate?: unknown,
-  now = new Date().toISOString()
+  now = new Date().toISOString(),
+  options?: {
+    title?: string;
+    date?: string;
+    caption?: string;
+    tags?: string[];
+    themes?: string[];
+    axisOverrides?: Partial<Required<ArchiveAxes>>;
+  }
 ): PigeonPayload {
   const explicitObjectType = normalizeObjectType(objectTypeCandidate);
   const objectType = explicitObjectType || 'artifact';
-  const title = formatFallbackObjectTitle(objectType, now);
+  const date = normalizeDateString(options?.date, now);
+  const title = normalizeIncomingTitle(options?.title) || formatFallbackObjectTitle(objectType, date);
+  const caption = normalizeOptionalString(options?.caption) || undefined;
 
   return {
     objectType,
     title,
-    date: now,
+    date,
     axes: inferAxes({
       objectType,
       title,
       body: '',
-      existing: {},
+      existing: options?.axisOverrides || {},
     }),
-    tags: [],
-    themes: [],
+    tags: normalizeNonEmptyStrings(options?.tags || []),
+    themes: normalizeNonEmptyStrings(options?.themes || []),
     body: '',
+    primaryCaption: caption,
     images: [],
     media: [],
     imageOnly: true,
     status: 'published',
     visibility: 'public',
-    excerpt: undefined,
+    excerpt: caption
+      ? resolveExcerpt({
+          title,
+          excerpt: caption,
+          body: caption,
+          max: 220,
+        }) || undefined
+      : undefined,
     codexState: objectType === 'codex' ? 'published' : undefined,
     codexDependencies: [],
     passthroughFrontmatter: [],
@@ -830,7 +885,14 @@ function parseMarkdownNote(
   const tags = (fields.get('tags') || []).flatMap(parseFrontmatterValue);
   const themes = (fields.get('themes') || []).flatMap(parseFrontmatterValue);
   const images = (fields.get('images') || []).flatMap(parseFrontmatterValue);
-  const body = parsedFrontmatter.body.trim();
+  const declaredCaption = normalizeOptionalString(fields.get('caption')?.[0]) || '';
+  const frontmatterBody = parsedFrontmatter.body.trim();
+  const implicitCaption =
+    !declaredCaption && (options?.uploadedImageCount ?? 0) > 0 && shouldTreatNoteAsImageCaption(frontmatterBody)
+      ? frontmatterBody
+      : '';
+  const body = implicitCaption ? '' : frontmatterBody;
+  const caption = declaredCaption || implicitCaption;
   const imageOnly = isImageOnlySubmission(body, images.length + (options?.uploadedImageCount ?? 0));
   const objectType = resolveObjectType(
     fields,
@@ -851,11 +913,12 @@ function parseMarkdownNote(
     normalizeOptionalString(fields.get('excerpt')?.[0]) ||
     normalizeOptionalString(fields.get('summary')?.[0]);
   const axisOverrides = resolveAxisOverridesFromMap(fields, 'markdown note frontmatter');
-  const excerpt = hasMeaningfulBody(body)
+  const excerptSource = hasMeaningfulBody(body) ? body : caption;
+  const excerpt = hasMeaningfulBody(excerptSource)
     ? resolveExcerpt({
         title,
-        excerpt: requestedExcerpt,
-        body,
+        excerpt: requestedExcerpt || caption,
+        body: excerptSource,
         max: 220,
       }) || undefined
     : undefined;
@@ -889,6 +952,7 @@ function parseMarkdownNote(
     tags: normalizeNonEmptyStrings(tags),
     themes: normalizeNonEmptyStrings(themes),
     body,
+    primaryCaption: caption || undefined,
     images: normalizeNonEmptyStrings(images),
     media: [],
     imageOnly,
@@ -926,7 +990,7 @@ function extractMarkdownFrontmatter(source: string): ParsedFrontmatter | null {
     }
 
     const firstKey = firstFieldMatch[1].toLowerCase();
-    if (!/^(title|date|object_type|objecttype|type|state|tags|images|summary|id|status|visibility|themes|media|scale|depth|focus|function)$/.test(firstKey)) {
+    if (!/^(title|caption|date|object_type|objecttype|type|state|tags|images|summary|id|status|visibility|themes|media|scale|depth|focus|function)$/.test(firstKey)) {
       return null;
     }
   }
@@ -1088,7 +1152,8 @@ function buildNormalizedImageFields(
   declaredImages: string[],
   body: string,
   uploadedImagesByName: Map<string, PreparedImageAsset>,
-  uploadedAssets: PreparedImageAsset[]
+  uploadedAssets: PreparedImageAsset[],
+  primaryCaption?: string
 ): { images: string[]; media: PigeonMediaItem[] } {
   const ordered: Array<{ src: string; alt?: string; caption?: string; capture?: PigeonMediaCapture }> = [];
   const bySrc = new Map<string, { src: string; alt?: string; caption?: string; capture?: PigeonMediaCapture }>();
@@ -1140,6 +1205,11 @@ function buildNormalizedImageFields(
 
   for (const asset of uploadedAssets) {
     upsert(asset.publicSrc, fallbackAltFromImageTarget(asset.originalName), undefined, asset.capture);
+  }
+
+  const normalizedPrimaryCaption = normalizeOptionalString(primaryCaption);
+  if (normalizedPrimaryCaption && ordered.length > 0 && !ordered[0]?.caption) {
+    ordered[0].caption = normalizedPrimaryCaption;
   }
 
   const media = ordered.map((item, index) => ({
@@ -2272,6 +2342,16 @@ async function parseMultipartPayload(request: Request): Promise<ParsedPigeonRequ
     };
   }
 
+  if (uploadedImages.length > 0 && !extractMarkdownFrontmatter(note) && shouldTreatNoteAsImageCaption(note)) {
+    return {
+      kind: 'standard',
+      payload: buildImageOnlyPayload(getFormObjectTypeCandidate(formData), new Date().toISOString(), {
+        caption: note,
+      }),
+      uploadedImages,
+    };
+  }
+
   const parsed = parseMarkdownNote(note, getFormObjectTypeCandidate(formData), {
     uploadedImageCount: uploadedImages.length,
   });
@@ -2337,7 +2417,27 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
       (typeof candidate.objectType === 'string' && candidate.objectType) ||
       (typeof candidate.type === 'string' && candidate.type) ||
       undefined;
-    const parsed = parseMarkdownNote(candidate.note, fallbackObjectType);
+    const note = candidate.note.trim();
+    const candidateImages = candidate.images === undefined ? [] : normalizeStringArray(candidate.images);
+    if (
+      candidateImages &&
+      candidateImages.length > 0 &&
+      !extractMarkdownFrontmatter(note) &&
+      shouldTreatNoteAsImageCaption(note)
+    ) {
+      return {
+        kind: 'standard',
+        payload: {
+          ...buildImageOnlyPayload(fallbackObjectType, new Date().toISOString(), {
+            caption: note,
+          }),
+          images: normalizeNonEmptyStrings(candidateImages),
+        },
+        uploadedImages: [],
+      };
+    }
+
+    const parsed = parseMarkdownNote(note, fallbackObjectType);
     if (parsed instanceof Response) {
       return parsed;
     }
@@ -2352,6 +2452,7 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
   const rawTitle = normalizeIncomingTitle(candidate.title);
   const rawDate = typeof candidate.date === 'string' ? candidate.date.trim() : '';
   const body = typeof candidate.body === 'string' ? candidate.body.trim() : '';
+  const caption = typeof candidate.caption === 'string' ? candidate.caption.trim() : '';
   const tags = normalizeStringArray(candidate.tags);
   const themes = candidate.themes === undefined ? [] : normalizeStringArray(candidate.themes);
   const images = candidate.images === undefined ? [] : normalizeStringArray(candidate.images);
@@ -2421,18 +2522,20 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
       tags,
       themes: normalizeNonEmptyStrings(themes),
       body,
+      primaryCaption: caption || undefined,
       images: normalizeNonEmptyStrings(images),
       media: [],
       imageOnly,
       status: normalizeStatus(candidate.status) || 'published',
       visibility: normalizeVisibility(candidate.visibility) || 'public',
-      excerpt: hasMeaningfulBody(body)
+      excerpt: hasMeaningfulBody(body) || hasMeaningfulBody(caption)
         ? resolveExcerpt({
             title,
             excerpt:
+              caption ||
               (typeof candidate.summary === 'string' ? candidate.summary : undefined) ||
               (typeof candidate.excerpt === 'string' ? candidate.excerpt : undefined),
-            body,
+            body: hasMeaningfulBody(body) ? body : caption,
             max: 220,
           }) || undefined
         : undefined,
@@ -2565,7 +2668,8 @@ export const POST: APIRoute = async ({ request }) => {
       parsed.payload.images,
       rewrittenBody.body,
       uploadedImagesByName,
-      preparedImages
+      preparedImages,
+      parsed.payload.primaryCaption
     );
     const finalPayload: PigeonPayload = {
       ...parsed.payload,
