@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-03-28T02:26:12.514Z",
+  "generatedAt": "2026-03-28T19:21:58.484Z",
   "sourceDir": "./src/content",
-  "nodeCount": 145,
+  "nodeCount": 146,
   "edgeCount": 4491,
   "nodes": [
     {
@@ -1088,6 +1088,17 @@
       "constellations": [
         "Maintenance Psalms"
       ]
+    },
+    {
+      "id": "prospect",
+      "slug": "prospect",
+      "url": "https://ndcodex.com/objects/prospect",
+      "stableId": "codex://object/prospect",
+      "type": "fieldlog",
+      "title": "Prospect",
+      "date": "2026-03-28T11:51:00-04:00",
+      "themes": [],
+      "constellations": []
     },
     {
       "id": "race-to-the-top-six-bridges",
