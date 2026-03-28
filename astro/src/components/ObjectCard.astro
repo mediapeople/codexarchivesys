@@ -762,7 +762,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     grid-column: 1;
     grid-row: auto;
     order: 2;
-    max-width: min(100%, 40rem);
+    max-width: min(100%, 34rem);
     justify-self: center;
     justify-content: flex-start;
     align-items: center;
@@ -827,9 +827,17 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     grid-column: 1;
     grid-row: auto;
     order: 1;
-    width: min(100%, 44rem);
+    width: min(100%, 34rem);
     justify-self: center;
     aspect-ratio: var(--image-preview-frame-ratio, var(--image-preview-ratio, 1 / 1));
+  }
+
+  .card.feed.image-only-feed .preview-wrap[data-media-shape='portrait'] {
+    width: min(100%, 30rem);
+  }
+
+  .card.feed.image-only-feed .preview-wrap[data-media-shape='tall'] {
+    width: min(100%, 28rem);
   }
 
   .card.feed .preview-wrap.has-image-preview,
@@ -2142,7 +2150,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
 
     .card.feed.image-only-feed .preview-wrap {
       order: 1;
-      width: 100%;
+      width: min(100%, 30rem);
       aspect-ratio: var(--image-preview-frame-ratio, var(--image-preview-ratio, 1 / 1));
     }
 

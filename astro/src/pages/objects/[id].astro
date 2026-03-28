@@ -2541,6 +2541,32 @@ const exportAlternateLinks = [
 
   .media-stage--image-first {
     margin-top: 2.2rem;
+    gap: 1.5rem;
+    justify-items: center;
+  }
+
+  .media-stage--image-first .media-primary {
+    --media-frame-width: 640;
+  }
+
+  .media-stage--image-first .media-primary[data-media-shape='wide'] {
+    --media-frame-width: 760;
+  }
+
+  .media-stage--image-first .media-primary[data-media-shape='landscape'] {
+    --media-frame-width: 680;
+  }
+
+  .media-stage--image-first .media-primary[data-media-shape='square'] {
+    --media-frame-width: 560;
+  }
+
+  .media-stage--image-first .media-primary[data-media-shape='portrait'] {
+    --media-frame-width: 520;
+  }
+
+  .media-stage--image-first .media-primary[data-media-shape='tall'] {
+    --media-frame-width: 460;
   }
 
   .media-primary {
@@ -2589,6 +2615,11 @@ const exportAlternateLinks = [
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.04),
       0 0 0 1px rgba(0, 0, 0, 0.18);
+  }
+
+  .media-stage--image-first .media-primary img,
+  .media-stage--image-first .media-primary video {
+    max-height: min(58vh, 700px);
   }
 
   .media-primary img[data-expandable-image],
