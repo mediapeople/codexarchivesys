@@ -16,6 +16,12 @@ import {
   normalizePlatePrompt,
   stringifyMythmechSidecar,
 } from '../../lib/mythmech.ts';
+import {
+  extractUploadedImageCapture,
+  inferPigeonVisionSuggestion,
+  type PigeonMediaCapture,
+  type PigeonVisionSuggestion,
+} from '../../lib/pigeonImageIntelligence.ts';
 
 export const prerender = false;
 
@@ -65,6 +71,7 @@ type PigeonMediaItem = {
   role: 'hero' | 'gallery';
   alt?: string;
   caption?: string;
+  capture?: PigeonMediaCapture;
 };
 
 type PigeonPayload = {
@@ -75,6 +82,7 @@ type PigeonPayload = {
   tags: string[];
   themes: string[];
   body: string;
+  primaryCaption?: string;
   images: string[];
   media: PigeonMediaItem[];
   imageOnly: boolean;
@@ -126,10 +134,11 @@ type PreparedImageAsset = {
   repoPath: string;
   buffer: Buffer;
   contentType: string;
+  capture?: PigeonMediaCapture;
 };
 
 type SidecarFile = {
-  suffix: '.packet.json' | '.respawn.txt' | '.mythmech.sidecar' | '.plate-prompt.txt';
+  suffix: '.packet.json' | '.respawn.txt' | '.mythmech.sidecar' | '.plate-prompt.txt' | '.vision.json';
   content: Buffer;
 };
 
@@ -276,6 +285,41 @@ function isImageOnlySubmission(body: string, imageCount: number): boolean {
   return imageCount > 0 && !hasMeaningfulBody(body);
 }
 
+function shouldTreatNoteAsImageCaption(value: string): boolean {
+  const trimmed = normalizeNewlines(value).trim();
+  if (!trimmed || trimmed.length > 280) {
+    return false;
+  }
+
+  if (/\n\s*\n/.test(trimmed)) {
+    return false;
+  }
+
+  const lines = trimmed.split('\n').map((line) => line.trim()).filter(Boolean);
+  if (lines.length === 0 || lines.length > 3) {
+    return false;
+  }
+
+  const looksStructuredMarkdown = (line: string): boolean =>
+    line === '---' ||
+    line.startsWith('```') ||
+    /^#{1,6}\s/.test(line) ||
+    /^>\s/.test(line) ||
+    /^[-*+]\s/.test(line) ||
+    /^\d+[.)]\s/.test(line);
+
+  if (
+    lines.some(
+      (line) =>
+        looksStructuredMarkdown(line) ||
+        /!\[\[|!\[[^\]]*\]\([^)]+\)/.test(line)
+    )
+  ) {
+    return false;
+  }
+
+  return true;
+}
 function omitUndefinedFields(fields: Record<string, unknown>): Record<string, unknown> {
   return Object.fromEntries(Object.entries(fields).filter(([, value]) => value !== undefined));
 }
@@ -765,31 +809,49 @@ function buildPassthroughFrontmatter(entries: FrontmatterEntry[], objectType: Pi
 
 function buildImageOnlyPayload(
   objectTypeCandidate?: unknown,
-  now = new Date().toISOString()
+  now = new Date().toISOString(),
+  options?: {
+    title?: string;
+    date?: string;
+    caption?: string;
+    tags?: string[];
+    themes?: string[];
+    axisOverrides?: Partial<Required<ArchiveAxes>>;
+  }
 ): PigeonPayload {
   const explicitObjectType = normalizeObjectType(objectTypeCandidate);
   const objectType = explicitObjectType || 'artifact';
-  const title = formatFallbackObjectTitle(objectType, now);
+  const date = normalizeDateString(options?.date, now);
+  const title = normalizeIncomingTitle(options?.title) || formatFallbackObjectTitle(objectType, date);
+  const caption = normalizeOptionalString(options?.caption) || undefined;
 
   return {
     objectType,
     title,
-    date: now,
+    date,
     axes: inferAxes({
       objectType,
       title,
       body: '',
-      existing: {},
+      existing: options?.axisOverrides || {},
     }),
-    tags: [],
-    themes: [],
+    tags: normalizeNonEmptyStrings(options?.tags || []),
+    themes: normalizeNonEmptyStrings(options?.themes || []),
     body: '',
+    primaryCaption: caption,
     images: [],
     media: [],
     imageOnly: true,
     status: 'published',
     visibility: 'public',
-    excerpt: undefined,
+    excerpt: caption
+      ? resolveExcerpt({
+          title,
+          excerpt: caption,
+          body: caption,
+          max: 220,
+        }) || undefined
+      : undefined,
     codexState: objectType === 'codex' ? 'published' : undefined,
     codexDependencies: [],
     passthroughFrontmatter: [],
@@ -822,7 +884,14 @@ function parseMarkdownNote(
   const tags = (fields.get('tags') || []).flatMap(parseFrontmatterValue);
   const themes = (fields.get('themes') || []).flatMap(parseFrontmatterValue);
   const images = (fields.get('images') || []).flatMap(parseFrontmatterValue);
-  const body = parsedFrontmatter.body.trim();
+  const declaredCaption = normalizeOptionalString(fields.get('caption')?.[0]) || '';
+  const frontmatterBody = parsedFrontmatter.body.trim();
+  const implicitCaption =
+    !declaredCaption && (options?.uploadedImageCount ?? 0) > 0 && shouldTreatNoteAsImageCaption(frontmatterBody)
+      ? frontmatterBody
+      : '';
+  const body = implicitCaption ? '' : frontmatterBody;
+  const caption = declaredCaption || implicitCaption;
   const imageOnly = isImageOnlySubmission(body, images.length + (options?.uploadedImageCount ?? 0));
   const objectType = resolveObjectType(
     fields,
@@ -843,11 +912,12 @@ function parseMarkdownNote(
     normalizeOptionalString(fields.get('excerpt')?.[0]) ||
     normalizeOptionalString(fields.get('summary')?.[0]);
   const axisOverrides = resolveAxisOverridesFromMap(fields, 'markdown note frontmatter');
-  const excerpt = hasMeaningfulBody(body)
+  const excerptSource = hasMeaningfulBody(body) ? body : caption;
+  const excerpt = hasMeaningfulBody(excerptSource)
     ? resolveExcerpt({
         title,
-        excerpt: requestedExcerpt,
-        body,
+        excerpt: requestedExcerpt || caption,
+        body: excerptSource,
         max: 220,
       }) || undefined
     : undefined;
@@ -881,6 +951,7 @@ function parseMarkdownNote(
     tags: normalizeNonEmptyStrings(tags),
     themes: normalizeNonEmptyStrings(themes),
     body,
+    primaryCaption: caption || undefined,
     images: normalizeNonEmptyStrings(images),
     media: [],
     imageOnly,
@@ -918,7 +989,7 @@ function extractMarkdownFrontmatter(source: string): ParsedFrontmatter | null {
     }
 
     const firstKey = firstFieldMatch[1].toLowerCase();
-    if (!/^(title|date|object_type|objecttype|type|state|tags|images|summary|id|status|visibility|themes|media|scale|depth|focus|function)$/.test(firstKey)) {
+    if (!/^(title|caption|date|object_type|objecttype|type|state|tags|images|summary|id|status|visibility|themes|media|scale|depth|focus|function)$/.test(firstKey)) {
       return null;
     }
   }
@@ -1080,12 +1151,13 @@ function buildNormalizedImageFields(
   declaredImages: string[],
   body: string,
   uploadedImagesByName: Map<string, PreparedImageAsset>,
-  uploadedAssets: PreparedImageAsset[]
+  uploadedAssets: PreparedImageAsset[],
+  primaryCaption?: string
 ): { images: string[]; media: PigeonMediaItem[] } {
-  const ordered: Array<{ src: string; alt?: string; caption?: string }> = [];
-  const bySrc = new Map<string, { src: string; alt?: string; caption?: string }>();
+  const ordered: Array<{ src: string; alt?: string; caption?: string; capture?: PigeonMediaCapture }> = [];
+  const bySrc = new Map<string, { src: string; alt?: string; caption?: string; capture?: PigeonMediaCapture }>();
 
-  const upsert = (src: string, alt?: string, caption?: string) => {
+  const upsert = (src: string, alt?: string, caption?: string, capture?: PigeonMediaCapture) => {
     const normalizedSrc = src.trim();
     if (!normalizedSrc) {
       return;
@@ -1101,6 +1173,9 @@ function buildNormalizedImageFields(
       if (!existing.caption && normalizedCaption) {
         existing.caption = normalizedCaption;
       }
+      if (!existing.capture && capture) {
+        existing.capture = capture;
+      }
       return;
     }
 
@@ -1108,6 +1183,7 @@ function buildNormalizedImageFields(
       src: normalizedSrc,
       alt: normalizedAlt,
       caption: normalizedCaption,
+      capture,
     };
     bySrc.set(normalizedSrc, item);
     ordered.push(item);
@@ -1127,7 +1203,12 @@ function buildNormalizedImageFields(
   }
 
   for (const asset of uploadedAssets) {
-    upsert(asset.publicSrc, fallbackAltFromImageTarget(asset.originalName));
+    upsert(asset.publicSrc, fallbackAltFromImageTarget(asset.originalName), undefined, asset.capture);
+  }
+
+  const normalizedPrimaryCaption = normalizeOptionalString(primaryCaption);
+  if (normalizedPrimaryCaption && ordered.length > 0 && !ordered[0]?.caption) {
+    ordered[0].caption = normalizedPrimaryCaption;
   }
 
   const media = ordered.map((item, index) => ({
@@ -1136,6 +1217,7 @@ function buildNormalizedImageFields(
     role: index === 0 ? ('hero' as const) : ('gallery' as const),
     alt: item.alt,
     caption: item.caption,
+    capture: item.capture,
   }));
 
   return {
@@ -1175,6 +1257,52 @@ function yamlImageMediaField(media: PigeonMediaItem[]): string {
 
       if (item.caption) {
         lines.push(`    caption: ${yamlString(item.caption)}`);
+      }
+
+      if (item.capture) {
+        lines.push('    capture:');
+
+        if (typeof item.capture.width === 'number') {
+          lines.push(`      width: ${item.capture.width}`);
+        }
+
+        if (typeof item.capture.height === 'number') {
+          lines.push(`      height: ${item.capture.height}`);
+        }
+
+        if (item.capture.shape) {
+          lines.push(`      shape: ${item.capture.shape}`);
+        }
+
+        if (item.capture.format) {
+          lines.push(`      format: ${yamlString(item.capture.format)}`);
+        }
+
+        if (item.capture.originalFilename) {
+          lines.push(`      originalFilename: ${yamlString(item.capture.originalFilename)}`);
+        }
+
+        if (item.capture.uploadedAt) {
+          lines.push(`      uploadedAt: ${yamlString(item.capture.uploadedAt)}`);
+        }
+
+        if (item.capture.capturedAt) {
+          lines.push(`      capturedAt: ${yamlString(item.capture.capturedAt)}`);
+        }
+
+        if (item.capture.camera) {
+          lines.push(`      camera: ${yamlString(item.capture.camera)}`);
+        }
+
+        if (item.capture.geo) {
+          lines.push('      geo:');
+          lines.push(`        latitude: ${item.capture.geo.latitude}`);
+          lines.push(`        longitude: ${item.capture.geo.longitude}`);
+
+          if (typeof item.capture.geo.altitude === 'number') {
+            lines.push(`        altitude: ${item.capture.geo.altitude}`);
+          }
+        }
       }
 
       return lines.join('\n');
@@ -1647,6 +1775,8 @@ async function prepareUploadedImages(
   objectType: PigeonObjectType,
   slug: string
 ): Promise<PreparedImageAsset[]> {
+  const uploadedAt = new Date().toISOString();
+
   return Promise.all(
     files.map(async (file, index) => {
       if (!file.type.startsWith('image/')) {
@@ -1662,6 +1792,12 @@ async function prepareUploadedImages(
         (normalizedSubtype === 'jpeg' ? 'jpg' : normalizedSubtype === 'svg+xml' ? 'svg' : normalizedSubtype) ||
         'jpg';
       const publicSrc = getRelativePublicImagePath(objectType, slug, index, extension);
+      const capture = await extractUploadedImageCapture({
+        buffer,
+        contentType: file.type || `image/${extension === 'jpg' ? 'jpeg' : extension}`,
+        originalFilename: file.name,
+        uploadedAt,
+      }).catch(() => undefined);
 
       return {
         originalName: file.name,
@@ -1669,6 +1805,7 @@ async function prepareUploadedImages(
         repoPath: `astro/public${publicSrc}`,
         buffer,
         contentType: file.type || `image/${extension === 'jpg' ? 'jpeg' : extension}`,
+        capture,
       };
     })
   );
@@ -1774,6 +1911,9 @@ async function writeLocalEntry(
           : null,
         plate_prompt: sidecars.some((sidecar) => sidecar.suffix === '.plate-prompt.txt')
           ? `${basePath}.plate-prompt.txt`
+          : null,
+        vision: sidecars.some((sidecar) => sidecar.suffix === '.vision.json')
+          ? `${basePath}.vision.json`
           : null,
       },
       images: payload.images,
@@ -2137,6 +2277,9 @@ async function writeGitHubEntry(
         plate_prompt: sidecars.some((sidecar) => sidecar.suffix === '.plate-prompt.txt')
           ? relativePath.replace(/\.md$/i, '.plate-prompt.txt')
           : null,
+        vision: sidecars.some((sidecar) => sidecar.suffix === '.vision.json')
+          ? relativePath.replace(/\.md$/i, '.vision.json')
+          : null,
       },
       images: payload.images,
       axes: payload.axes,
@@ -2198,6 +2341,15 @@ async function parseMultipartPayload(request: Request): Promise<ParsedPigeonRequ
     };
   }
 
+  if (uploadedImages.length > 0 && !extractMarkdownFrontmatter(note) && shouldTreatNoteAsImageCaption(note)) {
+    return {
+      kind: 'standard',
+      payload: buildImageOnlyPayload(getFormObjectTypeCandidate(formData), new Date().toISOString(), {
+        caption: note,
+      }),
+      uploadedImages,
+    };
+  }
   const parsed = parseMarkdownNote(note, getFormObjectTypeCandidate(formData), {
     uploadedImageCount: uploadedImages.length,
   });
@@ -2263,7 +2415,27 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
       (typeof candidate.objectType === 'string' && candidate.objectType) ||
       (typeof candidate.type === 'string' && candidate.type) ||
       undefined;
-    const parsed = parseMarkdownNote(candidate.note, fallbackObjectType);
+    const note = candidate.note.trim();
+    const candidateImages = candidate.images === undefined ? [] : normalizeStringArray(candidate.images);
+    if (
+      candidateImages &&
+      candidateImages.length > 0 &&
+      !extractMarkdownFrontmatter(note) &&
+      shouldTreatNoteAsImageCaption(note)
+    ) {
+      return {
+        kind: 'standard',
+        payload: {
+          ...buildImageOnlyPayload(fallbackObjectType, new Date().toISOString(), {
+            caption: note,
+          }),
+          images: normalizeNonEmptyStrings(candidateImages),
+        },
+        uploadedImages: [],
+      };
+    }
+
+    const parsed = parseMarkdownNote(note, fallbackObjectType);
     if (parsed instanceof Response) {
       return parsed;
     }
@@ -2278,6 +2450,7 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
   const rawTitle = normalizeIncomingTitle(candidate.title);
   const rawDate = typeof candidate.date === 'string' ? candidate.date.trim() : '';
   const body = typeof candidate.body === 'string' ? candidate.body.trim() : '';
+  const caption = typeof candidate.caption === 'string' ? candidate.caption.trim() : '';
   const tags = normalizeStringArray(candidate.tags);
   const themes = candidate.themes === undefined ? [] : normalizeStringArray(candidate.themes);
   const images = candidate.images === undefined ? [] : normalizeStringArray(candidate.images);
@@ -2347,18 +2520,20 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
       tags,
       themes: normalizeNonEmptyStrings(themes),
       body,
+      primaryCaption: caption || undefined,
       images: normalizeNonEmptyStrings(images),
       media: [],
       imageOnly,
       status: normalizeStatus(candidate.status) || 'published',
       visibility: normalizeVisibility(candidate.visibility) || 'public',
-      excerpt: hasMeaningfulBody(body)
+      excerpt: hasMeaningfulBody(body) || hasMeaningfulBody(caption)
         ? resolveExcerpt({
             title,
             excerpt:
+              caption ||
               (typeof candidate.summary === 'string' ? candidate.summary : undefined) ||
               (typeof candidate.excerpt === 'string' ? candidate.excerpt : undefined),
-            body,
+            body: hasMeaningfulBody(body) ? body : caption,
             max: 220,
           }) || undefined
         : undefined,
@@ -2465,11 +2640,34 @@ export const POST: APIRoute = async ({ request }) => {
       preparedImages.map((asset) => [normalizeFilename(asset.originalName), asset] as const)
     );
     const rewrittenBody = rewriteBodyImageReferences(parsed.payload.body, uploadedImagesByName);
+    const visionSuggestionPromise: Promise<PigeonVisionSuggestion | null> =
+      preparedImages.length > 0
+        ? inferPigeonVisionSuggestion({
+            objectType: parsed.payload.objectType,
+            title: parsed.payload.title,
+            body: rewrittenBody.body,
+            images: preparedImages.map((asset, index) => ({
+              index: index + 1,
+              src: asset.publicSrc,
+              originalFilename: asset.originalName,
+              buffer: asset.buffer,
+              contentType: asset.contentType,
+            })),
+          }).catch((error) => {
+            console.warn(
+              `[Carrier Pigeon] Vision suggestion skipped for ${parsed.payload.objectType}/${slug}: ${
+                error instanceof Error ? error.message : String(error)
+              }`
+            );
+            return null;
+          })
+        : Promise.resolve(null);
     const normalizedImageFields = buildNormalizedImageFields(
       parsed.payload.images,
       rewrittenBody.body,
       uploadedImagesByName,
-      preparedImages
+      preparedImages,
+      parsed.payload.primaryCaption
     );
     const finalPayload: PigeonPayload = {
       ...parsed.payload,
@@ -2487,9 +2685,18 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     const markdown = buildMarkdownEntry(finalPayload, slug);
+    const visionSuggestion = await visionSuggestionPromise;
+    const visionSidecars: SidecarFile[] = visionSuggestion
+      ? [
+          {
+            suffix: '.vision.json',
+            content: Buffer.from(JSON.stringify(visionSuggestion, null, 2), 'utf8'),
+          },
+        ]
+      : [];
 
     if (githubConfig) {
-      return await writeGitHubEntry(githubConfig, finalPayload, slug, markdown, preparedImages);
+      return await writeGitHubEntry(githubConfig, finalPayload, slug, markdown, preparedImages, visionSidecars);
     }
 
     if (isHostedRuntime()) {
@@ -2502,7 +2709,7 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    return await writeLocalEntry(finalPayload, slug, markdown, preparedImages);
+    return await writeLocalEntry(finalPayload, slug, markdown, preparedImages, visionSidecars);
   } catch (error) {
     return Response.json(
       {

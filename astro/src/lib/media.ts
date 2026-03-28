@@ -2,12 +2,31 @@ import type { ArchiveEntry } from './archive';
 
 export type MediaKind = 'image' | 'video' | 'audio';
 
+export interface CodexMediaCaptureGeo {
+  latitude: number;
+  longitude: number;
+  altitude?: number;
+}
+
+export interface CodexMediaCapture {
+  width?: number;
+  height?: number;
+  shape?: 'wide' | 'landscape' | 'square' | 'portrait' | 'tall';
+  format?: string;
+  originalFilename?: string;
+  uploadedAt?: string;
+  capturedAt?: string;
+  camera?: string;
+  geo?: CodexMediaCaptureGeo;
+}
+
 export interface CodexMediaItem {
   kind: MediaKind;
   src: string;
   role: string;
   alt?: string;
   caption?: string;
+  capture?: CodexMediaCapture;
 }
 
 function stripFencedCodeBlocks(value: string): string {
@@ -95,6 +114,67 @@ function mediaRoleWeight(role: string): number {
   return index === -1 ? PRIMARY_ROLE_ORDER.length : index;
 }
 
+function asMediaCapture(value: unknown): CodexMediaCapture | undefined {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    return undefined;
+  }
+
+  const candidate = value as Record<string, unknown>;
+  const geoCandidate =
+    candidate.geo && typeof candidate.geo === 'object' && !Array.isArray(candidate.geo)
+      ? (candidate.geo as Record<string, unknown>)
+      : null;
+
+  const geo =
+    typeof geoCandidate?.latitude === 'number' && Number.isFinite(geoCandidate.latitude) &&
+    typeof geoCandidate?.longitude === 'number' && Number.isFinite(geoCandidate.longitude)
+      ? {
+          latitude: geoCandidate.latitude,
+          longitude: geoCandidate.longitude,
+          altitude:
+            typeof geoCandidate.altitude === 'number' && Number.isFinite(geoCandidate.altitude)
+              ? geoCandidate.altitude
+              : undefined,
+        }
+      : undefined;
+
+  const capture = {
+    width:
+      typeof candidate.width === 'number' && Number.isFinite(candidate.width)
+        ? candidate.width
+        : undefined,
+    height:
+      typeof candidate.height === 'number' && Number.isFinite(candidate.height)
+        ? candidate.height
+        : undefined,
+    shape:
+      candidate.shape === 'wide' ||
+      candidate.shape === 'landscape' ||
+      candidate.shape === 'square' ||
+      candidate.shape === 'portrait' ||
+      candidate.shape === 'tall'
+        ? candidate.shape
+        : undefined,
+    format: typeof candidate.format === 'string' && candidate.format.trim() ? candidate.format.trim() : undefined,
+    originalFilename:
+      typeof candidate.originalFilename === 'string' && candidate.originalFilename.trim()
+        ? candidate.originalFilename.trim()
+        : undefined,
+    uploadedAt:
+      typeof candidate.uploadedAt === 'string' && candidate.uploadedAt.trim()
+        ? candidate.uploadedAt.trim()
+        : undefined,
+    capturedAt:
+      typeof candidate.capturedAt === 'string' && candidate.capturedAt.trim()
+        ? candidate.capturedAt.trim()
+        : undefined,
+    camera: typeof candidate.camera === 'string' && candidate.camera.trim() ? candidate.camera.trim() : undefined,
+    geo,
+  };
+
+  return Object.values(capture).some((entry) => entry !== undefined) ? capture : undefined;
+}
+
 export function getMediaItems(entry: ArchiveEntry): CodexMediaItem[] {
   const maybeMedia = (entry.data as Record<string, unknown>).media;
   if (!Array.isArray(maybeMedia)) {
@@ -113,6 +193,7 @@ export function getMediaItems(entry: ArchiveEntry): CodexMediaItem[] {
       const role = candidate.role;
       const alt = candidate.alt;
       const caption = candidate.caption;
+      const capture = candidate.capture;
       const normalizedSrc = typeof src === 'string' ? src.trim() : '';
       const normalizedRole = typeof role === 'string' ? role.trim() : '';
 
@@ -126,6 +207,7 @@ export function getMediaItems(entry: ArchiveEntry): CodexMediaItem[] {
         role: normalizedRole,
         alt: typeof alt === 'string' && alt.trim() ? alt.trim() : undefined,
         caption: typeof caption === 'string' && caption.trim() ? caption.trim() : undefined,
+        capture: asMediaCapture(capture),
       };
     })
     .filter((item): item is CodexMediaItem => Boolean(item));

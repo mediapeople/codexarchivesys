@@ -485,11 +485,18 @@ visibility: public
 
 Media is first-class and modeled by role. Each entry contains `kind`, `src`, and `role`. Roles determine layout behavior. LLM may suggest role assignments; author confirms.
 
+Media entries may also carry an optional `capture` object for system-derived image facts when Carrier Pigeon has direct access to the uploaded file. This is where width, height, shape, format, uploaded time, EXIF capture time, camera label, and GPS coordinates live. These values support image-first metadata panels and machine-readable exports without promoting uncertain scene interpretation into canonical fields.
+
 ```yaml
 media:
   - kind: image
     src: /media/scans/card043/front.jpg
     role: hero
+    capture:
+      width: 1800
+      height: 2400
+      shape: portrait
+      capturedAt: "2026-03-28T14:29:00.000Z"
   - kind: image
     src: /media/scans/card043/detail.jpg
     role: detail
