@@ -5,6 +5,8 @@ import { getAllEntries } from '../../../lib/archive';
 import { formatDisplayTitle } from '../../../lib/headline';
 import { loadObjectSidecars } from '../../../lib/loadObjectSidecars';
 import { getMarginaliaEntriesForTarget, getMythmechMarginaliaEntries } from '../../../lib/marginalia';
+import { getPreviewMediaItems, pickPrimaryMedia, withMediaVersion } from '../../../lib/media';
+import { getImageAssetMetadata, getPublicAssetVersion } from '../../../lib/mediaAsset';
 import { getObjectPath, getObjectSlug, matchesObjectParam } from '../../../lib/objectInterop';
 
 export async function getStaticPaths() {
@@ -36,6 +38,22 @@ const { packet, respawn, mythmech, platePrompt } = await loadObjectSidecars(entr
 const mythmechMarginaliaEntries = getMythmechMarginaliaEntries(getMarginaliaEntriesForTarget(entries, entry.data.id));
 const displayTitle = formatDisplayTitle(entry.data.title);
 const canonicalPath = `${getObjectPath(entry)}/hud`;
+const previewMediaItems = getPreviewMediaItems(entry).filter((item) => item.kind === 'image' || item.kind === 'video');
+const primaryVisual = pickPrimaryMedia(previewMediaItems);
+const primaryVisualMeta = primaryVisual?.kind === 'image' ? await getImageAssetMetadata(primaryVisual.src) : null;
+const primaryVisualVersion = primaryVisual ? await getPublicAssetVersion(primaryVisual.src) : null;
+const hudVisual = primaryVisual
+  ? {
+      kind: primaryVisual.kind,
+      src: withMediaVersion(primaryVisual.src, primaryVisualVersion ?? undefined),
+      alt: primaryVisual.alt,
+      caption: primaryVisual.caption,
+      role: primaryVisual.role,
+      width: primaryVisualMeta?.width ?? null,
+      height: primaryVisualMeta?.height ?? null,
+      shape: primaryVisualMeta?.shape ?? '',
+    }
+  : null;
 ---
 
 <BaseLayout
@@ -49,6 +67,7 @@ const canonicalPath = `${getObjectPath(entry)}/hud`;
     packet={packet}
     mythmech={mythmech}
     platePrompt={platePrompt}
+    hudVisual={hudVisual}
     marginaliaEntries={mythmechMarginaliaEntries}
     sourceText={entry.body}
     respawn={respawn}

@@ -15,6 +15,7 @@ const {
   packet,
   mythmech,
   platePrompt,
+  hudVisual = null,
   marginaliaEntries = [],
   sourceText,
   respawn,
@@ -24,6 +25,16 @@ const {
   packet: unknown | null;
   mythmech: unknown | null;
   platePrompt: string | null;
+  hudVisual?: {
+    kind: 'image' | 'video';
+    src: string;
+    alt?: string;
+    caption?: string;
+    role?: string;
+    width?: number | null;
+    height?: number | null;
+    shape?: string;
+  } | null;
   marginaliaEntries?: unknown[];
   sourceText: string;
   respawn: string | null;
@@ -624,6 +635,10 @@ const hingeCommand =
           ? `${commandLabel(signalMode, 2)} SIGNAL`
           : commandLabel(inspectLeadLabel, 3);
 const hingeSummary = uniqueStrings([meaningLine, consequenceLine]).join(' ');
+const hasHudVisual = Boolean(hudVisual?.src);
+const anchorSupportLine = hasHudVisual
+  ? sentenceCase(clipCopy(hudVisual?.caption || inspectIntro.secondary || inspectLeadLabel, 132))
+  : sentenceCase(clipCopy(inspectIntro.secondary || inspectLeadLabel, 132));
 const flowVectorItems = [
   { label: 'Pressure', value: pressureStrikeValue || 'UNSCORED', direction: 'input' },
   { label: 'Signal', value: signalStrikeValue || 'UNSCORED', direction: 'stabilize' },
@@ -667,11 +682,11 @@ const respawnPreviewEntries = respawnEntries.filter((entry) => entry.key !== 'NO
 const respawnNotes = respawnEntries.find((entry) => entry.key === 'NOTES')?.value || '';
 const hasMemoryPanel = supportingCards.length > 0 || Boolean(normalizedRespawn) || Boolean(normalizedPlatePrompt);
 const viewTabs = [
-  { id: 'overview', label: 'Meaning' },
-  normalizedSourceText ? { id: 'fragment', label: 'Fragment' } : null,
   inspectChamberPlacements.length > 0 ? { id: 'graph', label: 'Structure' } : null,
+  normalizedSourceText ? { id: 'fragment', label: 'Fragment' } : null,
   hasMemoryPanel ? { id: 'memory', label: 'Memory' } : null,
 ].filter((tab): tab is { id: string; label: string } => Boolean(tab));
+const defaultViewId = viewTabs[0]?.id || '';
 ---
 
 <section class="field-surface-wrap">
@@ -715,18 +730,78 @@ const viewTabs = [
       </div>
     </section>
 
-    <section class:list={['field-surface-section', 'field-surface-section--hinge']}>
-      <div class="field-surface-section-kicker">Hinge</div>
-      <p class="field-surface-layer-note">The single strongest claim this HUD is making about the object.</p>
-      <div class="field-surface-hinge-block">
-        <div class="field-surface-hinge-main">
-          <h2 class="field-surface-hinge-title">{hingeCommand}</h2>
-          <p class="field-surface-hinge-summary">{hingeSummary}</p>
-        </div>
-        <div class="field-surface-hinge-side">
-          <p class="field-surface-hinge-label">Attention</p>
-          <p class="field-surface-hinge-note">{attentionLine}</p>
-        </div>
+    <section class:list={['field-surface-section', 'field-surface-section--hero', hasHudVisual && 'field-surface-section--visual-anchor']}>
+      <div class="field-surface-hero-grid">
+        <aside class="field-surface-rail">
+          <div class="field-surface-section-kicker">Diagnostic Overview</div>
+          <p class="field-surface-layer-note">What is stored around the object right now.</p>
+          <dl class="field-surface-rail-list field-surface-rail-list--diagnostic">
+            {snapshotRows.map((row) => (
+              <div class="field-surface-rail-row">
+                <dt>{row.label}</dt>
+                <dd>{row.value}</dd>
+              </div>
+            ))}
+          </dl>
+          {!packetData && <p class="field-surface-empty">{noPacketMessage}</p>}
+        </aside>
+
+        <article class="field-surface-anchor">
+          <div class="field-surface-anchor-head">
+            <p class="field-surface-section-kicker">{hasHudVisual ? 'Visual Anchor' : 'Hinge'}</p>
+            <p class="field-surface-layer-note">
+              {hasHudVisual
+                ? 'A central visual is present, so the HUD uses it as the anchor for the object read.'
+                : 'No visual anchor is present, so the hinge itself becomes the center of the object read.'}
+            </p>
+          </div>
+
+          {hasHudVisual ? (
+            <figure class="field-surface-visual-frame" data-shape={hudVisual?.shape || ''}>
+              {hudVisual?.kind === 'image' && (
+                <img
+                  src={hudVisual.src}
+                  alt={hudVisual.alt || `${title} visual anchor`}
+                  width={hudVisual.width ?? undefined}
+                  height={hudVisual.height ?? undefined}
+                  loading="lazy"
+                  decoding="async"
+                />
+              )}
+              {hudVisual?.kind === 'video' && (
+                <video controls preload="metadata" src={hudVisual.src}>
+                  Your browser does not support the video element.
+                </video>
+              )}
+              <figcaption class="field-surface-visual-meta">
+                <span>{hudVisual?.role || hudVisual?.kind || 'visual'}</span>
+                <span>{hingeCommand}</span>
+              </figcaption>
+            </figure>
+          ) : null}
+
+          <div class:list={['field-surface-anchor-copy', !hasHudVisual && 'field-surface-anchor-copy--hinge-only']}>
+            <h2 class="field-surface-anchor-title">{hingeCommand}</h2>
+            <p class="field-surface-anchor-summary">{hingeSummary}</p>
+            {anchorSupportLine && <p class="field-surface-anchor-support">{anchorSupportLine}</p>}
+          </div>
+        </article>
+
+        <aside class="field-surface-rail">
+          <div class="field-surface-section-kicker">Why This Matters</div>
+          <p class="field-surface-layer-note">What the current state means for this object and what it asks of you.</p>
+          <dl class="field-surface-rail-list field-surface-rail-list--meaning">
+            {valueRegisterCards.map((card) => (
+              <div class="field-surface-rail-row field-surface-rail-row--meaning">
+                <dt>
+                  <span class="field-surface-micro">{card.label}</span>
+                  <span class="field-surface-register-definition">{card.definition}</span>
+                </dt>
+                <dd>{card.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </aside>
       </div>
     </section>
 
@@ -744,20 +819,6 @@ const viewTabs = [
       </div>
     </section>
 
-    <section class="field-surface-section" id="snapshot">
-      <div class="field-surface-section-kicker">Diagnostic Snapshot</div>
-      <p class="field-surface-layer-note">Stored field conditions around the object, kept separate from the object body.</p>
-      <dl class="field-surface-snapshot-grid">
-        {snapshotRows.map((row) => (
-          <div class="field-surface-snapshot-row">
-            <dt>{row.label}</dt>
-            <dd>{row.value}</dd>
-          </div>
-        ))}
-      </dl>
-      {!packetData && <p class="field-surface-empty">{noPacketMessage}</p>}
-    </section>
-
     <section class="field-surface-section field-surface-section--views" id="views" data-view-root={viewRootId}>
       <div class="field-surface-view-head">
         <div>
@@ -768,30 +829,14 @@ const viewTabs = [
           {viewTabs.map((tab) => (
             <button
               type="button"
-              class:list={['field-surface-view-button', tab.id === 'overview' && 'is-active']}
+              class:list={['field-surface-view-button', tab.id === defaultViewId && 'is-active']}
               data-view-button={tab.id}
-              aria-pressed={tab.id === 'overview' ? 'true' : 'false'}
+              aria-pressed={tab.id === defaultViewId ? 'true' : 'false'}
             >
               {tab.label}
             </button>
           ))}
         </div>
-      </div>
-
-      <div class:list={['field-surface-view-panel', 'is-active']} data-view-panel="overview">
-        <p class="field-surface-note-label">Why This Matters</p>
-        <p class="field-surface-layer-note">These lines translate stored state into meaning for this object.</p>
-        <dl class="field-surface-register-list">
-          {valueRegisterCards.map((card) => (
-            <div class="field-surface-register-row">
-              <dt>
-                <span class="field-surface-micro">{card.label}</span>
-                <span class="field-surface-register-definition">{card.definition}</span>
-              </dt>
-              <dd>{card.value}</dd>
-            </div>
-          ))}
-        </dl>
       </div>
 
       <div class="field-surface-view-panel" data-view-panel="fragment" hidden>
@@ -1096,8 +1141,8 @@ const viewTabs = [
       };
 
       const hash = window.location.hash.replace(/^#/, '');
-      const initialId = hash === 'view-hud' && available.includes('overview')
-        ? 'overview'
+      const initialId = hash === 'view-hud' && available.includes('graph')
+        ? 'graph'
         : hash.startsWith('inspect-node-') && available.includes('graph')
         ? 'graph'
         : hash.startsWith('view-') && available.includes(hash.slice(5))
@@ -1539,6 +1584,176 @@ const viewTabs = [
     line-height: 1.24;
     text-transform: uppercase;
     overflow-wrap: anywhere;
+  }
+
+  .field-surface-section--hero {
+    padding-top: 1.2rem;
+  }
+
+  .field-surface-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(14rem, 16rem) minmax(0, 1fr) minmax(16rem, 18rem);
+    gap: 1.2rem 1.4rem;
+    align-items: start;
+  }
+
+  .field-surface-rail {
+    min-width: 0;
+    display: grid;
+    align-content: start;
+    gap: 0.78rem;
+  }
+
+  .field-surface-rail-list {
+    margin: 0;
+    display: grid;
+    gap: 0;
+  }
+
+  .field-surface-rail-row {
+    display: grid;
+    gap: 0.4rem;
+    padding: 0.82rem 0;
+    border-top: 1px solid var(--surface-line);
+  }
+
+  .field-surface-rail-row dt {
+    margin: 0;
+    display: grid;
+    gap: 0.18rem;
+  }
+
+  .field-surface-rail-row dt,
+  .field-surface-rail-row dd {
+    min-width: 0;
+  }
+
+  .field-surface-rail-row dd {
+    margin: 0;
+    color: var(--field-amber-em);
+    font-family: var(--font-body);
+    font-size: 0.98rem;
+    line-height: 1.66;
+    overflow-wrap: anywhere;
+  }
+
+  .field-surface-rail-list--diagnostic .field-surface-rail-row dt {
+    color: var(--field-amber-label);
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .field-surface-anchor {
+    min-width: 0;
+    display: grid;
+    gap: 0.92rem;
+    padding: 0.18rem 0;
+  }
+
+  .field-surface-anchor-head {
+    display: grid;
+    gap: 0.28rem;
+  }
+
+  .field-surface-visual-frame {
+    margin: 0;
+    padding: 0.9rem;
+    border: 1px solid var(--surface-line);
+    border-radius: var(--surface-radius);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.008)),
+      rgba(10, 9, 7, 0.82);
+    box-shadow: inset 0 1px 0 var(--surface-panel-line);
+  }
+
+  .field-surface-visual-frame img,
+  .field-surface-visual-frame video {
+    width: 100%;
+    display: block;
+    border: 1px solid var(--surface-line);
+    background: rgba(8, 7, 6, 0.9);
+  }
+
+  .field-surface-visual-frame img {
+    height: auto;
+    object-fit: cover;
+  }
+
+  .field-surface-visual-frame[data-shape='portrait'] img,
+  .field-surface-visual-frame[data-shape='tall'] img {
+    max-height: 34rem;
+  }
+
+  .field-surface-visual-frame[data-shape='wide'] img,
+  .field-surface-visual-frame[data-shape='landscape'] img,
+  .field-surface-visual-frame[data-shape='square'] img,
+  .field-surface-visual-frame video {
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+  }
+
+  .field-surface-visual-meta {
+    margin-top: 0.72rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.22rem 0.62rem;
+    color: var(--field-amber-label);
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .field-surface-visual-meta span + span::before {
+    content: '/';
+    margin-right: 0.62rem;
+    color: var(--field-text-dim);
+  }
+
+  .field-surface-anchor-copy {
+    display: grid;
+    gap: 0.5rem;
+    padding-top: 0.18rem;
+  }
+
+  .field-surface-anchor-copy--hinge-only {
+    min-height: 19rem;
+    align-content: center;
+    padding: 1.2rem clamp(1rem, 2vw, 1.8rem);
+    border: 1px solid var(--surface-line);
+    border-radius: var(--surface-radius);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.008)),
+      rgba(10, 9, 7, 0.82);
+    box-shadow: inset 0 1px 0 var(--surface-panel-line);
+  }
+
+  .field-surface-anchor-title {
+    margin: 0;
+    color: var(--field-amber-em);
+    font-family: var(--font-ui);
+    font-size: clamp(1.08rem, 1rem + 0.46vw, 1.44rem);
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    line-height: 1.14;
+    text-transform: uppercase;
+  }
+
+  .field-surface-anchor-summary,
+  .field-surface-anchor-support {
+    margin: 0;
+    color: var(--field-text-body);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.72;
+    text-wrap: pretty;
+  }
+
+  .field-surface-anchor-support {
+    color: var(--field-amber-dim);
+    font-size: 0.96rem;
   }
 
   .field-surface-hinge-block {
@@ -2402,6 +2617,10 @@ const viewTabs = [
       max-width: 24ch;
     }
 
+    .field-surface-hero-grid {
+      grid-template-columns: 1fr;
+    }
+
     .field-surface-strike-band,
     .field-surface-flow-vector {
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2457,6 +2676,11 @@ const viewTabs = [
     .field-surface-strike-band,
     .field-surface-flow-vector {
       grid-template-columns: 1fr;
+    }
+
+    .field-surface-anchor-copy--hinge-only {
+      min-height: 0;
+      padding: 1rem;
     }
 
     .field-surface-flow-arrow {
