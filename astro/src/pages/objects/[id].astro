@@ -373,7 +373,12 @@ const loremapFieldLabels = new Set(['Location', 'Geo', 'Terrain']);
 const loremapDetailRows = isLoremapObject
   ? detailRows.filter((row) => loremapFieldLabels.has(row.label))
   : [];
-const captureDetailRows = primaryMedia?.kind === 'image' ? buildCaptureDetailRows(primaryMedia.capture) : [];
+const shouldShowCaptureDetailRows =
+  entry.collection === 'artifact' || Boolean((entry.data as Record<string, unknown>).image_only);
+const captureDetailRows =
+  shouldShowCaptureDetailRows && primaryMedia?.kind === 'image'
+    ? buildCaptureDetailRows(primaryMedia.capture)
+    : [];
 const rawSupportingDetailRows = [
   ...(isLoremapObject
     ? detailRows.filter((row) => !loremapFieldLabels.has(row.label))
