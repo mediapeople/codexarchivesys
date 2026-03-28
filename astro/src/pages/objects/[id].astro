@@ -199,6 +199,34 @@ function formatSourceLabel(value: string): string {
     .join(' ');
 }
 
+function hasRenderableBodyContent(body: string, hideLeadHeading: boolean): boolean {
+  const trimmed = body.trim();
+  if (!trimmed) {
+    return false;
+  }
+
+  if (!hideLeadHeading) {
+    return true;
+  }
+
+  const lines = body.replace(/\r\n?/g, '\n').split('\n');
+  let removedHeading = false;
+
+  const withoutLeadingHeading = lines
+    .filter((line) => {
+      if (!removedHeading && /^\s{0,3}#{1,6}\s+/u.test(line)) {
+        removedHeading = true;
+        return false;
+      }
+
+      return true;
+    })
+    .join('\n')
+    .trim();
+
+  return Boolean(withoutLeadingHeading);
+}
+
 const optionalFieldLabels: Record<string, string> = {
   location: 'Location',
   geo: 'Geo',
@@ -294,6 +322,7 @@ const loremapClassification = Array.isArray(loremapClassificationRaw)
   : [];
 const resolvedExcerpt = getObjectSummary(entry);
 const hideLeadHeading = bodyStartsWithDuplicateTitleHeading(entry.data.title, entry.body);
+const hasRenderableBody = hasRenderableBodyContent(entry.body, hideLeadHeading);
 const canonicalObjectPath = getObjectPath(entry);
 
 const shareMeta = buildObjectShareMeta({
@@ -311,9 +340,13 @@ const shareMeta = buildObjectShareMeta({
 const bodyClassRaw = (entry.data as Record<string, unknown>).bodyClass;
 const bodyClass = typeof bodyClassRaw === 'string' ? bodyClassRaw : 'prose';
 const objectFirstFlow = true;
+const isImageOnlyObject = Boolean((entry.data as Record<string, unknown>).image_only);
 const artifactLeadsWithMedia = entry.collection === 'artifact';
 const artifactHasSupport =
   artifactLeadsWithMedia && (secondaryMedia.length > 0 || artifactSupportRows.length > 0);
+const imageOnlyLeadsWithMedia = isImageOnlyObject && !artifactLeadsWithMedia;
+const imageOnlyHasSupport =
+  imageOnlyLeadsWithMedia && (secondaryMedia.length > 0 || supportingDetailRows.length > 0);
 const loremapAtlas = getLoremapAtlasRender(entry.data as Record<string, unknown>, displayTitle, 'page');
 const loremapLocation = loremapAtlas.location;
 const loremapGeo = loremapAtlas.geo;
@@ -591,6 +624,100 @@ const exportAlternateLinks = [
       </section>
     )}
 
+    {imageOnlyLeadsWithMedia && primaryMedia && (
+      <section class="media-stage media-stage--image-first">
+        <article
+          class="media-primary"
+          data-media-frame={primaryMedia.kind === 'image' ? 'primary' : undefined}
+          data-media-shape={primaryMediaMeta?.shape}
+          style={primaryMediaMeta ? `--media-natural-width: ${primaryMediaMeta.width};` : undefined}
+        >
+          {primaryMedia.kind === 'image' && (
+            <img
+              src={getVersionedMediaSrc(primaryMedia.src)}
+              alt={primaryMedia.alt || `${entry.data.title} primary media`}
+              width={primaryMediaMeta?.width}
+              height={primaryMediaMeta?.height}
+              data-expandable-image
+              data-lightbox-caption={primaryMedia.caption || undefined}
+              loading="lazy"
+              decoding="async"
+              tabindex="0"
+              role="button"
+              aria-label="Expand image"
+            />
+          )}
+          {primaryMedia.kind === 'video' && (
+            <video controls preload="metadata" src={getVersionedMediaSrc(primaryMedia.src)}>
+              Your browser does not support the video element.
+            </video>
+          )}
+          {primaryMedia.kind === 'audio' && (
+            <div class="audio-shell">
+              <audio controls preload="metadata" src={getVersionedMediaSrc(primaryMedia.src)}>
+                Your browser does not support the audio element.
+              </audio>
+            </div>
+          )}
+          <p class="media-meta">{formatMediaLabel(primaryMedia)}</p>
+          {primaryMedia.caption && <p class="media-caption">{primaryMedia.caption}</p>}
+        </article>
+
+        {secondaryMedia.length > 0 && (
+          <div class="media-rail">
+            {secondaryMedia.map((item) => (
+              <article
+                class="media-item"
+                data-media-frame={item.kind === 'image' ? 'supporting' : undefined}
+                data-media-shape={item.kind === 'image' ? getImageMetadata(item.src)?.shape : undefined}
+              >
+                {item.kind === 'image' && (
+                  <img
+                    src={getVersionedMediaSrc(item.src)}
+                    alt={item.alt || `${entry.data.title} media`}
+                    width={getImageMetadata(item.src)?.width}
+                    height={getImageMetadata(item.src)?.height}
+                    data-expandable-image
+                    data-lightbox-caption={item.caption || undefined}
+                    loading="lazy"
+                    decoding="async"
+                    tabindex="0"
+                    role="button"
+                    aria-label="Expand image"
+                  />
+                )}
+                {item.kind === 'video' && (
+                  <video controls preload="metadata" src={getVersionedMediaSrc(item.src)}>
+                    Your browser does not support the video element.
+                  </video>
+                )}
+                {item.kind === 'audio' && (
+                  <div class="audio-shell">
+                    <audio controls preload="metadata" src={getVersionedMediaSrc(item.src)}>
+                      Your browser does not support the audio element.
+                    </audio>
+                  </div>
+                )}
+                <p>{formatMediaLabel(item)}</p>
+                {item.caption && <span>{item.caption}</span>}
+              </article>
+            ))}
+          </div>
+        )}
+
+        {imageOnlyHasSupport && supportingDetailRows.length > 0 && (
+          <section class="detail-grid detail-grid--supporting">
+            {supportingDetailRows.map((row) => (
+              <article>
+                <p>{row.label}</p>
+                <strong>{row.value}</strong>
+              </article>
+            ))}
+          </section>
+        )}
+      </section>
+    )}
+
     {isHtmlArtifact && (
       <section class={`html-scroll-stage page-plate ${primaryMedia ? 'html-scroll-stage--with-media' : ''}`}>
         <div class="html-scroll-stage-copy">
@@ -642,11 +769,13 @@ const exportAlternateLinks = [
       </section>
     )}
 
-    <section
-      class={`body ${bodyClass} ${hasSignalLeadImage ? 'body--signal-lead-image' : ''} ${hideLeadHeading ? 'body--hide-lead-heading' : ''}`}
-    >
-      <Content />
-    </section>
+    {hasRenderableBody && (
+      <section
+        class={`body ${bodyClass} ${hasSignalLeadImage ? 'body--signal-lead-image' : ''} ${hideLeadHeading ? 'body--hide-lead-heading' : ''}`}
+      >
+        <Content />
+      </section>
+    )}
 
     <MarginaliaPanel
       objectId={entry.data.id}
@@ -709,7 +838,7 @@ const exportAlternateLinks = [
       </section>
     )}
 
-    {!artifactLeadsWithMedia && primaryMedia && (
+    {!artifactLeadsWithMedia && !isImageOnlyObject && primaryMedia && (
       <section class="media-stage media-stage--supporting">
         <article
           class="media-primary"
@@ -792,7 +921,7 @@ const exportAlternateLinks = [
           </section>
         )}
 
-        {!artifactLeadsWithMedia && supportingDetailRows.length > 0 && (
+        {!artifactLeadsWithMedia && !isImageOnlyObject && supportingDetailRows.length > 0 && (
           <section class="detail-grid detail-grid--supporting">
             {supportingDetailRows.map((row) => (
               <article>
@@ -2407,6 +2536,10 @@ const exportAlternateLinks = [
     gap: 2rem;
     max-width: min(1120px, 100%);
     justify-items: start;
+  }
+
+  .media-stage--image-first {
+    margin-top: 2.2rem;
   }
 
   .media-primary {

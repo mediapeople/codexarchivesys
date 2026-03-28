@@ -1460,7 +1460,8 @@ export const PIGEON_APP_SCRIPT = String.raw`
   const imageReadyMessage = config.imageReadyMessage || 'Carrier Pigeon will upload and attach the selected images.';
   const successMessage = config.successMessage || 'Carrier Pigeon accepted the note.';
   const networkErrorMessage = config.networkErrorMessage || 'Could not reach Carrier Pigeon.';
-  const noNoteMessage = config.noNoteMessage || 'Paste a markdown note or choose a file first.';
+  const noNoteMessage =
+    config.noNoteMessage || 'Add a markdown note or attach at least one image first.';
   const noKeyMessage = config.noKeyMessage || 'Enter the Carrier Pigeon publishing key first.';
   const preparingMessage = config.preparingMessage || 'Preparing note and media for the archive.';
   const preparingImagesMessage = config.preparingImagesMessage || 'Compressing images for upload.';
@@ -2191,6 +2192,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
         function: '',
       },
       tags: [],
+      images: [],
       body: normalized.trim(),
       hasFrontmatter: false,
       hasTitleField: false,
@@ -2229,6 +2231,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
       existing: result.axisOverrides,
     });
     result.tags = (fields.get('tags') || []).flatMap(parseFrontmatterArray);
+    result.images = (fields.get('images') || []).flatMap(parseFrontmatterArray);
     result.body = parsedFrontmatter.body.trim();
     return result;
   }
@@ -2835,6 +2838,69 @@ export const PIGEON_APP_SCRIPT = String.raw`
     return typeMeta[type] ? typeMeta[type].label : type;
   }
 
+  function selectedImageCount() {
+    return Array.from(imgFileInput.files || []).length;
+  }
+
+  function hasAttachedImages() {
+    return selectedImageCount() > 0;
+  }
+
+  function hasDeclaredImages(parsed) {
+    return Array.isArray(parsed.images) && parsed.images.length > 0;
+  }
+
+  function isImageOnlyDraft(parsed) {
+    return !parsed.body && (hasAttachedImages() || hasDeclaredImages(parsed));
+  }
+
+  function hasPublishableContent(parsed) {
+    return Boolean(parsed.body || hasAttachedImages() || hasDeclaredImages(parsed));
+  }
+
+  function hasValidOrFallbackDate(parsed) {
+    if (parsed.date) {
+      return !Number.isNaN(Date.parse(parsed.date));
+    }
+
+    return isImageOnlyDraft(parsed);
+  }
+
+  function formatFallbackPublishDate(rawValue) {
+    const parsedDate =
+      rawValue && !Number.isNaN(Date.parse(rawValue)) ? new Date(rawValue) : new Date();
+
+    return parsedDate.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
+  }
+
+  function resolvePublishType(parsed) {
+    if (parsed.objectType) {
+      return parsed.objectType;
+    }
+
+    if (typeWasManuallyChosen) {
+      return selectedType;
+    }
+
+    return isImageOnlyDraft(parsed) ? 'artifact' : selectedType;
+  }
+
+  function resolveDisplayTitle(parsed) {
+    if (parsed.title) {
+      return parsed.title;
+    }
+
+    if (!isImageOnlyDraft(parsed)) {
+      return '';
+    }
+
+    return describeType(resolvePublishType(parsed)) + ' — ' + formatFallbackPublishDate(parsed.date);
+  }
+
   function setTelem(node, value, signal) {
     if (!node) {
       return;
@@ -2919,16 +2985,24 @@ export const PIGEON_APP_SCRIPT = String.raw`
   }
 
   function updateReadoutFromParsed(parsed) {
-    const type = parsed.objectType || selectedType;
-    const slug = parsed.title ? slugify(parsed.title) : '';
+    const type = resolvePublishType(parsed);
+    const displayTitle = resolveDisplayTitle(parsed);
+    const slug = displayTitle ? slugify(displayTitle) : '';
     const path = type && slug ? collectionPath(type, slug) : '';
-    const state = parsed.state || (parsed.title && type ? 'ready' : '');
-    const axes = parsed.axes || {
-      scale: '',
-      depth: '',
-      focus: '',
-      function: '',
-    };
+    const state = parsed.state || (displayTitle && type && hasPublishableContent(parsed) ? 'ready' : '');
+    const axes = isImageOnlyDraft(parsed)
+      ? inferAxesFromText({
+          objectType: type,
+          title: displayTitle,
+          body: parsed.body || '',
+          existing: parsed.axisOverrides || {},
+        })
+      : parsed.axes || {
+          scale: '',
+          depth: '',
+          focus: '',
+          function: '',
+        };
 
     setTelem(roType, type ? describeType(type) : '', false);
     setTelem(roScale, formatAxisValue('scale', axes.scale), false);
@@ -2959,7 +3033,14 @@ export const PIGEON_APP_SCRIPT = String.raw`
 
   function syncAxisControlsFromParsed(parsed) {
     const hasNote = noteField.value.trim().length > 0;
-    const resolvedAxes = parsed.axes || {};
+    const resolvedAxes = isImageOnlyDraft(parsed)
+      ? inferAxesFromText({
+          objectType: resolvePublishType(parsed),
+          title: resolveDisplayTitle(parsed),
+          body: parsed.body || '',
+          existing: parsed.axisOverrides || {},
+        })
+      : parsed.axes || {};
     const overrides = parsed.axisOverrides || {};
 
     Object.entries(axisSelects).forEach(([kind, select]) => {
@@ -2982,18 +3063,23 @@ export const PIGEON_APP_SCRIPT = String.raw`
   }
 
   function isArmed(parsed) {
-    const type = parsed.objectType || selectedType;
-    const hasNote = noteField.value.trim().length > 0;
+    const type = resolvePublishType(parsed);
     const hasRequiredKey = authRequired ? keyField.value.trim().length > 0 : true;
-    const hasValidDate = parsed.date && !Number.isNaN(Date.parse(parsed.date));
-    return Boolean(hasNote && parsed.title && hasValidDate && type && parsed.body && hasRequiredKey);
+    return Boolean(
+      hasPublishableContent(parsed) &&
+        resolveDisplayTitle(parsed) &&
+        hasValidOrFallbackDate(parsed) &&
+        type &&
+        hasRequiredKey
+    );
   }
 
   function getTransmitBlocker(parsed, key) {
     const trimmedNote = noteField.value.trim();
-    const type = parsed.objectType || selectedType;
+    const type = resolvePublishType(parsed);
+    const imageOnlyDraft = isImageOnlyDraft(parsed);
 
-    if (!trimmedNote) {
+    if (!trimmedNote && !hasAttachedImages()) {
       return noNoteMessage;
     }
 
@@ -3001,7 +3087,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
       return noKeyMessage;
     }
 
-    if (!parsed.title) {
+    if (!parsed.title && !imageOnlyDraft) {
       if (!parsed.hasFrontmatter) {
         return 'Run Smart Draft or start the note with frontmatter and add a title.';
       }
@@ -3011,13 +3097,13 @@ export const PIGEON_APP_SCRIPT = String.raw`
         : 'Add a title: line in the frontmatter first.';
     }
 
-    if (!parsed.date) {
+    if (!parsed.date && !imageOnlyDraft) {
       return parsed.hasDateField
         ? 'Fill in the date after date: in the frontmatter.'
         : 'Run Smart Draft or add a date: line in the frontmatter first.';
     }
 
-    if (Number.isNaN(Date.parse(parsed.date))) {
+    if (parsed.date && Number.isNaN(Date.parse(parsed.date))) {
       return 'Use a valid date in the frontmatter first.';
     }
 
@@ -3025,8 +3111,8 @@ export const PIGEON_APP_SCRIPT = String.raw`
       return 'Choose a type first.';
     }
 
-    if (!parsed.body) {
-      return 'Add some body text below the frontmatter first.';
+    if (!parsed.body && !imageOnlyDraft) {
+      return 'Add some body text below the frontmatter or attach at least one image first.';
     }
 
     return '';
@@ -3082,6 +3168,8 @@ export const PIGEON_APP_SCRIPT = String.raw`
 
     if (parsed.objectType && parsed.objectType !== selectedType) {
       syncSelectedType(parsed.objectType, { silent: true, closePanel: false });
+    } else if (isImageOnlyDraft(parsed) && !typeWasManuallyChosen && resolvePublishType(parsed) !== selectedType) {
+      syncSelectedType(resolvePublishType(parsed), { silent: true, closePanel: false, source: 'default' });
     } else if (!typeSelectedBadge.classList.contains('visible')) {
       syncSelectedType(selectedType, { silent: true, closePanel: false });
     }
@@ -3391,6 +3479,9 @@ export const PIGEON_APP_SCRIPT = String.raw`
     imgFileName.textContent = 'No files';
     mdZone.classList.remove('has-file');
     imgZone.classList.remove('has-file');
+    if (!typeWasManuallyChosen) {
+      syncSelectedType('signal', { silent: true, closePanel: false, source: 'default' });
+    }
     persistDraft();
     updateInterface();
     logLine('info', editorClearedMessage);
@@ -3506,7 +3597,11 @@ export const PIGEON_APP_SCRIPT = String.raw`
     let parsed = parseFrontmatter(noteField.value);
     const key = keyField.value.trim();
 
-    if (noteField.value.trim() && (!parsed.hasFrontmatter || !parsed.title || !parsed.date)) {
+    if (
+      noteField.value.trim() &&
+      !isImageOnlyDraft(parsed) &&
+      (!parsed.hasFrontmatter || !parsed.title || !parsed.date)
+    ) {
       const drafted = smartDraft({ silent: true, fromTransmit: true });
       parsed = drafted && drafted.parsed ? drafted.parsed : parseFrontmatter(noteField.value);
       updateInterface();
@@ -3514,7 +3609,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
       return;
     }
 
-    const resolvedType = parsed.objectType || selectedType;
+    const resolvedType = resolvePublishType(parsed);
     const blocker = getTransmitBlocker(parsed, key);
 
     if (blocker) {
