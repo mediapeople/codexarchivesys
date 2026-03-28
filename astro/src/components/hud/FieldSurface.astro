@@ -17,7 +17,7 @@ const {
   platePrompt,
   hudVisual = null,
   marginaliaEntries = [],
-  sourceText,
+  sourceText = '',
   respawn,
 } = Astro.props as {
   title: string;
@@ -36,7 +36,7 @@ const {
     shape?: string;
   } | null;
   marginaliaEntries?: unknown[];
-  sourceText: string;
+  sourceText?: string;
   respawn: string | null;
 };
 
@@ -255,7 +255,7 @@ const packetNotes = Array.isArray(packetData?.notes)
       .slice(0, 4)
   : [];
 
-const normalizedSourceText = sourceText.trim();
+const normalizedSourceText = typeof sourceText === 'string' ? sourceText.trim() : '';
 const normalizedRespawn = typeof respawn === 'string' && respawn.trim() ? respawn.trim() : '';
 const normalizedPlatePrompt = normalizePlatePrompt(platePrompt) || '';
 const objectSlug = objectUrl.split('/').filter(Boolean).pop() || '';

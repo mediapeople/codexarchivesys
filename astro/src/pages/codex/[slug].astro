@@ -49,15 +49,16 @@ const mediaImages = entry.data.media
   .filter((item) => item.kind === 'image')
   .map((item) => item.src.trim())
   .filter(Boolean);
-const inlineBodyImages = getBodyImagePreviewItems(entry.body).map((item) => item.src.trim()).filter(Boolean);
+const bodyContent = typeof entry.body === 'string' ? entry.body : '';
+const inlineBodyImages = getBodyImagePreviewItems(bodyContent).map((item) => item.src.trim()).filter(Boolean);
 const images = [...new Set(directImages.length > 0 ? directImages : mediaImages.length > 0 ? mediaImages : inlineBodyImages)];
 const inlineImageSrcs = new Set(inlineBodyImages);
 const galleryImages = images.filter((image) => !inlineImageSrcs.has(image));
 const state = entry.data.state ?? entry.data.status;
 const axes = listAxes(readAxes(entry.data as Record<string, unknown>));
 const summary = getObjectSummary(entry);
-const hideLeadHeading = bodyStartsWithDuplicateTitleHeading(entry.data.title, entry.body);
-const hasRenderableBody = entry.body.trim().length > 0;
+const hideLeadHeading = bodyStartsWithDuplicateTitleHeading(entry.data.title, bodyContent);
+const hasRenderableBody = bodyContent.trim().length > 0;
 const isImageOnlyObject = Boolean(entry.data.image_only);
 const socialImage = mediaImages[0] || directImages[0] || inlineBodyImages[0];
 const marginaliaEntries = getMarginaliaEntriesForTarget(await getAllEntries(), entry.data.id);

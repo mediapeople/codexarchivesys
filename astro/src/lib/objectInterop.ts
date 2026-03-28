@@ -137,12 +137,14 @@ function getImageOnlyFallbackSummary(entry: ArchiveEntry): string {
   return `Image-only ${getTypeLabel(entry.collection).toLowerCase()} published on ${dateLabel}.`;
 }
 
-function stripLeadingTitleHeading(title: string, body: string): string {
-  if (!bodyStartsWithDuplicateTitleHeading(title, body)) {
-    return body;
+function stripLeadingTitleHeading(title: string, body?: string): string {
+  const normalizedBody = typeof body === 'string' ? body : '';
+
+  if (!bodyStartsWithDuplicateTitleHeading(title, normalizedBody)) {
+    return normalizedBody;
   }
 
-  const lines = body.replace(/\r\n?/g, '\n').split('\n');
+  const lines = normalizedBody.replace(/\r\n?/g, '\n').split('\n');
   let removedHeading = false;
 
   return lines
@@ -189,7 +191,7 @@ function stripFencedCodeBlocks(value: string): string {
   return kept.join('\n');
 }
 
-function markdownToPlainText(title: string, body: string): string {
+function markdownToPlainText(title: string, body?: string): string {
   return stripFencedCodeBlocks(stripLeadingTitleHeading(title, body))
     .replace(/!\[\[[^\]]+\]\]/g, ' ')
     .replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, '$2')
@@ -453,7 +455,7 @@ export function getObjectExport(entry: ArchiveEntry): ObjectExportRecord {
     title: formatDisplayTitle(entry.data.title),
     summary: getObjectSummary(entry),
     content_text: getObjectContentText(entry),
-    content_markdown: entry.body.trim(),
+    content_markdown: typeof entry.body === 'string' ? entry.body.trim() : '',
     author,
     contributors,
     date_published: getObjectPublishedAt(entry).toISOString(),
@@ -609,7 +611,7 @@ export function serializeObjectMarkdown(entry: ArchiveEntry): string {
     ),
     '---',
     '',
-    entry.body.trim(),
+    typeof entry.body === 'string' ? entry.body.trim() : '',
     '',
   ];
 

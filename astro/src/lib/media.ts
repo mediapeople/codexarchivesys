@@ -131,10 +131,10 @@ export function getMediaItems(entry: ArchiveEntry): CodexMediaItem[] {
     .filter((item): item is CodexMediaItem => Boolean(item));
 }
 
-export function getBodyImagePreviewItems(body: string): CodexMediaItem[] {
+export function getBodyImagePreviewItems(body?: string): CodexMediaItem[] {
   const items: CodexMediaItem[] = [];
   const seen = new Set<string>();
-  const source = stripFencedCodeBlocks(body);
+  const source = stripFencedCodeBlocks(typeof body === 'string' ? body : '');
 
   const pushItem = (rawTarget: string, rawAlt = '') => {
     const src = cleanPreviewTarget(rawTarget);

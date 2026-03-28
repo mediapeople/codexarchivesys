@@ -321,8 +321,9 @@ const loremapClassification = Array.isArray(loremapClassificationRaw)
   ? loremapClassificationRaw.map((item) => String(item).trim()).filter(Boolean)
   : [];
 const resolvedExcerpt = getObjectSummary(entry);
-const hideLeadHeading = bodyStartsWithDuplicateTitleHeading(entry.data.title, entry.body);
-const hasRenderableBody = hasRenderableBodyContent(entry.body, hideLeadHeading);
+const bodyContent = typeof entry.body === 'string' ? entry.body : '';
+const hideLeadHeading = bodyStartsWithDuplicateTitleHeading(entry.data.title, bodyContent);
+const hasRenderableBody = hasRenderableBodyContent(bodyContent, hideLeadHeading);
 const canonicalObjectPath = getObjectPath(entry);
 
 const shareMeta = buildObjectShareMeta({
@@ -370,7 +371,7 @@ const nexusObjectContextQuery = isNexusObject
 const defaultBackHref = isNexusObject ? '/nexus' : '/';
 const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 const hasSignalLeadImage =
-  entry.collection === 'signal' && /^!(?:\[[^\]]*\]\([^)]+\)|\[\[[^\]]+\]\])/.test(entry.body.trimStart());
+  entry.collection === 'signal' && /^!(?:\[[^\]]*\]\([^)]+\)|\[\[[^\]]+\]\])/.test(bodyContent.trimStart());
 const allowMarginaliaPublishing = !isMarginaliaEntry(entry);
 const pageRobots = entry.data.visibility === 'public' ? 'index, follow' : 'noindex, nofollow';
 const structuredData = getObjectJsonLd(entry);

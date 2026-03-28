@@ -1,7 +1,7 @@
 const ELLIPSIS = '…';
 
-function normalizeNewlines(value: string): string {
-  return value.replace(/\r\n?/g, '\n');
+function normalizeNewlines(value: unknown): string {
+  return typeof value === 'string' ? value.replace(/\r\n?/g, '\n') : '';
 }
 
 function stripFencedCodeBlocks(value: string): string {
@@ -234,7 +234,7 @@ export function resolveExcerpt({
   return cleanedProvided || derived;
 }
 
-export function bodyStartsWithDuplicateTitleHeading(title: string, body: string): boolean {
+export function bodyStartsWithDuplicateTitleHeading(title: string, body?: string): boolean {
   const titleComparable = normalizeComparableText(title);
   const sourceLines = stripFencedCodeBlocks(body).split('\n');
 
