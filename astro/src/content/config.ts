@@ -184,6 +184,7 @@ const universalFields = {
 
   summary:        z.string().optional(),
   excerpt:        z.string().optional(),
+  image_only:     z.boolean().default(false),
   scale:          AxisScale.optional(),
   depth:          AxisDepth.optional(),
   focus:          AxisFocus.optional(),

@@ -128,6 +128,15 @@ function getSummaryField(entry: ArchiveEntry): string {
   return normalizeText(data.summary) || normalizeText(data.excerpt);
 }
 
+function getImageOnlyFallbackSummary(entry: ArchiveEntry): string {
+  const dateLabel = getObjectPublishedAt(entry).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+  return `Image-only ${getTypeLabel(entry.collection).toLowerCase()} published on ${dateLabel}.`;
+}
+
 function stripLeadingTitleHeading(title: string, body: string): string {
   if (!bodyStartsWithDuplicateTitleHeading(title, body)) {
     return body;
@@ -276,13 +285,17 @@ export function getObjectUpdatedAt(entry: ArchiveEntry): Date {
 }
 
 export function getObjectSummary(entry: ArchiveEntry, max = 220): string {
+  const isImageOnly = Boolean((entry.data as Record<string, unknown>).image_only);
   return (
     resolveExcerpt({
       title: entry.data.title,
       excerpt: getSummaryField(entry),
       body: entry.body,
       max,
-    }) || `${getTypeLabel(entry.collection)} in the Codex Archive.`
+    }) ||
+    (isImageOnly
+      ? getImageOnlyFallbackSummary(entry)
+      : `${getTypeLabel(entry.collection)} in the Codex Archive.`)
   );
 }
 

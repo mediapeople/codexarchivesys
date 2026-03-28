@@ -57,6 +57,8 @@ const state = entry.data.state ?? entry.data.status;
 const axes = listAxes(readAxes(entry.data as Record<string, unknown>));
 const summary = getObjectSummary(entry);
 const hideLeadHeading = bodyStartsWithDuplicateTitleHeading(entry.data.title, entry.body);
+const hasRenderableBody = entry.body.trim().length > 0;
+const isImageOnlyObject = Boolean(entry.data.image_only);
 const socialImage = mediaImages[0] || directImages[0] || inlineBodyImages[0];
 const marginaliaEntries = getMarginaliaEntriesForTarget(await getAllEntries(), entry.data.id);
 const mythmechMarginaliaEntries = getMythmechMarginaliaEntries(marginaliaEntries);
@@ -123,18 +125,20 @@ const alternateLinks = [
     <div class="object-flow">
       <div class="object-flow-main">
         {galleryImages.length > 0 && (
-          <section class="gallery" aria-label="Attached images">
-            {galleryImages.map((image, index) => (
-              <a href={image} target="_blank" rel="noreferrer">
-                <img src={image} alt={`${displayTitle} image ${index + 1}`} loading="lazy" />
-              </a>
-            ))}
+        <section class={`gallery ${isImageOnlyObject ? 'gallery--image-only' : ''}`} aria-label="Attached images">
+          {galleryImages.map((image, index) => (
+            <a href={image} target="_blank" rel="noreferrer">
+              <img src={image} alt={`${displayTitle} image ${index + 1}`} loading="lazy" />
+            </a>
+          ))}
+        </section>
+      )}
+
+        {hasRenderableBody && (
+          <section class={`body ${hideLeadHeading ? 'body--hide-lead-heading' : ''}`}>
+            <Content />
           </section>
         )}
-
-        <section class={`body ${hideLeadHeading ? 'body--hide-lead-heading' : ''}`}>
-          <Content />
-        </section>
 
         <InspectModePanel
           slug={entry.slug}
@@ -271,11 +275,21 @@ const alternateLinks = [
     gap: 1rem;
   }
 
+  .gallery--image-only {
+    grid-template-columns: 1fr;
+    max-width: min(48rem, 100%);
+  }
+
   .gallery a {
     display: block;
     border: 1px solid rgba(255, 255, 255, 0.09);
     background: rgba(255, 255, 255, 0.03);
     overflow: hidden;
+  }
+
+  .gallery--image-only a {
+    justify-self: center;
+    width: 100%;
   }
 
   .gallery img {
@@ -284,6 +298,13 @@ const alternateLinks = [
     height: 100%;
     min-height: 13rem;
     object-fit: cover;
+  }
+
+  .gallery--image-only img {
+    min-height: 0;
+    max-height: min(78vh, 56rem);
+    object-fit: contain;
+    background: rgba(11, 9, 8, 0.92);
   }
 
   .body {

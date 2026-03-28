@@ -77,6 +77,7 @@ type PigeonPayload = {
   body: string;
   images: string[];
   media: PigeonMediaItem[];
+  imageOnly: boolean;
   status: PigeonStatus;
   visibility: PigeonVisibility;
   excerpt?: string;
@@ -227,6 +228,52 @@ function getFirstMeaningfulLine(value: string): string {
     .split('\n')
     .map((line) => normalizeIncomingTitle(line))
     .find(Boolean) || '';
+}
+
+const OBJECT_TYPE_LABELS: Record<PigeonObjectType, string> = {
+  scroll: 'Scroll',
+  loremap: 'Loremap',
+  artifact: 'Artifact',
+  fieldlog: 'Field Log',
+  codex: 'Codex',
+  fragment: 'Fragment',
+  nexus: 'Nexus',
+  signal: 'Signal',
+};
+
+function hasMeaningfulBody(value: string): boolean {
+  return value.trim().length > 0;
+}
+
+function parseDateForTitle(value: string): Date | null {
+  const normalized = value.trim();
+  if (!normalized) {
+    return null;
+  }
+
+  const parsed = /^\d{4}-\d{2}-\d{2}$/.test(normalized)
+    ? new Date(`${normalized}T12:00:00Z`)
+    : new Date(normalized);
+
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+function formatFallbackObjectTitle(objectType: PigeonObjectType, date: string): string {
+  const label = OBJECT_TYPE_LABELS[objectType] || 'Object';
+  const parsedDate = parseDateForTitle(date);
+  if (!parsedDate) {
+    return `Untitled ${label}`;
+  }
+
+  return `${label} — ${parsedDate.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  })}`;
+}
+
+function isImageOnlySubmission(body: string, imageCount: number): boolean {
+  return imageCount > 0 && !hasMeaningfulBody(body);
 }
 
 function omitUndefinedFields(fields: Record<string, unknown>): Record<string, unknown> {
@@ -555,18 +602,27 @@ function normalizeObjectType(value: unknown): PigeonObjectType | null {
     : null;
 }
 
-function logObjectTypeFallback(candidate: unknown, source: string): void {
+function logObjectTypeFallback(
+  candidate: unknown,
+  source: string,
+  defaultType: PigeonObjectType
+): void {
   if (typeof candidate === 'string' && candidate.trim()) {
     console.warn(
-      `[Carrier Pigeon] Invalid object_type "${candidate.trim()}" from ${source}; defaulting to codex.`
+      `[Carrier Pigeon] Invalid object_type "${candidate.trim()}" from ${source}; defaulting to ${defaultType}.`
     );
     return;
   }
 
-  console.warn(`[Carrier Pigeon] Missing object_type in ${source}; defaulting to codex.`);
+  console.warn(`[Carrier Pigeon] Missing object_type in ${source}; defaulting to ${defaultType}.`);
 }
 
-function resolveObjectType(fields: Map<string, string[]>, source: string, fallback?: unknown): PigeonObjectType {
+function resolveObjectType(
+  fields: Map<string, string[]>,
+  source: string,
+  fallback?: unknown,
+  defaultType: PigeonObjectType = 'codex'
+): PigeonObjectType {
   const candidates = [
     fields.get('object_type')?.[0],
     fields.get('objecttype')?.[0],
@@ -586,8 +642,8 @@ function resolveObjectType(fields: Map<string, string[]>, source: string, fallba
     }
   }
 
-  logObjectTypeFallback(invalidCandidate, source);
-  return 'codex';
+  logObjectTypeFallback(invalidCandidate, source, defaultType);
+  return defaultType;
 }
 
 function getEnvValue(name: string): string {
@@ -707,7 +763,47 @@ function buildPassthroughFrontmatter(entries: FrontmatterEntry[], objectType: Pi
     .flatMap((entry) => entry.rawLines);
 }
 
-function parseMarkdownNote(note: string, fallbackObjectType?: unknown): PigeonPayload | Response {
+function buildImageOnlyPayload(
+  objectTypeCandidate?: unknown,
+  now = new Date().toISOString()
+): PigeonPayload {
+  const explicitObjectType = normalizeObjectType(objectTypeCandidate);
+  const objectType = explicitObjectType || 'artifact';
+  const title = formatFallbackObjectTitle(objectType, now);
+
+  return {
+    objectType,
+    title,
+    date: now,
+    axes: inferAxes({
+      objectType,
+      title,
+      body: '',
+      existing: {},
+    }),
+    tags: [],
+    themes: [],
+    body: '',
+    images: [],
+    media: [],
+    imageOnly: true,
+    status: 'published',
+    visibility: 'public',
+    excerpt: undefined,
+    codexState: objectType === 'codex' ? 'published' : undefined,
+    codexDependencies: [],
+    passthroughFrontmatter: [],
+  };
+}
+
+function parseMarkdownNote(
+  note: string,
+  fallbackObjectType?: unknown,
+  options?: {
+    uploadedImageCount?: number;
+    now?: string;
+  }
+): PigeonPayload | Response {
   const normalized = normalizeNewlines(note).replace(/^\uFEFF/, '').trimStart();
   const parsedFrontmatter = extractMarkdownFrontmatter(normalized);
 
@@ -721,13 +817,23 @@ function parseMarkdownNote(note: string, fallbackObjectType?: unknown): PigeonPa
   }
 
   const fields = parsedFrontmatter.fields;
-  const objectType = resolveObjectType(fields, 'markdown note frontmatter', fallbackObjectType);
-  const title = normalizeIncomingTitle(normalizeOptionalString(fields.get('title')?.[0])) || '';
-  const date = normalizeOptionalString(fields.get('date')?.[0]) || '';
+  const rawTitle = normalizeIncomingTitle(normalizeOptionalString(fields.get('title')?.[0])) || '';
+  const rawDate = normalizeOptionalString(fields.get('date')?.[0]) || '';
   const tags = (fields.get('tags') || []).flatMap(parseFrontmatterValue);
   const themes = (fields.get('themes') || []).flatMap(parseFrontmatterValue);
   const images = (fields.get('images') || []).flatMap(parseFrontmatterValue);
   const body = parsedFrontmatter.body.trim();
+  const imageOnly = isImageOnlySubmission(body, images.length + (options?.uploadedImageCount ?? 0));
+  const objectType = resolveObjectType(
+    fields,
+    'markdown note frontmatter',
+    fallbackObjectType,
+    imageOnly ? 'artifact' : 'codex'
+  );
+  const date = imageOnly
+    ? normalizeDateString(rawDate, options?.now || new Date().toISOString())
+    : rawDate;
+  const title = rawTitle || (imageOnly ? formatFallbackObjectTitle(objectType, date) : '');
   const status =
     normalizeStatus(fields.get('status')?.[0]) ||
     normalizeStatus(fields.get('state')?.[0]) ||
@@ -737,12 +843,14 @@ function parseMarkdownNote(note: string, fallbackObjectType?: unknown): PigeonPa
     normalizeOptionalString(fields.get('excerpt')?.[0]) ||
     normalizeOptionalString(fields.get('summary')?.[0]);
   const axisOverrides = resolveAxisOverridesFromMap(fields, 'markdown note frontmatter');
-  const excerpt = resolveExcerpt({
-    title,
-    excerpt: requestedExcerpt,
-    body,
-    max: 220,
-  }) || undefined;
+  const excerpt = hasMeaningfulBody(body)
+    ? resolveExcerpt({
+        title,
+        excerpt: requestedExcerpt,
+        body,
+        max: 220,
+      }) || undefined
+    : undefined;
 
   if (axisOverrides instanceof Response) {
     return axisOverrides;
@@ -756,7 +864,7 @@ function parseMarkdownNote(note: string, fallbackObjectType?: unknown): PigeonPa
     return Response.json({ error: 'Markdown note is missing a valid date frontmatter value.' }, { status: 400 });
   }
 
-  if (!body) {
+  if (!body && !imageOnly) {
     return Response.json({ error: 'Markdown note body is empty.' }, { status: 400 });
   }
 
@@ -775,6 +883,7 @@ function parseMarkdownNote(note: string, fallbackObjectType?: unknown): PigeonPa
     body,
     images: normalizeNonEmptyStrings(images),
     media: [],
+    imageOnly,
     status,
     visibility,
     excerpt,
@@ -1088,6 +1197,7 @@ function buildMarkdownEntry(payload: PigeonPayload, slug: string): string {
     `visibility: ${payload.visibility}`,
     payload.excerpt ? `summary: ${yamlString(payload.excerpt)}` : null,
     payload.excerpt ? `excerpt: ${yamlString(payload.excerpt)}` : null,
+    payload.imageOnly ? 'image_only: true' : null,
     `scale: ${payload.axes.scale}`,
     `depth: ${payload.axes.depth}`,
     `focus: ${payload.axes.focus}`,
@@ -1420,6 +1530,7 @@ function parseFieldHudRequest(
       body,
       images,
       media: [],
+      imageOnly: false,
       status,
       visibility,
       excerpt,
@@ -2062,23 +2173,36 @@ function getFormObjectTypeCandidate(formData: FormData): string | undefined {
 
 async function parseMultipartPayload(request: Request): Promise<ParsedPigeonRequest | Response> {
   const formData = await request.formData();
-  const noteValue = formData.get('note');
-  const note = typeof noteValue === 'string' ? noteValue.trim() : '';
-
-  if (!note) {
-    return Response.json({ error: 'Multipart Carrier Pigeon requests must include a note field.' }, { status: 400 });
-  }
-
-  const parsed = parseMarkdownNote(note, getFormObjectTypeCandidate(formData));
-  if (parsed instanceof Response) {
-    return parsed;
-  }
-
   const imageEntries = formData.getAll('images');
   const uploadedImages = imageEntries.filter((entry): entry is File => entry instanceof File && entry.size > 0);
   const invalidEntry = imageEntries.find((entry) => !(entry instanceof File));
   if (invalidEntry) {
     return Response.json({ error: 'Image uploads must be sent as file fields named images.' }, { status: 400 });
+  }
+
+  const noteValue = formData.get('note');
+  const note = typeof noteValue === 'string' ? noteValue.trim() : '';
+
+  if (!note) {
+    if (uploadedImages.length === 0) {
+      return Response.json(
+        { error: 'Multipart Carrier Pigeon requests must include a note field or at least one image.' },
+        { status: 400 }
+      );
+    }
+
+    return {
+      kind: 'standard',
+      payload: buildImageOnlyPayload(getFormObjectTypeCandidate(formData)),
+      uploadedImages,
+    };
+  }
+
+  const parsed = parseMarkdownNote(note, getFormObjectTypeCandidate(formData), {
+    uploadedImageCount: uploadedImages.length,
+  });
+  if (parsed instanceof Response) {
+    return parsed;
   }
 
   return {
@@ -2151,8 +2275,8 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
     };
   }
 
-  const title = normalizeIncomingTitle(candidate.title);
-  const date = typeof candidate.date === 'string' ? candidate.date.trim() : '';
+  const rawTitle = normalizeIncomingTitle(candidate.title);
+  const rawDate = typeof candidate.date === 'string' ? candidate.date.trim() : '';
   const body = typeof candidate.body === 'string' ? candidate.body.trim() : '';
   const tags = normalizeStringArray(candidate.tags);
   const themes = candidate.themes === undefined ? [] : normalizeStringArray(candidate.themes);
@@ -2160,14 +2284,21 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
   const dependencies =
     candidate.dependencies === undefined ? [] : normalizeStringArray(candidate.dependencies);
   const axisOverrides = resolveAxisOverridesFromRecord(candidate, 'json payload');
+  const imageOnly = isImageOnlySubmission(body, images?.length ?? 0);
   const objectType = resolveObjectType(
     new Map([
       ['object_type', [typeof candidate.object_type === 'string' ? candidate.object_type : '']],
       ['objecttype', [typeof candidate.objectType === 'string' ? candidate.objectType : '']],
       ['type', [typeof candidate.type === 'string' ? candidate.type : '']],
     ]),
-    'json payload'
+    'json payload',
+    undefined,
+    imageOnly ? 'artifact' : 'codex'
   );
+  const date = imageOnly
+    ? normalizeDateString(rawDate, new Date().toISOString())
+    : rawDate;
+  const title = rawTitle || (imageOnly ? formatFallbackObjectTitle(objectType, date) : '');
 
   if (!title) {
     return Response.json({ error: 'title is required.' }, { status: 400 });
@@ -2177,7 +2308,7 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
     return Response.json({ error: 'date must be a valid ISO-compatible string.' }, { status: 400 });
   }
 
-  if (!body) {
+  if (!body && !imageOnly) {
     return Response.json({ error: 'body is required.' }, { status: 400 });
   }
 
@@ -2218,16 +2349,19 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
       body,
       images: normalizeNonEmptyStrings(images),
       media: [],
+      imageOnly,
       status: normalizeStatus(candidate.status) || 'published',
       visibility: normalizeVisibility(candidate.visibility) || 'public',
-      excerpt: resolveExcerpt({
-        title,
-        excerpt:
-          (typeof candidate.summary === 'string' ? candidate.summary : undefined) ||
-          (typeof candidate.excerpt === 'string' ? candidate.excerpt : undefined),
-        body,
-        max: 220,
-      }) || undefined,
+      excerpt: hasMeaningfulBody(body)
+        ? resolveExcerpt({
+            title,
+            excerpt:
+              (typeof candidate.summary === 'string' ? candidate.summary : undefined) ||
+              (typeof candidate.excerpt === 'string' ? candidate.excerpt : undefined),
+            body,
+            max: 220,
+          }) || undefined
+        : undefined,
       codexState: normalizeStatus(candidate.state) || undefined,
       codexDependencies: normalizeNonEmptyStrings(dependencies),
       passthroughFrontmatter: [],
@@ -2342,7 +2476,16 @@ export const POST: APIRoute = async ({ request }) => {
       body: rewrittenBody.body,
       images: normalizedImageFields.images,
       media: normalizedImageFields.media,
+      imageOnly: isImageOnlySubmission(rewrittenBody.body, normalizedImageFields.images.length),
     };
+
+    if (!hasMeaningfulBody(finalPayload.body) && finalPayload.images.length === 0) {
+      return Response.json(
+        { error: 'Carrier Pigeon requires body text or at least one publishable image.' },
+        { status: 400 }
+      );
+    }
+
     const markdown = buildMarkdownEntry(finalPayload, slug);
 
     if (githubConfig) {
