@@ -47,20 +47,20 @@ Resonant Name:
 ◼ ZONES
 
 1. The Water Core (Ozora Lake)
-- Mirror without insistence
-- Holds center without calling attention
+   - Mirror without insistence
+   - Holds center without calling attention
 
 2. The Peripheral Loops (Trail System)
-- Recursion paths
-- Each turn feels optional, but isn’t
+   - Recursion paths
+   - Each turn feels optional, but isn’t
 
 3. The Entry Thresholds (Parking / Start Points)
-- Casual crossings into pattern
-- No ceremony, yet always a crossing
+   - Casual crossings into pattern
+   - No ceremony, yet always a crossing
 
 4. The Overlook / Pause Nodes
-- Bench, bank, shade
-- Where motion is observed but not required
+   - Bench, bank, shade
+   - Where motion is observed but not required
 
 ---
 

@@ -3624,6 +3624,7 @@ const exportAlternateLinks = [
 
   .object-shell.loremap .body {
     margin-top: 1.75rem;
+    counter-reset: loremap-top-ordered;
     --list-line: rgba(112, 150, 178, 0.2);
     --list-line-soft: rgba(112, 150, 178, 0.14);
     --list-bullet-core: rgba(209, 159, 66, 0.78);
@@ -3634,10 +3635,7 @@ const exportAlternateLinks = [
     margin: 0 0 2.1rem;
     color: var(--text-body);
     font-style: normal;
-    font-size: 0.9rem;
     line-height: 1.95;
-    font-weight: 100;
-    max-width: 68ch;
   }
 
   .object-shell.loremap .body :global(blockquote) {
@@ -3708,6 +3706,33 @@ const exportAlternateLinks = [
 
   .object-shell.loremap .body :global(ol) {
     padding-left: 1.72rem;
+  }
+
+  :global(.object-shell.loremap .body > ol) {
+    counter-reset: none;
+  }
+
+  :global(.object-shell.loremap .body > ol > li) {
+    counter-increment: loremap-top-ordered;
+  }
+
+  :global(.object-shell.loremap .body > ol > li::before) {
+    content: counter(loremap-top-ordered, decimal-leading-zero);
+  }
+
+  :global(.object-shell.loremap .body > ol:has(+ ul)),
+  :global(.object-shell.loremap .body > ul:has(+ ol)) {
+    margin-bottom: 0.7rem;
+  }
+
+  :global(.object-shell.loremap .body > ol + ul),
+  :global(.object-shell.loremap .body > ul + ol) {
+    margin-top: 0;
+  }
+
+  :global(.object-shell.loremap .body > ol + ul) {
+    padding-top: 0;
+    border-top: none;
   }
 
   .object-shell.loremap .body :global(ol > li::before) {
