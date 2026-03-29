@@ -1,5 +1,4 @@
 import exifr from 'exifr';
-import sharp from 'sharp';
 import { classifyMediaShape, type MediaShape } from './mediaAsset.ts';
 
 export type PigeonMediaCaptureGeo = {
@@ -72,6 +71,28 @@ const SCALE_VALUES = new Set(['micro', 'meso', 'macro']);
 const DEPTH_VALUES = new Set(['surface', 'structural', 'recursive']);
 const FOCUS_VALUES = new Set(['moment', 'character', 'system', 'witness']);
 const FUNCTION_VALUES = new Set(['diagnostic', 'therapeutic', 'revelatory', 'comparative']);
+let sharpFactoryPromise: Promise<(typeof import('sharp'))['default'] | null> | null = null;
+let sharpUnavailableLogged = false;
+
+async function getSharp() {
+  if (!sharpFactoryPromise) {
+    sharpFactoryPromise = import('sharp')
+      .then((module) => module.default)
+      .catch((error) => {
+        if (!sharpUnavailableLogged) {
+          sharpUnavailableLogged = true;
+          console.warn(
+            `[Carrier Pigeon] sharp unavailable; image metadata/optimization will fall back. ${
+              error instanceof Error ? error.message : String(error)
+            }`
+          );
+        }
+        return null;
+      });
+  }
+
+  return sharpFactoryPromise;
+}
 
 function normalizeString(value: unknown): string | undefined {
   if (typeof value !== 'string') {
@@ -268,8 +289,13 @@ function buildVisionPrompt(params: {
     .join('\n');
 }
 
-async function toVisionDataUrl(buffer: Buffer): Promise<string> {
-  const optimized = await sharp(buffer)
+async function toVisionDataUrl(image: VisionImageInput): Promise<string> {
+  const sharp = await getSharp();
+  if (!sharp) {
+    return `data:${image.contentType || 'application/octet-stream'};base64,${image.buffer.toString('base64')}`;
+  }
+
+  const optimized = await sharp(image.buffer)
     .rotate()
     .resize({
       width: 1600,
@@ -307,8 +333,9 @@ export async function extractUploadedImageCapture(params: {
   originalFilename: string;
   uploadedAt?: string;
 }): Promise<PigeonMediaCapture | undefined> {
+  const sharp = await getSharp();
   const [metadata, exifData] = await Promise.all([
-    sharp(params.buffer).metadata(),
+    sharp ? sharp(params.buffer).metadata().catch(() => null) : Promise.resolve(null),
     exifr.parse(params.buffer, [
       'DateTimeOriginal',
       'CreateDate',
@@ -370,7 +397,7 @@ export async function inferPigeonVisionSuggestion(params: {
     ...(await Promise.all(
       images.map(async (image) => ({
         type: 'input_image' as const,
-        image_url: await toVisionDataUrl(image.buffer),
+        image_url: await toVisionDataUrl(image),
       }))
     )),
   ];
