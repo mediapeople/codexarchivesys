@@ -24,6 +24,7 @@ focus: system
 function: diagnostic
 themes: []
 media: []
+version: []
 ---
 *The system not as machine, but as living field*
 
