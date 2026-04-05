@@ -21,6 +21,7 @@ interface Props {
   relationScore?: number;
   variant?: 'feed' | 'related' | 'mosaic';
   eyebrow?: string;
+  deemphasizeSharedPreview?: boolean;
 }
 
 type FragmentStageToken =
@@ -41,6 +42,7 @@ const {
   relationScore,
   variant = 'feed',
   eyebrow,
+  deemphasizeSharedPreview = false,
 } = Astro.props;
 const displayTitle = formatDisplayTitle(entry.data.title);
 const primaryAuthor = getPrimaryAuthor(entry);
@@ -234,7 +236,9 @@ const showAuthorTease = !showFragmentStage;
 const isLoremap = entry.collection === 'loremap';
 const loremapAtlas = getLoremapAtlasRender(entry.data as Record<string, unknown>, displayTitle, 'card');
 const showLoremapPreview = isLoremap && !showFragmentStage;
-const cardPrimaryMedia = showLoremapPreview ? null : primaryMedia;
+const hasSuppressedSharedPreview =
+  deemphasizeSharedPreview && !showFragmentStage && !showLoremapPreview && primaryMedia?.kind === 'image';
+const cardPrimaryMedia = showLoremapPreview || hasSuppressedSharedPreview ? null : primaryMedia;
 const hasImagePreview = !showFragmentStage && cardPrimaryMedia?.kind === 'image';
 const primaryMediaMeta = hasImagePreview ? await getImageAssetMetadata(cardPrimaryMedia.src) : null;
 const imagePreviewItems = hasImagePreview
@@ -288,7 +292,10 @@ const artifactSource = entry.collection === 'artifact' && typeof (entry.data as 
   ? String((entry.data as Record<string, unknown>).source).trim()
   : '';
 const showHtmlArtifactPreview =
-  entry.collection === 'artifact' && !cardPrimaryMedia && /^\/.+\.html$/i.test(artifactSource);
+  entry.collection === 'artifact' &&
+  !cardPrimaryMedia &&
+  !hasSuppressedSharedPreview &&
+  /^\/.+\.html$/i.test(artifactSource);
 const artifactSourceName = showHtmlArtifactPreview
   ? artifactSource.split('/').filter(Boolean).pop()?.replace(/\.html$/i, '') || ''
   : '';
@@ -304,7 +311,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
 >
   {!showFragmentStage && <a class="hitbox" href={href} aria-label={`Open ${entry.data.title}`}></a>}
   <div
-    class={`preview-wrap ${showFragmentStage ? 'fragment-stage' : ''} ${hasImagePreview ? 'has-image-preview' : ''} ${hasIndependentPreviewAction ? 'card-image-trigger' : ''}`}
+    class={`preview-wrap ${showFragmentStage ? 'fragment-stage' : ''} ${hasImagePreview ? 'has-image-preview' : ''} ${hasIndependentPreviewAction ? 'card-image-trigger' : ''} ${hasSuppressedSharedPreview ? 'preview-wrap--companion' : ''}`}
     data-media-frame={hasImagePreview ? 'card-preview' : undefined}
     data-media-shape={primaryMediaMeta?.shape}
     data-card-image-trigger={hasIndependentPreviewAction ? 'true' : undefined}
@@ -363,6 +370,11 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
       <div class="preview-fallback">
         <span>{cardPrimaryMedia.kind}</span>
         <small>{formatMediaLabel(cardPrimaryMedia)}</small>
+      </div>
+    ) : hasSuppressedSharedPreview ? (
+      <div class="preview-companion" aria-hidden="true">
+        <p class="preview-companion-label">Companion entry</p>
+        <strong class="preview-companion-title">Shared surface carried by linked object</strong>
       </div>
     ) : showLoremapPreview ? (
       <div class={`preview-loremap ${useLoremapMinimalThumb ? 'preview-loremap--minimal' : ''}`} aria-hidden="true">
@@ -1287,6 +1299,61 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
     color: rgba(244, 240, 232, 0.92);
     background: rgba(14, 12, 10, 0.74);
     transform: translateY(-1px);
+  }
+
+  .preview-wrap--companion {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.024), rgba(255, 255, 255, 0) 20%),
+      radial-gradient(circle at 84% 0%, color-mix(in srgb, var(--type-accent) 8%, transparent), transparent 40%),
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, rgba(48, 40, 34, 0.8) 90%, transparent),
+        color-mix(in srgb, rgba(26, 22, 19, 0.9) 92%, transparent)
+      );
+  }
+
+  .preview-companion {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 1.05rem 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.48rem;
+    border: 1px solid color-mix(in srgb, var(--card-rule-strong) 72%, rgba(255, 255, 255, 0.08));
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.018), rgba(255, 255, 255, 0) 24%),
+      linear-gradient(180deg, rgba(26, 22, 19, 0.52), rgba(16, 14, 12, 0.76));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+  }
+
+  .preview-companion::before {
+    content: '';
+    position: absolute;
+    inset: 0.9rem auto 0.9rem 0.9rem;
+    width: 1px;
+    background: linear-gradient(180deg, rgba(207, 160, 83, 0.24), rgba(207, 160, 83, 0));
+  }
+
+  .preview-companion-label {
+    margin: 0;
+    padding-left: 0.9rem;
+    color: rgba(217, 197, 153, 0.78);
+    font-family: var(--font-ui);
+    font-size: 0.58rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+
+  .preview-companion-title {
+    max-width: 14ch;
+    padding-left: 0.9rem;
+    color: rgba(244, 240, 232, 0.9);
+    font-family: var(--font-display);
+    font-size: clamp(1rem, 1.35vw, 1.28rem);
+    line-height: 1.02;
+    text-wrap: balance;
   }
 
   .preview-fallback,
