@@ -1870,7 +1870,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
       case 'fieldlog':
         return '---\ntitle:\ndate: ' + date + '\nobject_type: fieldlog\ntags: []\nproject:\nphase:\ncontext:\nactions: []\n---\n\n## Context\n\n## Observation\n\n## Notes\n';
       case 'artifact':
-        return '---\ntitle:\ndate: ' + date + '\nobject_type: artifact\ntags: []\nartifactType:\nmaterials:\ncondition:\n---\n\nArtifact description.\n';
+        return '---\ntitle:\ndate: ' + date + '\nobject_type: artifact\ntags: []\nartifactType:\nmaterials:\ncondition:\nsource:\n---\n\nArtifact description.\n';
       case 'scroll':
         return '---\ntitle:\ndate: ' + date + '\nobject_type: scroll\ntags: []\nsummary:\nbodyClass: prose\n---\n\nLongform draft.\n';
       case 'codex':
