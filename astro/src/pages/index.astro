@@ -204,7 +204,11 @@ function getCompanionPreviewSuppressionIds(orderedEntries: (typeof entries)[]) {
       }
 
       const targetIndex = indexById.get(target.data.id);
-      if (targetIndex === undefined || targetIndex >= sourceIndex || sourceIndex - targetIndex > 2) {
+      if (
+        targetIndex === undefined ||
+        target.data.id === entry.data.id ||
+        Math.abs(sourceIndex - targetIndex) > 2
+      ) {
         return false;
       }
 
