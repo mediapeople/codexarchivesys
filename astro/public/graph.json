@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-28T20:06:36.272Z",
+  "generatedAt": "2026-04-05T02:16:30.512Z",
   "sourceDir": "./src/content",
-  "nodeCount": 147,
-  "edgeCount": 4595,
+  "nodeCount": 149,
+  "edgeCount": 4745,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -206,6 +206,23 @@
         "observation",
         "systems",
         "signal"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "mythplate",
+      "slug": "mythplate",
+      "url": "https://ndcodex.com/objects/mythplate/",
+      "stableId": "codex://object/mythplate",
+      "type": "artifact",
+      "title": "Mythplate",
+      "date": "2026-04-04",
+      "themes": [
+        "signal",
+        "clarity",
+        "authorship",
+        "altitude",
+        "selection"
       ],
       "constellations": []
     },
@@ -1050,6 +1067,23 @@
         "observation",
         "place",
         "signal"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "mythplate-designing-for-lift",
+      "slug": "mythplate-designing-for-lift",
+      "url": "https://ndcodex.com/objects/mythplate-designing-for-lift/",
+      "stableId": "codex://object/mythplate-designing-for-lift",
+      "type": "fieldlog",
+      "title": "Field Log: Mythplate, Designing for Lift",
+      "date": "2026-04-04",
+      "themes": [
+        "signal",
+        "clarity",
+        "authorship",
+        "process",
+        "transmission"
       ],
       "constellations": []
     },
@@ -2562,6 +2596,16 @@
       ]
     },
     {
+      "source": "mythplate",
+      "target": "mythplate-designing-for-lift",
+      "weight": 14,
+      "reasons": [
+        "shared-theme",
+        "explicit-related",
+        "explicit-connection"
+      ]
+    },
+    {
       "source": "signal-descent-001",
       "target": "signal-harvest",
       "weight": 14,
@@ -3899,6 +3943,15 @@
     {
       "source": "carrier-pigeon-publishing-system",
       "target": "codex-archive-system-v3-11-lattice-groundwork-notes",
+      "weight": 7,
+      "reasons": [
+        "explicit-connection",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "carrier-pigeon-publishing-system",
+      "target": "mythplate-designing-for-lift",
       "weight": 7,
       "reasons": [
         "explicit-connection",
@@ -7239,6 +7292,15 @@
     },
     {
       "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "mythplate-designing-for-lift",
+      "weight": 4,
+      "reasons": [
+        "shared-theme",
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
       "target": "race-to-the-top-six-bridges",
       "weight": 4,
       "reasons": [
@@ -8956,6 +9018,14 @@
       ]
     },
     {
+      "source": "a-complete-operational-stack-for-the-conductive-state",
+      "target": "mythplate",
+      "weight": 3,
+      "reasons": [
+        "explicit-related"
+      ]
+    },
+    {
       "source": "apparatus-ledger",
       "target": "capture-and-convert",
       "weight": 3,
@@ -14378,6 +14448,38 @@
       ]
     },
     {
+      "source": "mythplate-designing-for-lift",
+      "target": "return-to-self-inside-the-system",
+      "weight": 3,
+      "reasons": [
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "the-field-before-naming",
+      "weight": 3,
+      "reasons": [
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "return-to-self-inside-the-system",
+      "weight": 3,
+      "reasons": [
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "the-field-before-naming",
+      "weight": 3,
+      "reasons": [
+        "explicit-related"
+      ]
+    },
+    {
       "source": "node-doctrine",
       "target": "on-visceral-distillation",
       "weight": 3,
@@ -15141,6 +15243,14 @@
     {
       "source": "apparatus-ledger",
       "target": "jsa-collage-evolution-003",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
+      "target": "mythplate-designing-for-lift",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -16676,6 +16786,14 @@
     },
     {
       "source": "capture-and-convert",
+      "target": "mythplate-designing-for-lift",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
       "target": "nothing-missing-only-unindexed",
       "weight": 2,
       "reasons": [
@@ -17724,6 +17842,14 @@
     },
     {
       "source": "citizen-network-dispatch",
+      "target": "mythplate-designing-for-lift",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
       "target": "nothing-missing-only-unindexed",
       "weight": 2,
       "reasons": [
@@ -17932,6 +18058,14 @@
     },
     {
       "source": "citizen-network-doctrine",
+      "target": "mythplate-designing-for-lift",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
       "target": "on-object-oriented-archives",
       "weight": 2,
       "reasons": [
@@ -18093,6 +18227,14 @@
     {
       "source": "citizen-network-map-hi-fi",
       "target": "grand-myth-central",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
+      "target": "mythplate-designing-for-lift",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -19780,6 +19922,14 @@
     },
     {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "mythplate-designing-for-lift",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "nothing-missing-only-unindexed",
       "weight": 2,
       "reasons": [
@@ -21004,6 +21154,14 @@
     },
     {
       "source": "codex-archive-system-v3-plus-notes",
+      "target": "mythplate-designing-for-lift",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
       "target": "nothing-missing-only-unindexed",
       "weight": 2,
       "reasons": [
@@ -21389,6 +21547,14 @@
     {
       "source": "constellation-node-alchemy",
       "target": "jsa-collage-evolution-003",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
+      "target": "mythplate-designing-for-lift",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -22172,6 +22338,14 @@
     },
     {
       "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "mythplate-designing-for-lift",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
       "target": "node-doctrine",
       "weight": 2,
       "reasons": [
@@ -22692,6 +22866,14 @@
     },
     {
       "source": "go-live-milestone",
+      "target": "mythplate-designing-for-lift",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
       "target": "nothing-missing-only-unindexed",
       "weight": 2,
       "reasons": [
@@ -23069,6 +23251,14 @@
     {
       "source": "heart-does-not-dream",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
+      "target": "mythplate-designing-for-lift",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -23492,6 +23682,14 @@
     },
     {
       "source": "keep-the-operator-whistling",
+      "target": "mythplate-designing-for-lift",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
       "target": "nothing-missing-only-unindexed",
       "weight": 2,
       "reasons": [
@@ -23664,6 +23862,14 @@
       "weight": 2,
       "reasons": [
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "mythplate-designing-for-lift",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -23949,6 +24155,118 @@
     {
       "source": "mothers-calendar",
       "target": "unacceptable-cost",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "node-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "operator-winks-at-the-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "scripture-with-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "shop-talk-framework",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "signal-descent-001",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "signal-descent-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "signal-descent-003",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "signal-descent-004",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "signal-descent-005",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "signal.citizen-agency",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "steel-elbow-flinchian",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "transmission-note-to-future-me",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -25788,6 +26106,14 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "one-yard-from-forever",
       "weight": 1,
       "reasons": [
@@ -26404,6 +26730,22 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "mythplate-designing-for-lift",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "node-doctrine",
       "weight": 1,
       "reasons": [
@@ -26668,6 +27010,22 @@
     },
     {
       "source": "artifact-jsa-collage-001",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "mythplate-designing-for-lift",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
       "target": "node-doctrine",
       "weight": 1,
       "reasons": [
@@ -26901,6 +27259,22 @@
     {
       "source": "artifact-jsa-collage-wip-001",
       "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
+      "target": "mythplate-designing-for-lift",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -27229,6 +27603,22 @@
     {
       "source": "artifact-jsa-signal-fracture-001",
       "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
+      "target": "mythplate-designing-for-lift",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -27612,6 +28002,14 @@
     },
     {
       "source": "bezalel-the-designated-hand",
+      "target": "mythplate-designing-for-lift",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -27892,6 +28290,22 @@
     },
     {
       "source": "builder-lineage-reflection",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "mythplate-designing-for-lift",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -28125,6 +28539,14 @@
     {
       "source": "capture-and-convert",
       "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "mythplate",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -28373,6 +28795,22 @@
     {
       "source": "characters-in-the-field",
       "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "mythplate-designing-for-lift",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -28708,6 +29146,14 @@
     },
     {
       "source": "chattahoochee-river-loremap",
+      "target": "mythplate-designing-for-lift",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "chattahoochee-river-loremap",
       "target": "node-doctrine",
       "weight": 1,
       "reasons": [
@@ -28989,6 +29435,22 @@
     {
       "source": "cities-built-on-ruin-reminiscence",
       "target": "mcginnis-ferry-threshold",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
+      "target": "mythplate-designing-for-lift",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -29284,6 +29746,22 @@
     },
     {
       "source": "cities-built-on-ruin",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "mythplate-designing-for-lift",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -29516,6 +29994,14 @@
     },
     {
       "source": "citizen-network-dispatch",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -29724,6 +30210,14 @@
     },
     {
       "source": "citizen-network-doctrine",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -29901,6 +30395,14 @@
     {
       "source": "citizen-network-map-hi-fi",
       "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
+      "target": "mythplate",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -30636,6 +31138,22 @@
     },
     {
       "source": "codex-archive-system-v2-7-notes",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "mythplate-designing-for-lift",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -30765,6 +31283,22 @@
     {
       "source": "codex-archive-system-v3-1-build-notes",
       "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "mythplate-designing-for-lift",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -31029,6 +31563,14 @@
     {
       "source": "codex-archive-system-v3-11-lattice-groundwork-notes",
       "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-11-lattice-groundwork-notes",
+      "target": "mythplate-designing-for-lift",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -31860,6 +32402,14 @@
     },
     {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -31964,6 +32514,22 @@
     },
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "mythplate-designing-for-lift",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -32076,6 +32642,22 @@
     },
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "mythplate-designing-for-lift",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -32181,6 +32763,22 @@
     {
       "source": "codex-archive-system-v3-5-control-surface-notes",
       "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "mythplate-designing-for-lift",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -32301,6 +32899,22 @@
     {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "mythplate-designing-for-lift",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -32581,6 +33195,22 @@
     {
       "source": "codex-archive-system-v3-8-specimen-surface-notes",
       "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "mythplate-designing-for-lift",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -32756,6 +33386,14 @@
     },
     {
       "source": "codex-archive-system-v3-9-orientation-clarity-notes",
+      "target": "mythplate-designing-for-lift",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-9-orientation-clarity-notes",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -32853,6 +33491,22 @@
     {
       "source": "codex-archive-system-v3-notes",
       "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
+      "target": "mythplate-designing-for-lift",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -32973,6 +33627,14 @@
     {
       "source": "codex-archive-system-v3-plus-notes",
       "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
+      "target": "mythplate",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -33117,6 +33779,22 @@
     {
       "source": "codex-glyph-grammar",
       "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
+      "target": "mythplate-designing-for-lift",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -33348,6 +34026,22 @@
     },
     {
       "source": "codex-glyph-system-first-emergence",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
+      "target": "mythplate-designing-for-lift",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -33532,6 +34226,14 @@
     },
     {
       "source": "constellation-node-alchemy",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -33645,6 +34347,22 @@
     {
       "source": "crane-field-illustration",
       "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "mythplate-designing-for-lift",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -33893,6 +34611,22 @@
     {
       "source": "disrespectful-power",
       "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "disrespectful-power",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "disrespectful-power",
+      "target": "mythplate-designing-for-lift",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -34300,6 +35034,14 @@
     },
     {
       "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
       "target": "on-object-oriented-archives",
       "weight": 1,
       "reasons": [
@@ -34421,6 +35163,22 @@
     {
       "source": "flexible-machine-sweet-spot",
       "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
+      "target": "mythplate-designing-for-lift",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -34581,6 +35339,22 @@
     {
       "source": "garage-dispatch-001",
       "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
+      "target": "mythplate-designing-for-lift",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -34788,6 +35562,14 @@
     },
     {
       "source": "go-live-milestone",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -34909,6 +35691,22 @@
     {
       "source": "grand-myth-central",
       "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "mythplate-designing-for-lift",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -35212,6 +36010,14 @@
     },
     {
       "source": "i-work-with-machines-to-write-scripture",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
       "target": "phoenix-collage-fracture-study",
       "weight": 1,
       "reasons": [
@@ -35348,6 +36154,22 @@
     },
     {
       "source": "jsa-collage-evolution-001",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
+      "target": "mythplate-designing-for-lift",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -35564,6 +36386,22 @@
     },
     {
       "source": "jsa-collage-evolution-002",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-002",
+      "target": "mythplate-designing-for-lift",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-002",
       "target": "nd-codex-object-classification",
       "weight": 1,
       "reasons": [
@@ -35757,6 +36595,22 @@
     {
       "source": "jsa-collage-evolution-003",
       "target": "machine-creatures",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "mythplate-designing-for-lift",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -35973,6 +36827,22 @@
     {
       "source": "justice-begins-as-a-ripple",
       "target": "mothers-calendar",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "justice-begins-as-a-ripple",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "justice-begins-as-a-ripple",
+      "target": "mythplate-designing-for-lift",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -36212,6 +37082,14 @@
     },
     {
       "source": "keep-the-operator-whistling",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
       "target": "phoenix-collage-fracture-study",
       "weight": 1,
       "reasons": [
@@ -36445,6 +37323,14 @@
     {
       "source": "machine-creatures",
       "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "mythplate",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -36940,6 +37826,22 @@
     },
     {
       "source": "mothers-calendar",
+      "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
+      "target": "mythplate-designing-for-lift",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
       "target": "node-doctrine",
       "weight": 1,
       "reasons": [
@@ -37269,6 +38171,342 @@
     {
       "source": "mythmech-system",
       "target": "work-intelligence-v4g",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "on-object-oriented-archives",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "on-visceral-distillation",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "quiet-vector-doctrine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "return-of-the-joker",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "scroll-from-the-perimeter",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "signal-descent-006",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "signal-post-test",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "stairwell-signal",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "unacceptable-cost",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
+      "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "node-doctrine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "on-object-oriented-archives",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "operator-winks-at-the-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "phoenix-collage-fracture-study",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "quiet-vector-doctrine",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "return-of-the-joker",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "rodimus-prime-field-acquisition",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "scripture-with-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "scroll-from-the-perimeter",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "shop-talk-framework",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "signal-descent-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "signal-descent-003",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "signal-descent-004",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "signal-descent-005",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "signal-descent-006",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "signal-post-test",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "signal.citizen-agency",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "steel-elbow-flinchian",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "suwanee-ga-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "unacceptable-cost",
       "weight": 1,
       "reasons": [
         "shared-theme"

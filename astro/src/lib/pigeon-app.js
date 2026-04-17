@@ -1366,6 +1366,18 @@ export function renderPigeonAppMarkup(options = {}) {
           <span class="telem-val" id="roType">-</span>
         </div>
         <div class="telem-row">
+          <span class="telem-key">Title</span>
+          <span class="telem-val" id="roTitle">-</span>
+        </div>
+        <div class="telem-row">
+          <span class="telem-key">Excerpt</span>
+          <span class="telem-val" id="roExcerpt">-</span>
+        </div>
+        <div class="telem-row">
+          <span class="telem-key">Hero</span>
+          <span class="telem-val" id="roHero">-</span>
+        </div>
+        <div class="telem-row">
           <span class="telem-key">Scale</span>
           <span class="telem-val" id="roScale">-</span>
         </div>
@@ -1522,6 +1534,9 @@ export const PIGEON_APP_SCRIPT = String.raw`
   const dispatchClock = document.getElementById('dispatchClock');
   const logArea = document.getElementById('logArea');
   const roType = document.getElementById('roType');
+  const roTitle = document.getElementById('roTitle');
+  const roExcerpt = document.getElementById('roExcerpt');
+  const roHero = document.getElementById('roHero');
   const roScale = document.getElementById('roScale');
   const roDepth = document.getElementById('roDepth');
   const roFocus = document.getElementById('roFocus');
@@ -1563,6 +1578,10 @@ export const PIGEON_APP_SCRIPT = String.raw`
     'media',
     'tags',
     'themes',
+  ]);
+  const RAW_BLOCK_PROTECTED_KEYS = new Set([
+    'media',
+    'slug',
   ]);
 
   const SMART_STOPWORDS = new Set([
@@ -1870,7 +1889,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
       case 'fieldlog':
         return '---\ntitle:\ndate: ' + date + '\nobject_type: fieldlog\ntags: []\nproject:\nphase:\ncontext:\nactions: []\n---\n\n## Context\n\n## Observation\n\n## Notes\n';
       case 'artifact':
-        return '---\ntitle:\ndate: ' + date + '\nobject_type: artifact\ntags: []\nartifactType:\nmaterials:\ncondition:\n---\n\nArtifact description.\n';
+        return '---\ntitle:\ndate: ' + date + '\nobject_type: artifact\ntags: []\nartifactType:\nmaterials:\ncondition:\nsource:\n---\n\nArtifact description.\n';
       case 'scroll':
         return '---\ntitle:\ndate: ' + date + '\nobject_type: scroll\ntags: []\nsummary:\nbodyClass: prose\n---\n\nLongform draft.\n';
       case 'codex':
@@ -2177,6 +2196,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
     const result = {
       title: '',
       caption: '',
+      excerpt: '',
       date: '',
       state: '',
       objectType: null,
@@ -2235,6 +2255,9 @@ export const PIGEON_APP_SCRIPT = String.raw`
     result.hasDateField = fields.has('date');
     result.title = normalizeTitleScalar(parseFrontmatterScalar((fields.get('title') && fields.get('title')[0]) || ''));
     result.caption = parseFrontmatterScalar((fields.get('caption') && fields.get('caption')[0]) || '');
+    result.excerpt =
+      parseFrontmatterScalar((fields.get('excerpt') && fields.get('excerpt')[0]) || '') ||
+      parseFrontmatterScalar((fields.get('summary') && fields.get('summary')[0]) || '');
     result.date = parseFrontmatterScalar((fields.get('date') && fields.get('date')[0]) || '');
     result.state = parseFrontmatterScalar((fields.get('state') && fields.get('state')[0]) || '');
     result.objectType = objectType;
@@ -2278,14 +2301,16 @@ export const PIGEON_APP_SCRIPT = String.raw`
       }
 
       const firstKey = firstFieldMatch[1].toLowerCase();
-      if (!/^(title|caption|date|object_type|objecttype|type|state|tags|images|summary|id|status|visibility|themes|media|scale|depth|focus|function)$/.test(firstKey)) {
+      if (!/^(title|caption|date|object_type|objecttype|type|state|tags|images|summary|excerpt|id|status|visibility|themes|media|scale|depth|focus|function)$/.test(firstKey)) {
         return null;
       }
     }
 
     const fields = new Map();
+    const entries = [];
     let currentKey = '';
     let bodyStartIndex = -1;
+    let currentEntry = null;
 
     for (let index = hasFence ? startIndex + 1 : startIndex; index < lines.length; index += 1) {
       const rawLine = lines[index];
@@ -2310,6 +2335,9 @@ export const PIGEON_APP_SCRIPT = String.raw`
         const existing = fields.get(currentKey) || [];
         existing.push(listMatch[1].trim());
         fields.set(currentKey, existing);
+        if (currentEntry) {
+          currentEntry.rawLines.push(trimmedLine);
+        }
         continue;
       }
 
@@ -2318,6 +2346,11 @@ export const PIGEON_APP_SCRIPT = String.raw`
         currentKey = fieldMatch[1].toLowerCase();
         const value = fieldMatch[2].trim();
         fields.set(currentKey, value ? [value] : []);
+        currentEntry = {
+          key: currentKey,
+          rawLines: [trimmedLine],
+        };
+        entries.push(currentEntry);
         continue;
       }
 
@@ -2329,6 +2362,9 @@ export const PIGEON_APP_SCRIPT = String.raw`
           existing[existing.length - 1] = (existing[existing.length - 1] + ' ' + trimmedLine.trim()).trim();
         }
         fields.set(currentKey, existing);
+        if (currentEntry) {
+          currentEntry.rawLines.push(trimmedLine);
+        }
         continue;
       }
 
@@ -2344,6 +2380,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
 
     return {
       fields,
+      entries,
       body: bodyStartIndex >= 0 ? lines.slice(bodyStartIndex).join('\n') : '',
     };
   }
@@ -2374,6 +2411,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
     const parsedFrontmatter = parseLooseFrontmatter(normalized.replace(/^\s+/, ''));
     const fields = {};
     const order = [];
+    const rawBlocks = {};
 
     if (!parsedFrontmatter) {
       const smartImageDraft = parseSmartImageDraft(normalized);
@@ -2381,6 +2419,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
         return {
           fields: { caption: smartImageDraft.caption },
           order: ['caption'],
+          rawBlocks,
           body: '',
         };
       }
@@ -2388,9 +2427,14 @@ export const PIGEON_APP_SCRIPT = String.raw`
       return {
         fields,
         order,
+        rawBlocks,
         body: normalized.trim(),
       };
     }
+
+    parsedFrontmatter.entries.forEach((entry) => {
+      rawBlocks[entry.key] = entry.rawLines.slice();
+    });
 
     parsedFrontmatter.fields.forEach((values, key) => {
       order.push(key);
@@ -2413,6 +2457,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
       return {
         fields,
         order,
+        rawBlocks,
         body: '',
       };
     }
@@ -2420,6 +2465,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
     return {
       fields,
       order,
+      rawBlocks,
       body: frontmatterBody,
     };
   }
@@ -2756,6 +2802,18 @@ export const PIGEON_APP_SCRIPT = String.raw`
     }
   }
 
+  function getStableType(parsed) {
+    if (parsed.objectType) {
+      return parsed.objectType;
+    }
+
+    if (typeWasManuallyChosen) {
+      return selectedType;
+    }
+
+    return isImageOnlyDraft(parsed) ? 'artifact' : '';
+  }
+
   function formatInlineYamlValue(value) {
     const stringValue = String(value || '').trim();
     if (!stringValue) {
@@ -2773,7 +2831,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
     return JSON.stringify(stringValue);
   }
 
-  function renderFrontmatterNote(fields, originalOrder, typeKey, inferredType, body) {
+  function renderFrontmatterNote(fields, originalOrder, rawBlocks, typeKey, inferredType, body) {
     const renderedFields = { ...fields };
     const orderedKeys = [];
     const pushKey = (key) => {
@@ -2800,6 +2858,17 @@ export const PIGEON_APP_SCRIPT = String.raw`
     Object.keys(renderedFields).forEach(pushKey);
 
     const lines = orderedKeys.map((key) => {
+      const preservedBlock =
+        rawBlocks &&
+        RAW_BLOCK_PROTECTED_KEYS.has(key) &&
+        Array.isArray(rawBlocks[key]) &&
+        rawBlocks[key].length > 0
+          ? rawBlocks[key]
+          : null;
+      if (preservedBlock) {
+        return preservedBlock.join('\n');
+      }
+
       const value = renderedFields[key];
       if (Array.isArray(value)) {
         const items = value.map((item) => String(item || '').trim()).filter(Boolean);
@@ -2837,6 +2906,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
       ) ||
       normalizeObjectType(fields.object_type) ||
       normalizeObjectType(fields.type);
+    const lockedType = existingType || (typeWasManuallyChosen ? selectedType : '');
     const captionText = parsed.caption || '';
     const body = loose.body || parsed.body || (captionText ? '' : rawNote.trim());
     const inferenceText = captionText || body;
@@ -2844,7 +2914,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
     const inferredDate =
       parsed.date && !Number.isNaN(Date.parse(parsed.date)) ? parsed.date : inferDateFromText(inferenceText);
     const inferredType =
-      existingType || (captionText && !body ? resolvePublishType(parsed) : inferObjectTypeFromText(inferredTitle, body));
+      lockedType || (captionText && !body ? resolvePublishType(parsed) : inferObjectTypeFromText(inferredTitle, body));
     const inferredTags = parsed.tags.length ? parsed.tags : inferTagsFromText(inferredTitle, inferenceText);
     const inferredAxes = inferAxesFromText({
       objectType: inferredType,
@@ -2890,7 +2960,14 @@ export const PIGEON_APP_SCRIPT = String.raw`
       }
     });
 
-    const nextNote = renderFrontmatterNote(fields, loose.order, originalTypeKey, inferredType, body);
+    const nextNote = renderFrontmatterNote(
+      fields,
+      loose.order,
+      loose.rawBlocks,
+      originalTypeKey,
+      inferredType,
+      body
+    );
     const changed = nextNote.trim() !== rawNote.trim();
     noteField.value = nextNote;
     persistDraft();
@@ -2980,15 +3057,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
   }
 
   function resolvePublishType(parsed) {
-    if (parsed.objectType) {
-      return parsed.objectType;
-    }
-
-    if (typeWasManuallyChosen) {
-      return selectedType;
-    }
-
-    return isImageOnlyDraft(parsed) ? 'artifact' : selectedType;
+    return getStableType(parsed) || selectedType;
   }
 
   function resolveDisplayTitle(parsed) {
@@ -3087,9 +3156,18 @@ export const PIGEON_APP_SCRIPT = String.raw`
   }
 
   function updateReadoutFromParsed(parsed) {
-    const type = resolvePublishType(parsed);
+    const type = getStableType(parsed);
     const displayTitle = resolveDisplayTitle(parsed);
-    const slug = displayTitle ? slugify(displayTitle) : '';
+    const excerpt = parsed.excerpt || inferSummaryFromText(parsed.body || parsed.caption || '');
+    const attachedImages = Array.from(imgFileInput.files || []);
+    const heroLabel = attachedImages.length
+      ? attachedImages[0].name + (attachedImages.length > 1 ? ' +' + (attachedImages.length - 1) : '')
+      : Array.isArray(parsed.images) && parsed.images.length > 0
+        ? parsed.images[0] + (parsed.images.length > 1 ? ' +' + (parsed.images.length - 1) : '')
+        : readLooseFrontmatter(noteField.value).rawBlocks.media
+          ? 'Structured media preserved'
+          : '';
+    const slug = displayTitle && type ? slugify(displayTitle) : '';
     const path = type && slug ? collectionPath(type, slug) : '';
     const state = parsed.state || (displayTitle && type && hasPublishableContent(parsed) ? 'ready' : '');
     const axes = isImageOnlyDraft(parsed)
@@ -3107,6 +3185,9 @@ export const PIGEON_APP_SCRIPT = String.raw`
         };
 
     setTelem(roType, type ? describeType(type) : '', false);
+    setTelem(roTitle, displayTitle, false);
+    setTelem(roExcerpt, excerpt, false);
+    setTelem(roHero, heroLabel, false);
     setTelem(roScale, formatAxisValue('scale', axes.scale), false);
     setTelem(roDepth, formatAxisValue('depth', axes.depth), false);
     setTelem(roFocus, formatAxisValue('focus', axes.focus), false);
@@ -3165,7 +3246,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
   }
 
   function isArmed(parsed) {
-    const type = resolvePublishType(parsed);
+    const type = getStableType(parsed);
     const hasRequiredKey = authRequired ? keyField.value.trim().length > 0 : true;
     return Boolean(
       hasPublishableContent(parsed) &&
@@ -3178,7 +3259,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
 
   function getTransmitBlocker(parsed, key) {
     const trimmedNote = noteField.value.trim();
-    const type = resolvePublishType(parsed);
+    const type = getStableType(parsed);
     const imageOnlyDraft = isImageOnlyDraft(parsed);
 
     if (!trimmedNote && !hasAttachedImages()) {
@@ -3210,7 +3291,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
     }
 
     if (!type) {
-      return 'Choose a type first.';
+      return 'Run Smart Draft or choose a type before publishing.';
     }
 
     if (!parsed.body && !imageOnlyDraft) {
@@ -3631,7 +3712,14 @@ export const PIGEON_APP_SCRIPT = String.raw`
       delete fields[kind];
     }
 
-    noteField.value = renderFrontmatterNote(fields, order, typeKey, resolvedType, loose.body || parsed.body || '');
+    noteField.value = renderFrontmatterNote(
+      fields,
+      order,
+      loose.rawBlocks,
+      typeKey,
+      resolvedType,
+      loose.body || parsed.body || ''
+    );
     persistDraft();
     const updatedParsed = updateInterface();
     const resolvedAxes = updatedParsed.axes || {};
@@ -3679,7 +3767,14 @@ export const PIGEON_APP_SCRIPT = String.raw`
     }
 
     fields[typeKey] = normalizedType;
-    noteField.value = renderFrontmatterNote(fields, order, typeKey, normalizedType, loose.body || parsed.body || '');
+    noteField.value = renderFrontmatterNote(
+      fields,
+      order,
+      loose.rawBlocks,
+      typeKey,
+      normalizedType,
+      loose.body || parsed.body || ''
+    );
     persistDraft();
     updateInterface();
     logLine('info', 'Type pinned -> ' + describeType(normalizedType));
@@ -3702,7 +3797,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
     if (
       noteField.value.trim() &&
       !isImageOnlyDraft(parsed) &&
-      (!parsed.hasFrontmatter || !parsed.title || !parsed.date)
+      (!parsed.hasFrontmatter || !parsed.title || !parsed.date || !getStableType(parsed))
     ) {
       const drafted = smartDraft({ silent: true, fromTransmit: true });
       parsed = drafted && drafted.parsed ? drafted.parsed : parseFrontmatter(noteField.value);

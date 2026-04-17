@@ -135,6 +135,12 @@ Recommended values:
 - `PIGEON_GITHUB_BRANCH=main`
 - `PIGEON_GITHUB_CONTENT_ROOT=astro/src/content`
 
+Production governance:
+
+- The production site should keep `PIGEON_GITHUB_BRANCH=main`.
+- Carrier Pigeon publishes content commits; it does not become a second deploy authority.
+- Netlify production should follow the normal Git-linked `origin/main` path.
+
 How it works in hosted mode:
 
 1. The phone opens `/pigeon`.
@@ -142,7 +148,7 @@ How it works in hosted mode:
 3. The page sends the markdown note to `POST /api/pigeon` with `Authorization: Bearer <secret>`.
 4. The API route validates the secret.
 5. The route commits `astro/src/content/<object_type>/<slug>.md` into the GitHub repo.
-6. Netlify rebuilds and publishes the new page.
+6. Netlify rebuilds and publishes the new page from `main`.
 
 ## Phone app page
 
@@ -174,4 +180,4 @@ That gives you a one-tap launcher into the working Safari upload flow without fi
 
 ## Publishing reality
 
-Carrier Pigeon writes a source markdown file. Because Astro content collections are part of the site build, a new file becomes part of the published site after the next rebuild or redeploy. In local dev, the new entry should appear after the source file is created and the dev server refreshes. In deployed environments, the GitHub commit triggers the normal Netlify deploy path, and the page appears after that deploy completes.
+Carrier Pigeon writes a source markdown file. Because Astro content collections are part of the site build, a new file becomes part of the published site after the next rebuild or redeploy. In local dev, the new entry should appear after the source file is created and the dev server refreshes. In deployed environments, the GitHub commit triggers the normal Netlify deploy path from `origin/main`, and the page appears after that deploy completes.

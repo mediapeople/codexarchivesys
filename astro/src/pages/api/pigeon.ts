@@ -1,7 +1,9 @@
 import type { APIRoute } from 'astro';
+import { execFile } from 'node:child_process';
 import { timingSafeEqual } from 'node:crypto';
 import { mkdir, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { promisify } from 'node:util';
 import {
   inferAxes,
   normalizeAxisDepth,
@@ -24,6 +26,8 @@ import {
 } from '../../lib/pigeonImageIntelligence.ts';
 
 export const prerender = false;
+
+const execFileAsync = promisify(execFile);
 
 const OBJECT_TYPES = [
   'scroll',
@@ -759,6 +763,14 @@ function parseGitHubRepo(value: string): { owner: string; repo: string } | null 
   };
 }
 
+function readBooleanEnv(name: string): boolean {
+  return /^(1|true|yes)$/i.test(getEnvValue(name));
+}
+
+function isProductionDeployContext(): boolean {
+  return (getEnvValue('CONTEXT') || '').toLowerCase() === 'production';
+}
+
 function getGitHubConfig(): GitHubConfig | null {
   const token = getEnvValue('PIGEON_GITHUB_TOKEN');
   const repoSpec = getEnvValue('PIGEON_GITHUB_REPO');
@@ -776,11 +788,18 @@ function getGitHubConfig(): GitHubConfig | null {
     throw new Error('PIGEON_GITHUB_REPO must use the format owner/repo.');
   }
 
+  const branch = getEnvValue('PIGEON_GITHUB_BRANCH') || 'main';
+  if (isProductionDeployContext() && branch !== 'main' && !readBooleanEnv('PIGEON_ALLOW_NON_MAIN_BRANCH')) {
+    throw new Error(
+      'Carrier Pigeon production publishing must target PIGEON_GITHUB_BRANCH=main unless PIGEON_ALLOW_NON_MAIN_BRANCH=1 is explicitly set.'
+    );
+  }
+
   return {
     token,
     owner: parsedRepo.owner,
     repo: parsedRepo.repo,
-    branch: getEnvValue('PIGEON_GITHUB_BRANCH') || 'main',
+    branch,
     contentRoot: getEnvValue('PIGEON_GITHUB_CONTENT_ROOT') || 'astro/src/content',
   };
 }
@@ -990,7 +1009,7 @@ function extractMarkdownFrontmatter(source: string): ParsedFrontmatter | null {
     }
 
     const firstKey = firstFieldMatch[1].toLowerCase();
-    if (!/^(title|caption|date|object_type|objecttype|type|state|tags|images|summary|id|status|visibility|themes|media|scale|depth|focus|function)$/.test(firstKey)) {
+    if (!/^(title|caption|date|object_type|objecttype|type|state|tags|images|summary|excerpt|id|status|visibility|themes|media|scale|depth|focus|function)$/.test(firstKey)) {
       return null;
     }
   }
@@ -1515,11 +1534,11 @@ function parseFieldHudRequest(
   }
 
   const requestedCollection =
-    candidate.collection ??
-    requestedFrontmatter.collection ??
     requestedFrontmatter.object_type ??
     requestedFrontmatter.objectType ??
-    requestedFrontmatter.type;
+    requestedFrontmatter.type ??
+    requestedFrontmatter.collection ??
+    candidate.collection;
   const objectType = normalizeObjectType(requestedCollection) || 'codex';
   const titleCandidate =
     normalizeIncomingTitle(candidate.title) ||
@@ -1727,6 +1746,27 @@ function getPublicDirCandidates(): string[] {
   ];
 }
 
+function getGraphSourceDirCandidates(): string[] {
+  return [
+    path.resolve(process.cwd(), 'src/content'),
+    path.resolve(process.cwd(), 'astro/src/content'),
+  ];
+}
+
+function getGraphOutFileCandidates(): string[] {
+  return [
+    path.resolve(process.cwd(), 'public/graph.json'),
+    path.resolve(process.cwd(), 'astro/public/graph.json'),
+  ];
+}
+
+function getGraphScriptCandidates(): string[] {
+  return [
+    path.resolve(process.cwd(), 'scripts/generate-graph-json.mjs'),
+    path.resolve(process.cwd(), '../scripts/generate-graph-json.mjs'),
+  ];
+}
+
 async function resolvePublicDir(): Promise<string> {
   for (const candidate of getPublicDirCandidates()) {
     try {
@@ -1740,6 +1780,78 @@ async function resolvePublicDir(): Promise<string> {
   }
 
   throw new Error('Unable to locate astro/public for Carrier Pigeon image ingest.');
+}
+
+async function resolveGraphRefreshPaths(): Promise<{ scriptPath: string; sourceDir: string; outFile: string } | null> {
+  let scriptPath = '';
+  for (const candidate of getGraphScriptCandidates()) {
+    try {
+      const info = await stat(candidate);
+      if (info.isFile()) {
+        scriptPath = candidate;
+        break;
+      }
+    } catch {
+      // Keep trying candidates.
+    }
+  }
+
+  if (!scriptPath) {
+    return null;
+  }
+
+  let sourceDir = '';
+  for (const candidate of getGraphSourceDirCandidates()) {
+    try {
+      const info = await stat(candidate);
+      if (info.isDirectory()) {
+        sourceDir = candidate;
+        break;
+      }
+    } catch {
+      // Keep trying candidates.
+    }
+  }
+
+  if (!sourceDir) {
+    return null;
+  }
+
+  let outFile = '';
+  for (const candidate of getGraphOutFileCandidates()) {
+    try {
+      const info = await stat(path.dirname(candidate));
+      if (info.isDirectory()) {
+        outFile = candidate;
+        break;
+      }
+    } catch {
+      // Keep trying candidates.
+    }
+  }
+
+  if (!outFile) {
+    return null;
+  }
+
+  return { scriptPath, sourceDir, outFile };
+}
+
+async function refreshLocalGraphJson(): Promise<void> {
+  const paths = await resolveGraphRefreshPaths();
+  if (!paths) {
+    return;
+  }
+
+  try {
+    await execFileAsync(process.execPath, [paths.scriptPath, paths.sourceDir, paths.outFile], {
+      cwd: process.cwd(),
+    });
+  } catch (error) {
+    console.warn(
+      `[Carrier Pigeon] Graph refresh skipped: ${error instanceof Error ? error.message : String(error)}`
+    );
+  }
 }
 
 function buildConflictResponse(objectType: PigeonObjectType, slug: string, filePath: string): Response {
@@ -1891,6 +2003,7 @@ async function writeLocalEntry(
       ...sidecars.map((sidecar) => writeFile(`${basePath}${sidecar.suffix}`, sidecar.content)),
     ]
   );
+  await refreshLocalGraphJson();
 
   return Response.json(
     {

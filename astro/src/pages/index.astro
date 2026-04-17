@@ -7,7 +7,7 @@ import { getImageAssetMetadata, getPublicAssetVersion } from '../lib/mediaAsset'
 import { isPrimarySurfaceEntry } from '../lib/marginalia';
 import { formatDisplayTitle } from '../lib/headline';
 import { getFeedPinnedFeatureId } from '../lib/feedConfig';
-import { getObjectPath } from '../lib/objectInterop';
+import { buildObjectLookup, getObjectPath, resolveObjectReference } from '../lib/objectInterop';
 import { getTaxonomyIndexPath } from '../lib/taxonomy';
 import { compareByPureTimeline } from '../lib/timeline';
 import { execSync } from 'node:child_process';
@@ -144,7 +144,88 @@ function byNewestFirst(a: (typeof entries)[number], b: (typeof entries)[number])
   return b.data.id.localeCompare(a.data.id);
 }
 
+const objectLookup = buildObjectLookup(entries);
+const previewPrimaryImageSrcById = new Map(
+  entries.map((entry) => {
+    const primaryMedia = pickPrimaryMedia(getPreviewMediaItems(entry));
+    return [entry.data.id, primaryMedia?.kind === 'image' ? primaryMedia.src : ''] as const;
+  })
+);
+
+function getFeaturedConnectionRefs(entry: (typeof entries)[number]): string[] {
+  const rawConnections = (entry.data as Record<string, unknown>).connections;
+  if (!Array.isArray(rawConnections)) {
+    return [];
+  }
+
+  return rawConnections
+    .map((item) => {
+      if (!item || typeof item !== 'object') {
+        return null;
+      }
+
+      const ref =
+        'ref' in item && typeof (item as { ref?: unknown }).ref === 'string'
+          ? String((item as { ref: string }).ref).trim()
+          : '';
+      const display =
+        'display' in item && typeof (item as { display?: unknown }).display === 'string'
+          ? String((item as { display: string }).display).trim().toLowerCase()
+          : 'inline';
+
+      if (!ref || display !== 'feature') {
+        return null;
+      }
+
+      return ref;
+    })
+    .filter((value): value is string => Boolean(value));
+}
+
+function getCompanionPreviewSuppressionIds(orderedEntries: (typeof entries)[]) {
+  const indexById = new Map(orderedEntries.map((entry, index) => [entry.data.id, index]));
+  const suppressed = new Set<string>();
+
+  for (const entry of orderedEntries) {
+    const sourceImage = previewPrimaryImageSrcById.get(entry.data.id) || '';
+    if (!sourceImage) {
+      continue;
+    }
+
+    const sourceIndex = indexById.get(entry.data.id);
+    if (sourceIndex === undefined) {
+      continue;
+    }
+
+    const shouldSuppress = getFeaturedConnectionRefs(entry).some((ref) => {
+      const target = resolveObjectReference(objectLookup, ref);
+      if (!target) {
+        return false;
+      }
+
+      const targetIndex = indexById.get(target.data.id);
+      if (
+        targetIndex === undefined ||
+        target.data.id === entry.data.id ||
+        Math.abs(sourceIndex - targetIndex) > 2
+      ) {
+        return false;
+      }
+
+      const targetImage = previewPrimaryImageSrcById.get(target.data.id) || '';
+      return Boolean(targetImage) && targetImage === sourceImage;
+    });
+
+    if (shouldSuppress) {
+      suppressed.add(entry.data.id);
+    }
+  }
+
+  return suppressed;
+}
+
 const recentEntries = [...filteredEntries].sort(byNewestFirst);
+const companionPreviewSuppressionIds = getCompanionPreviewSuppressionIds(recentEntries);
 const backendPinnedId = getFeedPinnedFeatureId();
 const pinnedEntry = backendPinnedId
   ? recentEntries.find((entry) => entry.data.id === backendPinnedId) || null
@@ -378,18 +459,28 @@ function buildHref(
                 <h2>Pinned Feature</h2>
                 <span>{pinnedEntry.data.id}</span>
               </header>
-              <ObjectCard entry={pinnedEntry} />
+              <ObjectCard
+                entry={pinnedEntry}
+                deemphasizeSharedPreview={companionPreviewSuppressionIds.has(pinnedEntry.data.id)}
+              />
             </section>
           )}
           <div class="time-list">
             {feedEntries.map((entry) => (
-              <ObjectCard entry={entry} />
+              <ObjectCard
+                entry={entry}
+                deemphasizeSharedPreview={companionPreviewSuppressionIds.has(entry.data.id)}
+              />
             ))}
           </div>
         </div>
         <div class="mosaic-view" data-feed-view="mosaic" hidden={selectedView !== 'mosaic'}>
           {recentEntries.map((entry) => (
-            <ObjectCard entry={entry} variant="mosaic" />
+            <ObjectCard
+              entry={entry}
+              variant="mosaic"
+              deemphasizeSharedPreview={companionPreviewSuppressionIds.has(entry.data.id)}
+            />
           ))}
         </div>
       </>

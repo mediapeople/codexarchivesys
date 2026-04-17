@@ -63,6 +63,7 @@ if (!entry) {
 }
 
 const { Content } = await entry.render();
+const entryBody = typeof entry.body === 'string' ? entry.body : '';
 const objectLookup = buildObjectLookup(allEntries);
 const connectionsRaw = (entry.data as Record<string, unknown>).connections;
 const connections = Array.isArray(connectionsRaw)
@@ -108,7 +109,7 @@ const related = computeRelatedEntries(entry, allEntries, 3).filter(
 const marginaliaEntries = getMarginaliaEntriesForTarget(allEntries, entry.data.id);
 const mythmechMarginaliaEntries = getMythmechMarginaliaEntries(marginaliaEntries);
 const mediaItems = getPreviewMediaItems(entry);
-const inlineBodyImageSrcs = new Set(getBodyImagePreviewItems(entry.body).map((item) => item.src));
+const inlineBodyImageSrcs = new Set(getBodyImagePreviewItems(entryBody).map((item) => item.src));
 const pageMediaItems = getMediaItems(entry).filter((item) => item.kind !== 'image' || !inlineBodyImageSrcs.has(item.src));
 const mediaVersion = (entry.data.postedAt ?? entry.data.date).toISOString();
 const mediaVersionEntries = await Promise.all(
@@ -185,12 +186,23 @@ function formatValue(value: unknown): string | null {
   return trimmed ? trimmed : null;
 }
 
-function isHtmlDownloadSource(value: string | null): value is string {
-  return Boolean(value && /^\/.+\.html$/i.test(value));
+function isArtifactDownloadSource(value: string | null): value is string {
+  return Boolean(value && /^\/.+\.[a-z0-9]+$/i.test(value));
+}
+
+function getArtifactSourceExtension(value: string): string {
+  const basename = value.split('?')[0].split('/').filter(Boolean).pop() || '';
+  const match = basename.match(/\.([a-z0-9]+)$/i);
+  return match?.[1]?.toLowerCase() || '';
 }
 
 function formatSourceLabel(value: string): string {
-  const basename = value.split('/').filter(Boolean).pop()?.replace(/\.html$/i, '') || value;
+  const basename = value
+    .split('?')[0]
+    .split('/')
+    .filter(Boolean)
+    .pop()
+    ?.replace(/\.[a-z0-9]+$/i, '') || value;
 
   return basename
     .split(/[-_]+/)
@@ -335,12 +347,44 @@ const displayTitle = formatDisplayTitle(entry.data.title);
 const artifactSourceValue = entry.collection === 'artifact'
   ? formatValue((entry.data as Record<string, unknown>).source)
   : null;
-const artifactSourceHref = isHtmlDownloadSource(artifactSourceValue) ? artifactSourceValue : '';
-const isHtmlArtifact = Boolean(artifactSourceHref);
+const artifactSourceHref = isArtifactDownloadSource(artifactSourceValue) ? artifactSourceValue : '';
+const artifactSourceExtension = artifactSourceHref ? getArtifactSourceExtension(artifactSourceHref) : '';
+const hasArtifactSourceStage = Boolean(artifactSourceHref);
+const isHtmlArtifact = artifactSourceExtension === 'html';
+const isPdfArtifact = artifactSourceExtension === 'pdf';
+const artifactSourceFormatLabel = artifactSourceExtension ? artifactSourceExtension.toUpperCase() : 'FILE';
 const artifactSurfaceLabel = artifactSourceHref ? formatSourceLabel(artifactSourceHref) : displayTitle;
+const artifactStageLabel = isHtmlArtifact ? 'Browser-native reading surface' : 'Featured download';
+const artifactStageHeading = isHtmlArtifact
+  ? 'Open the preserved HTML surface.'
+  : isPdfArtifact
+    ? 'Open or download the preserved PDF plate.'
+    : 'Open or download the preserved source file.';
+const artifactStageDescription = isHtmlArtifact
+  ? 'This artifact is archived as a live HTML experience. Use the source file when layout, motion, and scroll behavior are part of the meaning.'
+  : isPdfArtifact
+    ? 'This artifact is archived as a fixed-layout PDF. Use the source file when pagination, composition, and printable scale are part of the meaning.'
+    : 'This artifact is archived with its original source file. Use the download when the fixed form of the object is part of the meaning.';
+const artifactStageOpenLabel = isHtmlArtifact
+  ? 'Open HTML surface'
+  : isPdfArtifact
+    ? 'Open PDF'
+    : 'Open source file';
+const artifactStageDownloadLabel = isHtmlArtifact
+  ? 'Download original HTML'
+  : isPdfArtifact
+    ? 'Download PDF'
+    : 'Download source file';
+const artifactStageKicker = isHtmlArtifact ? 'Elevated scroll' : 'Preserved source';
+const artifactSurfaceFallbackType = artifactSourceExtension
+  ? `${artifactSourceFormatLabel} artifact`
+  : 'Artifact';
 const artifactSurfaceType = entry.collection === 'artifact'
-  ? formatValue((entry.data as Record<string, unknown>).artifactType) || 'HTML artifact'
-  : 'HTML artifact';
+  ? formatValue((entry.data as Record<string, unknown>).artifactType) ||
+      (isHtmlArtifact ? 'HTML artifact' : artifactSurfaceFallbackType)
+  : isHtmlArtifact
+    ? 'HTML artifact'
+    : artifactSurfaceFallbackType;
 const fieldlogSpecsRaw = (entry.data as Record<string, unknown>).specs;
 const fieldlogSpecs = Array.isArray(fieldlogSpecsRaw)
   ? fieldlogSpecsRaw
@@ -385,10 +429,10 @@ const rawSupportingDetailRows = [
     : detailRows),
   ...captureDetailRows,
 ];
-const artifactSupportRows = isHtmlArtifact
+const artifactSupportRows = hasArtifactSourceStage
   ? rawSupportingDetailRows.filter((row) => row.label !== 'Source')
   : rawSupportingDetailRows;
-const supportingDetailRows = isHtmlArtifact
+const supportingDetailRows = hasArtifactSourceStage
   ? rawSupportingDetailRows.filter((row) => row.label !== 'Source')
   : rawSupportingDetailRows;
 const loremapClassificationRaw = (entry.data as Record<string, unknown>).classification;
@@ -396,8 +440,8 @@ const loremapClassification = Array.isArray(loremapClassificationRaw)
   ? loremapClassificationRaw.map((item) => String(item).trim()).filter(Boolean)
   : [];
 const resolvedExcerpt = getObjectSummary(entry);
-const hideLeadHeading = bodyStartsWithDuplicateTitleHeading(entry.data.title, entry.body);
-const hasRenderableBody = hasRenderableBodyContent(entry.body, hideLeadHeading);
+const hideLeadHeading = bodyStartsWithDuplicateTitleHeading(entry.data.title, entryBody);
+const hasRenderableBody = hasRenderableBodyContent(entryBody, hideLeadHeading);
 const canonicalObjectPath = getObjectPath(entry);
 
 const shareMeta = buildObjectShareMeta({
@@ -445,7 +489,7 @@ const nexusObjectContextQuery = isNexusObject
 const defaultBackHref = isNexusObject ? '/nexus' : '/';
 const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 const hasSignalLeadImage =
-  entry.collection === 'signal' && /^!(?:\[[^\]]*\]\([^)]+\)|\[\[[^\]]+\]\])/.test(entry.body.trimStart());
+  entry.collection === 'signal' && /^!(?:\[[^\]]*\]\([^)]+\)|\[\[[^\]]+\]\])/.test(entryBody.trimStart());
 const allowMarginaliaPublishing = !isMarginaliaEntry(entry);
 const pageRobots = entry.data.visibility === 'public' ? 'index, follow' : 'noindex, nofollow';
 const structuredData = getObjectJsonLd(entry);
@@ -793,21 +837,18 @@ const exportAlternateLinks = [
       </section>
     )}
 
-    {isHtmlArtifact && (
+    {hasArtifactSourceStage && (
       <section class={`html-scroll-stage page-plate ${primaryMedia ? 'html-scroll-stage--with-media' : ''}`}>
         <div class="html-scroll-stage-copy">
-          <p class="html-scroll-stage-label">Browser-native reading surface</p>
-          <h2>Open the preserved HTML surface.</h2>
-          <p>
-            This artifact is archived as a live HTML experience. Use the source file when layout,
-            motion, and scroll behavior are part of the meaning.
-          </p>
+          <p class="html-scroll-stage-label">{artifactStageLabel}</p>
+          <h2>{artifactStageHeading}</h2>
+          <p>{artifactStageDescription}</p>
           <div class="html-scroll-stage-actions">
             <a class="html-scroll-stage-action" href={artifactSourceHref} target="_blank" rel="noreferrer">
-              Open HTML surface
+              {artifactStageOpenLabel}
             </a>
             <a class="html-scroll-stage-action html-scroll-stage-action--secondary" href={artifactSourceHref} download>
-              Download original HTML
+              {artifactStageDownloadLabel}
             </a>
           </div>
         </div>
@@ -820,7 +861,7 @@ const exportAlternateLinks = [
             <p>{artifactSurfaceLabel}</p>
           </div>
           <div class="html-scroll-stage-field">
-            <p class="html-scroll-stage-kicker">Elevated scroll</p>
+            <p class="html-scroll-stage-kicker">{artifactStageKicker}</p>
             <strong class="html-scroll-stage-title">{artifactSurfaceType}</strong>
             <span class="html-scroll-stage-file">{artifactSourceHref}</span>
           </div>
@@ -3593,6 +3634,7 @@ const exportAlternateLinks = [
 
   .object-shell.loremap .body {
     margin-top: 1.75rem;
+    counter-reset: loremap-top-ordered;
     --list-line: rgba(112, 150, 178, 0.2);
     --list-line-soft: rgba(112, 150, 178, 0.14);
     --list-bullet-core: rgba(209, 159, 66, 0.78);
@@ -3603,10 +3645,7 @@ const exportAlternateLinks = [
     margin: 0 0 2.1rem;
     color: var(--text-body);
     font-style: normal;
-    font-size: 0.9rem;
     line-height: 1.95;
-    font-weight: 100;
-    max-width: 68ch;
   }
 
   .object-shell.loremap .body :global(blockquote) {
@@ -3677,6 +3716,33 @@ const exportAlternateLinks = [
 
   .object-shell.loremap .body :global(ol) {
     padding-left: 1.72rem;
+  }
+
+  :global(.object-shell.loremap .body > ol) {
+    counter-reset: none;
+  }
+
+  :global(.object-shell.loremap .body > ol > li) {
+    counter-increment: loremap-top-ordered;
+  }
+
+  :global(.object-shell.loremap .body > ol > li::before) {
+    content: counter(loremap-top-ordered, decimal-leading-zero);
+  }
+
+  :global(.object-shell.loremap .body > ol:has(+ ul)),
+  :global(.object-shell.loremap .body > ul:has(+ ol)) {
+    margin-bottom: 0.7rem;
+  }
+
+  :global(.object-shell.loremap .body > ol + ul),
+  :global(.object-shell.loremap .body > ul + ol) {
+    margin-top: 0;
+  }
+
+  :global(.object-shell.loremap .body > ol + ul) {
+    padding-top: 0;
+    border-top: none;
   }
 
   .object-shell.loremap .body :global(ol > li::before) {

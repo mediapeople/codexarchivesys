@@ -173,6 +173,13 @@ This repo includes `netlify.toml`, so Netlify can read build settings automatica
 - Build command: `npm run build`
 - Publish directory: `dist`
 
+Governance:
+
+- Preview deploys: `node scripts/deploy-preview.mjs`
+- Production deploys: `node scripts/deploy-production.mjs`
+- Production source of truth: `origin/main`
+- Full policy: `docs/deploy-governance.md`
+
 ## Deploy Option B: Vercel
 
 This repo includes `vercel.json` with monorepo-aware commands.
