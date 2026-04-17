@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-04-17T17:15:43.532Z",
+  "generatedAt": "2026-04-17T17:19:05.765Z",
   "sourceDir": "astro/src/content",
-  "nodeCount": 186,
-  "edgeCount": 4748,
+  "nodeCount": 211,
+  "edgeCount": 4752,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -20,6 +20,17 @@
       "constellations": [
         "Archaeological Objects"
       ]
+    },
+    {
+      "id": "archive-first",
+      "slug": "archive-first",
+      "url": "https://ndcodex.com/objects/archive-first",
+      "stableId": "codex://object/archive-first",
+      "type": "artifact",
+      "title": "Archive First",
+      "date": "2026-04-16",
+      "themes": [],
+      "constellations": []
     },
     {
       "id": "artifact-jsa-collage-001",
@@ -132,6 +143,28 @@
       "constellations": []
     },
     {
+      "id": "build-and-launch-auto-repair-site",
+      "slug": "build-and-launch-auto-repair-site",
+      "url": "https://ndcodex.com/objects/build-and-launch-auto-repair-site",
+      "stableId": "codex://object/build-and-launch-auto-repair-site",
+      "type": "artifact",
+      "title": "Build and Launch, Auto Repair Site",
+      "date": "2026-04-16",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "burning-magic",
+      "slug": "burning-magic",
+      "url": "https://ndcodex.com/objects/burning-magic",
+      "stableId": "codex://object/burning-magic",
+      "type": "artifact",
+      "title": "burning magic",
+      "date": "2026-04-06",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "citizen-network-map-hi-fi",
       "slug": "citizen-network-map-hi-fi",
       "url": "https://ndcodex.com/objects/citizen-network-map-hi-fi/",
@@ -149,6 +182,17 @@
       "constellations": []
     },
     {
+      "id": "corridors",
+      "slug": "corridors",
+      "url": "https://ndcodex.com/objects/corridors",
+      "stableId": "codex://object/corridors",
+      "type": "artifact",
+      "title": "corridors",
+      "date": "2026-04-12T01:38:41.613Z",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "crane-field-illustration",
       "slug": "crane-field-illustration",
       "url": "https://ndcodex.com/objects/crane-field-illustration/",
@@ -162,6 +206,17 @@
         "systems",
         "structure"
       ],
+      "constellations": []
+    },
+    {
+      "id": "debris-psalm",
+      "slug": "debris-psalm",
+      "url": "https://ndcodex.com/objects/debris-psalm",
+      "stableId": "codex://object/debris-psalm",
+      "type": "artifact",
+      "title": "debris psalm",
+      "date": "2026-04-05",
+      "themes": [],
       "constellations": []
     },
     {
@@ -283,6 +338,28 @@
       "type": "artifact",
       "title": "gas price selfie",
       "date": "2026-03-28T20:56:13.844Z",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "hero-behavior",
+      "slug": "hero-behavior",
+      "url": "https://ndcodex.com/objects/hero-behavior",
+      "stableId": "codex://object/hero-behavior",
+      "type": "artifact",
+      "title": "Hero Behavior",
+      "date": "2026-04-10T22:10:35.658Z",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "malaise",
+      "slug": "malaise",
+      "url": "https://ndcodex.com/objects/malaise",
+      "stableId": "codex://object/malaise",
+      "type": "artifact",
+      "title": "malaise",
+      "date": "2026-04-16T11:48:48.063Z",
       "themes": [],
       "constellations": []
     },
@@ -417,6 +494,17 @@
       "constellations": []
     },
     {
+      "id": "supes",
+      "slug": "supes",
+      "url": "https://ndcodex.com/objects/supes",
+      "stableId": "codex://object/supes",
+      "type": "artifact",
+      "title": "supes",
+      "date": "2026-04-12T13:35:46.731Z",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "survival-map",
       "slug": "survival-map",
       "url": "https://ndcodex.com/objects/survival-map",
@@ -456,6 +544,28 @@
       "constellations": []
     },
     {
+      "id": "too-many-mind",
+      "slug": "too-many-mind",
+      "url": "https://ndcodex.com/objects/too-many-mind",
+      "stableId": "codex://object/too-many-mind",
+      "type": "artifact",
+      "title": "too many mind",
+      "date": "2026-04-06",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "turn-between-them",
+      "slug": "turn-between-them",
+      "url": "https://ndcodex.com/objects/turn-between-them",
+      "stableId": "codex://object/turn-between-them",
+      "type": "artifact",
+      "title": "turn between them",
+      "date": "2026-04-05",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "under-load",
       "slug": "under-load",
       "url": "https://ndcodex.com/objects/under-load/",
@@ -471,6 +581,17 @@
       "constellations": [
         "Archaeological Objects"
       ]
+    },
+    {
+      "id": "wheelie",
+      "slug": "wheelie",
+      "url": "https://ndcodex.com/objects/wheelie",
+      "stableId": "codex://object/wheelie",
+      "type": "artifact",
+      "title": "wheelie",
+      "date": "2026-04-08T14:54:04.431Z",
+      "themes": [],
+      "constellations": []
     },
     {
       "id": "work-intelligence-v4g",
@@ -943,6 +1064,17 @@
       "type": "codex",
       "title": "crystal myth",
       "date": "2026-04-01",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "distortion-viscosity",
+      "slug": "distortion-viscosity",
+      "url": "https://ndcodex.com/codex/distortion-viscosity",
+      "stableId": "codex://object/distortion-viscosity",
+      "type": "codex",
+      "title": "distortion viscosity",
+      "date": "2026-04-07",
       "themes": [],
       "constellations": []
     },
@@ -1464,6 +1596,17 @@
       "constellations": []
     },
     {
+      "id": "marginalia-on-build-and-launch-auto-repair-site-2026-04-16-16-53-30",
+      "slug": "marginalia-on-build-and-launch-auto-repair-site-2026-04-16-16-53-30",
+      "url": "https://ndcodex.com/objects/marginalia-on-build-and-launch-auto-repair-site-2026-04-16-16-53-30",
+      "stableId": "codex://object/marginalia-on-build-and-launch-auto-repair-site-2026-04-16-16-53-30",
+      "type": "fragment",
+      "title": "Marginalia on Build and Launch, Auto Repair Site 2026-04-16-16-53-30",
+      "date": "2026-04-16T20:53:30.809Z",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "marginalia-on-codex-archive-system-v3-12-1-marginalia-live-publish-notes-2026-03-17-18-21-13",
       "slug": "marginalia-on-codex-archive-system-v3-12-1-marginalia-live-publish-notes-2026-03-17-18-21-13",
       "url": "https://ndcodex.com/objects/marginalia-on-codex-archive-system-v3-12-1-marginalia-live-publish-notes-2026-03-17-18-21-13/",
@@ -1482,6 +1625,17 @@
       "type": "fragment",
       "title": "Marginalia on Council of frogs— 2026-03-18-18-06-19",
       "date": "2026-03-18T22:06:19.408Z",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "marginalia-on-debris-psalm-2026-04-05-15-52-34",
+      "slug": "marginalia-on-debris-psalm-2026-04-05-15-52-34",
+      "url": "https://ndcodex.com/objects/marginalia-on-debris-psalm-2026-04-05-15-52-34",
+      "stableId": "codex://object/marginalia-on-debris-psalm-2026-04-05-15-52-34",
+      "type": "fragment",
+      "title": "Marginalia on debris psalm 2026-04-05-15-52-34",
+      "date": "2026-04-05T19:52:34.203Z",
       "themes": [],
       "constellations": []
     },
@@ -1581,6 +1735,17 @@
       "type": "fragment",
       "title": "Marginalia on The Lot Protocol 2026-03-23-17-40-58",
       "date": "2026-03-23T21:40:58.574Z",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "marginalia-on-turn-between-them-2026-04-05-08-18-44",
+      "slug": "marginalia-on-turn-between-them-2026-04-05-08-18-44",
+      "url": "https://ndcodex.com/objects/marginalia-on-turn-between-them-2026-04-05-08-18-44",
+      "stableId": "codex://object/marginalia-on-turn-between-them-2026-04-05-08-18-44",
+      "type": "fragment",
+      "title": "Marginalia on turn between them 2026-04-05-08-18-44",
+      "date": "2026-04-05T12:18:44.115Z",
       "themes": [],
       "constellations": []
     },
@@ -1790,6 +1955,17 @@
       "constellations": []
     },
     {
+      "id": "broken-pencil-psalm",
+      "slug": "broken-pencil-psalm",
+      "url": "https://ndcodex.com/objects/broken-pencil-psalm",
+      "stableId": "codex://object/broken-pencil-psalm",
+      "type": "nexus",
+      "title": "broken pencil psalm",
+      "date": "2026-04-13",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "citizen-network-dispatch",
       "slug": "citizen-network-dispatch",
       "url": "https://ndcodex.com/objects/citizen-network-dispatch/",
@@ -1979,6 +2155,17 @@
       "constellations": []
     },
     {
+      "id": "behind-the-eye",
+      "slug": "behind-the-eye",
+      "url": "https://ndcodex.com/objects/behind-the-eye",
+      "stableId": "codex://object/behind-the-eye",
+      "type": "scroll",
+      "title": "behind the eye",
+      "date": "2026-04-06",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "bezalel-the-designated-hand",
       "slug": "bezalel-the-designated-hand",
       "url": "https://ndcodex.com/objects/bezalel-the-designated-hand/",
@@ -1992,6 +2179,17 @@
         "place",
         "transmission"
       ],
+      "constellations": []
+    },
+    {
+      "id": "bruised-elegance",
+      "slug": "bruised-elegance",
+      "url": "https://ndcodex.com/objects/bruised-elegance",
+      "stableId": "codex://object/bruised-elegance",
+      "type": "scroll",
+      "title": "bruised elegance",
+      "date": "2026-04-08",
+      "themes": [],
       "constellations": []
     },
     {
@@ -2104,6 +2302,21 @@
       "constellations": []
     },
     {
+      "id": "green-blades",
+      "slug": "green-blades",
+      "url": "https://ndcodex.com/objects/green-blades",
+      "stableId": "codex://object/green-blades",
+      "type": "scroll",
+      "title": "green blades",
+      "date": "2026-04-17",
+      "themes": [
+        "agency",
+        "environment",
+        "return"
+      ],
+      "constellations": []
+    },
+    {
       "id": "heart-does-not-dream",
       "slug": "heart-does-not-dream",
       "url": "https://ndcodex.com/objects/heart-does-not-dream/",
@@ -2121,6 +2334,17 @@
         "Maintenance Psalms",
         "Cascade Psalms"
       ]
+    },
+    {
+      "id": "in-spiral",
+      "slug": "in-spiral",
+      "url": "https://ndcodex.com/objects/in-spiral",
+      "stableId": "codex://object/in-spiral",
+      "type": "scroll",
+      "title": "In spiral",
+      "date": "2026-04-11",
+      "themes": [],
+      "constellations": []
     },
     {
       "id": "line-cook",
@@ -2196,6 +2420,17 @@
         "observation",
         "survival"
       ],
+      "constellations": []
+    },
+    {
+      "id": "parked-outside-the-nursery",
+      "slug": "parked-outside-the-nursery",
+      "url": "https://ndcodex.com/objects/parked-outside-the-nursery",
+      "stableId": "codex://object/parked-outside-the-nursery",
+      "type": "scroll",
+      "title": "parked outside the nursery",
+      "date": "2026-04-16",
+      "themes": [],
       "constellations": []
     },
     {
@@ -2568,6 +2803,17 @@
       "constellations": []
     },
     {
+      "id": "bubble-geronimo",
+      "slug": "bubble-geronimo",
+      "url": "https://ndcodex.com/objects/bubble-geronimo",
+      "stableId": "codex://object/bubble-geronimo",
+      "type": "signal",
+      "title": "BUBBLE: GERONIMO",
+      "date": "2026-04-17",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "character-cones",
       "slug": "character-cones",
       "url": "https://ndcodex.com/objects/character-cones",
@@ -2590,6 +2836,17 @@
       "constellations": []
     },
     {
+      "id": "cross-the-yard",
+      "slug": "cross-the-yard",
+      "url": "https://ndcodex.com/objects/cross-the-yard",
+      "stableId": "codex://object/cross-the-yard",
+      "type": "signal",
+      "title": "cross the yard",
+      "date": "2026-04-14",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "hail-mary",
       "slug": "hail-mary",
       "url": "https://ndcodex.com/objects/hail-mary",
@@ -2608,6 +2865,17 @@
       "type": "signal",
       "title": "Heartsfield",
       "date": "2026-03-31",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "hope-would-not",
+      "slug": "hope-would-not",
+      "url": "https://ndcodex.com/objects/hope-would-not",
+      "stableId": "codex://object/hope-would-not",
+      "type": "signal",
+      "title": "hope would not",
+      "date": "2026-04-14",
       "themes": [],
       "constellations": []
     },
@@ -2761,6 +3029,17 @@
         "NONE",
         "WATCH"
       ],
+      "constellations": []
+    },
+    {
+      "id": "worlds-ablaze-and-love-wounded",
+      "slug": "worlds-ablaze-and-love-wounded",
+      "url": "https://ndcodex.com/objects/worlds-ablaze-and-love-wounded",
+      "stableId": "codex://object/worlds-ablaze-and-love-wounded",
+      "type": "signal",
+      "title": "worlds ablaze, and love wounded",
+      "date": "2026-04-17",
+      "themes": [],
       "constellations": []
     }
   ],
@@ -7239,6 +7518,14 @@
       ]
     },
     {
+      "source": "build-and-launch-auto-repair-site",
+      "target": "marginalia-on-build-and-launch-auto-repair-site-2026-04-16-16-53-30",
+      "weight": 4,
+      "reasons": [
+        "explicit-connection"
+      ]
+    },
+    {
       "source": "builder-lineage-reflection",
       "target": "citizen-network-dispatch",
       "weight": 4,
@@ -8497,6 +8784,14 @@
       ]
     },
     {
+      "source": "debris-psalm",
+      "target": "marginalia-on-debris-psalm-2026-04-05-15-52-34",
+      "weight": 4,
+      "reasons": [
+        "explicit-connection"
+      ]
+    },
+    {
       "source": "deck-under-load-ii",
       "target": "jsa-collage-evolution-001",
       "weight": 4,
@@ -8973,6 +9268,14 @@
     {
       "source": "marginalia-on-the-lot-protocol-2026-03-23-17-40-58",
       "target": "the-lot-protocol",
+      "weight": 4,
+      "reasons": [
+        "explicit-connection"
+      ]
+    },
+    {
+      "source": "marginalia-on-turn-between-them-2026-04-05-08-18-44",
+      "target": "turn-between-them",
       "weight": 4,
       "reasons": [
         "explicit-connection"
@@ -26403,6 +26706,14 @@
       "source": "the-circle-the-node-and-the-office",
       "target": "when-the-commit-leaves-your-hands",
       "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "a-primer-for-a-way-of-being",
+      "target": "green-blades",
+      "weight": 1,
       "reasons": [
         "shared-theme"
       ]
