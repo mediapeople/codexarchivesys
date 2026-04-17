@@ -137,6 +137,10 @@ function getImageOnlyFallbackSummary(entry: ArchiveEntry): string {
   return `Image-only ${getTypeLabel(entry.collection).toLowerCase()} published on ${dateLabel}.`;
 }
 
+function getEntryBody(entry: ArchiveEntry): string {
+  return typeof entry.body === 'string' ? entry.body : '';
+}
+
 function stripLeadingTitleHeading(title: string, body?: string): string {
   const normalizedBody = typeof body === 'string' ? body : '';
 
@@ -288,11 +292,12 @@ export function getObjectUpdatedAt(entry: ArchiveEntry): Date {
 
 export function getObjectSummary(entry: ArchiveEntry, max = 220): string {
   const isImageOnly = Boolean((entry.data as Record<string, unknown>).image_only);
+  const body = getEntryBody(entry);
   return (
     resolveExcerpt({
       title: entry.data.title,
       excerpt: getSummaryField(entry),
-      body: entry.body,
+      body,
       max,
     }) ||
     (isImageOnly
@@ -302,7 +307,7 @@ export function getObjectSummary(entry: ArchiveEntry, max = 220): string {
 }
 
 export function getObjectContentText(entry: ArchiveEntry): string {
-  return markdownToPlainText(entry.data.title, entry.body);
+  return markdownToPlainText(entry.data.title, getEntryBody(entry));
 }
 
 function makeRelation(kind: ObjectRelationKind, slug: string, extras?: Partial<ObjectRelation>): ObjectRelation | null {
@@ -445,6 +450,7 @@ export function getObjectExport(entry: ArchiveEntry): ObjectExportRecord {
   const author = getPrimaryAuthor(entry);
   const themes = getObjectThemes(entry);
   const tags = getObjectTags(entry);
+  const body = getEntryBody(entry);
 
   return {
     id: getObjectStableId(entry),
@@ -455,7 +461,7 @@ export function getObjectExport(entry: ArchiveEntry): ObjectExportRecord {
     title: formatDisplayTitle(entry.data.title),
     summary: getObjectSummary(entry),
     content_text: getObjectContentText(entry),
-    content_markdown: typeof entry.body === 'string' ? entry.body.trim() : '',
+    content_markdown: body.trim(),
     author,
     contributors,
     date_published: getObjectPublishedAt(entry).toISOString(),
@@ -577,6 +583,7 @@ function yamlObjectArray(key: string, values: Array<Record<string, unknown>>): s
 
 export function serializeObjectMarkdown(entry: ArchiveEntry): string {
   const exported = getObjectExport(entry);
+  const body = getEntryBody(entry);
   const lines: Array<string | null> = [
     '---',
     `id: ${yamlQuote(exported.id)}`,
@@ -611,7 +618,7 @@ export function serializeObjectMarkdown(entry: ArchiveEntry): string {
     ),
     '---',
     '',
-    typeof entry.body === 'string' ? entry.body.trim() : '',
+    body.trim(),
     '',
   ];
 

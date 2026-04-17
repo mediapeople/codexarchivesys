@@ -116,7 +116,7 @@ export function getMarginaliaEntriesForTarget(
 }
 
 export function getMarginaliaBody(entry: ArchiveEntry): string {
-  return entry.body.trim();
+  return typeof entry.body === 'string' ? entry.body.trim() : '';
 }
 
 export function getMythmechMarginaliaEntries(entries: ArchiveEntry[]): MythmechMarginaliaEntry[] {

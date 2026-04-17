@@ -63,6 +63,7 @@ if (!entry) {
 }
 
 const { Content } = await entry.render();
+const entryBody = typeof entry.body === 'string' ? entry.body : '';
 const objectLookup = buildObjectLookup(allEntries);
 const connectionsRaw = (entry.data as Record<string, unknown>).connections;
 const connections = Array.isArray(connectionsRaw)
@@ -108,7 +109,7 @@ const related = computeRelatedEntries(entry, allEntries, 3).filter(
 const marginaliaEntries = getMarginaliaEntriesForTarget(allEntries, entry.data.id);
 const mythmechMarginaliaEntries = getMythmechMarginaliaEntries(marginaliaEntries);
 const mediaItems = getPreviewMediaItems(entry);
-const inlineBodyImageSrcs = new Set(getBodyImagePreviewItems(entry.body).map((item) => item.src));
+const inlineBodyImageSrcs = new Set(getBodyImagePreviewItems(entryBody).map((item) => item.src));
 const pageMediaItems = getMediaItems(entry).filter((item) => item.kind !== 'image' || !inlineBodyImageSrcs.has(item.src));
 const mediaVersion = (entry.data.postedAt ?? entry.data.date).toISOString();
 const mediaVersionEntries = await Promise.all(
@@ -438,9 +439,8 @@ const loremapClassification = Array.isArray(loremapClassificationRaw)
   ? loremapClassificationRaw.map((item) => String(item).trim()).filter(Boolean)
   : [];
 const resolvedExcerpt = getObjectSummary(entry);
-const bodyContent = typeof entry.body === 'string' ? entry.body : '';
-const hideLeadHeading = bodyStartsWithDuplicateTitleHeading(entry.data.title, bodyContent);
-const hasRenderableBody = hasRenderableBodyContent(bodyContent, hideLeadHeading);
+const hideLeadHeading = bodyStartsWithDuplicateTitleHeading(entry.data.title, entryBody);
+const hasRenderableBody = hasRenderableBodyContent(entryBody, hideLeadHeading);
 const canonicalObjectPath = getObjectPath(entry);
 
 const shareMeta = buildObjectShareMeta({
@@ -488,7 +488,7 @@ const nexusObjectContextQuery = isNexusObject
 const defaultBackHref = isNexusObject ? '/nexus' : '/';
 const defaultBackLabel = isNexusObject ? 'Back to nexus' : 'Back to feed';
 const hasSignalLeadImage =
-  entry.collection === 'signal' && /^!(?:\[[^\]]*\]\([^)]+\)|\[\[[^\]]+\]\])/.test(bodyContent.trimStart());
+  entry.collection === 'signal' && /^!(?:\[[^\]]*\]\([^)]+\)|\[\[[^\]]+\]\])/.test(entryBody.trimStart());
 const allowMarginaliaPublishing = !isMarginaliaEntry(entry);
 const pageRobots = entry.data.visibility === 'public' ? 'index, follow' : 'noindex, nofollow';
 const structuredData = getObjectJsonLd(entry);

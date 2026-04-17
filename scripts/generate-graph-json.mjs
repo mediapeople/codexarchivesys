@@ -224,7 +224,41 @@ const graph = {
 
 const outPath = path.resolve(outFile);
 fs.mkdirSync(path.dirname(outPath), { recursive: true });
-fs.writeFileSync(outPath, `${JSON.stringify(graph, null, 2)}\n`, 'utf8');
+
+function toComparableGraphPayload(value) {
+  return {
+    sourceDir: value?.sourceDir || '',
+    nodeCount: value?.nodeCount || 0,
+    edgeCount: value?.edgeCount || 0,
+    nodes: Array.isArray(value?.nodes) ? value.nodes : [],
+    edges: Array.isArray(value?.edges) ? value.edges : [],
+  };
+}
+
+let existingRaw = '';
+let existingGraph = null;
+
+if (fs.existsSync(outPath)) {
+  try {
+    existingRaw = fs.readFileSync(outPath, 'utf8');
+    existingGraph = JSON.parse(existingRaw);
+  } catch {
+    existingRaw = '';
+    existingGraph = null;
+  }
+}
+
+if (
+  existingGraph &&
+  JSON.stringify(toComparableGraphPayload(existingGraph)) === JSON.stringify(toComparableGraphPayload(graph))
+) {
+  graph.generatedAt = typeof existingGraph.generatedAt === 'string' ? existingGraph.generatedAt : graph.generatedAt;
+}
+
+const nextRaw = `${JSON.stringify(graph, null, 2)}\n`;
+if (nextRaw !== existingRaw) {
+  fs.writeFileSync(outPath, nextRaw, 'utf8');
+}
 
 console.log(`Wrote ${outPath}`);
 console.log(`Nodes: ${graph.nodeCount}`);

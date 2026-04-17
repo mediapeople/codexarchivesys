@@ -246,7 +246,9 @@ export function getBodyImagePreviewItems(body?: string): CodexMediaItem[] {
 
 export function getPreviewMediaItems(entry: ArchiveEntry): CodexMediaItem[] {
   const explicitMediaItems = getMediaItems(entry);
-  return explicitMediaItems.length > 0 ? explicitMediaItems : getBodyImagePreviewItems(entry.body);
+  return explicitMediaItems.length > 0
+    ? explicitMediaItems
+    : getBodyImagePreviewItems(typeof entry.body === 'string' ? entry.body : '');
 }
 
 export function pickPrimaryMedia(items: CodexMediaItem[]): CodexMediaItem | null {

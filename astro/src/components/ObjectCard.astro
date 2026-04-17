@@ -50,6 +50,7 @@ const authorInitials = getAuthorInitials(primaryAuthor.name);
 const authorDesignation = primaryAuthor.designation || primaryAuthor.role || 'Archive operator';
 const isFragment = entry.collection === 'fragment';
 const isImageOnly = Boolean((entry.data as Record<string, unknown>).image_only);
+const entryBody = typeof entry.body === 'string' ? entry.body : '';
 
 function normalizeForCompare(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
@@ -212,7 +213,7 @@ const fallbackSummary = (entry.data as Record<string, unknown>).themeStatement;
 const resolvedExcerpt = resolveExcerpt({
   title: entry.data.title,
   excerpt: entry.data.excerpt,
-  body: entry.body,
+  body: entryBody,
   max: 220,
 });
 const mediaItems = getPreviewMediaItems(entry);
@@ -222,7 +223,7 @@ const rawSummary =
   (typeof fallbackSummary === 'string' ? fallbackSummary : '');
 const summaryText = normalizeForCompare(rawSummary) ? summarizeCardExcerpt(rawSummary, variant) : '';
 const fragmentStageLines = isFragment && variant !== 'related'
-  ? getFragmentStageContent(entry.body, summaryText, variant === 'mosaic' ? 4 : 6)
+  ? getFragmentStageContent(entryBody, summaryText, variant === 'mosaic' ? 4 : 6)
   : [];
 const lengthClass = isFragment && typeof (entry.data as Record<string, unknown>).lengthClass === 'string'
   ? String((entry.data as Record<string, unknown>).lengthClass)
