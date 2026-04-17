@@ -20,6 +20,126 @@ import {
 import { formatArchiveLongDate } from '../../lib/timeline';
 import { bodyStartsWithDuplicateTitleHeading, resolveExcerpt } from '../../lib/excerpt';
 
+type ObjectFormType = 'bubble' | 'coordinate' | 'creature';
+
+function normalizeObjectForm(value: unknown): ObjectFormType | '' {
+  if (typeof value !== 'string') {
+    return '';
+  }
+
+  const normalized = value.trim().toLowerCase();
+  return normalized === 'bubble' || normalized === 'coordinate' || normalized === 'creature'
+    ? normalized
+    : '';
+}
+
+function objectFormLabel(value: ObjectFormType): string {
+  if (value === 'bubble') {
+    return 'Bubble';
+  }
+  if (value === 'coordinate') {
+    return 'Coordinate';
+  }
+  return 'Creature';
+}
+
+function objectFormDescription(value: ObjectFormType): string {
+  if (value === 'bubble') {
+    return 'Language fragment that survives alone.';
+  }
+  if (value === 'coordinate') {
+    return 'Form that keeps its structure under isolation.';
+  }
+  return 'Living pattern responding to pressure.';
+}
+
+function normalizeCaptureTextValue(value: unknown): string {
+  if (typeof value === 'string') {
+    return value.trim();
+  }
+
+  if (Array.isArray(value)) {
+    return value
+      .map((item) => (typeof item === 'string' ? item.trim() : ''))
+      .filter(Boolean)
+      .join(' · ');
+  }
+
+  if (typeof value === 'boolean') {
+    return value ? 'yes' : 'no';
+  }
+
+  return '';
+}
+
+function getObjectFormNote(
+  form: ObjectFormType | '',
+  capture: Record<string, unknown> | null
+): { label: string; text: string } | null {
+  if (!form || !capture) {
+    return null;
+  }
+
+  const orientation =
+    capture.orientation && typeof capture.orientation === 'object' && !Array.isArray(capture.orientation)
+      ? (capture.orientation as Record<string, unknown>)
+      : null;
+  const orientationResponses =
+    orientation?.responses && typeof orientation.responses === 'object' && !Array.isArray(orientation.responses)
+      ? (orientation.responses as Record<string, unknown>)
+      : null;
+  const trace =
+    capture.trace && typeof capture.trace === 'object' && !Array.isArray(capture.trace)
+      ? (capture.trace as Record<string, unknown>)
+      : null;
+  const traceExpanded =
+    trace?.expanded && typeof trace.expanded === 'object' && !Array.isArray(trace.expanded)
+      ? (trace.expanded as Record<string, unknown>)
+      : null;
+
+  const pick = (...values: unknown[]): string => {
+    for (const value of values) {
+      const normalized = normalizeCaptureTextValue(value);
+      if (normalized) {
+        return normalized;
+      }
+    }
+    return '';
+  };
+
+  if (form === 'bubble') {
+    const survives = pick(orientationResponses?.survives_alone, traceExpanded?.survives_alone);
+    if (survives) {
+      return { label: 'Survives', text: survives };
+    }
+  }
+
+  if (form === 'coordinate') {
+    const holds = pick(orientationResponses?.holds_under_isolation, traceExpanded?.holds_under_isolation);
+    if (holds) {
+      return { label: 'Holds', text: holds };
+    }
+    const fieldBreak = pick(orientationResponses?.field_break, traceExpanded?.field_break);
+    if (fieldBreak) {
+      return { label: 'Field Break', text: fieldBreak };
+    }
+  }
+
+  if (form === 'creature') {
+    const pressure = pick(orientationResponses?.pressure, traceExpanded?.pressure);
+    if (pressure) {
+      return { label: 'Pressure', text: pressure };
+    }
+  }
+
+  const tracePull = pick(trace?.pull);
+  if (tracePull) {
+    return { label: 'Trace', text: tracePull };
+  }
+
+  return null;
+}
+
 export async function getStaticPaths() {
   const entries = (await getCollection('codex')).filter(
     (entry) => entry.data.status === 'published' && entry.data.visibility === 'public'
@@ -66,6 +186,11 @@ const mythmechMarginaliaEntries = getMythmechMarginaliaEntries(marginaliaEntries
 const canonicalObjectPath = getObjectPath(entry);
 const structuredData = getObjectJsonLd(entry);
 const sidecars = await loadObjectSidecars(entry.filePath);
+const captureMeta = sidecars.capture;
+const objectForm =
+  normalizeObjectForm(captureMeta?.object_form_lock) ||
+  normalizeObjectForm(captureMeta?.object_form_suggestion);
+const objectFormNote = getObjectFormNote(objectForm, captureMeta);
 const alternateLinks = [
   {
     href: getObjectJsonPath(entry),
@@ -104,6 +229,16 @@ const alternateLinks = [
         {axes.length > 0 && <span>{axes.length} axes</span>}
         {tags.length > 0 && <span>{tags.length} tags</span>}
       </div>
+      {objectForm && (
+        <div class={`object-form-banner object-form-banner--${objectForm}`}>
+          <span class={`object-form-chip object-form-chip--${objectForm}`}>{objectFormLabel(objectForm)}</span>
+          <p>
+            {objectFormNote
+              ? `${objectFormNote.label}: ${objectFormNote.text}`
+              : objectFormDescription(objectForm)}
+          </p>
+        </div>
+      )}
       {axes.length > 0 && (
         <div class="axis-block" aria-label="Axes">
           <p class="axis-label">Axes</p>
@@ -221,6 +356,56 @@ const alternateLinks = [
     position: absolute;
     left: 0.12rem;
     color: var(--ghost);
+  }
+
+  .object-form-banner {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.8rem 1rem;
+    max-width: 44rem;
+  }
+
+  .object-form-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2rem;
+    padding: 0.3rem 0.78rem;
+    border: 1px solid transparent;
+    font-family: var(--font-ui);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .object-form-chip--bubble {
+    color: #ffcf88;
+    border-color: rgba(255, 207, 136, 0.34);
+    background: rgba(176, 107, 45, 0.16);
+  }
+
+  .object-form-chip--coordinate {
+    color: #9ad5ff;
+    border-color: rgba(108, 176, 222, 0.34);
+    background: rgba(37, 78, 106, 0.18);
+  }
+
+  .object-form-chip--creature {
+    color: #a4edb1;
+    border-color: rgba(110, 176, 124, 0.34);
+    background: rgba(38, 76, 47, 0.2);
+  }
+
+  .object-form-banner p {
+    margin: 0;
+    color: var(--text-body);
+    font-size: 0.98rem;
+    line-height: 1.72;
+    flex: 1 1 18rem;
   }
 
   .tag-list {

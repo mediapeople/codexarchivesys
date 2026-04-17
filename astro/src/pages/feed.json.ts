@@ -16,6 +16,8 @@ export async function GET() {
       authors: [{ name: item.authorName }],
       tags: item.tags,
       type: item.type,
+      object_form: item.objectForm,
+      capture: item.capture,
     };
   });
 

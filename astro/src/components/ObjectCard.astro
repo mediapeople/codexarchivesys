@@ -14,6 +14,7 @@ import { getImageAssetMetadata, getPublicAssetVersion } from '../lib/mediaAsset'
 import { getObjectPath } from '../lib/objectInterop';
 import { formatArchiveDate } from '../lib/timeline';
 import { resolveExcerpt } from '../lib/excerpt';
+import { loadObjectSidecars } from '../lib/loadObjectSidecars';
 
 interface Props {
   entry: ArchiveEntry;
@@ -35,6 +36,8 @@ type FragmentStageToken =
       kind: 'gap';
       variant: 'standard' | 'turn';
     };
+
+type CardObjectForm = 'bubble' | 'coordinate' | 'creature';
 
 const {
   entry,
@@ -209,6 +212,125 @@ function getFragmentStageContent(body: string, fallback: string, maxLines: numbe
   });
 }
 
+function normalizeObjectForm(value: unknown): CardObjectForm | '' {
+  if (typeof value !== 'string') {
+    return '';
+  }
+
+  const normalized = value.trim().toLowerCase();
+  return normalized === 'bubble' || normalized === 'coordinate' || normalized === 'creature'
+    ? normalized
+    : '';
+}
+
+function normalizeObjectFormLabel(value: CardObjectForm): string {
+  if (value === 'bubble') {
+    return 'Bubble';
+  }
+  if (value === 'coordinate') {
+    return 'Coordinate';
+  }
+  return 'Creature';
+}
+
+function normalizeCaptureTextValue(value: unknown): string {
+  if (typeof value === 'string') {
+    return value.trim();
+  }
+
+  if (Array.isArray(value)) {
+    return value
+      .map((item) => (typeof item === 'string' ? item.trim() : ''))
+      .filter(Boolean)
+      .join(' · ');
+  }
+
+  if (typeof value === 'boolean') {
+    return value ? 'yes' : 'no';
+  }
+
+  return '';
+}
+
+function getObjectFormNote(
+  form: CardObjectForm | '',
+  capture: Record<string, unknown> | null
+): { label: string; text: string } | null {
+  if (!form || !capture) {
+    return null;
+  }
+
+  const orientation =
+    capture.orientation && typeof capture.orientation === 'object' && !Array.isArray(capture.orientation)
+      ? (capture.orientation as Record<string, unknown>)
+      : null;
+  const orientationResponses =
+    orientation?.responses && typeof orientation.responses === 'object' && !Array.isArray(orientation.responses)
+      ? (orientation.responses as Record<string, unknown>)
+      : null;
+  const trace =
+    capture.trace && typeof capture.trace === 'object' && !Array.isArray(capture.trace)
+      ? (capture.trace as Record<string, unknown>)
+      : null;
+  const traceExpanded =
+    trace?.expanded && typeof trace.expanded === 'object' && !Array.isArray(trace.expanded)
+      ? (trace.expanded as Record<string, unknown>)
+      : null;
+  const lookup = (...keys: string[]) => {
+    for (const key of keys) {
+      const orientationValue = normalizeCaptureTextValue(orientationResponses?.[key]);
+      if (orientationValue) {
+        return orientationValue;
+      }
+
+      const traceValue = normalizeCaptureTextValue(traceExpanded?.[key]);
+      if (traceValue) {
+        return traceValue;
+      }
+    }
+
+    return '';
+  };
+
+  if (form === 'bubble') {
+    const survivesAlone = lookup('survives_alone');
+    if (survivesAlone) {
+      return { label: 'Survives', text: survivesAlone };
+    }
+  }
+
+  if (form === 'coordinate') {
+    const holds = lookup('holds_under_isolation');
+    if (holds) {
+      return { label: 'Holds', text: holds };
+    }
+
+    const fieldBreak = lookup('field_break');
+    if (fieldBreak) {
+      return { label: 'Field Break', text: fieldBreak };
+    }
+  }
+
+  if (form === 'creature') {
+    const pressure = lookup('pressure');
+    if (pressure) {
+      return { label: 'Pressure', text: pressure };
+    }
+  }
+
+  const selectionNote = lookup('selection_note');
+  if (selectionNote) {
+    return { label: 'Trace', text: selectionNote };
+  }
+
+  const pull = normalizeCaptureTextValue(trace?.pull);
+  if (pull) {
+    return { label: 'Pull', text: pull };
+  }
+
+  return null;
+}
+
 const fallbackSummary = (entry.data as Record<string, unknown>).themeStatement;
 const resolvedExcerpt = resolveExcerpt({
   title: entry.data.title,
@@ -258,6 +380,13 @@ const previewMediaVersionEntries = hasImagePreview
 const previewMediaVersionBySrc = new Map(previewMediaVersionEntries);
 const getPreviewMediaSrc = (src: string) => withMediaVersion(src, previewMediaVersionBySrc.get(src) ?? undefined);
 const hasIndependentPreviewAction = hasImagePreview && (variant === 'feed' || variant === 'related');
+const sidecars = await loadObjectSidecars(entry.filePath);
+const captureMeta = sidecars.capture;
+const objectForm =
+  normalizeObjectForm(captureMeta?.object_form_lock) ||
+  normalizeObjectForm(captureMeta?.object_form_suggestion);
+const objectFormLabel = objectForm ? normalizeObjectFormLabel(objectForm) : '';
+const objectFormNote = getObjectFormNote(objectForm, captureMeta);
 const useCenteredCopyStack = !showFragmentStage && (variant === 'feed' || variant === 'related');
 const useImageOnlyFeedLayout =
   isImageOnly &&
@@ -279,7 +408,16 @@ const previewGalleryPayload = hasIndependentPreviewAction
       }))
     )
   : undefined;
-const searchCorpus = [displayTitle, resolvedExcerpt, rawSummary, ...entry.data.themes, ...entry.data.constellations]
+const searchCorpus = [
+  displayTitle,
+  resolvedExcerpt,
+  rawSummary,
+  objectFormLabel,
+  objectFormNote?.label || '',
+  objectFormNote?.text || '',
+  ...entry.data.themes,
+  ...entry.data.constellations,
+]
   .join(' ')
   .toLowerCase();
 
@@ -305,8 +443,9 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
 ---
 
 <article
-  class={`card ${entry.collection} ${variant} ${useImageOnlyFeedLayout ? 'image-only-feed' : ''}`}
+  class={`card ${entry.collection} ${variant} ${useImageOnlyFeedLayout ? 'image-only-feed' : ''} ${objectForm ? `object-form-${objectForm}` : ''}`}
   data-type={entry.collection}
+  data-object-form={objectForm || undefined}
   data-themes={entry.data.themes.join('|').toLowerCase()}
   data-search={searchCorpus}
 >
@@ -466,11 +605,18 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
       <header class="meta">
         {eyebrow && <span class="eyebrow">{eyebrow}</span>}
         <TypeBadge type={entry.collection} />
+        {objectForm && <span class={`object-form-badge object-form-badge--${objectForm}`}>{objectFormLabel}</span>}
         {variant !== 'mosaic' && <span class="date">{readableDate}</span>}
         {variant === 'related' && relationScore !== undefined && <span class="score">{relationScore} signals</span>}
       </header>
       <h3 class="title">{displayTitle}</h3>
       {showExcerpt && <p class="excerpt">{summaryText}</p>}
+      {objectFormNote && !showFragmentStage && (
+        <p class={`object-form-note object-form-note--${objectForm}`}>
+          <span class="object-form-note-label">{objectFormNote.label}</span>
+          <span>{objectFormNote.text}</span>
+        </p>
+      )}
       {showThemes && (
         <ul class="themes">
           {entry.data.themes.slice(0, 3).map((theme) => (
@@ -500,6 +646,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
         <header class="meta">
           {eyebrow && <span class="eyebrow">{eyebrow}</span>}
           <TypeBadge type={entry.collection} />
+          {objectForm && <span class={`object-form-badge object-form-badge--${objectForm}`}>{objectFormLabel}</span>}
           {variant !== 'mosaic' && <span class="date">{readableDate}</span>}
           {variant === 'related' && relationScore !== undefined && <span class="score">{relationScore} signals</span>}
         </header>
@@ -514,6 +661,12 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
         </p>
       )}
       {showExcerpt && <p class="excerpt">{summaryText}</p>}
+      {objectFormNote && !showFragmentStage && (
+        <p class={`object-form-note object-form-note--${objectForm}`}>
+          <span class="object-form-note-label">{objectFormNote.label}</span>
+          <span>{objectFormNote.text}</span>
+        </p>
+      )}
       {showThemes && (
         <ul class="themes">
           {entry.data.themes.slice(0, 3).map((theme) => (
@@ -2366,6 +2519,11 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
   }
 
   @media (max-width: 560px) {
+    .object-form-note {
+      margin-top: -0.08rem;
+      margin-bottom: 0.92rem;
+    }
+
     .card {
       row-gap: 0.72rem;
       padding: 1.32rem 0 1.62rem;
@@ -2471,5 +2629,89 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
       font-size: 0.88rem;
       line-height: 1.54;
     }
+  }
+
+  .object-form-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.32rem;
+    padding: 1px 6px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    font-family: var(--font-ui);
+    font-size: 10px;
+    line-height: 1.45;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .object-form-badge--bubble {
+    border-color: rgba(198, 208, 224, 0.28);
+    color: #d7dfef;
+    background: rgba(198, 208, 224, 0.08);
+  }
+
+  .object-form-badge--coordinate {
+    border-color: rgba(112, 150, 178, 0.32);
+    color: #c4ddec;
+    background: rgba(84, 115, 140, 0.12);
+  }
+
+  .object-form-badge--creature {
+    border-color: rgba(196, 98, 58, 0.32);
+    color: #f0c7b6;
+    background: rgba(196, 98, 58, 0.12);
+  }
+
+  .object-form-note {
+    display: grid;
+    gap: 0.2rem;
+    margin: -0.08rem 0 1rem;
+    padding-left: 0.88rem;
+    border-left: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--text-dim);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    line-height: 1.56;
+    letter-spacing: 0.02em;
+  }
+
+  .object-form-note-label {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .object-form-note--bubble {
+    border-left-color: rgba(198, 208, 224, 0.28);
+  }
+
+  .object-form-note--coordinate {
+    border-left-color: rgba(112, 150, 178, 0.3);
+  }
+
+  .object-form-note--creature {
+    border-left-color: rgba(196, 98, 58, 0.3);
+  }
+
+  .card.object-form-bubble {
+    --object-form-glow: rgba(198, 208, 224, 0.06);
+  }
+
+  .card.object-form-coordinate {
+    --object-form-glow: rgba(112, 150, 178, 0.07);
+  }
+
+  .card.object-form-creature {
+    --object-form-glow: rgba(196, 98, 58, 0.07);
+  }
+
+  .card.object-form-bubble .preview-wrap,
+  .card.object-form-coordinate .preview-wrap,
+  .card.object-form-creature .preview-wrap {
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--object-form-glow, transparent) 65%, rgba(255, 255, 255, 0.04));
   }
 </style>

@@ -54,5 +54,7 @@ export function getFeedItem(entry: ArchiveEntry) {
     authorName: exported.author.name,
     tags: exported.tags,
     type: exported.type,
+    objectForm: exported.object_form,
+    capture: exported.capture,
   };
 }

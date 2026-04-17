@@ -43,6 +43,11 @@ const OBJECT_TYPES = [
 const STATUS_VALUES = ['draft', 'review', 'published', 'archived'] as const;
 const VISIBILITY_VALUES = ['public', 'private', 'internal', 'unlisted'] as const;
 const SIGNAL_LOCK_VALUES = ['OBSERVED', 'INFERRED', 'PENDING'] as const;
+const MEDIA_ROLE_VALUES = ['hero', 'gallery', 'detail', 'scan', 'process', 'audio', 'reference'] as const;
+const CAPTURE_PROTOCOL_VERSION = 'pigeon-1.1' as const;
+const CAPTURE_MODE_VALUES = ['default', 'guided', 'image-only', 'field-hud'] as const;
+const OBJECT_FORM_VALUES = ['bubble', 'coordinate', 'creature'] as const;
+const TYPE_RESOLUTION_VALUES = ['capture', 'staging', 'post-publish'] as const;
 
 const UNIVERSAL_PASSTHROUGH_KEYS = new Set([
   'constellations',
@@ -68,11 +73,56 @@ const OBJECT_TYPE_PASSTHROUGH_KEYS: Record<PigeonObjectType, Set<string>> = {
 };
 
 type PigeonObjectType = (typeof OBJECT_TYPES)[number];
+type PigeonMediaRole = (typeof MEDIA_ROLE_VALUES)[number];
+type PigeonCaptureMode = (typeof CAPTURE_MODE_VALUES)[number];
+type PigeonObjectForm = (typeof OBJECT_FORM_VALUES)[number];
+type PigeonTypeResolution = (typeof TYPE_RESOLUTION_VALUES)[number];
+type PigeonCaptureResponseValue = string | string[] | boolean;
+
+type PigeonCaptureOrientation = {
+  prompt_set?: PigeonObjectForm;
+  optional: true;
+  supportive: true;
+  responses?: Record<string, PigeonCaptureResponseValue>;
+};
+
+type PigeonCaptureTrace = {
+  pull?: string;
+  collapsed?: boolean;
+  expanded?: Record<string, PigeonCaptureResponseValue>;
+};
+
+type PigeonCaptureMediaIntent = {
+  src?: string;
+  original_filename?: string;
+  role?: PigeonMediaRole;
+  source?: boolean;
+  potential_coordinate?: boolean;
+  isolate_later?: boolean;
+  index?: number;
+  alt?: string;
+  caption?: string;
+};
+
+type PigeonCaptureMetadata = {
+  protocol_version: typeof CAPTURE_PROTOCOL_VERSION;
+  capture_mode: PigeonCaptureMode;
+  object_form_suggestion?: PigeonObjectForm;
+  object_form_lock?: PigeonObjectForm;
+  type_resolution?: PigeonTypeResolution;
+  orientation?: PigeonCaptureOrientation;
+  trace?: PigeonCaptureTrace;
+  media_intent?: PigeonCaptureMediaIntent[];
+  staging?: {
+    refine_later?: boolean;
+    isolate_later?: boolean;
+  };
+};
 
 type PigeonMediaItem = {
   kind: 'image';
   src: string;
-  role: 'hero' | 'gallery';
+  role: PigeonMediaRole;
   alt?: string;
   caption?: string;
   capture?: PigeonMediaCapture;
@@ -95,6 +145,7 @@ type PigeonPayload = {
   excerpt?: string;
   codexState?: PigeonStatus;
   codexDependencies: string[];
+  capture: PigeonCaptureMetadata | null;
   passthroughFrontmatter: string[];
 };
 
@@ -142,7 +193,13 @@ type PreparedImageAsset = {
 };
 
 type SidecarFile = {
-  suffix: '.packet.json' | '.respawn.txt' | '.mythmech.sidecar' | '.plate-prompt.txt' | '.vision.json';
+  suffix:
+    | '.packet.json'
+    | '.respawn.txt'
+    | '.mythmech.sidecar'
+    | '.plate-prompt.txt'
+    | '.vision.json'
+    | '.capture.json';
   content: Buffer;
 };
 
@@ -539,6 +596,721 @@ function normalizeOptionalString(value: string | undefined): string | undefined 
   return normalized ? normalized : undefined;
 }
 
+function normalizeBooleanFlag(value: unknown): boolean | undefined {
+  if (typeof value === 'boolean') {
+    return value;
+  }
+
+  if (typeof value === 'number') {
+    if (value === 1) {
+      return true;
+    }
+    if (value === 0) {
+      return false;
+    }
+    return undefined;
+  }
+
+  if (typeof value !== 'string') {
+    return undefined;
+  }
+
+  const normalized = parseFrontmatterScalar(value)?.trim().toLowerCase();
+  if (!normalized) {
+    return undefined;
+  }
+
+  if (['1', 'true', 'yes', 'y', 'on'].includes(normalized)) {
+    return true;
+  }
+
+  if (['0', 'false', 'no', 'n', 'off'].includes(normalized)) {
+    return false;
+  }
+
+  return undefined;
+}
+
+function readEnumValue<T extends string>(
+  value: unknown,
+  values: readonly T[],
+  label: string,
+  sourceLabel: string
+): T | Response | undefined {
+  if (typeof value !== 'string') {
+    return undefined;
+  }
+
+  const normalized = parseFrontmatterScalar(value)?.trim().toLowerCase();
+  if (!normalized) {
+    return undefined;
+  }
+
+  if (values.includes(normalized as T)) {
+    return normalized as T;
+  }
+
+  return Response.json(
+    {
+      error: `Invalid ${label} value "${value}" in ${sourceLabel}.`,
+    },
+    { status: 400 }
+  );
+}
+
+function parseStructuredJsonField(
+  value: unknown,
+  fieldLabel: string,
+  sourceLabel: string
+): unknown | Response | null {
+  if (value === undefined || value === null || value === '') {
+    return null;
+  }
+
+  if (Array.isArray(value) || isRecord(value)) {
+    return value;
+  }
+
+  if (typeof value !== 'string') {
+    return Response.json(
+      {
+        error: `${fieldLabel} in ${sourceLabel} must be a JSON string or structured value.`,
+      },
+      { status: 400 }
+    );
+  }
+
+  const normalized = parseFrontmatterScalar(value)?.trim();
+  if (!normalized) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(normalized);
+  } catch {
+    return Response.json(
+      {
+        error: `Invalid ${fieldLabel} JSON in ${sourceLabel}.`,
+      },
+      { status: 400 }
+    );
+  }
+}
+
+function normalizeCaptureResponseValue(value: unknown): PigeonCaptureResponseValue | undefined {
+  if (typeof value === 'boolean') {
+    return value;
+  }
+
+  if (typeof value === 'number') {
+    return Number.isFinite(value) ? String(value) : undefined;
+  }
+
+  if (typeof value === 'string') {
+    const normalized = parseFrontmatterScalar(value)?.trim();
+    return normalized ? normalized : undefined;
+  }
+
+  if (!Array.isArray(value)) {
+    return undefined;
+  }
+
+  const normalized = value
+    .map((item) => {
+      if (typeof item === 'string') {
+        return parseFrontmatterScalar(item)?.trim() || '';
+      }
+      if (typeof item === 'number' && Number.isFinite(item)) {
+        return String(item);
+      }
+      if (typeof item === 'boolean') {
+        return item ? 'true' : 'false';
+      }
+      return '';
+    })
+    .filter(Boolean);
+
+  return normalized.length > 0 ? normalized : undefined;
+}
+
+function normalizeCaptureResponseRecord(
+  value: unknown,
+  fieldLabel: string,
+  sourceLabel: string
+): Record<string, PigeonCaptureResponseValue> | Response | undefined {
+  if (value === undefined || value === null) {
+    return undefined;
+  }
+
+  if (!isRecord(value)) {
+    return Response.json(
+      {
+        error: `${fieldLabel} in ${sourceLabel} must be an object.`,
+      },
+      { status: 400 }
+    );
+  }
+
+  const normalized = Object.fromEntries(
+    Object.entries(value)
+      .map(([key, entryValue]) => {
+        const normalizedKey = key.trim();
+        const normalizedValue = normalizeCaptureResponseValue(entryValue);
+        return normalizedKey && normalizedValue !== undefined ? [normalizedKey, normalizedValue] : null;
+      })
+      .filter((entry): entry is [string, PigeonCaptureResponseValue] => Boolean(entry))
+  );
+
+  return Object.keys(normalized).length > 0 ? normalized : undefined;
+}
+
+function hasCaptureResponseRecord(
+  value: Record<string, PigeonCaptureResponseValue> | undefined
+): boolean {
+  return Boolean(value && Object.keys(value).length > 0);
+}
+
+function readCaptureProtocolVersion(value: unknown, sourceLabel: string): Response | null {
+  if (typeof value !== 'string') {
+    return null;
+  }
+
+  const normalized = parseFrontmatterScalar(value)?.trim();
+  if (!normalized || normalized === CAPTURE_PROTOCOL_VERSION) {
+    return null;
+  }
+
+  return Response.json(
+    {
+      error: `Unsupported protocol_version "${normalized}" in ${sourceLabel}. Expected ${CAPTURE_PROTOCOL_VERSION}.`,
+    },
+    { status: 400 }
+  );
+}
+
+function readPigeonMediaRole(value: unknown, sourceLabel: string): PigeonMediaRole | Response | undefined {
+  return readEnumValue(value, MEDIA_ROLE_VALUES, 'media role', sourceLabel);
+}
+
+function readCaptureMode(value: unknown, sourceLabel: string): PigeonCaptureMode | Response | undefined {
+  return readEnumValue(value, CAPTURE_MODE_VALUES, 'capture_mode', sourceLabel);
+}
+
+function readObjectForm(value: unknown, sourceLabel: string): PigeonObjectForm | Response | undefined {
+  return readEnumValue(value, OBJECT_FORM_VALUES, 'object_form', sourceLabel);
+}
+
+function readTypeResolution(value: unknown, sourceLabel: string): PigeonTypeResolution | Response | undefined {
+  return readEnumValue(value, TYPE_RESOLUTION_VALUES, 'type_resolution', sourceLabel);
+}
+
+function normalizeCaptureMediaIntentArray(
+  value: unknown,
+  sourceLabel: string
+): PigeonCaptureMediaIntent[] | Response | undefined {
+  if (value === undefined || value === null) {
+    return undefined;
+  }
+
+  if (!Array.isArray(value)) {
+    return Response.json(
+      {
+        error: `media_intent in ${sourceLabel} must be an array.`,
+      },
+      { status: 400 }
+    );
+  }
+
+  const normalized: PigeonCaptureMediaIntent[] = [];
+
+  for (const item of value) {
+    if (!isRecord(item)) {
+      return Response.json(
+        {
+          error: `Each media_intent entry in ${sourceLabel} must be an object.`,
+        },
+        { status: 400 }
+      );
+    }
+
+    const role = readPigeonMediaRole(item.role, sourceLabel);
+    if (role instanceof Response) {
+      return role;
+    }
+
+    const src = normalizeOptionalString(
+      typeof item.src === 'string' ? item.src : undefined
+    );
+    const originalFilename = normalizeOptionalString(
+      typeof item.original_filename === 'string'
+        ? item.original_filename
+        : typeof item.originalFilename === 'string'
+          ? item.originalFilename
+          : undefined
+    );
+    const alt = normalizeOptionalString(
+      typeof item.alt === 'string' ? item.alt : undefined
+    );
+    const caption = normalizeOptionalString(
+      typeof item.caption === 'string' ? item.caption : undefined
+    );
+    const source = normalizeBooleanFlag(item.source);
+    const potentialCoordinate = normalizeBooleanFlag(
+      item.potential_coordinate ?? item.potentialCoordinate
+    );
+    const isolateLater = normalizeBooleanFlag(item.isolate_later ?? item.isolateLater);
+    const rawIndex =
+      typeof item.index === 'number'
+        ? item.index
+        : typeof item.index === 'string'
+          ? Number.parseInt(item.index, 10)
+          : NaN;
+    const index =
+      Number.isInteger(rawIndex) && rawIndex > 0 ? rawIndex : undefined;
+
+    const normalizedItem = omitUndefinedFields({
+      src,
+      original_filename: originalFilename,
+      role,
+      source,
+      potential_coordinate: potentialCoordinate,
+      isolate_later: isolateLater,
+      index,
+      alt,
+      caption,
+    }) as PigeonCaptureMediaIntent;
+
+    if (Object.keys(normalizedItem).length > 0) {
+      normalized.push(normalizedItem);
+    }
+  }
+
+  return normalized.length > 0 ? normalized : undefined;
+}
+
+function normalizeRequestedMediaItems(
+  value: unknown,
+  sourceLabel: string
+): PigeonMediaItem[] | Response | undefined {
+  if (value === undefined || value === null) {
+    return undefined;
+  }
+
+  if (!Array.isArray(value)) {
+    return Response.json(
+      {
+        error: `media in ${sourceLabel} must be an array.`,
+      },
+      { status: 400 }
+    );
+  }
+
+  const normalized: PigeonMediaItem[] = [];
+
+  for (const item of value) {
+    if (!isRecord(item)) {
+      return Response.json(
+        {
+          error: `Each media entry in ${sourceLabel} must be an object.`,
+        },
+        { status: 400 }
+      );
+    }
+
+    const kind =
+      typeof item.kind === 'string' && item.kind.trim()
+        ? item.kind.trim().toLowerCase()
+        : 'image';
+    if (kind !== 'image') {
+      return Response.json(
+        {
+          error: `Carrier Pigeon currently supports only image media items in ${sourceLabel}.`,
+        },
+        { status: 400 }
+      );
+    }
+
+    const src = normalizeOptionalString(typeof item.src === 'string' ? item.src : undefined);
+    if (!src) {
+      return Response.json(
+        {
+          error: `Each media entry in ${sourceLabel} must include src.`,
+        },
+        { status: 400 }
+      );
+    }
+
+    const role = readPigeonMediaRole(item.role, sourceLabel);
+    if (role instanceof Response) {
+      return role;
+    }
+
+    normalized.push(
+      omitUndefinedFields({
+        kind: 'image',
+        src,
+        role: role || (normalized.length === 0 ? 'hero' : 'gallery'),
+        alt: normalizeOptionalString(typeof item.alt === 'string' ? item.alt : undefined),
+        caption: normalizeOptionalString(typeof item.caption === 'string' ? item.caption : undefined),
+      }) as PigeonMediaItem
+    );
+  }
+
+  return normalized;
+}
+
+function buildCaptureCandidateFromRecord(
+  candidate: Record<string, unknown>,
+  sourceLabel: string
+): Record<string, unknown> | Response | null {
+  const nestedCapture = parseStructuredJsonField(
+    candidate.capture ?? candidate.capture_json ?? candidate.captureJson,
+    'capture',
+    sourceLabel
+  );
+  if (nestedCapture instanceof Response) {
+    return nestedCapture;
+  }
+  if (nestedCapture !== null && !isRecord(nestedCapture)) {
+    return Response.json(
+      {
+        error: `capture in ${sourceLabel} must resolve to an object.`,
+      },
+      { status: 400 }
+    );
+  }
+
+  const merged: Record<string, unknown> = nestedCapture ? { ...nestedCapture } : {};
+  const directAliases: Array<[string, unknown]> = [
+    ['protocol_version', candidate.protocol_version ?? candidate.protocolVersion],
+    ['capture_mode', candidate.capture_mode ?? candidate.captureMode],
+    ['object_form_suggestion', candidate.object_form_suggestion ?? candidate.objectFormSuggestion],
+    ['object_form_lock', candidate.object_form_lock ?? candidate.objectFormLock],
+    ['type_resolution', candidate.type_resolution ?? candidate.typeResolution],
+    ['orientation', candidate.orientation],
+    ['trace', candidate.trace],
+    ['media_intent', candidate.media_intent ?? candidate.mediaIntent],
+    ['staging', candidate.staging],
+    ['pull', candidate.pull],
+    ['pressure', candidate.pressure],
+    ['selection_note', candidate.selection_note ?? candidate.selectionNote],
+    ['holds_under_isolation', candidate.holds_under_isolation ?? candidate.holdsUnderIsolation],
+    ['field_break', candidate.field_break ?? candidate.fieldBreak],
+    ['survives_alone', candidate.survives_alone ?? candidate.survivesAlone],
+    ['interruptions', candidate.interruptions],
+    ['refine_later', candidate.refine_later ?? candidate.refineLater],
+    ['isolate_later', candidate.isolate_later ?? candidate.isolateLater],
+  ];
+
+  for (const [key, value] of directAliases) {
+    if (value !== undefined) {
+      merged[key] = value;
+    }
+  }
+
+  return Object.keys(merged).length > 0 ? merged : null;
+}
+
+function buildCaptureCandidateFromMap(
+  fields: Map<string, string[]>,
+  sourceLabel: string
+): Record<string, unknown> | Response | null {
+  const nestedCapture = parseStructuredJsonField(
+    fields.get('capture')?.[0] ?? fields.get('capture_json')?.[0],
+    'capture',
+    sourceLabel
+  );
+  if (nestedCapture instanceof Response) {
+    return nestedCapture;
+  }
+  if (nestedCapture !== null && !isRecord(nestedCapture)) {
+    return Response.json(
+      {
+        error: `capture in ${sourceLabel} must resolve to an object.`,
+      },
+      { status: 400 }
+    );
+  }
+
+  const merged: Record<string, unknown> = nestedCapture ? { ...nestedCapture } : {};
+  const scalarKeys = [
+    'protocol_version',
+    'capture_mode',
+    'object_form_suggestion',
+    'object_form_lock',
+    'type_resolution',
+    'pull',
+    'pressure',
+    'selection_note',
+    'holds_under_isolation',
+    'field_break',
+    'survives_alone',
+    'refine_later',
+    'isolate_later',
+  ];
+
+  for (const key of scalarKeys) {
+    const value = fields.get(key)?.[0];
+    if (value !== undefined) {
+      merged[key] = value;
+    }
+  }
+
+  const interruptions = normalizeNonEmptyStrings(
+    (fields.get('interruptions') || []).flatMap(parseFrontmatterValue)
+  );
+  if (interruptions.length > 0) {
+    merged.interruptions = interruptions;
+  }
+
+  for (const key of ['orientation', 'trace', 'media_intent', 'staging'] as const) {
+    const value = fields.get(key)?.[0];
+    if (value !== undefined) {
+      merged[key] = value;
+    }
+  }
+
+  return Object.keys(merged).length > 0 ? merged : null;
+}
+
+function normalizeCaptureMetadataCandidate(
+  candidate: Record<string, unknown> | null,
+  sourceLabel: string,
+  fallbackMode: PigeonCaptureMode
+): PigeonCaptureMetadata | Response | null {
+  if (!candidate) {
+    return null;
+  }
+
+  const protocolVersionError = readCaptureProtocolVersion(candidate.protocol_version, sourceLabel);
+  if (protocolVersionError) {
+    return protocolVersionError;
+  }
+
+  const captureMode = readCaptureMode(candidate.capture_mode, sourceLabel);
+  if (captureMode instanceof Response) {
+    return captureMode;
+  }
+
+  const objectFormSuggestion = readObjectForm(candidate.object_form_suggestion, sourceLabel);
+  if (objectFormSuggestion instanceof Response) {
+    return objectFormSuggestion;
+  }
+
+  const objectFormLock = readObjectForm(candidate.object_form_lock, sourceLabel);
+  if (objectFormLock instanceof Response) {
+    return objectFormLock;
+  }
+
+  const explicitTypeResolution = readTypeResolution(candidate.type_resolution, sourceLabel);
+  if (explicitTypeResolution instanceof Response) {
+    return explicitTypeResolution;
+  }
+
+  const orientationCandidate = parseStructuredJsonField(candidate.orientation, 'orientation', sourceLabel);
+  if (orientationCandidate instanceof Response) {
+    return orientationCandidate;
+  }
+  if (orientationCandidate !== null && !isRecord(orientationCandidate)) {
+    return Response.json(
+      {
+        error: `orientation in ${sourceLabel} must resolve to an object.`,
+      },
+      { status: 400 }
+    );
+  }
+
+  const traceCandidate = parseStructuredJsonField(candidate.trace, 'trace', sourceLabel);
+  if (traceCandidate instanceof Response) {
+    return traceCandidate;
+  }
+  if (traceCandidate !== null && !isRecord(traceCandidate)) {
+    return Response.json(
+      {
+        error: `trace in ${sourceLabel} must resolve to an object.`,
+      },
+      { status: 400 }
+    );
+  }
+
+  const stagingCandidate = parseStructuredJsonField(candidate.staging, 'staging', sourceLabel);
+  if (stagingCandidate instanceof Response) {
+    return stagingCandidate;
+  }
+  if (stagingCandidate !== null && !isRecord(stagingCandidate)) {
+    return Response.json(
+      {
+        error: `staging in ${sourceLabel} must resolve to an object.`,
+      },
+      { status: 400 }
+    );
+  }
+
+  const mediaIntentCandidate = parseStructuredJsonField(candidate.media_intent, 'media_intent', sourceLabel);
+  if (mediaIntentCandidate instanceof Response) {
+    return mediaIntentCandidate;
+  }
+
+  const nestedOrientationPromptSet = orientationCandidate
+    ? readObjectForm(
+        orientationCandidate.prompt_set ?? orientationCandidate.promptSet,
+        sourceLabel
+      )
+    : undefined;
+  if (nestedOrientationPromptSet instanceof Response) {
+    return nestedOrientationPromptSet;
+  }
+
+  const nestedOrientationResponses = orientationCandidate
+    ? normalizeCaptureResponseRecord(
+        orientationCandidate.responses,
+        'orientation.responses',
+        sourceLabel
+      )
+    : undefined;
+  if (nestedOrientationResponses instanceof Response) {
+    return nestedOrientationResponses;
+  }
+
+  const flatOrientationResponses = omitUndefinedFields({
+    holds_under_isolation: normalizeCaptureResponseValue(candidate.holds_under_isolation),
+    field_break: normalizeCaptureResponseValue(candidate.field_break),
+    survives_alone: normalizeCaptureResponseValue(candidate.survives_alone),
+    pressure: normalizeCaptureResponseValue(candidate.pressure),
+  }) as Record<string, PigeonCaptureResponseValue>;
+
+  const orientationResponses = {
+    ...(nestedOrientationResponses || {}),
+    ...flatOrientationResponses,
+  };
+  const orientationPromptSet =
+    nestedOrientationPromptSet || objectFormLock || objectFormSuggestion;
+  const orientation =
+    orientationPromptSet || hasCaptureResponseRecord(orientationResponses)
+      ? ({
+          prompt_set: orientationPromptSet,
+          optional: true,
+          supportive: true,
+          responses: hasCaptureResponseRecord(orientationResponses)
+            ? orientationResponses
+            : undefined,
+        } satisfies PigeonCaptureOrientation)
+      : undefined;
+
+  const nestedTraceExpanded = traceCandidate
+    ? normalizeCaptureResponseRecord(traceCandidate.expanded, 'trace.expanded', sourceLabel)
+    : undefined;
+  if (nestedTraceExpanded instanceof Response) {
+    return nestedTraceExpanded;
+  }
+
+  const traceExpanded = {
+    ...(nestedTraceExpanded || {}),
+    ...(omitUndefinedFields({
+      pressure: normalizeCaptureResponseValue(candidate.pressure),
+      selection_note: normalizeCaptureResponseValue(candidate.selection_note),
+      field_break: normalizeCaptureResponseValue(candidate.field_break),
+      holds_under_isolation: normalizeCaptureResponseValue(candidate.holds_under_isolation),
+      survives_alone: normalizeCaptureResponseValue(candidate.survives_alone),
+      interruptions: normalizeCaptureResponseValue(candidate.interruptions),
+    }) as Record<string, PigeonCaptureResponseValue>),
+  };
+  const tracePull = normalizeOptionalString(
+    typeof candidate.pull === 'string'
+      ? candidate.pull
+      : typeof traceCandidate?.pull === 'string'
+        ? traceCandidate.pull
+        : undefined
+  );
+  const traceCollapsed =
+    normalizeBooleanFlag(candidate.trace_collapsed) ??
+    normalizeBooleanFlag(traceCandidate?.collapsed);
+  const trace =
+    tracePull || traceCollapsed !== undefined || hasCaptureResponseRecord(traceExpanded)
+      ? ({
+          pull: tracePull,
+          collapsed: traceCollapsed,
+          expanded: hasCaptureResponseRecord(traceExpanded) ? traceExpanded : undefined,
+        } satisfies PigeonCaptureTrace)
+      : undefined;
+
+  const mediaIntent = normalizeCaptureMediaIntentArray(mediaIntentCandidate, sourceLabel);
+  if (mediaIntent instanceof Response) {
+    return mediaIntent;
+  }
+
+  const staging = omitUndefinedFields({
+    refine_later:
+      normalizeBooleanFlag(candidate.refine_later) ??
+      normalizeBooleanFlag(stagingCandidate?.refine_later ?? stagingCandidate?.refineLater),
+    isolate_later:
+      normalizeBooleanFlag(candidate.isolate_later) ??
+      normalizeBooleanFlag(stagingCandidate?.isolate_later ?? stagingCandidate?.isolateLater),
+  }) as PigeonCaptureMetadata['staging'];
+
+  const inferredTypeResolution =
+    explicitTypeResolution ||
+    (objectFormLock || orientation || trace
+      ? 'capture'
+      : mediaIntent?.length || objectFormSuggestion || staging.refine_later || staging.isolate_later
+        ? 'staging'
+        : undefined);
+
+  const hasMeaningfulData = Boolean(
+    objectFormSuggestion ||
+      objectFormLock ||
+      orientation ||
+      trace ||
+      (mediaIntent && mediaIntent.length > 0) ||
+      staging.refine_later !== undefined ||
+      staging.isolate_later !== undefined ||
+      inferredTypeResolution ||
+      captureMode
+  );
+
+  if (!hasMeaningfulData) {
+    return null;
+  }
+
+  return omitUndefinedFields({
+    protocol_version: CAPTURE_PROTOCOL_VERSION,
+    capture_mode: captureMode || fallbackMode,
+    object_form_suggestion: objectFormSuggestion,
+    object_form_lock: objectFormLock,
+    type_resolution: inferredTypeResolution,
+    orientation,
+    trace,
+    media_intent: mediaIntent,
+    staging: Object.keys(staging).length > 0 ? staging : undefined,
+  }) as PigeonCaptureMetadata;
+}
+
+function normalizeCaptureMetadataFromRecord(
+  candidate: Record<string, unknown>,
+  sourceLabel: string,
+  fallbackMode: PigeonCaptureMode
+): PigeonCaptureMetadata | Response | null {
+  const captureCandidate = buildCaptureCandidateFromRecord(candidate, sourceLabel);
+  if (captureCandidate instanceof Response) {
+    return captureCandidate;
+  }
+
+  return normalizeCaptureMetadataCandidate(captureCandidate, sourceLabel, fallbackMode);
+}
+
+function normalizeCaptureMetadataFromMap(
+  fields: Map<string, string[]>,
+  sourceLabel: string,
+  fallbackMode: PigeonCaptureMode
+): PigeonCaptureMetadata | Response | null {
+  const captureCandidate = buildCaptureCandidateFromMap(fields, sourceLabel);
+  if (captureCandidate instanceof Response) {
+    return captureCandidate;
+  }
+
+  return normalizeCaptureMetadataCandidate(captureCandidate, sourceLabel, fallbackMode);
+}
+
 function normalizeSignalTrackValue(value: unknown): string | undefined {
   if (typeof value !== 'string') {
     return undefined;
@@ -874,6 +1646,7 @@ function buildImageOnlyPayload(
       : undefined,
     codexState: objectType === 'codex' ? 'published' : undefined,
     codexDependencies: [],
+    capture: null,
     passthroughFrontmatter: [],
   };
 }
@@ -932,6 +1705,11 @@ function parseMarkdownNote(
     normalizeOptionalString(fields.get('excerpt')?.[0]) ||
     normalizeOptionalString(fields.get('summary')?.[0]);
   const axisOverrides = resolveAxisOverridesFromMap(fields, 'markdown note frontmatter');
+  const capture = normalizeCaptureMetadataFromMap(
+    fields,
+    'markdown note frontmatter',
+    imageOnly ? 'image-only' : 'default'
+  );
   const excerptSource = hasMeaningfulBody(body) ? body : caption;
   const excerpt = hasMeaningfulBody(excerptSource)
     ? resolveExcerpt({
@@ -944,6 +1722,10 @@ function parseMarkdownNote(
 
   if (axisOverrides instanceof Response) {
     return axisOverrides;
+  }
+
+  if (capture instanceof Response) {
+    return capture;
   }
 
   if (!title) {
@@ -982,6 +1764,7 @@ function parseMarkdownNote(
     codexDependencies: normalizeNonEmptyStrings(
       (fields.get('dependencies') || []).flatMap(parseFrontmatterValue)
     ),
+    capture,
     passthroughFrontmatter: buildPassthroughFrontmatter(parsedFrontmatter.entries, objectType),
   };
 }
@@ -1009,7 +1792,7 @@ function extractMarkdownFrontmatter(source: string): ParsedFrontmatter | null {
     }
 
     const firstKey = firstFieldMatch[1].toLowerCase();
-    if (!/^(title|caption|date|object_type|objecttype|type|state|tags|images|summary|excerpt|id|status|visibility|themes|media|scale|depth|focus|function)$/.test(firstKey)) {
+    if (!/^(title|caption|date|object_type|objecttype|type|state|tags|images|summary|excerpt|id|status|visibility|themes|media|scale|depth|focus|function|protocol_version|capture_mode|object_form_suggestion|object_form_lock|type_resolution|capture|orientation|trace|media_intent|pull|pressure|selection_note|holds_under_isolation|field_break|survives_alone|interruptions|refine_later|isolate_later)$/.test(firstKey)) {
       return null;
     }
   }
@@ -1167,26 +1950,82 @@ function collectBodyImageMediaItems(
   return items;
 }
 
+function resolveMediaIntentTargetSrc(
+  intent: PigeonCaptureMediaIntent,
+  uploadedImagesByName: Map<string, PreparedImageAsset>,
+  uploadedAssets: PreparedImageAsset[]
+): string | undefined {
+  if (intent.src) {
+    return normalizeImageReference(intent.src, uploadedImagesByName) || intent.src;
+  }
+
+  if (intent.original_filename) {
+    const normalizedFilename = basenameFromReference(intent.original_filename);
+    const asset = uploadedAssets.find(
+      (candidate) => normalizeFilename(candidate.originalName) === normalizedFilename
+    );
+    if (asset) {
+      return asset.publicSrc;
+    }
+  }
+
+  if (typeof intent.index === 'number' && intent.index > 0) {
+    return uploadedAssets[intent.index - 1]?.publicSrc;
+  }
+
+  return undefined;
+}
+
+function resolveMediaIntentForSrc(
+  src: string,
+  mediaIntent: PigeonCaptureMediaIntent[],
+  uploadedImagesByName: Map<string, PreparedImageAsset>,
+  uploadedAssets: PreparedImageAsset[]
+): PigeonCaptureMediaIntent | undefined {
+  return mediaIntent.find((intent) => resolveMediaIntentTargetSrc(intent, uploadedImagesByName, uploadedAssets) === src);
+}
+
 function buildNormalizedImageFields(
+  requestedMedia: PigeonMediaItem[],
   declaredImages: string[],
   body: string,
   uploadedImagesByName: Map<string, PreparedImageAsset>,
   uploadedAssets: PreparedImageAsset[],
-  primaryCaption?: string
+  primaryCaption?: string,
+  mediaIntent: PigeonCaptureMediaIntent[] = []
 ): { images: string[]; media: PigeonMediaItem[] } {
-  const ordered: Array<{ src: string; alt?: string; caption?: string; capture?: PigeonMediaCapture }> = [];
-  const bySrc = new Map<string, { src: string; alt?: string; caption?: string; capture?: PigeonMediaCapture }>();
+  const ordered: Array<{
+    src: string;
+    role?: PigeonMediaRole;
+    alt?: string;
+    caption?: string;
+    capture?: PigeonMediaCapture;
+  }> = [];
+  const bySrc = new Map<
+    string,
+    { src: string; role?: PigeonMediaRole; alt?: string; caption?: string; capture?: PigeonMediaCapture }
+  >();
 
-  const upsert = (src: string, alt?: string, caption?: string, capture?: PigeonMediaCapture) => {
+  const upsert = (
+    src: string,
+    role?: PigeonMediaRole,
+    alt?: string,
+    caption?: string,
+    capture?: PigeonMediaCapture
+  ) => {
     const normalizedSrc = src.trim();
     if (!normalizedSrc) {
       return;
     }
 
+    const normalizedRole = role;
     const normalizedAlt = normalizeOptionalString(alt);
     const normalizedCaption = normalizeOptionalString(caption);
     const existing = bySrc.get(normalizedSrc);
     if (existing) {
+      if (!existing.role && normalizedRole) {
+        existing.role = normalizedRole;
+      }
       if (!existing.alt && normalizedAlt) {
         existing.alt = normalizedAlt;
       }
@@ -1201,6 +2040,7 @@ function buildNormalizedImageFields(
 
     const item = {
       src: normalizedSrc,
+      role: normalizedRole,
       alt: normalizedAlt,
       caption: normalizedCaption,
       capture,
@@ -1209,21 +2049,34 @@ function buildNormalizedImageFields(
     ordered.push(item);
   };
 
+  for (const mediaItem of requestedMedia) {
+    upsert(mediaItem.src, mediaItem.role, mediaItem.alt, mediaItem.caption, mediaItem.capture);
+  }
+
   for (const image of declaredImages) {
     const normalizedSrc = normalizeImageReference(image, uploadedImagesByName);
     if (!normalizedSrc) {
       continue;
     }
 
-    upsert(normalizedSrc);
+    const intent = resolveMediaIntentForSrc(normalizedSrc, mediaIntent, uploadedImagesByName, uploadedAssets);
+    upsert(normalizedSrc, intent?.role, intent?.alt, intent?.caption);
   }
 
   for (const item of collectBodyImageMediaItems(body, uploadedImagesByName)) {
-    upsert(item.src, item.alt, item.caption);
+    const intent = resolveMediaIntentForSrc(item.src, mediaIntent, uploadedImagesByName, uploadedAssets);
+    upsert(item.src, intent?.role, item.alt || intent?.alt, item.caption || intent?.caption);
   }
 
   for (const asset of uploadedAssets) {
-    upsert(asset.publicSrc, fallbackAltFromImageTarget(asset.originalName), undefined, asset.capture);
+    const intent = resolveMediaIntentForSrc(asset.publicSrc, mediaIntent, uploadedImagesByName, uploadedAssets);
+    upsert(
+      asset.publicSrc,
+      intent?.role,
+      intent?.alt || fallbackAltFromImageTarget(asset.originalName),
+      intent?.caption,
+      asset.capture
+    );
   }
 
   const normalizedPrimaryCaption = normalizeOptionalString(primaryCaption);
@@ -1234,7 +2087,7 @@ function buildNormalizedImageFields(
   const media = ordered.map((item, index) => ({
     kind: 'image' as const,
     src: item.src,
-    role: index === 0 ? ('hero' as const) : ('gallery' as const),
+    role: item.role || (index === 0 ? ('hero' as const) : ('gallery' as const)),
     alt: item.alt,
     caption: item.caption,
     capture: item.capture,
@@ -1244,6 +2097,44 @@ function buildNormalizedImageFields(
     images: media.map((item) => item.src),
     media,
   };
+}
+
+function finalizeCaptureMetadata(
+  capture: PigeonCaptureMetadata | null,
+  uploadedImagesByName: Map<string, PreparedImageAsset>,
+  uploadedAssets: PreparedImageAsset[]
+): PigeonCaptureMetadata | null {
+  if (!capture) {
+    return null;
+  }
+
+  const mediaIntent = capture.media_intent
+    ?.map((intent) => {
+      const resolvedSrc = resolveMediaIntentTargetSrc(intent, uploadedImagesByName, uploadedAssets);
+      return omitUndefinedFields({
+        ...intent,
+        src: resolvedSrc || intent.src,
+      }) as PigeonCaptureMediaIntent;
+    })
+    .filter((intent) => Object.keys(intent).length > 0);
+
+  return omitUndefinedFields({
+    ...capture,
+    media_intent: mediaIntent && mediaIntent.length > 0 ? mediaIntent : undefined,
+  }) as PigeonCaptureMetadata;
+}
+
+function buildCaptureSidecar(capture: PigeonCaptureMetadata | null): SidecarFile[] {
+  if (!capture) {
+    return [];
+  }
+
+  return [
+    {
+      suffix: '.capture.json',
+      content: Buffer.from(JSON.stringify(capture, null, 2), 'utf8'),
+    },
+  ];
 }
 
 function yamlString(value: string): string {
@@ -1403,6 +2294,39 @@ function omitOperationalFieldHudFrontmatter(frontmatter: Record<string, unknown>
   delete sanitized.mythmech;
   delete sanitized.plate_prompt;
   delete sanitized.platePrompt;
+  delete sanitized.capture;
+  delete sanitized.capture_json;
+  delete sanitized.captureJson;
+  delete sanitized.protocol_version;
+  delete sanitized.protocolVersion;
+  delete sanitized.capture_mode;
+  delete sanitized.captureMode;
+  delete sanitized.object_form_suggestion;
+  delete sanitized.objectFormSuggestion;
+  delete sanitized.object_form_lock;
+  delete sanitized.objectFormLock;
+  delete sanitized.type_resolution;
+  delete sanitized.typeResolution;
+  delete sanitized.orientation;
+  delete sanitized.trace;
+  delete sanitized.media_intent;
+  delete sanitized.mediaIntent;
+  delete sanitized.pull;
+  delete sanitized.pressure;
+  delete sanitized.selection_note;
+  delete sanitized.selectionNote;
+  delete sanitized.holds_under_isolation;
+  delete sanitized.holdsUnderIsolation;
+  delete sanitized.field_break;
+  delete sanitized.fieldBreak;
+  delete sanitized.survives_alone;
+  delete sanitized.survivesAlone;
+  delete sanitized.interruptions;
+  delete sanitized.refine_later;
+  delete sanitized.refineLater;
+  delete sanitized.isolate_later;
+  delete sanitized.isolateLater;
+  delete sanitized.staging;
 
   return sanitized;
 }
@@ -1557,9 +2481,26 @@ function parseFieldHudRequest(
     { ...requestedFrontmatter, ...candidate },
     'field hud payload'
   );
+  const capture = normalizeCaptureMetadataFromRecord(
+    {
+      ...requestedFrontmatter,
+      ...candidate,
+      capture:
+        candidate.capture ??
+        requestedFrontmatter.capture ??
+        candidate.capture_json ??
+        requestedFrontmatter.capture_json,
+    },
+    'field hud payload',
+    'field-hud'
+  );
 
   if (axisOverrides instanceof Response) {
     return axisOverrides;
+  }
+
+  if (capture instanceof Response) {
+    return capture;
   }
 
   const tags = normalizeFlexibleStringArray(candidate.tags ?? requestedFrontmatter.tags);
@@ -1687,6 +2628,7 @@ function parseFieldHudRequest(
           ? normalizeStatus(frontmatter.state) || status
           : undefined,
       codexDependencies: dependencies,
+      capture,
       passthroughFrontmatter: [],
     },
     requestedSlug:
@@ -2014,6 +2956,9 @@ async function writeLocalEntry(
       path: filePath,
       paths: {
         markdown: filePath,
+        capture: sidecars.some((sidecar) => sidecar.suffix === '.capture.json')
+          ? `${basePath}.capture.json`
+          : null,
         packet: sidecars.some((sidecar) => sidecar.suffix === '.packet.json')
           ? `${basePath}.packet.json`
           : null,
@@ -2032,6 +2977,7 @@ async function writeLocalEntry(
       },
       images: payload.images,
       axes: payload.axes,
+      capture: payload.capture,
       url: getPublishedUrl(payload.objectType, slug),
       object_url: getPublishedUrl(payload.objectType, slug),
       hud_url:
@@ -2379,6 +3325,9 @@ async function writeGitHubEntry(
       path: relativePath,
       paths: {
         markdown: relativePath,
+        capture: sidecars.some((sidecar) => sidecar.suffix === '.capture.json')
+          ? relativePath.replace(/\.md$/i, '.capture.json')
+          : null,
         packet: sidecars.some((sidecar) => sidecar.suffix === '.packet.json')
           ? relativePath.replace(/\.md$/i, '.packet.json')
           : null,
@@ -2397,6 +3346,7 @@ async function writeGitHubEntry(
       },
       images: payload.images,
       axes: payload.axes,
+      capture: payload.capture,
       url: getPublishedUrl(payload.objectType, slug),
       object_url: getPublishedUrl(payload.objectType, slug),
       hud_url:
@@ -2439,6 +3389,17 @@ async function parseMultipartPayload(request: Request): Promise<ParsedPigeonRequ
 
   const noteValue = formData.get('note');
   const note = typeof noteValue === 'string' ? noteValue.trim() : '';
+  const formTextFields = Object.fromEntries(
+    Array.from(formData.entries()).filter(([, value]) => typeof value === 'string')
+  );
+  const formCapture = normalizeCaptureMetadataFromRecord(
+    formTextFields,
+    'multipart form-data',
+    uploadedImages.length > 0 && !note ? 'image-only' : 'guided'
+  );
+  if (formCapture instanceof Response) {
+    return formCapture;
+  }
 
   if (!note) {
     if (uploadedImages.length === 0) {
@@ -2450,7 +3411,10 @@ async function parseMultipartPayload(request: Request): Promise<ParsedPigeonRequ
 
     return {
       kind: 'standard',
-      payload: buildImageOnlyPayload(getFormObjectTypeCandidate(formData)),
+      payload: {
+        ...buildImageOnlyPayload(getFormObjectTypeCandidate(formData)),
+        capture: formCapture,
+      },
       uploadedImages,
     };
   }
@@ -2458,9 +3422,12 @@ async function parseMultipartPayload(request: Request): Promise<ParsedPigeonRequ
   if (uploadedImages.length > 0 && !extractMarkdownFrontmatter(note) && shouldTreatNoteAsImageCaption(note)) {
     return {
       kind: 'standard',
-      payload: buildImageOnlyPayload(getFormObjectTypeCandidate(formData), new Date().toISOString(), {
-        caption: note,
-      }),
+      payload: {
+        ...buildImageOnlyPayload(getFormObjectTypeCandidate(formData), new Date().toISOString(), {
+          caption: note,
+        }),
+        capture: formCapture,
+      },
       uploadedImages,
     };
   }
@@ -2472,9 +3439,24 @@ async function parseMultipartPayload(request: Request): Promise<ParsedPigeonRequ
     return parsed;
   }
 
+  const mergedCapture = normalizeCaptureMetadataFromRecord(
+    {
+      ...formTextFields,
+      capture: formTextFields.capture ?? parsed.capture,
+    },
+    'multipart form-data',
+    parsed.imageOnly ? 'image-only' : 'guided'
+  );
+  if (mergedCapture instanceof Response) {
+    return mergedCapture;
+  }
+
   return {
     kind: 'standard',
-    payload: parsed,
+    payload: {
+      ...parsed,
+      capture: mergedCapture,
+    },
     uploadedImages,
   };
 }
@@ -2538,6 +3520,11 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
       !extractMarkdownFrontmatter(note) &&
       shouldTreatNoteAsImageCaption(note)
     ) {
+      const capture = normalizeCaptureMetadataFromRecord(candidate, 'json note payload', 'image-only');
+      if (capture instanceof Response) {
+        return capture;
+      }
+
       return {
         kind: 'standard',
         payload: {
@@ -2545,6 +3532,7 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
             caption: note,
           }),
           images: normalizeNonEmptyStrings(candidateImages),
+          capture,
         },
         uploadedImages: [],
       };
@@ -2555,9 +3543,24 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
       return parsed;
     }
 
+    const capture = normalizeCaptureMetadataFromRecord(
+      {
+        ...candidate,
+        capture: candidate.capture ?? parsed.capture,
+      },
+      'json note payload',
+      parsed.imageOnly ? 'image-only' : 'default'
+    );
+    if (capture instanceof Response) {
+      return capture;
+    }
+
     return {
       kind: 'standard',
-      payload: parsed,
+      payload: {
+        ...parsed,
+        capture,
+      },
       uploadedImages: [],
     };
   }
@@ -2569,10 +3572,19 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
   const tags = normalizeStringArray(candidate.tags);
   const themes = candidate.themes === undefined ? [] : normalizeStringArray(candidate.themes);
   const images = candidate.images === undefined ? [] : normalizeStringArray(candidate.images);
+  const requestedMedia =
+    candidate.media === undefined
+      ? undefined
+      : normalizeRequestedMediaItems(candidate.media, 'json payload');
   const dependencies =
     candidate.dependencies === undefined ? [] : normalizeStringArray(candidate.dependencies);
   const axisOverrides = resolveAxisOverridesFromRecord(candidate, 'json payload');
   const imageOnly = isImageOnlySubmission(body, images?.length ?? 0);
+  const capture = normalizeCaptureMetadataFromRecord(
+    candidate,
+    'json payload',
+    imageOnly ? 'image-only' : 'default'
+  );
   const objectType = resolveObjectType(
     new Map([
       ['object_type', [typeof candidate.object_type === 'string' ? candidate.object_type : '']],
@@ -2616,8 +3628,16 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
     return Response.json({ error: 'dependencies must be an array of strings.' }, { status: 400 });
   }
 
+  if (requestedMedia instanceof Response) {
+    return requestedMedia;
+  }
+
   if (axisOverrides instanceof Response) {
     return axisOverrides;
+  }
+
+  if (capture instanceof Response) {
+    return capture;
   }
 
   return {
@@ -2637,7 +3657,7 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
       body,
       primaryCaption: caption || undefined,
       images: normalizeNonEmptyStrings(images),
-      media: [],
+      media: requestedMedia || [],
       imageOnly,
       status: normalizeStatus(candidate.status) || 'published',
       visibility: normalizeVisibility(candidate.visibility) || 'public',
@@ -2654,6 +3674,7 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
         : undefined,
       codexState: normalizeStatus(candidate.state) || undefined,
       codexDependencies: normalizeNonEmptyStrings(dependencies),
+      capture,
       passthroughFrontmatter: [],
     },
     uploadedImages: [],
@@ -2694,6 +3715,7 @@ export const POST: APIRoute = async ({ request }) => {
         parsed.payload.body
       );
       const sidecars: SidecarFile[] = [
+        ...buildCaptureSidecar(parsed.payload.capture),
         ...(parsed.packet !== null
           ? [
               {
@@ -2778,17 +3800,25 @@ export const POST: APIRoute = async ({ request }) => {
           })
         : Promise.resolve(null);
     const normalizedImageFields = buildNormalizedImageFields(
+      parsed.payload.media,
       parsed.payload.images,
       rewrittenBody.body,
       uploadedImagesByName,
       preparedImages,
-      parsed.payload.primaryCaption
+      parsed.payload.primaryCaption,
+      parsed.payload.capture?.media_intent
+    );
+    const finalizedCapture = finalizeCaptureMetadata(
+      parsed.payload.capture,
+      uploadedImagesByName,
+      preparedImages
     );
     const finalPayload: PigeonPayload = {
       ...parsed.payload,
       body: rewrittenBody.body,
       images: normalizedImageFields.images,
       media: normalizedImageFields.media,
+      capture: finalizedCapture,
       imageOnly: isImageOnlySubmission(rewrittenBody.body, normalizedImageFields.images.length),
     };
 
@@ -2809,9 +3839,17 @@ export const POST: APIRoute = async ({ request }) => {
           },
         ]
       : [];
+    const captureSidecars = buildCaptureSidecar(finalizedCapture);
 
     if (githubConfig) {
-      return await writeGitHubEntry(githubConfig, finalPayload, slug, markdown, preparedImages, visionSidecars);
+      return await writeGitHubEntry(
+        githubConfig,
+        finalPayload,
+        slug,
+        markdown,
+        preparedImages,
+        [...captureSidecars, ...visionSidecars]
+      );
     }
 
     if (isHostedRuntime()) {
@@ -2824,7 +3862,13 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    return await writeLocalEntry(finalPayload, slug, markdown, preparedImages, visionSidecars);
+    return await writeLocalEntry(
+      finalPayload,
+      slug,
+      markdown,
+      preparedImages,
+      [...captureSidecars, ...visionSidecars]
+    );
   } catch (error) {
     return Response.json(
       {
