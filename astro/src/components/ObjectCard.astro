@@ -416,7 +416,12 @@ const showThemes =
   !showBubbleQuoteStage &&
   !bubbleImageLead;
 const showAuthorTease = !showFragmentStage && !showBubbleQuoteStage && !bubbleImageLead;
-const showObjectFormNote = Boolean(objectFormNote) && !showFragmentStage && !showBubbleQuoteStage && !bubbleImageLead;
+const showObjectFormNote =
+  Boolean(objectFormNote) &&
+  variant !== 'feed' &&
+  !showFragmentStage &&
+  !showBubbleQuoteStage &&
+  !bubbleImageLead;
 const useCenteredCopyStack = !showFragmentStage && (variant === 'feed' || variant === 'related');
 const useImageOnlyFeedLayout =
   variant === 'feed' &&

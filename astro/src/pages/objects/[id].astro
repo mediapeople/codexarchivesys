@@ -654,17 +654,6 @@ const exportAlternateLinks = [
       >
         ← {defaultBackLabel}
       </a>
-
-      <InspectModePanel
-        slug={getObjectSlug(entry)}
-        packet={sidecars.packet}
-        respawn={sidecars.respawn}
-        mythmech={sidecars.mythmech}
-        platePrompt={sidecars.platePrompt}
-        marginaliaEntries={mythmechMarginaliaEntries}
-        forceVisible={entry.collection === 'scroll' && entry.data.status === 'published'}
-        variant="utility"
-      />
     </div>
 
     <header class="object-head">
@@ -1269,6 +1258,17 @@ const exportAlternateLinks = [
             </section>
           )}
         </footer>
+
+        <InspectModePanel
+          slug={getObjectSlug(entry)}
+          packet={sidecars.packet}
+          respawn={sidecars.respawn}
+          mythmech={sidecars.mythmech}
+          platePrompt={sidecars.platePrompt}
+          marginaliaEntries={mythmechMarginaliaEntries}
+          forceVisible={entry.collection === 'scroll' && entry.data.status === 'published'}
+          variant="footer"
+        />
       </div>
     </div>
   </article>
@@ -1717,11 +1717,8 @@ const exportAlternateLinks = [
   }
 
   .object-topline {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 0.9rem 1.2rem;
-    align-items: start;
-    margin-bottom: 1.1rem;
+    display: block;
+    margin-bottom: 0.45rem;
   }
 
   .object-head > :global(.type-badge) {
@@ -1792,7 +1789,7 @@ const exportAlternateLinks = [
   }
 
   .object-head h1 {
-    margin: 0.85rem 0 1.15rem;
+    margin: 0.58rem 0 1.15rem;
     line-height: 1.14;
     text-wrap: pretty;
   }
@@ -4515,13 +4512,11 @@ const exportAlternateLinks = [
 
   @media (max-width: 560px) {
     .object-topline {
-      grid-template-columns: 1fr;
-      gap: 0.42rem;
-      margin-bottom: 1.48rem;
+      margin-bottom: 0.7rem;
     }
 
     .object-head h1 {
-      margin: 1.08rem 0 1.48rem;
+      margin: 0.72rem 0 1.32rem;
       line-height: 1.04;
     }
 
