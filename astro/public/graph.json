@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-04-17T20:28:28.444Z",
+  "generatedAt": "2026-04-18T03:44:34.945Z",
   "sourceDir": "./src/content",
-  "nodeCount": 151,
-  "edgeCount": 4815,
+  "nodeCount": 154,
+  "edgeCount": 4861,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -119,6 +119,24 @@
         "structure",
         "architecture",
         "transmission"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "coordinate-suwanee-arch-01",
+      "slug": "coordinate-suwanee-arch-01",
+      "url": "https://ndcodex.com/objects/coordinate-suwanee-arch-01/",
+      "stableId": "codex://object/coordinate-suwanee-arch-01",
+      "type": "artifact",
+      "title": "Arch-01",
+      "date": "2026-04-17",
+      "object_form": "coordinate",
+      "themes": [
+        "coordinate",
+        "installation",
+        "architecture",
+        "boundary",
+        "permeability"
       ],
       "constellations": []
     },
@@ -2083,6 +2101,24 @@
       "constellations": []
     },
     {
+      "id": "micro-mytho-mole",
+      "slug": "micro-mytho-mole",
+      "url": "https://ndcodex.com/objects/micro-mytho-mole/",
+      "stableId": "codex://object/micro-mytho-mole",
+      "type": "scroll",
+      "title": "Mole",
+      "date": "2026-04-17",
+      "object_form": "creature",
+      "themes": [
+        "mythoanatomy",
+        "creature",
+        "pressure",
+        "touch",
+        "subterranean"
+      ],
+      "constellations": []
+    },
+    {
       "id": "one-yard-from-forever",
       "slug": "one-yard-from-forever",
       "url": "https://ndcodex.com/objects/one-yard-from-forever/",
@@ -2418,6 +2454,24 @@
         "care",
         "return",
         "shine"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "bubble-psychosphere-surface-01",
+      "slug": "bubble-psychosphere-surface-01",
+      "url": "https://ndcodex.com/objects/bubble-psychosphere-surface-01/",
+      "stableId": "codex://object/bubble-psychosphere-surface-01",
+      "type": "signal",
+      "title": "the psychosphere has a surface",
+      "date": "2026-04-17",
+      "object_form": "bubble",
+      "themes": [
+        "bubble",
+        "language",
+        "surface",
+        "contact",
+        "psychosphere"
       ],
       "constellations": []
     },
@@ -26543,6 +26597,14 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "micro-mytho-mole",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "mothers-calendar",
       "weight": 1,
       "reasons": [
@@ -27191,6 +27253,14 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "micro-mytho-mole",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "mythplate",
       "weight": 1,
       "reasons": [
@@ -27464,6 +27534,14 @@
     {
       "source": "artifact-jsa-collage-001",
       "target": "machine-creatures",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "micro-mytho-mole",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -28368,6 +28446,14 @@
     {
       "source": "bezalel-the-designated-hand",
       "target": "constellation-node-alchemy",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
+      "target": "coordinate-suwanee-arch-01",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -29935,6 +30021,14 @@
     },
     {
       "source": "cities-built-on-ruin-reminiscence",
+      "target": "micro-mytho-mole",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
       "target": "mythplate",
       "weight": 1,
       "reasons": [
@@ -30823,6 +30917,14 @@
     },
     {
       "source": "citizen-network-map-hi-fi",
+      "target": "coordinate-suwanee-arch-01",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
       "target": "distortion-atlas",
       "weight": 1,
       "reasons": [
@@ -31055,6 +31157,14 @@
     },
     {
       "source": "codex-archive-system-v2-2",
+      "target": "coordinate-suwanee-arch-01",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
       "target": "crane-field-illustration",
       "weight": 1,
       "reasons": [
@@ -31247,6 +31357,14 @@
     },
     {
       "source": "codex-archive-system-v2-5-notes",
+      "target": "coordinate-suwanee-arch-01",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
       "target": "crane-field-illustration",
       "weight": 1,
       "reasons": [
@@ -31424,6 +31542,14 @@
     {
       "source": "codex-archive-system-v2-6-notes",
       "target": "constellation-node-alchemy",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
+      "target": "coordinate-suwanee-arch-01",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -31608,6 +31734,14 @@
     {
       "source": "codex-archive-system-v2-7-notes",
       "target": "codex-archive-system-v3-12-marginalia-live-publish-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "coordinate-suwanee-arch-01",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -31752,6 +31886,14 @@
     {
       "source": "codex-archive-system-v2-7-notes",
       "target": "work-intelligence-v4g",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "coordinate-suwanee-arch-01",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -31911,6 +32053,14 @@
     },
     {
       "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "coordinate-suwanee-arch-01",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
       "target": "distortion-atlas",
       "weight": 1,
       "reasons": [
@@ -32016,6 +32166,14 @@
     {
       "source": "codex-archive-system-v3-10-media-handoff-notes",
       "target": "work-intelligence-v4g",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-11-lattice-groundwork-notes",
+      "target": "coordinate-suwanee-arch-01",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -32695,6 +32853,14 @@
     },
     {
       "source": "codex-archive-system-v3-13-hud-clarity-notes",
+      "target": "coordinate-suwanee-arch-01",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-13-hud-clarity-notes",
       "target": "distortion-atlas",
       "weight": 1,
       "reasons": [
@@ -32887,6 +33053,14 @@
     },
     {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "coordinate-suwanee-arch-01",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "jsa-collage-evolution-003",
       "weight": 1,
       "reasons": [
@@ -32999,6 +33173,14 @@
     },
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "coordinate-suwanee-arch-01",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "distortion-atlas",
       "weight": 1,
       "reasons": [
@@ -33127,6 +33309,14 @@
     },
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "coordinate-suwanee-arch-01",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "distortion-atlas",
       "weight": 1,
       "reasons": [
@@ -33248,6 +33438,14 @@
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "work-intelligence-v4g",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "coordinate-suwanee-arch-01",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -33391,6 +33589,14 @@
     },
     {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "coordinate-suwanee-arch-01",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "distortion-atlas",
       "weight": 1,
       "reasons": [
@@ -33520,6 +33726,14 @@
     {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "work-intelligence-v4g",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "target": "coordinate-suwanee-arch-01",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -33687,6 +33901,14 @@
     },
     {
       "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "coordinate-suwanee-arch-01",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
       "target": "distortion-atlas",
       "weight": 1,
       "reasons": [
@@ -33816,6 +34038,14 @@
     {
       "source": "codex-archive-system-v3-8-specimen-surface-notes",
       "target": "work-intelligence-v4g",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-9-orientation-clarity-notes",
+      "target": "coordinate-suwanee-arch-01",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -33967,6 +34197,14 @@
     },
     {
       "source": "codex-archive-system-v3-notes",
+      "target": "coordinate-suwanee-arch-01",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
       "target": "ellijay-ga-fourth-of-july-loremap",
       "weight": 1,
       "reasons": [
@@ -34119,6 +34357,14 @@
     },
     {
       "source": "codex-archive-system-v3-plus-notes",
+      "target": "coordinate-suwanee-arch-01",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
       "target": "justice-begins-as-a-ripple",
       "weight": 1,
       "reasons": [
@@ -34224,6 +34470,14 @@
     {
       "source": "codex-archive-system-v3-plus-notes",
       "target": "work-intelligence-v4g",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
+      "target": "coordinate-suwanee-arch-01",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -34440,6 +34694,14 @@
     {
       "source": "codex-glyph-grammar",
       "target": "work-intelligence-v4g",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
+      "target": "coordinate-suwanee-arch-01",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -34846,6 +35108,46 @@
       ]
     },
     {
+      "source": "coordinate-suwanee-arch-01",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "coordinate-suwanee-arch-01",
+      "target": "on-object-oriented-archives",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "coordinate-suwanee-arch-01",
+      "target": "on-visceral-distillation",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "coordinate-suwanee-arch-01",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "coordinate-suwanee-arch-01",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "crane-field-illustration",
       "target": "heart-does-not-dream",
       "weight": 1,
@@ -35048,6 +35350,14 @@
     {
       "source": "deck-under-load-ii",
       "target": "manic-rider-collapse",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "deck-under-load-ii",
+      "target": "micro-mytho-mole",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -36407,6 +36717,14 @@
     },
     {
       "source": "heart-does-not-dream",
+      "target": "micro-mytho-mole",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "heart-does-not-dream",
       "target": "mythmech-system",
       "weight": 1,
       "reasons": [
@@ -37200,6 +37518,14 @@
     {
       "source": "jsa-collage-evolution-003",
       "target": "machine-creatures",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "micro-mytho-mole",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -38191,6 +38517,14 @@
     },
     {
       "source": "manic-rider-collapse",
+      "target": "micro-mytho-mole",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "manic-rider-collapse",
       "target": "mothers-calendar",
       "weight": 1,
       "reasons": [
@@ -38440,6 +38774,94 @@
     {
       "source": "mcginnis-ferry-threshold",
       "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "micro-mytho-mole",
+      "target": "on-visceral-distillation",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "micro-mytho-mole",
+      "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "micro-mytho-mole",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "micro-mytho-mole",
+      "target": "pocket-rock-cathedral",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "micro-mytho-mole",
+      "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "micro-mytho-mole",
+      "target": "signal-descent-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "micro-mytho-mole",
+      "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "micro-mytho-mole",
+      "target": "steel-elbow-flinchian",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "micro-mytho-mole",
+      "target": "the-bones-hold",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "micro-mytho-mole",
+      "target": "unacceptable-cost",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "micro-mytho-mole",
+      "target": "under-load",
       "weight": 1,
       "reasons": [
         "shared-theme"

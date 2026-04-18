@@ -1,0 +1,33 @@
+{
+  "protocol_version": "pigeon-1.1",
+  "capture_mode": "guided",
+  "object_form_lock": "coordinate",
+  "type_resolution": "manual",
+  "orientation": {
+    "prompt_set": "coordinate",
+    "responses": {
+      "holds_under_isolation": "The arched outer frame, twin openings, and circular aperture remain fully legible even when removed from the larger installation context.",
+      "field_break": "The object defines space through framed voids rather than through enclosure."
+    }
+  },
+  "trace": {
+    "pull": "Framed void.",
+    "expanded": {
+      "selection_note": "A coordinate centered on a structure that holds as a complete boundary while remaining permeable.",
+      "holds_under_isolation": "The form stays coherent under isolation because the outer frame and inner apertures carry the whole read.",
+      "field_break": "Its boundary reveals passage rather than blocking it."
+    }
+  },
+  "media_intent": [
+    {
+      "kind": "image",
+      "role": "hero",
+      "src": "/media/pigeon/artifact/coordinate-suwanee-arch-01-01.JPG",
+      "alt": "Freestanding arched stone installation with two tall inner openings and a circular aperture near the top."
+    }
+  ],
+  "staging": {
+    "refine_later": false,
+    "isolate_later": false
+  }
+}

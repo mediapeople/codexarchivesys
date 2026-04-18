@@ -1,0 +1,36 @@
+{
+  "protocol_version": "pigeon-1.1",
+  "capture_mode": "guided",
+  "object_form_lock": "bubble",
+  "type_resolution": "manual",
+  "orientation": {
+    "prompt_set": "bubble",
+    "responses": {
+      "survives_alone": "\"the psychosphere has a surface :)\" survives intact as a standalone language fragment."
+    }
+  },
+  "trace": {
+    "pull": "the psychosphere has a surface :)",
+    "expanded": {
+      "selection_note": "A language-first bubble that lands as contact before theory.",
+      "survives_alone": "The phrase holds on its own and still changes the read of mind from depth to surface."
+    }
+  },
+  "media_intent": [
+    {
+      "kind": "image",
+      "role": "hero",
+      "src": "/media/pigeon/signal/bubble-psychosphere-surface-01-01.jpg",
+      "alt": "Green operator card displaying the phrase 'the psychosphere has a surface :)' in large white type."
+    },
+    {
+      "kind": "image",
+      "role": "detail",
+      "src": "/media/pigeon/signal/bubble-psychosphere-surface-01-02.jpg",
+      "alt": "Angled view of the green operator card displaying the phrase 'the psychosphere has a surface :)' against a black background."
+    }
+  ],
+  "staging": {
+    "refine_later": false
+  }
+}

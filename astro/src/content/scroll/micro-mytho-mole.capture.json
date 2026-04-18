@@ -1,0 +1,30 @@
+{
+  "protocol_version": "pigeon-1.1",
+  "capture_mode": "guided",
+  "object_form_lock": "creature",
+  "type_resolution": "manual",
+  "orientation": {
+    "prompt_set": "creature",
+    "responses": {
+      "pressure": "Total visual irrelevance. The mole solves it by increasing contact and tunneling through resistance."
+    }
+  },
+  "trace": {
+    "pull": "Lives where sight fails.",
+    "expanded": {
+      "selection_note": "A micro mythoanatomy centered on the mole as a living pattern of touch, resistance, and subterranean adaptation.",
+      "pressure": "Total visual irrelevance. The body answers it through touch saturation, force, and continuous tunneling."
+    }
+  },
+  "media_intent": [
+    {
+      "kind": "image",
+      "role": "hero",
+      "src": "/media/pigeon/scroll/micro-mytho-mole-01.png",
+      "alt": "Sepia illustration of an eastern mole emerging from soil with broad digging forelimbs extended."
+    }
+  ],
+  "staging": {
+    "refine_later": false
+  }
+}
