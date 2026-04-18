@@ -66,6 +66,29 @@ function extractFrontmatter(raw) {
   return lines.slice(1, end + 1).join('\n');
 }
 
+function readObjectForm(file) {
+  const capturePath = file.replace(/\.md$/i, '.capture.json');
+  if (!fs.existsSync(capturePath)) {
+    return '';
+  }
+
+  try {
+    const capture = JSON.parse(fs.readFileSync(capturePath, 'utf8'));
+    const rawValue =
+      typeof capture?.object_form_lock === 'string' && capture.object_form_lock.trim()
+        ? capture.object_form_lock.trim()
+        : typeof capture?.object_form_suggestion === 'string' && capture.object_form_suggestion.trim()
+          ? capture.object_form_suggestion.trim()
+          : '';
+    const normalized = rawValue.toLowerCase();
+    return normalized === 'bubble' || normalized === 'coordinate' || normalized === 'creature'
+      ? normalized
+      : '';
+  } catch {
+    return '';
+  }
+}
+
 function resolveDefaultSourceDir() {
   const candidates = ['src/content', 'astro/src/content', 'objects'];
   for (const candidate of candidates) {
@@ -120,6 +143,7 @@ const nodes = objects.map((item) => ({
   type: String(item.fields.type || ''),
   title: String(item.fields.title || ''),
   date: String(item.fields.date || ''),
+  object_form: readObjectForm(item.file),
   themes: getDiscoveryThemes(item),
   constellations: item.fields.constellations || [],
 }));

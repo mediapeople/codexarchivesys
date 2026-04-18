@@ -25,6 +25,8 @@ export async function GET() {
               title: attachment.title,
             }))
           : undefined,
+      object_form: item.objectForm,
+      capture: item.capture,
     };
   });
 

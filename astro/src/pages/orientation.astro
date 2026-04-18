@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { COLLECTIONS, getAllEntries } from '../lib/archive';
 import { getDefaultSourceProfile } from '../lib/sourceProfiles';
 import { getTaxonomyIndexPath, getTaxonomyTermPath } from '../lib/taxonomy';
+import { getObjectExport } from '../lib/objectInterop';
 import TypeBadge from '../components/TypeBadge.astro';
 import { formatArchiveDate } from '../lib/timeline';
 
@@ -18,6 +19,13 @@ const typeCounts = COLLECTIONS.map((type) => ({
   type,
   count: entries.filter((entry) => entry.collection === type).length,
 })).filter((item) => item.count > 0);
+const objectFormCounts = entries.reduce((counts, entry) => {
+  const form = getObjectExport(entry).object_form;
+  if (form) {
+    counts.set(form, (counts.get(form) || 0) + 1);
+  }
+  return counts;
+}, new Map<string, number>());
 
 const typeDefinitionMap: Record<
   (typeof COLLECTIONS)[number],
@@ -81,11 +89,40 @@ const constellationCards = constellationBlueprint.map((item) => ({
   count: entries.filter((entry) => entry.data.constellations.includes(item.name)).length,
 }));
 
+const objectFormBlueprint = [
+  {
+    form: 'bubble',
+    label: 'Bubble',
+    description: 'Language fragments that still hold when stripped away from context.',
+    prompt: 'Does this survive alone?',
+    renders: 'Pigeon / Feed / Object / Graph / JSON export',
+  },
+  {
+    form: 'coordinate',
+    label: 'Coordinate',
+    description: 'Forms, images, and structures that retain legibility under isolation.',
+    prompt: 'Would this hold without its surroundings?',
+    renders: 'Pigeon / Feed / Object / Graph / JSON export',
+  },
+  {
+    form: 'creature',
+    label: 'Creature',
+    description: 'Living patterns that show themselves by how they answer pressure.',
+    prompt: 'What pressure is being solved?',
+    renders: 'Pigeon / Feed / Object / Graph / JSON export',
+  },
+] as const;
+
+const objectFormCards = objectFormBlueprint.map((item) => ({
+  ...item,
+  count: objectFormCounts.get(item.form) || 0,
+}));
+
 const latestEntry = entries[0] || null;
 const latestDate = latestEntry ? formatArchiveDate(latestEntry.data) : null;
 
 const coreOperatingRule =
-  'The system optimizes for immediate orientation and dependable live publishing while preserving object-first reading quality.';
+  'The system optimizes for immediate orientation, dependable live publishing, and surfaces that let NI and AI read each item in the manner that fits it.';
 
 const stabilityRules = ['schema slow', 'objects fast', 'relations growing'];
 
@@ -131,6 +168,12 @@ const fieldContractRows = [
     role: 'Maintains continuity across releases.',
   },
   {
+    field: 'Object Form',
+    renders: 'Pigeon / Feed / Object / Graph / JSON',
+    owner: 'Pigeon + Operator',
+    role: 'Adds Bubble, Coordinate, or Creature context so capture and display stay legible across surfaces.',
+  },
+  {
     field: 'Location / Geo',
     renders: 'Object / Loremap / Spatial surfaces',
     owner: 'Operator',
@@ -148,8 +191,8 @@ const fieldContractRows = [
     <p class="page-hero-eyebrow">Orientation</p>
     <h1 class="page-hero-title">Archaeological Mythology in Practice</h1>
     <p class="page-hero-sub">
-      A living archive of scrolls, collages, codices, and field logs — excavating transmissible wisdom
-      from lived experience, cultural artifacts, and creative ordeal.
+      A living archive of scrolls, collages, codices, and field logs — now carrying Bubble,
+      Coordinate, and Creature orientation so capture, reading, and machine export stay aligned.
     </p>
     <div class="hero-stats">
       <article class="page-plate">
@@ -245,6 +288,28 @@ const fieldContractRows = [
                 <span class="type-definition-count">{item.count} objects</span>
               </div>
               <p>{typeDefinitionMap[item.type].description}</p>
+            </li>
+          ))}
+        </ul>
+      </article>
+      <article class="form-envelope">
+        <h3>Object forms</h3>
+        <p class="body-copy legend-intro">
+          Bubble, Coordinate, and Creature are cross-object reading classes. They guide capture lightly and
+          travel into feed chips, object headers, graph nodes, and machine-readable export.
+        </p>
+        <ul class="form-catalog">
+          {objectFormCards.map((item) => (
+            <li class={`form-definition page-plate form-definition--${item.form}`}>
+              <div class="form-definition-head">
+                <span class={`form-chip form-chip--${item.form}`}>{item.label}</span>
+                <span class="form-definition-count">{item.count} objects</span>
+              </div>
+              <p>{item.description}</p>
+              <div class="form-definition-meta">
+                <span>{item.prompt}</span>
+                <code>{item.renders}</code>
+              </div>
             </li>
           ))}
         </ul>
@@ -669,6 +734,16 @@ const fieldContractRows = [
     max-width: 1120px;
   }
 
+  .form-catalog {
+    margin: 1.7rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem 1.65rem;
+    max-width: 1120px;
+  }
+
   .type-definition {
     --plate-border: rgba(255, 255, 255, 0.1);
     --plate-shadow: 0 16px 34px rgba(0, 0, 0, 0.14);
@@ -692,6 +767,47 @@ const fieldContractRows = [
     box-shadow:
       inset 0 0 0 1px var(--orientation-shell-rule-soft),
       0 14px 30px rgba(0, 0, 0, 0.12);
+  }
+
+  .form-definition {
+    --plate-border: rgba(255, 255, 255, 0.1);
+    --plate-shadow: 0 16px 34px rgba(0, 0, 0, 0.14);
+    --plate-surface: linear-gradient(180deg, rgba(22, 17, 14, 0.9), rgba(10, 9, 8, 0.92));
+    --plate-tint: rgba(196, 98, 58, 0.08);
+    --plate-tint-secondary: rgba(201, 150, 58, 0.05);
+    --orientation-shell-rule: color-mix(in srgb, var(--plate-border) 90%, rgba(255, 255, 255, 0.06));
+    --orientation-shell-rule-soft: color-mix(in srgb, var(--plate-border) 58%, rgba(255, 255, 255, 0.025));
+    min-width: 0;
+    width: 100%;
+    min-height: 100%;
+    padding: 1.45rem 1.4rem 1.52rem;
+    border: 1px solid var(--orientation-shell-rule);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.018), transparent 24%),
+      radial-gradient(circle at 14% 0%, var(--plate-tint), transparent 46%),
+      radial-gradient(circle at 100% 100%, var(--plate-tint-secondary), transparent 58%),
+      var(--plate-surface);
+    box-shadow:
+      inset 0 0 0 1px var(--orientation-shell-rule-soft),
+      0 14px 30px rgba(0, 0, 0, 0.12);
+  }
+
+  .form-definition--bubble {
+    --plate-border: rgba(255, 207, 136, 0.18);
+    --plate-tint: rgba(176, 107, 45, 0.14);
+    --plate-tint-secondary: rgba(255, 207, 136, 0.08);
+  }
+
+  .form-definition--coordinate {
+    --plate-border: rgba(108, 176, 222, 0.2);
+    --plate-tint: rgba(37, 78, 106, 0.16);
+    --plate-tint-secondary: rgba(154, 213, 255, 0.08);
+  }
+
+  .form-definition--creature {
+    --plate-border: rgba(110, 176, 124, 0.2);
+    --plate-tint: rgba(38, 76, 47, 0.16);
+    --plate-tint-secondary: rgba(164, 237, 177, 0.08);
   }
 
   .type-definition-head {
@@ -730,6 +846,84 @@ const fieldContractRows = [
     color: var(--bone);
     font-size: clamp(1.08rem, 1.4vw, 1.16rem);
     line-height: 1.56;
+  }
+
+  .form-definition-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.12rem;
+  }
+
+  .form-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2rem;
+    padding: 0.3rem 0.78rem;
+    border: 1px solid transparent;
+    font-family: var(--font-ui);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+  }
+
+  .form-chip--bubble {
+    color: #ffcf88;
+    border-color: rgba(255, 207, 136, 0.34);
+    background: rgba(176, 107, 45, 0.16);
+  }
+
+  .form-chip--coordinate {
+    color: #9ad5ff;
+    border-color: rgba(108, 176, 222, 0.34);
+    background: rgba(37, 78, 106, 0.18);
+  }
+
+  .form-chip--creature {
+    color: #a4edb1;
+    border-color: rgba(110, 176, 124, 0.34);
+    background: rgba(38, 76, 47, 0.2);
+  }
+
+  .form-definition-count {
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui);
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+
+  .form-definition p {
+    margin: 0;
+    color: var(--bone);
+    font-size: clamp(1.02rem, 1.35vw, 1.1rem);
+    line-height: 1.62;
+  }
+
+  .form-definition-meta {
+    margin-top: 1rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .form-definition-meta span,
+  .form-definition-meta code {
+    color: var(--mid);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui);
+    text-transform: uppercase;
+  }
+
+  .form-definition-meta code {
+    color: var(--bone);
+    white-space: normal;
+    border: 0;
+    padding: 0;
   }
 
   .type-definition-count {
@@ -1008,7 +1202,8 @@ const fieldContractRows = [
   }
 
   @media (max-width: 980px) {
-    .type-catalog {
+    .type-catalog,
+    .form-catalog {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       max-width: 760px;
       gap: 1.35rem 1.45rem;
@@ -1086,13 +1281,15 @@ const fieldContractRows = [
       margin-left: 0;
     }
 
-    .type-catalog {
+    .type-catalog,
+    .form-catalog {
       grid-template-columns: 1fr;
       max-width: none;
       gap: 1rem;
     }
 
-    .type-definition {
+    .type-definition,
+    .form-definition {
       padding: 1.22rem 1.14rem 1.28rem;
     }
 

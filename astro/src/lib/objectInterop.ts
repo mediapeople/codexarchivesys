@@ -4,6 +4,7 @@ import { getTypeLabel, type ArchiveEntry, type CodexCollection } from './archive
 import { sanitizeDiscoveryTerms } from './discoveryTerms';
 import { bodyStartsWithDuplicateTitleHeading, resolveExcerpt } from './excerpt';
 import { formatDisplayTitle } from './headline';
+import { loadCaptureSidecarSync } from './loadObjectSidecars';
 import { SITE_TITLE, toSiteUrl } from './site';
 
 type ObjectRelationKind = 'related' | 'connection' | 'included' | 'dependency';
@@ -17,12 +18,27 @@ interface ObjectRelation {
   display?: string;
 }
 
+interface ObjectCaptureExport {
+  protocol_version: string | null;
+  capture_mode: string | null;
+  object_form: string | null;
+  object_form_source: 'lock' | 'suggestion' | null;
+  object_form_suggestion: string | null;
+  object_form_lock: string | null;
+  type_resolution: string | null;
+  orientation: Record<string, unknown> | null;
+  trace: Record<string, unknown> | null;
+  media_intent: Record<string, unknown>[];
+  staging: Record<string, unknown> | null;
+}
+
 export interface ObjectExportRecord {
   id: string;
   archive_id: string;
   slug: string;
   url: string;
   type: string;
+  object_form: string | null;
   title: string;
   summary: string;
   content_text: string;
@@ -46,6 +62,7 @@ export interface ObjectExportRecord {
   keywords: string[];
   relations: ObjectRelation[];
   media: CodexMediaItem[];
+  capture: ObjectCaptureExport | null;
 }
 
 const SCHEMA_TYPE_BY_COLLECTION: Record<CodexCollection, string> = {
@@ -225,6 +242,52 @@ function markdownToPlainText(title: string, body?: string): string {
 
 function getObjectDataType(entry: ArchiveEntry): string {
   return normalizeText((entry.data as Record<string, unknown>).type) || entry.collection;
+}
+
+function normalizeObjectFormValue(value: unknown): string | null {
+  const normalized = normalizeText(value).toLowerCase();
+  return normalized === 'bubble' || normalized === 'coordinate' || normalized === 'creature'
+    ? normalized
+    : null;
+}
+
+function normalizeUnknownRecord(value: unknown): Record<string, unknown> | null {
+  return value && typeof value === 'object' && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : null;
+}
+
+function normalizeUnknownRecordArray(value: unknown): Record<string, unknown>[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value.filter((item): item is Record<string, unknown> => Boolean(item) && typeof item === 'object' && !Array.isArray(item));
+}
+
+function getObjectCaptureExport(entry: ArchiveEntry): ObjectCaptureExport | null {
+  const capture = loadCaptureSidecarSync(entry.filePath);
+  if (!capture) {
+    return null;
+  }
+
+  const objectFormLock = normalizeObjectFormValue(capture.object_form_lock);
+  const objectFormSuggestion = normalizeObjectFormValue(capture.object_form_suggestion);
+  const objectForm = objectFormLock || objectFormSuggestion;
+
+  return {
+    protocol_version: normalizeText(capture.protocol_version) || null,
+    capture_mode: normalizeText(capture.capture_mode) || null,
+    object_form: objectForm,
+    object_form_source: objectFormLock ? 'lock' : objectFormSuggestion ? 'suggestion' : null,
+    object_form_suggestion: objectFormSuggestion,
+    object_form_lock: objectFormLock,
+    type_resolution: normalizeText(capture.type_resolution) || null,
+    orientation: normalizeUnknownRecord(capture.orientation),
+    trace: normalizeUnknownRecord(capture.trace),
+    media_intent: normalizeUnknownRecordArray(capture.media_intent),
+    staging: normalizeUnknownRecord(capture.staging),
+  };
 }
 
 export function getObjectThemes(entry: ArchiveEntry): string[] {
@@ -451,6 +514,7 @@ export function getObjectExport(entry: ArchiveEntry): ObjectExportRecord {
   const themes = getObjectThemes(entry);
   const tags = getObjectTags(entry);
   const body = getEntryBody(entry);
+  const capture = getObjectCaptureExport(entry);
 
   return {
     id: getObjectStableId(entry),
@@ -458,6 +522,7 @@ export function getObjectExport(entry: ArchiveEntry): ObjectExportRecord {
     slug: getObjectSlug(entry),
     url: getObjectCanonicalUrl(entry),
     type: getObjectDataType(entry),
+    object_form: capture?.object_form || null,
     title: formatDisplayTitle(entry.data.title),
     summary: getObjectSummary(entry),
     content_text: getObjectContentText(entry),
@@ -481,6 +546,7 @@ export function getObjectExport(entry: ArchiveEntry): ObjectExportRecord {
     keywords: getObjectKeywords(entry),
     relations: getObjectRelations(entry),
     media: [...entry.data.media],
+    capture,
   };
 }
 

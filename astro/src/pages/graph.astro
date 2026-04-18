@@ -12,6 +12,7 @@ type GraphNode = {
   title: string;
   type: string;
   date: string;
+  object_form?: string;
   themes: string[];
   constellations: string[];
   displayTitle?: string;
@@ -48,6 +49,11 @@ const TYPE_META: Record<string, { label: string; color: string; glow: string }> 
   nexus: { label: 'Nexus', color: '#78a0a8', glow: 'rgba(120, 160, 168, 0.24)' },
   loremap: { label: 'Loremap', color: '#7b8db8', glow: 'rgba(123, 141, 184, 0.24)' },
   signal: { label: 'Signal', color: '#b16f98', glow: 'rgba(177, 111, 152, 0.24)' },
+};
+const FORM_META: Record<string, { label: string; color: string; glow: string }> = {
+  bubble: { label: 'Bubble', color: '#ffcf88', glow: 'rgba(255, 207, 136, 0.26)' },
+  coordinate: { label: 'Coordinate', color: '#9ad5ff', glow: 'rgba(108, 176, 222, 0.26)' },
+  creature: { label: 'Creature', color: '#a4edb1', glow: 'rgba(110, 176, 124, 0.26)' },
 };
 
 const defaultGraph: GraphPayload = {
@@ -110,6 +116,16 @@ function formatGraphDate(value: string) {
     day: 'numeric',
     year: 'numeric',
   });
+}
+
+function normalizeObjectForm(value: string | undefined) {
+  const normalized = String(value || '').trim().toLowerCase();
+  return FORM_META[normalized] ? normalized : '';
+}
+
+function formatObjectFormLabel(value: string | undefined) {
+  const normalized = normalizeObjectForm(value);
+  return normalized ? FORM_META[normalized].label : '';
 }
 
 function getNodeHref(node: GraphNode | undefined, fallbackId?: string) {
@@ -196,6 +212,12 @@ const typeCounts = TYPE_ORDER
     ...TYPE_META[type],
   }))
   .filter((entry) => entry.count > 0);
+const formCounts = Object.entries(FORM_META)
+  .map(([form, meta]) => ({
+    form,
+    ...meta,
+    count: graphClientData.nodes.filter((node) => normalizeObjectForm(node.object_form) === form).length,
+  }));
 
 const reasonCounts = [...graphClientData.edges.reduce((counts, edge) => {
   for (const reason of edge.reasons) {
@@ -239,6 +261,7 @@ const graphViewModelJson = JSON.stringify({
   defaultThreshold: DEFAULT_THRESHOLD,
   maxEdgeWeight,
   typeLegend: typeCounts,
+  formLegend: formCounts,
   graph: graphClientData,
 }).replace(/</g, '\\u003c');
 ---
@@ -251,7 +274,8 @@ const graphViewModelJson = JSON.stringify({
       <p class="graph-intro page-hero-sub">
         This is the archive read as a living system instead of a list. Filter the background noise,
         switch the layout, and inspect how scrolls, codex notes, field logs, and nexus issues braid
-        into one shared structure.
+        into one shared structure. Object forms add a second color layer when Bubble, Coordinate,
+        or Creature has been captured for a node.
       </p>
       <div class="graph-meta-row">
         <a class="graph-source-link" href="/graph.json" target="_blank" rel="noreferrer">Open source JSON</a>
@@ -385,6 +409,25 @@ const graphViewModelJson = JSON.stringify({
                       ))}
                     </div>
                   </div>
+
+                  {formCounts.length > 0 && (
+                    <div class="graph-panel-section graph-panel-section--forms">
+                      <div class="graph-panel-header">
+                        <p class="graph-panel-label">Object forms</p>
+                      </div>
+                      <div class="graph-form-grid">
+                        {formCounts.map((entry) => (
+                          <span
+                            class={`graph-form-pill graph-form-pill--${entry.form}`}
+                            style={`--form-color:${entry.color};--form-glow:${entry.glow};`}
+                          >
+                            <span>{entry.label}</span>
+                            <strong>{entry.count}</strong>
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </section>
@@ -401,7 +444,7 @@ const graphViewModelJson = JSON.stringify({
                 </div>
               </div>
               <p class="graph-stage-note" data-graph-stage-note>
-                Type-clustered field. Low-weight affinity is filtered by default so the more structural links stay readable.
+                Type-clustered field. Low-weight affinity is filtered by default so the more structural links stay readable, and object-form color rings appear when Bubble, Coordinate, or Creature has been assigned.
               </p>
 
               <div class="graph-stage-frame page-plate" data-graph-stage>
@@ -438,6 +481,14 @@ const graphViewModelJson = JSON.stringify({
                     style={`--type-color:${TYPE_META[initialSelected.type]?.color || '#d48a53'};`}
                   >
                     {formatTypeLabel(initialSelected.type)}
+                  </span>
+                  <span
+                    class={`graph-selected-form ${normalizeObjectForm(initialSelected.object_form) ? `graph-selected-form--${normalizeObjectForm(initialSelected.object_form)}` : ''}`}
+                    data-graph-selected-form
+                    style={`--form-color:${FORM_META[normalizeObjectForm(initialSelected.object_form)]?.color || '#ffcf88'};`}
+                    hidden={!normalizeObjectForm(initialSelected.object_form)}
+                  >
+                    {formatObjectFormLabel(initialSelected.object_form)}
                   </span>
                   <span data-graph-selected-date>{formatGraphDate(initialSelected.date)}</span>
                 </div>
@@ -577,6 +628,7 @@ const graphViewModelJson = JSON.stringify({
     const model = JSON.parse(modelNode.textContent || '{}');
     const graph = model.graph;
     const typeLegend = Array.isArray(model.typeLegend) ? model.typeLegend : [];
+    const formLegend = Array.isArray(model.formLegend) ? model.formLegend : [];
     const defaultThreshold = Number(model.defaultThreshold || 6);
 
     if (!graph || !Array.isArray(graph.nodes) || !Array.isArray(graph.edges)) return;
@@ -587,6 +639,7 @@ const graphViewModelJson = JSON.stringify({
     const formatter = new Intl.NumberFormat('en-US');
     const typeOrder = typeLegend.map((entry) => entry.type);
     const typeMeta = new Map(typeLegend.map((entry) => [entry.type, entry]));
+    const formMeta = new Map(formLegend.map((entry) => [entry.form, entry]));
 
     const searchInput = root.querySelector('[data-graph-search]');
     const thresholdInput = root.querySelector('[data-graph-threshold]');
@@ -607,6 +660,7 @@ const graphViewModelJson = JSON.stringify({
 
     const selectedTitle = root.querySelector('[data-graph-selected-title]');
     const selectedType = root.querySelector('[data-graph-selected-type]');
+    const selectedForm = root.querySelector('[data-graph-selected-form]');
     const selectedDate = root.querySelector('[data-graph-selected-date]');
     const selectedSummary = root.querySelector('[data-graph-selected-summary]');
     const selectedWeight = root.querySelector('[data-graph-selected-weight]');
@@ -625,6 +679,7 @@ const graphViewModelJson = JSON.stringify({
     const nodes = graph.nodes.map((node) => ({
       ...node,
       displayTitle: node.displayTitle || node.title || node.id,
+      object_form: normalizeObjectForm(node.object_form),
       dateValue: parseDateValue(node.date),
       degree: 0,
       totalWeight: 0,
@@ -632,6 +687,7 @@ const graphViewModelJson = JSON.stringify({
         node.displayTitle || node.title || node.id,
         node.id,
         node.type,
+        node.object_form || '',
         ...(Array.isArray(node.themes) ? node.themes : []),
         ...(Array.isArray(node.constellations) ? node.constellations : []),
       ]
@@ -708,6 +764,16 @@ const graphViewModelJson = JSON.stringify({
 
     function formatType(type) {
       return typeMeta.get(type)?.label || `${type.charAt(0).toUpperCase()}${type.slice(1)}`;
+    }
+
+    function normalizeObjectForm(value) {
+      const normalized = String(value || '').trim().toLowerCase();
+      return formMeta.get(normalized) ? normalized : '';
+    }
+
+    function formatObjectForm(value) {
+      const normalized = normalizeObjectForm(value);
+      return normalized ? formMeta.get(normalized)?.label || normalized : '';
     }
 
     function formatDate(value) {
@@ -1048,6 +1114,8 @@ const graphViewModelJson = JSON.stringify({
           }
 
           const meta = typeMeta.get(node.type);
+          const form = normalizeObjectForm(node.object_form);
+          const formEntry = formMeta.get(form);
           const selected = node.id === selectedId;
           const hovered = node.id === state.hoveredId;
           const neighbor = selectedNeighborIds.has(node.id);
@@ -1072,8 +1140,13 @@ const graphViewModelJson = JSON.stringify({
                 cx="${point.x.toFixed(2)}"
                 cy="${point.y.toFixed(2)}"
                 r="${(size + 8).toFixed(2)}"
-                style="fill:${meta?.glow || 'rgba(212, 138, 83, 0.22)'}"
+                style="fill:${formEntry?.glow || meta?.glow || 'rgba(212, 138, 83, 0.22)'}"
               />
+              ${
+                formEntry
+                  ? `<circle class="graph-node-form-ring" cx="${point.x.toFixed(2)}" cy="${point.y.toFixed(2)}" r="${(size + 3.35).toFixed(2)}" style="stroke:${formEntry.color}" />`
+                  : ''
+              }
               <circle
                 class="graph-node-dot"
                 cx="${point.x.toFixed(2)}"
@@ -1137,6 +1210,20 @@ const graphViewModelJson = JSON.stringify({
       if (selectedType instanceof HTMLElement) {
         selectedType.textContent = formatType(selectedNode.type);
         selectedType.style.setProperty('--type-color', typeMeta.get(selectedNode.type)?.color || '#d48a53');
+      }
+
+      if (selectedForm instanceof HTMLElement) {
+        const normalizedForm = normalizeObjectForm(selectedNode.object_form);
+        if (normalizedForm) {
+          selectedForm.hidden = false;
+          selectedForm.textContent = formatObjectForm(normalizedForm);
+          selectedForm.className = 'graph-selected-form graph-selected-form--' + normalizedForm;
+          selectedForm.style.setProperty('--form-color', formMeta.get(normalizedForm)?.color || '#ffcf88');
+        } else {
+          selectedForm.hidden = true;
+          selectedForm.textContent = '';
+          selectedForm.className = 'graph-selected-form';
+        }
       }
 
       if (selectedDate) {
@@ -1817,6 +1904,12 @@ const graphViewModelJson = JSON.stringify({
     gap: 0.5rem;
   }
 
+  .graph-form-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
   .graph-type-pill {
     display: inline-grid;
     grid-template-columns: auto auto auto;
@@ -1841,6 +1934,27 @@ const graphViewModelJson = JSON.stringify({
     border-radius: 50%;
     background: var(--type-color);
     box-shadow: 0 0 0 4px color-mix(in srgb, var(--type-color) 24%, transparent);
+  }
+
+  .graph-form-pill,
+  .graph-selected-form {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.4rem 0.7rem;
+    border: 1px solid color-mix(in srgb, var(--form-color) 48%, var(--graph-rule));
+    background: color-mix(in srgb, var(--form-color) 16%, rgba(9, 8, 7, 0.56));
+    color: var(--bone);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+  }
+
+  .graph-form-pill strong {
+    color: var(--star);
+    font-size: 11px;
   }
 
   .graph-stage-rail {
@@ -1986,6 +2100,10 @@ const graphViewModelJson = JSON.stringify({
     font-weight: 700;
     letter-spacing: var(--ls-ui-wide);
     text-transform: uppercase;
+  }
+
+  .graph-selected-form[hidden] {
+    display: none;
   }
 
   .graph-selected-meta span:last-child {
@@ -2364,6 +2482,13 @@ const graphViewModelJson = JSON.stringify({
     stroke-width: 2;
     vector-effect: non-scaling-stroke;
     transition: transform 160ms ease;
+  }
+
+  .graph-node-form-ring {
+    fill: none;
+    stroke-width: 1.4;
+    vector-effect: non-scaling-stroke;
+    opacity: 0.92;
   }
 
   .graph-node.is-selected .graph-node-halo,

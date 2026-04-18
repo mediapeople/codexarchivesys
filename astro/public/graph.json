@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-04-17T17:19:05.765Z",
-  "sourceDir": "astro/src/content",
-  "nodeCount": 211,
-  "edgeCount": 4752,
+  "generatedAt": "2026-04-18T03:49:42.968Z",
+  "sourceDir": "./src/content",
+  "nodeCount": 219,
+  "edgeCount": 4870,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -12,6 +12,7 @@
       "type": "artifact",
       "title": "ARCHIVE BOX (STAMPED FRAGMENTS)",
       "date": "2026-02-27",
+      "object_form": "",
       "themes": [
         "memory",
         "collage",
@@ -29,6 +30,7 @@
       "type": "artifact",
       "title": "Archive First",
       "date": "2026-04-16",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -40,6 +42,7 @@
       "type": "artifact",
       "title": "It Cost Us Dearly",
       "date": "2026-03-07",
+      "object_form": "",
       "themes": [
         "collage",
         "comics",
@@ -60,6 +63,7 @@
       "type": "artifact",
       "title": "JSA Collage - Work in Progress",
       "date": "2026-03-07",
+      "object_form": "",
       "themes": [
         "collage",
         "comics",
@@ -78,6 +82,7 @@
       "type": "artifact",
       "title": "JSA Signal Fracture",
       "date": "2026-03-08",
+      "object_form": "",
       "themes": [
         "collage",
         "comics",
@@ -95,6 +100,7 @@
       "type": "artifact",
       "title": "Artifact — Mar 28, 2026",
       "date": "2026-03-28T19:31:49.444Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -106,6 +112,7 @@
       "type": "artifact",
       "title": "Artifact — Mar 28, 2026",
       "date": "2026-03-28T18:39:20.353Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -117,6 +124,7 @@
       "type": "artifact",
       "title": "barefoot in the aisle—",
       "date": "2026-03-26",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -128,6 +136,7 @@
       "type": "artifact",
       "title": "bars",
       "date": "2026-04-01T17:25:33.068Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -139,6 +148,7 @@
       "type": "artifact",
       "title": "Bone Memory Event",
       "date": "2026-04-17",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -150,6 +160,7 @@
       "type": "artifact",
       "title": "Build and Launch, Auto Repair Site",
       "date": "2026-04-16",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -161,6 +172,7 @@
       "type": "artifact",
       "title": "burning magic",
       "date": "2026-04-06",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -172,12 +184,31 @@
       "type": "artifact",
       "title": "Citizen Network Map Hi-Fi",
       "date": "2026-03-10",
+      "object_form": "",
       "themes": [
         "signal",
         "systems",
         "structure",
         "architecture",
         "transmission"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "coordinate-suwanee-arch-01",
+      "slug": "coordinate-suwanee-arch-01",
+      "url": "https://ndcodex.com/objects/coordinate-suwanee-arch-01/",
+      "stableId": "codex://object/coordinate-suwanee-arch-01",
+      "type": "artifact",
+      "title": "Arch-01",
+      "date": "2026-04-17",
+      "object_form": "coordinate",
+      "themes": [
+        "coordinate",
+        "installation",
+        "architecture",
+        "boundary",
+        "permeability"
       ],
       "constellations": []
     },
@@ -189,6 +220,7 @@
       "type": "artifact",
       "title": "corridors",
       "date": "2026-04-12T01:38:41.613Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -200,6 +232,7 @@
       "type": "artifact",
       "title": "Crane Field Illustration",
       "date": "2026-03-11",
+      "object_form": "",
       "themes": [
         "observation",
         "signal",
@@ -216,6 +249,7 @@
       "type": "artifact",
       "title": "debris psalm",
       "date": "2026-04-05",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -227,6 +261,7 @@
       "type": "artifact",
       "title": "DECK UNDER LOAD II",
       "date": "2026-03-01",
+      "object_form": "",
       "themes": [
         "pressure",
         "collage",
@@ -244,6 +279,7 @@
       "type": "artifact",
       "title": "Desert Lab (Pocket Scale)",
       "date": "2026-03-27",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -255,6 +291,7 @@
       "type": "artifact",
       "title": "The Distortion Atlas",
       "date": "2026-03-10",
+      "object_form": "",
       "themes": [
         "observation",
         "structure",
@@ -271,6 +308,7 @@
       "type": "artifact",
       "title": "The Sweet Spot of a Flexible Machine",
       "date": "2026-03-10",
+      "object_form": "",
       "themes": [
         "signal",
         "systems",
@@ -288,6 +326,7 @@
       "type": "artifact",
       "title": "Fractal Chase",
       "date": "2026-03-30T23:57:17.668Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -299,6 +338,7 @@
       "type": "artifact",
       "title": "Fragments refuse obedience",
       "date": "2026-03-24",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -310,6 +350,7 @@
       "type": "artifact",
       "title": "free game",
       "date": "2026-03-31T16:49:19.193Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -321,6 +362,7 @@
       "type": "artifact",
       "title": "Dispatch from the Garage",
       "date": "2026-03-11",
+      "object_form": "",
       "themes": [
         "collage",
         "comics",
@@ -338,6 +380,7 @@
       "type": "artifact",
       "title": "gas price selfie",
       "date": "2026-03-28T20:56:13.844Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -349,6 +392,7 @@
       "type": "artifact",
       "title": "Hero Behavior",
       "date": "2026-04-10T22:10:35.658Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -360,6 +404,7 @@
       "type": "artifact",
       "title": "malaise",
       "date": "2026-04-16T11:48:48.063Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -371,6 +416,7 @@
       "type": "artifact",
       "title": "Mythplate",
       "date": "2026-04-04",
+      "object_form": "",
       "themes": [
         "signal",
         "clarity",
@@ -388,6 +434,7 @@
       "type": "artifact",
       "title": "On Visceral Distillation",
       "date": "2026-03-10",
+      "object_form": "",
       "themes": [
         "pressure",
         "structure",
@@ -407,6 +454,7 @@
       "type": "artifact",
       "title": "One Yard From Forever Scroll Surface",
       "date": "2026-03-11",
+      "object_form": "",
       "themes": [
         "memory",
         "pressure",
@@ -424,6 +472,7 @@
       "type": "artifact",
       "title": "Phoenix Fracture Collage",
       "date": "2026-03-10",
+      "object_form": "",
       "themes": [
         "collage",
         "comics",
@@ -441,6 +490,7 @@
       "type": "artifact",
       "title": "Rodimus Prime Field Acquisition",
       "date": "2026-03-11",
+      "object_form": "",
       "themes": [
         "memory",
         "observation",
@@ -457,6 +507,7 @@
       "type": "artifact",
       "title": "sight exceed vessel",
       "date": "2026-03-27",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -468,6 +519,7 @@
       "type": "artifact",
       "title": "Specimen 001 — Pre-Flight Assembly (Optimistic)",
       "date": "2026-03-24",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -479,6 +531,7 @@
       "type": "artifact",
       "title": "Star Wrek Collage",
       "date": "2026-03-30T23:45:24.158Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -490,6 +543,7 @@
       "type": "artifact",
       "title": "staring contest",
       "date": "2026-03-30",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -501,6 +555,7 @@
       "type": "artifact",
       "title": "supes",
       "date": "2026-04-12T13:35:46.731Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -512,6 +567,7 @@
       "type": "artifact",
       "title": "survival map",
       "date": "2026-03-29T17:10:07.232Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -523,6 +579,7 @@
       "type": "artifact",
       "title": "The Circle, the Node, and the Office",
       "date": "2026-03-12",
+      "object_form": "",
       "themes": [
         "signal",
         "systems",
@@ -540,6 +597,7 @@
       "type": "artifact",
       "title": "The Lot Protocol",
       "date": "2026-03-23",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -551,6 +609,7 @@
       "type": "artifact",
       "title": "too many mind",
       "date": "2026-04-06",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -562,6 +621,7 @@
       "type": "artifact",
       "title": "turn between them",
       "date": "2026-04-05",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -573,6 +633,7 @@
       "type": "artifact",
       "title": "UNDER LOAD",
       "date": "2026-02-24",
+      "object_form": "",
       "themes": [
         "pressure",
         "collage",
@@ -590,6 +651,7 @@
       "type": "artifact",
       "title": "wheelie",
       "date": "2026-04-08T14:54:04.431Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -601,6 +663,7 @@
       "type": "artifact",
       "title": "Work Intelligence V4G",
       "date": "2026-03-17",
+      "object_form": "",
       "themes": [
         "work",
         "intelligence",
@@ -618,6 +681,7 @@
       "type": "artifact",
       "title": "\\\"WORK OF THE HIGHEST CONSEQUENCE\\\"",
       "date": "2026-03-17",
+      "object_form": "",
       "themes": [
         "work",
         "consequence",
@@ -634,6 +698,7 @@
       "type": "codex",
       "title": "A Complete Operational Stack for the Conductive State",
       "date": "2026-03-27",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -645,6 +710,7 @@
       "type": "codex",
       "title": "Carrier Pigeon Publishing System",
       "date": "2026-03-15",
+      "object_form": "",
       "themes": [
         "publishing",
         "infrastructure",
@@ -661,6 +727,7 @@
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v2.2",
       "date": "2026-03-04",
+      "object_form": "",
       "themes": [
         "systems",
         "architecture",
@@ -676,6 +743,7 @@
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v2.5 NOTES",
       "date": "2026-03-07",
+      "object_form": "",
       "themes": [
         "systems",
         "architecture",
@@ -691,6 +759,7 @@
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v2.6 NOTES",
       "date": "2026-03-07",
+      "object_form": "",
       "themes": [
         "systems",
         "architecture",
@@ -706,6 +775,7 @@
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v2.7 NOTES",
       "date": "2026-03-07",
+      "object_form": "",
       "themes": [
         "systems",
         "architecture",
@@ -724,6 +794,7 @@
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3.1 BUILD NOTES",
       "date": "2026-03-08",
+      "object_form": "",
       "themes": [
         "systems",
         "architecture",
@@ -743,6 +814,7 @@
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3.10 MEDIA HANDOFF NOTES",
       "date": "2026-03-13",
+      "object_form": "",
       "themes": [
         "systems",
         "methodology",
@@ -763,6 +835,7 @@
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3.11 LATTICE GROUNDWORK NOTES",
       "date": "2026-03-17",
+      "object_form": "",
       "themes": [
         "systems",
         "methodology",
@@ -782,6 +855,7 @@
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3.12.1 MARGINALIA LIVE PUBLISH NOTES",
       "date": "2026-03-17",
+      "object_form": "",
       "themes": [
         "systems",
         "maintenance",
@@ -801,6 +875,7 @@
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3.12 MARGINALIA NOTES",
       "date": "2026-03-17",
+      "object_form": "",
       "themes": [
         "systems",
         "methodology",
@@ -820,6 +895,7 @@
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3.13 HUD CLARITY NOTES",
       "date": "2026-03-27",
+      "object_form": "",
       "themes": [
         "systems",
         "publishing",
@@ -839,6 +915,7 @@
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3.2 FRAGMENT FEED NOTES",
       "date": "2026-03-08",
+      "object_form": "",
       "themes": [
         "systems",
         "architecture",
@@ -858,6 +935,7 @@
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3.3 MODEST TABLE NOTES",
       "date": "2026-03-08",
+      "object_form": "",
       "themes": [
         "systems",
         "architecture",
@@ -877,6 +955,7 @@
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3.4 IMAGE EXPERIENCE NOTES",
       "date": "2026-03-08",
+      "object_form": "",
       "themes": [
         "systems",
         "architecture",
@@ -896,6 +975,7 @@
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3.5 CONTROL SURFACE NOTES",
       "date": "2026-03-08",
+      "object_form": "",
       "themes": [
         "systems",
         "architecture",
@@ -915,6 +995,7 @@
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3.6 READING SURFACE NOTES",
       "date": "2026-03-08",
+      "object_form": "",
       "themes": [
         "systems",
         "architecture",
@@ -934,6 +1015,7 @@
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3.7 LOREMAP FOUNDATION NOTES",
       "date": "2026-03-09",
+      "object_form": "",
       "themes": [
         "systems",
         "architecture",
@@ -953,6 +1035,7 @@
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3.8 SPECIMEN SURFACE NOTES",
       "date": "2026-03-10",
+      "object_form": "",
       "themes": [
         "systems",
         "architecture",
@@ -972,6 +1055,7 @@
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3.9 ORIENTATION CLARITY NOTES",
       "date": "2026-03-11",
+      "object_form": "",
       "themes": [
         "systems",
         "methodology",
@@ -992,6 +1076,7 @@
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3 NOTES",
       "date": "2026-03-07",
+      "object_form": "",
       "themes": [
         "systems",
         "architecture",
@@ -1011,6 +1096,7 @@
       "type": "codex",
       "title": "CODEX ARCHIVE SYSTEM v3+ NOTES",
       "date": "2026-03-07",
+      "object_form": "",
       "themes": [
         "systems",
         "architecture",
@@ -1031,6 +1117,7 @@
       "type": "codex",
       "title": "Codex Glyph Grammar: Symbol Generation Rules",
       "date": "2026-03-08",
+      "object_form": "",
       "themes": [
         "systems",
         "architecture",
@@ -1048,6 +1135,7 @@
       "type": "codex",
       "title": "Codex Glyph System: First Emergence",
       "date": "2026-03-08",
+      "object_form": "",
       "themes": [
         "systems",
         "architecture",
@@ -1064,6 +1152,7 @@
       "type": "codex",
       "title": "crystal myth",
       "date": "2026-04-01",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1075,6 +1164,7 @@
       "type": "codex",
       "title": "distortion viscosity",
       "date": "2026-04-07",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1086,6 +1176,7 @@
       "type": "codex",
       "title": "eco render",
       "date": "2026-04-01",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1097,6 +1188,7 @@
       "type": "codex",
       "title": "Everything arrived at once",
       "date": "2026-03-19",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1108,6 +1200,7 @@
       "type": "codex",
       "title": "Mythmech System",
       "date": "2026-03-26",
+      "object_form": "",
       "themes": [
         "mythmech",
         "inspection",
@@ -1125,11 +1218,32 @@
       "type": "codex",
       "title": "ND Codex Object Classification",
       "date": "2026-03-15",
+      "object_form": "",
       "themes": [
         "taxonomy",
         "archive",
         "structure",
         "methodology"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "ndcodex-vision-expansion-evolution",
+      "slug": "ndcodex-vision-expansion-evolution",
+      "url": "https://ndcodex.com/objects/ndcodex-vision-expansion-evolution/",
+      "stableId": "codex://object/ndcodex-vision-expansion-evolution",
+      "type": "codex",
+      "title": "NDCODEX Vision: Expansion / Evolution",
+      "date": "2026-04-17",
+      "object_form": "",
+      "themes": [
+        "perception",
+        "orientation",
+        "object-forms",
+        "reduction",
+        "systems",
+        "methodology",
+        "publishing"
       ],
       "constellations": []
     },
@@ -1141,6 +1255,7 @@
       "type": "codex",
       "title": "Node Doctrine",
       "date": "2026-03-09",
+      "object_form": "",
       "themes": [
         "systems",
         "signal",
@@ -1158,6 +1273,7 @@
       "type": "codex",
       "title": "OBJECT RELEASE: NFILE.CO",
       "date": "2026-03-18",
+      "object_form": "",
       "themes": [
         "nfile",
         "release",
@@ -1173,6 +1289,7 @@
       "type": "codex",
       "title": "return to self inside the system",
       "date": "2026-03-24",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1184,6 +1301,7 @@
       "type": "codex",
       "title": "Squad Engine",
       "date": "2026-04-04",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1195,6 +1313,7 @@
       "type": "codex",
       "title": "The Bones Hold: Content Architecture Scroll",
       "date": "2026-03-03",
+      "object_form": "",
       "themes": [
         "architecture",
         "methodology",
@@ -1211,6 +1330,7 @@
       "type": "codex",
       "title": "the machine knows me",
       "date": "2026-03-27",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1222,6 +1342,7 @@
       "type": "codex",
       "title": "THE SMALL LEVER, THE QUIET MACHINE",
       "date": "2026-04-04",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1233,6 +1354,7 @@
       "type": "codex",
       "title": "Warchild",
       "date": "2026-03-28",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1244,6 +1366,7 @@
       "type": "fieldlog",
       "title": "Reflection: On Cain, Bezalel, and the Workbench",
       "date": "2026-03-08",
+      "object_form": "",
       "themes": [
         "observation",
         "structure",
@@ -1260,6 +1383,7 @@
       "type": "fieldlog",
       "title": "Go Live Milestone: ndcodex.com",
       "date": "2026-03-07",
+      "object_form": "",
       "themes": [
         "systems",
         "signal",
@@ -1278,6 +1402,7 @@
       "type": "fieldlog",
       "title": "Field Log: Grand Myth Central",
       "date": "2026-03-11",
+      "object_form": "",
       "themes": [
         "memory",
         "observation",
@@ -1295,6 +1420,7 @@
       "type": "fieldlog",
       "title": "JSA Collage Evolution 001",
       "date": "2026-03-07",
+      "object_form": "",
       "themes": [
         "collage",
         "comics",
@@ -1314,6 +1440,7 @@
       "type": "fieldlog",
       "title": "JSA Collage Evolution 002",
       "date": "2026-03-08",
+      "object_form": "",
       "themes": [
         "collage",
         "comics",
@@ -1331,6 +1458,7 @@
       "type": "fieldlog",
       "title": "JSA Collage Evolution 003",
       "date": "2026-03-08",
+      "object_form": "",
       "themes": [
         "collage",
         "comics",
@@ -1348,6 +1476,7 @@
       "type": "fieldlog",
       "title": "Line 6, Pre-Yamaha",
       "date": "2026-03-27",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1359,6 +1488,7 @@
       "type": "fieldlog",
       "title": "The Mother's Calendar",
       "date": "2026-03-10",
+      "object_form": "",
       "themes": [
         "memory",
         "observation",
@@ -1375,6 +1505,7 @@
       "type": "fieldlog",
       "title": "Field Log: Mythplate, Designing for Lift",
       "date": "2026-04-04",
+      "object_form": "",
       "themes": [
         "signal",
         "clarity",
@@ -1392,6 +1523,7 @@
       "type": "fieldlog",
       "title": "FIELD LOG: NORTH GEORGIA",
       "date": "2026-03-03",
+      "object_form": "",
       "themes": [
         "place",
         "maintenance",
@@ -1410,6 +1542,7 @@
       "type": "fieldlog",
       "title": "FIELD LOG: NORTH GEORGIA (WEEK 2)",
       "date": "2026-03-06",
+      "object_form": "",
       "themes": [
         "place",
         "maintenance",
@@ -1428,6 +1561,7 @@
       "type": "fieldlog",
       "title": "Prospect",
       "date": "2026-03-28T11:51:00-04:00",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1439,6 +1573,7 @@
       "type": "fieldlog",
       "title": "Race to the Top at Six Bridges Brewing",
       "date": "2026-03-10",
+      "object_form": "",
       "themes": [
         "place",
         "observation",
@@ -1456,6 +1591,7 @@
       "type": "fieldlog",
       "title": "Field Log: Return of the Joker",
       "date": "2026-03-13",
+      "object_form": "",
       "themes": [
         "collage",
         "comics",
@@ -1472,6 +1608,7 @@
       "type": "fieldlog",
       "title": "Studio Bench Cycle",
       "date": "2026-03-06",
+      "object_form": "",
       "themes": [
         "methodology",
         "observation",
@@ -1489,12 +1626,25 @@
       "type": "fieldlog",
       "title": "STUDIO LOG: ADHESIVE TEST RUN",
       "date": "2026-03-05",
+      "object_form": "",
       "themes": [
         "systems",
         "methodology",
         "observation",
         "collage"
       ],
+      "constellations": []
+    },
+    {
+      "id": "sun-rolled",
+      "slug": "sun-rolled",
+      "url": "https://ndcodex.com/objects/sun-rolled",
+      "stableId": "codex://object/sun-rolled",
+      "type": "fieldlog",
+      "title": "sun rolled",
+      "date": "2026-04-17",
+      "object_form": "",
+      "themes": [],
       "constellations": []
     },
     {
@@ -1505,6 +1655,7 @@
       "type": "fragment",
       "title": "Cities Built on Ruin",
       "date": "2026-03-08",
+      "object_form": "",
       "themes": [
         "survival",
         "structure",
@@ -1520,6 +1671,7 @@
       "type": "fragment",
       "title": "Council of frogs—",
       "date": "2026-03-18",
+      "object_form": "",
       "themes": [
         "council",
         "frogs"
@@ -1534,11 +1686,24 @@
       "type": "fragment",
       "title": "I Work With Machines to Write Scripture",
       "date": "2026-03-08",
+      "object_form": "",
       "themes": [
         "signal",
         "transmission",
         "systems"
       ],
+      "constellations": []
+    },
+    {
+      "id": "if-the-value-is-not-apparent-how-can-you-expect-to-point-it-out-and-translate-it-regularly",
+      "slug": "if-the-value-is-not-apparent-how-can-you-expect-to-point-it-out-and-translate-it-regularly",
+      "url": "https://ndcodex.com/objects/if-the-value-is-not-apparent-how-can-you-expect-to-point-it-out-and-translate-it-regularly",
+      "stableId": "codex://object/if-the-value-is-not-apparent-how-can-you-expect-to-point-it-out-and-translate-it-regularly",
+      "type": "fragment",
+      "title": "If the value is not apparent, how can you expect to point it out and translate it regularly",
+      "date": "2026-04-17",
+      "object_form": "",
+      "themes": [],
       "constellations": []
     },
     {
@@ -1549,6 +1714,7 @@
       "type": "fragment",
       "title": "Just keep swimming",
       "date": "2026-03-28",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1560,6 +1726,7 @@
       "type": "fragment",
       "title": "Keep the Operator Whistling",
       "date": "2026-03-11",
+      "object_form": "",
       "themes": [
         "signal",
         "systems",
@@ -1575,6 +1742,7 @@
       "type": "fragment",
       "title": "Lean Mean Governance Machine",
       "date": "2026-03-07",
+      "object_form": "",
       "themes": [
         "systems",
         "methodology",
@@ -1592,6 +1760,7 @@
       "type": "fragment",
       "title": "Marginalia on a primer for a way of being 2026-03-20-09-38-32",
       "date": "2026-03-20T13:38:32.589Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1603,6 +1772,7 @@
       "type": "fragment",
       "title": "Marginalia on Build and Launch, Auto Repair Site 2026-04-16-16-53-30",
       "date": "2026-04-16T20:53:30.809Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1614,6 +1784,7 @@
       "type": "fragment",
       "title": "Marginalia on Codex Archive System V3.12.1 Marginalia Live Publish Notes 2026-03-17-18-21-13",
       "date": "2026-03-17T22:21:13.903Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1625,6 +1796,7 @@
       "type": "fragment",
       "title": "Marginalia on Council of frogs— 2026-03-18-18-06-19",
       "date": "2026-03-18T22:06:19.408Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1636,6 +1808,7 @@
       "type": "fragment",
       "title": "Marginalia on debris psalm 2026-04-05-15-52-34",
       "date": "2026-04-05T19:52:34.203Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1647,6 +1820,7 @@
       "type": "fragment",
       "title": "Marginalia on Desert Lab (Pocket Scale) 2026-03-27-21-21-02",
       "date": "2026-03-28T01:21:02.192Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1658,6 +1832,7 @@
       "type": "fragment",
       "title": "Marginalia on Everything arrived at once 2026-03-18-20-39-30",
       "date": "2026-03-19T00:39:30.897Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1669,6 +1844,31 @@
       "type": "fragment",
       "title": "Marginalia on Hail Mary 2026-03-31-13-02-31",
       "date": "2026-03-31T17:02:31.883Z",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "marginalia-on-if-the-value-is-not-apparent-how-can-you-expect-to-point-it-out-and-translate-it-regularly-2026-04-17-15-08-43",
+      "slug": "marginalia-on-if-the-value-is-not-apparent-how-can-you-expect-to-point-it-out-and-translate-it-regularly-2026-04-17-15-08-43",
+      "url": "https://ndcodex.com/objects/marginalia-on-if-the-value-is-not-apparent-how-can-you-expect-to-point-it-out-and-translate-it-regularly-2026-04-17-15-08-43",
+      "stableId": "codex://object/marginalia-on-if-the-value-is-not-apparent-how-can-you-expect-to-point-it-out-and-translate-it-regularly-2026-04-17-15-08-43",
+      "type": "fragment",
+      "title": "Marginalia on If the value is not apparent, how can you expect to point it out and translate it regularly 2026-04-17-15-08-43",
+      "date": "2026-04-17T19:08:43.635Z",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "marginalia-on-if-the-value-is-not-apparent-how-can-you-expect-to-point-it-out-and-translate-it-regularly-2026-04-17-15-11-23",
+      "slug": "marginalia-on-if-the-value-is-not-apparent-how-can-you-expect-to-point-it-out-and-translate-it-regularly-2026-04-17-15-11-23",
+      "url": "https://ndcodex.com/objects/marginalia-on-if-the-value-is-not-apparent-how-can-you-expect-to-point-it-out-and-translate-it-regularly-2026-04-17-15-11-23",
+      "stableId": "codex://object/marginalia-on-if-the-value-is-not-apparent-how-can-you-expect-to-point-it-out-and-translate-it-regularly-2026-04-17-15-11-23",
+      "type": "fragment",
+      "title": "Marginalia on If the value is not apparent, how can you expect to point it out and translate it regularly 2026-04-17-15-11-23",
+      "date": "2026-04-17T19:11:23.667Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1680,6 +1880,7 @@
       "type": "fragment",
       "title": "Marginalia on jagged crater 2026-03-27-21-10-01",
       "date": "2026-03-28T01:10:01.276Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1691,6 +1892,7 @@
       "type": "fragment",
       "title": "Marginalia on jagged crater 2026-03-27-21-31-19",
       "date": "2026-03-28T01:31:19.404Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1702,6 +1904,7 @@
       "type": "fragment",
       "title": "Marginalia on Spring Hostile, Spring Holy 2026-03-23-17-45-25",
       "date": "2026-03-23T21:45:25.644Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1713,6 +1916,7 @@
       "type": "fragment",
       "title": "Marginalia on Star Wrek Collage 2026-03-30-19-51-15",
       "date": "2026-03-30T23:51:15.383Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1724,6 +1928,7 @@
       "type": "fragment",
       "title": "Marginalia on the edge, pull, and seat 2026-03-30-08-10-02",
       "date": "2026-03-30T12:10:02.028Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1735,6 +1940,7 @@
       "type": "fragment",
       "title": "Marginalia on The Lot Protocol 2026-03-23-17-40-58",
       "date": "2026-03-23T21:40:58.574Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1746,6 +1952,7 @@
       "type": "fragment",
       "title": "Marginalia on turn between them 2026-04-05-08-18-44",
       "date": "2026-04-05T12:18:44.115Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1757,6 +1964,7 @@
       "type": "fragment",
       "title": "Nothing Missing, Only Unindexed",
       "date": "2026-03-04",
+      "object_form": "",
       "themes": [
         "memory",
         "systems",
@@ -1772,6 +1980,7 @@
       "type": "fragment",
       "title": "On Object-Oriented Archives",
       "date": "2026-02-20",
+      "object_form": "",
       "themes": [
         "systems",
         "architecture",
@@ -1787,6 +1996,7 @@
       "type": "fragment",
       "title": "The Operator Winks at the Machines",
       "date": "2026-03-09",
+      "object_form": "",
       "themes": [
         "systems",
         "signal",
@@ -1802,6 +2012,7 @@
       "type": "fragment",
       "title": "Parked",
       "date": "2026-03-17",
+      "object_form": "",
       "themes": [
         "parked",
         "knowing"
@@ -1816,6 +2027,7 @@
       "type": "fragment",
       "title": "Reduce Novelty Before Care",
       "date": "2026-03-06",
+      "object_form": "",
       "themes": [
         "systems",
         "maintenance",
@@ -1831,6 +2043,7 @@
       "type": "fragment",
       "title": "system stayed on",
       "date": "2026-04-02",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1842,6 +2055,7 @@
       "type": "fragment",
       "title": "Systems Survive Tuesdays",
       "date": "2026-03-06",
+      "object_form": "",
       "themes": [
         "systems",
         "maintenance",
@@ -1857,6 +2071,7 @@
       "type": "fragment",
       "title": "When the Commit Leaves Your Hands",
       "date": "2026-03-08",
+      "object_form": "",
       "themes": [
         "systems",
         "transmission",
@@ -1872,6 +2087,7 @@
       "type": "loremap",
       "title": "Loremap: Chattahoochee River",
       "date": "2026-03-10",
+      "object_form": "",
       "themes": [
         "place",
         "memory",
@@ -1888,6 +2104,7 @@
       "type": "loremap",
       "title": "Loremap: Ellijay, GA - Fourth of July",
       "date": "2026-03-18",
+      "object_form": "",
       "themes": [
         "place",
         "ritual",
@@ -1906,6 +2123,7 @@
       "type": "loremap",
       "title": "Loremap: McGinnis Ferry Threshold",
       "date": "2026-03-22",
+      "object_form": "",
       "themes": [
         "place",
         "river",
@@ -1924,6 +2142,7 @@
       "type": "loremap",
       "title": "Spring Hostile, Spring Holy",
       "date": "2026-03-23",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1935,6 +2154,7 @@
       "type": "loremap",
       "title": "Loremap: Suwanee, GA",
       "date": "2026-03-08",
+      "object_form": "",
       "themes": [
         "place",
         "observation",
@@ -1951,6 +2171,7 @@
       "type": "loremap",
       "title": "Tribble Mill",
       "date": "2026-03-28",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1962,6 +2183,7 @@
       "type": "nexus",
       "title": "broken pencil psalm",
       "date": "2026-04-13",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -1973,6 +2195,7 @@
       "type": "nexus",
       "title": "CITIZEN NETWORK DISPATCH",
       "date": "2026-03-10",
+      "object_form": "",
       "themes": [
         "systems",
         "signal",
@@ -1992,6 +2215,7 @@
       "type": "nexus",
       "title": "SIGNAL DESCENT",
       "date": "2026-03-04",
+      "object_form": "",
       "themes": [
         "signal",
         "memory",
@@ -2010,6 +2234,7 @@
       "type": "nexus",
       "title": "SIGNAL DESCENT 002",
       "date": "2026-03-06",
+      "object_form": "",
       "themes": [
         "signal",
         "pressure",
@@ -2028,6 +2253,7 @@
       "type": "nexus",
       "title": "SIGNAL DESCENT 003",
       "date": "2026-03-07",
+      "object_form": "",
       "themes": [
         "signal",
         "systems",
@@ -2047,6 +2273,7 @@
       "type": "nexus",
       "title": "SIGNAL DESCENT 004",
       "date": "2026-03-08",
+      "object_form": "",
       "themes": [
         "signal",
         "transmission",
@@ -2066,6 +2293,7 @@
       "type": "nexus",
       "title": "SIGNAL DESCENT 005",
       "date": "2026-03-11",
+      "object_form": "",
       "themes": [
         "signal",
         "systems",
@@ -2085,6 +2313,7 @@
       "type": "nexus",
       "title": "SIGNAL DESCENT 006",
       "date": "2026-03-28T12:00:00-04:00",
+      "object_form": "",
       "themes": [
         "signal",
         "systems",
@@ -2104,6 +2333,7 @@
       "type": "scroll",
       "title": "\\\"another day\\\"",
       "date": "2026-03-19",
+      "object_form": "",
       "themes": [
         "swing"
       ],
@@ -2117,6 +2347,7 @@
       "type": "scroll",
       "title": "✦ APPARATUS LEDGER ✦",
       "date": "2026-03-07",
+      "object_form": "",
       "themes": [
         "systems",
         "pressure",
@@ -2135,6 +2366,7 @@
       "type": "scroll",
       "title": "Art Is for People Who Want to Feel Alive",
       "date": "2026-03-08",
+      "object_form": "",
       "themes": [
         "signal",
         "survival",
@@ -2151,6 +2383,7 @@
       "type": "scroll",
       "title": "Babylon on board—",
       "date": "2026-03-27",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2162,6 +2395,7 @@
       "type": "scroll",
       "title": "behind the eye",
       "date": "2026-04-06",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2173,6 +2407,7 @@
       "type": "scroll",
       "title": "Bezalel: The Designated Hand",
       "date": "2026-03-08",
+      "object_form": "",
       "themes": [
         "architecture",
         "structure",
@@ -2189,6 +2424,7 @@
       "type": "scroll",
       "title": "bruised elegance",
       "date": "2026-04-08",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2200,6 +2436,7 @@
       "type": "scroll",
       "title": "Capture and Convert",
       "date": "2026-03-10",
+      "object_form": "",
       "themes": [
         "signal",
         "systems",
@@ -2216,6 +2453,7 @@
       "type": "scroll",
       "title": "The Characters in the Field",
       "date": "2026-03-11",
+      "object_form": "",
       "themes": [
         "observation",
         "signal",
@@ -2231,6 +2469,7 @@
       "type": "scroll",
       "title": "Cities Built on Ruin: Reminiscence of the Third Evolution",
       "date": "2026-03-08",
+      "object_form": "",
       "themes": [
         "collage",
         "pressure",
@@ -2248,6 +2487,7 @@
       "type": "scroll",
       "title": "The Citizen Network Doctrine",
       "date": "2026-03-09",
+      "object_form": "",
       "themes": [
         "signal",
         "systems",
@@ -2265,6 +2505,7 @@
       "type": "scroll",
       "title": "Constellation Alchemy: Nodes That Remember",
       "date": "2026-03-09",
+      "object_form": "",
       "themes": [
         "signal",
         "memory",
@@ -2282,6 +2523,7 @@
       "type": "scroll",
       "title": "corridor of light",
       "date": "2026-03-28",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2293,6 +2535,7 @@
       "type": "scroll",
       "title": "Disrespectful Power Is Gross",
       "date": "2026-03-09",
+      "object_form": "",
       "themes": [
         "systems",
         "structure",
@@ -2309,6 +2552,7 @@
       "type": "scroll",
       "title": "green blades",
       "date": "2026-04-17",
+      "object_form": "",
       "themes": [
         "agency",
         "environment",
@@ -2324,6 +2568,7 @@
       "type": "scroll",
       "title": "The Heart Does Not Dream. It Repeats.",
       "date": "2026-03-07",
+      "object_form": "",
       "themes": [
         "systems",
         "maintenance",
@@ -2343,6 +2588,7 @@
       "type": "scroll",
       "title": "In spiral",
       "date": "2026-04-11",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2354,6 +2600,7 @@
       "type": "scroll",
       "title": "Line Cook",
       "date": "2026-04-04",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2365,6 +2612,7 @@
       "type": "scroll",
       "title": "Machine Creatures",
       "date": "2026-03-10",
+      "object_form": "",
       "themes": [
         "systems",
         "signal",
@@ -2381,6 +2629,7 @@
       "type": "scroll",
       "title": "MAINTENANCE WITHOUT CURE",
       "date": "2026-03-04",
+      "object_form": "",
       "themes": [
         "maintenance",
         "survival",
@@ -2398,11 +2647,30 @@
       "type": "scroll",
       "title": "The Manic Rider and Collapse",
       "date": "2026-03-10",
+      "object_form": "",
       "themes": [
         "pressure",
         "observation",
         "survival",
         "structure"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "micro-mytho-mole",
+      "slug": "micro-mytho-mole",
+      "url": "https://ndcodex.com/objects/micro-mytho-mole/",
+      "stableId": "codex://object/micro-mytho-mole",
+      "type": "scroll",
+      "title": "Mole",
+      "date": "2026-04-17",
+      "object_form": "creature",
+      "themes": [
+        "mythoanatomy",
+        "creature",
+        "pressure",
+        "touch",
+        "subterranean"
       ],
       "constellations": []
     },
@@ -2414,6 +2682,7 @@
       "type": "scroll",
       "title": "One Yard From Forever",
       "date": "2026-03-11",
+      "object_form": "",
       "themes": [
         "memory",
         "pressure",
@@ -2430,6 +2699,7 @@
       "type": "scroll",
       "title": "parked outside the nursery",
       "date": "2026-04-16",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2441,6 +2711,7 @@
       "type": "scroll",
       "title": "pink moon parody",
       "date": "2026-04-02",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2452,6 +2723,7 @@
       "type": "scroll",
       "title": "Pocket Rock Cathedral",
       "date": "2026-03-10",
+      "object_form": "",
       "themes": [
         "pressure",
         "structure",
@@ -2469,6 +2741,7 @@
       "type": "scroll",
       "title": "PRESSURE PSALM V",
       "date": "2026-03-05",
+      "object_form": "",
       "themes": [
         "pressure",
         "signal",
@@ -2486,6 +2759,7 @@
       "type": "scroll",
       "title": "Quiet Vector Doctrine",
       "date": "2026-03-11",
+      "object_form": "",
       "themes": [
         "signal",
         "systems",
@@ -2502,6 +2776,7 @@
       "type": "scroll",
       "title": "rabbitos",
       "date": "2026-04-01",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2513,6 +2788,7 @@
       "type": "scroll",
       "title": "Recombinant theater, another day",
       "date": "2026-03-26",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2524,6 +2800,7 @@
       "type": "scroll",
       "title": "RIDGE LINE LESSONS",
       "date": "2026-03-03",
+      "object_form": "",
       "themes": [
         "place",
         "observation",
@@ -2542,6 +2819,7 @@
       "type": "scroll",
       "title": "Scripture With Machines",
       "date": "2026-03-08",
+      "object_form": "",
       "themes": [
         "signal",
         "transmission",
@@ -2558,6 +2836,7 @@
       "type": "scroll",
       "title": "A Scroll from the Perimeter",
       "date": "2026-03-06",
+      "object_form": "",
       "themes": [
         "signal",
         "survival",
@@ -2576,6 +2855,7 @@
       "type": "scroll",
       "title": "Shop Talk",
       "date": "2026-03-12",
+      "object_form": "",
       "themes": [
         "signal",
         "transmission",
@@ -2593,6 +2873,7 @@
       "type": "scroll",
       "title": "SIGNAL HARVEST",
       "date": "2026-03-01",
+      "object_form": "",
       "themes": [
         "signal",
         "memory",
@@ -2610,6 +2891,7 @@
       "type": "scroll",
       "title": "✦ SIGNAL SCROLL: PINK DUST THRESHOLD ✦",
       "date": "2026-03-26",
+      "object_form": "",
       "themes": [
         "GLIDE",
         "MINOR",
@@ -2625,6 +2907,7 @@
       "type": "scroll",
       "title": "sons of thunder",
       "date": "2026-03-27",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2636,6 +2919,7 @@
       "type": "scroll",
       "title": "spawn seed",
       "date": "2026-04-01",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2647,6 +2931,7 @@
       "type": "scroll",
       "title": "Stairwell Signal",
       "date": "2026-03-06",
+      "object_form": "",
       "themes": [
         "transmission",
         "memory",
@@ -2664,6 +2949,7 @@
       "type": "scroll",
       "title": "✦ STAY ON TARGET ✦",
       "date": "2026-03-27",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2675,6 +2961,7 @@
       "type": "scroll",
       "title": "Flinchian Sonic Analysis - The Steel Elbow Diagnostic",
       "date": "2026-03-08",
+      "object_form": "",
       "themes": [
         "systems",
         "signal",
@@ -2691,6 +2978,7 @@
       "type": "scroll",
       "title": "survival features",
       "date": "2026-04-01",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2702,6 +2990,7 @@
       "type": "scroll",
       "title": "THE BONES HOLD",
       "date": "2026-02-28",
+      "object_form": "",
       "themes": [
         "maintenance",
         "survival",
@@ -2721,6 +3010,7 @@
       "type": "scroll",
       "title": "the edge, pull, and seat",
       "date": "2026-03-30",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2732,6 +3022,7 @@
       "type": "scroll",
       "title": "the protest of continuing",
       "date": "2026-04-02",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2743,6 +3034,7 @@
       "type": "scroll",
       "title": "THE SUGAR EARTH SCROLL",
       "date": "2026-03-16",
+      "object_form": "",
       "themes": [
         "earth",
         "glucose",
@@ -2759,6 +3051,7 @@
       "type": "scroll",
       "title": "TRANSMISSION NOTE TO FUTURE ME",
       "date": "2026-03-02",
+      "object_form": "",
       "themes": [
         "transmission",
         "memory",
@@ -2776,6 +3069,7 @@
       "type": "scroll",
       "title": "The Unacceptable Cost",
       "date": "2026-03-09",
+      "object_form": "",
       "themes": [
         "systems",
         "pressure",
@@ -2793,6 +3087,7 @@
       "type": "signal",
       "title": "a primer for a way of being",
       "date": "2026-03-20",
+      "object_form": "",
       "themes": [
         "primer",
         "small",
@@ -2810,7 +3105,26 @@
       "type": "signal",
       "title": "BUBBLE: GERONIMO",
       "date": "2026-04-17",
+      "object_form": "",
       "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "bubble-psychosphere-surface-01",
+      "slug": "bubble-psychosphere-surface-01",
+      "url": "https://ndcodex.com/objects/bubble-psychosphere-surface-01/",
+      "stableId": "codex://object/bubble-psychosphere-surface-01",
+      "type": "signal",
+      "title": "the psychosphere has a surface",
+      "date": "2026-04-17",
+      "object_form": "bubble",
+      "themes": [
+        "bubble",
+        "language",
+        "surface",
+        "contact",
+        "psychosphere"
+      ],
       "constellations": []
     },
     {
@@ -2821,6 +3135,7 @@
       "type": "signal",
       "title": "character cones",
       "date": "2026-04-04T02:37:36.358Z",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2832,6 +3147,7 @@
       "type": "signal",
       "title": "check. check, from the yard",
       "date": "2026-03-27",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2843,6 +3159,7 @@
       "type": "signal",
       "title": "cross the yard",
       "date": "2026-04-14",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2854,6 +3171,7 @@
       "type": "signal",
       "title": "Hail Mary",
       "date": "2026-03-31",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2865,6 +3183,7 @@
       "type": "signal",
       "title": "Heartsfield",
       "date": "2026-03-31",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2876,6 +3195,7 @@
       "type": "signal",
       "title": "hope would not",
       "date": "2026-04-14",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2887,6 +3207,7 @@
       "type": "signal",
       "title": "I could have passed",
       "date": "2026-03-30",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2898,6 +3219,7 @@
       "type": "signal",
       "title": "jagged crater",
       "date": "2026-03-27",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2909,6 +3231,7 @@
       "type": "signal",
       "title": "Justice Begins As A Ripple",
       "date": "2026-03-14",
+      "object_form": "",
       "themes": [
         "signal",
         "justice",
@@ -2924,6 +3247,7 @@
       "type": "signal",
       "title": "little luck dragon",
       "date": "2026-03-31",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2935,6 +3259,7 @@
       "type": "signal",
       "title": "live wire across the yard ⚡",
       "date": "2026-03-28",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2946,6 +3271,7 @@
       "type": "signal",
       "title": "\\\"✦ OUTSIDE, PIB ✦\\\"",
       "date": "2026-03-17",
+      "object_form": "",
       "themes": [
         "outside",
         "doors",
@@ -2961,6 +3287,7 @@
       "type": "signal",
       "title": "PHASE DRIFT DESKTOP",
       "date": "2026-03-24",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2972,6 +3299,7 @@
       "type": "signal",
       "title": "ritual-play",
       "date": "2026-03-31",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2983,6 +3311,7 @@
       "type": "signal",
       "title": "second error",
       "date": "2026-03-30",
+      "object_form": "",
       "themes": [],
       "constellations": []
     },
@@ -2994,6 +3323,7 @@
       "type": "signal",
       "title": "Signal post test",
       "date": "2026-03-14",
+      "object_form": "",
       "themes": [
         "signal"
       ],
@@ -3007,6 +3337,7 @@
       "type": "signal",
       "title": "Citizen Agency Recognition",
       "date": "2026-03-07",
+      "object_form": "",
       "themes": [
         "signal",
         "systems",
@@ -3024,6 +3355,7 @@
       "type": "signal",
       "title": "✦ THE FIELD BEFORE NAMING ✦",
       "date": "2026-03-26",
+      "object_form": "",
       "themes": [
         "NEUTRAL",
         "NONE",
@@ -3039,6 +3371,7 @@
       "type": "signal",
       "title": "worlds ablaze, and love wounded",
       "date": "2026-04-17",
+      "object_form": "",
       "themes": [],
       "constellations": []
     }
@@ -9046,6 +9379,22 @@
       ]
     },
     {
+      "source": "if-the-value-is-not-apparent-how-can-you-expect-to-point-it-out-and-translate-it-regularly",
+      "target": "marginalia-on-if-the-value-is-not-apparent-how-can-you-expect-to-point-it-out-and-translate-it-regularly-2026-04-17-15-08-43",
+      "weight": 4,
+      "reasons": [
+        "explicit-connection"
+      ]
+    },
+    {
+      "source": "if-the-value-is-not-apparent-how-can-you-expect-to-point-it-out-and-translate-it-regularly",
+      "target": "marginalia-on-if-the-value-is-not-apparent-how-can-you-expect-to-point-it-out-and-translate-it-regularly-2026-04-17-15-11-23",
+      "weight": 4,
+      "reasons": [
+        "explicit-connection"
+      ]
+    },
+    {
       "source": "jagged-crater",
       "target": "marginalia-on-jagged-crater-2026-03-27-21-10-01",
       "weight": 4,
@@ -12417,6 +12766,14 @@
       "reasons": [
         "shared-theme",
         "shared-constellation"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-12-marginalia-notes",
+      "target": "ndcodex-vision-expansion-evolution",
+      "weight": 3,
+      "reasons": [
+        "shared-theme"
       ]
     },
     {
@@ -19080,6 +19437,14 @@
     },
     {
       "source": "codex-archive-system-v2-2",
+      "target": "ndcodex-vision-expansion-evolution",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
       "target": "node-doctrine",
       "weight": 2,
       "reasons": [
@@ -19208,6 +19573,14 @@
     },
     {
       "source": "codex-archive-system-v2-5-notes",
+      "target": "ndcodex-vision-expansion-evolution",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
       "target": "node-doctrine",
       "weight": 2,
       "reasons": [
@@ -19313,6 +19686,14 @@
     {
       "source": "codex-archive-system-v2-6-notes",
       "target": "lean-mean-governance-machine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
+      "target": "ndcodex-vision-expansion-evolution",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -19512,6 +19893,14 @@
     },
     {
       "source": "codex-archive-system-v2-7-notes",
+      "target": "ndcodex-vision-expansion-evolution",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
       "target": "nothing-missing-only-unindexed",
       "weight": 2,
       "reasons": [
@@ -19665,6 +20054,14 @@
     {
       "source": "codex-archive-system-v3-1-build-notes",
       "target": "machine-creatures",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "ndcodex-vision-expansion-evolution",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -19840,6 +20237,14 @@
     },
     {
       "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "ndcodex-vision-expansion-evolution",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
       "target": "on-object-oriented-archives",
       "weight": 2,
       "reasons": [
@@ -19992,6 +20397,14 @@
     },
     {
       "source": "codex-archive-system-v3-11-lattice-groundwork-notes",
+      "target": "ndcodex-vision-expansion-evolution",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-11-lattice-groundwork-notes",
       "target": "north-georgia-march-2026",
       "weight": 2,
       "reasons": [
@@ -20129,6 +20542,14 @@
     {
       "source": "codex-archive-system-v3-12-marginalia-live-publish-notes",
       "target": "lean-mean-governance-machine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-12-marginalia-live-publish-notes",
+      "target": "ndcodex-vision-expansion-evolution",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -20488,6 +20909,14 @@
     },
     {
       "source": "codex-archive-system-v3-13-hud-clarity-notes",
+      "target": "ndcodex-vision-expansion-evolution",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-13-hud-clarity-notes",
       "target": "node-doctrine",
       "weight": 2,
       "reasons": [
@@ -20664,6 +21093,14 @@
     },
     {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "ndcodex-vision-expansion-evolution",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "nothing-missing-only-unindexed",
       "weight": 2,
       "reasons": [
@@ -20752,6 +21189,14 @@
     },
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "ndcodex-vision-expansion-evolution",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "nothing-missing-only-unindexed",
       "weight": 2,
       "reasons": [
@@ -20873,6 +21318,14 @@
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "mothers-calendar",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "ndcodex-vision-expansion-evolution",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -21016,6 +21469,14 @@
     },
     {
       "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "ndcodex-vision-expansion-evolution",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
       "target": "nothing-missing-only-unindexed",
       "weight": 2,
       "reasons": [
@@ -21145,6 +21606,14 @@
     {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "mothers-calendar",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "ndcodex-vision-expansion-evolution",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -21305,6 +21774,14 @@
     {
       "source": "codex-archive-system-v3-7-loremap-foundation-notes",
       "target": "mothers-calendar",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "target": "ndcodex-vision-expansion-evolution",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -21480,6 +21957,14 @@
     },
     {
       "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "ndcodex-vision-expansion-evolution",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
       "target": "nothing-missing-only-unindexed",
       "weight": 2,
       "reasons": [
@@ -21601,6 +22086,14 @@
     {
       "source": "codex-archive-system-v3-9-orientation-clarity-notes",
       "target": "machine-creatures",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-9-orientation-clarity-notes",
+      "target": "ndcodex-vision-expansion-evolution",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -21768,6 +22261,14 @@
     },
     {
       "source": "codex-archive-system-v3-notes",
+      "target": "ndcodex-vision-expansion-evolution",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
       "target": "nothing-missing-only-unindexed",
       "weight": 2,
       "reasons": [
@@ -21889,6 +22390,14 @@
     {
       "source": "codex-archive-system-v3-plus-notes",
       "target": "mythplate-designing-for-lift",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
+      "target": "ndcodex-vision-expansion-evolution",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -22033,6 +22542,14 @@
     {
       "source": "codex-glyph-grammar",
       "target": "nd-codex-object-classification",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
+      "target": "ndcodex-vision-expansion-evolution",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -23312,6 +23829,14 @@
     },
     {
       "source": "flexible-machine-sweet-spot",
+      "target": "ndcodex-vision-expansion-evolution",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
       "target": "nothing-missing-only-unindexed",
       "weight": 2,
       "reasons": [
@@ -24520,6 +25045,14 @@
     },
     {
       "source": "lean-mean-governance-machine",
+      "target": "ndcodex-vision-expansion-evolution",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "lean-mean-governance-machine",
       "target": "node-doctrine",
       "weight": 2,
       "reasons": [
@@ -25056,6 +25589,94 @@
     },
     {
       "source": "nd-codex-object-classification",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ndcodex-vision-expansion-evolution",
+      "target": "node-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ndcodex-vision-expansion-evolution",
+      "target": "quiet-vector-doctrine",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ndcodex-vision-expansion-evolution",
+      "target": "reduce-novelty-before-care",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ndcodex-vision-expansion-evolution",
+      "target": "scripture-with-machines",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ndcodex-vision-expansion-evolution",
+      "target": "shop-talk-framework",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ndcodex-vision-expansion-evolution",
+      "target": "signal-descent-004",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ndcodex-vision-expansion-evolution",
+      "target": "signal-descent-005",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ndcodex-vision-expansion-evolution",
+      "target": "signal-descent-006",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ndcodex-vision-expansion-evolution",
+      "target": "studio-log-adhesive-test-run",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ndcodex-vision-expansion-evolution",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ndcodex-vision-expansion-evolution",
       "target": "the-circle-the-node-and-the-office",
       "weight": 2,
       "reasons": [
@@ -26832,6 +27453,14 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "micro-mytho-mole",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "mothers-calendar",
       "weight": 1,
       "reasons": [
@@ -26849,6 +27478,14 @@
     {
       "source": "apparatus-ledger",
       "target": "mythplate",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
+      "target": "ndcodex-vision-expansion-evolution",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -27472,6 +28109,14 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "micro-mytho-mole",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "mythplate",
       "weight": 1,
       "reasons": [
@@ -27745,6 +28390,14 @@
     {
       "source": "artifact-jsa-collage-001",
       "target": "machine-creatures",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "micro-mytho-mole",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -28656,6 +29309,14 @@
     },
     {
       "source": "bezalel-the-designated-hand",
+      "target": "coordinate-suwanee-arch-01",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "bezalel-the-designated-hand",
       "target": "crane-field-illustration",
       "weight": 1,
       "reasons": [
@@ -29056,6 +29717,14 @@
     },
     {
       "source": "builder-lineage-reflection",
+      "target": "ndcodex-vision-expansion-evolution",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -29296,6 +29965,14 @@
     },
     {
       "source": "capture-and-convert",
+      "target": "ndcodex-vision-expansion-evolution",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -29401,6 +30078,14 @@
     {
       "source": "capture-and-convert",
       "target": "work-intelligence-v4g",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "carrier-pigeon-publishing-system",
+      "target": "ndcodex-vision-expansion-evolution",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -29553,6 +30238,14 @@
     {
       "source": "characters-in-the-field",
       "target": "mythplate-designing-for-lift",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "ndcodex-vision-expansion-evolution",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -30184,6 +30877,14 @@
     },
     {
       "source": "cities-built-on-ruin-reminiscence",
+      "target": "micro-mytho-mole",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
       "target": "mythplate",
       "weight": 1,
       "reasons": [
@@ -30752,6 +31453,14 @@
     },
     {
       "source": "citizen-network-dispatch",
+      "target": "ndcodex-vision-expansion-evolution",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -30968,6 +31677,14 @@
     },
     {
       "source": "citizen-network-doctrine",
+      "target": "ndcodex-vision-expansion-evolution",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
       "target": "one-yard-from-forever",
       "weight": 1,
       "reasons": [
@@ -31049,6 +31766,14 @@
     {
       "source": "citizen-network-map-hi-fi",
       "target": "codex-archive-system-v3-12-marginalia-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
+      "target": "coordinate-suwanee-arch-01",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -31153,6 +31878,14 @@
     {
       "source": "citizen-network-map-hi-fi",
       "target": "nd-codex-object-classification",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
+      "target": "ndcodex-vision-expansion-evolution",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -31273,6 +32006,14 @@
     {
       "source": "codex-archive-system-v2-2",
       "target": "constellation-node-alchemy",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-2",
+      "target": "coordinate-suwanee-arch-01",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -31472,6 +32213,14 @@
     },
     {
       "source": "codex-archive-system-v2-5-notes",
+      "target": "coordinate-suwanee-arch-01",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-5-notes",
       "target": "crane-field-illustration",
       "weight": 1,
       "reasons": [
@@ -31649,6 +32398,14 @@
     {
       "source": "codex-archive-system-v2-6-notes",
       "target": "constellation-node-alchemy",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-6-notes",
+      "target": "coordinate-suwanee-arch-01",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -31833,6 +32590,14 @@
     {
       "source": "codex-archive-system-v2-7-notes",
       "target": "codex-archive-system-v3-12-marginalia-live-publish-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
+      "target": "coordinate-suwanee-arch-01",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -31977,6 +32742,14 @@
     {
       "source": "codex-archive-system-v2-7-notes",
       "target": "work-intelligence-v4g",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "coordinate-suwanee-arch-01",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -32136,6 +32909,14 @@
     },
     {
       "source": "codex-archive-system-v3-10-media-handoff-notes",
+      "target": "coordinate-suwanee-arch-01",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-10-media-handoff-notes",
       "target": "distortion-atlas",
       "weight": 1,
       "reasons": [
@@ -32241,6 +33022,14 @@
     {
       "source": "codex-archive-system-v3-10-media-handoff-notes",
       "target": "work-intelligence-v4g",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-11-lattice-groundwork-notes",
+      "target": "coordinate-suwanee-arch-01",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -32920,6 +33709,14 @@
     },
     {
       "source": "codex-archive-system-v3-13-hud-clarity-notes",
+      "target": "coordinate-suwanee-arch-01",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-13-hud-clarity-notes",
       "target": "distortion-atlas",
       "weight": 1,
       "reasons": [
@@ -33112,6 +33909,14 @@
     },
     {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "coordinate-suwanee-arch-01",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "jsa-collage-evolution-003",
       "weight": 1,
       "reasons": [
@@ -33224,6 +34029,14 @@
     },
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "coordinate-suwanee-arch-01",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "distortion-atlas",
       "weight": 1,
       "reasons": [
@@ -33352,6 +34165,14 @@
     },
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "coordinate-suwanee-arch-01",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "distortion-atlas",
       "weight": 1,
       "reasons": [
@@ -33473,6 +34294,14 @@
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "work-intelligence-v4g",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "coordinate-suwanee-arch-01",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -33616,6 +34445,14 @@
     },
     {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "coordinate-suwanee-arch-01",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "distortion-atlas",
       "weight": 1,
       "reasons": [
@@ -33745,6 +34582,14 @@
     {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "work-intelligence-v4g",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-7-loremap-foundation-notes",
+      "target": "coordinate-suwanee-arch-01",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -33912,6 +34757,14 @@
     },
     {
       "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "coordinate-suwanee-arch-01",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
       "target": "distortion-atlas",
       "weight": 1,
       "reasons": [
@@ -34041,6 +34894,14 @@
     {
       "source": "codex-archive-system-v3-8-specimen-surface-notes",
       "target": "work-intelligence-v4g",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-9-orientation-clarity-notes",
+      "target": "coordinate-suwanee-arch-01",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -34192,6 +35053,14 @@
     },
     {
       "source": "codex-archive-system-v3-notes",
+      "target": "coordinate-suwanee-arch-01",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
       "target": "ellijay-ga-fourth-of-july-loremap",
       "weight": 1,
       "reasons": [
@@ -34344,6 +35213,14 @@
     },
     {
       "source": "codex-archive-system-v3-plus-notes",
+      "target": "coordinate-suwanee-arch-01",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
       "target": "justice-begins-as-a-ripple",
       "weight": 1,
       "reasons": [
@@ -34449,6 +35326,14 @@
     {
       "source": "codex-archive-system-v3-plus-notes",
       "target": "work-intelligence-v4g",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
+      "target": "coordinate-suwanee-arch-01",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -34672,6 +35557,14 @@
     },
     {
       "source": "codex-glyph-system-first-emergence",
+      "target": "coordinate-suwanee-arch-01",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
       "target": "distortion-atlas",
       "weight": 1,
       "reasons": [
@@ -34785,6 +35678,14 @@
     {
       "source": "codex-glyph-system-first-emergence",
       "target": "nd-codex-object-classification",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
+      "target": "ndcodex-vision-expansion-evolution",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -34976,6 +35877,14 @@
     },
     {
       "source": "constellation-node-alchemy",
+      "target": "ndcodex-vision-expansion-evolution",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -35055,6 +35964,46 @@
       ]
     },
     {
+      "source": "coordinate-suwanee-arch-01",
+      "target": "flexible-machine-sweet-spot",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "coordinate-suwanee-arch-01",
+      "target": "on-object-oriented-archives",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "coordinate-suwanee-arch-01",
+      "target": "on-visceral-distillation",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "coordinate-suwanee-arch-01",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "coordinate-suwanee-arch-01",
+      "target": "the-bones-hold-content-architecture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "crane-field-illustration",
       "target": "heart-does-not-dream",
       "weight": 1,
@@ -35113,6 +36062,14 @@
     {
       "source": "crane-field-illustration",
       "target": "nd-codex-object-classification",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
+      "target": "ndcodex-vision-expansion-evolution",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -35256,6 +36213,14 @@
     },
     {
       "source": "deck-under-load-ii",
+      "target": "micro-mytho-mole",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "deck-under-load-ii",
       "target": "on-visceral-distillation",
       "weight": 1,
       "reasons": [
@@ -35377,6 +36342,14 @@
     {
       "source": "disrespectful-power",
       "target": "nd-codex-object-classification",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "disrespectful-power",
+      "target": "ndcodex-vision-expansion-evolution",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -36104,6 +37077,14 @@
     },
     {
       "source": "garage-dispatch-001",
+      "target": "ndcodex-vision-expansion-evolution",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -36312,6 +37293,14 @@
     },
     {
       "source": "go-live-milestone",
+      "target": "ndcodex-vision-expansion-evolution",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -36456,6 +37445,14 @@
     },
     {
       "source": "grand-myth-central",
+      "target": "ndcodex-vision-expansion-evolution",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
       "target": "on-visceral-distillation",
       "weight": 1,
       "reasons": [
@@ -36576,7 +37573,23 @@
     },
     {
       "source": "heart-does-not-dream",
+      "target": "micro-mytho-mole",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "heart-does-not-dream",
       "target": "mythmech-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "heart-does-not-dream",
+      "target": "ndcodex-vision-expansion-evolution",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -36760,6 +37773,14 @@
     },
     {
       "source": "i-work-with-machines-to-write-scripture",
+      "target": "ndcodex-vision-expansion-evolution",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
       "target": "phoenix-collage-fracture-study",
       "weight": 1,
       "reasons": [
@@ -36920,6 +37941,14 @@
     },
     {
       "source": "jsa-collage-evolution-001",
+      "target": "ndcodex-vision-expansion-evolution",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -37152,6 +38181,14 @@
     },
     {
       "source": "jsa-collage-evolution-002",
+      "target": "ndcodex-vision-expansion-evolution",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-002",
       "target": "north-georgia-march-2026",
       "weight": 1,
       "reasons": [
@@ -37337,6 +38374,14 @@
     {
       "source": "jsa-collage-evolution-003",
       "target": "machine-creatures",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "micro-mytho-mole",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -37832,6 +38877,14 @@
     },
     {
       "source": "keep-the-operator-whistling",
+      "target": "ndcodex-vision-expansion-evolution",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
       "target": "phoenix-collage-fracture-study",
       "weight": 1,
       "reasons": [
@@ -38088,6 +39141,14 @@
     },
     {
       "source": "machine-creatures",
+      "target": "ndcodex-vision-expansion-evolution",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
       "target": "one-yard-from-forever-scroll-surface",
       "weight": 1,
       "reasons": [
@@ -38305,6 +39366,14 @@
     {
       "source": "maintenance-without-cure",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "manic-rider-collapse",
+      "target": "micro-mytho-mole",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -38567,6 +39636,94 @@
       ]
     },
     {
+      "source": "micro-mytho-mole",
+      "target": "on-visceral-distillation",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "micro-mytho-mole",
+      "target": "one-yard-from-forever",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "micro-mytho-mole",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "micro-mytho-mole",
+      "target": "pocket-rock-cathedral",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "micro-mytho-mole",
+      "target": "pressure-psalm-v",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "micro-mytho-mole",
+      "target": "signal-descent-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "micro-mytho-mole",
+      "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "micro-mytho-mole",
+      "target": "steel-elbow-flinchian",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "micro-mytho-mole",
+      "target": "the-bones-hold",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "micro-mytho-mole",
+      "target": "unacceptable-cost",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "micro-mytho-mole",
+      "target": "under-load",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "mothers-calendar",
       "target": "mythplate",
       "weight": 1,
@@ -38729,6 +39886,14 @@
     {
       "source": "mothers-calendar",
       "target": "the-circle-the-node-and-the-office",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythmech-system",
+      "target": "ndcodex-vision-expansion-evolution",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -39256,6 +40421,14 @@
     },
     {
       "source": "nd-codex-object-classification",
+      "target": "ndcodex-vision-expansion-evolution",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "nd-codex-object-classification",
       "target": "on-visceral-distillation",
       "weight": 1,
       "reasons": [
@@ -39337,6 +40510,110 @@
     {
       "source": "nd-codex-object-classification",
       "target": "the-bones-hold",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ndcodex-vision-expansion-evolution",
+      "target": "nothing-missing-only-unindexed",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ndcodex-vision-expansion-evolution",
+      "target": "on-object-oriented-archives",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ndcodex-vision-expansion-evolution",
+      "target": "on-visceral-distillation",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ndcodex-vision-expansion-evolution",
+      "target": "operator-winks-at-the-machines",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ndcodex-vision-expansion-evolution",
+      "target": "race-to-the-top-six-bridges",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ndcodex-vision-expansion-evolution",
+      "target": "signal-descent-003",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ndcodex-vision-expansion-evolution",
+      "target": "signal.citizen-agency",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ndcodex-vision-expansion-evolution",
+      "target": "steel-elbow-flinchian",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ndcodex-vision-expansion-evolution",
+      "target": "studio-bench-cycle",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ndcodex-vision-expansion-evolution",
+      "target": "systems-survive-tuesdays",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ndcodex-vision-expansion-evolution",
+      "target": "unacceptable-cost",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ndcodex-vision-expansion-evolution",
+      "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ndcodex-vision-expansion-evolution",
+      "target": "work-intelligence-v4g",
       "weight": 1,
       "reasons": [
         "shared-theme"

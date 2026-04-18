@@ -183,7 +183,7 @@ export const PIGEON_APP_STYLES = String.raw`
 }
 
 html {
-  font-size: 16px;
+  font-size: 17.6px;
 }
 
 body {
@@ -193,7 +193,7 @@ body {
   background: var(--paper);
   color: var(--body);
   font-family: 'Courier Prime', 'Courier New', monospace;
-  font-size: 15px;
+  font-size: 16.5px;
   line-height: 1.5;
   padding-bottom: max(32px, env(safe-area-inset-bottom));
 }
@@ -214,7 +214,8 @@ a {
 
 button,
 input,
-textarea {
+textarea,
+select {
   font: inherit;
 }
 
@@ -274,7 +275,7 @@ textarea {
 
 .masthead-title {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 400;
   letter-spacing: 0.12em;
   color: var(--light);
@@ -287,7 +288,7 @@ textarea {
 }
 
 .masthead-sub {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--body);
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -298,7 +299,7 @@ textarea {
   align-items: center;
   gap: 7px;
   color: var(--muted);
-  font-size: 14px;
+  font-size: 15px;
   letter-spacing: 0.06em;
   text-transform: lowercase;
   flex-shrink: 0;
@@ -390,14 +391,14 @@ textarea {
 .coord-num {
   flex-shrink: 0;
   color: var(--copper);
-  font-size: 14px;
+  font-size: 15px;
   letter-spacing: 0.12em;
   font-variant-numeric: tabular-nums;
 }
 
 .coord-label {
   color: var(--muted);
-  font-size: 14px;
+  font-size: 15px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
 }
@@ -405,7 +406,7 @@ textarea {
 .section-note {
   margin: 10px 0 0;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.45;
 }
 
@@ -436,7 +437,7 @@ textarea {
   align-items: center;
   gap: 8px;
   color: var(--amber);
-  font-size: 15px;
+  font-size: 16px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -500,7 +501,7 @@ textarea {
 .type-group-label {
   padding: 0 2px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
@@ -524,7 +525,7 @@ textarea {
   overflow: hidden;
   position: relative;
   text-align: left;
-  font-size: 15px;
+  font-size: 16px;
   letter-spacing: 0.12em;
   line-height: 1.2;
   text-transform: uppercase;
@@ -572,7 +573,7 @@ textarea {
 .type-layer {
   padding-left: 29px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0.1em;
   line-height: 1;
   text-transform: uppercase;
@@ -628,7 +629,7 @@ textarea {
 .editor-action {
   padding: 4px 8px;
   background: none;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .editor-action.smart {
@@ -654,7 +655,7 @@ textarea {
 .char-count,
 .dispatch-clock {
   color: var(--muted);
-  font-size: 13px;
+  font-size: 14px;
   font-variant-numeric: tabular-nums;
 }
 
@@ -668,7 +669,7 @@ textarea {
   background: transparent;
   color: var(--white);
   caret-color: var(--copper);
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.5;
 }
 
@@ -680,7 +681,7 @@ textarea {
 .template-note {
   margin: 10px 0 0;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.4;
 }
 
@@ -699,14 +700,14 @@ textarea {
 
 .axis-title {
   color: var(--light);
-  font-size: 13px;
+  font-size: 14px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
 .axis-copy {
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.45;
 }
 
@@ -725,7 +726,7 @@ textarea {
 
 .axis-label {
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -750,6 +751,340 @@ textarea {
 .axis-select:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.orientation-shell {
+  margin-top: 12px;
+  padding: 16px;
+  border-top: 1px solid var(--rule);
+  background:
+    linear-gradient(180deg, rgba(184, 115, 51, 0.05), rgba(184, 115, 51, 0.01)),
+    rgba(255, 255, 255, 0.01);
+}
+
+.orientation-head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.orientation-title {
+  color: var(--light);
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.orientation-copy {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.object-form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.object-form-btn {
+  min-height: 40px;
+  padding: 10px 14px;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: border-color 0.15s, color 0.15s, background 0.15s, box-shadow 0.15s;
+}
+
+.object-form-btn:hover,
+.object-form-btn.suggested {
+  color: var(--light);
+  border-color: var(--rule-bright);
+  background: var(--field-raise);
+}
+
+.object-form-btn.active {
+  color: var(--white);
+  box-shadow: inset 0 0 0 1px currentColor;
+}
+
+.object-form-btn[data-object-form='bubble'].active,
+.object-form-btn[data-object-form='bubble'].suggested {
+  color: #ffcf88;
+  border-color: rgba(255, 207, 136, 0.55);
+  background: rgba(176, 107, 45, 0.18);
+}
+
+.object-form-btn[data-object-form='coordinate'].active,
+.object-form-btn[data-object-form='coordinate'].suggested {
+  color: #9ad5ff;
+  border-color: rgba(108, 176, 222, 0.55);
+  background: rgba(37, 78, 106, 0.22);
+}
+
+.object-form-btn[data-object-form='creature'].active,
+.object-form-btn[data-object-form='creature'].suggested {
+  color: #a4edb1;
+  border-color: rgba(110, 176, 124, 0.55);
+  background: rgba(38, 76, 47, 0.22);
+}
+
+.object-form-btn--ghost {
+  border-style: dashed;
+}
+
+.orientation-suggestion {
+  margin: 12px 0 0;
+  color: var(--body);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.orientation-prompts {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.orientation-field,
+.media-intent-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.orientation-label,
+.media-intent-label {
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.orientation-input,
+.media-intent-input,
+.media-intent-select {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1px solid var(--rule);
+  outline: none;
+  background: var(--paper);
+  color: var(--white);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.orientation-input:focus,
+.media-intent-input:focus,
+.media-intent-select:focus {
+  border-color: var(--copper-dim);
+  box-shadow: 0 0 0 1px var(--copper-dim);
+}
+
+.trace-panel {
+  margin-top: 14px;
+  border-top: 1px solid var(--rule);
+  padding-top: 12px;
+}
+
+.trace-panel summary {
+  cursor: pointer;
+  color: var(--amber);
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.trace-grid {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.related-shell {
+  margin-top: 12px;
+  padding: 16px;
+  border-top: 1px solid var(--rule);
+  background:
+    linear-gradient(180deg, rgba(157, 178, 116, 0.06), rgba(157, 178, 116, 0.015)),
+    rgba(255, 255, 255, 0.01);
+}
+
+.related-head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.related-title {
+  color: var(--light);
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.related-copy {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.related-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.related-card {
+  padding: 14px;
+  border: 1px solid var(--rule);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.related-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.related-card-title {
+  color: var(--white);
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.related-card-meta {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.related-card-note {
+  margin: 10px 0 0;
+  color: var(--body);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.related-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.related-card-action,
+.related-card-link {
+  min-height: 38px;
+  padding: 9px 12px;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  color: var(--light);
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.related-card-action:hover,
+.related-card-link:hover {
+  border-color: var(--rule-bright);
+  background: var(--field-raise);
+}
+
+.related-card-action[disabled] {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.media-intent-panel {
+  margin-top: 14px;
+  padding: 16px;
+  border: 1px solid var(--rule);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.media-intent-head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 14px;
+}
+
+.media-intent-title {
+  color: var(--light);
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.media-intent-copy {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.media-intent-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.media-intent-card {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--rule);
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.media-intent-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.media-intent-file {
+  color: var(--light);
+  font-size: 14px;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.media-intent-meta {
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.media-intent-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 12px;
+}
+
+.media-intent-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--body);
+  font-size: 13px;
+}
+
+.media-intent-toggle input {
+  margin: 0;
 }
 
 .file-row {
@@ -795,7 +1130,7 @@ textarea {
 .file-label {
   display: block;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 14px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -804,7 +1139,7 @@ textarea {
   display: block;
   margin-top: 5px;
   color: var(--amber);
-  font-size: 13px;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -826,7 +1161,7 @@ textarea {
   border: 0;
   outline: none;
   color: var(--white);
-  font-size: 15px;
+  font-size: 16px;
   letter-spacing: 0.08em;
   padding: 14px 16px;
   transition: box-shadow 0.2s;
@@ -838,7 +1173,7 @@ textarea {
   right: 12px;
   transform: translateY(-50%);
   color: var(--success-text);
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0.1em;
   opacity: 0;
   text-transform: uppercase;
@@ -851,7 +1186,7 @@ textarea {
 
 .dispatch-header-label {
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
 }
@@ -868,12 +1203,12 @@ textarea {
   grid-template-columns: 90px 1fr;
   gap: 12px;
   align-items: baseline;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .telem-key {
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   white-space: nowrap;
@@ -900,7 +1235,7 @@ textarea {
   padding: 12px 18px;
   border-top: 1px solid var(--rule);
   color: var(--muted);
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.4;
 }
 
@@ -1065,7 +1400,7 @@ textarea {
   gap: 16px;
   align-items: flex-start;
   color: var(--muted);
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.4;
 }
 
@@ -1309,6 +1644,53 @@ export function renderPigeonAppMarkup(options = {}) {
           </label>
         </div>
       </div>
+      <div class="orientation-shell">
+        <div class="orientation-head">
+          <span class="orientation-title">Object Form</span>
+          <span class="orientation-copy">Optional guidance only. Lock it if you know, or let Pigeon suggest lightly.</span>
+        </div>
+        <div class="object-form-row" id="objectFormRow">
+          <button class="object-form-btn" data-object-form="bubble" type="button">Bubble</button>
+          <button class="object-form-btn" data-object-form="coordinate" type="button">Coordinate</button>
+          <button class="object-form-btn" data-object-form="creature" type="button">Creature</button>
+          <button class="object-form-btn object-form-btn--ghost" id="objectFormClearButton" type="button">Clear</button>
+        </div>
+        <p class="orientation-suggestion" id="objectFormSuggestion" hidden></p>
+        <div class="orientation-prompts" id="orientationPrompts" hidden>
+          <label class="orientation-field" id="orientationFieldOneWrap" hidden>
+            <span class="orientation-label" id="orientationFieldOneLabel"></span>
+            <input class="orientation-input" id="orientationFieldOneInput" type="text" autocomplete="off" />
+          </label>
+          <label class="orientation-field" id="orientationFieldTwoWrap" hidden>
+            <span class="orientation-label" id="orientationFieldTwoLabel"></span>
+            <input class="orientation-input" id="orientationFieldTwoInput" type="text" autocomplete="off" />
+          </label>
+        </div>
+        <details class="trace-panel" id="tracePanel">
+          <summary>Trace</summary>
+          <div class="trace-grid">
+            <label class="orientation-field">
+              <span class="orientation-label">Pull</span>
+              <input class="orientation-input" id="tracePullInput" type="text" autocomplete="off" />
+            </label>
+            <label class="orientation-field">
+              <span class="orientation-label">Selection Note</span>
+              <input class="orientation-input" id="traceSelectionInput" type="text" autocomplete="off" />
+            </label>
+            <label class="orientation-field">
+              <span class="orientation-label">Interruptions</span>
+              <input class="orientation-input" id="traceInterruptionsInput" type="text" autocomplete="off" placeholder="comma-separated" />
+            </label>
+          </div>
+        </details>
+        <div class="related-shell" id="relatedSuggestionsPanel" hidden>
+          <div class="related-head">
+            <span class="related-title">Related Suggestions</span>
+            <span class="related-copy" id="relatedSuggestionsNote">Smart Draft can surface nearby objects and likely seed links. Add only what feels real.</span>
+          </div>
+          <div class="related-list" id="relatedSuggestionsList"></div>
+        </div>
+      </div>
     </div>
     <p class="template-note">${escapeHtml(templateNote)}</p>
   </section>
@@ -1332,6 +1714,7 @@ export function renderPigeonAppMarkup(options = {}) {
         <span class="file-name" id="imgFileName">No files</span>
       </label>
     </div>
+    <div class="media-intent-panel" id="mediaIntentPanel" hidden></div>
     <p class="section-note">${escapeHtml(attachNote)}</p>
   </section>
 
@@ -1376,6 +1759,10 @@ export function renderPigeonAppMarkup(options = {}) {
         <div class="telem-row">
           <span class="telem-key">Hero</span>
           <span class="telem-val" id="roHero">-</span>
+        </div>
+        <div class="telem-row">
+          <span class="telem-key">Form</span>
+          <span class="telem-val" id="roForm">-</span>
         </div>
         <div class="telem-row">
           <span class="telem-key">Scale</span>
@@ -1507,6 +1894,23 @@ export const PIGEON_APP_SCRIPT = String.raw`
   const axisDepthSelect = document.getElementById('axisDepthSelect');
   const axisFocusSelect = document.getElementById('axisFocusSelect');
   const axisFunctionSelect = document.getElementById('axisFunctionSelect');
+  const objectFormButtons = Array.from(document.querySelectorAll('[data-object-form]'));
+  const objectFormClearButton = document.getElementById('objectFormClearButton');
+  const objectFormSuggestion = document.getElementById('objectFormSuggestion');
+  const orientationPrompts = document.getElementById('orientationPrompts');
+  const orientationFieldOneWrap = document.getElementById('orientationFieldOneWrap');
+  const orientationFieldOneLabel = document.getElementById('orientationFieldOneLabel');
+  const orientationFieldOneInput = document.getElementById('orientationFieldOneInput');
+  const orientationFieldTwoWrap = document.getElementById('orientationFieldTwoWrap');
+  const orientationFieldTwoLabel = document.getElementById('orientationFieldTwoLabel');
+  const orientationFieldTwoInput = document.getElementById('orientationFieldTwoInput');
+  const tracePanel = document.getElementById('tracePanel');
+  const tracePullInput = document.getElementById('tracePullInput');
+  const traceSelectionInput = document.getElementById('traceSelectionInput');
+  const traceInterruptionsInput = document.getElementById('traceInterruptionsInput');
+  const relatedSuggestionsPanel = document.getElementById('relatedSuggestionsPanel');
+  const relatedSuggestionsNote = document.getElementById('relatedSuggestionsNote');
+  const relatedSuggestionsList = document.getElementById('relatedSuggestionsList');
   const charCount = document.getElementById('charCount');
   const mdFileInput = document.getElementById('mdFile');
   const mdFileName = document.getElementById('mdFileName');
@@ -1514,6 +1918,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
   const imgFileInput = document.getElementById('imgFiles');
   const imgFileName = document.getElementById('imgFileName');
   const imgZone = document.getElementById('imgZone');
+  const mediaIntentPanel = document.getElementById('mediaIntentPanel');
   const keyField = document.getElementById('keyField');
   const keySavedTag = document.getElementById('keySavedTag');
   const forgetKeyButton = document.getElementById('forgetKeyButton');
@@ -1537,6 +1942,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
   const roTitle = document.getElementById('roTitle');
   const roExcerpt = document.getElementById('roExcerpt');
   const roHero = document.getElementById('roHero');
+  const roForm = document.getElementById('roForm');
   const roScale = document.getElementById('roScale');
   const roDepth = document.getElementById('roDepth');
   const roFocus = document.getElementById('roFocus');
@@ -1567,6 +1973,23 @@ export const PIGEON_APP_SCRIPT = String.raw`
   let typePanelOpen = false;
   let transmitState = 'idle';
   let typeWasManuallyChosen = false;
+  const captureStorageKey = draftStorageKey ? draftStorageKey + ':capture' : '';
+  let objectFormLock = '';
+  let dismissedObjectFormSuggestion = '';
+  let captureFieldState = {
+    holds_under_isolation: '',
+    field_break: '',
+    survives_alone: '',
+    pressure: '',
+    selection_note: '',
+    pull: '',
+    interruptions: '',
+  };
+  let mediaIntentState = [];
+  let archiveContextItems = [];
+  let archiveContextStatus = 'idle';
+  let archiveContextPromise = null;
+  let relatedSuggestionState = [];
 
   const ARRAY_FIELDS = new Set([
     'actions',
@@ -1576,12 +1999,15 @@ export const PIGEON_APP_SCRIPT = String.raw`
     'images',
     'markers',
     'media',
+    'related',
     'tags',
     'themes',
   ]);
   const RAW_BLOCK_PROTECTED_KEYS = new Set([
     'media',
     'slug',
+    'connections',
+    'includedobjects',
   ]);
 
   const SMART_STOPWORDS = new Set([
@@ -1870,8 +2296,156 @@ export const PIGEON_APP_SCRIPT = String.raw`
     },
   };
 
+  const OBJECT_FORM_LABELS = {
+    bubble: 'Bubble',
+    coordinate: 'Coordinate',
+    creature: 'Creature',
+  };
+
+  const OBJECT_FORM_DESCRIPTIONS = {
+    bubble: 'Language that can survive alone.',
+    coordinate: 'Form that still holds under isolation.',
+    creature: 'A live pattern responding to pressure.',
+  };
+
+  const OBJECT_FORM_PROMPTS = {
+    bubble: [
+      {
+        key: 'survives_alone',
+        label: 'Does this survive alone?',
+        placeholder: 'What still holds when it stands by itself?',
+      },
+    ],
+    coordinate: [
+      {
+        key: 'holds_under_isolation',
+        label: 'Would this hold without its surroundings?',
+        placeholder: 'What keeps its shape when isolated?',
+      },
+      {
+        key: 'field_break',
+        label: 'What broke the field?',
+        placeholder: 'Name the interruption or rupture.',
+      },
+    ],
+    creature: [
+      {
+        key: 'pressure',
+        label: 'What pressure is being solved?',
+        placeholder: 'What live pressure is this responding to?',
+      },
+    ],
+  };
+
+  const OBJECT_FORM_PRIORS = {
+    signal: { bubble: 2.2, coordinate: 0.3 },
+    fragment: { bubble: 2.7 },
+    fieldlog: { creature: 1.6, coordinate: 0.8 },
+    artifact: { coordinate: 2.4 },
+    scroll: { creature: 1.2, bubble: 0.6, coordinate: 0.5 },
+    codex: { coordinate: 1.9, creature: 0.5 },
+    loremap: { coordinate: 2.5 },
+    nexus: { creature: 1.7, coordinate: 0.9 },
+  };
+
+  const OBJECT_FORM_KEYWORDS = {
+    bubble: [
+      { pattern: /\b(fragment|phrase|line|caption|tagline|epigram|poem|verse|stanza|short note)\b/g, weight: 0.9 },
+      { pattern: /\b(alone|standalone|self-contained|self contained|independent|portable)\b/g, weight: 0.75 },
+      { pattern: /^>\s.+$/gm, weight: 0.8 },
+    ],
+    coordinate: [
+      { pattern: /\b(image|photo|frame|surface|layout|diagram|map|screenshot|plate|specimen|artifact)\b/g, weight: 0.72 },
+      { pattern: /\b(isolate|isolation|structure|composition|geometry|boundary|position|coordinate)\b/g, weight: 0.82 },
+      { pattern: /\b(crop|detail|scan|reference|view|screen|field break)\b/g, weight: 0.55 },
+    ],
+    creature: [
+      { pattern: /\b(pressure|tension|adapt|response|behavior|survive|survival|metabol|organism|living pattern)\b/g, weight: 0.9 },
+      { pattern: /\b(loop|feedback|react|reactive|solving|coping|strain|drift|repair)\b/g, weight: 0.72 },
+      { pattern: /\b(what it wants|what it does|how it moves|how it changes)\b/g, weight: 0.72 },
+    ],
+  };
+
+  const MEDIA_INTENT_ROLE_OPTIONS = ['hero', 'gallery', 'detail', 'scan', 'process', 'reference'];
+  const RELATED_SUGGESTION_LIMIT = 3;
+  const RELATED_ENDPOINTS = ['/feed.json', '/objects.json'];
+  const RELATED_TYPE_PRIORS = {
+    signal: { signal: 0.35, fragment: 1.1, codex: 0.7, scroll: 0.45 },
+    fragment: { fragment: 0.5, signal: 0.8, scroll: 1.25, codex: 0.9, fieldlog: 0.7 },
+    fieldlog: { fieldlog: 0.45, fragment: 0.95, codex: 0.85, scroll: 0.95, artifact: 0.55 },
+    artifact: { artifact: 0.35, loremap: 0.8, fieldlog: 0.5, scroll: 0.35 },
+    scroll: { scroll: 0.4, fragment: 1.35, codex: 0.9, fieldlog: 0.8, signal: 0.55 },
+    codex: { codex: 0.5, fragment: 1.15, scroll: 0.8, fieldlog: 0.65, signal: 0.7 },
+    loremap: { loremap: 0.45, artifact: 0.75, fieldlog: 0.45, scroll: 0.3 },
+    nexus: { nexus: 0.35, scroll: 0.8, codex: 0.8, fieldlog: 0.7, signal: 0.65, fragment: 0.75 },
+  };
+
   function today() {
     return new Date().toISOString().split('T')[0];
+  }
+
+  function normalizeObjectForm(value) {
+    if (typeof value !== 'string') {
+      return '';
+    }
+
+    const normalized = value.trim().toLowerCase();
+    return OBJECT_FORM_LABELS[normalized] ? normalized : '';
+  }
+
+  function objectFormLabel(value) {
+    const normalized = normalizeObjectForm(value);
+    return normalized ? OBJECT_FORM_LABELS[normalized] : '';
+  }
+
+  function objectFormDescription(value) {
+    const normalized = normalizeObjectForm(value);
+    return normalized ? OBJECT_FORM_DESCRIPTIONS[normalized] : '';
+  }
+
+  function normalizeCaptureFieldValue(value) {
+    return String(value || '').trim();
+  }
+
+  function splitCaptureList(value) {
+    return String(value || '')
+      .split(',')
+      .map((item) => item.trim())
+      .filter(Boolean);
+  }
+
+  function normalizeFlexibleStringArray(value) {
+    if (Array.isArray(value)) {
+      return value
+        .map((item) => String(item || '').trim())
+        .filter(Boolean);
+    }
+
+    if (typeof value === 'string') {
+      return parseFrontmatterArray(value)
+        .map((item) => String(item || '').trim())
+        .filter(Boolean);
+    }
+
+    return [];
+  }
+
+  function uniqueStrings(values) {
+    const seen = new Set();
+    return values.filter((value) => {
+      const normalized = String(value || '').trim();
+      if (!normalized) {
+        return false;
+      }
+
+      const key = normalized.toLowerCase();
+      if (seen.has(key)) {
+        return false;
+      }
+
+      seen.add(key);
+      return true;
+    });
   }
 
   function normalizeRawNote(raw) {
@@ -2214,6 +2788,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
       },
       tags: [],
       images: [],
+      related: [],
       body: normalized.trim(),
       hasFrontmatter: false,
       hasTitleField: false,
@@ -2274,6 +2849,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
     });
     result.tags = (fields.get('tags') || []).flatMap(parseFrontmatterArray);
     result.images = (fields.get('images') || []).flatMap(parseFrontmatterArray);
+    result.related = (fields.get('related') || []).flatMap(parseFrontmatterArray);
     result.body = inferredCaption ? '' : frontmatterBody;
     return result;
   }
@@ -2301,7 +2877,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
       }
 
       const firstKey = firstFieldMatch[1].toLowerCase();
-      if (!/^(title|caption|date|object_type|objecttype|type|state|tags|images|summary|excerpt|id|status|visibility|themes|media|scale|depth|focus|function)$/.test(firstKey)) {
+      if (!/^(title|caption|date|object_type|objecttype|type|state|tags|images|summary|excerpt|id|status|visibility|themes|media|scale|depth|focus|function|related)$/.test(firstKey)) {
         return null;
       }
     }
@@ -2567,6 +3143,170 @@ export const PIGEON_APP_SCRIPT = String.raw`
       .trim();
   }
 
+  function extractObjectSlug(value) {
+    const raw = String(value || '').trim();
+    if (!raw) {
+      return '';
+    }
+
+    if (raw.startsWith('codex://object/')) {
+      return decodeURIComponent(raw.slice('codex://object/'.length)).trim();
+    }
+
+    try {
+      const url = new URL(raw, window.location.origin);
+      const match = url.pathname.match(/^\/(?:objects|codex|nexus)\/([^/]+)\/?$/i);
+      return match && match[1] ? decodeURIComponent(match[1]).trim() : raw;
+    } catch (error) {
+      return raw.replace(/^\/+|\/+$/g, '');
+    }
+  }
+
+  function tokenizeSimilarityText(value) {
+    const plain = plainTextFromMarkdown(value).toLowerCase();
+    if (!plain) {
+      return [];
+    }
+
+    return uniqueStrings(
+      (plain.match(/[a-z0-9][a-z0-9-]{2,}/g) || []).filter(
+        (token) => !SMART_STOPWORDS.has(token)
+      )
+    );
+  }
+
+  function intersectStrings(left, right) {
+    const rightSet = new Set((right || []).map((value) => String(value || '').toLowerCase()));
+    return uniqueStrings(left || []).filter((value) => rightSet.has(String(value || '').toLowerCase()));
+  }
+
+  function normalizeArchiveContextItem(item) {
+    if (!item || typeof item !== 'object') {
+      return null;
+    }
+
+    const slug = extractObjectSlug(item.archive_id || item.id || item.slug || item.url || '');
+    const type = normalizeObjectType(item.type);
+    const title = typeof item.title === 'string' ? item.title.trim() : '';
+    const summary = typeof item.summary === 'string' ? item.summary.trim() : '';
+    const contentText =
+      typeof item.content_text === 'string'
+        ? item.content_text
+        : typeof item.contentText === 'string'
+          ? item.contentText
+          : '';
+    const tags = uniqueStrings(
+      normalizeFlexibleStringArray(item.tags).map((value) => normalizeTagCandidate(value)).filter(Boolean)
+    );
+    const keywords = uniqueStrings(
+      normalizeFlexibleStringArray(item.keywords).map((value) => normalizeTagCandidate(value)).filter(Boolean)
+    );
+    const objectForm = normalizeObjectForm(
+      item.object_form ||
+        item.objectForm ||
+        (item.capture && typeof item.capture === 'object' ? item.capture.object_form : '')
+    );
+    const url =
+      typeof item.url === 'string' && item.url
+        ? item.url
+        : slug
+          ? (type === 'codex' ? '/codex/' + slug + '/' : '/objects/' + slug + '/')
+          : '';
+
+    if (!slug || !type || !title) {
+      return null;
+    }
+
+    const titlePlain = plainTextFromMarkdown(title).toLowerCase();
+    const summaryPlain = plainTextFromMarkdown(summary).toLowerCase();
+    const searchPlain = plainTextFromMarkdown([title, summary, contentText].join('\n')).toLowerCase();
+    const titleTokens = tokenizeSimilarityText(title);
+    const summaryTokens = tokenizeSimilarityText(summary);
+    const contentTokens = tokenizeSimilarityText(contentText).slice(0, 72);
+    const tokens = uniqueStrings([
+      ...titleTokens,
+      ...summaryTokens,
+      ...contentTokens,
+      ...tags,
+      ...keywords,
+    ]);
+
+    return {
+      slug,
+      ref: slug,
+      url,
+      type,
+      title,
+      summary,
+      objectForm,
+      tags,
+      keywords,
+      titlePlain,
+      summaryPlain,
+      searchPlain,
+      titleTokens,
+      summaryTokens,
+      tokens,
+    };
+  }
+
+  async function loadArchiveContextItems() {
+    if (archiveContextStatus === 'loaded') {
+      return archiveContextItems;
+    }
+
+    if (archiveContextPromise) {
+      return archiveContextPromise;
+    }
+
+    archiveContextStatus = 'loading';
+    archiveContextPromise = (async () => {
+      for (const endpointPath of RELATED_ENDPOINTS) {
+        try {
+          const response = await fetch(resolveHref(endpointPath), {
+            headers: {
+              Accept: 'application/json',
+            },
+            cache: 'force-cache',
+          });
+          if (!response.ok) {
+            continue;
+          }
+
+          const payload = await response.json();
+          const items = Array.isArray(payload && payload.items) ? payload.items : [];
+          const normalizedItems = items
+            .map((item) => normalizeArchiveContextItem(item))
+            .filter(Boolean);
+
+          if (normalizedItems.length > 0) {
+            archiveContextItems = normalizedItems;
+            archiveContextStatus = 'loaded';
+            archiveContextPromise = null;
+            updateInterface();
+            return archiveContextItems;
+          }
+        } catch (error) {
+          // Keep trying the next endpoint.
+        }
+      }
+
+      archiveContextItems = [];
+      archiveContextStatus = 'error';
+      archiveContextPromise = null;
+      updateInterface();
+      return archiveContextItems;
+    })();
+
+    return archiveContextPromise;
+  }
+
+  function primeArchiveContextItems() {
+    if (archiveContextStatus === 'idle') {
+      void loadArchiveContextItems();
+    }
+  }
+
   function inferTitleFromText(body) {
     const normalized = normalizeRawNote(body).trim();
     if (!normalized) {
@@ -2779,6 +3519,615 @@ export const PIGEON_APP_SCRIPT = String.raw`
     return ranked[0][0];
   }
 
+  function inferObjectForm(parsed) {
+    const resolvedType = resolvePublishType(parsed);
+    const plain = plainTextFromMarkdown(
+      (parsed.title || '') + '\n' + (parsed.body || parsed.caption || noteField.value || '')
+    ).toLowerCase();
+    const scores = {
+      bubble: 0,
+      coordinate: 0,
+      creature: 0,
+    };
+    const priors = OBJECT_FORM_PRIORS[resolvedType];
+    const wordCount = plain ? plain.split(/\s+/).filter(Boolean).length : 0;
+    const headingCount = (normalizeRawNote(parsed.body || '').match(/^\s{0,3}#{1,6}\s+/gm) || []).length;
+
+    if (priors) {
+      Object.entries(priors).forEach(([form, weight]) => {
+        scores[form] += weight;
+      });
+    }
+
+    Object.entries(OBJECT_FORM_KEYWORDS).forEach(([form, rules]) => {
+      rules.forEach((rule) => {
+        const matches = countMatches(rule.pattern, plain);
+        if (matches > 0) {
+          scores[form] += matches * rule.weight;
+        }
+      });
+    });
+
+    if (hasAttachedImages()) {
+      scores.coordinate += selectedImageCount() > 1 ? 1.25 : 0.95;
+    }
+
+    if (isImageOnlyDraft(parsed)) {
+      scores.coordinate += 0.8;
+    }
+
+    if (wordCount > 0 && wordCount <= 42 && headingCount === 0) {
+      scores.bubble += 0.65;
+    }
+
+    if (wordCount > 180) {
+      scores.creature += 0.25;
+      scores.coordinate += 0.2;
+    }
+
+    if (parsed.axes && parsed.axes.function === 'diagnostic') {
+      scores.coordinate += 0.35;
+      scores.creature += 0.35;
+    }
+
+    if (parsed.axes && parsed.axes.focus === 'witness') {
+      scores.bubble += 0.25;
+      scores.creature += 0.25;
+    }
+
+    const ranked = Object.entries(scores).sort((left, right) => {
+      if (left[1] === right[1]) {
+        return ['bubble', 'coordinate', 'creature'].indexOf(left[0]) - ['bubble', 'coordinate', 'creature'].indexOf(right[0]);
+      }
+      return right[1] - left[1];
+    });
+
+    if (!ranked.length || ranked[0][1] < 1.2) {
+      return {
+        form: '',
+        message: '',
+      };
+    }
+
+    const normalizedForm = normalizeObjectForm(ranked[0][0]);
+    const description = objectFormDescription(normalizedForm);
+    return {
+      form: normalizedForm,
+      message: normalizedForm ? 'Suggestion: ' + objectFormLabel(normalizedForm) + '. ' + description : '',
+    };
+  }
+
+  function getSuggestedObjectForm(parsed) {
+    const suggestion = inferObjectForm(parsed);
+    if (!suggestion.form) {
+      return { form: '', message: '' };
+    }
+
+    if (dismissedObjectFormSuggestion && dismissedObjectFormSuggestion === suggestion.form) {
+      return { form: '', message: '' };
+    }
+
+    return suggestion;
+  }
+
+  function getActiveObjectForm(parsed) {
+    return normalizeObjectForm(objectFormLock) || normalizeObjectForm(getSuggestedObjectForm(parsed).form);
+  }
+
+  function getObjectFormPreview(parsed) {
+    const suggestion = getSuggestedObjectForm(parsed);
+    const lockedForm = normalizeObjectForm(objectFormLock);
+    const form = lockedForm || normalizeObjectForm(suggestion.form);
+    if (!form) {
+      return { form: '', source: '', message: '' };
+    }
+
+    if (lockedForm) {
+      return {
+        form: lockedForm,
+        source: 'lock',
+        message: 'Locked as ' + objectFormLabel(lockedForm) + '. Clear to return to suggestion mode.',
+      };
+    }
+
+    return {
+      form,
+      source: 'suggestion',
+      message: suggestion.message,
+    };
+  }
+
+  function syncObjectFormButtons(parsed) {
+    const preview = getObjectFormPreview(parsed);
+    objectFormButtons.forEach((button) => {
+      const normalized = normalizeObjectForm(button.dataset.objectForm);
+      button.classList.toggle('active', Boolean(normalized && normalized === preview.form && preview.source === 'lock'));
+      button.classList.toggle('suggested', Boolean(normalized && normalized === preview.form && preview.source === 'suggestion'));
+    });
+
+    if (objectFormClearButton) {
+      objectFormClearButton.textContent = preview.source === 'lock' ? 'Unlock' : 'Clear';
+    }
+
+    if (objectFormSuggestion) {
+      if (preview.message) {
+        objectFormSuggestion.hidden = false;
+        objectFormSuggestion.textContent = preview.message;
+      } else {
+        objectFormSuggestion.hidden = true;
+        objectFormSuggestion.textContent = '';
+      }
+    }
+  }
+
+  function setOrientationPromptField(wrap, labelNode, inputNode, config) {
+    if (!wrap || !labelNode || !inputNode) {
+      return;
+    }
+
+    if (!config) {
+      wrap.hidden = true;
+      labelNode.textContent = '';
+      inputNode.value = '';
+      inputNode.removeAttribute('data-capture-key');
+      inputNode.placeholder = '';
+      return;
+    }
+
+    wrap.hidden = false;
+    labelNode.textContent = config.label;
+    inputNode.setAttribute('data-capture-key', config.key);
+    inputNode.placeholder = config.placeholder || '';
+    inputNode.value = captureFieldState[config.key] || '';
+  }
+
+  function syncOrientationPrompts(parsed) {
+    const form = getActiveObjectForm(parsed);
+    const prompts = form ? OBJECT_FORM_PROMPTS[form] || [] : [];
+    const hasPrompts = prompts.length > 0;
+
+    if (orientationPrompts) {
+      orientationPrompts.hidden = !hasPrompts;
+    }
+
+    setOrientationPromptField(
+      orientationFieldOneWrap,
+      orientationFieldOneLabel,
+      orientationFieldOneInput,
+      hasPrompts ? prompts[0] : null
+    );
+    setOrientationPromptField(
+      orientationFieldTwoWrap,
+      orientationFieldTwoLabel,
+      orientationFieldTwoInput,
+      hasPrompts ? prompts[1] : null
+    );
+  }
+
+  function hasCaptureFieldContent() {
+    return Object.values(captureFieldState).some((value) => normalizeCaptureFieldValue(value).length > 0);
+  }
+
+  function hasPersistableCaptureState() {
+    return Boolean(
+      normalizeObjectForm(objectFormLock) ||
+        hasCaptureFieldContent() ||
+        (tracePanel && tracePanel.open)
+    );
+  }
+
+  function persistCaptureState() {
+    if (!captureStorageKey) {
+      return;
+    }
+
+    if (!hasPersistableCaptureState()) {
+      localStorage.removeItem(captureStorageKey);
+      return;
+    }
+
+    localStorage.setItem(
+      captureStorageKey,
+      JSON.stringify({
+        objectFormLock: normalizeObjectForm(objectFormLock) || '',
+        captureFieldState,
+        traceOpen: Boolean(tracePanel && tracePanel.open),
+      })
+    );
+  }
+
+  function restoreCaptureState() {
+    if (!captureStorageKey) {
+      return;
+    }
+
+    const raw = localStorage.getItem(captureStorageKey);
+    if (!raw) {
+      return;
+    }
+
+    try {
+      const parsed = JSON.parse(raw);
+      objectFormLock = normalizeObjectForm(parsed && parsed.objectFormLock) || '';
+      const restoredFields =
+        parsed && parsed.captureFieldState && typeof parsed.captureFieldState === 'object'
+          ? parsed.captureFieldState
+          : {};
+      captureFieldState = {
+        holds_under_isolation: normalizeCaptureFieldValue(restoredFields.holds_under_isolation),
+        field_break: normalizeCaptureFieldValue(restoredFields.field_break),
+        survives_alone: normalizeCaptureFieldValue(restoredFields.survives_alone),
+        pressure: normalizeCaptureFieldValue(restoredFields.pressure),
+        selection_note: normalizeCaptureFieldValue(restoredFields.selection_note),
+        pull: normalizeCaptureFieldValue(restoredFields.pull),
+        interruptions: normalizeCaptureFieldValue(restoredFields.interruptions),
+      };
+
+      if (tracePanel && parsed && parsed.traceOpen) {
+        tracePanel.open = true;
+      }
+    } catch (error) {
+      localStorage.removeItem(captureStorageKey);
+    }
+  }
+
+  function syncTraceInputs() {
+    if (tracePullInput) {
+      tracePullInput.value = captureFieldState.pull || '';
+    }
+    if (traceSelectionInput) {
+      traceSelectionInput.value = captureFieldState.selection_note || '';
+    }
+    if (traceInterruptionsInput) {
+      traceInterruptionsInput.value = captureFieldState.interruptions || '';
+    }
+  }
+
+  function defaultMediaIntentForFile(file, index, parsed) {
+    const activeForm = getActiveObjectForm(parsed);
+    return {
+      key: String(index + 1) + ':' + file.name,
+      index: index + 1,
+      original_filename: file.name,
+      role: index === 0 ? 'hero' : 'gallery',
+      source: true,
+      potential_coordinate: activeForm === 'coordinate',
+      isolate_later: false,
+      alt: '',
+      caption: '',
+    };
+  }
+
+  function syncMediaIntentState(parsed) {
+    const files = Array.from(imgFileInput.files || []);
+    if (!files.length) {
+      mediaIntentState = [];
+      if (mediaIntentPanel) {
+        mediaIntentPanel.hidden = true;
+        mediaIntentPanel.innerHTML = '';
+      }
+      return [];
+    }
+
+    const existingByKey = new Map(
+      mediaIntentState.map((item) => [item.key || (String(item.index) + ':' + item.original_filename), item])
+    );
+
+    mediaIntentState = files.map((file, index) => {
+      const nextKey = String(index + 1) + ':' + file.name;
+      const existing = existingByKey.get(nextKey);
+      const fallback = defaultMediaIntentForFile(file, index, parsed);
+      const normalizedRole = MEDIA_INTENT_ROLE_OPTIONS.includes(existing && existing.role)
+        ? existing.role
+        : fallback.role;
+      return {
+        ...fallback,
+        ...(existing || {}),
+        key: nextKey,
+        index: index + 1,
+        original_filename: file.name,
+        role: normalizedRole,
+        source: existing && typeof existing.source === 'boolean' ? existing.source : true,
+        potential_coordinate:
+          existing && typeof existing.potential_coordinate === 'boolean'
+            ? existing.potential_coordinate
+            : fallback.potential_coordinate,
+        isolate_later:
+          existing && typeof existing.isolate_later === 'boolean' ? existing.isolate_later : false,
+        alt: normalizeCaptureFieldValue(existing && existing.alt),
+        caption: normalizeCaptureFieldValue(existing && existing.caption),
+      };
+    });
+
+    renderMediaIntentPanel(parsed);
+    return mediaIntentState;
+  }
+
+  function buildMediaIntentField(label, control) {
+    const field = document.createElement('label');
+    field.className = 'media-intent-field';
+
+    const heading = document.createElement('span');
+    heading.className = 'media-intent-label';
+    heading.textContent = label;
+
+    field.appendChild(heading);
+    field.appendChild(control);
+    return field;
+  }
+
+  function buildMediaIntentToggle(label, checked, onChange) {
+    const row = document.createElement('label');
+    row.className = 'media-intent-toggle';
+
+    const input = document.createElement('input');
+    input.type = 'checkbox';
+    input.checked = Boolean(checked);
+    input.addEventListener('change', () => {
+      onChange(input.checked);
+    });
+
+    const text = document.createElement('span');
+    text.textContent = label;
+
+    row.appendChild(input);
+    row.appendChild(text);
+    return row;
+  }
+
+  function renderMediaIntentPanel(parsed) {
+    if (!mediaIntentPanel) {
+      return;
+    }
+
+    if (!mediaIntentState.length) {
+      mediaIntentPanel.hidden = true;
+      mediaIntentPanel.innerHTML = '';
+      return;
+    }
+
+    mediaIntentPanel.hidden = false;
+    mediaIntentPanel.innerHTML = '';
+
+    const heading = document.createElement('div');
+    heading.className = 'media-intent-head';
+    heading.innerHTML =
+      '<span class="media-intent-title">Media intent</span><span class="media-intent-copy">Optional staging for how each image should read when NI and AI inspect the object.</span>';
+    mediaIntentPanel.appendChild(heading);
+
+    const grid = document.createElement('div');
+    grid.className = 'media-intent-grid';
+
+    mediaIntentState.forEach((item, index) => {
+      const card = document.createElement('article');
+      card.className = 'media-intent-card';
+
+      const cardHead = document.createElement('div');
+      cardHead.className = 'media-intent-card-head';
+
+      const fileLabel = document.createElement('strong');
+      fileLabel.className = 'media-intent-file';
+      fileLabel.textContent = item.original_filename;
+
+      const fileMeta = document.createElement('span');
+      fileMeta.className = 'media-intent-meta';
+      fileMeta.textContent = 'Image ' + String(index + 1);
+
+      cardHead.appendChild(fileLabel);
+      cardHead.appendChild(fileMeta);
+      card.appendChild(cardHead);
+
+      const roleSelect = document.createElement('select');
+      roleSelect.className = 'media-intent-select';
+      MEDIA_INTENT_ROLE_OPTIONS.forEach((role) => {
+        const option = document.createElement('option');
+        option.value = role;
+        option.textContent = role.charAt(0).toUpperCase() + role.slice(1);
+        option.selected = role === item.role;
+        roleSelect.appendChild(option);
+      });
+      roleSelect.addEventListener('change', () => {
+        mediaIntentState[index].role = roleSelect.value;
+      });
+      card.appendChild(buildMediaIntentField('Role', roleSelect));
+
+      const toggles = document.createElement('div');
+      toggles.className = 'media-intent-toggles';
+      toggles.appendChild(
+        buildMediaIntentToggle('Source', item.source, (checked) => {
+          mediaIntentState[index].source = checked;
+        })
+      );
+      toggles.appendChild(
+        buildMediaIntentToggle('Potential coordinate', item.potential_coordinate, (checked) => {
+          mediaIntentState[index].potential_coordinate = checked;
+        })
+      );
+      toggles.appendChild(
+        buildMediaIntentToggle('Isolate later', item.isolate_later, (checked) => {
+          mediaIntentState[index].isolate_later = checked;
+        })
+      );
+      card.appendChild(toggles);
+
+      const altInput = document.createElement('input');
+      altInput.className = 'media-intent-input';
+      altInput.type = 'text';
+      altInput.autocomplete = 'off';
+      altInput.placeholder = 'Optional alt text';
+      altInput.value = item.alt || '';
+      altInput.addEventListener('input', () => {
+        mediaIntentState[index].alt = altInput.value;
+      });
+      card.appendChild(buildMediaIntentField('Alt', altInput));
+
+      const captionInput = document.createElement('input');
+      captionInput.className = 'media-intent-input';
+      captionInput.type = 'text';
+      captionInput.autocomplete = 'off';
+      captionInput.placeholder = 'Optional caption';
+      captionInput.value = item.caption || '';
+      captionInput.addEventListener('input', () => {
+        mediaIntentState[index].caption = captionInput.value;
+      });
+      card.appendChild(buildMediaIntentField('Caption', captionInput));
+
+      grid.appendChild(card);
+    });
+
+    mediaIntentPanel.appendChild(grid);
+  }
+
+  function buildCapturePayload(parsed) {
+    const preview = getObjectFormPreview(parsed);
+    const activeForm = normalizeObjectForm(preview.form);
+    const orientationResponses = {};
+    const promptKeys = activeForm ? (OBJECT_FORM_PROMPTS[activeForm] || []).map((item) => item.key) : [];
+
+    promptKeys.forEach((key) => {
+      const value = normalizeCaptureFieldValue(captureFieldState[key]);
+      if (!value) {
+        return;
+      }
+
+      orientationResponses[key] = value;
+    });
+
+    const interruptions = splitCaptureList(captureFieldState.interruptions);
+    const traceExpanded = {};
+    if (normalizeCaptureFieldValue(captureFieldState.selection_note)) {
+      traceExpanded.selection_note = normalizeCaptureFieldValue(captureFieldState.selection_note);
+    }
+    if (interruptions.length) {
+      traceExpanded.interruptions = interruptions;
+    }
+    Object.entries(orientationResponses).forEach(([key, value]) => {
+      traceExpanded[key] = value;
+    });
+
+    const mediaIntent = mediaIntentState
+      .map((item) => {
+        const candidate = {
+          index: item.index,
+          original_filename: item.original_filename,
+          role: item.role,
+          source: item.source,
+          potential_coordinate: item.potential_coordinate,
+          isolate_later: item.isolate_later,
+          alt: normalizeCaptureFieldValue(item.alt),
+          caption: normalizeCaptureFieldValue(item.caption),
+        };
+
+        if (!candidate.alt) {
+          delete candidate.alt;
+        }
+        if (!candidate.caption) {
+          delete candidate.caption;
+        }
+        return candidate;
+      })
+      .filter((item) => Boolean(item.original_filename));
+
+    const hasManualGuidance = Boolean(
+      normalizeObjectForm(objectFormLock) ||
+        normalizeCaptureFieldValue(captureFieldState.pull) ||
+        Object.keys(traceExpanded).length > 0
+    );
+    const captureMode =
+      !noteField.value.trim() && hasAttachedImages()
+        ? 'image-only'
+        : hasManualGuidance
+          ? 'guided'
+          : 'default';
+    const typeResolution = hasManualGuidance
+      ? 'capture'
+      : mediaIntent.length > 0 || preview.source === 'suggestion'
+        ? 'staging'
+        : '';
+
+    const payload = {
+      protocol_version: 'pigeon-1.1',
+      capture_mode: captureMode,
+      object_form_suggestion: preview.source === 'suggestion' ? preview.form : '',
+      object_form_lock: preview.source === 'lock' ? preview.form : '',
+      type_resolution: typeResolution,
+      orientation:
+        activeForm && Object.keys(orientationResponses).length > 0
+          ? {
+              prompt_set: activeForm,
+              optional: true,
+              supportive: true,
+              responses: orientationResponses,
+            }
+          : null,
+      trace:
+        normalizeCaptureFieldValue(captureFieldState.pull) ||
+        Object.keys(traceExpanded).length > 0 ||
+        Boolean(tracePanel && tracePanel.open)
+          ? {
+              pull: normalizeCaptureFieldValue(captureFieldState.pull) || undefined,
+              collapsed: !(tracePanel && tracePanel.open),
+              expanded: Object.keys(traceExpanded).length > 0 ? traceExpanded : undefined,
+            }
+          : null,
+      media_intent: mediaIntent.length > 0 ? mediaIntent : null,
+      staging: mediaIntent.some((item) => item.isolate_later)
+        ? { isolate_later: true }
+        : null,
+    };
+
+    if (
+      !payload.object_form_suggestion &&
+      !payload.object_form_lock &&
+      !payload.orientation &&
+      !payload.trace &&
+      !payload.media_intent &&
+      !payload.staging
+    ) {
+      return null;
+    }
+
+    if (!payload.object_form_suggestion) {
+      delete payload.object_form_suggestion;
+    }
+    if (!payload.object_form_lock) {
+      delete payload.object_form_lock;
+    }
+    if (!payload.type_resolution) {
+      delete payload.type_resolution;
+    }
+    if (!payload.orientation) {
+      delete payload.orientation;
+    }
+    if (!payload.trace) {
+      delete payload.trace;
+    }
+    if (!payload.media_intent) {
+      delete payload.media_intent;
+    }
+    if (!payload.staging) {
+      delete payload.staging;
+    }
+
+    return payload;
+  }
+
+  function formatFormReadout(capture) {
+    if (!capture) {
+      return '';
+    }
+
+    const locked = normalizeObjectForm(capture.object_form_lock);
+    const suggested = normalizeObjectForm(capture.object_form_suggestion);
+    if (locked) {
+      return objectFormLabel(locked) + ' / locked';
+    }
+    if (suggested) {
+      return objectFormLabel(suggested) + ' / suggested';
+    }
+    return '';
+  }
+
   function getTypeSpecificDefaults(type, body) {
     switch (type) {
       case 'signal':
@@ -2883,6 +4232,331 @@ export const PIGEON_APP_SCRIPT = String.raw`
     return ['---', ...lines, '---', normalizedBody].filter(Boolean).join('\n');
   }
 
+  function buildRelatedDraftProfile(parsed) {
+    const rawNote = normalizeRawNote(noteField.value).trim();
+    if (!rawNote) {
+      return null;
+    }
+
+    const loose = readLooseFrontmatter(noteField.value);
+    const captionText = parsed.caption || '';
+    const body = loose.body || parsed.body || '';
+    const inferenceText = captionText || body || rawNote;
+    const title = parsed.title || inferTitleFromText(inferenceText);
+    const summary = parsed.excerpt || inferSummaryFromText(parsed.body || parsed.caption || '');
+    const type = resolvePublishType(parsed) || inferObjectTypeFromText(title, body);
+    const tags = uniqueStrings(
+      (
+        parsed.tags.length
+          ? parsed.tags
+          : inferTagsFromText(title, inferenceText)
+      )
+        .map((value) => normalizeTagCandidate(value))
+        .filter(Boolean)
+    );
+    const existingRelated = uniqueStrings(
+      normalizeFlexibleStringArray(loose.fields.related)
+        .map((value) => extractObjectSlug(value))
+        .filter(Boolean)
+    );
+    const preview = getObjectFormPreview(parsed);
+    const titlePlain = plainTextFromMarkdown(title).toLowerCase();
+    const summaryPlain = plainTextFromMarkdown(summary).toLowerCase();
+    const bodyPlain = plainTextFromMarkdown(inferenceText).toLowerCase();
+    const titleTokens = tokenizeSimilarityText(title);
+    const summaryTokens = tokenizeSimilarityText(summary);
+    const bodyTokens = tokenizeSimilarityText(inferenceText).slice(0, 64);
+    const tokens = uniqueStrings([...titleTokens, ...summaryTokens, ...bodyTokens, ...tags]);
+
+    if (!title && !bodyPlain) {
+      return null;
+    }
+
+    if (tokens.length < 3 && tags.length === 0 && titlePlain.length < 16) {
+      return null;
+    }
+
+    return {
+      slug: title ? slugify(title) : '',
+      type,
+      form: preview.form || '',
+      tags,
+      existingRelated,
+      titlePlain,
+      summaryPlain,
+      bodyPlain,
+      titleTokens,
+      summaryTokens,
+      bodyTokens,
+      tokens,
+    };
+  }
+
+  function scoreRelatedCandidate(profile, candidate) {
+    if (!profile || !candidate || !candidate.ref) {
+      return null;
+    }
+
+    const candidateRef = candidate.ref.toLowerCase();
+    if (
+      (profile.slug && candidate.slug === profile.slug) ||
+      profile.existingRelated.some((value) => value.toLowerCase() === candidateRef)
+    ) {
+      return null;
+    }
+
+    const sharedTags = intersectStrings(profile.tags, candidate.tags);
+    const sharedTerms = intersectStrings(profile.tokens, candidate.tokens);
+    const titleOverlap = intersectStrings(profile.titleTokens, candidate.titleTokens);
+    const summaryOverlap = intersectStrings(profile.summaryTokens, candidate.summaryTokens);
+    const bodyOverlap = intersectStrings(profile.bodyTokens, candidate.tokens);
+    const reasons = [];
+    let score = 0;
+
+    if (sharedTags.length > 0) {
+      score += 1.15 + Math.min(sharedTags.length - 1, 2) * 0.3;
+      reasons.push('shared tags: ' + sharedTags.slice(0, 2).join(', '));
+    }
+
+    if (titleOverlap.length > 0) {
+      score += 0.9 + Math.min(titleOverlap.length, 3) * 0.35;
+      reasons.push('title overlap');
+    }
+
+    if (summaryOverlap.length > 0) {
+      score += Math.min(summaryOverlap.length, 3) * 0.28;
+    }
+
+    if (sharedTerms.length > 0) {
+      score += Math.min(sharedTerms.length, 6) * 0.28;
+    }
+
+    if (bodyOverlap.length > 1) {
+      score += Math.min(bodyOverlap.length, 5) * 0.2;
+    }
+
+    const typePrior =
+      (RELATED_TYPE_PRIORS[profile.type] && RELATED_TYPE_PRIORS[profile.type][candidate.type]) || 0;
+    if (typePrior) {
+      score += typePrior;
+    }
+
+    const phraseHit =
+      candidate.titlePlain &&
+      candidate.titlePlain.length >= 14 &&
+      (profile.bodyPlain.includes(candidate.titlePlain) || profile.titlePlain.includes(candidate.titlePlain));
+    if (phraseHit) {
+      score += 1.8;
+      reasons.push('body echoes existing object');
+    }
+
+    const reversePhraseHit =
+      profile.titlePlain &&
+      profile.titlePlain.length >= 14 &&
+      candidate.searchPlain.includes(profile.titlePlain);
+    if (reversePhraseHit) {
+      score += 1.0;
+    }
+
+    if (profile.form && candidate.objectForm && candidate.objectForm === profile.form) {
+      score += 0.35;
+      reasons.push('matching form');
+    }
+
+    if (
+      candidate.type === 'fragment' &&
+      ['scroll', 'codex', 'fieldlog', 'nexus'].includes(profile.type) &&
+      (phraseHit || titleOverlap.length > 0 || bodyOverlap.length >= 3)
+    ) {
+      score += 0.95;
+      reasons.push('possible seed fragment');
+    }
+
+    if (
+      profile.type === 'fragment' &&
+      ['scroll', 'codex', 'fieldlog'].includes(candidate.type) &&
+      (sharedTerms.length >= 2 || titleOverlap.length > 0)
+    ) {
+      score += 0.65;
+      reasons.push('possible expansion target');
+    }
+
+    if (score < 2.1) {
+      return null;
+    }
+
+    return {
+      ...candidate,
+      score,
+      reasons: uniqueStrings(reasons).slice(0, 2),
+    };
+  }
+
+  function computeRelatedSuggestions(parsed) {
+    const profile = buildRelatedDraftProfile(parsed);
+    if (!profile || archiveContextStatus !== 'loaded' || !archiveContextItems.length) {
+      return [];
+    }
+
+    return archiveContextItems
+      .map((candidate) => scoreRelatedCandidate(profile, candidate))
+      .filter(Boolean)
+      .sort((left, right) => right.score - left.score || left.title.localeCompare(right.title))
+      .slice(0, RELATED_SUGGESTION_LIMIT);
+  }
+
+  function clearRelatedSuggestions() {
+    relatedSuggestionState = [];
+    if (!relatedSuggestionsPanel || !relatedSuggestionsList || !relatedSuggestionsNote) {
+      return;
+    }
+
+    relatedSuggestionsPanel.hidden = true;
+    relatedSuggestionsNote.textContent =
+      'Smart Draft can surface nearby objects and likely seed links. Add only what feels real.';
+    relatedSuggestionsList.replaceChildren();
+  }
+
+  function syncRelatedSuggestions(parsed) {
+    if (!relatedSuggestionsPanel || !relatedSuggestionsList || !relatedSuggestionsNote) {
+      return;
+    }
+
+    const profile = buildRelatedDraftProfile(parsed);
+    if (!profile) {
+      clearRelatedSuggestions();
+      return;
+    }
+
+    if (archiveContextStatus === 'idle') {
+      primeArchiveContextItems();
+    }
+
+    if (archiveContextStatus === 'loading') {
+      relatedSuggestionState = [];
+      relatedSuggestionsPanel.hidden = false;
+      relatedSuggestionsNote.textContent = 'Loading archive context for nearby-object suggestions...';
+      relatedSuggestionsList.replaceChildren();
+      return;
+    }
+
+    if (archiveContextStatus !== 'loaded') {
+      clearRelatedSuggestions();
+      return;
+    }
+
+    const suggestions = computeRelatedSuggestions(parsed);
+    relatedSuggestionState = suggestions;
+    if (!suggestions.length) {
+      clearRelatedSuggestions();
+      return;
+    }
+
+    relatedSuggestionsPanel.hidden = false;
+    relatedSuggestionsNote.textContent =
+      'Nearby archive objects and likely lineage links. Add only what feels real.';
+    relatedSuggestionsList.replaceChildren(
+      ...suggestions.map((item) => {
+        const card = document.createElement('article');
+        card.className = 'related-card';
+
+        const head = document.createElement('div');
+        head.className = 'related-card-head';
+
+        const title = document.createElement('div');
+        title.className = 'related-card-title';
+        title.textContent = item.title;
+
+        const addButton = document.createElement('button');
+        addButton.className = 'related-card-action';
+        addButton.type = 'button';
+        addButton.dataset.relatedRef = item.ref;
+        addButton.textContent = 'Add to related';
+
+        head.appendChild(title);
+        head.appendChild(addButton);
+
+        const meta = document.createElement('div');
+        meta.className = 'related-card-meta';
+        meta.textContent = describeType(item.type) + (item.objectForm ? ' / ' + objectFormLabel(item.objectForm) : '');
+
+        const note = document.createElement('p');
+        note.className = 'related-card-note';
+        note.textContent =
+          item.reasons.length > 0
+            ? item.reasons.join(' · ')
+            : item.summary || 'Nearby archive match.';
+
+        const actions = document.createElement('div');
+        actions.className = 'related-card-actions';
+
+        const link = document.createElement('a');
+        link.className = 'related-card-link';
+        link.href = resolveHref(item.url);
+        link.target = '_blank';
+        link.rel = 'noreferrer';
+        link.textContent = 'Open';
+
+        actions.appendChild(link);
+
+        card.appendChild(head);
+        card.appendChild(meta);
+        card.appendChild(note);
+        card.appendChild(actions);
+        return card;
+      })
+    );
+  }
+
+  function addRelatedReference(ref) {
+    const normalizedRef = extractObjectSlug(ref);
+    if (!normalizedRef || !noteField.value.trim()) {
+      return false;
+    }
+
+    let parsed = parseFrontmatter(noteField.value);
+    if (!parsed.hasFrontmatter) {
+      const drafted = smartDraft({ silent: true });
+      parsed = drafted && drafted.parsed ? drafted.parsed : parseFrontmatter(noteField.value);
+      logLine('info', 'Smart Draft added frontmatter so related can be pinned.');
+    }
+
+    const loose = readLooseFrontmatter(noteField.value);
+    const existingRelated = uniqueStrings(
+      normalizeFlexibleStringArray(loose.fields.related)
+        .map((value) => extractObjectSlug(value))
+        .filter(Boolean)
+    );
+
+    if (existingRelated.some((value) => value.toLowerCase() === normalizedRef.toLowerCase())) {
+      logLine('info', 'Related already includes -> ' + normalizedRef);
+      return false;
+    }
+
+    const fields = { ...loose.fields };
+    const order = loose.order.slice();
+    const typeKey = Object.prototype.hasOwnProperty.call(fields, 'object_type')
+      ? 'object_type'
+      : Object.prototype.hasOwnProperty.call(fields, 'type')
+        ? 'type'
+        : 'object_type';
+    const resolvedType = parsed.objectType || selectedType;
+    fields.related = [...existingRelated, normalizedRef];
+
+    noteField.value = renderFrontmatterNote(
+      fields,
+      order,
+      loose.rawBlocks,
+      typeKey,
+      resolvedType,
+      loose.body || parsed.body || ''
+    );
+    persistDraft();
+    updateInterface();
+    logLine('ok', 'Added related -> ' + normalizedRef);
+    return true;
+  }
+
   function smartDraft(options) {
     const settings = options || {};
     const rawNote = normalizeRawNote(noteField.value);
@@ -2977,6 +4651,9 @@ export const PIGEON_APP_SCRIPT = String.raw`
     if (!changed) {
       if (!settings.silent) {
         logLine('info', 'Smart Draft left the current frontmatter as-is.');
+        if (relatedSuggestionState.length > 0) {
+          logLine('info', 'Related suggestions are ready below the note.');
+        }
       }
       return { parsed: updatedParsed, changed, inferredType };
     }
@@ -2984,6 +4661,9 @@ export const PIGEON_APP_SCRIPT = String.raw`
     if (!settings.silent) {
       logLine('ok', 'Smart Draft -> ' + describeType(inferredType));
       logLine('', smartDraftButtonMessage);
+      if (relatedSuggestionState.length > 0) {
+        logLine('info', 'Related suggestions are ready below the note.');
+      }
     }
 
     return {
@@ -3156,6 +4836,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
   }
 
   function updateReadoutFromParsed(parsed) {
+    const capture = buildCapturePayload(parsed);
     const type = getStableType(parsed);
     const displayTitle = resolveDisplayTitle(parsed);
     const excerpt = parsed.excerpt || inferSummaryFromText(parsed.body || parsed.caption || '');
@@ -3188,6 +4869,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
     setTelem(roTitle, displayTitle, false);
     setTelem(roExcerpt, excerpt, false);
     setTelem(roHero, heroLabel, false);
+    setTelem(roForm, formatFormReadout(capture), Boolean(capture && capture.object_form_lock));
     setTelem(roScale, formatAxisValue('scale', axes.scale), false);
     setTelem(roDepth, formatAxisValue('depth', axes.depth), false);
     setTelem(roFocus, formatAxisValue('focus', axes.focus), false);
@@ -3201,10 +4883,15 @@ export const PIGEON_APP_SCRIPT = String.raw`
     const type = normalizeObjectType(data.objectType || data.object_type) || selectedType;
     const slug = typeof data.slug === 'string' ? data.slug : '';
     const path = type && slug ? collectionPath(type, slug) : '';
+    const capture =
+      data && data.capture && typeof data.capture === 'object'
+        ? data.capture
+        : null;
     const axes = data && typeof data.axes === 'object' && data.axes
       ? data.axes
       : {};
     setTelem(roType, type ? describeType(type) : '', false);
+    setTelem(roForm, formatFormReadout(capture), Boolean(capture && capture.object_form_lock));
     setTelem(roScale, formatAxisValue('scale', normalizeAxisScale(axes.scale)), false);
     setTelem(roDepth, formatAxisValue('depth', normalizeAxisDepth(axes.depth)), false);
     setTelem(roFocus, formatAxisValue('focus', normalizeAxisFocus(axes.focus)), false);
@@ -3357,6 +5044,20 @@ export const PIGEON_APP_SCRIPT = String.raw`
       syncSelectedType(selectedType, { silent: true, closePanel: false });
     }
 
+    const currentSuggestion = inferObjectForm(parsed);
+    if (
+      dismissedObjectFormSuggestion &&
+      currentSuggestion.form &&
+      dismissedObjectFormSuggestion !== currentSuggestion.form
+    ) {
+      dismissedObjectFormSuggestion = '';
+    }
+
+    syncObjectFormButtons(parsed);
+    syncOrientationPrompts(parsed);
+    syncTraceInputs();
+    syncMediaIntentState(parsed);
+    syncRelatedSuggestions(parsed);
     updateReadoutFromParsed(parsed);
     syncAxisControlsFromParsed(parsed);
 
@@ -3497,6 +5198,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
   function persistDraft() {
     clearPublishActions();
     if (!draftStorageKey) {
+      persistCaptureState();
       return;
     }
 
@@ -3505,6 +5207,8 @@ export const PIGEON_APP_SCRIPT = String.raw`
     } else {
       localStorage.removeItem(draftStorageKey);
     }
+
+    persistCaptureState();
   }
 
   function persistKey() {
@@ -3633,6 +5337,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
     const files = Array.from(imgFileInput.files || []);
     imgFileName.textContent = describeImages(files);
     imgZone.classList.toggle('has-file', files.length > 0);
+    syncMediaIntentState(parseFrontmatter(noteField.value));
     if (files.length) {
       logLine('info', describeImages(files) + ' attached');
       logLine('', imageReadyMessage);
@@ -3662,6 +5367,22 @@ export const PIGEON_APP_SCRIPT = String.raw`
     imgFileName.textContent = 'No files';
     mdZone.classList.remove('has-file');
     imgZone.classList.remove('has-file');
+    objectFormLock = '';
+    dismissedObjectFormSuggestion = '';
+    captureFieldState = {
+      holds_under_isolation: '',
+      field_break: '',
+      survives_alone: '',
+      pressure: '',
+      selection_note: '',
+      pull: '',
+      interruptions: '',
+    };
+    mediaIntentState = [];
+    if (tracePanel) {
+      tracePanel.open = false;
+    }
+    syncTraceInputs();
     if (!typeWasManuallyChosen) {
       syncSelectedType('signal', { silent: true, closePanel: false, source: 'default' });
     }
@@ -3824,6 +5545,10 @@ export const PIGEON_APP_SCRIPT = String.raw`
       const formData = new FormData();
       formData.append('note', noteField.value.trim());
       formData.append('object_type', resolvedType);
+      const capture = buildCapturePayload(parsed);
+      if (capture) {
+        formData.append('capture', JSON.stringify(capture));
+      }
 
       const selectedImages = Array.from(imgFileInput.files || []);
       if (selectedImages.length) {
@@ -3905,10 +5630,105 @@ export const PIGEON_APP_SCRIPT = String.raw`
     });
   });
 
+  objectFormButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const nextForm = normalizeObjectForm(button.dataset.objectForm);
+      if (!nextForm) {
+        return;
+      }
+
+      objectFormLock = nextForm;
+      dismissedObjectFormSuggestion = '';
+      persistCaptureState();
+      updateInterface();
+      logLine('info', 'Object form locked -> ' + objectFormLabel(nextForm));
+    });
+  });
+
+  if (objectFormClearButton) {
+    objectFormClearButton.addEventListener('click', () => {
+      const parsed = parseFrontmatter(noteField.value);
+      const preview = getObjectFormPreview(parsed);
+
+      if (normalizeObjectForm(objectFormLock)) {
+        objectFormLock = '';
+        persistCaptureState();
+        updateInterface();
+        logLine('info', 'Object form lock cleared.');
+        return;
+      }
+
+      if (preview.source === 'suggestion' && preview.form) {
+        dismissedObjectFormSuggestion = preview.form;
+        updateInterface();
+        logLine('info', 'Object form suggestion dismissed.');
+      }
+    });
+  }
+
   noteField.addEventListener('input', () => {
     persistDraft();
     updateInterface();
   });
+
+  if (relatedSuggestionsList) {
+    relatedSuggestionsList.addEventListener('click', (event) => {
+      const trigger = event.target.closest('[data-related-ref]');
+      if (!trigger) {
+        return;
+      }
+
+      addRelatedReference(trigger.getAttribute('data-related-ref') || '');
+    });
+  }
+
+  [orientationFieldOneInput, orientationFieldTwoInput].forEach((input) => {
+    if (!input) {
+      return;
+    }
+
+    input.addEventListener('input', () => {
+      const key = input.getAttribute('data-capture-key');
+      if (!key) {
+        return;
+      }
+
+      captureFieldState[key] = input.value;
+      persistCaptureState();
+      updateInterface();
+    });
+  });
+
+  if (tracePullInput) {
+    tracePullInput.addEventListener('input', () => {
+      captureFieldState.pull = tracePullInput.value;
+      persistCaptureState();
+      updateInterface();
+    });
+  }
+
+  if (traceSelectionInput) {
+    traceSelectionInput.addEventListener('input', () => {
+      captureFieldState.selection_note = traceSelectionInput.value;
+      persistCaptureState();
+      updateInterface();
+    });
+  }
+
+  if (traceInterruptionsInput) {
+    traceInterruptionsInput.addEventListener('input', () => {
+      captureFieldState.interruptions = traceInterruptionsInput.value;
+      persistCaptureState();
+      updateInterface();
+    });
+  }
+
+  if (tracePanel) {
+    tracePanel.addEventListener('toggle', () => {
+      persistCaptureState();
+      updateInterface();
+    });
+  }
 
   Object.entries(axisSelects).forEach(([kind, select]) => {
     if (!select) {
@@ -3940,6 +5760,10 @@ export const PIGEON_APP_SCRIPT = String.raw`
   if (draftStorageKey) {
     noteField.value = localStorage.getItem(draftStorageKey) || '';
   }
+
+  restoreCaptureState();
+  syncTraceInputs();
+  syncMediaIntentState(parseFrontmatter(noteField.value));
 
   updateClock();
   window.setInterval(updateClock, 30000);

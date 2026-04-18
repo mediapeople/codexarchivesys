@@ -21,6 +21,8 @@ export interface FeedItemRecord {
   authorName: string;
   tags: string[];
   type: string;
+  objectForm?: string | null;
+  capture?: ReturnType<typeof getObjectExport>['capture'];
   attachments: FeedAttachment[];
 }
 
@@ -168,5 +170,7 @@ export function getFeedItem(entry: ArchiveEntry): FeedItemRecord {
     tags: exported.tags,
     type: exported.type,
     attachments: buildFeedAttachments(exported),
+    objectForm: exported.object_form,
+    capture: exported.capture,
   };
 }

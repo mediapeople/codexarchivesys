@@ -16,6 +16,7 @@ export function GET() {
       'slug',
       'url',
       'type',
+      'object_form',
       'title',
       'summary',
       'content_text',
@@ -34,6 +35,7 @@ export function GET() {
       'keywords',
       'relations',
       'media',
+      'capture',
     ],
     properties: {
       $schema: {
@@ -59,6 +61,10 @@ export function GET() {
       type: {
         type: 'string',
         minLength: 1,
+      },
+      object_form: {
+        type: ['string', 'null'],
+        enum: ['bubble', 'coordinate', 'creature', null],
       },
       title: {
         type: 'string',
@@ -138,6 +144,12 @@ export function GET() {
           $ref: '#/$defs/media',
         },
       },
+      capture: {
+        anyOf: [
+          { type: 'null' },
+          { $ref: '#/$defs/capture' },
+        ],
+      },
     },
     $defs: {
       person: {
@@ -206,6 +218,63 @@ export function GET() {
                 },
               },
             },
+          },
+        },
+      },
+      capture: {
+        type: 'object',
+        additionalProperties: false,
+        required: [
+          'protocol_version',
+          'capture_mode',
+          'object_form',
+          'object_form_source',
+          'object_form_suggestion',
+          'object_form_lock',
+          'type_resolution',
+          'orientation',
+          'trace',
+          'media_intent',
+          'staging',
+        ],
+        properties: {
+          protocol_version: { type: ['string', 'null'] },
+          capture_mode: { type: ['string', 'null'] },
+          object_form: {
+            type: ['string', 'null'],
+            enum: ['bubble', 'coordinate', 'creature', null],
+          },
+          object_form_source: {
+            type: ['string', 'null'],
+            enum: ['lock', 'suggestion', null],
+          },
+          object_form_suggestion: {
+            type: ['string', 'null'],
+            enum: ['bubble', 'coordinate', 'creature', null],
+          },
+          object_form_lock: {
+            type: ['string', 'null'],
+            enum: ['bubble', 'coordinate', 'creature', null],
+          },
+          type_resolution: { type: ['string', 'null'] },
+          orientation: {
+            type: ['object', 'null'],
+            additionalProperties: true,
+          },
+          trace: {
+            type: ['object', 'null'],
+            additionalProperties: true,
+          },
+          media_intent: {
+            type: 'array',
+            items: {
+              type: 'object',
+              additionalProperties: true,
+            },
+          },
+          staging: {
+            type: ['object', 'null'],
+            additionalProperties: true,
           },
         },
       },
