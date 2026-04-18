@@ -233,6 +233,27 @@ function getBubbleLeadText(body: string, fallback: string): string {
   return firstParagraph || fallback;
 }
 
+function isStandaloneSignalQuote(body: string, title: string): boolean {
+  const flattened = stripMarkdownFormatting(body).replace(/\s+/g, ' ').trim();
+  if (!flattened) {
+    return false;
+  }
+
+  const normalizedSource = body.trim();
+  if (
+    /(^|\n)\s{0,3}(#{1,6}\s|[-*+]\s|\d+\.\s)/m.test(normalizedSource) ||
+    normalizedSource.includes('\n\n')
+  ) {
+    return false;
+  }
+
+  if (flattened.length > 140) {
+    return false;
+  }
+
+  return normalizeForCompare(flattened) === normalizeForCompare(title) || flattened.split(/\s+/).length <= 10;
+}
+
 function normalizeObjectForm(value: unknown): CardObjectForm | '' {
   if (typeof value !== 'string') {
     return '';
@@ -395,32 +416,45 @@ const objectForm =
   normalizeObjectForm(captureMeta?.object_form_suggestion);
 const objectFormNote = getObjectFormNote(objectForm, captureMeta);
 const bubbleLeadText = objectForm === 'bubble' ? getBubbleLeadText(entryBody, displayTitle) : '';
+const signalQuoteLeadText = entry.collection === 'signal' ? getBubbleLeadText(entryBody, displayTitle) : '';
 const bubbleStageLines =
   objectForm === 'bubble' && variant === 'feed' && !hasImagePreview && !isFragment
     ? getFragmentStageContent(bubbleLeadText, bubbleLeadText, 4)
     : [];
+const signalQuoteStageLines =
+  entry.collection === 'signal' &&
+  variant === 'feed' &&
+  !hasImagePreview &&
+  !isFragment &&
+  isStandaloneSignalQuote(entryBody, displayTitle)
+    ? getFragmentStageContent(signalQuoteLeadText, signalQuoteLeadText, 4)
+    : [];
 const showBubbleQuoteStage = bubbleStageLines.length > 0;
-const useQuoteSurfaceCard = variant === 'feed' && (showFragmentStage || showBubbleQuoteStage);
+const showSignalQuoteStage = signalQuoteStageLines.length > 0;
+const showQuoteLeadStage = showBubbleQuoteStage || showSignalQuoteStage;
+const activeQuoteStageLines = showBubbleQuoteStage ? bubbleStageLines : signalQuoteStageLines;
+const activeQuoteLeadText = showBubbleQuoteStage ? bubbleLeadText : signalQuoteLeadText;
+const useQuoteSurfaceCard = variant === 'feed' && (showFragmentStage || showQuoteLeadStage);
 const bubbleImageLead = objectForm === 'bubble' && variant === 'feed' && hasImagePreview;
 const coordinateImageLead = objectForm === 'coordinate' && variant === 'feed' && hasImagePreview;
-const hideBubbleTitle = objectForm === 'bubble' && variant === 'feed' && (bubbleImageLead || showBubbleQuoteStage);
-const showTitle = !hideBubbleTitle || (!summaryText && !objectFormNote);
+const hideQuoteLeadTitle = variant === 'feed' && (bubbleImageLead || showQuoteLeadStage);
+const showTitle = !hideQuoteLeadTitle || (!summaryText && !objectFormNote && !showQuoteLeadStage);
 const showExcerpt =
   Boolean(summaryText) &&
   !showFragmentStage &&
-  (!showBubbleQuoteStage || normalizeForCompare(summaryText) !== normalizeForCompare(bubbleLeadText));
+  (!showQuoteLeadStage || normalizeForCompare(summaryText) !== normalizeForCompare(activeQuoteLeadText));
 const showThemes =
   entry.data.themes.length > 0 &&
   variant !== 'mosaic' &&
   !showFragmentStage &&
-  !showBubbleQuoteStage &&
+  !showQuoteLeadStage &&
   !bubbleImageLead;
-const showAuthorTease = !showFragmentStage && !showBubbleQuoteStage && !bubbleImageLead;
+const showAuthorTease = !showFragmentStage && !showQuoteLeadStage && !bubbleImageLead;
 const showObjectFormNote =
   Boolean(objectFormNote) &&
   variant !== 'feed' &&
   !showFragmentStage &&
-  !showBubbleQuoteStage &&
+  !showQuoteLeadStage &&
   !bubbleImageLead;
 const useCenteredCopyStack = !showFragmentStage && (variant === 'feed' || variant === 'related');
 const useImageOnlyFeedLayout =
@@ -477,7 +511,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
 ---
 
 <article
-  class={`card ${entry.collection} ${variant} ${useImageOnlyFeedLayout ? 'image-only-feed' : ''} ${useQuoteSurfaceCard ? 'quote-surface-card' : ''} ${showBubbleQuoteStage ? 'bubble-quote-surface' : ''} ${bubbleImageLead ? 'bubble-image-lead' : ''} ${objectForm ? `object-form-${objectForm}` : ''}`}
+  class={`card ${entry.collection} ${variant} ${useImageOnlyFeedLayout ? 'image-only-feed' : ''} ${useQuoteSurfaceCard ? 'quote-surface-card' : ''} ${showBubbleQuoteStage ? 'bubble-quote-surface' : ''} ${showSignalQuoteStage ? 'signal-quote-surface' : ''} ${bubbleImageLead ? 'bubble-image-lead' : ''} ${objectForm ? `object-form-${objectForm}` : ''}`}
   data-type={entry.collection}
   data-object-form={objectForm || undefined}
   data-themes={entry.data.themes.join('|').toLowerCase()}
@@ -485,7 +519,7 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
 >
   {!showFragmentStage && <a class="hitbox" href={href} aria-label={`Open ${entry.data.title}`}></a>}
   <div
-    class={`preview-wrap ${(showFragmentStage || showBubbleQuoteStage) ? 'fragment-stage' : ''} ${hasImagePreview ? 'has-image-preview' : ''} ${hasIndependentPreviewAction ? 'card-image-trigger' : ''} ${hasSuppressedSharedPreview ? 'preview-wrap--companion' : ''}`}
+    class={`preview-wrap ${(showFragmentStage || showQuoteLeadStage) ? 'fragment-stage' : ''} ${hasImagePreview ? 'has-image-preview' : ''} ${hasIndependentPreviewAction ? 'card-image-trigger' : ''} ${hasSuppressedSharedPreview ? 'preview-wrap--companion' : ''}`}
     data-media-frame={hasImagePreview ? 'card-preview' : undefined}
     data-media-shape={primaryMediaMeta?.shape}
     data-card-image-trigger={hasIndependentPreviewAction ? 'true' : undefined}
@@ -530,11 +564,11 @@ const artifactPreviewLead = artifactType || 'browser-native artifact';
           </div>
         )}
       </>
-    ) : showBubbleQuoteStage ? (
+    ) : showQuoteLeadStage ? (
       <>
         <span class="fragment-stage-mark" aria-hidden="true">"</span>
-        <div class="fragment-piece" aria-label="Bubble quote preview">
-          {bubbleStageLines.map((token) => (
+        <div class="fragment-piece" aria-label={showSignalQuoteStage ? 'Signal quote preview' : 'Bubble quote preview'}>
+          {activeQuoteStageLines.map((token) => (
             token.kind === 'line' ? (
               <span class={`fragment-line ${token.speaker ? `fragment-line--speaker fragment-line--${getSpeakerTone(token.speaker)}` : ''}`}>
                 {token.speaker ? (

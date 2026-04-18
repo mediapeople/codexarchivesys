@@ -616,6 +616,7 @@ const objectForm =
   normalizeObjectForm(captureMeta?.object_form_lock) ||
   normalizeObjectForm(captureMeta?.object_form_suggestion);
 const objectFormNote = getObjectFormNote(objectForm, captureMeta);
+const objectFormLabel = objectForm ? objectForm.charAt(0).toUpperCase() + objectForm.slice(1) : '';
 const exportAlternateLinks = [
   {
     href: getObjectJsonPath(entry),
@@ -661,14 +662,6 @@ const exportAlternateLinks = [
       {!isLoremapObject && (
         <div class="object-chip-row">
           <ObjectIdentityBadge type={entry.collection} form={objectForm || undefined} />
-        </div>
-      )}
-      {objectForm && (
-        <div class={`object-form-banner object-form-banner--${objectForm}`}>
-          <p class="object-form-banner-kicker">{objectFormNote?.label || 'Object Form'}</p>
-          <p class="object-form-banner-copy">
-            {objectFormNote ? objectFormNote.text : objectFormDescription(objectForm)}
-          </p>
         </div>
       )}
     </header>
@@ -1012,67 +1005,6 @@ const exportAlternateLinks = [
       </section>
     )}
 
-    <MarginaliaPanel
-      objectId={entry.data.id}
-      objectTitle={displayTitle}
-      items={marginaliaEntries}
-      allowOperatorPublishing={allowMarginaliaPublishing}
-    />
-
-    {connections.length > 0 && (
-      <section class="connections">
-        <header class="related-head connections-head">
-          <h2>Connected Context</h2>
-          <span>{connections.length} explicit links</span>
-        </header>
-
-        {featuredConnections.length > 0 && (
-          <div class="cards cards--connections-featured">
-            {featuredConnections.map((item) => (
-              <ObjectCard entry={item.entry} variant="related" eyebrow={item.role} />
-            ))}
-          </div>
-        )}
-
-        {inlineConnections.length > 0 && (
-          <div class="cards cards--connections-inline">
-            {inlineConnections.map((item) => (
-              <ObjectCard entry={item.entry} variant="related" eyebrow={item.role} />
-            ))}
-          </div>
-        )}
-      </section>
-    )}
-
-    {sequenceItems.length > 0 && (
-      <section class={`inclusion ${isNexusObject ? 'inclusion--nexus' : ''}`}>
-        <h2>{isNexusObject ? 'Reading Sequence' : 'Nexus Stack'}</h2>
-        <ol>
-          {sequenceItems.map((item) => (
-            <li>
-              {isNexusObject ? (
-                <>
-                  <div class="seq-num">{String(item.index).padStart(2, '0')}</div>
-                  <div class="seq-main">
-                    <p class="role">{item.role}</p>
-                    <a class="sequence-link" href={`${getObjectPath(item.ref)}${nexusObjectContextQuery}`}>
-                      {item.label}
-                    </a>
-                    {item.preview && <p class="preview">{item.preview}</p>}
-                  </div>
-                </>
-              ) : (
-                <>
-                  <span class="sequence-role">{item.role}</span>
-                  <a class="sequence-link" href={getObjectPath(item.ref)}>{item.label}</a>
-                </>
-              )}
-            </li>
-          ))}
-        </ol>
-      </section>
-    )}
-
     {!artifactLeadsWithMedia && !isImageOnlyObject && primaryMedia && (
       <section class="media-stage media-stage--supporting">
         <article
@@ -1158,14 +1090,26 @@ const exportAlternateLinks = [
 
         {!artifactLeadsWithMedia && !isImageOnlyObject && supportingDetailRows.length > 0 && (
           <section class="detail-grid detail-grid--supporting">
-            {supportingDetailRows.map((row) => (
-              <article>
-                <p>{row.label}</p>
-                <strong>{row.value}</strong>
-              </article>
-            ))}
-          </section>
-        )}
+        {supportingDetailRows.map((row) => (
+          <article>
+            <p>{row.label}</p>
+            <strong>{row.value}</strong>
+          </article>
+        ))}
+      </section>
+    )}
+
+        <section class="object-secondary-stack">
+        <InspectModePanel
+          slug={getObjectSlug(entry)}
+          packet={sidecars.packet}
+          respawn={sidecars.respawn}
+          mythmech={sidecars.mythmech}
+          platePrompt={sidecars.platePrompt}
+          marginaliaEntries={mythmechMarginaliaEntries}
+          forceVisible={entry.collection === 'scroll' && entry.data.status === 'published'}
+          variant="footer"
+        />
 
         <footer class="source-signature source-signature--triptych">
           <article class="source-card">
@@ -1184,6 +1128,23 @@ const exportAlternateLinks = [
               </p>
             </div>
           </article>
+
+          {objectForm && (
+            <section class="footer-unit footer-form-note" aria-label="Form">
+              <p class="footer-unit-label">Form</p>
+              <p class={`footer-form-name footer-form-name--${objectForm}`}>{objectFormLabel}</p>
+              <p class="footer-form-copy">
+                {objectFormNote ? (
+                  <>
+                    <span class="footer-form-copy-label">{objectFormNote.label}</span>
+                    <span>{objectFormNote.text}</span>
+                  </>
+                ) : (
+                  objectFormDescription(objectForm)
+                )}
+              </p>
+            </section>
+          )}
 
           <section class="footer-unit footer-core-meta" aria-label="Object state">
             <p class="footer-unit-label">Object State</p>
@@ -1259,16 +1220,67 @@ const exportAlternateLinks = [
           )}
         </footer>
 
-        <InspectModePanel
-          slug={getObjectSlug(entry)}
-          packet={sidecars.packet}
-          respawn={sidecars.respawn}
-          mythmech={sidecars.mythmech}
-          platePrompt={sidecars.platePrompt}
-          marginaliaEntries={mythmechMarginaliaEntries}
-          forceVisible={entry.collection === 'scroll' && entry.data.status === 'published'}
-          variant="footer"
+        <MarginaliaPanel
+          objectId={entry.data.id}
+          objectTitle={displayTitle}
+          items={marginaliaEntries}
+          allowOperatorPublishing={allowMarginaliaPublishing}
         />
+        </section>
+
+    {connections.length > 0 && (
+      <section class="connections">
+        <header class="related-head connections-head">
+          <h2>Connected Context</h2>
+          <span>{connections.length} explicit links</span>
+        </header>
+
+        {featuredConnections.length > 0 && (
+          <div class="cards cards--connections-featured">
+            {featuredConnections.map((item) => (
+              <ObjectCard entry={item.entry} variant="related" eyebrow={item.role} />
+            ))}
+          </div>
+        )}
+
+        {inlineConnections.length > 0 && (
+          <div class="cards cards--connections-inline">
+            {inlineConnections.map((item) => (
+              <ObjectCard entry={item.entry} variant="related" eyebrow={item.role} />
+            ))}
+          </div>
+        )}
+      </section>
+    )}
+
+    {sequenceItems.length > 0 && (
+      <section class={`inclusion ${isNexusObject ? 'inclusion--nexus' : ''}`}>
+        <h2>{isNexusObject ? 'Reading Sequence' : 'Nexus Stack'}</h2>
+        <ol>
+          {sequenceItems.map((item) => (
+            <li>
+              {isNexusObject ? (
+                <>
+                  <div class="seq-num">{String(item.index).padStart(2, '0')}</div>
+                  <div class="seq-main">
+                    <p class="role">{item.role}</p>
+                    <a class="sequence-link" href={`${getObjectPath(item.ref)}${nexusObjectContextQuery}`}>
+                      {item.label}
+                    </a>
+                    {item.preview && <p class="preview">{item.preview}</p>}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <span class="sequence-role">{item.role}</span>
+                  <a class="sequence-link" href={getObjectPath(item.ref)}>{item.label}</a>
+                </>
+              )}
+            </li>
+          ))}
+        </ol>
+      </section>
+    )}
       </div>
     </div>
   </article>
@@ -1754,35 +1766,6 @@ const exportAlternateLinks = [
     color: var(--object-chip-fg);
   }
 
-  .object-form-banner {
-    display: grid;
-    gap: 0.42rem;
-    max-width: 44rem;
-    margin: 0.2rem 0 0.8rem;
-    padding: 1rem 1.1rem 1.05rem;
-    border: 1px solid var(--object-rule-soft);
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 55%),
-      rgba(255, 255, 255, 0.012);
-  }
-
-  .object-form-banner-kicker {
-    margin: 0;
-    color: var(--object-plate-muted);
-    font-family: var(--font-ui);
-    font-size: 11px;
-    letter-spacing: var(--ls-ui);
-    text-transform: uppercase;
-  }
-
-  .object-form-banner-copy {
-    margin: 0;
-    color: var(--text-body);
-    font-size: 0.98rem;
-    line-height: 1.72;
-    max-width: 40rem;
-  }
-
   .object-shell.loremap .object-type-callout {
     margin-top: 0.56rem;
     margin-bottom: 0.08rem;
@@ -1937,6 +1920,18 @@ const exportAlternateLinks = [
     max-width: min(420px, 100%);
   }
 
+  .object-secondary-stack {
+    margin-top: 2.7rem;
+  }
+
+  .object-secondary-stack :global(.inspect-access--footer) {
+    margin-top: 0;
+  }
+
+  .object-secondary-stack :global(.marginalia-panel) {
+    margin-top: 1.5rem;
+  }
+
   .source-signature--triptych {
     margin-top: 3.2rem;
     padding-top: 1.45rem;
@@ -1952,6 +1947,10 @@ const exportAlternateLinks = [
 
   .source-signature--triptych .source-card {
     max-width: none;
+  }
+
+  .object-secondary-stack .source-signature--triptych {
+    margin-top: 1.38rem;
   }
 
   .source-signature--triptych .source-label,
@@ -2001,6 +2000,51 @@ const exportAlternateLinks = [
 
   .footer-unit {
     min-width: 0;
+  }
+
+  .footer-form-note {
+    max-width: 26rem;
+  }
+
+  .footer-form-name {
+    margin: 0 0 0.34rem;
+    color: var(--star);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+
+  .footer-form-name--bubble {
+    color: var(--bubble-fg, rgba(214, 184, 125, 0.92));
+  }
+
+  .footer-form-name--coordinate {
+    color: var(--coordinate-fg, rgba(157, 198, 242, 0.92));
+  }
+
+  .footer-form-name--creature {
+    color: var(--creature-fg, rgba(150, 205, 154, 0.92));
+  }
+
+  .footer-form-copy {
+    margin: 0;
+    color: var(--text-body);
+    font-size: 0.98rem;
+    line-height: 1.7;
+    max-width: 33ch;
+  }
+
+  .footer-form-copy-label {
+    display: block;
+    margin: 0 0 0.2rem;
+    color: var(--object-meta-label);
+    font-family: var(--font-ui);
+    font-size: 10px;
+    letter-spacing: var(--ls-ui-wide);
+    text-transform: uppercase;
+    line-height: 1.2;
   }
 
   .footer-unit-label {
