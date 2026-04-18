@@ -9,7 +9,7 @@ const { slug, packet, respawn, mythmech, platePrompt, marginaliaEntries = [], fo
   platePrompt: string | null;
   marginaliaEntries?: unknown[];
   forceVisible?: boolean;
-  variant?: 'inline' | 'utility';
+  variant?: 'inline' | 'utility' | 'footer';
 };
 
 function asRecord(value: unknown): Record<string, unknown> | null {
@@ -26,12 +26,21 @@ const normalizedPlatePrompt = normalizePlatePrompt(platePrompt) || '';
 const hasInspectData =
   forceVisible || packetData !== null || mythmechSummary !== null || Boolean(normalizedRespawn) || Boolean(normalizedPlatePrompt);
 const hudHref = `/objects/${encodeURIComponent(slug)}/hud`;
+const kickerLabel = variant === 'footer' ? 'Dive deeper' : 'Enhanced Object';
+const buttonLabel = variant === 'footer' ? 'Open Object HUD' : 'View HUD';
 ---
 
 {hasInspectData && (
-  <section class:list={['inspect-access', variant === 'utility' && 'inspect-access--utility']} aria-label="HUD access">
-    <p class="inspect-access-kicker">Enhanced Object</p>
-    <a class="inspect-access-button" href={hudHref}>View HUD</a>
+  <section
+    class:list={[
+      'inspect-access',
+      variant === 'utility' && 'inspect-access--utility',
+      variant === 'footer' && 'inspect-access--footer',
+    ]}
+    aria-label="HUD access"
+  >
+    <p class="inspect-access-kicker">{kickerLabel}</p>
+    <a class="inspect-access-button" href={hudHref}>{buttonLabel}</a>
   </section>
 )}
 
@@ -51,6 +60,12 @@ const hudHref = `/objects/${encodeURIComponent(slug)}/hud`;
     gap: 0.34rem;
     justify-items: end;
     align-content: start;
+  }
+
+  .inspect-access--footer {
+    gap: 0.46rem;
+    margin-top: 2.6rem;
+    padding-top: 1.05rem;
   }
 
   .inspect-access-kicker,
@@ -97,6 +112,17 @@ const hudHref = `/objects/${encodeURIComponent(slug)}/hud`;
     background: rgba(255, 255, 255, 0.008);
   }
 
+  .inspect-access--footer .inspect-access-kicker {
+    color: var(--field-amber-label);
+  }
+
+  .inspect-access--footer .inspect-access-button {
+    min-height: 0;
+    padding: 0.42rem 0.86rem 0.38rem;
+    border-color: rgba(171, 143, 104, 0.32);
+    background: rgba(255, 255, 255, 0.008);
+  }
+
   @media (max-width: 700px) {
     .inspect-access--utility {
       justify-items: start;
@@ -118,6 +144,11 @@ const hudHref = `/objects/${encodeURIComponent(slug)}/hud`;
       border-color: transparent;
       background: none;
       color: var(--star);
+    }
+
+    .inspect-access--footer {
+      margin-top: 2.1rem;
+      padding-top: 0.92rem;
     }
   }
 </style>
