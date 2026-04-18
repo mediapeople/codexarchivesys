@@ -402,6 +402,7 @@ const bubbleStageLines =
 const showBubbleQuoteStage = bubbleStageLines.length > 0;
 const useQuoteSurfaceCard = variant === 'feed' && (showFragmentStage || showBubbleQuoteStage);
 const bubbleImageLead = objectForm === 'bubble' && variant === 'feed' && hasImagePreview;
+const coordinateImageLead = objectForm === 'coordinate' && variant === 'feed' && hasImagePreview;
 const hideBubbleTitle = objectForm === 'bubble' && variant === 'feed' && (bubbleImageLead || showBubbleQuoteStage);
 const showTitle = !hideBubbleTitle || (!summaryText && !objectFormNote);
 const showExcerpt =
@@ -420,7 +421,7 @@ const useCenteredCopyStack = !showFragmentStage && (variant === 'feed' || varian
 const useImageOnlyFeedLayout =
   variant === 'feed' &&
   !showFragmentStage &&
-  ((isImageOnly && hasImagePreview) || bubbleImageLead || showBubbleQuoteStage);
+  ((isImageOnly && hasImagePreview) || bubbleImageLead || coordinateImageLead || showBubbleQuoteStage);
 const primaryMediaCaption = cardPrimaryMedia?.caption || '';
 const primaryMediaSrc = cardPrimaryMedia ? getPreviewMediaSrc(cardPrimaryMedia.src) : '';
 const previewImageCount = imagePreviewItems.length;
