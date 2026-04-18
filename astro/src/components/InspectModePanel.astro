@@ -26,8 +26,8 @@ const normalizedPlatePrompt = normalizePlatePrompt(platePrompt) || '';
 const hasInspectData =
   forceVisible || packetData !== null || mythmechSummary !== null || Boolean(normalizedRespawn) || Boolean(normalizedPlatePrompt);
 const hudHref = `/objects/${encodeURIComponent(slug)}/hud`;
-const kickerLabel = variant === 'footer' ? 'Dive deeper' : 'Enhanced Object';
-const buttonLabel = variant === 'footer' ? 'Open Object HUD' : 'View HUD';
+const kickerLabel = variant === 'footer' ? 'Inspect' : 'Enhanced Object';
+const buttonLabel = variant === 'footer' ? 'Inspect HUD' : 'View HUD';
 ---
 
 {hasInspectData && (
