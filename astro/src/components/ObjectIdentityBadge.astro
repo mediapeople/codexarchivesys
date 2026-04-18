@@ -1,0 +1,93 @@
+---
+import TypeBadge from './TypeBadge.astro';
+
+interface Props {
+  type: string;
+  form?: string | null;
+  showIcon?: boolean;
+}
+
+type ObjectFormType = 'bubble' | 'coordinate' | 'creature';
+
+const { type, form = '', showIcon = false } = Astro.props;
+
+function normalizeObjectForm(value: unknown): ObjectFormType | '' {
+  if (typeof value !== 'string') {
+    return '';
+  }
+
+  const normalized = value.trim().toLowerCase();
+  return normalized === 'bubble' || normalized === 'coordinate' || normalized === 'creature'
+    ? normalized
+    : '';
+}
+
+function objectFormLabel(value: ObjectFormType): string {
+  if (value === 'bubble') {
+    return 'Bubble';
+  }
+  if (value === 'coordinate') {
+    return 'Coordinate';
+  }
+  return 'Creature';
+}
+
+const normalizedForm = normalizeObjectForm(form);
+---
+
+<span class={`object-identity-badge ${normalizedForm ? 'has-form' : ''}`}>
+  <TypeBadge type={type} showIcon={showIcon} />
+  {normalizedForm && (
+    <span class={`object-form-flag object-form-flag--${normalizedForm}`}>{objectFormLabel(normalizedForm)}</span>
+  )}
+</span>
+
+<style>
+  .object-identity-badge {
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+  }
+
+  .object-identity-badge.has-form :global(.type-badge) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .object-form-flag {
+    display: inline-flex;
+    align-items: center;
+    min-height: 100%;
+    margin-left: -1px;
+    padding: 1px 7px 1px 8px;
+    border: 1px solid transparent;
+    border-left: 0;
+    border-radius: 0 2px 2px 0;
+    font-family: var(--font-ui);
+    font-size: 12px;
+    line-height: 1.55;
+    font-weight: 700;
+    letter-spacing: var(--ls-ui);
+    text-transform: uppercase;
+    white-space: nowrap;
+    transform: translateY(0.01em);
+  }
+
+  .object-form-flag--bubble {
+    color: #ffcf88;
+    border-color: rgba(255, 207, 136, 0.36);
+    background: rgba(176, 107, 45, 0.16);
+  }
+
+  .object-form-flag--coordinate {
+    color: #9ad5ff;
+    border-color: rgba(108, 176, 222, 0.34);
+    background: rgba(37, 78, 106, 0.18);
+  }
+
+  .object-form-flag--creature {
+    color: #a4edb1;
+    border-color: rgba(110, 176, 124, 0.34);
+    background: rgba(38, 76, 47, 0.2);
+  }
+</style>

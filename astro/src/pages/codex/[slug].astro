@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import InspectModePanel from '../../components/InspectModePanel.astro';
 import MarginaliaPanel from '../../components/MarginaliaPanel.astro';
-import TypeBadge from '../../components/TypeBadge.astro';
+import ObjectIdentityBadge from '../../components/ObjectIdentityBadge.astro';
 import { getAllEntries } from '../../lib/archive';
 import { listAxes, readAxes } from '../../lib/axes';
 import { formatDisplayTitle } from '../../lib/headline';
@@ -31,16 +31,6 @@ function normalizeObjectForm(value: unknown): ObjectFormType | '' {
   return normalized === 'bubble' || normalized === 'coordinate' || normalized === 'creature'
     ? normalized
     : '';
-}
-
-function objectFormLabel(value: ObjectFormType): string {
-  if (value === 'bubble') {
-    return 'Bubble';
-  }
-  if (value === 'coordinate') {
-    return 'Coordinate';
-  }
-  return 'Creature';
 }
 
 function objectFormDescription(value: ObjectFormType): string {
@@ -220,7 +210,7 @@ const alternateLinks = [
 
     <header class="head">
       <div class="eyebrow">
-        <TypeBadge type="codex" showIcon={true} />
+        <ObjectIdentityBadge type="codex" form={objectForm || undefined} showIcon={true} />
         <span>{state}</span>
       </div>
       <h1>{displayTitle}</h1>
@@ -231,12 +221,8 @@ const alternateLinks = [
       </div>
       {objectForm && (
         <div class={`object-form-banner object-form-banner--${objectForm}`}>
-          <span class={`object-form-chip object-form-chip--${objectForm}`}>{objectFormLabel(objectForm)}</span>
-          <p>
-            {objectFormNote
-              ? `${objectFormNote.label}: ${objectFormNote.text}`
-              : objectFormDescription(objectForm)}
-          </p>
+          <p class="object-form-banner-kicker">{objectFormNote?.label || 'Object Form'}</p>
+          <p>{objectFormNote ? objectFormNote.text : objectFormDescription(objectForm)}</p>
         </div>
       )}
       {axes.length > 0 && (
@@ -360,44 +346,19 @@ const alternateLinks = [
 
   .object-form-banner {
     margin-top: 1rem;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.8rem 1rem;
+    display: grid;
+    gap: 0.4rem;
     max-width: 44rem;
   }
 
-  .object-form-chip {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 2rem;
-    padding: 0.3rem 0.78rem;
-    border: 1px solid transparent;
+  .object-form-banner-kicker {
+    margin: 0;
+    color: rgba(226, 201, 164, 0.78);
     font-family: var(--font-ui);
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 700;
     letter-spacing: var(--ls-ui-wide);
     text-transform: uppercase;
-    white-space: nowrap;
-  }
-
-  .object-form-chip--bubble {
-    color: #ffcf88;
-    border-color: rgba(255, 207, 136, 0.34);
-    background: rgba(176, 107, 45, 0.16);
-  }
-
-  .object-form-chip--coordinate {
-    color: #9ad5ff;
-    border-color: rgba(108, 176, 222, 0.34);
-    background: rgba(37, 78, 106, 0.18);
-  }
-
-  .object-form-chip--creature {
-    color: #a4edb1;
-    border-color: rgba(110, 176, 124, 0.34);
-    background: rgba(38, 76, 47, 0.2);
   }
 
   .object-form-banner p {
@@ -405,7 +366,6 @@ const alternateLinks = [
     color: var(--text-body);
     font-size: 0.98rem;
     line-height: 1.72;
-    flex: 1 1 18rem;
   }
 
   .tag-list {
