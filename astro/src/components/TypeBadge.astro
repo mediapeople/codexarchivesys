@@ -191,4 +191,28 @@ const badgeClass = classMap[type] || 'default';
     border-color: var(--line);
     color: var(--text-dim);
   }
+
+  @media (max-width: 560px) {
+    .type-badge {
+      gap: 0.28rem;
+      padding: 1px 5px;
+      font-size: 11px;
+      line-height: 1.45;
+    }
+
+    .type-badge.has-icon {
+      gap: 0.34rem;
+      padding: 1px 6px 1px 5px;
+    }
+
+    .type-badge-icon {
+      width: 0.8rem;
+      height: 0.8rem;
+    }
+
+    .type-badge svg {
+      width: 0.72rem;
+      height: 0.72rem;
+    }
+  }
 </style>
