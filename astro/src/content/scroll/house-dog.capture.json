@@ -1,0 +1,22 @@
+{
+  "protocol_version": "pigeon-1.1",
+  "capture_mode": "guided",
+  "object_form_lock": "creature",
+  "type_resolution": "capture",
+  "orientation": {
+    "prompt_set": "creature",
+    "optional": true,
+    "supportive": true
+  },
+  "media_intent": [
+    {
+      "original_filename": "31D984CD-E721-4E7D-A39C-C35E43CF7191.jpeg",
+      "role": "hero",
+      "source": true,
+      "potential_coordinate": false,
+      "isolate_later": false,
+      "index": 1,
+      "src": "/media/pigeon/scroll/house-dog-01.jpeg"
+    }
+  ]
+}
