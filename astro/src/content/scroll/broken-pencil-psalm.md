@@ -2,7 +2,7 @@
 id: broken-pencil-psalm
 slug: "broken-pencil-psalm"
 url: "https://ndcodex.com/objects/broken-pencil-psalm"
-type: nexus
+type: scroll
 title: "broken pencil psalm"
 date: "2026-04-13"
 postedAt: "2026-04-13T15:04:24.966Z"
@@ -14,10 +14,18 @@ scale: meso
 depth: structural
 focus: system
 function: comparative
-themes: []
+themes:
+  - pressure
+  - survival
+  - witness
+  - continuity
+related:
+  - keep-it-on-the-road
+  - stay-on-target
+  - i-could-have-passed
 media:
   - kind: image
-    src: "/media/pigeon/nexus/broken-pencil-psalm-01.jpeg"
+    src: "/media/pigeon/scroll/broken-pencil-psalm-01.jpeg"
     role: hero
     alt: "IMG 5128"
     capture:
@@ -28,7 +36,7 @@ media:
       originalFilename: "IMG_5128.jpeg"
       uploadedAt: "2026-04-13T15:04:24.953Z"
   - kind: image
-    src: "/media/pigeon/nexus/broken-pencil-psalm-02.jpeg"
+    src: "/media/pigeon/scroll/broken-pencil-psalm-02.jpeg"
     role: gallery
     alt: "IMG 5138"
     capture:
@@ -38,6 +46,7 @@ media:
       format: "jpg"
       originalFilename: "IMG_5138.jpeg"
       uploadedAt: "2026-04-13T15:04:24.953Z"
+bodyClass: verse
 ---
 By this, the thing.
 Is this a thing?

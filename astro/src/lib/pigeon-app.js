@@ -66,13 +66,6 @@ const TYPE_GROUPS = [
         icon:
           '<svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><line x1="7" y1="1.5" x2="7" y2="12.5" stroke="currentColor" stroke-width="1" stroke-linecap="round"/><line x1="1.5" y1="7" x2="12.5" y2="7" stroke="currentColor" stroke-width="1" stroke-linecap="round"/><line x1="3" y1="3" x2="11" y2="11" stroke="currentColor" stroke-width="1" stroke-linecap="round"/><line x1="11" y1="3" x2="3" y2="11" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>',
       },
-      {
-        type: 'nexus',
-        label: 'Nexus',
-        layer: 'Sequence',
-        icon:
-          '<svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1"/><circle cx="7" cy="7" r="3" stroke="currentColor" stroke-width="1"/><circle cx="7" cy="7" r="1" fill="currentColor"/></svg>',
-      },
     ],
   },
 ];
@@ -2161,16 +2154,6 @@ export const PIGEON_APP_SCRIPT = String.raw`
       ['mount', 1.4],
       ['map', 1.8],
     ],
-    nexus: [
-      ['nexus', 3],
-      ['release', 2.2],
-      ['launch', 2],
-      ['featured', 1.8],
-      ['lead', 1.6],
-      ['roadmap', 1.6],
-      ['sequence', 1.6],
-      ['update', 1.4],
-    ],
   };
 
   const AXIS_SCALE_VALUES = ['micro', 'meso', 'macro'];
@@ -2470,8 +2453,6 @@ export const PIGEON_APP_SCRIPT = String.raw`
         return '---\ntitle:\ndate: ' + date + '\nobject_type: codex\ntags: []\nversion:\nscope:\nstate: published\n---\n\nSystem note.\n';
       case 'loremap':
         return '---\ntitle:\ndate: ' + date + '\nobject_type: loremap\ntags: []\nlocation:\nterrain:\nclassification: []\n---\n\nLocation note.\n';
-      case 'nexus':
-        return '---\ntitle:\ndate: ' + date + '\nobject_type: nexus\ntags: []\nlead:\nfeatured: []\nreleaseType:\n---\n\nConnection note.\n';
       default:
         return '---\ntitle:\ndate: ' + date + '\nobject_type: fragment\ntags: []\n---\n\n';
     }
@@ -3454,6 +3435,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
 
   function inferObjectTypeFromText(title, body) {
     const source = (title + '\n' + body).toLowerCase();
+    const normalizedBody = normalizeRawNote(body);
     const scores = Object.fromEntries(
       Object.keys(typeMeta).map((type) => [type, 0])
     );
@@ -3467,7 +3449,7 @@ export const PIGEON_APP_SCRIPT = String.raw`
     });
 
     const wordCount = plainTextFromMarkdown(body).split(/\s+/).filter(Boolean).length;
-    const headingCount = (normalizeRawNote(body).match(/^\s{0,3}#{1,6}\s+/gm) || []).length;
+    const headingCount = (normalizedBody.match(/^\s{0,3}#{1,6}\s+/gm) || []).length;
 
     if (/^##\s+(context|observation|notes?|actions?)\b/im.test(body)) {
       scores.fieldlog += 2.8;
@@ -3479,10 +3461,6 @@ export const PIGEON_APP_SCRIPT = String.raw`
 
     if (/\b(latitude|longitude|coordinates?|terrain|region|district|river|mount|location)\b/i.test(body)) {
       scores.loremap += 2.4;
-    }
-
-    if (/^\s*[-*]\s+/m.test(body) && /\b(release|featured|lead|links?|sequence|roadmap)\b/i.test(body)) {
-      scores.nexus += 2.6;
     }
 
     if (/\b(protocol|schema|reference|guide|handbook|standard|version|scope)\b/i.test(body)) {
@@ -3513,7 +3491,30 @@ export const PIGEON_APP_SCRIPT = String.raw`
 
     const ranked = Object.entries(scores).sort((left, right) => right[1] - left[1]);
     if (!ranked.length || ranked[0][1] < 1.25) {
-      return typeWasManuallyChosen ? selectedType : 'codex';
+      if (typeWasManuallyChosen) {
+        return selectedType;
+      }
+
+      const nonEmptyLines = normalizedBody
+        .split('\n')
+        .map((line) => plainTextFromMarkdown(line).trim())
+        .filter(Boolean);
+      const shortLineCount = nonEmptyLines.filter(
+        (line) => line.split(/\s+/).filter(Boolean).length <= 6
+      ).length;
+      const shortLineRatio = nonEmptyLines.length ? shortLineCount / nonEmptyLines.length : 0;
+      const stanzaBreakCount = (normalizedBody.match(/\n\s*\n/g) || []).length;
+
+      if (
+        wordCount >= 60 &&
+        nonEmptyLines.length >= 12 &&
+        shortLineRatio >= 0.7 &&
+        stanzaBreakCount >= 4
+      ) {
+        return 'scroll';
+      }
+
+      return 'codex';
     }
 
     return ranked[0][0];
