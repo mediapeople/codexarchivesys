@@ -1,0 +1,16 @@
+{
+  "protocol_version": "pigeon-1.1",
+  "capture_mode": "default",
+  "type_resolution": "staging",
+  "media_intent": [
+    {
+      "original_filename": "B30E11B1-28E6-4DE8-AEF2-6B9FAC8B9A6C.png",
+      "role": "hero",
+      "source": true,
+      "potential_coordinate": false,
+      "isolate_later": false,
+      "index": 1,
+      "src": "/media/pigeon/codex/augmentation-method-01.png"
+    }
+  ]
+}
