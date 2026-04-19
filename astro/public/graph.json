@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-04-18T03:49:42.968Z",
+  "generatedAt": "2026-04-19T22:25:41.692Z",
   "sourceDir": "./src/content",
-  "nodeCount": 219,
-  "edgeCount": 4870,
+  "nodeCount": 221,
+  "edgeCount": 4938,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -2176,18 +2176,6 @@
       "constellations": []
     },
     {
-      "id": "broken-pencil-psalm",
-      "slug": "broken-pencil-psalm",
-      "url": "https://ndcodex.com/objects/broken-pencil-psalm",
-      "stableId": "codex://object/broken-pencil-psalm",
-      "type": "nexus",
-      "title": "broken pencil psalm",
-      "date": "2026-04-13",
-      "object_form": "",
-      "themes": [],
-      "constellations": []
-    },
-    {
       "id": "citizen-network-dispatch",
       "slug": "citizen-network-dispatch",
       "url": "https://ndcodex.com/objects/citizen-network-dispatch/",
@@ -2206,6 +2194,24 @@
       "constellations": [
         "Cascade Psalms"
       ]
+    },
+    {
+      "id": "keep-it-on-the-road",
+      "slug": "keep-it-on-the-road",
+      "url": "https://ndcodex.com/objects/keep-it-on-the-road/",
+      "stableId": "codex://object/keep-it-on-the-road",
+      "type": "nexus",
+      "title": "KEEP IT ON THE ROAD",
+      "date": "2026-04-19",
+      "object_form": "",
+      "themes": [
+        "pressure",
+        "survival",
+        "witness",
+        "attention",
+        "continuity"
+      ],
+      "constellations": []
     },
     {
       "id": "signal-descent-001",
@@ -2376,6 +2382,24 @@
       "constellations": []
     },
     {
+      "id": "augmentation-method",
+      "slug": "augmentation-method",
+      "url": "https://ndcodex.com/objects/augmentation-method",
+      "stableId": "codex://object/augmentation-method",
+      "type": "scroll",
+      "title": "augmentation method",
+      "date": "2026-04-19",
+      "object_form": "",
+      "themes": [
+        "augmentation",
+        "method",
+        "upstairs",
+        "again",
+        "says"
+      ],
+      "constellations": []
+    },
+    {
       "id": "babylon-on-board",
       "slug": "babylon-on-board",
       "url": "https://ndcodex.com/objects/babylon-on-board",
@@ -2413,6 +2437,23 @@
         "structure",
         "place",
         "transmission"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "broken-pencil-psalm",
+      "slug": "broken-pencil-psalm",
+      "url": "https://ndcodex.com/objects/broken-pencil-psalm",
+      "stableId": "codex://object/broken-pencil-psalm",
+      "type": "scroll",
+      "title": "broken pencil psalm",
+      "date": "2026-04-13",
+      "object_form": "",
+      "themes": [
+        "pressure",
+        "survival",
+        "witness",
+        "continuity"
       ],
       "constellations": []
     },
@@ -3590,6 +3631,16 @@
         "shared-theme",
         "explicit-connection",
         "explicit-related"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "keep-it-on-the-road",
+      "weight": 14,
+      "reasons": [
+        "shared-theme",
+        "explicit-related",
+        "nexus-inclusion"
       ]
     },
     {
@@ -5256,6 +5307,15 @@
       ]
     },
     {
+      "source": "i-could-have-passed",
+      "target": "keep-it-on-the-road",
+      "weight": 7,
+      "reasons": [
+        "explicit-related",
+        "nexus-inclusion"
+      ]
+    },
+    {
       "source": "i-work-with-machines-to-write-scripture",
       "target": "lean-mean-governance-machine",
       "weight": 7,
@@ -5280,6 +5340,24 @@
       "reasons": [
         "shared-theme",
         "explicit-related"
+      ]
+    },
+    {
+      "source": "keep-it-on-the-road",
+      "target": "stay-on-target",
+      "weight": 7,
+      "reasons": [
+        "explicit-related",
+        "nexus-inclusion"
+      ]
+    },
+    {
+      "source": "keep-it-on-the-road",
+      "target": "the-protest-of-continuing",
+      "weight": 7,
+      "reasons": [
+        "explicit-related",
+        "nexus-inclusion"
       ]
     },
     {
@@ -10571,6 +10649,22 @@
       "weight": 3,
       "reasons": [
         "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "i-could-have-passed",
+      "weight": 3,
+      "reasons": [
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "stay-on-target",
+      "weight": 3,
+      "reasons": [
+        "explicit-related"
       ]
     },
     {
@@ -16453,6 +16547,14 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "broken-pencil-psalm",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "builder-lineage-reflection",
       "weight": 2,
       "reasons": [
@@ -16606,6 +16708,14 @@
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "jsa-collage-evolution-002",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "keep-it-on-the-road",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -17470,6 +17580,62 @@
     {
       "source": "bezalel-the-designated-hand",
       "target": "the-circle-the-node-and-the-office",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "heart-does-not-dream",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "manic-rider-collapse",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "one-yard-from-forever",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "pressure-psalm-v",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "the-bones-hold",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "unacceptable-cost",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -24461,6 +24627,14 @@
     },
     {
       "source": "heart-does-not-dream",
+      "target": "keep-it-on-the-road",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "heart-does-not-dream",
       "target": "one-yard-from-forever",
       "weight": 2,
       "reasons": [
@@ -24934,6 +25108,54 @@
     {
       "source": "jsa-collage-evolution-003",
       "target": "suwanee-ga-loremap",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-it-on-the-road",
+      "target": "manic-rider-collapse",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-it-on-the-road",
+      "target": "one-yard-from-forever",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-it-on-the-road",
+      "target": "one-yard-from-forever-scroll-surface",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-it-on-the-road",
+      "target": "pressure-psalm-v",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-it-on-the-road",
+      "target": "the-bones-hold",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-it-on-the-road",
+      "target": "unacceptable-cost",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -27365,6 +27587,14 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "broken-pencil-psalm",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "chattahoochee-river-loremap",
       "weight": 1,
       "reasons": [
@@ -27438,6 +27668,14 @@
     {
       "source": "apparatus-ledger",
       "target": "justice-begins-as-a-ripple",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
+      "target": "keep-it-on-the-road",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -28309,6 +28547,14 @@
     },
     {
       "source": "artifact-jsa-collage-001",
+      "target": "broken-pencil-psalm",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
       "target": "chattahoochee-river-loremap",
       "weight": 1,
       "reasons": [
@@ -28374,6 +28620,14 @@
     {
       "source": "artifact-jsa-collage-001",
       "target": "justice-begins-as-a-ripple",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "keep-it-on-the-road",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -29590,6 +29844,174 @@
     {
       "source": "bezalel-the-designated-hand",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "cities-built-on-ruin",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "cities-built-on-ruin-reminiscence",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "codex-archive-system-v3-12-marginalia-live-publish-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "codex-archive-system-v3-12-marginalia-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "codex-archive-system-v3-13-hud-clarity-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "codex-archive-system-v3-9-orientation-clarity-notes",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "deck-under-load-ii",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "distortion-atlas",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "jsa-collage-evolution-003",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "justice-begins-as-a-ripple",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "mcginnis-ferry-threshold",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "micro-mytho-mole",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "on-visceral-distillation",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "pocket-rock-cathedral",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "scroll-from-the-perimeter",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "signal-descent-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "signal-descent-006",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "steel-elbow-flinchian",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
+      "target": "under-load",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -30853,6 +31275,14 @@
     },
     {
       "source": "cities-built-on-ruin-reminiscence",
+      "target": "keep-it-on-the-road",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
       "target": "keep-the-operator-whistling",
       "weight": 1,
       "reasons": [
@@ -31166,6 +31596,14 @@
     {
       "source": "cities-built-on-ruin",
       "target": "justice-begins-as-a-ripple",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
+      "target": "keep-it-on-the-road",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -33309,6 +33747,14 @@
     },
     {
       "source": "codex-archive-system-v3-12-marginalia-live-publish-notes",
+      "target": "keep-it-on-the-road",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-12-marginalia-live-publish-notes",
       "target": "keep-the-operator-whistling",
       "weight": 1,
       "reasons": [
@@ -33573,6 +34019,14 @@
     },
     {
       "source": "codex-archive-system-v3-12-marginalia-notes",
+      "target": "keep-it-on-the-road",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-12-marginalia-notes",
       "target": "keep-the-operator-whistling",
       "weight": 1,
       "reasons": [
@@ -33750,6 +34204,14 @@
     {
       "source": "codex-archive-system-v3-13-hud-clarity-notes",
       "target": "i-work-with-machines-to-write-scripture",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-13-hud-clarity-notes",
+      "target": "keep-it-on-the-road",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -34973,6 +35435,14 @@
     },
     {
       "source": "codex-archive-system-v3-9-orientation-clarity-notes",
+      "target": "keep-it-on-the-road",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-9-orientation-clarity-notes",
       "target": "manic-rider-collapse",
       "weight": 1,
       "reasons": [
@@ -36205,6 +36675,14 @@
     },
     {
       "source": "deck-under-load-ii",
+      "target": "keep-it-on-the-road",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "deck-under-load-ii",
       "target": "manic-rider-collapse",
       "weight": 1,
       "reasons": [
@@ -36518,6 +36996,14 @@
     {
       "source": "distortion-atlas",
       "target": "jsa-collage-evolution-003",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "keep-it-on-the-road",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -38365,6 +38851,14 @@
     },
     {
       "source": "jsa-collage-evolution-003",
+      "target": "keep-it-on-the-road",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
       "target": "keep-the-operator-whistling",
       "weight": 1,
       "reasons": [
@@ -38582,6 +39076,14 @@
     {
       "source": "jsa-collage-evolution-003",
       "target": "transmission-note-to-future-me",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "justice-begins-as-a-ripple",
+      "target": "keep-it-on-the-road",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -38838,6 +39340,94 @@
     {
       "source": "justice-begins-as-a-ripple",
       "target": "unacceptable-cost",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-it-on-the-road",
+      "target": "maintenance-without-cure",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-it-on-the-road",
+      "target": "mcginnis-ferry-threshold",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-it-on-the-road",
+      "target": "micro-mytho-mole",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-it-on-the-road",
+      "target": "on-visceral-distillation",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-it-on-the-road",
+      "target": "pocket-rock-cathedral",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-it-on-the-road",
+      "target": "scroll-from-the-perimeter",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-it-on-the-road",
+      "target": "signal-descent-001",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-it-on-the-road",
+      "target": "signal-descent-002",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-it-on-the-road",
+      "target": "signal-descent-006",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-it-on-the-road",
+      "target": "steel-elbow-flinchian",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-it-on-the-road",
+      "target": "under-load",
       "weight": 1,
       "reasons": [
         "shared-theme"

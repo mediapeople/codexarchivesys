@@ -152,6 +152,22 @@ type PigeonPayload = {
 type PigeonStatus = 'draft' | 'review' | 'published' | 'archived';
 type PigeonVisibility = 'public' | 'private' | 'internal' | 'unlisted';
 
+function ensurePigeonPublishableObjectType(
+  objectType: PigeonObjectType,
+  sourceLabel: string
+): Response | null {
+  if (objectType !== 'nexus') {
+    return null;
+  }
+
+  return Response.json(
+    {
+      error: `Carrier Pigeon cannot publish nexus entries from ${sourceLabel}. Create nexus issues through the archive workflow instead.`,
+    },
+    { status: 400 }
+  );
+}
+
 type FrontmatterEntry = {
   key: string;
   rawLines: string[];
@@ -1691,6 +1707,10 @@ function parseMarkdownNote(
     fallbackObjectType,
     imageOnly ? 'artifact' : 'codex'
   );
+  const unsupportedObjectType = ensurePigeonPublishableObjectType(objectType, 'markdown note frontmatter');
+  if (unsupportedObjectType) {
+    return unsupportedObjectType;
+  }
   const date = imageOnly
     ? normalizeDateString(rawDate, options?.now || new Date().toISOString())
     : rawDate;
@@ -2463,6 +2483,10 @@ function parseFieldHudRequest(
     requestedFrontmatter.collection ??
     candidate.collection;
   const objectType = normalizeObjectType(requestedCollection) || 'codex';
+  const unsupportedObjectType = ensurePigeonPublishableObjectType(objectType, 'Field HUD publish requests');
+  if (unsupportedObjectType) {
+    return unsupportedObjectType;
+  }
   const titleCandidate =
     normalizeIncomingTitle(candidate.title) ||
     normalizeIncomingTitle(requestedFrontmatter.title) ||
@@ -3408,10 +3432,19 @@ async function parseMultipartPayload(request: Request): Promise<ParsedPigeonRequ
       );
     }
 
+    const imageOnlyPayload = buildImageOnlyPayload(getFormObjectTypeCandidate(formData));
+    const unsupportedObjectType = ensurePigeonPublishableObjectType(
+      imageOnlyPayload.objectType,
+      'multipart form-data'
+    );
+    if (unsupportedObjectType) {
+      return unsupportedObjectType;
+    }
+
     return {
       kind: 'standard',
       payload: {
-        ...buildImageOnlyPayload(getFormObjectTypeCandidate(formData)),
+        ...imageOnlyPayload,
         capture: formCapture,
       },
       uploadedImages,
@@ -3419,12 +3452,21 @@ async function parseMultipartPayload(request: Request): Promise<ParsedPigeonRequ
   }
 
   if (uploadedImages.length > 0 && !extractMarkdownFrontmatter(note) && shouldTreatNoteAsImageCaption(note)) {
+    const imageOnlyPayload = buildImageOnlyPayload(getFormObjectTypeCandidate(formData), new Date().toISOString(), {
+      caption: note,
+    });
+    const unsupportedObjectType = ensurePigeonPublishableObjectType(
+      imageOnlyPayload.objectType,
+      'multipart form-data'
+    );
+    if (unsupportedObjectType) {
+      return unsupportedObjectType;
+    }
+
     return {
       kind: 'standard',
       payload: {
-        ...buildImageOnlyPayload(getFormObjectTypeCandidate(formData), new Date().toISOString(), {
-          caption: note,
-        }),
+        ...imageOnlyPayload,
         capture: formCapture,
       },
       uploadedImages,
@@ -3523,12 +3565,21 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
         return capture;
       }
 
+      const imageOnlyPayload = buildImageOnlyPayload(fallbackObjectType, new Date().toISOString(), {
+        caption: note,
+      });
+      const unsupportedObjectType = ensurePigeonPublishableObjectType(
+        imageOnlyPayload.objectType,
+        'json note payload'
+      );
+      if (unsupportedObjectType) {
+        return unsupportedObjectType;
+      }
+
       return {
         kind: 'standard',
         payload: {
-          ...buildImageOnlyPayload(fallbackObjectType, new Date().toISOString(), {
-            caption: note,
-          }),
+          ...imageOnlyPayload,
           images: normalizeNonEmptyStrings(candidateImages),
           capture,
         },
@@ -3593,6 +3644,10 @@ async function parsePayload(request: Request): Promise<ParsedPigeonRequest | Res
     undefined,
     imageOnly ? 'artifact' : 'codex'
   );
+  const unsupportedObjectType = ensurePigeonPublishableObjectType(objectType, 'json payload');
+  if (unsupportedObjectType) {
+    return unsupportedObjectType;
+  }
   const date = imageOnly
     ? normalizeDateString(rawDate, new Date().toISOString())
     : rawDate;
