@@ -1,0 +1,22 @@
+{
+  "protocol_version": "pigeon-1.1",
+  "capture_mode": "guided",
+  "object_form_lock": "coordinate",
+  "type_resolution": "capture",
+  "orientation": {
+    "prompt_set": "coordinate",
+    "optional": true,
+    "supportive": true
+  },
+  "media_intent": [
+    {
+      "original_filename": "6DB2E967-1C66-4531-B37B-15FE4B697656.jpeg",
+      "role": "hero",
+      "source": true,
+      "potential_coordinate": true,
+      "isolate_later": false,
+      "index": 1,
+      "src": "/media/pigeon/scroll/hold-the-field-01.jpeg"
+    }
+  ]
+}
