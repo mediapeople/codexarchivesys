@@ -1,0 +1,25 @@
+{
+  "protocol_version": "pigeon-1.1",
+  "capture_mode": "default",
+  "type_resolution": "staging",
+  "media_intent": [
+    {
+      "original_filename": "IMG_5353.jpeg",
+      "role": "hero",
+      "source": true,
+      "potential_coordinate": false,
+      "isolate_later": false,
+      "index": 1,
+      "src": "/media/pigeon/artifact/ultraman-april-94-01.jpeg"
+    },
+    {
+      "original_filename": "IMG_5354.jpeg",
+      "role": "gallery",
+      "source": true,
+      "potential_coordinate": false,
+      "isolate_later": false,
+      "index": 2,
+      "src": "/media/pigeon/artifact/ultraman-april-94-02.jpeg"
+    }
+  ]
+}
