@@ -1,0 +1,16 @@
+{
+  "protocol_version": "pigeon-1.1",
+  "capture_mode": "default",
+  "type_resolution": "staging",
+  "media_intent": [
+    {
+      "original_filename": "679A5E55-F9D2-4AA8-8D1B-9CA7AC656CD4.jpeg",
+      "role": "hero",
+      "source": true,
+      "potential_coordinate": true,
+      "isolate_later": false,
+      "index": 1,
+      "src": "/media/pigeon/artifact/artifact-apr-21-2026-01.jpeg"
+    }
+  ]
+}
