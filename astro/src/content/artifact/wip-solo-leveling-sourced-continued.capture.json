@@ -1,0 +1,16 @@
+{
+  "protocol_version": "pigeon-1.1",
+  "capture_mode": "default",
+  "type_resolution": "staging",
+  "media_intent": [
+    {
+      "original_filename": "B26F7C4C-E620-4617-82AD-7F8362B182D5.jpeg",
+      "role": "hero",
+      "source": true,
+      "potential_coordinate": true,
+      "isolate_later": false,
+      "index": 1,
+      "src": "/media/pigeon/artifact/wip-solo-leveling-sourced-continued-01.jpeg"
+    }
+  ]
+}
