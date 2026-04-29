@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-04-19T22:25:41.692Z",
+  "generatedAt": "2026-04-29T21:08:05.728Z",
   "sourceDir": "./src/content",
-  "nodeCount": 221,
-  "edgeCount": 4938,
+  "nodeCount": 222,
+  "edgeCount": 5020,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -1291,6 +1291,25 @@
       "date": "2026-03-24",
       "object_form": "",
       "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "sol-checkpoint",
+      "slug": "sol-checkpoint",
+      "url": "https://ndcodex.com/objects/sol-checkpoint/",
+      "stableId": "codex://object/sol-checkpoint",
+      "type": "codex",
+      "title": "SOL - checkpoint",
+      "date": "2026-04-29",
+      "object_form": "",
+      "themes": [
+        "record",
+        "memory",
+        "continuity",
+        "responsibility",
+        "product",
+        "signal"
+      ],
       "constellations": []
     },
     {
@@ -18811,6 +18830,14 @@
     },
     {
       "source": "cities-built-on-ruin-reminiscence",
+      "target": "sol-checkpoint",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin-reminiscence",
       "target": "steel-elbow-flinchian",
       "weight": 2,
       "reasons": [
@@ -19380,6 +19407,14 @@
     {
       "source": "citizen-network-doctrine",
       "target": "signal-harvest",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-doctrine",
+      "target": "sol-checkpoint",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -23075,6 +23110,14 @@
     },
     {
       "source": "constellation-node-alchemy",
+      "target": "sol-checkpoint",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "constellation-node-alchemy",
       "target": "stairwell-signal",
       "weight": 2,
       "reasons": [
@@ -23907,6 +23950,14 @@
     },
     {
       "source": "ellijay-ga-fourth-of-july-loremap",
+      "target": "sol-checkpoint",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "ellijay-ga-fourth-of-july-loremap",
       "target": "stairwell-signal",
       "weight": 2,
       "reasons": [
@@ -24588,6 +24639,14 @@
     {
       "source": "grand-myth-central",
       "target": "signal.citizen-agency",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "grand-myth-central",
+      "target": "sol-checkpoint",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -25635,6 +25694,14 @@
     },
     {
       "source": "mothers-calendar",
+      "target": "sol-checkpoint",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mothers-calendar",
       "target": "transmission-note-to-future-me",
       "weight": 2,
       "reasons": [
@@ -26164,6 +26231,14 @@
     {
       "source": "nothing-missing-only-unindexed",
       "target": "signal.citizen-agency",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "nothing-missing-only-unindexed",
+      "target": "sol-checkpoint",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -27003,6 +27078,14 @@
     },
     {
       "source": "rodimus-prime-field-acquisition",
+      "target": "sol-checkpoint",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "rodimus-prime-field-acquisition",
       "target": "transmission-note-to-future-me",
       "weight": 2,
       "reasons": [
@@ -27156,6 +27239,14 @@
     {
       "source": "shop-talk-framework",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-001",
+      "target": "sol-checkpoint",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -27378,6 +27469,14 @@
       ]
     },
     {
+      "source": "signal-harvest",
+      "target": "sol-checkpoint",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "signal.citizen-agency",
       "target": "suwanee-ga-loremap",
       "weight": 2,
@@ -27396,6 +27495,14 @@
     {
       "source": "signal.citizen-agency",
       "target": "when-the-commit-leaves-your-hands",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "sol-checkpoint",
+      "target": "transmission-note-to-future-me",
       "weight": 2,
       "reasons": [
         "shared-theme"
@@ -27803,6 +27910,14 @@
     },
     {
       "source": "apparatus-ledger",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "apparatus-ledger",
       "target": "stairwell-signal",
       "weight": 1,
       "reasons": [
@@ -28124,6 +28239,14 @@
     {
       "source": "archive-box-stamped-fragments",
       "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "archive-box-stamped-fragments",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -28507,6 +28630,14 @@
     },
     {
       "source": "art-is-for-people-who-want-to-feel-alive",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "art-is-for-people-who-want-to-feel-alive",
       "target": "studio-bench-cycle",
       "weight": 1,
       "reasons": [
@@ -28764,6 +28895,14 @@
     {
       "source": "artifact-jsa-collage-001",
       "target": "signal-post-test",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-001",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -29115,6 +29254,14 @@
     },
     {
       "source": "artifact-jsa-collage-wip-001",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-collage-wip-001",
       "target": "steel-elbow-flinchian",
       "weight": 1,
       "reasons": [
@@ -29420,6 +29567,14 @@
     {
       "source": "artifact-jsa-signal-fracture-001",
       "target": "signal.citizen-agency",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "artifact-jsa-signal-fracture-001",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -30003,6 +30158,14 @@
     },
     {
       "source": "broken-pencil-psalm",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "broken-pencil-psalm",
       "target": "steel-elbow-flinchian",
       "weight": 1,
       "reasons": [
@@ -30220,6 +30383,14 @@
     {
       "source": "builder-lineage-reflection",
       "target": "signal-post-test",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "builder-lineage-reflection",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -30460,6 +30631,14 @@
     {
       "source": "capture-and-convert",
       "target": "signal-post-test",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "capture-and-convert",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -30772,6 +30951,14 @@
     {
       "source": "characters-in-the-field",
       "target": "signal-post-test",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "characters-in-the-field",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -31116,6 +31303,14 @@
     {
       "source": "chattahoochee-river-loremap",
       "target": "signal.citizen-agency",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "chattahoochee-river-loremap",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -31771,6 +31966,14 @@
     },
     {
       "source": "cities-built-on-ruin",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "cities-built-on-ruin",
       "target": "steel-elbow-flinchian",
       "weight": 1,
       "reasons": [
@@ -31940,6 +32143,14 @@
     {
       "source": "citizen-network-dispatch",
       "target": "signal-post-test",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-dispatch",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -32403,6 +32614,14 @@
     },
     {
       "source": "citizen-network-map-hi-fi",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "citizen-network-map-hi-fi",
       "target": "stairwell-signal",
       "weight": 1,
       "reasons": [
@@ -33147,6 +33366,14 @@
     },
     {
       "source": "codex-archive-system-v2-7-notes",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v2-7-notes",
       "target": "studio-bench-cycle",
       "weight": 1,
       "reasons": [
@@ -33316,6 +33543,14 @@
     {
       "source": "codex-archive-system-v3-1-build-notes",
       "target": "signal-post-test",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-1-build-notes",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -33883,6 +34118,14 @@
     },
     {
       "source": "codex-archive-system-v3-12-marginalia-live-publish-notes",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-12-marginalia-live-publish-notes",
       "target": "steel-elbow-flinchian",
       "weight": 1,
       "reasons": [
@@ -34107,6 +34350,14 @@
     },
     {
       "source": "codex-archive-system-v3-12-marginalia-notes",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-12-marginalia-notes",
       "target": "steel-elbow-flinchian",
       "weight": 1,
       "reasons": [
@@ -34331,6 +34582,14 @@
     },
     {
       "source": "codex-archive-system-v3-13-hud-clarity-notes",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-13-hud-clarity-notes",
       "target": "steel-elbow-flinchian",
       "weight": 1,
       "reasons": [
@@ -34460,6 +34719,14 @@
     {
       "source": "codex-archive-system-v3-2-fragment-feed-notes",
       "target": "signal-post-test",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-2-fragment-feed-notes",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -34611,6 +34878,14 @@
     },
     {
       "source": "codex-archive-system-v3-3-modest-table-notes",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-3-modest-table-notes",
       "target": "systems-survive-tuesdays",
       "weight": 1,
       "reasons": [
@@ -34747,6 +35022,14 @@
     },
     {
       "source": "codex-archive-system-v3-4-image-experience-notes",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-4-image-experience-notes",
       "target": "systems-survive-tuesdays",
       "weight": 1,
       "reasons": [
@@ -34876,6 +35159,14 @@
     {
       "source": "codex-archive-system-v3-5-control-surface-notes",
       "target": "signal-post-test",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-5-control-surface-notes",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -35020,6 +35311,14 @@
     {
       "source": "codex-archive-system-v3-6-reading-surface-notes",
       "target": "signal-post-test",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-6-reading-surface-notes",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -35332,6 +35631,14 @@
     {
       "source": "codex-archive-system-v3-8-specimen-surface-notes",
       "target": "signal-post-test",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-8-specimen-surface-notes",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -35659,6 +35966,14 @@
     },
     {
       "source": "codex-archive-system-v3-notes",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-notes",
       "target": "stairwell-signal",
       "weight": 1,
       "reasons": [
@@ -35788,6 +36103,14 @@
     {
       "source": "codex-archive-system-v3-plus-notes",
       "target": "signal-post-test",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-archive-system-v3-plus-notes",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -35972,6 +36295,14 @@
     {
       "source": "codex-glyph-grammar",
       "target": "signal-post-test",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-grammar",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -36244,6 +36575,14 @@
     {
       "source": "codex-glyph-system-first-emergence",
       "target": "signal-post-test",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "codex-glyph-system-first-emergence",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -36627,6 +36966,14 @@
     },
     {
       "source": "crane-field-illustration",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "crane-field-illustration",
       "target": "studio-bench-cycle",
       "weight": 1,
       "reasons": [
@@ -36915,6 +37262,14 @@
     },
     {
       "source": "disrespectful-power",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "disrespectful-power",
       "target": "studio-bench-cycle",
       "weight": 1,
       "reasons": [
@@ -37140,6 +37495,14 @@
     {
       "source": "distortion-atlas",
       "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "distortion-atlas",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -37467,6 +37830,14 @@
     },
     {
       "source": "flexible-machine-sweet-spot",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "flexible-machine-sweet-spot",
       "target": "studio-bench-cycle",
       "weight": 1,
       "reasons": [
@@ -37675,6 +38046,14 @@
     },
     {
       "source": "garage-dispatch-001",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "garage-dispatch-001",
       "target": "studio-bench-cycle",
       "weight": 1,
       "reasons": [
@@ -37836,6 +38215,14 @@
     {
       "source": "go-live-milestone",
       "target": "signal-post-test",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "go-live-milestone",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -38323,6 +38710,14 @@
     },
     {
       "source": "i-work-with-machines-to-write-scripture",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "i-work-with-machines-to-write-scripture",
       "target": "stairwell-signal",
       "weight": 1,
       "reasons": [
@@ -38579,6 +38974,14 @@
     },
     {
       "source": "jsa-collage-evolution-001",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-001",
       "target": "steel-elbow-flinchian",
       "weight": 1,
       "reasons": [
@@ -38819,6 +39222,14 @@
     },
     {
       "source": "jsa-collage-evolution-002",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-002",
       "target": "steel-elbow-flinchian",
       "weight": 1,
       "reasons": [
@@ -39044,6 +39455,14 @@
     {
       "source": "jsa-collage-evolution-003",
       "target": "signal.citizen-agency",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "jsa-collage-evolution-003",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -39307,6 +39726,14 @@
     },
     {
       "source": "justice-begins-as-a-ripple",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "justice-begins-as-a-ripple",
       "target": "steel-elbow-flinchian",
       "weight": 1,
       "reasons": [
@@ -39412,6 +39839,14 @@
     {
       "source": "keep-it-on-the-road",
       "target": "signal-descent-006",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-it-on-the-road",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -39532,6 +39967,14 @@
     {
       "source": "keep-the-operator-whistling",
       "target": "signal-post-test",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "keep-the-operator-whistling",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -39788,6 +40231,14 @@
     {
       "source": "machine-creatures",
       "target": "signal-post-test",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "machine-creatures",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -40204,6 +40655,14 @@
     {
       "source": "mcginnis-ferry-threshold",
       "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mcginnis-ferry-threshold",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -40779,6 +41238,14 @@
     },
     {
       "source": "mythplate-designing-for-lift",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate-designing-for-lift",
       "target": "stairwell-signal",
       "weight": 1,
       "reasons": [
@@ -40964,6 +41431,14 @@
     {
       "source": "mythplate",
       "target": "signal.citizen-agency",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "mythplate",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -41268,6 +41743,14 @@
     {
       "source": "node-doctrine",
       "target": "signal-post-test",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "node-doctrine",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -41699,6 +42182,14 @@
     },
     {
       "source": "on-object-oriented-archives",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "on-object-oriented-archives",
       "target": "studio-log-adhesive-test-run",
       "weight": 1,
       "reasons": [
@@ -41875,6 +42366,14 @@
     },
     {
       "source": "one-yard-from-forever-scroll-surface",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever-scroll-surface",
       "target": "stairwell-signal",
       "weight": 1,
       "reasons": [
@@ -42011,6 +42510,14 @@
     },
     {
       "source": "one-yard-from-forever",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "one-yard-from-forever",
       "target": "stairwell-signal",
       "weight": 1,
       "reasons": [
@@ -42124,6 +42631,14 @@
     {
       "source": "operator-winks-at-the-machines",
       "target": "signal-post-test",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "operator-winks-at-the-machines",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -42259,6 +42774,14 @@
     },
     {
       "source": "phoenix-collage-fracture-study",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "phoenix-collage-fracture-study",
       "target": "steel-elbow-flinchian",
       "weight": 1,
       "reasons": [
@@ -42372,6 +42895,14 @@
     {
       "source": "pocket-rock-cathedral",
       "target": "signal-harvest",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pocket-rock-cathedral",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -42499,6 +43030,14 @@
     },
     {
       "source": "pressure-psalm-v",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "pressure-psalm-v",
       "target": "suwanee-ga-loremap",
       "weight": 1,
       "reasons": [
@@ -42572,6 +43111,14 @@
     {
       "source": "quiet-vector-doctrine",
       "target": "signal-post-test",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "quiet-vector-doctrine",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -42875,6 +43422,14 @@
     },
     {
       "source": "return-of-the-joker",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "return-of-the-joker",
       "target": "steel-elbow-flinchian",
       "weight": 1,
       "reasons": [
@@ -43083,6 +43638,14 @@
     },
     {
       "source": "scripture-with-machines",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "scripture-with-machines",
       "target": "stairwell-signal",
       "weight": 1,
       "reasons": [
@@ -43163,6 +43726,14 @@
     },
     {
       "source": "scroll-from-the-perimeter",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "scroll-from-the-perimeter",
       "target": "steel-elbow-flinchian",
       "weight": 1,
       "reasons": [
@@ -43220,6 +43791,14 @@
     {
       "source": "shop-talk-framework",
       "target": "signal-post-test",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "shop-talk-framework",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -43276,6 +43855,14 @@
     {
       "source": "signal-descent-002",
       "target": "signal-post-test",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-002",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -43308,6 +43895,14 @@
     {
       "source": "signal-descent-003",
       "target": "signal-post-test",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-003",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -43348,6 +43943,14 @@
     {
       "source": "signal-descent-004",
       "target": "signal-post-test",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-004",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -43364,6 +43967,14 @@
     {
       "source": "signal-descent-005",
       "target": "signal-post-test",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-005",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -43396,6 +44007,14 @@
     {
       "source": "signal-descent-006",
       "target": "signal-post-test",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-descent-006",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -43468,6 +44087,14 @@
     {
       "source": "signal-post-test",
       "target": "signal.citizen-agency",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal-post-test",
+      "target": "sol-checkpoint",
       "weight": 1,
       "reasons": [
         "shared-theme"
@@ -43523,6 +44150,14 @@
     },
     {
       "source": "signal.citizen-agency",
+      "target": "sol-checkpoint",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "signal.citizen-agency",
       "target": "stairwell-signal",
       "weight": 1,
       "reasons": [
@@ -43556,6 +44191,46 @@
     {
       "source": "signal.citizen-agency",
       "target": "work-intelligence-v4g",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "sol-checkpoint",
+      "target": "stairwell-signal",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "sol-checkpoint",
+      "target": "steel-elbow-flinchian",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "sol-checkpoint",
+      "target": "suwanee-ga-loremap",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "sol-checkpoint",
+      "target": "the-circle-the-node-and-the-office",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "sol-checkpoint",
+      "target": "unacceptable-cost",
       "weight": 1,
       "reasons": [
         "shared-theme"
