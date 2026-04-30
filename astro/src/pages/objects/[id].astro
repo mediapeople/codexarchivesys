@@ -3234,8 +3234,8 @@ const exportAlternateLinks = [
     width: auto;
     max-width: min(100%, 72rem);
     height: auto;
-    max-height: min(68vh, 820px);
-    margin: 0;
+    max-height: min(58vh, 760px);
+    margin: 0 auto;
     border: 1px solid var(--object-rule);
     background: var(--void);
     object-fit: contain;
@@ -3245,7 +3245,7 @@ const exportAlternateLinks = [
   }
 
   .body :global(p > img:only-child) {
-    max-width: min(72rem, 100%);
+    max-width: min(42rem, 100%);
   }
 
   @media (min-width: 1100px) {
@@ -4551,6 +4551,10 @@ const exportAlternateLinks = [
     .artifact-evidence-support .media-item img,
     .artifact-evidence-support .media-item video {
       max-height: min(48vh, 420px);
+    }
+
+    .body :global(img) {
+      max-height: min(52vh, 34rem);
     }
   }
 
