@@ -1,0 +1,22 @@
+{
+  "protocol_version": "pigeon-1.1",
+  "capture_mode": "default",
+  "object_form_suggestion": "bubble",
+  "type_resolution": "staging",
+  "orientation": {
+    "prompt_set": "bubble",
+    "optional": true,
+    "supportive": true
+  },
+  "media_intent": [
+    {
+      "original_filename": "IMG_5835.jpeg",
+      "role": "hero",
+      "source": true,
+      "potential_coordinate": false,
+      "isolate_later": false,
+      "index": 1,
+      "src": "/media/pigeon/signal/intemporal-state-01.jpeg"
+    }
+  ]
+}
