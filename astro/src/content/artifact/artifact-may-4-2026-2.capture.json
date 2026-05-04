@@ -1,0 +1,25 @@
+{
+  "protocol_version": "pigeon-1.1",
+  "capture_mode": "default",
+  "type_resolution": "staging",
+  "media_intent": [
+    {
+      "original_filename": "E1F1E98D-4AEF-4266-BA26-4F20F619012A.jpeg",
+      "role": "hero",
+      "source": true,
+      "potential_coordinate": false,
+      "isolate_later": false,
+      "index": 1,
+      "src": "/media/pigeon/artifact/artifact-may-4-2026-2-01.jpeg"
+    },
+    {
+      "original_filename": "31B3CE8C-0B1F-41F1-BC89-72256A4E9608.jpeg",
+      "role": "gallery",
+      "source": true,
+      "potential_coordinate": false,
+      "isolate_later": false,
+      "index": 2,
+      "src": "/media/pigeon/artifact/artifact-may-4-2026-2-02.jpeg"
+    }
+  ]
+}
