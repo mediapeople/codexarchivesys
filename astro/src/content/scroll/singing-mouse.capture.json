@@ -1,0 +1,22 @@
+{
+  "protocol_version": "pigeon-1.1",
+  "capture_mode": "default",
+  "object_form_suggestion": "creature",
+  "type_resolution": "staging",
+  "orientation": {
+    "prompt_set": "creature",
+    "optional": true,
+    "supportive": true
+  },
+  "media_intent": [
+    {
+      "original_filename": "79D3616D-228D-4BA9-80E2-257EA4FEDA70.jpeg",
+      "role": "hero",
+      "source": true,
+      "potential_coordinate": false,
+      "isolate_later": false,
+      "index": 1,
+      "src": "/media/pigeon/scroll/singing-mouse-01.jpeg"
+    }
+  ]
+}
