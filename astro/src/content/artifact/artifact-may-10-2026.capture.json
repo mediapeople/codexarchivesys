@@ -1,0 +1,16 @@
+{
+  "protocol_version": "pigeon-1.1",
+  "capture_mode": "image-only",
+  "type_resolution": "staging",
+  "media_intent": [
+    {
+      "original_filename": "A6D50F35-7B10-48B4-80A2-111564AA8CAB.jpeg",
+      "role": "hero",
+      "source": true,
+      "potential_coordinate": true,
+      "isolate_later": false,
+      "index": 1,
+      "src": "/media/pigeon/artifact/artifact-may-10-2026-01.jpeg"
+    }
+  ]
+}
