@@ -11,7 +11,9 @@ const localNoStoreHeaders = {
 // https://astro.build/config
 export default defineConfig({
   site: 'https://ndcodex.com',
-  adapter: netlify(),
+  adapter: netlify({
+    excludeFiles: ['./public/media/**'],
+  }),
   vite: {
     server: {
       headers: localNoStoreHeaders,

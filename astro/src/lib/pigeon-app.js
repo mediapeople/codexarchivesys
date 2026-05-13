@@ -1824,7 +1824,6 @@ export function renderPigeonAppMarkup(options = {}) {
       </div>
       <div class="workflow-publish-links">
         <a class="btn-ghost" id="openObjectLink" href="#" hidden>Open Object</a>
-        <a class="btn-ghost" id="openHudLink" href="#" hidden>View HUD</a>
         <a class="btn-ghost" id="openCommitLink" href="#" hidden>Open Commit</a>
       </div>
     </div>
@@ -1866,9 +1865,6 @@ export const PIGEON_APP_SCRIPT = String.raw`
     config.smartDraftReadyMessage || 'Smart Draft inferred frontmatter. Review it, then send again.';
   const smartDraftButtonMessage =
     config.smartDraftButtonMessage || 'Review the inferred frontmatter, then send when ready.';
-  const publishedSurfaceScrollMessage =
-    config.publishedSurfaceScrollMessage ||
-    'Published scrolls automatically generate a HUD. Open the object to read, or HUD to inspect.';
   const publishedSurfaceDefaultMessage =
     config.publishedSurfaceDefaultMessage ||
     'Published to the archive. Open the object to confirm it landed.';
@@ -1922,7 +1918,6 @@ export const PIGEON_APP_SCRIPT = String.raw`
   const publishActions = document.getElementById('publishActions');
   const publishActionsNote = document.getElementById('publishActionsNote');
   const openObjectLink = document.getElementById('openObjectLink');
-  const openHudLink = document.getElementById('openHudLink');
   const openCommitLink = document.getElementById('openCommitLink');
   const transmitBar = document.getElementById('transmitBar');
   const transmitButton = document.getElementById('transmitButton');
@@ -5165,7 +5160,6 @@ export const PIGEON_APP_SCRIPT = String.raw`
     }
 
     setActionLink(openObjectLink, '', 'Open Object');
-    setActionLink(openHudLink, '', 'View HUD');
     setActionLink(openCommitLink, '', 'Open Commit');
   }
 
@@ -5176,23 +5170,19 @@ export const PIGEON_APP_SCRIPT = String.raw`
         : typeof data.url === 'string' && data.url
           ? data.url
           : '';
-    const hudHref = typeof data.hud_url === 'string' ? data.hud_url : '';
     const commitHref = typeof data.commitUrl === 'string' ? data.commitUrl : '';
 
     const hasObject = setActionLink(openObjectLink, objectHref, 'Open Object');
-    const hasHud = setActionLink(openHudLink, hudHref, 'View HUD');
     const hasCommit = setActionLink(openCommitLink, commitHref, 'Open Commit', { external: true });
 
     if (!publishActions) {
       return;
     }
 
-    publishActions.hidden = !(hasObject || hasHud || hasCommit);
+    publishActions.hidden = !(hasObject || hasCommit);
 
     if (publishActionsNote) {
-      publishActionsNote.textContent = hasHud
-        ? publishedSurfaceScrollMessage
-        : publishedSurfaceDefaultMessage;
+      publishActionsNote.textContent = publishedSurfaceDefaultMessage;
     }
   }
 
@@ -5594,12 +5584,6 @@ export const PIGEON_APP_SCRIPT = String.raw`
       if (data && typeof data.object_url === 'string' && data.object_url) {
         logLine('info', 'Open published entry', {
           href: resolveHref(data.object_url),
-        });
-      }
-
-      if (data && typeof data.hud_url === 'string' && data.hud_url) {
-        logLine('info', 'Open HUD', {
-          href: resolveHref(data.hud_url),
         });
       }
 
