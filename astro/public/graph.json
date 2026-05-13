@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-13T14:19:50.191Z",
+  "generatedAt": "2026-05-13T14:33:17.523Z",
   "sourceDir": "./src/content",
-  "nodeCount": 257,
+  "nodeCount": 256,
   "edgeCount": 5029,
   "nodes": [
     {
@@ -148,18 +148,6 @@
       "type": "artifact",
       "title": "Artifact — May 10, 2026",
       "date": "2026-05-10T23:00:29.584Z",
-      "object_form": "",
-      "themes": [],
-      "constellations": []
-    },
-    {
-      "id": "artifact-may-12-2026-2",
-      "slug": "artifact-may-12-2026-2",
-      "url": "https://ndcodex.com/objects/artifact-may-12-2026-2",
-      "stableId": "codex://object/artifact-may-12-2026-2",
-      "type": "artifact",
-      "title": "Artifact — May 12, 2026",
-      "date": "2026-05-12T22:10:10.187Z",
       "object_form": "",
       "themes": [],
       "constellations": []
