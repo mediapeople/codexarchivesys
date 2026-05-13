@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-04-29T21:08:05.728Z",
+  "generatedAt": "2026-05-13T14:19:50.191Z",
   "sourceDir": "./src/content",
-  "nodeCount": 222,
-  "edgeCount": 5020,
+  "nodeCount": 257,
+  "edgeCount": 5029,
   "nodes": [
     {
       "id": "archive-box-stamped-fragments",
@@ -30,6 +30,30 @@
       "type": "artifact",
       "title": "Archive First",
       "date": "2026-04-16",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "artifact-apr-21-2026",
+      "slug": "artifact-apr-21-2026",
+      "url": "https://ndcodex.com/objects/artifact-apr-21-2026",
+      "stableId": "codex://object/artifact-apr-21-2026",
+      "type": "artifact",
+      "title": "Artifact — Apr 21, 2026",
+      "date": "2026-04-21T20:11:18.963Z",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "artifact-apr-25-2026",
+      "slug": "artifact-apr-25-2026",
+      "url": "https://ndcodex.com/objects/artifact-apr-25-2026",
+      "stableId": "codex://object/artifact-apr-25-2026",
+      "type": "artifact",
+      "title": "Artifact — Apr 25, 2026",
+      "date": "2026-04-25T18:07:36.891Z",
       "object_form": "",
       "themes": [],
       "constellations": []
@@ -112,6 +136,78 @@
       "type": "artifact",
       "title": "Artifact — Mar 28, 2026",
       "date": "2026-03-28T18:39:20.353Z",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "artifact-may-10-2026",
+      "slug": "artifact-may-10-2026",
+      "url": "https://ndcodex.com/objects/artifact-may-10-2026",
+      "stableId": "codex://object/artifact-may-10-2026",
+      "type": "artifact",
+      "title": "Artifact — May 10, 2026",
+      "date": "2026-05-10T23:00:29.584Z",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "artifact-may-12-2026-2",
+      "slug": "artifact-may-12-2026-2",
+      "url": "https://ndcodex.com/objects/artifact-may-12-2026-2",
+      "stableId": "codex://object/artifact-may-12-2026-2",
+      "type": "artifact",
+      "title": "Artifact — May 12, 2026",
+      "date": "2026-05-12T22:10:10.187Z",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "artifact-may-12-2026",
+      "slug": "artifact-may-12-2026",
+      "url": "https://ndcodex.com/objects/artifact-may-12-2026",
+      "stableId": "codex://object/artifact-may-12-2026",
+      "type": "artifact",
+      "title": "Artifact — May 12, 2026",
+      "date": "2026-05-12T13:44:45.397Z",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "artifact-may-13-2026",
+      "slug": "artifact-may-13-2026",
+      "url": "https://ndcodex.com/objects/artifact-may-13-2026",
+      "stableId": "codex://object/artifact-may-13-2026",
+      "type": "artifact",
+      "title": "Artifact — May 13, 2026",
+      "date": "2026-05-13T02:15:03.938Z",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "artifact-may-4-2026-2",
+      "slug": "artifact-may-4-2026-2",
+      "url": "https://ndcodex.com/objects/artifact-may-4-2026-2",
+      "stableId": "codex://object/artifact-may-4-2026-2",
+      "type": "artifact",
+      "title": "Artifact — May 4, 2026",
+      "date": "2026-05-04T21:17:02.632Z",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "artifact-may-4-2026",
+      "slug": "artifact-may-4-2026",
+      "url": "https://ndcodex.com/objects/artifact-may-4-2026",
+      "stableId": "codex://object/artifact-may-4-2026",
+      "type": "artifact",
+      "title": "Artifact — May 4, 2026",
+      "date": "2026-05-04T14:50:35.183Z",
       "object_form": "",
       "themes": [],
       "constellations": []
@@ -279,6 +375,18 @@
       "type": "artifact",
       "title": "Desert Lab (Pocket Scale)",
       "date": "2026-03-27",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "digital-chorus-string",
+      "slug": "digital-chorus-string",
+      "url": "https://ndcodex.com/objects/digital-chorus-string",
+      "stableId": "codex://object/digital-chorus-string",
+      "type": "artifact",
+      "title": "digital chorus string",
+      "date": "2026-04-30",
       "object_form": "",
       "themes": [],
       "constellations": []
@@ -483,6 +591,18 @@
       "constellations": []
     },
     {
+      "id": "robin",
+      "slug": "robin",
+      "url": "https://ndcodex.com/objects/robin",
+      "stableId": "codex://object/robin",
+      "type": "artifact",
+      "title": "Robin",
+      "date": "2026-04-29",
+      "object_form": "creature",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "rodimus-prime-field-acquisition",
       "slug": "rodimus-prime-field-acquisition",
       "url": "https://ndcodex.com/objects/rodimus-prime-field-acquisition/",
@@ -519,6 +639,18 @@
       "type": "artifact",
       "title": "Specimen 001 — Pre-Flight Assembly (Optimistic)",
       "date": "2026-03-24",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "speed-of-fragmentation",
+      "slug": "speed-of-fragmentation",
+      "url": "https://ndcodex.com/objects/speed-of-fragmentation",
+      "stableId": "codex://object/speed-of-fragmentation",
+      "type": "artifact",
+      "title": "Speed of Fragmentation",
+      "date": "2026-05-08",
       "object_form": "",
       "themes": [],
       "constellations": []
@@ -626,6 +758,18 @@
       "constellations": []
     },
     {
+      "id": "ultraman-april-94",
+      "slug": "ultraman-april-94",
+      "url": "https://ndcodex.com/objects/ultraman-april-94",
+      "stableId": "codex://object/ultraman-april-94",
+      "type": "artifact",
+      "title": "Ultraman April '94",
+      "date": "2026-04-21T23:29:17.676Z",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "under-load",
       "slug": "under-load",
       "url": "https://ndcodex.com/objects/under-load/",
@@ -651,6 +795,18 @@
       "type": "artifact",
       "title": "wheelie",
       "date": "2026-04-08T14:54:04.431Z",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "wip-solo-leveling-sourced-continued",
+      "slug": "wip-solo-leveling-sourced-continued",
+      "url": "https://ndcodex.com/objects/wip-solo-leveling-sourced-continued",
+      "stableId": "codex://object/wip-solo-leveling-sourced-continued",
+      "type": "artifact",
+      "title": "WIP solo leveling sourced continued",
+      "date": "2026-04-24T03:13:12.252Z",
       "object_form": "",
       "themes": [],
       "constellations": []
@@ -1313,6 +1469,18 @@
       "constellations": []
     },
     {
+      "id": "speaking-interfaces",
+      "slug": "speaking-interfaces",
+      "url": "https://ndcodex.com/codex/speaking-interfaces",
+      "stableId": "codex://object/speaking-interfaces",
+      "type": "codex",
+      "title": "speaking interfaces",
+      "date": "2026-05-04",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "squad-engine",
       "slug": "squad-engine",
       "url": "https://ndcodex.com/codex/squad-engine",
@@ -1667,6 +1835,18 @@
       "constellations": []
     },
     {
+      "id": "wip-solo-leveling-sourced",
+      "slug": "wip-solo-leveling-sourced",
+      "url": "https://ndcodex.com/objects/wip-solo-leveling-sourced",
+      "stableId": "codex://object/wip-solo-leveling-sourced",
+      "type": "fieldlog",
+      "title": "WIP solo leveling sourced",
+      "date": "2026-04-24T00:56:25.254Z",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "cities-built-on-ruin",
       "slug": "cities-built-on-ruin",
       "url": "https://ndcodex.com/objects/cities-built-on-ruin/",
@@ -1784,6 +1964,18 @@
       "constellations": []
     },
     {
+      "id": "marginalia-on-artifact-may-12-2026-2026-05-12-10-31-49",
+      "slug": "marginalia-on-artifact-may-12-2026-2026-05-12-10-31-49",
+      "url": "https://ndcodex.com/objects/marginalia-on-artifact-may-12-2026-2026-05-12-10-31-49",
+      "stableId": "codex://object/marginalia-on-artifact-may-12-2026-2026-05-12-10-31-49",
+      "type": "fragment",
+      "title": "Marginalia on Artifact — May 12, 2026 2026-05-12-10-31-49",
+      "date": "2026-05-12T14:31:49.488Z",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "marginalia-on-build-and-launch-auto-repair-site-2026-04-16-16-53-30",
       "slug": "marginalia-on-build-and-launch-auto-repair-site-2026-04-16-16-53-30",
       "url": "https://ndcodex.com/objects/marginalia-on-build-and-launch-auto-repair-site-2026-04-16-16-53-30",
@@ -1839,6 +2031,18 @@
       "type": "fragment",
       "title": "Marginalia on Desert Lab (Pocket Scale) 2026-03-27-21-21-02",
       "date": "2026-03-28T01:21:02.192Z",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "marginalia-on-digital-chorus-string-2026-04-30-16-29-09",
+      "slug": "marginalia-on-digital-chorus-string-2026-04-30-16-29-09",
+      "url": "https://ndcodex.com/objects/marginalia-on-digital-chorus-string-2026-04-30-16-29-09",
+      "stableId": "codex://object/marginalia-on-digital-chorus-string-2026-04-30-16-29-09",
+      "type": "fragment",
+      "title": "Marginalia on digital chorus string 2026-04-30-16-29-09",
+      "date": "2026-04-30T20:29:09.488Z",
       "object_form": "",
       "themes": [],
       "constellations": []
@@ -1911,6 +2115,18 @@
       "type": "fragment",
       "title": "Marginalia on jagged crater 2026-03-27-21-31-19",
       "date": "2026-03-28T01:31:19.404Z",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "marginalia-on-speaking-interfaces-2026-05-04-15-59-17",
+      "slug": "marginalia-on-speaking-interfaces-2026-05-04-15-59-17",
+      "url": "https://ndcodex.com/objects/marginalia-on-speaking-interfaces-2026-05-04-15-59-17",
+      "stableId": "codex://object/marginalia-on-speaking-interfaces-2026-05-04-15-59-17",
+      "type": "fragment",
+      "title": "Marginalia on speaking interfaces 2026-05-04-15-59-17",
+      "date": "2026-05-04T19:59:17.759Z",
       "object_form": "",
       "themes": [],
       "constellations": []
@@ -2431,6 +2647,18 @@
       "constellations": []
     },
     {
+      "id": "barometrics",
+      "slug": "barometrics",
+      "url": "https://ndcodex.com/objects/barometrics",
+      "stableId": "codex://object/barometrics",
+      "type": "scroll",
+      "title": "barometrics",
+      "date": "2026-04-30",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "behind-the-eye",
       "slug": "behind-the-eye",
       "url": "https://ndcodex.com/objects/behind-the-eye",
@@ -2605,6 +2833,30 @@
       "constellations": []
     },
     {
+      "id": "fields-still-holding",
+      "slug": "fields-still-holding",
+      "url": "https://ndcodex.com/objects/fields-still-holding",
+      "stableId": "codex://object/fields-still-holding",
+      "type": "scroll",
+      "title": "fields still holding",
+      "date": "2026-05-09",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "glass-fruit-swamp",
+      "slug": "glass-fruit-swamp",
+      "url": "https://ndcodex.com/objects/glass-fruit-swamp",
+      "stableId": "codex://object/glass-fruit-swamp",
+      "type": "scroll",
+      "title": "glass fruit swamp",
+      "date": "2026-05-13",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "green-blades",
       "slug": "green-blades",
       "url": "https://ndcodex.com/objects/green-blades",
@@ -2641,6 +2893,30 @@
       ]
     },
     {
+      "id": "hold-the-field",
+      "slug": "hold-the-field",
+      "url": "https://ndcodex.com/objects/hold-the-field",
+      "stableId": "codex://object/hold-the-field",
+      "type": "scroll",
+      "title": "Hold the field",
+      "date": "2026-04-20",
+      "object_form": "coordinate",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "house-dog",
+      "slug": "house-dog",
+      "url": "https://ndcodex.com/objects/house-dog",
+      "stableId": "codex://object/house-dog",
+      "type": "scroll",
+      "title": "house dog",
+      "date": "2026-04-19",
+      "object_form": "creature",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "in-spiral",
       "slug": "in-spiral",
       "url": "https://ndcodex.com/objects/in-spiral",
@@ -2660,6 +2936,18 @@
       "type": "scroll",
       "title": "Line Cook",
       "date": "2026-04-04",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "load-bearing",
+      "slug": "load-bearing",
+      "url": "https://ndcodex.com/objects/load-bearing",
+      "stableId": "codex://object/load-bearing",
+      "type": "scroll",
+      "title": "load bearing",
+      "date": "2026-05-09",
       "object_form": "",
       "themes": [],
       "constellations": []
@@ -2771,6 +3059,30 @@
       "type": "scroll",
       "title": "pink moon parody",
       "date": "2026-04-02",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "planetary-basement",
+      "slug": "planetary-basement",
+      "url": "https://ndcodex.com/objects/planetary-basement",
+      "stableId": "codex://object/planetary-basement",
+      "type": "scroll",
+      "title": "planetary basement",
+      "date": "2026-05-10",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "plastic-memory",
+      "slug": "plastic-memory",
+      "url": "https://ndcodex.com/objects/plastic-memory",
+      "stableId": "codex://object/plastic-memory",
+      "type": "scroll",
+      "title": "plastic memory",
+      "date": "2026-05-03",
       "object_form": "",
       "themes": [],
       "constellations": []
@@ -2908,6 +3220,30 @@
       ]
     },
     {
+      "id": "seattle-tacoma",
+      "slug": "seattle-tacoma",
+      "url": "https://ndcodex.com/objects/seattle-tacoma",
+      "stableId": "codex://object/seattle-tacoma",
+      "type": "scroll",
+      "title": "Seattle, Tacoma",
+      "date": "2026-04-27",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "sheath",
+      "slug": "sheath",
+      "url": "https://ndcodex.com/objects/sheath",
+      "stableId": "codex://object/sheath",
+      "type": "scroll",
+      "title": "sheath",
+      "date": "2026-04-18",
+      "object_form": "coordinate",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "shop-talk-framework",
       "slug": "shop-talk-framework",
       "url": "https://ndcodex.com/objects/shop-talk-framework/",
@@ -2960,6 +3296,18 @@
       "constellations": []
     },
     {
+      "id": "singing-mouse",
+      "slug": "singing-mouse",
+      "url": "https://ndcodex.com/objects/singing-mouse",
+      "stableId": "codex://object/singing-mouse",
+      "type": "scroll",
+      "title": "singing mouse",
+      "date": "2026-05-08",
+      "object_form": "creature",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "sons-of-thunder",
       "slug": "sons-of-thunder",
       "url": "https://ndcodex.com/objects/sons-of-thunder",
@@ -2979,6 +3327,18 @@
       "type": "scroll",
       "title": "spawn seed",
       "date": "2026-04-01",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "split-record",
+      "slug": "split-record",
+      "url": "https://ndcodex.com/objects/split-record",
+      "stableId": "codex://object/split-record",
+      "type": "scroll",
+      "title": "split record",
+      "date": "2026-05-03",
       "object_form": "",
       "themes": [],
       "constellations": []
@@ -3038,6 +3398,30 @@
       "type": "scroll",
       "title": "survival features",
       "date": "2026-04-01",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "survivor",
+      "slug": "survivor",
+      "url": "https://ndcodex.com/objects/survivor",
+      "stableId": "codex://object/survivor",
+      "type": "scroll",
+      "title": "survivor",
+      "date": "2026-05-06",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "swan-water-protocol",
+      "slug": "swan-water-protocol",
+      "url": "https://ndcodex.com/objects/swan-water-protocol",
+      "stableId": "codex://object/swan-water-protocol",
+      "type": "scroll",
+      "title": "swan water protocol",
+      "date": "2026-05-07",
       "object_form": "",
       "themes": [],
       "constellations": []
@@ -3104,6 +3488,18 @@
       "constellations": []
     },
     {
+      "id": "tomorrow-night",
+      "slug": "tomorrow-night",
+      "url": "https://ndcodex.com/objects/tomorrow-night",
+      "stableId": "codex://object/tomorrow-night",
+      "type": "scroll",
+      "title": "tomorrow night",
+      "date": "2026-05-05",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "transmission-note-to-future-me",
       "slug": "transmission-note-to-future-me",
       "url": "https://ndcodex.com/objects/transmission-note-to-future-me/",
@@ -3137,6 +3533,18 @@
         "signal",
         "observation"
       ],
+      "constellations": []
+    },
+    {
+      "id": "warthog",
+      "slug": "warthog",
+      "url": "https://ndcodex.com/objects/warthog",
+      "stableId": "codex://object/warthog",
+      "type": "scroll",
+      "title": "Warthog",
+      "date": "2026-05-03",
+      "object_form": "creature",
+      "themes": [],
       "constellations": []
     },
     {
@@ -3268,6 +3676,18 @@
       "title": "I could have passed",
       "date": "2026-03-30",
       "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "intemporal-state",
+      "slug": "intemporal-state",
+      "url": "https://ndcodex.com/objects/intemporal-state",
+      "stableId": "codex://object/intemporal-state",
+      "type": "signal",
+      "title": "Intemporal State",
+      "date": "2026-05-04",
+      "object_form": "bubble",
       "themes": [],
       "constellations": []
     },
@@ -7921,6 +8341,14 @@
       ]
     },
     {
+      "source": "artifact-may-12-2026",
+      "target": "marginalia-on-artifact-may-12-2026-2026-05-12-10-31-49",
+      "weight": 4,
+      "reasons": [
+        "explicit-connection"
+      ]
+    },
+    {
       "source": "bezalel-the-designated-hand",
       "target": "cities-built-on-ruin",
       "weight": 4,
@@ -9239,6 +9667,14 @@
       ]
     },
     {
+      "source": "digital-chorus-string",
+      "target": "marginalia-on-digital-chorus-string-2026-04-30-16-29-09",
+      "weight": 4,
+      "reasons": [
+        "explicit-connection"
+      ]
+    },
+    {
       "source": "distortion-atlas",
       "target": "one-yard-from-forever-scroll-surface",
       "weight": 4,
@@ -9685,6 +10121,14 @@
       "reasons": [
         "shared-theme",
         "explicit-related"
+      ]
+    },
+    {
+      "source": "marginalia-on-speaking-interfaces-2026-05-04-15-59-17",
+      "target": "speaking-interfaces",
+      "weight": 4,
+      "reasons": [
+        "explicit-connection"
       ]
     },
     {
@@ -10681,6 +11125,14 @@
     {
       "source": "broken-pencil-psalm",
       "target": "stay-on-target",
+      "weight": 3,
+      "reasons": [
+        "explicit-related"
+      ]
+    },
+    {
+      "source": "bubble-psychosphere-surface-01",
+      "target": "intemporal-state",
       "weight": 3,
       "reasons": [
         "explicit-related"
@@ -14803,6 +15255,14 @@
       ]
     },
     {
+      "source": "coordinate-suwanee-arch-01",
+      "target": "sheath",
+      "weight": 3,
+      "reasons": [
+        "explicit-related"
+      ]
+    },
+    {
       "source": "crane-field-illustration",
       "target": "flexible-machine-sweet-spot",
       "weight": 3,
@@ -15032,6 +15492,14 @@
       "weight": 3,
       "reasons": [
         "shared-theme"
+      ]
+    },
+    {
+      "source": "fields-still-holding",
+      "target": "recombinant-theater-another-day",
+      "weight": 3,
+      "reasons": [
+        "explicit-related"
       ]
     },
     {
@@ -15306,6 +15774,14 @@
       "weight": 3,
       "reasons": [
         "shared-theme"
+      ]
+    },
+    {
+      "source": "house-dog",
+      "target": "robin",
+      "weight": 3,
+      "reasons": [
+        "explicit-related"
       ]
     },
     {
@@ -15633,6 +16109,14 @@
       "weight": 3,
       "reasons": [
         "shared-theme"
+      ]
+    },
+    {
+      "source": "micro-mytho-mole",
+      "target": "robin",
+      "weight": 3,
+      "reasons": [
+        "explicit-related"
       ]
     },
     {
@@ -16338,6 +16822,14 @@
       "weight": 3,
       "reasons": [
         "shared-theme"
+      ]
+    },
+    {
+      "source": "wip-solo-leveling-sourced",
+      "target": "wip-solo-leveling-sourced-continued",
+      "weight": 3,
+      "reasons": [
+        "explicit-related"
       ]
     },
     {
