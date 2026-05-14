@@ -1,0 +1,16 @@
+{
+  "protocol_version": "pigeon-1.1",
+  "capture_mode": "default",
+  "type_resolution": "staging",
+  "media_intent": [
+    {
+      "original_filename": "6DA3EA29-5AAF-4FB5-B6D0-B76FA16B23F0_VSCO.jpeg",
+      "role": "hero",
+      "source": true,
+      "potential_coordinate": true,
+      "isolate_later": false,
+      "index": 1,
+      "src": "/media/pigeon/scroll/ode-to-the-warrior-01.jpeg"
+    }
+  ]
+}
