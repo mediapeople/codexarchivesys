@@ -1,0 +1,16 @@
+{
+  "protocol_version": "pigeon-1.1",
+  "capture_mode": "default",
+  "type_resolution": "staging",
+  "media_intent": [
+    {
+      "original_filename": "E8911590-440E-41D0-937A-007FAD7AE9D1_VSCO.jpeg",
+      "role": "hero",
+      "source": true,
+      "potential_coordinate": false,
+      "isolate_later": false,
+      "index": 1,
+      "src": "/media/pigeon/signal/stretch-machine-01.jpeg"
+    }
+  ]
+}
