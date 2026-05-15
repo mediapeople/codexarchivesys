@@ -1,0 +1,16 @@
+{
+  "protocol_version": "pigeon-1.1",
+  "capture_mode": "default",
+  "type_resolution": "staging",
+  "media_intent": [
+    {
+      "original_filename": "D6D8A450-8380-4C05-9E3F-9BE57D507D47_VSCO.jpeg",
+      "role": "hero",
+      "source": true,
+      "potential_coordinate": false,
+      "isolate_later": false,
+      "index": 1,
+      "src": "/media/pigeon/fieldlog/yippiekiyay-01.jpeg"
+    }
+  ]
+}
