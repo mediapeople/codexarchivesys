@@ -1,0 +1,22 @@
+{
+  "protocol_version": "pigeon-1.1",
+  "capture_mode": "default",
+  "object_form_suggestion": "creature",
+  "type_resolution": "staging",
+  "orientation": {
+    "prompt_set": "creature",
+    "optional": true,
+    "supportive": true
+  },
+  "media_intent": [
+    {
+      "original_filename": "84D1C6D7-4DB6-46C1-9BA5-A52BCBCD18D6.jpeg",
+      "role": "hero",
+      "source": true,
+      "potential_coordinate": false,
+      "isolate_later": false,
+      "index": 1,
+      "src": "/media/pigeon/scroll/glass-octopus-01.jpeg"
+    }
+  ]
+}
