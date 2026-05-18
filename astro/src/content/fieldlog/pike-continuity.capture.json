@@ -1,0 +1,22 @@
+{
+  "protocol_version": "pigeon-1.1",
+  "capture_mode": "default",
+  "object_form_suggestion": "coordinate",
+  "type_resolution": "staging",
+  "orientation": {
+    "prompt_set": "coordinate",
+    "optional": true,
+    "supportive": true
+  },
+  "media_intent": [
+    {
+      "original_filename": "70865BFD-D502-4229-93A2-8B81122B6FDE.jpeg",
+      "role": "hero",
+      "source": true,
+      "potential_coordinate": true,
+      "isolate_later": false,
+      "index": 1,
+      "src": "/media/pigeon/fieldlog/pike-continuity-01.jpeg"
+    }
+  ]
+}
