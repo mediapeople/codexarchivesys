@@ -1,0 +1,25 @@
+{
+  "protocol_version": "pigeon-1.1",
+  "capture_mode": "default",
+  "type_resolution": "staging",
+  "media_intent": [
+    {
+      "original_filename": "752A750C-2854-42DD-9077-E02692E29E69.jpeg",
+      "role": "hero",
+      "source": true,
+      "potential_coordinate": false,
+      "isolate_later": false,
+      "index": 1,
+      "src": "/media/pigeon/artifact/pattern-enough-01.jpeg"
+    },
+    {
+      "original_filename": "B5BDA2C8-7C0C-4456-AC4C-24D7AD575B75.jpeg",
+      "role": "gallery",
+      "source": true,
+      "potential_coordinate": false,
+      "isolate_later": false,
+      "index": 2,
+      "src": "/media/pigeon/artifact/pattern-enough-02.jpeg"
+    }
+  ]
+}
