@@ -8,8 +8,8 @@ date: "2026-05-23"
 postedAt: "2026-05-23T17:21:39.216Z"
 status: published
 visibility: public
-summary: "The Valve at the Edge of Fire. Chokepoint / Portal / Energy Artery. Loremap Protocol v4.0 Applied oaicitation:0‡LoremapProtocolV40.md. ARCHIVE ACTIVE // STRAIT OF HORMUZ // ENERGY THROAT ENABLED. Salt haze. Heat…"
-excerpt: "The Valve at the Edge of Fire. Chokepoint / Portal / Energy Artery. Loremap Protocol v4.0 Applied oaicitation:0‡LoremapProtocolV40.md. ARCHIVE ACTIVE // STRAIT OF HORMUZ // ENERGY THROAT ENABLED. Salt haze. Heat…"
+summary: "The Valve at the Edge of Fire. Chokepoint / Portal / Energy Artery. Loremap Protocol v4.0 Applied. ARCHIVE ACTIVE // STRAIT OF HORMUZ // ENERGY THROAT ENABLED. Salt haze. Heat…"
+excerpt: "The Valve at the Edge of Fire. Chokepoint / Portal / Energy Artery. Loremap Protocol v4.0 Applied. ARCHIVE ACTIVE // STRAIT OF HORMUZ // ENERGY THROAT ENABLED. Salt haze. Heat…"
 scale: macro
 depth: structural
 focus: system
@@ -30,7 +30,7 @@ media:
 ---
 *The Valve at the Edge of Fire*
 *Chokepoint / Portal / Energy Artery*
-*Loremap Protocol v4.0 Applied*  [oai_citation:0‡Loremap_Protocol_V4_0.md](sediment://file_00000000cdb471f8bf17661aee37e0c3)
+*Loremap Protocol v4.0 Applied*
 
 ---
 

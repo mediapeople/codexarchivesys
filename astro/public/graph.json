@@ -1,9 +1,21 @@
 {
-  "generatedAt": "2026-05-13T14:33:17.523Z",
+  "generatedAt": "2026-05-23T23:28:04.193Z",
   "sourceDir": "./src/content",
-  "nodeCount": 256,
+  "nodeCount": 268,
   "edgeCount": 5029,
   "nodes": [
+    {
+      "id": "5-23-26-1-55-pm",
+      "slug": "5-23-26-1-55-pm",
+      "url": "https://ndcodex.com/objects/5-23-26-1-55-pm",
+      "stableId": "codex://object/5-23-26-1-55-pm",
+      "type": "artifact",
+      "title": "archetype soup",
+      "date": "2026-05-23",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
     {
       "id": "archive-box-stamped-fragments",
       "slug": "archive-box-stamped-fragments",
@@ -261,6 +273,18 @@
       "constellations": []
     },
     {
+      "id": "captain-phoenix",
+      "slug": "captain-phoenix",
+      "url": "https://ndcodex.com/objects/captain-phoenix",
+      "stableId": "codex://object/captain-phoenix",
+      "type": "artifact",
+      "title": "Captain Phoenix",
+      "date": "2026-05-22T01:11:08.171Z",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "citizen-network-map-hi-fi",
       "slug": "citizen-network-map-hi-fi",
       "url": "https://ndcodex.com/objects/citizen-network-map-hi-fi/",
@@ -354,6 +378,18 @@
       "constellations": [
         "Archaeological Objects"
       ]
+    },
+    {
+      "id": "descent-theater",
+      "slug": "descent-theater",
+      "url": "https://ndcodex.com/objects/descent-theater",
+      "stableId": "codex://object/descent-theater",
+      "type": "artifact",
+      "title": "DESCENT THEATER",
+      "date": "2026-05-16T00:56:21.652Z",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
     },
     {
       "id": "desert-lab-pocket-scale",
@@ -561,6 +597,18 @@
       "constellations": []
     },
     {
+      "id": "pattern-enough",
+      "slug": "pattern-enough",
+      "url": "https://ndcodex.com/objects/pattern-enough",
+      "stableId": "codex://object/pattern-enough",
+      "type": "artifact",
+      "title": "Pattern Enough",
+      "date": "2026-05-22T14:10:04.772Z",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "phoenix-collage-fracture-study",
       "slug": "phoenix-collage-fracture-study",
       "url": "https://ndcodex.com/objects/phoenix-collage-fracture-study/",
@@ -663,6 +711,18 @@
       "type": "artifact",
       "title": "staring contest",
       "date": "2026-03-30",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "suited",
+      "slug": "suited",
+      "url": "https://ndcodex.com/objects/suited",
+      "stableId": "codex://object/suited",
+      "type": "artifact",
+      "title": "Suited",
+      "date": "2026-05-16T13:31:27.732Z",
       "object_form": "",
       "themes": [],
       "constellations": []
@@ -1551,6 +1611,18 @@
       "constellations": []
     },
     {
+      "id": "continuity-field",
+      "slug": "continuity-field",
+      "url": "https://ndcodex.com/objects/continuity-field",
+      "stableId": "codex://object/continuity-field",
+      "type": "fieldlog",
+      "title": "Continuity Field",
+      "date": "2026-05-17",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "go-live-milestone",
       "slug": "go-live-milestone",
       "url": "https://ndcodex.com/objects/go-live-milestone/",
@@ -1729,6 +1801,18 @@
       ]
     },
     {
+      "id": "pike-continuity",
+      "slug": "pike-continuity",
+      "url": "https://ndcodex.com/objects/pike-continuity",
+      "stableId": "codex://object/pike-continuity",
+      "type": "fieldlog",
+      "title": "Pike Continuity",
+      "date": "2026-05-18",
+      "object_form": "coordinate",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "prospect",
       "slug": "prospect",
       "url": "https://ndcodex.com/objects/prospect",
@@ -1830,6 +1914,18 @@
       "type": "fieldlog",
       "title": "WIP solo leveling sourced",
       "date": "2026-04-24T00:56:25.254Z",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "yippiekiyay",
+      "slug": "yippiekiyay",
+      "url": "https://ndcodex.com/objects/yippiekiyay",
+      "stableId": "codex://object/yippiekiyay",
+      "type": "fieldlog",
+      "title": "YIPPIEKIYAY",
+      "date": "2026-05-15",
       "object_form": "",
       "themes": [],
       "constellations": []
@@ -2370,6 +2466,18 @@
       "constellations": []
     },
     {
+      "id": "strait-of-hormuz",
+      "slug": "strait-of-hormuz",
+      "url": "https://ndcodex.com/objects/strait-of-hormuz",
+      "stableId": "codex://object/strait-of-hormuz",
+      "type": "loremap",
+      "title": "STRAIT OF HORMUZ",
+      "date": "2026-05-23",
+      "object_form": "coordinate",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "suwanee-ga-loremap",
       "slug": "suwanee-ga-loremap",
       "url": "https://ndcodex.com/objects/suwanee-ga-loremap/",
@@ -2845,6 +2953,18 @@
       "constellations": []
     },
     {
+      "id": "glass-octopus",
+      "slug": "glass-octopus",
+      "url": "https://ndcodex.com/objects/glass-octopus",
+      "stableId": "codex://object/glass-octopus",
+      "type": "scroll",
+      "title": "GLASS OCTOPUS",
+      "date": "2026-05-16",
+      "object_form": "creature",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "green-blades",
       "slug": "green-blades",
       "url": "https://ndcodex.com/objects/green-blades",
@@ -3008,6 +3128,18 @@
         "touch",
         "subterranean"
       ],
+      "constellations": []
+    },
+    {
+      "id": "ode-to-the-warrior",
+      "slug": "ode-to-the-warrior",
+      "url": "https://ndcodex.com/objects/ode-to-the-warrior",
+      "stableId": "codex://object/ode-to-the-warrior",
+      "type": "scroll",
+      "title": "Ode to the Warrior",
+      "date": "2026-05-14",
+      "object_form": "",
+      "themes": [],
       "constellations": []
     },
     {
@@ -3814,6 +3946,18 @@
       "constellations": [
         "Cascade Psalms"
       ]
+    },
+    {
+      "id": "stretch-machine",
+      "slug": "stretch-machine",
+      "url": "https://ndcodex.com/objects/stretch-machine",
+      "stableId": "codex://object/stretch-machine",
+      "type": "signal",
+      "title": "stretch machine",
+      "date": "2026-05-14",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
     },
     {
       "id": "the-field-before-naming",
