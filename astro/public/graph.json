@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-23T23:28:04.193Z",
+  "generatedAt": "2026-05-24T13:09:19.144Z",
   "sourceDir": "./src/content",
-  "nodeCount": 268,
+  "nodeCount": 269,
   "edgeCount": 5029,
   "nodes": [
     {
@@ -1589,6 +1589,18 @@
       "type": "codex",
       "title": "Warchild",
       "date": "2026-03-28",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "barometer-kingdoms",
+      "slug": "barometer-kingdoms",
+      "url": "https://ndcodex.com/objects/barometer-kingdoms",
+      "stableId": "codex://object/barometer-kingdoms",
+      "type": "fieldlog",
+      "title": "Barometer Kingdoms",
+      "date": "2026-05-24",
       "object_form": "",
       "themes": [],
       "constellations": []

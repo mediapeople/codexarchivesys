@@ -65,6 +65,8 @@ type VisionSuggestionDraft = {
 
 const OPENAI_RESPONSES_URL = 'https://api.openai.com/v1/responses';
 const DEFAULT_VISION_MODEL = 'gpt-4.1-mini';
+const PIGEON_OPENAI_API_KEY_ENV = 'PIGEON_OPENAI_API_KEY';
+const OPENAI_API_KEY_ENV = 'OPENAI_API_KEY';
 const MAX_VISION_IMAGES = 3;
 const VISION_TIMEOUT_MS = 8_000;
 const SCALE_VALUES = new Set(['micro', 'meso', 'macro']);
@@ -101,6 +103,30 @@ function normalizeString(value: unknown): string | undefined {
 
   const normalized = value.trim();
   return normalized ? normalized : undefined;
+}
+
+function looksLikeOpenAIApiKey(value: string): boolean {
+  return /^sk-[A-Za-z0-9_-]+$/.test(value);
+}
+
+function getVisionCredential(): { apiKey: string; source: string } | null {
+  for (const source of [PIGEON_OPENAI_API_KEY_ENV, OPENAI_API_KEY_ENV]) {
+    const apiKey = normalizeString(process.env[source]);
+    if (!apiKey) {
+      continue;
+    }
+
+    if (!looksLikeOpenAIApiKey(apiKey)) {
+      console.warn(
+        `[Carrier Pigeon] Ignoring ${source} for vision suggestions because it does not look like an OpenAI API key. Expected a key beginning with "sk-".`
+      );
+      continue;
+    }
+
+    return { apiKey, source };
+  }
+
+  return null;
 }
 
 function normalizeStringArray(value: unknown): string[] {
@@ -378,8 +404,8 @@ export async function inferPigeonVisionSuggestion(params: {
   body: string;
   images: VisionImageInput[];
 }): Promise<PigeonVisionSuggestion | null> {
-  const apiKey = normalizeString(process.env.OPENAI_API_KEY);
-  if (!apiKey || params.images.length === 0) {
+  const credential = getVisionCredential();
+  if (!credential || params.images.length === 0) {
     return null;
   }
 
@@ -406,7 +432,7 @@ export async function inferPigeonVisionSuggestion(params: {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
-      Authorization: `Bearer ${apiKey}`,
+      Authorization: `Bearer ${credential.apiKey}`,
     },
     body: JSON.stringify({
       model,
@@ -430,6 +456,12 @@ export async function inferPigeonVisionSuggestion(params: {
 
   if (!response.ok) {
     const detail = normalizeString(payload?.error?.message) || `OpenAI responded with ${response.status}.`;
+    if (/valid issuer/i.test(detail) || response.status === 401) {
+      throw new Error(
+        `OpenAI rejected ${credential.source}. Set ${PIGEON_OPENAI_API_KEY_ENV} to a current OpenAI API key beginning with "sk-".`
+      );
+    }
+
     throw new Error(detail);
   }
 

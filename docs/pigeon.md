@@ -83,6 +83,7 @@ Optional environment variables:
 
 - `PIGEON_GITHUB_BRANCH`
 - `PIGEON_GITHUB_CONTENT_ROOT`
+- `PIGEON_OPENAI_API_KEY`
 - `PIGEON_VISION_MODEL`
 - `OPENAI_API_KEY`
 
@@ -540,12 +541,14 @@ When available, Carrier Pigeon extracts:
 
 ## Vision Sidecar
 
-If uploaded images are present and `OPENAI_API_KEY` is configured, Carrier Pigeon may generate a provisional `.vision.json` sidecar.
+If uploaded images are present and `PIGEON_OPENAI_API_KEY` or `OPENAI_API_KEY` is configured, Carrier Pigeon may generate a provisional `.vision.json` sidecar.
 
 Current behavior:
 
 - model defaults to `gpt-4.1-mini`
 - can be overridden with `PIGEON_VISION_MODEL`
+- prefers `PIGEON_OPENAI_API_KEY`, falling back to `OPENAI_API_KEY`
+- ignores non-OpenAI-looking tokens before calling the API
 - suggestion is non-blocking
 - failure does not block publish
 
