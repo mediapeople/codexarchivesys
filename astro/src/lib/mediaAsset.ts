@@ -2,7 +2,6 @@ import { dirname, join, normalize, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
-import sharp from 'sharp';
 
 export type MediaShape = 'wide' | 'landscape' | 'square' | 'portrait' | 'tall';
 
@@ -16,6 +15,28 @@ export interface ImageAssetMetadata {
 const metadataCache = new Map<string, Promise<ImageAssetMetadata | null>>();
 const versionCache = new Map<string, Promise<string | null>>();
 const publicRoot = normalize(join(dirname(fileURLToPath(import.meta.url)), '../../public'));
+let sharpFactoryPromise: Promise<(typeof import('sharp'))['default'] | null> | null = null;
+let sharpUnavailableLogged = false;
+
+async function getSharp() {
+  if (!sharpFactoryPromise) {
+    sharpFactoryPromise = import('sharp')
+      .then((module) => module.default)
+      .catch((error) => {
+        if (!sharpUnavailableLogged) {
+          sharpUnavailableLogged = true;
+          console.warn(
+            `[mediaAsset] sharp unavailable; image metadata will fall back. ${
+              error instanceof Error ? error.message : String(error)
+            }`
+          );
+        }
+        return null;
+      });
+  }
+
+  return sharpFactoryPromise;
+}
 
 export function classifyMediaShape(width: number, height: number): MediaShape {
   const ratio = width / height;
@@ -109,6 +130,11 @@ export async function getImageAssetMetadata(src: string): Promise<ImageAssetMeta
     }
 
     try {
+      const sharp = await getSharp();
+      if (!sharp) {
+        return null;
+      }
+
       const [metadata, version] = await Promise.all([
         sharp(assetPath).metadata(),
         getAssetVersionForPath(assetPath),
