@@ -1,0 +1,16 @@
+{
+  "protocol_version": "pigeon-1.1",
+  "capture_mode": "default",
+  "type_resolution": "staging",
+  "media_intent": [
+    {
+      "original_filename": "IMG_6817_VSCO.jpeg",
+      "role": "hero",
+      "source": true,
+      "potential_coordinate": false,
+      "isolate_later": false,
+      "index": 1,
+      "src": "/media/pigeon/artifact/to-the-table-of-survivable-things-01.jpeg"
+    }
+  ]
+}
