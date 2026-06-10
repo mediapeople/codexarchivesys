@@ -1,0 +1,11 @@
+{
+  "protocol_version": "pigeon-1.1",
+  "capture_mode": "default",
+  "object_form_suggestion": "creature",
+  "type_resolution": "staging",
+  "orientation": {
+    "prompt_set": "creature",
+    "optional": true,
+    "supportive": true
+  }
+}
