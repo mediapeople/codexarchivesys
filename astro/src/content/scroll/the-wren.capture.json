@@ -1,0 +1,22 @@
+{
+  "protocol_version": "pigeon-1.1",
+  "capture_mode": "default",
+  "object_form_suggestion": "creature",
+  "type_resolution": "staging",
+  "orientation": {
+    "prompt_set": "creature",
+    "optional": true,
+    "supportive": true
+  },
+  "media_intent": [
+    {
+      "original_filename": "FD45244B-ADBF-444D-B979-E2CED1CC3F7D_VSCO.jpeg",
+      "role": "hero",
+      "source": true,
+      "potential_coordinate": false,
+      "isolate_later": false,
+      "index": 1,
+      "src": "/media/pigeon/scroll/the-wren-01.jpeg"
+    }
+  ]
+}
