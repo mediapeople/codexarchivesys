@@ -1,0 +1,22 @@
+{
+  "protocol_version": "pigeon-1.1",
+  "capture_mode": "default",
+  "object_form_suggestion": "coordinate",
+  "type_resolution": "staging",
+  "orientation": {
+    "prompt_set": "coordinate",
+    "optional": true,
+    "supportive": true
+  },
+  "media_intent": [
+    {
+      "original_filename": "0A666663-91DB-4CD9-8AC1-FBA66A012DE1.jpeg",
+      "role": "hero",
+      "source": true,
+      "potential_coordinate": true,
+      "isolate_later": false,
+      "index": 1,
+      "src": "/media/pigeon/codex/deep-time-observatory-01.jpeg"
+    }
+  ]
+}
