@@ -1,0 +1,22 @@
+{
+  "protocol_version": "pigeon-1.1",
+  "capture_mode": "default",
+  "object_form_suggestion": "coordinate",
+  "type_resolution": "staging",
+  "orientation": {
+    "prompt_set": "coordinate",
+    "optional": true,
+    "supportive": true
+  },
+  "media_intent": [
+    {
+      "original_filename": "2C679431-E895-463F-B9C0-96ADC3F542DB_VSCO.jpeg",
+      "role": "hero",
+      "source": true,
+      "potential_coordinate": true,
+      "isolate_later": false,
+      "index": 1,
+      "src": "/media/pigeon/scroll/lifting-atlases-01.jpeg"
+    }
+  ]
+}
