@@ -1,0 +1,22 @@
+{
+  "protocol_version": "pigeon-1.1",
+  "capture_mode": "default",
+  "object_form_suggestion": "coordinate",
+  "type_resolution": "staging",
+  "orientation": {
+    "prompt_set": "coordinate",
+    "optional": true,
+    "supportive": true
+  },
+  "media_intent": [
+    {
+      "original_filename": "r.png",
+      "role": "hero",
+      "source": true,
+      "potential_coordinate": false,
+      "isolate_later": false,
+      "index": 1,
+      "src": "/media/pigeon/codex/i-wasn-t-trying-to-build-a-design-system-01.png"
+    }
+  ]
+}
