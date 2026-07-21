@@ -1611,7 +1611,19 @@ function shouldPassThroughFrontmatterKey(objectType: PigeonObjectType, key: stri
 function buildPassthroughFrontmatter(entries: FrontmatterEntry[], objectType: PigeonObjectType): string[] {
   return entries
     .filter((entry) => shouldPassThroughFrontmatterKey(objectType, entry.key))
-    .flatMap((entry) => entry.rawLines);
+    .flatMap((entry) => {
+      if (entry.key !== 'author') {
+        return entry.rawLines;
+      }
+
+      const hasNestedAuthorFields = entry.rawLines.slice(1).some((line) => /^\s+\S/.test(line));
+      if (hasNestedAuthorFields) {
+        return entry.rawLines;
+      }
+
+      const authorName = normalizeOptionalString(entry.values[0]);
+      return authorName ? ['author:', `  name: ${yamlString(authorName)}`] : [];
+    });
 }
 
 function buildImageOnlyPayload(

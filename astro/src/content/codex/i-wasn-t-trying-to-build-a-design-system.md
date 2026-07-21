@@ -3,15 +3,16 @@ id: i-wasn-t-trying-to-build-a-design-system
 slug: "i-wasn-t-trying-to-build-a-design-system"
 url: "https://ndcodex.com/codex/i-wasn-t-trying-to-build-a-design-system"
 type: codex
-title: "I wasn't trying to build a design system"
-date: "2026-07-21"
+title: "I Thought I Was Drawing a HUD"
+date: "2026-07-20"
 postedAt: "2026-07-21T01:44:20.009Z"
 tags:
-  - "system"
-  - "wasn"
-  - "design"
-  - "finished"
-  - "identity"
+  - "instrumentation"
+  - "design systems"
+  - "figma"
+  - "interface design"
+  - "research"
+  - "ndcodex"
 images:
   - "/media/pigeon/codex/i-wasn-t-trying-to-build-a-design-system-01.png"
 state: published
@@ -25,6 +26,8 @@ depth: structural
 focus: system
 function: diagnostic
 themes: []
+author:
+  name: "Nathan Davis"
 media:
   - kind: image
     src: "/media/pigeon/codex/i-wasn-t-trying-to-build-a-design-system-01.png"

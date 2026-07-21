@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-24T13:09:19.144Z",
+  "generatedAt": "2026-07-21T01:51:37.662Z",
   "sourceDir": "./src/content",
-  "nodeCount": 269,
+  "nodeCount": 278,
   "edgeCount": 5029,
   "nodes": [
     {
@@ -782,6 +782,18 @@
       "constellations": []
     },
     {
+      "id": "to-the-table-of-survivable-things",
+      "slug": "to-the-table-of-survivable-things",
+      "url": "https://ndcodex.com/objects/to-the-table-of-survivable-things",
+      "stableId": "codex://object/to-the-table-of-survivable-things",
+      "type": "artifact",
+      "title": "TO THE TABLE OF SURVIVABLE THINGS",
+      "date": "2026-05-27",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "too-many-mind",
       "slug": "too-many-mind",
       "url": "https://ndcodex.com/objects/too-many-mind",
@@ -902,6 +914,18 @@
       "type": "codex",
       "title": "A Complete Operational Stack for the Conductive State",
       "date": "2026-03-27",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "agreement-of-rectangles",
+      "slug": "agreement-of-rectangles",
+      "url": "https://ndcodex.com/codex/agreement-of-rectangles",
+      "stableId": "codex://object/agreement-of-rectangles",
+      "type": "codex",
+      "title": "agreement of rectangles",
+      "date": "2026-05-27",
       "object_form": "",
       "themes": [],
       "constellations": []
@@ -1361,6 +1385,18 @@
       "constellations": []
     },
     {
+      "id": "deep-time-observatory",
+      "slug": "deep-time-observatory",
+      "url": "https://ndcodex.com/codex/deep-time-observatory",
+      "stableId": "codex://object/deep-time-observatory",
+      "type": "codex",
+      "title": "Deep Time Observatory",
+      "date": "2026-06-13",
+      "object_form": "coordinate",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "distortion-viscosity",
       "slug": "distortion-viscosity",
       "url": "https://ndcodex.com/codex/distortion-viscosity",
@@ -1393,6 +1429,18 @@
       "title": "Everything arrived at once",
       "date": "2026-03-19",
       "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "i-wasn-t-trying-to-build-a-design-system",
+      "slug": "i-wasn-t-trying-to-build-a-design-system",
+      "url": "https://ndcodex.com/codex/i-wasn-t-trying-to-build-a-design-system",
+      "stableId": "codex://object/i-wasn-t-trying-to-build-a-design-system",
+      "type": "codex",
+      "title": "I Thought I Was Drawing a HUD",
+      "date": "2026-07-20",
+      "object_form": "coordinate",
       "themes": [],
       "constellations": []
     },
@@ -1725,6 +1773,18 @@
         "pressure",
         "signal"
       ],
+      "constellations": []
+    },
+    {
+      "id": "lately",
+      "slug": "lately",
+      "url": "https://ndcodex.com/objects/lately",
+      "stableId": "codex://object/lately",
+      "type": "fieldlog",
+      "title": "Lately",
+      "date": "2026-06-10",
+      "object_form": "creature",
+      "themes": [],
       "constellations": []
     },
     {
@@ -2675,6 +2735,18 @@
       ]
     },
     {
+      "id": "alice-in-chains-a-scroll",
+      "slug": "alice-in-chains-a-scroll",
+      "url": "https://ndcodex.com/objects/alice-in-chains-a-scroll",
+      "stableId": "codex://object/alice-in-chains-a-scroll",
+      "type": "scroll",
+      "title": "Alice In Chains, a scroll",
+      "date": "2026-07-19",
+      "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "another-day",
       "slug": "another-day",
       "url": "https://ndcodex.com/objects/another-day/",
@@ -3045,6 +3117,18 @@
       "title": "In spiral",
       "date": "2026-04-11",
       "object_form": "",
+      "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "lifting-atlases",
+      "slug": "lifting-atlases",
+      "url": "https://ndcodex.com/objects/lifting-atlases",
+      "stableId": "codex://object/lifting-atlases",
+      "type": "scroll",
+      "title": "Lifting Atlases",
+      "date": "2026-07-10",
+      "object_form": "coordinate",
       "themes": [],
       "constellations": []
     },
@@ -3620,6 +3704,18 @@
       "constellations": []
     },
     {
+      "id": "the-wren",
+      "slug": "the-wren",
+      "url": "https://ndcodex.com/objects/the-wren",
+      "stableId": "codex://object/the-wren",
+      "type": "scroll",
+      "title": "The Wren",
+      "date": "2026-06-12",
+      "object_form": "creature",
+      "themes": [],
+      "constellations": []
+    },
+    {
       "id": "tomorrow-night",
       "slug": "tomorrow-night",
       "url": "https://ndcodex.com/objects/tomorrow-night",
@@ -3985,6 +4081,18 @@
         "NONE",
         "WATCH"
       ],
+      "constellations": []
+    },
+    {
+      "id": "the-line",
+      "slug": "the-line",
+      "url": "https://ndcodex.com/objects/the-line",
+      "stableId": "codex://object/the-line",
+      "type": "signal",
+      "title": "The Line",
+      "date": "2026-07-03",
+      "object_form": "",
+      "themes": [],
       "constellations": []
     },
     {
