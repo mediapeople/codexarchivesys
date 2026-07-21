@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-07-21T01:51:37.662Z",
+  "generatedAt": "2026-07-21T22:50:03.871Z",
   "sourceDir": "./src/content",
-  "nodeCount": 278,
-  "edgeCount": 5029,
+  "nodeCount": 280,
+  "edgeCount": 5031,
   "nodes": [
     {
       "id": "5-23-26-1-55-pm",
@@ -907,6 +907,24 @@
       "constellations": []
     },
     {
+      "id": "420-systems-from-curiosity-to-system",
+      "slug": "420-systems-from-curiosity-to-system",
+      "url": "https://ndcodex.com/codex/420-systems-from-curiosity-to-system",
+      "stableId": "codex://object/420-systems-from-curiosity-to-system",
+      "type": "codex",
+      "title": "420 Systems: From Curiosity to System",
+      "date": "2026-07-21",
+      "object_form": "",
+      "themes": [
+        "design systems",
+        "responsive design",
+        "product design",
+        "spatial systems",
+        "design engineering"
+      ],
+      "constellations": []
+    },
+    {
       "id": "a-complete-operational-stack-for-the-conductive-state",
       "slug": "a-complete-operational-stack-for-the-conductive-state",
       "url": "https://ndcodex.com/codex/a-complete-operational-stack-for-the-conductive-state",
@@ -916,6 +934,24 @@
       "date": "2026-03-27",
       "object_form": "",
       "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "a-visual-language-for-consequential-systems",
+      "slug": "a-visual-language-for-consequential-systems",
+      "url": "https://ndcodex.com/codex/a-visual-language-for-consequential-systems",
+      "stableId": "codex://object/a-visual-language-for-consequential-systems",
+      "type": "codex",
+      "title": "A Visual Language for Consequential Systems",
+      "date": "2026-07-21",
+      "object_form": "",
+      "themes": [
+        "design systems",
+        "instrumentation",
+        "infrastructure",
+        "critical interfaces",
+        "human-machine systems"
+      ],
       "constellations": []
     },
     {
@@ -28405,8 +28441,24 @@
       ]
     },
     {
+      "source": "420-systems-from-curiosity-to-system",
+      "target": "a-visual-language-for-consequential-systems",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "a-primer-for-a-way-of-being",
       "target": "green-blades",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "a-visual-language-for-consequential-systems",
+      "target": "carrier-pigeon-publishing-system",
       "weight": 1,
       "reasons": [
         "shared-theme"
