@@ -171,6 +171,9 @@ const hideLeadHeading = bodyStartsWithDuplicateTitleHeading(entry.data.title, en
 const hasRenderableBody = entryBody.trim().length > 0;
 const isImageOnlyObject = Boolean(entry.data.image_only);
 const socialImage = mediaImages[0] || directImages[0] || inlineBodyImages[0];
+const socialImageAlt = entry.data.media.find(
+  (item) => item.kind === 'image' && item.src.trim() === socialImage
+)?.alt || `${displayTitle} — Codex Archive`;
 const marginaliaEntries = getMarginaliaEntriesForTarget(await getAllEntries(), entry.data.id);
 const mythmechMarginaliaEntries = getMythmechMarginaliaEntries(marginaliaEntries);
 const canonicalObjectPath = getObjectPath(entry);
@@ -201,6 +204,7 @@ const alternateLinks = [
   canonicalPath={canonicalObjectPath}
   socialType="article"
   socialImage={socialImage}
+  socialImageAlt={socialImageAlt}
   twitterCard={socialImage ? 'summary_large_image' : 'summary'}
   structuredData={structuredData}
   alternateLinks={alternateLinks}
