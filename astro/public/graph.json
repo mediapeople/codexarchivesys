@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-07-21T22:27:10.496Z",
+  "generatedAt": "2026-07-21T22:50:03.871Z",
   "sourceDir": "./src/content",
-  "nodeCount": 279,
-  "edgeCount": 5030,
+  "nodeCount": 280,
+  "edgeCount": 5031,
   "nodes": [
     {
       "id": "5-23-26-1-55-pm",
@@ -903,6 +903,24 @@
         "consequence",
         "highest",
         "aftershock"
+      ],
+      "constellations": []
+    },
+    {
+      "id": "420-systems-from-curiosity-to-system",
+      "slug": "420-systems-from-curiosity-to-system",
+      "url": "https://ndcodex.com/codex/420-systems-from-curiosity-to-system",
+      "stableId": "codex://object/420-systems-from-curiosity-to-system",
+      "type": "codex",
+      "title": "420 Systems: From Curiosity to System",
+      "date": "2026-07-21",
+      "object_form": "",
+      "themes": [
+        "design systems",
+        "responsive design",
+        "product design",
+        "spatial systems",
+        "design engineering"
       ],
       "constellations": []
     },
@@ -28418,6 +28436,14 @@
       "source": "the-circle-the-node-and-the-office",
       "target": "when-the-commit-leaves-your-hands",
       "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "420-systems-from-curiosity-to-system",
+      "target": "a-visual-language-for-consequential-systems",
+      "weight": 1,
       "reasons": [
         "shared-theme"
       ]
