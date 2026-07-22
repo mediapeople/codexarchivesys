@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-07-21T22:50:03.871Z",
+  "generatedAt": "2026-07-22T18:23:20.148Z",
   "sourceDir": "./src/content",
-  "nodeCount": 280,
-  "edgeCount": 5031,
+  "nodeCount": 281,
+  "edgeCount": 5033,
   "nodes": [
     {
       "id": "5-23-26-1-55-pm",
@@ -1466,6 +1466,24 @@
       "date": "2026-03-19",
       "object_form": "",
       "themes": [],
+      "constellations": []
+    },
+    {
+      "id": "from-editorial-composition-to-publication-system",
+      "slug": "from-editorial-composition-to-publication-system",
+      "url": "https://ndcodex.com/codex/from-editorial-composition-to-publication-system",
+      "stableId": "codex://object/from-editorial-composition-to-publication-system",
+      "type": "codex",
+      "title": "From Editorial Composition to Publication System",
+      "date": "2026-07-22",
+      "object_form": "",
+      "themes": [
+        "design systems",
+        "editorial design",
+        "publication systems",
+        "content resilience",
+        "design engineering"
+      ],
       "constellations": []
     },
     {
@@ -17121,6 +17139,14 @@
       ]
     },
     {
+      "source": "420-systems-from-curiosity-to-system",
+      "target": "from-editorial-composition-to-publication-system",
+      "weight": 2,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
       "source": "apparatus-ledger",
       "target": "art-is-for-people-who-want-to-feel-alive",
       "weight": 2,
@@ -28459,6 +28485,14 @@
     {
       "source": "a-visual-language-for-consequential-systems",
       "target": "carrier-pigeon-publishing-system",
+      "weight": 1,
+      "reasons": [
+        "shared-theme"
+      ]
+    },
+    {
+      "source": "a-visual-language-for-consequential-systems",
+      "target": "from-editorial-composition-to-publication-system",
       "weight": 1,
       "reasons": [
         "shared-theme"
