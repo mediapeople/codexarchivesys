@@ -29,7 +29,9 @@ This document defines the deploy contract for humans, Carrier Pigeon, and any fu
 These commands establish the expected split:
 
 - preview deploys are allowed from feature branches and in-progress local work
-- production deploys are allowed only from clean `main`
+- production publishes are allowed only from clean `main`
+- the production command pushes `main`; Netlify's Git integration performs the deploy
+- local `netlify deploy --prod` is reserved for explicit recovery work, not routine publishing
 
 ## Guards
 
@@ -37,6 +39,7 @@ These commands establish the expected split:
 - `astro/package.json` runs that guard during production-enforced builds.
 - `netlify.toml` forces the guard on the production context.
 - Carrier Pigeon production publishing rejects non-`main` GitHub targets unless explicitly overridden.
+- `astro/public/graph.json` is ignored and regenerated during local dev and every build so it cannot dirty or conflict with the publishing line.
 
 ## Service Contract
 

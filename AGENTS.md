@@ -28,3 +28,11 @@
 - Other object types render through the existing archive route at `/objects/{slug}` after the next local refresh or site rebuild/deploy.
 - For local device tests, point the Shortcut at your Mac running `node scripts/pigeon-local-server.mjs`.
 - The recommended minimal Shortcut now just opens the upload app URL, either the deployed `/pigeon` page or the Mac-hosted local server.
+
+## Production Publishing
+- `origin/main` is the only production source of truth.
+- Routine production publishing is one command from a clean `main`: `node scripts/deploy-production.mjs`.
+- That command pushes `main`; the Git-linked Netlify project performs the production deploy automatically.
+- Do not run `netlify deploy --prod` for routine publishing. Manual Netlify production deploys are recovery-only.
+- `astro/public/graph.json` is generated during dev/build and must not be committed.
+- Do not create or maintain a second permanent `main` worktree for deployment.

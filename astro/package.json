@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "predev": "node ../scripts/assert-workspace-path.mjs",
+    "predev": "node ../scripts/assert-workspace-path.mjs && node ../scripts/generate-graph-json.mjs ./src/content ./public/graph.json",
     "prebuild": "node ../scripts/assert-workspace-path.mjs && node ../scripts/assert-production-deploy-safe.mjs && node ../scripts/generate-graph-json.mjs ./src/content ./public/graph.json",
     "prepreview": "node ../scripts/assert-workspace-path.mjs",
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",

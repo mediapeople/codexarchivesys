@@ -25,6 +25,7 @@ pnpm-debug.log*
 astro/node_modules/
 astro/dist/
 astro/.astro/
+astro/public/graph.json
 
 # Temporary CLI scaffold left by Astro init
 astro/blue-bar/

@@ -176,7 +176,7 @@ This repo includes `netlify.toml`, so Netlify can read build settings automatica
 Governance:
 
 - Preview deploys: `node scripts/deploy-preview.mjs`
-- Production deploys: `node scripts/deploy-production.mjs`
+- Production publish: `node scripts/deploy-production.mjs` (pushes clean `main`; Netlify deploys from Git)
 - Production source of truth: `origin/main`
 - Full policy: `docs/deploy-governance.md`
 
