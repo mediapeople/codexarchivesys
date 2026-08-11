@@ -80,7 +80,11 @@ export function computeRelatedEntries(
 
   const scored = allEntries
     .filter(
-      (candidate) => candidate.data.id !== source.data.id && !isMarginaliaEntry(candidate)
+      (candidate) =>
+        candidate.data.id !== source.data.id &&
+        candidate.data.status === 'published' &&
+        candidate.data.visibility === 'public' &&
+        !isMarginaliaEntry(candidate)
     )
     .map((candidate) => {
       const candidateAliases = getObjectReferenceAliases(candidate);
