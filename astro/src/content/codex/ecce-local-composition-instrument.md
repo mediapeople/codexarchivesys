@@ -4,6 +4,7 @@ title: "A Recent Exploration"
 slug: "ecce-local-composition-instrument"
 url: "https://ndcodex.com/codex/ecce-local-composition-instrument"
 date: "2026-08-11"
+postedAt: "2026-08-11T20:32:00.000Z"
 type: "codex"
 status: "published"
 visibility: "public"
@@ -11,17 +12,17 @@ state: "published"
 summary: "A short field note on ECCE, a local HTML composition instrument for comparison, archive, doctrine, taxonomy, and model flexibility."
 excerpt: "A recent exploration into building a quieter creative tool: a working local HTML composition instrument that helps compare page variants, preserve past states, and test doctrine-driven composition."
 tags:
-  - ecce
-  - composition
-  - local-tools
-  - creative-systems
-  - archive
-  - ai
+  - "ecce"
+  - "composition"
+  - "local-tools"
+  - "creative-systems"
+  - "archive"
+  - "ai"
 themes:
-  - creative-systems
-  - local-tools
-  - methodology
-  - publishing
+  - "creative-systems"
+  - "local-tools"
+  - "methodology"
+  - "publishing"
 scale: meso
 depth: structural
 focus: system
@@ -30,6 +31,8 @@ dependencies: []
 systemArea: "local composition tools"
 releaseState: "published"
 approvalState: "operator-approved"
+media: []
+source: nathan-davis
 ---
 
 # A Recent Exploration
