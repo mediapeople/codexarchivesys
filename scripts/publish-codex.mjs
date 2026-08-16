@@ -185,8 +185,17 @@ if (
 const includedPaths = options.includes.map(repoRelativePath);
 for (const includedPath of includedPaths) {
   const includedAbsolutePath = path.join(repoRoot, includedPath);
-  if (!fs.existsSync(includedAbsolutePath) || !fs.statSync(includedAbsolutePath).isFile()) {
-    fail(`Included publish file does not exist: ${includedPath}`);
+  if (fs.existsSync(includedAbsolutePath) && fs.statSync(includedAbsolutePath).isFile()) {
+    continue;
+  }
+
+  const trackedDeletion = spawnSync(
+    'git',
+    ['ls-files', '--error-unmatch', '--', includedPath],
+    { cwd: repoRoot, stdio: 'ignore' }
+  );
+  if ((trackedDeletion.status ?? 1) !== 0) {
+    fail(`Included publish file does not exist and is not a tracked deletion: ${includedPath}`);
   }
 }
 
@@ -231,6 +240,9 @@ if (status !== 'published' || visibility !== 'public') {
 const includedMedia = includedPaths
   .map((includedPath) => path.join(repoRoot, includedPath))
   .filter((includedPath) => {
+    if (!fs.existsSync(includedPath) || !fs.statSync(includedPath).isFile()) {
+      return false;
+    }
     const relative = path.relative(mediaRoot, includedPath);
     return Boolean(relative) && !relative.startsWith(`..${path.sep}`) && !path.isAbsolute(relative);
   });

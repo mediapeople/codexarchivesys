@@ -60,3 +60,11 @@
 - Use `--wait` when the user explicitly needs live verification in the same handoff. Otherwise report the accepted URL immediately and describe it as queued until Netlify finishes.
 - Never add a public HUD link as part of ordinary Codex publishing.
 - Full operator guidance lives in `docs/conversational-codex-publishing.md`.
+
+## Codex Queue
+- Scheduled Codex bundles live at `publishing/codex-queue/<slug>/post.md` with optional colocated files under `media/`.
+- `publishAt` must be an ISO timestamp with an explicit timezone. If it is omitted, the bundle is held for manual approval.
+- Queue media is referenced as `media/<filename>` in both Markdown and frontmatter. Every queued asset must be referenced.
+- `node scripts/drip-codex.mjs --publish` synchronizes clean `main`, releases at most one due post, processes media, consumes the bundle, and uses the existing safe publisher.
+- The intended recurring owner is the always-on MINI project. The runner itself remains deterministic and does not require agent judgment.
+- Queue and MINI handoff status is documented in `docs/codex-queue-automation.md`.
