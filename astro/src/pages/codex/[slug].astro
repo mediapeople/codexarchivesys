@@ -1,14 +1,13 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import InspectModePanel from '../../components/InspectModePanel.astro';
 import MarginaliaPanel from '../../components/MarginaliaPanel.astro';
 import ObjectIdentityBadge from '../../components/ObjectIdentityBadge.astro';
 import { getAllEntries } from '../../lib/archive';
 import { listAxes, readAxes } from '../../lib/axes';
 import { formatDisplayTitle } from '../../lib/headline';
 import { loadObjectSidecars } from '../../lib/loadObjectSidecars';
-import { getMarginaliaEntriesForTarget, getMythmechMarginaliaEntries } from '../../lib/marginalia';
+import { getMarginaliaEntriesForTarget } from '../../lib/marginalia';
 import { getBodyImagePreviewItems } from '../../lib/media';
 import {
   getObjectJsonLd,
@@ -175,7 +174,6 @@ const socialImageAlt = entry.data.media.find(
   (item) => item.kind === 'image' && item.src.trim() === socialImage
 )?.alt || `${displayTitle} — Codex Archive`;
 const marginaliaEntries = getMarginaliaEntriesForTarget(await getAllEntries(), entry.data.id);
-const mythmechMarginaliaEntries = getMythmechMarginaliaEntries(marginaliaEntries);
 const canonicalObjectPath = getObjectPath(entry);
 const structuredData = getObjectJsonLd(entry);
 const sidecars = await loadObjectSidecars(entry.filePath);
@@ -265,15 +263,6 @@ const alternateLinks = [
             <Content />
           </section>
         )}
-
-        <InspectModePanel
-          slug={entry.slug}
-          packet={sidecars.packet}
-          respawn={sidecars.respawn}
-          mythmech={sidecars.mythmech}
-          platePrompt={sidecars.platePrompt}
-          marginaliaEntries={mythmechMarginaliaEntries}
-        />
 
         <MarginaliaPanel objectId={entry.data.id} objectTitle={displayTitle} items={marginaliaEntries} />
       </div>

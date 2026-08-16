@@ -1,5 +1,14 @@
 # Carrier Pigeon Notes
 
+## HUD Product Status
+- The HUD is active research and development, not a retired feature and not yet part of the public reading contract.
+- Ordinary public object and Codex pages must not advertise or link to the HUD while its public meaning is still being refined.
+- Keep direct HUD access available at `/objects/{slug}/hud` for intentional testing and development.
+- HUD pages must remain `noindex, nofollow` until the product status changes explicitly.
+- `/codex/{slug}/hud` and `/codex/{slug}/plate` are legacy compatibility aliases, not independent surfaces.
+- Do not delete the HUD implementation or promote it back into public navigation without an explicit product decision.
+- The detailed status and reactivation criteria live in `docs/hud-status.md`.
+
 ## Archive Content
 - Carrier Pigeon writes into Astro content folders under `astro/src/content/<object_type>/`.
 - If a note omits `object_type`, Carrier Pigeon defaults to `codex` and writes into `astro/src/content/codex/`.
@@ -32,7 +41,8 @@
 ## Production Publishing
 - `origin/main` is the only production source of truth.
 - Routine production publishing is one command from a clean `main`: `node scripts/deploy-production.mjs`.
-- That command pushes `main`; the Git-linked Netlify project performs the production deploy automatically.
+- That command fetches and safely rebases non-conflicting remote updates, runs fast content validation, pushes `main`, and waits for the Git-linked Netlify production deploy by default.
+- Use `node scripts/deploy-production.mjs --no-wait` only when an acknowledged handoff is sufficient and live verification will happen elsewhere.
 - Do not run `netlify deploy --prod` for routine publishing. Manual Netlify production deploys are recovery-only.
 - `astro/public/graph.json` is generated during dev/build and must not be committed.
 - Do not create or maintain a second permanent `main` worktree for deployment.

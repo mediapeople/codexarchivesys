@@ -8,3 +8,15 @@
 
 [build.environment]
   NODE_VERSION = "22"
+
+[[redirects]]
+  from = "/codex/:slug/hud"
+  to = "/objects/:slug/hud"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/codex/:slug/plate"
+  to = "/objects/:slug/hud"
+  status = 301
+  force = true

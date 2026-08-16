@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import InspectModePanel from '../../components/InspectModePanel.astro';
 import TypeBadge from '../../components/TypeBadge.astro';
 import ObjectIdentityBadge from '../../components/ObjectIdentityBadge.astro';
 import ObjectCard from '../../components/ObjectCard.astro';
@@ -23,7 +22,7 @@ import { getAuthorInitials, getAuthorProfiles } from '../../lib/author';
 import { buildObjectShareMeta } from '../../lib/shareMeta';
 import { getLoremapAtlasRender } from '../../lib/loremap';
 import { loadObjectSidecars } from '../../lib/loadObjectSidecars';
-import { getMarginaliaEntriesForTarget, getMythmechMarginaliaEntries, isMarginaliaEntry } from '../../lib/marginalia';
+import { getMarginaliaEntriesForTarget, isMarginaliaEntry } from '../../lib/marginalia';
 import {
   buildObjectLookup,
   getObjectJsonLd,
@@ -108,7 +107,6 @@ const related = computeRelatedEntries(entry, allEntries, 3).filter(
   (hit) => !connections.some((item) => matchesObjectReference(hit.entry, item.ref))
 );
 const marginaliaEntries = getMarginaliaEntriesForTarget(allEntries, entry.data.id);
-const mythmechMarginaliaEntries = getMythmechMarginaliaEntries(marginaliaEntries);
 const mediaItems = getPreviewMediaItems(entry);
 const inlineBodyImageSrcs = new Set(getBodyImagePreviewItems(entryBody).map((item) => item.src));
 const pageMediaItems = getMediaItems(entry).filter((item) => item.kind !== 'image' || !inlineBodyImageSrcs.has(item.src));
@@ -1100,17 +1098,6 @@ const exportAlternateLinks = [
     )}
 
         <section class="object-secondary-stack">
-        <InspectModePanel
-          slug={getObjectSlug(entry)}
-          packet={sidecars.packet}
-          respawn={sidecars.respawn}
-          mythmech={sidecars.mythmech}
-          platePrompt={sidecars.platePrompt}
-          marginaliaEntries={mythmechMarginaliaEntries}
-          forceVisible={entry.collection === 'scroll' && entry.data.status === 'published'}
-          variant="footer"
-        />
-
         <footer class="source-signature source-signature--triptych">
           <article class="source-card">
             <div class="source-thumb" aria-hidden="true">

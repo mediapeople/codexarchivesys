@@ -30,12 +30,17 @@ These commands establish the expected split:
 
 - preview deploys are allowed from feature branches and in-progress local work
 - production publishes are allowed only from clean `main`
-- the production command pushes `main`; Netlify's Git integration performs the deploy
+- the production command fetches `origin/main` and safely rebases clean, non-conflicting local publish commits when the remote moved
+- the production command runs fast Astro content validation before it pushes `main`
+- Netlify's Git integration performs the deploy, and the command waits for that deploy by default
+- `node scripts/deploy-production.mjs --no-wait` is the explicit handoff-only variant
 - local `netlify deploy --prod` is reserved for explicit recovery work, not routine publishing
 
 ## Guards
 
 - `scripts/assert-production-deploy-safe.mjs` blocks production builds from dirty checkouts and non-`main` branches.
+- `scripts/deploy-production.mjs` aborts and restores the pre-publish state if automatic synchronization encounters a rebase conflict.
+- `scripts/deploy-production.mjs` rejects whitespace errors in commits that have not reached `origin/main`.
 - `astro/package.json` runs that guard during production-enforced builds.
 - `netlify.toml` forces the guard on the production context.
 - Carrier Pigeon production publishing rejects non-`main` GitHub targets unless explicitly overridden.

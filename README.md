@@ -5,6 +5,8 @@ This repository contains the Codex archive workspace and an Astro app in `astro/
 Fast orientation:
 - Full system orientation: `codex/root.md`
 - Bounded work dispatch (`ingest`, `publishing`, `dev`): `codex/dispatch.md`
+- Experimental HUD product status: `docs/hud-status.md`
+- Measured publishing review: `docs/publishing-process-review-2026-08-16.md`
 
 ## Workspace Path Policy
 
@@ -176,7 +178,9 @@ This repo includes `netlify.toml`, so Netlify can read build settings automatica
 Governance:
 
 - Preview deploys: `node scripts/deploy-preview.mjs`
-- Production publish: `node scripts/deploy-production.mjs` (pushes clean `main`; Netlify deploys from Git)
+- Production publish: `node scripts/deploy-production.mjs` (syncs and validates clean `main`, pushes it, then waits for the Git-linked Netlify deploy)
+- Fast content-only validation: `cd astro && npm run validate:content`
+- Handoff without waiting: `node scripts/deploy-production.mjs --no-wait`
 - Production source of truth: `origin/main`
 - Full policy: `docs/deploy-governance.md`
 
