@@ -13,12 +13,15 @@ if (args.length === 0 || args.includes('-h') || args.includes('--help')) {
 
 Supported:
   - .jpg/.jpeg (resize + recompress in place)
+  - .png (resize + lossless recompress in place)
+  - .webp (resize + recompress in place)
   - .mov (transcode to .mp4 sibling)
   - .mp4 (transcode and replace in place)
 
 Environment:
   MEDIA_MAX_DIM=2400         Max long edge for JPEG resize (default: 2400)
   JPEG_QUALITY=68            JPEG quality for JPEG optimization (default: 68)
+  WEBP_QUALITY=78            WebP quality for WebP optimization (default: 78)
   AVCONVERT_PRESET=PresetMediumQuality   Apple transcode preset (default)
 `);
   process.exit(args.length === 0 ? 1 : 0);
@@ -26,6 +29,7 @@ Environment:
 
 const mediaMaxDim = Number(process.env.MEDIA_MAX_DIM || 2400);
 const jpegQuality = Number(process.env.JPEG_QUALITY || 68);
+const webpQuality = Number(process.env.WEBP_QUALITY || 78);
 const avconvertPreset = process.env.AVCONVERT_PRESET || 'PresetMediumQuality';
 
 function exists(command) {
@@ -125,6 +129,48 @@ async function optimizeJpeg(file) {
   console.log(`[image] ${file} :: ${formatMB(before)} -> ${formatMB(after)} (${normalizedBy}, EXIF orientation normalized)`);
 }
 
+async function optimizeRaster(file, format) {
+  if (!sharp) {
+    throw new Error(`sharp is required for ${format.toUpperCase()} optimization`);
+  }
+
+  const before = fs.statSync(file).size;
+  const beforeMetadata = await sharp(file).metadata();
+  const extension = format === 'webp' ? '.webp' : '.png';
+  const tmpOut = `${file}.opt-tmp${extension}`;
+
+  let pipeline = sharp(file)
+    .rotate()
+    .resize({
+      width: mediaMaxDim,
+      height: mediaMaxDim,
+      fit: 'inside',
+      withoutEnlargement: true,
+    });
+
+  if (typeof pipeline.keepIccProfile === 'function') {
+    pipeline = pipeline.keepIccProfile();
+  }
+
+  if (format === 'webp') {
+    await pipeline.webp({ quality: webpQuality, effort: 5 }).toFile(tmpOut);
+  } else {
+    await pipeline.png({ compressionLevel: 9, adaptiveFiltering: true }).toFile(tmpOut);
+  }
+
+  const optimizedSize = fs.statSync(tmpOut).size;
+  const longEdge = Math.max(beforeMetadata.width || 0, beforeMetadata.height || 0);
+  if (optimizedSize >= before && longEdge <= mediaMaxDim) {
+    fs.rmSync(tmpOut, { force: true });
+    console.log(`[image] ${file} :: already efficient at ${formatMB(before)}`);
+    return;
+  }
+
+  fs.renameSync(tmpOut, file);
+  const after = fs.statSync(file).size;
+  console.log(`[image] ${file} :: ${formatMB(before)} -> ${formatMB(after)} (${format})`);
+}
+
 function transcodeVideo(inputFile) {
   const ext = path.extname(inputFile).toLowerCase();
   const isMov = ext === '.mov';
@@ -189,6 +235,16 @@ for (const file of args) {
 
     if (ext === '.jpg' || ext === '.jpeg') {
       await optimizeJpeg(file);
+      continue;
+    }
+
+    if (ext === '.png') {
+      await optimizeRaster(file, 'png');
+      continue;
+    }
+
+    if (ext === '.webp') {
+      await optimizeRaster(file, 'webp');
       continue;
     }
 

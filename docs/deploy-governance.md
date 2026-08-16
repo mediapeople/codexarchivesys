@@ -25,6 +25,8 @@ This document defines the deploy contract for humans, Carrier Pigeon, and any fu
   `node scripts/deploy-preview.mjs`
 - Production lane:
   `node scripts/deploy-production.mjs`
+- Approved conversational Codex lane:
+  `./scripts/publish-codex.mjs --file astro/src/content/codex/<slug>.md`
 
 These commands establish the expected split:
 
@@ -35,6 +37,8 @@ These commands establish the expected split:
 - Netlify's Git integration performs the deploy, and the command waits for that deploy by default
 - `node scripts/deploy-production.mjs --no-wait` is the explicit handoff-only variant
 - local `netlify deploy --prod` is reserved for explicit recovery work, not routine publishing
+- the conversational Codex lane is a narrow wrapper around the same production lane, not a second deploy path
+- it returns after a successful push by default so editorial handoff feels immediate; `--wait` attaches Netlify verification
 
 ## Guards
 

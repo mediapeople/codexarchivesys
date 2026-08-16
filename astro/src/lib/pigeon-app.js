@@ -1701,7 +1701,7 @@ export function renderPigeonAppMarkup(options = {}) {
         <span class="file-name" id="mdFileName">No file</span>
       </label>
       <label class="file-zone" id="imgZone">
-        <input type="file" accept="image/*" multiple id="imgFiles" />
+        <input type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif,.heic,.heif" multiple id="imgFiles" />
         <span class="file-icon">[]</span>
         <span class="file-label">Images</span>
         <span class="file-name" id="imgFileName">No files</span>
@@ -4929,21 +4929,26 @@ export const PIGEON_APP_SCRIPT = String.raw`
   }
 
   function isArmed(parsed) {
-    const type = getStableType(parsed);
-    const hasRequiredKey = authRequired ? keyField.value.trim().length > 0 : true;
-    return Boolean(
-      hasPublishableContent(parsed) &&
-        resolveDisplayTitle(parsed) &&
-        hasValidOrFallbackDate(parsed) &&
-        type &&
-        hasRequiredKey
-    );
+    return !getTransmitBlocker(parsed, keyField.value.trim());
   }
 
   function getTransmitBlocker(parsed, key) {
     const trimmedNote = noteField.value.trim();
     const type = getStableType(parsed);
     const imageOnlyDraft = isImageOnlyDraft(parsed);
+    const attachedImages = Array.from(imgFileInput.files || []);
+
+    if (attachedImages.length > 8) {
+      return 'Attach no more than 8 images to one Pigeon post.';
+    }
+
+    if (attachedImages.some((file) => file.size > 25 * 1024 * 1024)) {
+      return 'Each source image must be 25 MiB or smaller.';
+    }
+
+    if (attachedImages.reduce((sum, file) => sum + file.size, 0) > 50 * 1024 * 1024) {
+      return 'Source images may total no more than 50 MiB per post.';
+    }
 
     if (!trimmedNote && !hasAttachedImages()) {
       return noNoteMessage;
@@ -5250,8 +5255,8 @@ export const PIGEON_APP_SCRIPT = String.raw`
     });
   }
 
-  async function compressImageForUpload(file) {
-    if (!file.type.startsWith('image/') || file.size <= 1800000) {
+  async function compressImageForUpload(file, targetBytes) {
+    if (!file.type.startsWith('image/') || file.type === 'image/gif' || file.size <= targetBytes) {
       return file;
     }
 
@@ -5263,27 +5268,52 @@ export const PIGEON_APP_SCRIPT = String.raw`
         return file;
       }
 
-      const maxDimension = 2000;
-      const scale = Math.min(1, maxDimension / Math.max(width, height));
-      const canvas = document.createElement('canvas');
-      canvas.width = Math.max(1, Math.round(width * scale));
-      canvas.height = Math.max(1, Math.round(height * scale));
-      const context = canvas.getContext('2d');
-      if (!context) {
+      const outputType = file.type === 'image/png' || file.type === 'image/webp'
+        ? 'image/webp'
+        : 'image/jpeg';
+      const attempts = [
+        { maxDimension: 2000, quality: 0.82 },
+        { maxDimension: 1600, quality: 0.74 },
+        { maxDimension: 1280, quality: 0.66 },
+      ];
+      let smallestBlob = null;
+
+      for (const attempt of attempts) {
+        const scale = Math.min(1, attempt.maxDimension / Math.max(width, height));
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.max(1, Math.round(width * scale));
+        canvas.height = Math.max(1, Math.round(height * scale));
+        const context = canvas.getContext('2d');
+        if (!context) {
+          return file;
+        }
+
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+        const blob = await new Promise((resolve) => {
+          canvas.toBlob(resolve, outputType, attempt.quality);
+        });
+
+        if (!(blob instanceof Blob) || blob.size === 0) {
+          continue;
+        }
+        if (!smallestBlob || blob.size < smallestBlob.size) {
+          smallestBlob = blob;
+        }
+        if (blob.size <= targetBytes) {
+          smallestBlob = blob;
+          break;
+        }
+      }
+
+      if (image && typeof image.close === 'function') {
+        image.close();
+      }
+
+      if (!(smallestBlob instanceof Blob) || smallestBlob.size >= file.size) {
         return file;
       }
 
-      context.drawImage(image, 0, 0, canvas.width, canvas.height);
-      const outputType = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
-      const blob = await new Promise((resolve) => {
-        canvas.toBlob(resolve, outputType, outputType === 'image/png' ? undefined : 0.86);
-      });
-
-      if (!(blob instanceof Blob) || blob.size === 0 || blob.size >= file.size) {
-        return file;
-      }
-
-      return new File([blob], file.name, {
+      return new File([smallestBlob], file.name, {
         type: outputType,
         lastModified: Date.now(),
       });
@@ -5546,7 +5576,20 @@ export const PIGEON_APP_SCRIPT = String.raw`
         logLine('info', preparingImagesMessage);
       }
 
-      const preparedImages = await Promise.all(selectedImages.map((file) => compressImageForUpload(file)));
+      const uploadMediaBudget = Math.floor(3.6 * 1024 * 1024);
+      const perImageBudget = selectedImages.length > 0
+        ? Math.floor(uploadMediaBudget / selectedImages.length)
+        : uploadMediaBudget;
+      const preparedImages = await Promise.all(
+        selectedImages.map((file) => compressImageForUpload(file, perImageBudget))
+      );
+      const preparedImageBytes = preparedImages.reduce((sum, file) => sum + file.size, 0);
+      if (preparedImageBytes > uploadMediaBudget) {
+        throw new Error(
+          'These images are still too large for one remote Pigeon flight. ' +
+          'Choose fewer images or export smaller copies; the remote upload budget is 3.6 MiB total.'
+        );
+      }
       preparedImages.forEach((file) => {
         formData.append('images', file, file.name);
       });

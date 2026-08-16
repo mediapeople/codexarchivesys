@@ -7,19 +7,10 @@ import { loadObjectSidecars } from '../../../lib/loadObjectSidecars';
 import { getMarginaliaEntriesForTarget, getMythmechMarginaliaEntries } from '../../../lib/marginalia';
 import { getPreviewMediaItems, pickPrimaryMedia, withMediaVersion } from '../../../lib/media';
 import { getImageAssetMetadata, getPublicAssetVersion } from '../../../lib/mediaAsset';
+import { applyDeployScopedCacheHeaders } from '../../../lib/onDemandCache';
 import { getObjectPath, getObjectSlug, matchesObjectParam } from '../../../lib/objectInterop';
 
-export async function getStaticPaths() {
-  const entries = (await getAllEntries()).filter(
-    (entry) =>
-      entry.data.status === 'published' &&
-      (entry.data.visibility === 'public' || entry.data.visibility === 'unlisted')
-  );
-
-  return entries.map((entry) => ({
-    params: { id: getObjectSlug(entry) },
-  }));
-}
+export const prerender = false;
 
 const entries = (await getAllEntries()).filter(
   (entry) =>
@@ -29,8 +20,10 @@ const entries = (await getAllEntries()).filter(
 const entry = entries.find((candidate) => matchesObjectParam(candidate, Astro.params.id));
 
 if (!entry) {
-  throw new Error(`Object not found for id: ${Astro.params.id}`);
+  return new Response('Not found', { status: 404 });
 }
+
+applyDeployScopedCacheHeaders(Astro.response.headers);
 
 const slug = getObjectSlug(entry);
 const objectUrl = getObjectPath(entry);

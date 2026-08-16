@@ -400,6 +400,7 @@ for (const readyFile of collectReadyDrafts()) {
 
     try {
       action = stagePublicTarget(sourcePath, stagedTempPath);
+      runNodeScript('check-publish-media.mjs', ['--fix', '--strict', stagedTempPath]);
       fs.renameSync(stagedTempPath, targetPath);
     } finally {
       removeKnownFile(stagedTempPath);

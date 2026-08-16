@@ -45,13 +45,40 @@ The dominant local build cost was collection-wide static route fan-out. Each gen
 - Removed HUD links from public reading templates.
 - Marked the HUD surface `noindex, nofollow`.
 
-## Measured Result
+### Conversational fast lane
+
+- Added `scripts/publish-codex.mjs` for the operator-level instruction “post this to ndcodex.”
+- The command validates, commits only explicitly named post assets, pushes through the guarded production lane, and returns the canonical URL immediately by default.
+- Added `--wait` for handoffs that require attached live verification.
+- Added a strict per-post media boundary: referenced assets are audited, explicitly included delivery assets are optimized when possible, and capture formats or oversized derivatives are rejected.
+- Applied the same 2400px / 2 MiB derivative boundary to Carrier Pigeon uploads and the ready-draft media bridge, so conversation, phone, and staged publishing share one delivery contract.
+- Moved the unlinked HUD and machine-readable JSON and Markdown exports to deploy-cached on-demand rendering. Their URL and visibility contracts remain intact without three collection-wide prerender passes on every post.
+
+## First Measured Result
 
 - Full local build after route cleanup: 125.46 seconds
 - Time removed: 50.13 seconds
 - Improvement: 28.6%
 - Canonical HUD pages generated per build: approximately 260
 - Legacy Codex HUD and plate copies generated per build: zero
+
+## Cached On-Demand Route Result
+
+Moving the experimental HUD and per-object JSON and Markdown exports from collection-wide prerendering to deploy-cached on-demand rendering removed three more static route families while preserving their URLs.
+
+- Full local build after the change: 43.78 seconds
+- Follow-up build with a Vite dependency re-optimization: 48.01 seconds
+- Final verification build after Carrier Pigeon media parity: 42.94 seconds
+- Practical local range observed: 43–48 seconds
+- Reduction from the 125.46-second first optimized build: 61.7–65.8%
+- Reduction from the original 175.59-second baseline: 72.7–75.5%
+- Static HUD copies generated: zero
+- Static per-object JSON copies generated: zero
+- Static per-object Markdown copies generated: zero
+- Public reading pages: still prerendered static HTML
+- On-demand route cache: deploy-scoped Netlify durable cache with browser revalidation
+
+The built `dist` is now approximately 340 MB, of which approximately 311 MB is media. Route generation is no longer the dominant opportunity; the remaining payload work is the documented, visually reviewed legacy media backlog.
 
 ## Current Publish Contract
 

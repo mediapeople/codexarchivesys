@@ -24,6 +24,7 @@
 - Hosted Carrier Pigeon auth is driven by `PIGEON_SHARED_SECRET`.
 - Hosted GitHub write mode is driven by `PIGEON_GITHUB_TOKEN`, `PIGEON_GITHUB_REPO`, and optional branch/content-root env vars.
 - Astro validates the frontmatter through the existing content collection schemas in `astro/src/content/config.ts`.
+- Carrier Pigeon creates browser-safe public derivatives from uploaded images before either local or GitHub-backed writes. It enforces the same 2400px / 2 MiB image budget as conversational publishing and never writes raw HEIC/HEIF captures into the public tree.
 - For phone testing against a writable local machine, use `scripts/pigeon-local-server.mjs`, which reuses the same endpoint logic and serves `/api/pigeon` over HTTP.
 - The local server also serves a phone upload app at `/` with Apple touch icon + manifest metadata for Add to Home Screen on iPhone.
 - The deployed site serves a public phone upload app at `/pigeon`, which stores the publishing key in browser storage on that device and sends authenticated requests to `/api/pigeon`.
@@ -33,6 +34,7 @@
 - The recommended remote flow is Safari or a one-action Shortcut opening `/pigeon`.
 - The local fallback flow is the Mac-hosted upload app or local server.
 - Carrier Pigeon reads `object_type` from the note and writes markdown into the matching content folder.
+- Phone image uploads are normalized in memory: JPEG/HEIC become delivery JPEG; PNG/WebP become delivery WebP; EXIF capture facts are retained in content metadata while public derivatives strip EXIF/GPS.
 - Codex entries render at `/codex/{slug}`.
 - Other object types render through the existing archive route at `/objects/{slug}` after the next local refresh or site rebuild/deploy.
 - For local device tests, point the Shortcut at your Mac running `node scripts/pigeon-local-server.mjs`.
@@ -46,3 +48,15 @@
 - Do not run `netlify deploy --prod` for routine publishing. Manual Netlify production deploys are recovery-only.
 - `astro/public/graph.json` is generated during dev/build and must not be committed.
 - Do not create or maintain a second permanent `main` worktree for deployment.
+
+## Conversational Codex Publishing
+- “Post this to ndcodex” or “publish this to ndcodex” is explicit approval when the source and intended post are unambiguous. Do not add a procedural confirmation step.
+- Preserve the author's voice. Make only the light editorial and metadata changes needed for a clean public post unless a rewrite is requested.
+- Write the post to `astro/src/content/codex/{slug}.md` with public, published Codex metadata.
+- Run `./scripts/publish-codex.mjs --file astro/src/content/codex/{slug}.md` for the safe fast lane. Pass related new media or sidecars with repeated `--include` arguments.
+- The fast lane validates content and referenced media, refuses unrelated working-tree changes, commits only the named files, pushes through `origin/main`, and returns the canonical URL without waiting on the production build.
+- Delivery media belongs under `astro/public/media/`. The lane enforces the budgets and derivative/source rules in `docs/conversational-codex-publishing.md`; never ship HEIC/HEIF or MOV captures directly.
+- The cross-lane media policy and legacy audit status live in `docs/media-delivery-status.md`. Do not bulk-recompress historical public art without bounded visual review and preserved originals.
+- Use `--wait` when the user explicitly needs live verification in the same handoff. Otherwise report the accepted URL immediately and describe it as queued until Netlify finishes.
+- Never add a public HUD link as part of ordinary Codex publishing.
+- Full operator guidance lives in `docs/conversational-codex-publishing.md`.

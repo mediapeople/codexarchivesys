@@ -13,6 +13,7 @@ import {
   type ArchiveAxes,
 } from '../../lib/axes.ts';
 import { resolveExcerpt } from '../../lib/excerpt.ts';
+import { classifyMediaShape } from '../../lib/mediaAsset.ts';
 import {
   normalizeMythmechSidecar,
   normalizePlatePrompt,
@@ -21,6 +22,7 @@ import {
 import {
   extractUploadedImageCapture,
   inferPigeonVisionSuggestion,
+  preparePigeonDeliveryImage,
   type PigeonMediaCapture,
   type PigeonVisionSuggestion,
 } from '../../lib/pigeonImageIntelligence.ts';
@@ -48,6 +50,17 @@ const CAPTURE_PROTOCOL_VERSION = 'pigeon-1.1' as const;
 const CAPTURE_MODE_VALUES = ['default', 'guided', 'image-only', 'field-hud'] as const;
 const OBJECT_FORM_VALUES = ['bubble', 'coordinate', 'creature'] as const;
 const TYPE_RESOLUTION_VALUES = ['capture', 'staging', 'post-publish'] as const;
+const MAX_PIGEON_UPLOAD_IMAGES = 8;
+const MAX_PIGEON_UPLOAD_TOTAL_BYTES = 50 * 1024 * 1024;
+const PIGEON_SOURCE_IMAGE_EXTENSIONS = new Set([
+  '.jpg',
+  '.jpeg',
+  '.png',
+  '.webp',
+  '.gif',
+  '.heic',
+  '.heif',
+]);
 
 const UNIVERSAL_PASSTHROUGH_KEYS = new Set([
   'constellations',
@@ -2867,35 +2880,60 @@ async function prepareUploadedImages(
 ): Promise<PreparedImageAsset[]> {
   const uploadedAt = new Date().toISOString();
 
+  if (files.length > MAX_PIGEON_UPLOAD_IMAGES) {
+    throw new Error(
+      `Carrier Pigeon accepts at most ${MAX_PIGEON_UPLOAD_IMAGES} images per post; received ${files.length}.`
+    );
+  }
+
+  const totalBytes = files.reduce((sum, file) => sum + file.size, 0);
+  if (totalBytes > MAX_PIGEON_UPLOAD_TOTAL_BYTES) {
+    throw new Error('Carrier Pigeon image uploads may total at most 50 MiB per post.');
+  }
+
   return Promise.all(
     files.map(async (file, index) => {
-      if (!file.type.startsWith('image/')) {
+      const sourceExtension = path.extname(file.name).toLowerCase();
+      if (!file.type.startsWith('image/') && !PIGEON_SOURCE_IMAGE_EXTENSIONS.has(sourceExtension)) {
         throw new Error(`Unsupported uploaded file type for ${file.name}. Only image files are allowed.`);
       }
 
-      const buffer = Buffer.from(await file.arrayBuffer());
-      const mimeSubtype = file.type.split('/')[1] || '';
-      const normalizedSubtype = mimeSubtype.toLowerCase();
-      const extensionFromName = path.extname(file.name).replace(/^\./, '').toLowerCase();
-      const extension =
-        extensionFromName ||
-        (normalizedSubtype === 'jpeg' ? 'jpg' : normalizedSubtype === 'svg+xml' ? 'svg' : normalizedSubtype) ||
-        'jpg';
-      const publicSrc = getRelativePublicImagePath(objectType, slug, index, extension);
+      const sourceBuffer = Buffer.from(await file.arrayBuffer());
       const capture = await extractUploadedImageCapture({
-        buffer,
-        contentType: file.type || `image/${extension === 'jpg' ? 'jpeg' : extension}`,
+        buffer: sourceBuffer,
+        contentType: file.type || 'application/octet-stream',
         originalFilename: file.name,
         uploadedAt,
       }).catch(() => undefined);
+      const delivery = await preparePigeonDeliveryImage({
+        buffer: sourceBuffer,
+        contentType: file.type,
+        originalFilename: file.name,
+      });
+      const publicSrc = getRelativePublicImagePath(objectType, slug, index, delivery.extension);
+
+      const deliveryWidth = delivery.width ?? capture?.width;
+      const deliveryHeight = delivery.height ?? capture?.height;
+      const deliveryCapture = {
+        ...capture,
+        width: deliveryWidth,
+        height: deliveryHeight,
+        shape:
+          deliveryWidth && deliveryHeight
+            ? classifyMediaShape(deliveryWidth, deliveryHeight)
+            : capture?.shape,
+        format: delivery.extension,
+        originalFilename: capture?.originalFilename || file.name,
+        uploadedAt: capture?.uploadedAt || uploadedAt,
+      };
 
       return {
         originalName: file.name,
         publicSrc,
         repoPath: `astro/public${publicSrc}`,
-        buffer,
-        contentType: file.type || `image/${extension === 'jpg' ? 'jpeg' : extension}`,
-        capture,
+        buffer: delivery.buffer,
+        contentType: delivery.contentType,
+        capture: deliveryCapture,
       };
     })
   );
@@ -3829,7 +3867,18 @@ export const POST: APIRoute = async ({ request }) => {
       return await writeLocalEntry(parsed.payload, slug, markdown, [], sidecars);
     }
 
-    const preparedImages = await prepareUploadedImages(parsed.uploadedImages, parsed.payload.objectType, slug);
+    let preparedImages: PreparedImageAsset[];
+    try {
+      preparedImages = await prepareUploadedImages(parsed.uploadedImages, parsed.payload.objectType, slug);
+    } catch (error) {
+      return Response.json(
+        {
+          error: 'Carrier Pigeon rejected uploaded media.',
+          detail: error instanceof Error ? error.message : String(error),
+        },
+        { status: 400 }
+      );
+    }
     const uploadedImagesByName = new Map(
       preparedImages.map((asset) => [normalizeFilename(asset.originalName), asset] as const)
     );

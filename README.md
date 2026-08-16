@@ -5,6 +5,8 @@ This repository contains the Codex archive workspace and an Astro app in `astro/
 Fast orientation:
 - Full system orientation: `codex/root.md`
 - Bounded work dispatch (`ingest`, `publishing`, `dev`): `codex/dispatch.md`
+- Conversational Codex publishing: `docs/conversational-codex-publishing.md`
+- Media delivery policy and legacy status: `docs/media-delivery-status.md`
 - Experimental HUD product status: `docs/hud-status.md`
 - Measured publishing review: `docs/publishing-process-review-2026-08-16.md`
 
@@ -63,15 +65,20 @@ Optimize media payloads for web delivery:
 
 ```bash
 node scripts/optimize-media-assets.mjs <file1> <file2> ...
+./scripts/check-publish-media.mjs --all
 ```
 
 Defaults:
 - JPEG: resize to max long edge `2400px`, recompress quality `68`
 - JPEG: normalize delivery JPGs so browser-facing EXIF orientation is cleared
+- PNG: lossless recompress and resize to max long edge `2400px`
+- WebP: resize to max long edge `2400px`, recompress quality `78`
 - Video: transcode to MP4 (uses `ffmpeg` if present, else macOS `avconvert`)
+- New-post hard limits: images `2 MiB` and `2400px`; SVG `256 KiB`; MP4 `20 MiB`
 
 Media prep note:
 - `scripts/finalize-approved-ready.mjs` now runs publish-time media prep automatically for mapped ready drafts, including `HEIC/HEIF -> JPG` normalization.
+- Carrier Pigeon phone uploads apply the same delivery boundary in memory before local or GitHub-backed publication; raw camera files do not enter `astro/public/media/`.
 - `node scripts/publish-ready-media.mjs --source inbox/ready/<file>.md` remains available when you want to stage media before full promotion.
 - Treat EXIF orientation as untrusted on delivery JPGs. Confirm the optimized JPGs no longer carry a browser-visible orientation override.
 
@@ -179,6 +186,7 @@ Governance:
 
 - Preview deploys: `node scripts/deploy-preview.mjs`
 - Production publish: `node scripts/deploy-production.mjs` (syncs and validates clean `main`, pushes it, then waits for the Git-linked Netlify deploy)
+- Approved conversational Codex post: `./scripts/publish-codex.mjs --file astro/src/content/codex/<slug>.md` (validates, commits only the post, pushes, and returns immediately)
 - Fast content-only validation: `cd astro && npm run validate:content`
 - Handoff without waiting: `node scripts/deploy-production.mjs --no-wait`
 - Production source of truth: `origin/main`

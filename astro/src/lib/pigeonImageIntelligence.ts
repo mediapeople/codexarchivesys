@@ -69,6 +69,9 @@ const PIGEON_OPENAI_API_KEY_ENV = 'PIGEON_OPENAI_API_KEY';
 const OPENAI_API_KEY_ENV = 'OPENAI_API_KEY';
 const MAX_VISION_IMAGES = 3;
 const VISION_TIMEOUT_MS = 8_000;
+const PIGEON_DELIVERY_MAX_LONG_EDGE = 2400;
+const PIGEON_DELIVERY_MAX_BYTES = 2 * 1024 * 1024;
+const PIGEON_SOURCE_MAX_BYTES = 25 * 1024 * 1024;
 const SCALE_VALUES = new Set(['micro', 'meso', 'macro']);
 const DEPTH_VALUES = new Set(['surface', 'structural', 'recursive']);
 const FOCUS_VALUES = new Set(['moment', 'character', 'system', 'witness']);
@@ -94,6 +97,129 @@ async function getSharp() {
   }
 
   return sharpFactoryPromise;
+}
+
+export type PigeonDeliveryImage = {
+  buffer: Buffer;
+  contentType: 'image/jpeg' | 'image/webp' | 'image/gif';
+  extension: 'jpg' | 'webp' | 'gif';
+  width?: number;
+  height?: number;
+};
+
+function formatPigeonBytes(bytes: number): string {
+  return `${(bytes / (1024 * 1024)).toFixed(2)} MiB`;
+}
+
+/**
+ * Produces a browser-safe public derivative from a Carrier Pigeon upload.
+ * Capture metadata is extracted separately from the original before this strips
+ * EXIF (including GPS) from the delivery asset.
+ */
+export async function preparePigeonDeliveryImage(params: {
+  buffer: Buffer;
+  contentType: string;
+  originalFilename: string;
+}): Promise<PigeonDeliveryImage> {
+  if (params.buffer.length > PIGEON_SOURCE_MAX_BYTES) {
+    throw new Error(
+      `${params.originalFilename} is ${formatPigeonBytes(params.buffer.length)}; ` +
+      `Carrier Pigeon accepts source images up to ${formatPigeonBytes(PIGEON_SOURCE_MAX_BYTES)} each.`
+    );
+  }
+
+  const sharp = await getSharp();
+  if (!sharp) {
+    throw new Error('Carrier Pigeon requires sharp to create safe public image derivatives.');
+  }
+
+  const source = sharp(params.buffer, {
+    animated: true,
+    limitInputPixels: 80_000_000,
+  });
+  const metadata = await source.metadata();
+  const format = metadata.format?.toLowerCase();
+  const width = metadata.width;
+  const height = metadata.height;
+  const longEdge = Math.max(width || 0, height || 0);
+
+  if (!format || !['jpeg', 'png', 'webp', 'gif', 'heif'].includes(format)) {
+    throw new Error(
+      `Unsupported image data in ${params.originalFilename}. ` +
+      'Use JPEG, PNG, WebP, GIF, HEIC, or HEIF source images.'
+    );
+  }
+
+  if (format === 'gif' && (metadata.pages || 1) > 1) {
+    if (params.buffer.length > PIGEON_DELIVERY_MAX_BYTES || longEdge > PIGEON_DELIVERY_MAX_LONG_EDGE) {
+      throw new Error(
+        `${params.originalFilename} is an animated GIF outside the 2 MiB / 2400px delivery budget. ` +
+        'Convert animation to MP4 before publishing.'
+      );
+    }
+    return {
+      buffer: params.buffer,
+      contentType: 'image/gif',
+      extension: 'gif',
+      width,
+      height,
+    };
+  }
+
+  const useWebp = format === 'png' || format === 'webp' || format === 'gif';
+  const attempts = useWebp
+    ? [
+        { longEdge: 2400, quality: 78 },
+        { longEdge: 2000, quality: 70 },
+        { longEdge: 1600, quality: 64 },
+      ]
+    : [
+        { longEdge: 2400, quality: 68 },
+        { longEdge: 2000, quality: 62 },
+        { longEdge: 1600, quality: 58 },
+      ];
+
+  let lastBuffer: Buffer | null = null;
+  let lastWidth: number | undefined;
+  let lastHeight: number | undefined;
+
+  for (const attempt of attempts) {
+    let pipeline = sharp(params.buffer, { limitInputPixels: 80_000_000 })
+      .rotate()
+      .resize({
+        width: attempt.longEdge,
+        height: attempt.longEdge,
+        fit: 'inside',
+        withoutEnlargement: true,
+      });
+
+    if (typeof pipeline.keepIccProfile === 'function') {
+      pipeline = pipeline.keepIccProfile();
+    }
+
+    const optimized = useWebp
+      ? await pipeline.webp({ quality: attempt.quality, effort: 5 }).toBuffer({ resolveWithObject: true })
+      : await pipeline.jpeg({ quality: attempt.quality, mozjpeg: true }).toBuffer({ resolveWithObject: true });
+
+    lastBuffer = optimized.data;
+    lastWidth = optimized.info.width;
+    lastHeight = optimized.info.height;
+
+    if (optimized.data.length <= PIGEON_DELIVERY_MAX_BYTES) {
+      return {
+        buffer: optimized.data,
+        contentType: useWebp ? 'image/webp' : 'image/jpeg',
+        extension: useWebp ? 'webp' : 'jpg',
+        width: optimized.info.width,
+        height: optimized.info.height,
+      };
+    }
+  }
+
+  throw new Error(
+    `${params.originalFilename} could not be reduced below the 2 MiB delivery limit ` +
+    `(last result ${formatPigeonBytes(lastBuffer?.length || 0)}, ${lastWidth || '?'}x${lastHeight || '?'}).`
+  );
 }
 
 function normalizeString(value: unknown): string | undefined {

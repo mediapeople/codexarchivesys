@@ -45,6 +45,14 @@ node scripts/intake-fieldlog.mjs --source "inbox/drop/<item>/<file>.md"
 ## Publishing
 Goal: move approved ready drafts into canonical publish state and verify the site builds.
 
+For an unambiguous conversational request such as “post this to ndcodex,” use the direct Codex lane instead of routing the already-approved text through `inbox/ready`:
+
+```bash
+./scripts/publish-codex.mjs --file astro/src/content/codex/<slug>.md
+```
+
+That phrase is explicit approval for the named post. Preserve the author's voice, create the public Codex entry, and do not ask the operator to manage the underlying Git or deploy steps.
+
 Do:
 - confirm explicit operator approval
 - run finalize on approved drafts

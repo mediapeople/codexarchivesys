@@ -13,7 +13,7 @@ const uiConfig = {
   deck:
     'Publish from your phone with text, images, or image-only artifacts, authenticate with your Carrier Pigeon key, and commit straight into the ndcodex repository from anywhere.',
   attachNote:
-    'Image-only publish is allowed. If the note body contains ![[image.jpg]] or markdown image links, Carrier Pigeon will rewrite matching file names to the uploaded public image paths.',
+    'Image-only publish is allowed. Pigeon creates a max-2400px, max-2-MiB public derivative and leaves your original on the phone. Local image references are rewritten to that delivery asset.',
   keyNote:
     'Stored only in this browser on this phone so you do not have to re-enter it every time.',
   workflowTitle: 'Phone workflow',
@@ -21,6 +21,7 @@ const uiConfig = {
     'Add to home screen - Safari -> Add to Home Screen',
     'Paste raw text and run Smart Draft for frontmatter plus nearby related suggestions, or select type and load a template shell',
     'With images attached, a short note becomes a caption by default; title: and caption: lines also work',
+    'Remote flights compress the selected image set to a 3.6 MiB request budget before Pigeon creates final public derivatives',
     'Confirm telemetry shows correct type, slug, and path',
     'Send Pigeon - open the object to confirm it landed',
   ],
@@ -37,7 +38,7 @@ const appConfig = {
   contentRoot: 'astro/src/content',
   copySuccessMessage: 'Carrier Pigeon app URL copied to the clipboard.',
   copyFailureMessage: 'Could not copy the Carrier Pigeon URL from this browser.',
-  imageReadyMessage: 'Carrier Pigeon will upload and attach the selected images. Short image notes now publish as captions by default.',
+  imageReadyMessage: 'Carrier Pigeon will optimize and attach the selected images. Originals stay on this device; public derivatives are capped at 2400px and 2 MiB.',
   successMessage: 'Carrier Pigeon accepted the note.',
   networkErrorMessage: 'Could not reach Carrier Pigeon.',
   noNoteMessage: 'Add a markdown note or attach at least one image first.',

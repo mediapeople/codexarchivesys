@@ -10,6 +10,10 @@ Scope: capture, ingest, media, sidecars, auth, routing, and additive next-step p
 
 Carrier Pigeon is the phone-first ingest protocol for ndcodex.com.
 
+Uploaded images are normalized before publication. The endpoint creates browser-safe JPEG or WebP derivatives, caps delivery images at 2400px and 2 MiB, and strips public EXIF/GPS while retaining useful capture facts in archive metadata. Raw HEIC/HEIF captures are never written into the public media tree.
+
+The hosted phone app also compresses each selected set toward a 3.6 MiB total request budget before transmission so multipart image uploads remain below the Netlify Function transport limit.
+
 It exists to let perception become object with minimal friction.
 
 Primary rule:

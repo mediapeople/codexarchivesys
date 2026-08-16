@@ -1,29 +1,27 @@
 import { getAllEntries } from '../../lib/archive';
-import { getObjectSlug, matchesObjectParam, serializeObjectMarkdown } from '../../lib/objectInterop';
+import { applyDeployScopedCacheHeaders } from '../../lib/onDemandCache';
+import { matchesObjectParam, serializeObjectMarkdown } from '../../lib/objectInterop';
 
-export async function getStaticPaths() {
-  const entries = (await getAllEntries()).filter(
-    (entry) =>
-      entry.data.status === 'published' &&
-      (entry.data.visibility === 'public' || entry.data.visibility === 'unlisted')
-  );
-
-  return entries.map((entry) => ({
-    params: { id: getObjectSlug(entry) },
-  }));
-}
+export const prerender = false;
 
 export async function GET({ params }: { params: { id?: string } }) {
   const entries = await getAllEntries();
-  const entry = entries.find((candidate) => matchesObjectParam(candidate, params.id));
+  const entry = entries.find(
+    (candidate) =>
+      candidate.data.status === 'published' &&
+      (candidate.data.visibility === 'public' || candidate.data.visibility === 'unlisted') &&
+      matchesObjectParam(candidate, params.id)
+  );
 
   if (!entry) {
     return new Response('Not found', { status: 404 });
   }
 
+  const headers = applyDeployScopedCacheHeaders(new Headers({
+    'Content-Type': 'text/markdown; charset=utf-8',
+  }));
+
   return new Response(serializeObjectMarkdown(entry), {
-    headers: {
-      'Content-Type': 'text/markdown; charset=utf-8',
-    },
+    headers,
   });
 }

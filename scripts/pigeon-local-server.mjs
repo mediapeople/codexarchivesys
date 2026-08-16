@@ -105,7 +105,7 @@ function renderUploadPage(host) {
     deck:
       'Choose a markdown note from Files, tweak it if needed, or send image-only artifacts straight into the right archive collection from your phone.',
     attachNote:
-      'Attach matching image files if the note uses local Obsidian image references. Image-only publish is allowed here too.',
+      'Attach matching image files if the note uses local Obsidian image references. Pigeon creates max-2400px, max-2-MiB public derivatives; originals remain in source storage.',
     keyNote:
       'Optional in local mode. If this server is protected with a shared secret, the key will be sent as a bearer token.',
     workflowTitle: 'Phone workflow',
@@ -113,6 +113,7 @@ function renderUploadPage(host) {
       'Open this page from your phone or add it to the home screen',
       'Paste raw text and run Smart Draft, or select type and load a template shell',
       'Or attach one or more images and publish without body text',
+      'Remote-size compression is applied in the app; the local endpoint still creates the same final public derivatives',
       'Confirm telemetry shows correct type, slug, and path',
       'Send Pigeon - local mode writes directly into source content',
     ],
@@ -130,7 +131,7 @@ function renderUploadPage(host) {
     copyUrlValue: `${base}/`,
     copySuccessMessage: 'Upload page URL copied to the clipboard.',
     copyFailureMessage: 'Could not copy the upload URL from this browser.',
-    imageReadyMessage: 'Carrier Pigeon will upload and attach the selected images. Image-only publish is enabled.',
+    imageReadyMessage: 'Carrier Pigeon will optimize and attach the selected images. Originals stay in source storage; public derivatives are capped at 2400px and 2 MiB.',
     successMessage: 'Source file written. Rebuild or redeploy to update the public site.',
     networkErrorMessage: 'Could not reach Carrier Pigeon on your Mac.',
     noNoteMessage: 'Add a markdown note or attach at least one image first.',
