@@ -9,11 +9,11 @@ tags:
   - geography
   - systems
 images:
-  - "media/eventually-the-diagram-required-geography.webp"
-state: draft
+  - "/media/codex/eventually-the-diagram-required-geography/eventually-the-diagram-required-geography.webp"
+state: published
 dependencies: []
-status: draft
-visibility: private
+status: published
+visibility: public
 summary: "A planned energy island in the North Sea reveals the moment when a network becomes large enough to manufacture geography."
 excerpt: "We needed somewhere for the electricity to meet, so we built land."
 scale: macro
@@ -28,24 +28,28 @@ themes:
 source: "chatgpt-conversation://69b95894-3a18-8332-97f3-a979ab800a63"
 media:
   - kind: image
-    src: "media/eventually-the-diagram-required-geography.webp"
+    src: "/media/codex/eventually-the-diagram-required-geography/eventually-the-diagram-required-geography.webp"
     role: hero
     alt: "Dark modular blocks form an island-like perimeter around pale sand as fine copper lines enter from a slate-blue field."
     caption: "Material becomes unit; perimeter becomes land; land becomes node. AI-generated editorial illustration."
+id: eventually-the-diagram-required-geography
+slug: "eventually-the-diagram-required-geography"
+url: "https://ndcodex.com/codex/eventually-the-diagram-required-geography"
+postedAt: "2026-09-29T02:47:59.222Z"
 ---
 
 # Eventually the Diagram Required Geography
 
-![Dark modular blocks form an island-like perimeter around pale sand as fine copper lines enter from a slate-blue field.](<media/eventually-the-diagram-required-geography.webp>)
+![Dark modular blocks form an island-like perimeter around pale sand as fine copper lines enter from a slate-blue field.](</media/codex/eventually-the-diagram-required-geography/eventually-the-diagram-required-geography.webp>)
 
 We needed somewhere
 for the electricity to meet,
 
 so we built land.
 
-Belgium's Princess Elisabeth Island is planned as an energy hub in the North Sea, almost 45 kilometers offshore. It will gather electricity from a new offshore wind zone, connect it to Belgium's onshore grid, and serve as a potential junction for additional international interconnectors. The wind zone is planned for a maximum capacity of 3.5 gigawatts. ([Elia](https://www.elia.be/-/media/project/elia/shared/documents/press-releases/2022/20221003_offshore-energy-island_en.pdf))
+Belgium's Princess Elisabeth Island is planned as an energy hub in the North Sea, almost 45 kilometers offshore. It will gather electricity from a new offshore wind zone, connect it to Belgium's onshore grid, and serve as a potential junction for additional international interconnectors. The wind zone is planned for a maximum capacity of 3.5 gigawatts. ([Elia](https://www.elia.be/en/press/2023/02/20230228_epci-contract-energy-island-to-deme-and-jan-de-nul))
 
-The perimeter is made from 23 concrete caissons. Each is approximately 57 meters long, 28 meters wide, 22 meters high, and weighs about 22,000 tonnes before fill. They become an enclosure. The enclosure is filled with locally dredged sand. The reclaimed interior then becomes the foundation for transformer stations, cables, and the other equipment of a high-voltage node. ([Elia offshore project brochure](https://www.elia.be/-/media/project/elia/shared/documents/elia-group/publications/brochures/2025/2025_elia-group_offshore-brochure.pdf))
+The perimeter is made from 23 concrete caissons. Each weighs about 22,000 tonnes and measures roughly 58 meters long and 28 meters wide, with height varying according to the storm-wall design. They become an enclosure. The enclosure is filled with sand. The reclaimed interior then becomes the foundation for transformer stations, cables, and the other equipment of a high-voltage node. ([Elia](https://www.elia.be/en/press/2025/04/20250430_first-building-blocks-belgian-energy-island-successfully-placed-in-north-sea))
 
 Not a building on an island.
 
@@ -67,7 +71,7 @@ Wind farms → island → high-voltage equipment → submarine cables → grid �
 
 The individual caisson is impressive because it is enormous. Its real meaning arrives through arrangement. Twenty-three concrete members become an edge. The edge creates a place. The place exists so relationships inside an electrical network can resolve physically.
 
-The project also treats the fabricated edge as potential habitat. Its nature-inclusive design includes ledges for cliff-nesting birds and underwater features intended to support marine life, reproduction, foraging, and shelter. ([Elia nature-inclusive design](https://www.elia.be/-/media/project/elia/shared/documents/press-releases/2023/20231113_elia-takes-seven-measures-to-enhance-biodiversity-around-the-princess-elisabeth-island_env2.pdf))
+The project also treats the fabricated edge as potential habitat. Its nature-inclusive design includes ledges for cliff-nesting birds and underwater features intended to support marine life, reproduction, foraging, and shelter. ([Elia nature-inclusive design](https://www.elia.be/en/press/2023/11/20231113_elia-takes-seven-measures-to-enhance-biodiversity-around-the-princess-elisabeth-island))
 
 That does not turn the intervention into untouched nature. It makes the category stranger.
 
