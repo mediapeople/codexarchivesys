@@ -8,11 +8,11 @@ tags:
   - resolution
   - creative systems
 images:
-  - "media/stable-at-the-current-resolution.webp"
-state: draft
+  - "/media/codex/stable-at-the-current-resolution/stable-at-the-current-resolution.webp"
+state: published
 dependencies: []
-status: draft
-visibility: private
+status: published
+visibility: public
 summary: "A design is not finished. It becomes stable at the resolution its present purpose requires."
 excerpt: "What resolution does the work need to reach before we can responsibly put it down?"
 scale: meso
@@ -27,15 +27,19 @@ themes:
 source: "chatgpt-conversation://6aa2b90b-41c8-83ea-8b97-b76c4394e13d"
 media:
   - kind: image
-    src: "media/stable-at-the-current-resolution.webp"
+    src: "/media/codex/stable-at-the-current-resolution/stable-at-the-current-resolution.webp"
     role: hero
     alt: "A studio workbench holds a faint graphite study, a fragile paper-and-wire model, and a more resolved architectural form."
     caption: "From possibility to a stable, revisable state. AI-generated editorial illustration."
+id: stable-at-the-current-resolution
+slug: "stable-at-the-current-resolution"
+url: "https://ndcodex.com/codex/stable-at-the-current-resolution"
+postedAt: "2026-09-29T02:46:34.154Z"
 ---
 
 # Stable at the Current Resolution
 
-![A studio workbench holds a faint graphite study, a fragile paper-and-wire model, and a more resolved architectural form.](<media/stable-at-the-current-resolution.webp>)
+![A studio workbench holds a faint graphite study, a fragile paper-and-wire model, and a more resolved architectural form.](</media/codex/stable-at-the-current-resolution/stable-at-the-current-resolution.webp>)
 
 The design is never done.
 
