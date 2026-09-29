@@ -9,11 +9,11 @@ tags:
   - relationships
   - systems
 images:
-  - "media/honesty-settings.webp"
-state: draft
+  - "/media/codex/honesty-settings/honesty-settings.webp"
+state: published
 dependencies: []
-status: draft
-visibility: private
+status: published
+visibility: public
 summary: "Honesty as a system's capacity to admit reality with accuracy, proportion, ownership, and enough openness to change."
 excerpt: "Set honesty high enough that the argument is allowed to change."
 scale: micro
@@ -28,15 +28,19 @@ themes:
 source: "chatgpt-conversation://6ab93b8d-3c3c-83ea-bc8e-cd0bcc026e45"
 media:
   - kind: image
-    src: "media/honesty-settings.webp"
+    src: "/media/codex/honesty-settings/honesty-settings.webp"
     role: hero
     alt: "Translucent torn-paper layers surround a clear aperture while one dark stitched line passes through them."
     caption: "Layers of concealment, admission, and reality contact. AI-generated editorial illustration."
+id: honesty-settings
+slug: "honesty-settings"
+url: "https://ndcodex.com/codex/honesty-settings"
+postedAt: "2026-09-29T02:47:41.003Z"
 ---
 
 # Honesty Settings
 
-![Translucent torn-paper layers surround a clear aperture while one dark stitched line passes through them.](<media/honesty-settings.webp>)
+![Translucent torn-paper layers surround a clear aperture while one dark stitched line passes through them.](</media/codex/honesty-settings/honesty-settings.webp>)
 
 Honesty is not only a binary virtue.
 
