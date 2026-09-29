@@ -23,7 +23,7 @@ themes:
   - design practice
   - resolution
   - state stewardship
-  - creative systems
+  - creative-systems
 source: "chatgpt-conversation://6aa2b90b-41c8-83ea-8b97-b76c4394e13d"
 media:
   - kind: image
