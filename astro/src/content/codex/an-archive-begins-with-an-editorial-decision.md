@@ -8,10 +8,10 @@ tags:
   - editorial judgment
   - provenance
 images: []
-state: draft
+state: published
 dependencies: []
-status: draft
-visibility: private
+status: published
+visibility: public
 summary: "Teaching an archive means helping people decide what a record is, how its sources relate, and what a visitor can responsibly understand from it."
 excerpt: "The first thing we are teaching is how to decide what belongs together."
 scale: meso
@@ -24,6 +24,9 @@ themes:
   - judgment
 source: "October 2026 archive training and source-mapping discussion; private working-session provenance retained in the editorial source map."
 media: []
+slug: "an-archive-begins-with-an-editorial-decision"
+url: "https://ndcodex.com/codex/an-archive-begins-with-an-editorial-decision"
+postedAt: "2026-10-20T19:07:09.696Z"
 ---
 
 # An Archive Begins with an Editorial Decision
