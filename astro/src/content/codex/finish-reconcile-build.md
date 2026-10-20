@@ -9,10 +9,10 @@ tags:
   - completion
   - collaboration
 images: []
-state: draft
+state: published
 dependencies: []
-status: draft
-visibility: private
+status: published
+visibility: public
 summary: "A project changes phase when possibility is no longer the scarce resource. Orientation becomes the practice of deciding what must be finished, reconciled, and built next."
 excerpt: "There is a moment when more possibility stops helping the work."
 scale: meso
@@ -25,6 +25,9 @@ themes:
   - retained learning
 source: "October 2026 project orientation and delivery reconciliation; private working-session provenance retained in the editorial source map."
 media: []
+slug: "finish-reconcile-build"
+url: "https://ndcodex.com/codex/finish-reconcile-build"
+postedAt: "2026-10-20T19:07:54.447Z"
 ---
 
 # Finish, Reconcile, Build
