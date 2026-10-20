@@ -55,6 +55,6 @@ It becomes the construction method.
 
 Something assembled from pieces. Something made alive by interruption. Something whose previous bodies remain visible inside the new one.
 
-![A vertical paper collage made from narrow strips of green, black, and white Frankenstein comic imagery, photographed on a dark wooden surface.](media/the-monster-survives-the-cut-object.jpg)
+![A vertical paper collage made from narrow strips of green, black, and white Frankenstein comic imagery, photographed on a dark wooden surface.](<media/the-monster-survives-the-cut-object.jpg>)
 
-![The finished Frankenstein comic collage presented inside a wide white mat and narrow black frame.](media/the-monster-survives-the-cut-framed.jpg)
+![The finished Frankenstein comic collage presented inside a wide white mat and narrow black frame.](<media/the-monster-survives-the-cut-framed.jpg>)
