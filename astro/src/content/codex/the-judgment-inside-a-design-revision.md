@@ -8,10 +8,10 @@ tags:
   - design intelligence
   - judgment
 images: []
-state: draft
+state: published
 dependencies: []
-status: draft
-visibility: private
+status: published
+visibility: public
 summary: "Recent design revisions sharpen a practical question: which part of a change comes from feedback, and which part comes from us?"
 excerpt: "Some of the most useful design work this week was putting a distinction back."
 scale: meso
@@ -24,6 +24,9 @@ themes:
   - creative-systems
 source: "October 2026 design review and reduction studies; private working-session provenance retained in the editorial source map."
 media: []
+slug: "the-judgment-inside-a-design-revision"
+url: "https://ndcodex.com/codex/the-judgment-inside-a-design-revision"
+postedAt: "2026-10-20T19:06:49.953Z"
 ---
 
 # The Judgment Inside a Design Revision
