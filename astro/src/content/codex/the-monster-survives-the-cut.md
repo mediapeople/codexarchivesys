@@ -9,12 +9,12 @@ tags:
   - Frankenstein
   - comics
 images:
-  - "media/the-monster-survives-the-cut-object.jpg"
-  - "media/the-monster-survives-the-cut-framed.jpg"
-state: draft
+  - "/media/codex/the-monster-survives-the-cut/the-monster-survives-the-cut-object.jpg"
+  - "/media/codex/the-monster-survives-the-cut/the-monster-survives-the-cut-framed.jpg"
+state: published
 dependencies: []
-status: draft
-visibility: private
+status: published
+visibility: public
 summary: "A finished paper collage made by cutting and recomposing imagery sourced from a Frankenstein comic."
 excerpt: "The story was cut into strips. The charge remained."
 scale: micro
@@ -28,13 +28,16 @@ themes:
 source: "Artist documentation, October 19–20 2026. Source material described by the artist as a Frankenstein comic."
 media:
   - kind: image
-    src: "media/the-monster-survives-the-cut-object.jpg"
+    src: "/media/codex/the-monster-survives-the-cut/the-monster-survives-the-cut-object.jpg"
     role: hero
     alt: "A vertical paper collage made from narrow strips of green, black, and white Frankenstein comic imagery, photographed on a dark wooden surface."
   - kind: image
-    src: "media/the-monster-survives-the-cut-framed.jpg"
+    src: "/media/codex/the-monster-survives-the-cut/the-monster-survives-the-cut-framed.jpg"
     role: gallery
     alt: "The finished Frankenstein comic collage presented inside a wide white mat and narrow black frame."
+slug: "the-monster-survives-the-cut"
+url: "https://ndcodex.com/codex/the-monster-survives-the-cut"
+postedAt: "2026-10-20T17:28:20.999Z"
 ---
 
 # The Monster Survives the Cut
@@ -55,6 +58,6 @@ It becomes the construction method.
 
 Something assembled from pieces. Something made alive by interruption. Something whose previous bodies remain visible inside the new one.
 
-![A vertical paper collage made from narrow strips of green, black, and white Frankenstein comic imagery, photographed on a dark wooden surface.](<media/the-monster-survives-the-cut-object.jpg>)
+![A vertical paper collage made from narrow strips of green, black, and white Frankenstein comic imagery, photographed on a dark wooden surface.](</media/codex/the-monster-survives-the-cut/the-monster-survives-the-cut-object.jpg>)
 
-![The finished Frankenstein comic collage presented inside a wide white mat and narrow black frame.](<media/the-monster-survives-the-cut-framed.jpg>)
+![The finished Frankenstein comic collage presented inside a wide white mat and narrow black frame.](</media/codex/the-monster-survives-the-cut/the-monster-survives-the-cut-framed.jpg>)
