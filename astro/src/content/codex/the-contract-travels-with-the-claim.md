@@ -9,10 +9,10 @@ tags:
   - agent systems
   - publishing
 images: []
-state: draft
+state: published
 dependencies: []
-status: draft
-visibility: private
+status: published
+visibility: public
 summary: "A claim can survive transformation while losing the conditions that made it responsible. Its evidence, qualifications, authority, and limits must travel too."
 excerpt: "The contract does not merely govern the claim at its origin. It accompanies the claim wherever the claim is used."
 scale: meso
@@ -25,6 +25,9 @@ themes:
   - publishing
 source: "chatgpt-conversation://6ad2944d-d3d0-83ea-b1ac-e51098063509"
 media: []
+slug: "the-contract-travels-with-the-claim"
+url: "https://ndcodex.com/codex/the-contract-travels-with-the-claim"
+postedAt: "2026-10-20T19:07:39.008Z"
 ---
 
 # The Contract Travels with the Claim
