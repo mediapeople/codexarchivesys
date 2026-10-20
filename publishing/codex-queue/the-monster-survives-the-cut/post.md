@@ -19,7 +19,7 @@ summary: "A finished paper collage made by cutting and recomposing imagery sourc
 excerpt: "The story was cut into strips. The charge remained."
 scale: micro
 depth: structural
-focus: artifact
+focus: witness
 function: revelatory
 themes:
   - collage
