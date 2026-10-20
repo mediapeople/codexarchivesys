@@ -9,10 +9,10 @@ tags:
   - diagnosis
   - commerce
 images: []
-state: draft
+state: published
 dependencies: []
-status: draft
-visibility: private
+status: published
+visibility: public
 summary: "Feedback is evidence of an experience. Responsible revision begins by preserving that evidence while finding the layer where the failure actually lives."
 excerpt: "The report was accurate as experience even though its implied diagnosis was incomplete."
 scale: micro
@@ -25,6 +25,9 @@ themes:
   - judgment
 source: "October 2026 live commerce review and follow-up diagnosis; private working-session provenance retained in the editorial source map."
 media: []
+slug: "the-problem-reported-is-not-always-the-problem"
+url: "https://ndcodex.com/codex/the-problem-reported-is-not-always-the-problem"
+postedAt: "2026-10-20T19:07:46.964Z"
 ---
 
 # The Problem Reported Is Not Always the Problem
