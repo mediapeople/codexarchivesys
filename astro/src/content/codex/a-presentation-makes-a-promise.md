@@ -8,10 +8,10 @@ tags:
   - design practice
   - service
 images: []
-state: draft
+state: published
 dependencies: []
-status: draft
-visibility: private
+status: published
+visibility: public
 summary: "Presenting a system is an act of interpretation: what we choose to show teaches people what the work values and promises about its use."
 excerpt: "A presentation makes a promise about use that the service must actually support."
 scale: meso
@@ -24,6 +24,9 @@ themes:
   - creative-systems
 source: "chatgpt-conversation://6ad52630-5880-83ea-9461-fdadbd950eb2"
 media: []
+slug: "a-presentation-makes-a-promise"
+url: "https://ndcodex.com/codex/a-presentation-makes-a-promise"
+postedAt: "2026-10-20T19:07:29.202Z"
 ---
 
 # A Presentation Makes a Promise
