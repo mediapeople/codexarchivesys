@@ -9,10 +9,10 @@ tags:
   - continuity
   - retained learning
 images: []
-state: draft
+state: published
 dependencies: []
-status: draft
-visibility: private
+status: published
+visibility: public
 summary: "The next test for retained intelligence is whether another participant can recover the work, understand its limits, and continue responsibly."
 excerpt: "The next participant should inherit a way to find out why."
 scale: meso
@@ -25,6 +25,9 @@ themes:
   - human-agent collaboration
 source: "October 2026 MK 42 continuity discussions and Design Intelligence source review; private working-session provenance retained in the editorial source map."
 media: []
+slug: "the-work-has-to-survive-the-worker"
+url: "https://ndcodex.com/codex/the-work-has-to-survive-the-worker"
+postedAt: "2026-10-20T19:07:00.148Z"
 ---
 
 # The Work Has to Survive the Worker
