@@ -8,10 +8,10 @@ tags:
   - listening
   - service
 images: []
-state: draft
+state: published
 dependencies: []
-status: draft
-visibility: private
+status: published
+visibility: public
 summary: "A thought before standup becomes a practical test for collaboration: can we say how listening will change our next action?"
 excerpt: "Here is what I'm going to do after this, based on what I heard."
 scale: micro
@@ -24,6 +24,9 @@ themes:
   - service
 source: "chatgpt-conversation://6ad0f095-1ea0-83ea-ba86-22eee5d3c510"
 media: []
+slug: "based-on-what-i-heard"
+url: "https://ndcodex.com/codex/based-on-what-i-heard"
+postedAt: "2026-10-20T19:07:19.859Z"
 ---
 
 # Based on What I Heard
