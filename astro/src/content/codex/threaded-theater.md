@@ -10,10 +10,10 @@ tags:
   - agents
   - memory
 images: []
-state: draft
+state: published
 dependencies: []
-status: draft
-visibility: private
+status: published
+visibility: public
 summary: "A countdown through exhaustion, memory, agent speech, domestic life, chemistry, and the work of keeping a floating project intact."
 excerpt: "A sustained continuity in a project floating through uncharted space."
 scale: micro
@@ -27,6 +27,9 @@ themes:
   - exhaustion
 source: "Author composition, October 27 2026."
 media: []
+slug: "threaded-theater"
+url: "https://ndcodex.com/codex/threaded-theater"
+postedAt: "2026-10-27T19:25:19.743Z"
 ---
 
 # Threaded Theater
